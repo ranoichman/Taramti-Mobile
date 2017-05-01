@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html lang="he">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+
+    <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
+    <link href="css/w3.css" rel="stylesheet" />
+    <link href="css/jqmCss.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jqm.js"></script>
+    <script src="js/appFuncs.js"></script>
+
+    <script src="./cordova.js"></script>
+
+    <script>
+
+        //$(document).ready(function () {
+        //});
+
+
+
+        //window.onbeforeunload = function () {
+        //};
+
+
+    </script>
+
+    <script>
+
+        function ConRegister() {
+            location.href = "Login-Taramti.html#CompleteRegisterPage";
+        };
+
+        function ToMainTaramti() {
+            location.href = "Main-Taramti.html";
+        };
+    </script>
+
+</head>
+<body>
+
+    <!--דף זה יכיל דף לוגין, דף רישום משתמש ודף שכחתי סיסמה ויוביל לדף הבית-->
+    <!--דף לוגין-->
+    <div data-role="page" id="LoginPage">
+
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+       
+        <div id="LoginForm">
+            <h2>כיף שבאת!</h2>
+            <h4>מייל משתמש: </h4>
+            <input type="text" id="UserMail" />
+            <h4>סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <input class="w3-margin-right" id="StayCB" type="checkbox" checked />
+            <h6 id="ImHereToStay">אני כאן כדי להשאר</h6>
+
+
+            <input type="button" id="Loginbtn" value="התחבר" onclick="Login()" />
+            <h5><a href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
+            <h6><a href="#FirstRegisterForm">לא רשום? לחץ כאן! </a></h6>
+        </div>
+    </div>
+
+
+    <!--דף שכחתי סיסמה-->
+    <div data-role="page" id="ForgotPassPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+
+        <div id="ForgotPassForm">
+            <h2>שכחת סיסמה?!</h2>
+            <h4>הזן כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+
+            <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
+            <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
+            <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+        </div>
+    </div>
+
+    <!--דף רישום ראשוני-->
+    <div data-role="page" id="FirstRegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="FirstRegisterForm">
+            <h2>רישום משתמש</h2>
+            <h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <h4>הזן סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <h4>הזן סיסמה לאישור: </h4>
+            <input type="text" id="UserPass2" />
+
+            <input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />
+            <input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />
+            <h5><a href="#FirstRegisterPage"> חזור לדף התחברות</a></h5>
+        </div>
+    </div>
+
+    <!--דף השלמה לרישום מלא-->
+    <div data-role="page" id="CompleteRegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="CompleteRegisterForm">
+            <h2>המשך רישום משתמש</h2>
+            <h4>מספר טלפון: </h4>
+            <input type="text" id="UserPhon" />
+            <h4>עיר מגורים: </h4>
+            <input type="text" id="UserCity" />
+            <h4>רחוב: </h4>
+            <input type="text" id="UserStreet" />
+            <h4>מספר בית: </h4>
+            <input type="text" id="UserHomeNum" />
+            <input type="button" id="CompleteRegisterBtn" value="הרשם" onclick="CompleteRegisterUser()" />
+            <h5><a href="#LoginPage"> חזור</a></h5>
+        </div>
+    </div>
+
+    <!--דף רישום משתמש-->
+    <div data-role="page" id="RegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="RegisterForm">
+            <h2>רישום משתמש</h2>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>תעודת זהות: </h4>
+            <input type="text" id="UserId" />
+            <h4>מספר טלפון: </h4>
+            <input type="text" id="UserPhon" />
+            <h4>עיר מגורים: </h4>
+            <input type="text" id="UserCity" />
+            <h4>רחוב: </h4>
+            <input type="text" id="UserStreet" />
+            <h4>מספר: </h4>
+            <input type="text" id="UserHomeNum" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <h4>הזן סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <h4>הזן סיסמה לאישור: </h4>
+            <input type="text" id="UserPass2" />
+
+            <input type="button" id="RegisterBtn" value="הרשם" onclick="RegisterUser()" />
+            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+        </div>
+    </div>
+</body>
+</html>
