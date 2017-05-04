@@ -9,6 +9,7 @@ import Timer from './Timer';
 import Pic from './Pic';
 import Tetris from './Tetris';
 import AuctionInfo from './AuctionInfo';
+import AuctionFAQ from './AuctionFAQ';
 
 import '../css/bootstrap.css';
 import '../css/jqmCss.css';
@@ -22,7 +23,8 @@ class Auction extends Component {
             tempPrice: this.props.price,
             tempDonation: "",
             borderColor: "red",
-            infoModalIsOpen: false
+            infoModalIsOpen: false,
+            fAQModalIsOpen: false
         }
         this.offerBid = this.offerBid.bind(this);
         this.calcDonation = this.calcDonation.bind(this);
@@ -30,6 +32,8 @@ class Auction extends Component {
         this.renderItemPage = this.renderItemPage.bind(this);
         this.openInfoModal = this.openInfoModal.bind(this);
         this.closeInfoModal = this.closeInfoModal.bind(this);
+        this.openFAQModal = this.openFAQModal.bind(this);
+        this.closeFAQModal = this.closeFAQModal.bind(this);
     }
 
     //calculate donation amount to insert to circle
@@ -72,6 +76,13 @@ class Auction extends Component {
         this.setState({infoModalIsOpen: false})
     }
 
+    openFAQModal() {
+        this.setState({ fAQModalIsOpen: true })
+    }
+
+    closeFAQModal() {
+        this.setState({ fAQModalIsOpen: false })
+    }
 
     renderHomePage() {
         return (
@@ -114,8 +125,18 @@ class Auction extends Component {
                                 imgArr={this.props.imgArr} prodDesc={this.props.prodDesc}
                                 percentage={this.props.percentage} />
                     </Modal>
-                    <FontAwesome name='question-circle' border="true" className="fa-3x" tag="i" />
                     </Swipeable>
+
+                    <Swipeable onTap={this.openFAQModal}>
+                        <FontAwesome name='question-circle' border="true" className="fa-3x" tag="i" />
+                        <Modal
+                            isOpen={this.state.fAQModalIsOpen}
+                            onRequestClose={this.closeFAQModal}
+                            contentLabel="open FAQ">
+                            <AuctionFAQ closeModal={this.closeFAQModal}/>
+                        </Modal>
+                    </Swipeable>
+                    
                 </div>
                 <input type="text" ref="newPrice" onChange={this.calcDonation} style={{ borderColor : this.state.borderColor}} />
                 <div className="circle">
