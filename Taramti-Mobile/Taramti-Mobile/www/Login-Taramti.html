@@ -19,6 +19,9 @@
     <script src="./cordova.js"></script>
 
     <script>
+        var local = "/../WebService.asmx/";
+    </script>
+    <script>
 
         //$(document).ready(function () {
         //});
@@ -42,19 +45,17 @@
 
             $.ajax({
                 dataType: "json",
-                url: "/../WebService.asmx/ValidateUser",
+                url: local + "ValidateUser",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ mail: mail , pass : pass }),
+                data: JSON.stringify({ mail: mail, pass: pass }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
 
-                    if (isUser == true)
-                    {
+                    if (isUser == true) {
                         // בדיקה האם המשתמש עם סיסמא זמנית. אם כן - נשלח אותו ליצירת סיסמא חדשה
-                        if (pass == "000000")
-                        {
+                        if (pass == "000000") {
                             location.href = "Login-Taramti.html#RestorePassPage";
                         }
                         else {
@@ -75,7 +76,7 @@
         function ConRegister() {
 
             location.href = "Login-Taramti.html#CompleteRegisterPage";
-            
+
         };
 
         /// <summary>וידוא כל השדות</summary>
@@ -91,10 +92,10 @@
             if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
                 $.ajax({
                     dataType: "json",
-                    url: "/../WebService.asmx/AddUser",
+                    url: local + "AddUser",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
-                    data: JSON.stringify({ mail: mail, pass: pass, first: first, last:last, id : id }),
+                    data: JSON.stringify({ mail: mail, pass: pass, first: first, last: last, id: id }),
                     success: function (data) {
 
                         var isUser = JSON.parse(data.d);
@@ -121,34 +122,34 @@
             var street = $("#UserStreet").val();
             var num = $("#UserHomeNum").val();
 
-                $.ajax({
-                    dataType: "json",
-                    url: "/../WebService.asmx/AddUserAllInfo",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ id: id, phone : phone, city : city, street : street, num : num }),
-                    success: function (data) {
+            $.ajax({
+                dataType: "json",
+                url: local + "AddUserAllInfo",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
+                success: function (data) {
 
-                        var isUser = JSON.parse(data.d);
+                    var isUser = JSON.parse(data.d);
 
-                        if (isUser == true) {
-                            alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
-                        }
-                        else {
-                            alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
-                        }
-                        location.href = "Login-Taramti.html#LoginPage";
-                    },
-                    error: function (err) { }
-                });
-            }
+                    if (isUser == true) {
+                        alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
+                    }
+                    else {
+                        alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
+                    }
+                    location.href = "Login-Taramti.html#LoginPage";
+                },
+                error: function (err) { }
+            });
+        }
 
         function SendMailPass() {
             var userID = $("#UserId").val();
             var userMail = $("#UserMailForgot").val();
             $.ajax({
                 dataType: "json",
-                url: "/../WebService.asmx/CheckValidUser",
+                url: local + "CheckValidUser",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 async: false,
@@ -169,18 +170,18 @@
 
                 }
             });
-          
+
         }
 
         function RestorePass() {
 
             if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
-                var id = $("#UserId").val();
+                var id = $("#UserIdRestore").val();
                 var pass = $("#UserPassNew").val();
 
                 $.ajax({
                     dataType: "json",
-                    url: "/../WebService.asmx/ChangePass",
+                    url: local + "ChangePass",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
                     data: JSON.stringify({ id: id, newPass: pass }),
@@ -197,8 +198,8 @@
             else {
                 alert("הסיסמאות אינם תואמות!");
             }
-        
-      
+
+
         }
         function ToMainTaramti() {
 
@@ -209,10 +210,10 @@
 
             $.ajax({
                 dataType: "json",
-                url: "/../WebService.asmx/GetAllCities",
+                url: local + "GetAllCities",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({  }),
+                data: JSON.stringify({}),
                 success: function (data) {
 
                     var Cities = JSON.parse(data.d);
@@ -229,7 +230,7 @@
             });
         }
 
-        
+
     </script>
 
 </head>
@@ -283,7 +284,7 @@
         <div class="Form" id="RestorePassForm">
             <h2>שחזור סיסמה</h2>
             <!--<h4>הזן כתובת אימייל: </h4>-->
-            <input type="text" placeholder="הזן ת.ז" id="UserId" />
+            <input type="text" placeholder="הזן ת.ז" id="UserIdRestore" />
             <input type="text" placeholder="הזן סיסמה חדשה" id="UserPassNew" />
             <input type="text" placeholder="חזור על סיסמה לאישור" id="UserPassNew2" />
 
@@ -327,9 +328,7 @@
             <input type="text" id="UserPhon" />
             <h4>עיר מגורים: </h4>
             <!--<input type="text" id="UserCity" />-->
-            <select id="UserCity" onclick="CityList()">
-
-            </select>
+            <select id="UserCity" onclick="CityList()"></select>
             <h4>רחוב: </h4>
             <input type="text" id="UserStreet" />
             <h4>מספר בית: </h4>

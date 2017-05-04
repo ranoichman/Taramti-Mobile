@@ -422,6 +422,57 @@ public class Voluntary_association
 
     }
 
+    // הוספת עמותה
+    public void AddAssoc()
+    {
+        DbService db = new DbService();
+       string  StrSql = "INSERT INTO [dbo].[association] " +
+                 "([association_code] " +
+                 ",[association_name] " +
+                 ",[association_desc] " +
+                 ",[account] " +
+                 ",[website] " +
+                 ",[image] " +
+                 ",[year]) " +
+       "VALUES " +
+                  "(@code, @name, @desc, @acc, @web, @img, @year) ";
+        SqlParameter parcode = new SqlParameter("@code", Association_Code);
+        SqlParameter parname = new SqlParameter("@name", Association_Name);
+        SqlParameter pardesc = new SqlParameter("@desc", Association_Desc);
+        SqlParameter paraccount = new SqlParameter("@acc", Association_Account);
+        SqlParameter parweb = new SqlParameter("@web", Association_WebSite);
+        //SqlParameter parimg = new SqlParameter("@img", "");
+        SqlParameter paryear = new SqlParameter("@year", Association_Year);
+
+        db.ExecuteQuery(StrSql, CommandType.Text,parcode, parname, pardesc, paraccount, parweb, paryear);
+
+    }
+    // הוספת עמותה זמנית
+    public void AddTempAssoc()
+    {
+        DbService db = new DbService();
+        string StrSql = "INSERT INTO [dbo].[temp_association] " +
+                  "([association_code] " +
+                  ",[association_name] " +
+                  ",[association_desc] " +
+                  ",[account] " +
+                  ",[website] " +
+                  ",[image] " +
+                  ",[year]) " +
+        "VALUES " +
+                   "(@code, @name, @desc, @acc, @web, @img, @year) ";
+        SqlParameter parcode = new SqlParameter("@code", Association_Code);
+        SqlParameter parname = new SqlParameter("@name", Association_Name);
+        SqlParameter pardesc = new SqlParameter("@desc", Association_Desc);
+        SqlParameter paraccount = new SqlParameter("@acc", Association_Account);
+        SqlParameter parweb = new SqlParameter("@web", Association_WebSite);
+        //SqlParameter parimg = new SqlParameter("@img", "");
+        SqlParameter paryear = new SqlParameter("@year", Association_Year);
+
+        db.ExecuteQuery(StrSql, CommandType.Text, parcode, parname, pardesc, paraccount, parweb, paryear);
+
+    }
+
     #endregion
 
 
