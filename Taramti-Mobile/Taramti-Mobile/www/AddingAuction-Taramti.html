@@ -32,7 +32,64 @@
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
         });
- 
+
+        function takePic() {
+            navigator.camera.getPicture(savePic, onError, {
+                quality: 100,
+                destinationType: Camera.DestinationType.FILE_URI,//FILE_URI
+                targetHeight: 640,
+                targetWidth: 640
+            });
+        }
+
+        function loadImages() {
+            //alert(1);
+            $("#image_holder").empty();
+
+            $.ajax({
+                type: "POST",
+                url: serverService + "GetImages",
+                data: JSON.stringify({}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    var images_id = JSON.parse(data.d);
+
+                    for (k in images_id) {
+
+                        var $img = $("<img>").attr({ "src": serverServicePic + "img=" + images_id[k] + "&width=640&height=640" })
+                        //alert($img.attr("src"));
+                        $("#image_holder").append($img);
+
+                        $img.click(function () {
+
+
+                            var d = new Date();
+                            var n = d.getTime();
+
+                            var fileTransfer = new FileTransfer();
+                            var uri = encodeURI($(this).attr("src"));
+
+                            fileTransfer.download(uri, DIR + n + ".png", function (entry) {
+                                alert("download complete: " + entry.toURL());
+                            },
+                                function (error) {
+
+                                    //alert("download error");
+                                    alert("download error source " + error.source);
+                                    alert("download error target " + error.target);
+                                    alert("download error code" + error.code);
+                                },
+                                false, {});
+
+                        });
+
+                    }
+
+                }
+            });
+        }
     </script>
 
 </head>
@@ -69,23 +126,31 @@
                     <!-- שימוש בג'יפיאס -->
 
                     <h4>בחר קטגוריה</h4>
-                    <select id="Kategory">
+                    <select id="AuctionKategories">
                         <option value="value">שליפה מאג'אקס</option>
                     </select>
-                    <h4>תמונות המוצר</h4>
-
-                    <h4>משך המכרז</h4>
-                    <select>
-                        <option value="value">text</option>
-                        <option value="value">text</option>
-                        <option value="value">text</option>
-                        <option value="value">text</option>
+                    
+                    <h4>משך המכרז (בימים)</h4>
+                    <select id="AuctionLast">
+                        <option value="value">1</option>
+                        <option value="value">2</option>
+                        <option value="value">3</option>
+                        <option value="value">4</option>
+                        <option value="value">5</option>
+                        <option value="value">6</option>
+                        <option value="value">7</option>
                     </select>
                     <h4>בחר עמותה</h4>
-
+                    <select id="AuctionAssoc">
+                        <option value="value">שליפה מאג'אקס</option>
+                    </select>
                     <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
-
-
+                    <input type="text" id="AuctionMinPrice" />
+                    <h4>תמונות המוצר</h4>
+                    <!--מצלמה-->
+                    <div class="" onclick="takePic()">
+                        <i class="fa fa-camera w3-xlarge w3-text-black"></i>
+                    </div>
                     <input type="button" id="AddingProductAuctionbtn" value="שגר מכרז" onclick="AddingProductAuction()" />
                     <h5><a href="#app.html"> חזור</a></h5>
                 </div>
