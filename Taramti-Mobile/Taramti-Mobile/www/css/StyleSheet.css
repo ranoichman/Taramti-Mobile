@@ -24,11 +24,12 @@ footer {
     display: none;
 }*/
 
+
 #ImHereToStay {
     margin-right: 45px;
 }
 
-#LoginForm, #ForgotPassForm, #RegisterForm, #FirstRegisterForm, #CompleteRegisterForm {
+#LoginForm, #ForgotPassForm, #RegisterForm, #FirstRegisterForm, #CompleteRegisterForm, #RestorePassForm{
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;

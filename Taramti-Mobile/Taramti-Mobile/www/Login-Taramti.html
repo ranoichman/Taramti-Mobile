@@ -89,6 +89,13 @@
             alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
         }
 
+        function SendMailPass() {
+            location.href = "Login-Taramti.html#RestorePassPage";
+        }
+
+        function RestorePass() {
+            location.href = "Main-Taramti.html";
+        }
         function ToMainTaramti() {
             location.href = "Main-Taramti.html";
         };
@@ -101,7 +108,7 @@
     <!--דף לוגין-->
     <div data-role="page" id="LoginPage">
 
-        <div id="UpperLogo"><img id="TaramtiLogoLoginLogin" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
 
         <div id="LoginForm">
             <h2>כיף שבאת!</h2>
@@ -132,6 +139,21 @@
             <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
             <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
             <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+        </div>
+    </div>
+
+    <!--דף שחזור סיסמה-->
+    <div data-role="page" id="RestorePassPage">
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+
+        <div id="RestorePassForm">
+            <h2>שחזור סיסמה</h2>
+            <!--<h4>הזן כתובת אימייל: </h4>-->
+            <input type="text" placeholder="הזן ת.ז" id="UserId" />
+            <input type="text" placeholder="הזן סיסמה חדשה" id="UserPass" />
+            <input type="text" placeholder="חזור על סיסמה לאישור" id="UserPass2" />
+
+            <input type="button" id="RestorePassBtn" value="שנה סיסמה" onclick="RestorePass()" />
         </div>
     </div>
 
