@@ -33,9 +33,24 @@
 
     <script>
 
+        function Login() {
+            location.href = "Main-Taramti.html";
+        }
+
         function ConRegister() {
             location.href = "Login-Taramti.html#CompleteRegisterPage";
+            
         };
+
+        function FirstRegisterUser() {
+            location.href = "Login-Taramti.html#LoginPage";
+            alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
+        }
+
+        function RegisterUser() {
+            location.href = "Login-Taramti.html#LoginPage";
+            alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
+        }
 
         function ToMainTaramti() {
             location.href = "Main-Taramti.html";
@@ -49,8 +64,8 @@
     <!--דף לוגין-->
     <div data-role="page" id="LoginPage">
 
-        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
-       
+        <div id="UpperLogo"><img id="TaramtiLogoLoginLogin" src="img/Taramti-LOGO.JPG" /></div>
+
         <div id="LoginForm">
             <h2>כיף שבאת!</h2>
             <h4>מייל משתמש: </h4>
@@ -63,14 +78,14 @@
 
             <input type="button" id="Loginbtn" value="התחבר" onclick="Login()" />
             <h5><a href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
-            <h6><a href="#FirstRegisterForm">לא רשום? לחץ כאן! </a></h6>
+            <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
         </div>
     </div>
 
 
     <!--דף שכחתי סיסמה-->
     <div data-role="page" id="ForgotPassPage">
-        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
 
         <div id="ForgotPassForm">
             <h2>שכחת סיסמה?!</h2>
@@ -85,7 +100,7 @@
 
     <!--דף רישום ראשוני-->
     <div data-role="page" id="FirstRegisterPage">
-        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
         <div id="FirstRegisterForm">
             <h2>רישום משתמש</h2>
             <h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>
@@ -102,13 +117,13 @@
 
             <input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />
             <input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />
-            <h5><a href="#FirstRegisterPage"> חזור לדף התחברות</a></h5>
+            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
         </div>
     </div>
 
     <!--דף השלמה לרישום מלא-->
     <div data-role="page" id="CompleteRegisterPage">
-        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
         <div id="CompleteRegisterForm">
             <h2>המשך רישום משתמש</h2>
             <h4>מספר טלפון: </h4>
@@ -119,14 +134,14 @@
             <input type="text" id="UserStreet" />
             <h4>מספר בית: </h4>
             <input type="text" id="UserHomeNum" />
-            <input type="button" id="CompleteRegisterBtn" value="הרשם" onclick="CompleteRegisterUser()" />
-            <h5><a href="#LoginPage"> חזור</a></h5>
+            <input type="button" id="CompleteRegisterBtn" value="הרשם" onclick="RegisterUser()" />
+            <h5><a href="#FirstRegisterPage"> חזור</a></h5>
         </div>
     </div>
 
     <!--דף רישום משתמש-->
     <div data-role="page" id="RegisterPage">
-        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
         <div id="RegisterForm">
             <h2>רישום משתמש</h2>
             <h4>שם פרטי: </h4>

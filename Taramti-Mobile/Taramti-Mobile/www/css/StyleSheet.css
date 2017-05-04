@@ -2,7 +2,7 @@
     direction: rtl;
 }
 
-#EditPic {
+/*#EditPic {
     padding-left: 23%;
 }
 
@@ -22,7 +22,7 @@ footer {
     height: 40px;
     margin-top: 40px;
     display: none;
-}
+}*/
 
 #ImHereToStay {
     margin-right: 45px;
@@ -35,7 +35,23 @@ footer {
 }
 
 
-#TaramtiLogo{
-    width:100%;
-
+#TaramtiMenuIconDiv {
+    width: 5%;
+    float:left;
+    margin-top:7.5px;
 }
+
+#TaramtiMenuIcon {
+    margin: 0 auto;
+}
+
+#TaramtiLogo {
+    float: left;
+    margin-left:-2%;
+    width: 95%;
+}
+
+#TaramtiLogoLogin {
+    width: 100%;
+}
+
