@@ -34,6 +34,43 @@
     <script>
 
         function Login() {
+
+            $.ajax({
+                dataType: "json",
+                url: "WebService.asmx/getProjectBy",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ StartsWith: StartsWith }),
+                success: function (data) {
+
+                    var Proj_arr = JSON.parse(data.d);
+
+                    if (Proj_arr[0] == null) {
+                        alert("לא נמצאו תוצאות לחיפוש")
+                    }
+                    else {
+                        for (i in Proj_arr) {
+
+                            var $li = $("<li>");
+                            var $a = $("<a>").attr({ "class": "ui-btn ui-btn-icon-left ui-icon-plus", "id": Proj_arr[i].projId });
+                            var $Proj_name = $("<h1>").text("שם הפרויקט: " + Proj_arr[i].projName);
+                            var $Proj_Des = $("<p>").text("תיאור הפרויקט: " + Proj_arr[i].projDescription);
+
+                            $a.append($Proj_name).append($Proj_Des);
+                            $li.append($a);
+                            $("#Projects").append($li);
+
+                            $a.on("tap", function () {
+                                localStorage.setItem("projid", $(this).attr("id"));
+                                location.href = "ShowProjectDetailsH.html";
+                            })
+                        }
+                        $("#Projects").listview().listview("refresh");
+                    }
+                },
+                error: function (err) { }
+            });
+
             location.href = "Main-Taramti.html";
         }
 

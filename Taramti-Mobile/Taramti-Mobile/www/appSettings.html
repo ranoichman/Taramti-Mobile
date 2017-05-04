@@ -26,32 +26,23 @@
 
             <div id="avatar"></div>
             <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
-            <table>
-                <tr>
-                    <td>
-                        <label><b>אפשר הודעות פוש</b></label>
-                    </td>
-                    <td>
-                        <select name="pushOpt" form="settingsForm">
-                            <option value="yes">כן </option>
-                            <option value="no">לא </option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label><b>התראות שמע</b></label>
-                    </td>
-                    <td>
-                        <select name="soundOpt" form="settingsForm">
-                            <option value="soundAndVibe">שמע + רטט</option>
-                            <option value="sound">שמע בלבד</option>
-                            <option value="vibe">רטט בלבד</option>
-                            <option value="off">ללא</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
+            <div id="SettingsForm">
+                            <label><b>אפשר הודעות פוש</b></label>
+ 
+                            <select name="pushOpt" form="settingsForm">
+                                <option value="yes">כן </option>
+                                <option value="no">לא </option>
+                            </select>
+
+                            <label><b>התראות שמע</b></label>
+
+                            <select name="soundOpt" form="settingsForm">
+                                <option value="soundAndVibe">שמע + רטט</option>
+                                <option value="sound">שמע בלבד</option>
+                                <option value="vibe">רטט בלבד</option>
+                                <option value="off">ללא</option>
+                            </select>
+            </div>
         </div>
     </form>
 </body>
