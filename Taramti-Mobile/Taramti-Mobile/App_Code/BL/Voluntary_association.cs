@@ -432,10 +432,9 @@ public class Voluntary_association
                  ",[association_desc] " +
                  ",[account] " +
                  ",[website] " +
-                 ",[image] " +
                  ",[year]) " +
        "VALUES " +
-                  "(@code, @name, @desc, @acc, @web, @img, @year) ";
+                  "(@code, @name, @desc, @acc, @web, @year) ";
         SqlParameter parcode = new SqlParameter("@code", Association_Code);
         SqlParameter parname = new SqlParameter("@name", Association_Name);
         SqlParameter pardesc = new SqlParameter("@desc", Association_Desc);
@@ -457,10 +456,9 @@ public class Voluntary_association
                   ",[association_desc] " +
                   ",[account] " +
                   ",[website] " +
-                  ",[image] " +
                   ",[year]) " +
         "VALUES " +
-                   "(@code, @name, @desc, @acc, @web, @img, @year) ";
+                   "(@code, @name, @desc, @acc, @web, @year) ";
         SqlParameter parcode = new SqlParameter("@code", Association_Code);
         SqlParameter parname = new SqlParameter("@name", Association_Name);
         SqlParameter pardesc = new SqlParameter("@desc", Association_Desc);

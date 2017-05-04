@@ -7,7 +7,7 @@
     <title>רישום עמותה</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">-->
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
@@ -23,7 +23,7 @@
 
     <script>
         var local = "/../WebService.asmx/";
-        var assoc = "/../AssociationsWebService.asmx";
+        var assoc = "/../AssociationsWebService.asmx/";
     </script>
 
     <script>
@@ -57,9 +57,9 @@
                             data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
                             success: function (data) {
 
-                                var amuta = JSON.parse(data.d);
+                                var amu = JSON.parse(data.d);
 
-                                if (amuta == "True") {
+                                if (amu == "True") {
                                     alert("העמותה נרשמה בהצלחה");
                                 }
                             },
@@ -74,6 +74,7 @@
                             type: "POST",
                             data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
                             success: function (data) {
+                                alert("העמותה הועברה לאישור מנהלי המערכת. ניצור עמכם קשר תוך 2 ימי עסקים להשלמת תהליך הרישום");
                             },
                             error: function (err) { }
                         });// Ajax AddNewTempAssoc
@@ -157,7 +158,7 @@
                     <a href="#RegisterAssocPage" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
                 </div>
                 <div class="ui-block-b">
-                    <a onclick="RegisterAssoc()" id="yes-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
+                    <a href="#RegisterAssocPage" onclick="RegisterAssoc()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
                 </div>
             </div>
         </div>
