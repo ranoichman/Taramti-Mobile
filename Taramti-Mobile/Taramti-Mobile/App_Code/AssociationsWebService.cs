@@ -69,6 +69,24 @@ public class AssociationsWebService : System.Web.Services.WebService
         Voluntary_association temp = new Voluntary_association(code,name,desc,account,web,year);
         temp.UpdateTbl();
     }
+
+    [WebMethod (Description = "Inserts a new Association to the DB")]
+    public string AddNewAssoc(string code, string name, string desc, string account, string web, string year)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Voluntary_association temp = new Voluntary_association(code, name, desc, account, web, year);
+        temp.AddAssoc();
+        return j.Serialize("True");
+    }
+
+    [WebMethod(Description = "Inserts a new Temp Association to the DB")]
+    public string AddNewTempAssoc(string code, string name, string desc, string account, string web, string year)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Voluntary_association temp = new Voluntary_association(code, name, desc, account, web, year);
+        temp.AddTempAssoc();
+        return j.Serialize("True");
+    }
 }
 
 

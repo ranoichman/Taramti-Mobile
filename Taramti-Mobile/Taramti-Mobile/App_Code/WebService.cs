@@ -57,7 +57,7 @@ public class WebService : System.Web.Services.WebService
         temp_user.UserId = id;
         temp_user.Password = newPass;
         temp_user.UpdatePassword();
-        return "true";
+        return "True";
     }
 
     [WebMethod]

@@ -7,7 +7,7 @@
     <title>רישום עמותה</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">-->
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
     <script src="./cordova.js"></script>
 
@@ -21,7 +21,93 @@
     <script src="js/jqm.js"></script>
 
 
+    <script>
+        var local = "/../WebService.asmx/";
+        var assoc = "/../AssociationsWebService.asmx/";
+    </script>
 
+    <script>
+
+        function RegisterAssoc() {
+
+            var Code = ($("#AssocNum").val() != "") ? $("#AssocNum").val() : null;
+            var Name = $("#AssocName").val() != "" ? $("#AssocName").val() : null;
+            var Desc = $("#AssocDesc").val() != "" ? $("#AssocDesc").val() : null;
+            var Account = $("#AssocAccount").val() != "" ? $("#AssocAccount").val() : null;
+            var Web = $("#AssocWebsite").val() != "" ? $("#AssocWebsite").val() : null;
+            var Year = $("#AssocYear").val() != "" ? $("#AssocYear").val() : null;
+
+            $.ajax({
+                dataType: "json",
+                url: "http://proj.ruppin.ac.il/bgroup51/test1/bekeilu/ValidateAmuta/WebService.asmx" + "/ValidateAmuta",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ code: Code }),
+                success: function (data) {
+
+                    var amuta = data.d;
+
+                    if (amuta == true) {
+
+                        $.ajax({
+                            dataType: "json",
+                            url: assoc + "AddNewAssoc",
+                            contentType: "application/json; charset=utf-8",
+                            type: "POST",
+                            data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
+                            success: function (data) {
+
+                                var amu = JSON.parse(data.d);
+
+                                if (amu == "True") {
+                                    alert("העמותה נרשמה בהצלחה");
+                                }
+                            },
+                            error: function (err) { }
+                        });// Ajax AddNewAssoc
+                    }
+                    else {
+                        $.ajax({
+                            dataType: "json",
+                            url: assoc + "AddNewTempAssoc",
+                            contentType: "application/json; charset=utf-8",
+                            type: "POST",
+                            data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
+                            success: function (data) {
+                                alert("העמותה הועברה לאישור מנהלי המערכת. ניצור עמכם קשר תוך 2 ימי עסקים להשלמת תהליך הרישום");
+                            },
+                            error: function (err) { }
+                        });// Ajax AddNewTempAssoc
+                    }
+                },
+                error: function (err) { }
+            });// Ajax ValidateAssoc
+
+
+            //$.ajax({
+            //    dataType: "json",
+            //    url: assoc + "AddNewAssoc",
+            //    contentType: "application/json; charset=utf-8",
+            //    type: "POST",
+            //    data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
+            //    success: function (data) {
+
+            //        var amuta = JSON.parse(data.d);
+
+            //        if (amuta == "True") {
+            //            alert("העמותה נרשמה בהצלחה");
+            //        }
+            //        else {
+            //            alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
+            //        }
+            //        location.href = "Login-Taramti.html#LoginPage";
+            //    },
+            //    error: function (err) { }
+            //});
+            
+        }
+
+    </script>
 
 </head>
 <body>
@@ -43,7 +129,7 @@
             <input type="text" placeholder="מספר עמותה" id="AssocNum" required>
             <!--כאן תהיה ולידציה של מספר חברה - בעצם עם הווב סרוויס-->
             <h4><b>שם עמותה</b></h4>
-            <input type="text" placeholder="הזן שם עמותה" id="AssocNum" required>
+            <input type="text" placeholder="הזן שם עמותה" id="AssocName" required>
             <h4>תיאור עמותה</h4>
             <textarea class="form-control" id="AssocDesc" rows="15"></textarea>
             <h4>חשבון עמותה</h4>
@@ -79,7 +165,7 @@
                     <a href="#RegisterAssocPage" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
                 </div>
                 <div class="ui-block-b">
-                    <a onclick="RegisterAssoc()" id="yes-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
+                    <a href="#RegisterAssocPage" onclick="RegisterAssoc()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
                 </div>
             </div>
         </div>
