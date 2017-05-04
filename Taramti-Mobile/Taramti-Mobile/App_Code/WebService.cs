@@ -29,11 +29,11 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public string ValidateUser()
+    public string ValidateUser(string mail, string pass)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-
-        return j.Serialize(UserT.);
+        UserT temp = new UserT(mail, pass);
+        return j.Serialize(temp.CheckLogin());
     }
 
 }
