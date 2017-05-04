@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">-->
+
+    <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
+    <link href="css/w3.css" rel="stylesheet" />
+    <link href="css/jqmCss.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jqm.js"></script>
+    <script src="js/appFuncs.js"></script>
+
+    <script src="./cordova.js"></script>
+
+    
+    <script>
+
+    </script>
+
+</head>
+<body>
+
+    <!--דף זה יכיל לא ברור ולא ידוע כרגע-->
+    <!--דף לוגין-->
+    <div data-role="page" id="LoginPage">
+
+        <div id="UpperLogo">
+            <img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            <div id="TaramtiMenuIconDiv"><i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i></div>
+        </div>
+
+    </div>
+
+
+    <!--דף רישום ראשוני-->
+    <div data-role="page" id="FirstRegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="FirstRegisterForm">
+            <h2>רישום משתמש</h2>
+            <h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <h4>הזן סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <h4>הזן סיסמה לאישור: </h4>
+            <input type="text" id="UserPass2" />
+
+            <input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />
+            <input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />
+            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+        </div>
+    </div>
+</body>
+</html>
