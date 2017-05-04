@@ -99,19 +99,37 @@ img {
 
 .basicInfo{
     margin-top:10px;
-
+    margin-bottom:20px;
+    overflow:hidden;
 }
 
 .time{
     float: left;
 }
+
 i{
     float:right;
     margin-left:2px;
 }
 
+input{
+    width:20%;
+    margin: 10px 40%;
+    border: 2px solid;
+}
 
-
+.circle{
+    height:100px;
+    width:100px;
+    border-radius:50%;
+    background-color:aqua;
+}
+.circle h4{
+    direction:rtl;
+    text-align:center;
+    padding-top:30px;
+    
+}
 
 
 

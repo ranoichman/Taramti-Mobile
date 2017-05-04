@@ -24,9 +24,10 @@ const App = React.createClass({
         "img/ASP.JPG",
         "img/Logo.JPG"
       ],
+      percentage: 0.15,
       prodName: "ספה שהיא נפתחת",
       prodDesc: "קצת מלל וכל מיני דברים שבא לי לכתוב וכן הנה עוד קצת דברים ותכף יהיו כאן גם תמונות וזה בסך הכל תיאור של מוצר גניהנכי חי כג הכ חיה יגכ הכגכ יחה גכ חיהד חכ החיגכ יח דגחב ד ח בגי דגח בגד בדב  "
-
+      
     // },
     // {
     //   price: 1234,
@@ -36,6 +37,7 @@ const App = React.createClass({
     //     "img/image.png",
     //     "img/ASP.JPG"
     //   ],
+      //percentage: 0.45,
     //   prodName: "מחשב נייד",
     //   prodDesc: "בוא נכתוב כאן משהו שאפשר יהיה לראות שהכל עובד כמו שצריך. האם זה הצליח???"
     // },
@@ -47,6 +49,7 @@ const App = React.createClass({
     //     "img/Logo.JPG",
     //     "img/image.png"
     //   ],
+      //percentage: 0.2,
     //   prodName: "שעון יד",
     //   prodDesc: "הנה כמה דברים שיש לי לומר  "
     }
@@ -70,7 +73,7 @@ const App = React.createClass({
       <div className="container-fluid">
         {
           this.state.auctionsArr.map(function (item, i) {
-            return <Auction key={i} price={item.price} endDate={item.endDate} imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc} />
+                    return <Auction key={i} price={item.price} endDate={item.endDate} imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc} percentage={item.percentage} />
           })
         }
       </div>

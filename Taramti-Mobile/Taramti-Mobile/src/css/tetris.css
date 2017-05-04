@@ -1,0 +1,7 @@
+﻿.gameBlock{
+    width:90%;
+    margin: 0 auto;
+    border:2px solid black;
+    min-height:300px;
+    max-height:550px;
+}
