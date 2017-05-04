@@ -75,6 +75,21 @@ footer {
     border-radius: 50%;
 }
 
-#UpperLogo{
-    height:74.05px;
+#UpperLogo {
+    height: 74.05px;
+}
+
+#CameraBtn {
+    height:44px;
+    width: 20%;
+    display: inline;
+    float: left;
+    
+}
+
+#UploadFileBtn {
+    margin-left:2%;
+    width: 78%;
+    display: inline;
+    float: left;
 }

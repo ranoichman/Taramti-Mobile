@@ -3,242 +3,250 @@
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">-->
 
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
-    <script src="js/appFuncs.js"></script>
 
     <script src="./cordova.js"></script>
 
     <script>
 
-        $(document).ready(function () {
-
-            var lsIndex = parseInt((localStorage.getItem("lsIndex")));
-            for (var j = 0; j < lsIndex; j++) {
-                var tempPic = JSON.parse(localStorage.getItem(j.toString()));
-                picArr.push(tempPic);
-                addToList(tempPic);
-                // האם במועדפים
-                if (tempPic.isFav === "true") {
-                    Fav(tempPic);
-                };
-                if (j == lsIndex - 1) {
-                    i = lsIndex;
-                }
-
-                $("#PicsFav").listview().listview("refresh");
-            }
-        });
+        //$(document).ready(function () {
+        //});
 
 
-        $('Tar_3.html#edit').ready(function () {
-            if (picArr[0] != null) {
 
-                $("#EditPage").show();
+        //window.onbeforeunload = function () {
+        //};
 
-                var dName = picArr[0].picName;
-                var $imgFav = $("<img>").attr({ "src": picArr[0].picPath, "data-name": dName });
 
-                // הוספת התמונה לדף
-                $("#EditPic").html($imgFav);
-                $("#Title").val($("#Pics").find("[data-name='" + dName + "']").find(".name").text());
-                $("#Desc").val($("#Pics").find("[data-name='" + dName + "']").find(".desc").text());
-                marker = new google.maps.Marker({
-                    position: picArr[0].picLocation,
-                    map: map,
-                })
+    </script>
 
-                setTimeout(function () {
-                    google.maps.event.trigger(map, "resize");
-                }, 500)
-            }
-        });
+    <script>
 
-        window.onbeforeunload = function () {
-            CreateLocalStorage()
-        };
-
-        //טעינת מפה
-        function maps_loaded() {
-            navigator.geolocation.getCurrentPosition(function (pos_result) {
-                var center_on = { lat: pos_result.coords.latitude, lng: pos_result.coords.longitude };
-
-                map = new google.maps.Map(document.getElementById('EditMap'), {
-                    zoom: 14,
-                    center: center_on,
-                    //center: new google.maps.LatLng(-34.397, 150.644),
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-
-                });
-                google.maps.event.trigger(map, "resize");
-            });
+        function Login() {
+            location.href = "Main-Taramti.html";
         }
 
-        /****************************************
-        פונקציה רק לבדיקות בווב!!!!!
-        ****************************************/
+        function ConRegister() {
+            location.href = "Login-Taramti.html#CompleteRegisterPage";
 
-        //function addPhoto() {
-        //    navigator.geolocation.getCurrentPosition(function (position) {
-        //        var fileUri = "img/" + allPics[i] + ".jpg";
-
-        //        loc = { lat: position.coords.latitude, lng: position.coords.longitude };
-        //        var tempPic = new pic(fileUri, loc);
-        //        picArr.push(tempPic);
-        //        addToList(tempPic);
-        //        $("#Pics").listview().listview("refresh");
-        //        i++;
-        //    }  // gps success end
-        //    ) // gps end
-        //}
-
-
-    </script>
-
-    <script>
-
-    </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKWIEK9nuW-l23in57ALKhtit4yA3Firg&callback=maps_loaded">
-    </script>
-
-
-
-    <script>
-        function ToMapMarker() {
-            location.href = "Map_Marker.html";
         };
+
+        function FirstRegisterUser() {
+            location.href = "Login-Taramti.html#LoginPage";
+            alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
+        }
+
+        function RegisterUser() {
+            location.href = "Login-Taramti.html#LoginPage";
+            alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
+        }
+
+        function ToMainTaramti() {
+            location.href = "Main-Taramti.html";
+        };
+
+        //----------------------------------------------------
+
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
     </script>
 
+    <style>
+        /* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+    </style>
 </head>
 <body>
-    <!--דף גלריה-->
-    <div data-role="page" id="gallery">
-        <div data-role="navbar" id="mainpage">
-            <ul>
-                <li> <a data-icon="grid" href="#gallery" class="w3-blue w3-text-white"> גלריה</a></li>
-                <li> <a data-icon="star" href="#favorites">מועדפים </a></li>
-                <li> <a data-icon="edit" href="#edit">עדכון פרטים</a></li>
-                <li> <a data-icon="info" onclick="ToMapMarker()">מפה</a></li>
-            </ul>
-        </div>
-        <input type="search" id="myFilter" placeholder="Search for picture..." />
 
+    <!--דף זה יכיל לא ברור ולא ידוע כרגע-->
+    <!--דף לוגין-->
+    <div data-role="page" id="LoginPage">
 
-        <!--רשימת התמונות-->
-        <ul data-role="listview" id="Pics" data-filter="true" data-input="#myFilter"></ul>
-        <!--<input type="button" value="click here" onclick="addPhoto()" />-->
-        <!--מצלמה-->
-        <div class="w3-container w3-indigo w3-center w3-padding-16 w3-bottom" onclick="openCamera()">
-            <i class="fa fa-camera w3-xxlarge w3-text-black"></i>
-        </div>
-    </div>
-
-    <!--דף מועדפים-->
-    <div data-role="page" id="favorites">
-        <div data-role="navbar" id="mainpage">
-            <ul>
-                <li> <a data-icon="grid" href="#gallery"> גלריה</a></li>
-                <li> <a data-icon="star" href="#favorites" class="w3-blue w3-text-white">מועדפים </a></li>
-                <li> <a data-icon="edit" href="#edit">עדכון פרטים</a></li>
-                <li> <a data-icon="info" onclick="ToMapMarker()">מפה</a></li>
-            </ul>
+        <div id="UpperLogo">
+            <img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            <div id="TaramtiMenuIconDiv"><i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i></div>
         </div>
 
-        <!--רשימת התמונות-->
-        <ul data-role="listview" id="PicsFav"></ul>
-
-        <footer class="w3-red w3-center" onclick="deletePics()"><i class="fa fa-trash"></i></footer>
-    </div>
-
-    <!--דף עדכון פרטים-->
-    <div data-role="page" id="edit">
-        <div data-role="navbar" id="mainpage">
-            <ul>
-                <li> <a data-icon="grid" href="#gallery"> גלריה</a></li>
-                <li> <a data-icon="star" href="#favorites">מועדפים </a></li>
-                <li> <a data-icon="edit" href="#edit" class="w3-blue w3-text-white">עדכון פרטים</a></li>
-                <li> <a data-icon="info" onclick="ToMapMarker()">מפה</a></li>
-                <!--href="Map_Marker.html"-->
-            </ul>
-        </div>
-        <div id="EditPage">
-            <!--<div id="EditPic">
-            </div>-->
-            <table id="Eddit">
-                <tr>
-                    <td>
-                        <a class="ui-btn ui-btn-icon-right ui-icon-arrow-l ui-btn-icon-notext ui-corner-all" id="leftBTN" onclick="Scrolleft()"></a>
-                    </td>
-                    <td>
-                        <div id="EditPic">
-                        </div>
-                    </td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>
-                        <a class="ui-btn ui-btn-icon-right ui-icon-arrow-r ui-btn-icon-notext ui-corner-all" id="rightBTN" onclick="Scroll()"></a>
-                    </td>
-                </tr>
-            </table>
-            <table id="EditTable">
-                <tr>
-                    <td>כותרת: </td>
-                    <td>
-                        <input type="text" id="Title" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>תיאור: </td>
-                    <td>
-                        <input type="text" id="Desc" />
-                    </td>
-                </tr>
-            </table>
-            <input type="button" id="Save" value="שמירה" onclick="SaveEdit()" />
-            <div id="EditMap" style="width:400px; height:400px"></div>
-        </div>
-    </div>
-
-
-    <!--<div data-role="page" id="edit">
-        <div data-role="navbar" id="mainpage">
-            <ul>
-                <li> <a data-icon="grid" href="#gallery"> גלריה</a></li>
-                <li> <a data-icon="star" href="#favorites">מועדפים </a></li>
-                <li> <a data-icon="edit" href="#edit" class="w3-blue w3-text-white">עדכון פרטים</a></li>
-                <li> <a data-icon="info" onclick="ToMapMarker()">מפה</a></li>
-  
-            </ul>
-        </div>
-        <div id="EditPage">
-            <div id="EditPic">
+            <div class="dropdown">
+                <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
             </div>
-            <table id="EditTable">
-                <tr>
-                    <td>כותרת: </td>
-                    <td>
-                        <input type="text" id="Title" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>תיאור: </td>
-                    <td>
-                        <input type="text" id="Desc" />
-                    </td>
-                </tr>
-            </table>
-            <input type="button" id="Save" value="שמירה" onclick="SaveEdit()" />
-            <div id="EditMap" style="width:400px; height:400px"></div>
-        </div>
-    </div>-->
+        
 
+        <div id="What">
+            <h1>דף בית</h1>
+            <!--<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>-->
+
+            <i class="fa fa-home"></i>
+            <i class="fa fa-search"></i>
+            <i class="fa fa-cloud"></i>
+            <i class="fa fa-trash"></i>
+
+            <string name="vertical_ellipsis">&#8942;</string>
+
+        </div>
+    </div>
+
+
+    <!--דף שכחתי סיסמה-->
+    <div data-role="page" id="ForgotPassPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+
+        <div id="ForgotPassForm">
+            <h2>שכחת סיסמה?!</h2>
+            <h4>הזן כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+
+            <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
+            <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
+            <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+        </div>
+    </div>
+
+    <!--דף רישום ראשוני-->
+    <div data-role="page" id="FirstRegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="FirstRegisterForm">
+            <h2>רישום משתמש</h2>
+            <h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <h4>הזן סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <h4>הזן סיסמה לאישור: </h4>
+            <input type="text" id="UserPass2" />
+
+            <input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />
+            <input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />
+            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+        </div>
+    </div>
+
+    <!--דף השלמה לרישום מלא-->
+    <div data-role="page" id="CompleteRegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="CompleteRegisterForm">
+            <h2>המשך רישום משתמש</h2>
+            <h4>מספר טלפון: </h4>
+            <input type="text" id="UserPhon" />
+            <h4>עיר מגורים: </h4>
+            <input type="text" id="UserCity" />
+            <h4>רחוב: </h4>
+            <input type="text" id="UserStreet" />
+            <h4>מספר בית: </h4>
+            <input type="text" id="UserHomeNum" />
+            <input type="button" id="CompleteRegisterBtn" value="הרשם" onclick="RegisterUser()" />
+            <h5><a href="#FirstRegisterPage"> חזור</a></h5>
+        </div>
+    </div>
+
+    <!--דף רישום משתמש-->
+    <div data-role="page" id="RegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="RegisterForm">
+            <h2>רישום משתמש</h2>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>תעודת זהות: </h4>
+            <input type="text" id="UserId" />
+            <h4>מספר טלפון: </h4>
+            <input type="text" id="UserPhon" />
+            <h4>עיר מגורים: </h4>
+            <input type="text" id="UserCity" />
+            <h4>רחוב: </h4>
+            <input type="text" id="UserStreet" />
+            <h4>מספר: </h4>
+            <input type="text" id="UserHomeNum" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <h4>הזן סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <h4>הזן סיסמה לאישור: </h4>
+            <input type="text" id="UserPass2" />
+
+            <input type="button" id="RegisterBtn" value="הרשם" onclick="RegisterUser()" />
+            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+        </div>
+    </div>
 </body>
 </html>

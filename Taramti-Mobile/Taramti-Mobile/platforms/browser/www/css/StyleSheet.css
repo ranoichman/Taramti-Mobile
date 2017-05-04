@@ -2,7 +2,7 @@
     direction: rtl;
 }
 
-#EditPic {
+/*#EditPic {
     padding-left: 23%;
 }
 
@@ -22,20 +22,74 @@ footer {
     height: 40px;
     margin-top: 40px;
     display: none;
-}
+}*/
+
 
 #ImHereToStay {
     margin-right: 45px;
 }
 
-#LoginForm, #ForgotPassForm, #RegisterForm, #FirstRegisterForm, #CompleteRegisterForm {
+/*#LoginForm, #ForgotPassForm, #RegisterForm, #FirstRegisterForm, #CompleteRegisterForm, #RestorePassForm {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}*/
+
+.Form {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
 }
 
+#TaramtiMenuIconDiv {
+    width: 5%;
+    float: left;
+    margin-top: 7.5px;
+}
 
-#TaramtiLogo{
-    width:100%;
+#TaramtiMenuIcon {
+    margin: 0 auto;
+}
 
+#TaramtiLogo {
+    float: left;
+    margin-left: -2%;
+    width: 95%;
+}
+
+#TaramtiLogoLogin {
+    width: 100%;
+}
+
+#avatar {
+    /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
+    background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');
+    /* make a square container */
+    width: 150px;
+    height: 150px;
+    /* fill the container, preserving aspect ratio, and cropping to fit */
+    background-size: cover;
+    /* center the image vertically and horizontally */
+    background-position: center;
+    /* round the edges to a circle with border radius 1/2 container size */
+    border-radius: 50%;
+}
+
+#UpperLogo {
+    height: 74.05px;
+}
+
+#CameraBtn {
+    height:44px;
+    width: 20%;
+    display: inline;
+    float: left;
+    
+}
+
+#UploadFileBtn {
+    margin-left:2%;
+    width: 78%;
+    display: inline;
+    float: left;
 }
