@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -50,6 +51,27 @@ public class City
     //methods
     #region
     public void ShowAuctionByCity() { }
+
+    public List<City> GetAllCities()
+    {
+        DbService dbs = new DbService();
+        DataSet DS = new DataSet(); 
+        List<City> Cities = new List<City>();
+
+        string StrSql = "select * from City ";
+        DS = dbs.GetDataSetByQuery(StrSql);
+
+        foreach (DataRow row in DS.Tables[0].Rows)
+        {
+            City C = new City();
+            C.CityCode = int.Parse(row[0].ToString());
+            C.CityName = row[1].ToString();
+            Cities.Add(C);
+        }
+
+        return Cities;
+
+    }
     #endregion
 
 }
