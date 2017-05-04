@@ -96,7 +96,7 @@ public class WebService : System.Web.Services.WebService
             //temp.LastName = last;
             //temp.Mail = mail;
 
-            //temp.UpdateUser();
+            temp.UpdateUser();
             return j.Serialize("True");
         }
         else
@@ -111,6 +111,20 @@ public class WebService : System.Web.Services.WebService
         JavaScriptSerializer j = new JavaScriptSerializer();
         City C = new City();
         return j.Serialize(C.GetAllCities());
+    }
+
+    [WebMethod(Description = "בדיקה אם פרטי המשתמש נכונים ואיפוס סיסמה")]
+    public string CheckValidUser(string id, string mail)
+    {
+        UserT temp_user = new UserT();
+        temp_user.Mail = mail;
+        temp_user.UserId = id;
+        if (temp_user.CheckForResetPass())
+        {
+            temp_user.SendMail();//שליחת מייל
+            return "true";
+        }
+        return "false";
     }
 
 }

@@ -33,6 +33,8 @@
 
     <script>
 
+        /// <summary>ולידטורים</summary>
+        /// <summary>שם משתמש וסיסמא,וידוא על צ'ק בוקס זכור סיסמא, </summary>
         function Login() {
 
             var mail = $("#UserMail").val();
@@ -71,10 +73,12 @@
         }
 
         function ConRegister() {
+
             location.href = "Login-Taramti.html#CompleteRegisterPage";
             
         };
 
+        /// <summary>וידוא כל השדות</summary>
         function FirstRegisterUser() {
 
             var id = $("#UserId").val();
@@ -108,6 +112,7 @@
             }
         }
 
+        /// <summary>ולידטוריםםםם</summary>
         function RegisterUser() {
 
             var id = $("#UserId").val();
@@ -136,15 +141,35 @@
                     },
                     error: function (err) { }
                 });
-
-                location.href = "Login-Taramti.html#LoginPage";
-                alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
             }
-    
-
 
         function SendMailPass() {
-            location.href = "Login-Taramti.html#RestorePassPage";
+            var userID = $("#UserId").val();
+            var userMail = $("#UserMailForgot").val();
+            $.ajax({
+                dataType: "json",
+                url: "/../WebService.asmx/CheckValidUser",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ id: userID, mail: userMail }),
+                success: function (data) {
+
+                    var res = JSON.parse(data.d);
+                    if (res) {
+                        alert("סיסמתך אופסה בהצלחה. אנא בדוק את תיבת הדואר שלך לפרטי ההתחברות החדשים");
+                        location.href = "Login-Taramti.html#LoginPage";
+                    }
+                    else {
+                        alert("ת.ז או אימייל שגויים, הזן ת.ז ואימייל לצורך איפוס סיסמה");
+                        location.href = "Login-Taramti.html#ForgotPassPage";
+                    }
+                },
+                error: function (err) {
+
+                }
+            });
+          
         }
 
         function RestorePass() {
@@ -176,6 +201,7 @@
       
         }
         function ToMainTaramti() {
+
             location.href = "Main-Taramti.html";
         };
 
@@ -239,8 +265,10 @@
 
         <div class="Form" id="ForgotPassForm">
             <h2>שכחת סיסמה?!</h2>
+            <h4>הזן תעודת זהות: </h4>
+            <input type="text" id="UserId" />
             <h4>הזן כתובת אימייל: </h4>
-            <input type="text" id="UserMail" />
+            <input type="text" id="UserMailForgot" />
 
             <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
             <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
