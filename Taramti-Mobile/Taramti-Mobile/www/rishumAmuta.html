@@ -40,71 +40,42 @@
     <form >
         <div class="container">
             <h1> רישום עמותה חדשה </h1>
-            <table>
-                <tr>
-                    <td>
-                        <label><b>מס עמותה</b></label>
-                    </td>
-                    <td>
-                        <input type="text" placeholder="מספר עמותה" name="amuta" required>
-                        <!--כאן תהיה ולידציה של מספר חברה - בעצם עם הווב סרוויס-->
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label><b>שם עמותה</b></label>
-                        </td>
-                    <td>
-                        <input type="text" placeholder="הזן שם עמותה" name="anutaName" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                    <label>תיאור עמותה</label>
-                        </td>
-                    <td>
-                        <textarea class="form-control" id="desc" rows="15"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>חשבון עמותה</label>
-                    </td>
-                    <td>
-                        <input type="email" placeholder="אימייל פייפל" id="account" name="account">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>אתר העמותה</label>
-                    </td>
-                    <td>
-                        <input class="form-control" placeholder="www.amuta.com" id="website" name="web">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>שנת היווסדות</label>
-                    </td>
-                    <td>
-                        <input class="form-control" id="year" placeholder="1980" name="year">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" checked="checked"> זכור אותי
-                        <p>בלחיצה על הירשם אתה מסכים לתנאים הבאים  <a href="#">תנאים מחייבים</a>.</p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="clearfix">
-                            <button type="button" class="cancelbtn">ביטול</button>
-                            <button type="submit" class="signupbtn">הירשם</button>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div id="SignAmuta">
+                <label><b>מס עמותה</b></label>
+
+                <input type="text" placeholder="מספר עמותה" name="amuta" required>
+                <!--כאן תהיה ולידציה של מספר חברה - בעצם עם הווב סרוויס-->
+
+                <label><b>שם עמותה</b></label>
+
+                <input type="text" placeholder="הזן שם עמותה" name="anutaName" required>
+
+                <label>תיאור עמותה</label>
+
+                <textarea class="form-control" id="desc" rows="15"></textarea>
+
+                <label>חשבון עמותה</label>
+
+                <input type="email" placeholder="אימייל פייפל" id="account" name="account">
+
+                <label>אתר העמותה</label>
+
+                <input class="form-control" placeholder="www.amuta.com" id="website" name="web">
+
+                <label>שנת היווסדות</label>
+
+                <input class="form-control" id="year" placeholder="1980" name="year">
+
+      
+                <input type="checkbox" checked="checked"> <h4> זכור אותי </h4>
+            
+                <p>בלחיצה על הירשם אתה מסכים לתנאים הבאים  <a href="#">תנאים מחייבים</a>.</p>
+
+                <div class="clearfix">
+                    <button type="button" class="cancelbtn">ביטול</button>
+                    <button type="submit" class="signupbtn">הירשם</button>
+                </div>
+            </div>
         </div>
     </form>
 </body>

@@ -15,6 +15,7 @@
     <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
+
     <script src="./cordova.js"></script>
 
     <script>
@@ -33,7 +34,31 @@
     <script>
 
         function Login() {
+
+            var mail1 = $("#UserMail").val();
+            var pass1 = $("#UserPass").val();
+
+            $.ajax({
+                dataType: "json",
+                url: "/../WebService.asmx/ValidateUser",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ mail: mail1 , pass : pass1 }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+
+                    if (isUser == true)
+                    {
             location.href = "Main-Taramti.html";
+        }
+                    else {
+                        alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
+                        location.href = "Login-Taramti.html#LoginPage";
+                    }
+                },
+                error: function (err) { }
+            });
         }
 
         function ConRegister() {
