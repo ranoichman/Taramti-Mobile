@@ -1,0 +1,117 @@
+img {
+    max-width: 100%;
+    margin-top: 10px; 
+    }
+
+.descPar {
+    margin-right: 8px;
+    direction: rtl;
+    float: right;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    }
+.row{
+    margin-top: 10px;
+    border-bottom: 1px solid teal;
+    height: 250px;
+}
+
+.imgContainer{
+    position: relative;
+	display: inline-block;
+    }
+
+
+.priceTag {
+    display: inline-block;
+    box-sizing: content-box;
+    height: 12px;
+    position: relative;
+    content: "";
+    cursor: pointer;
+    margin: 0 13px 0 0;
+    padding: 10px 20px 10px 8px;
+    border: none;
+    border-radius: 4px 1px 1px 4px;
+    color: rgba(255,255,255,1);
+    text-align: center;
+    text-transform: uppercase;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    background: rgb(103, 158, 41);
+    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);
+    transform: rotate(-20deg);
+    top:10px;
+    right:-10%;
+    position: absolute;
+    display:block;
+}
+.priceTag:before {
+    display: inline-block;
+    box-sizing: content-box;
+    z-index: 1;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    content: "";
+    cursor: pointer;
+    top: 5px;
+    right: -12px;
+    border: none;
+    border-radius: 1px 1px 4px;
+    color: #fff;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgb(103, 158, 41);
+    box-shadow: 0 6px 0 0 rgb(64, 101, 23);
+    text-shadow: none;
+    transform: rotateY(1deg) rotateZ(-45deg);
+    }
+.priceTag:after {
+    display: inline-block;
+    box-sizing: content-box;
+    z-index: 2;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    content: "";
+    cursor: pointer;
+    top: 12px;
+    right: 0;
+    border: none;
+    border-radius: 10px;
+    color: rgba(255,255,255,0.9);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: #fcfcfc;
+    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;
+    text-shadow: none;
+    }
+      
+.priceTag h5 {
+    font-family: arial;
+    font-size:16px;
+    color:#fff;
+    margin-top: 0;
+    }
+
+.basicInfo{
+    margin-top:10px;
+
+}
+
+.time{
+    float: left;
+}
+i{
+    float:right;
+    margin-left:2px;
+}
+
+
+
+
+
+

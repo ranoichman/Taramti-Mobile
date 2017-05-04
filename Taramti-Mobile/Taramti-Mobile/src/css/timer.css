@@ -1,0 +1,28 @@
+.rect {
+  max-width: 150px;
+  max-height: 75px;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin: 0 auto;
+}
+
+.regBorder {
+  border: 2px solid green;
+}
+
+
+.blinkBorder h3 {
+  color: red;
+}
+@keyframes blink {
+            25% {
+                border: 2px solid red;
+            }
+        }
+        .blinkBorder {
+            animation-name: blink;
+            animation-duration: .08s;
+            animation-timing-function: step-end;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }

@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <title>רישום עמותה</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- AJAX -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Bootbox -->
+    <!--Our Css-->
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+
+
+	<link href="css/fa-fa-icons.min.css" rel="stylesheet" />
+    <link href="css/w3.css" rel="stylesheet" />
+    <link href="css/jqmCss.css" rel="stylesheet" />
+
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jqm.js"></script>
+    <script src="js/appFuncs.js"></script>
+
+
+</head>
+<body>
+    <form >
+        <div class="container">
+            <h1> רישום עמותה חדשה </h1>
+            <table>
+                <tr>
+                    <td>
+                        <label><b>מס עמותה</b></label>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="מספר עמותה" name="amuta" required>
+                        <!--כאן תהיה ולידציה של מספר חברה - בעצם עם הווב סרוויס-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label><b>שם עמותה</b></label>
+                        </td>
+                    <td>
+                        <input type="text" placeholder="הזן שם עמותה" name="anutaName" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    <label>תיאור עמותה</label>
+                        </td>
+                    <td>
+                        <textarea class="form-control" id="desc" rows="15"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>חשבון עמותה</label>
+                    </td>
+                    <td>
+                        <input type="email" placeholder="אימייל פייפל" id="account" name="account">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>אתר העמותה</label>
+                    </td>
+                    <td>
+                        <input class="form-control" placeholder="www.amuta.com" id="website" name="web">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>שנת היווסדות</label>
+                    </td>
+                    <td>
+                        <input class="form-control" id="year" placeholder="1980" name="year">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" checked="checked"> זכור אותי
+                        <p>בלחיצה על הירשם אתה מסכים לתנאים הבאים  <a href="#">תנאים מחייבים</a>.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="clearfix">
+                            <button type="button" class="cancelbtn">ביטול</button>
+                            <button type="submit" class="signupbtn">הירשם</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+</body>
+</html>

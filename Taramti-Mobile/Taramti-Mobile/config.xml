@@ -8,8 +8,8 @@
         PhoneGap Team
     </author>
     <content src="index.html" />
-  <preference name="phonegap-version" value="3.7.0" />
-  <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" version="1.1.1" />
+    <preference name="phonegap-version" value="3.7.0" />
+    <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" version="1.1.1" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
     <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
@@ -103,13 +103,12 @@
         <splash height="1920" platform="windows" src="www/res/screen/windows/SplashScreenPhone.scale-240.png" width="1152" />
     </platform>
     <access origin="*" />
-  <access origin="http://*.phonegap.com" subdomains="true" />
-  <access origin="*://*.googleapis.com/*" subdomains="true" />
-  <access origin="*://*.gstatic.com/*" subdomains="true" />
-  <access origin="*://*.google.com/*" subdomains="true" />
-  <access origin="*://*.googleusercontent.com/*" subdomains="true" />
-
-  <plugin name="cordova-plugin-whitelist" />
+    <access origin="http://*.phonegap.com" subdomains="true" />
+    <access origin="*://*.googleapis.com/*" subdomains="true" />
+    <access origin="*://*.gstatic.com/*" subdomains="true" />
+    <access origin="*://*.google.com/*" subdomains="true" />
+    <access origin="*://*.googleusercontent.com/*" subdomains="true" />
+    <plugin name="cordova-plugin-whitelist" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
