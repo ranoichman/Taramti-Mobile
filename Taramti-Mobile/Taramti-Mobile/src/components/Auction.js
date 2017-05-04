@@ -3,30 +3,36 @@ import React, { Component } from 'react';
 // import ReactSwipeEvents from 'react-Swipe-Events'
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
+import Modal from 'react-modal';
 
 import Timer from './Timer';
 import Pic from './Pic';
 import Tetris from './Tetris';
+import AuctionInfo from './AuctionInfo';
 
 import '../css/bootstrap.css';
 import '../css/jqmCss.css';
 import '../css/auction.css';
 
 class Auction extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             home: true,
-            tempPrice: 0,
+            tempPrice: this.props.price,
             tempDonation: "",
-            borderColor:"red"
+            borderColor: "red",
+            infoModalIsOpen: false
         }
         this.offerBid = this.offerBid.bind(this);
         this.calcDonation = this.calcDonation.bind(this);
         this.renderHomePage = this.renderHomePage.bind(this);
         this.renderItemPage = this.renderItemPage.bind(this);
+        this.openInfoModal = this.openInfoModal.bind(this);
+        this.closeInfoModal = this.closeInfoModal.bind(this);
     }
 
+    //calculate donation amount to insert to circle
     calcDonation() {
         let tempPrice = this.props.price;
         if (this.refs.newPrice !== undefined) {
@@ -54,9 +60,18 @@ class Auction extends Component {
     }
 
     componentDidMount() {
-        this.setState({ tempPrice: this.props.price });
+        //this.setState({ tempPrice: this.props.price });
         this.calcDonation();
     }
+
+    openInfoModal() {
+        this.setState({ infoModalIsOpen: true })
+    }
+
+    closeInfoModal() {
+        this.setState({infoModalIsOpen: false})
+    }
+
 
     renderHomePage() {
         return (
@@ -88,8 +103,19 @@ class Auction extends Component {
                     <div className="time">
                         <Timer endDate={this.props.endDate} />
                     </div>
+                    <Swipeable onTap={this.openInfoModal}>
                     <FontAwesome name='info-circle' border="true" className="fa-3x" tag="i" />
+                    <Modal
+                        isOpen={this.state.infoModalIsOpen}
+                        onRequestClose={this.closeInfoModal}
+                        contentLabel="open info">
+                            <AuctionInfo prodName={this.props.prodName} closeModal={this.closeInfoModal}
+                                price={this.props.price} endDate={this.props.endDate}
+                                imgArr={this.props.imgArr} prodDesc={this.props.prodDesc}
+                                percentage={this.props.percentage} />
+                    </Modal>
                     <FontAwesome name='question-circle' border="true" className="fa-3x" tag="i" />
+                    </Swipeable>
                 </div>
                 <input type="text" ref="newPrice" onChange={this.calcDonation} style={{ borderColor : this.state.borderColor}} />
                 <div className="circle">
@@ -103,6 +129,7 @@ class Auction extends Component {
             </div>
         )
     }
+
     render() {
         if (this.state.home) {
             return (this.renderHomePage())

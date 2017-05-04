@@ -13,6 +13,7 @@
     "react-addons-css-transition-group": "^15.3.0",
     "react-dom": "^15.3.0",
     "react-fontawesome": "^1.6.1",
+    "react-modal": "^1.7.7",
     "react-swipeable": "^3.9.2",
     "react-tappable": "^0.8.3",
     "webpack": "^1.12.12",
@@ -36,6 +37,7 @@
     "add": "cordova platform add android@5.0.0",
     "jquey": "npm install jquery",
     "faIcons": "npm install --save react-fontawesome",
+    "react-modal": "npm install --save react-modal",
     "test": "echo \"No tests (yet!) -- submit a PR?\" && exit 0"
   },
   "keywords": [],
