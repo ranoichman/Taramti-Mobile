@@ -29,17 +29,22 @@ footer {
     margin-right: 45px;
 }
 
-#LoginForm, #ForgotPassForm, #RegisterForm, #FirstRegisterForm, #CompleteRegisterForm, #RestorePassForm{
+/*#LoginForm, #ForgotPassForm, #RegisterForm, #FirstRegisterForm, #CompleteRegisterForm, #RestorePassForm {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}*/
+
+.Form {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
 }
 
-
 #TaramtiMenuIconDiv {
     width: 5%;
-    float:left;
-    margin-top:7.5px;
+    float: left;
+    margin-top: 7.5px;
 }
 
 #TaramtiMenuIcon {
@@ -48,7 +53,7 @@ footer {
 
 #TaramtiLogo {
     float: left;
-    margin-left:-2%;
+    margin-left: -2%;
     width: 95%;
 }
 
@@ -59,18 +64,17 @@ footer {
 #avatar {
     /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
     background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');
-    
     /* make a square container */
     width: 150px;
     height: 150px;
-
     /* fill the container, preserving aspect ratio, and cropping to fit */
     background-size: cover;
-
     /* center the image vertically and horizontally */
     background-position: center;
-
     /* round the edges to a circle with border radius 1/2 container size */
     border-radius: 50%;
 }
 
+#UpperLogo{
+    height:74.05px;
+}
