@@ -967,6 +967,7 @@ legend, .ui-input-text input, .ui-input-search input {
 .ui-icon-loading {
     background: url(images/ajax-loader.gif);
     background-size: 2.875em 2.875em;
+
 }
 
 .ui-bar-a, .ui-page-theme-a .ui-bar-inherit, html .ui-bar-a .ui-bar-inherit, html .ui-body-a .ui-bar-inherit, html body .ui-group-theme-a .ui-bar-inherit {

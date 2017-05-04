@@ -964,7 +964,8 @@ legend, .ui-input-text input, .ui-input-search input {
     background-color: #000;
 }
 
-.ui-icon-loading {
+.ui-icon-
+ {
     background: url(images/ajax-loader.gif);
     background-size: 2.875em 2.875em;
 }

@@ -92,12 +92,13 @@
 <body>
 
     <!--דף זה יכיל דף לוגין, דף רישום משתמש ודף שכחתי סיסמה ויוביל לדף הבית-->
+    <!-- להוסיף פלייס הולדרים -->
     <!--דף לוגין-->
     <div data-role="page" id="LoginPage">
 
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
 
-        <div id="LoginForm">
+        <div class="Form" id="LoginForm">
             <h2>כיף שבאת!</h2>
             <h4>מייל משתמש: </h4>
             <input type="text" id="UserMail" />
@@ -118,7 +119,7 @@
     <div data-role="page" id="ForgotPassPage">
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
 
-        <div id="ForgotPassForm">
+        <div class="Form" id="ForgotPassForm">
             <h2>שכחת סיסמה?!</h2>
             <h4>הזן כתובת אימייל: </h4>
             <input type="text" id="UserMail" />
@@ -133,7 +134,7 @@
     <div data-role="page" id="RestorePassPage">
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
 
-        <div id="RestorePassForm">
+        <div class="Form" id="RestorePassForm">
             <h2>שחזור סיסמה</h2>
             <!--<h4>הזן כתובת אימייל: </h4>-->
             <input type="text" placeholder="הזן ת.ז" id="UserId" />
@@ -147,7 +148,7 @@
     <!--דף רישום ראשוני-->
     <div data-role="page" id="FirstRegisterPage">
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
-        <div id="FirstRegisterForm">
+        <div class="Form" id="FirstRegisterForm">
             <h2>רישום משתמש</h2>
             <h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>
             <h4>שם פרטי: </h4>
@@ -161,6 +162,8 @@
             <h4>הזן סיסמה לאישור: </h4>
             <input type="text" id="UserPass2" />
 
+            <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים  <a href="#">תנאים מחייבים</a>.</p>
+
             <input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />
             <input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />
             <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
@@ -170,7 +173,7 @@
     <!--דף השלמה לרישום מלא-->
     <div data-role="page" id="CompleteRegisterPage">
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
-        <div id="CompleteRegisterForm">
+        <div class="Form" id="CompleteRegisterForm">
             <h2>המשך רישום משתמש</h2>
             <h4>מספר טלפון: </h4>
             <input type="text" id="UserPhon" />
@@ -180,6 +183,8 @@
             <input type="text" id="UserStreet" />
             <h4>מספר בית: </h4>
             <input type="text" id="UserHomeNum" />
+
+            <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים  <a href="#">תנאים מחייבים</a>.</p>
             <input type="button" id="CompleteRegisterBtn" value="הרשם" onclick="RegisterUser()" />
             <h5><a href="#FirstRegisterPage"> חזור</a></h5>
         </div>
@@ -188,7 +193,7 @@
     <!--דף רישום משתמש-->
     <div data-role="page" id="RegisterPage">
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
-        <div id="RegisterForm">
+        <div class="Form" id="RegisterForm">
             <h2>רישום משתמש</h2>
             <h4>שם פרטי: </h4>
             <input type="text" id="UserFirstName" />
