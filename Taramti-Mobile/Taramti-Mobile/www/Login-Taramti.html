@@ -33,59 +33,203 @@
 
     <script>
 
+        /// <summary>ולידטורים</summary>
+        /// <summary>שם משתמש וסיסמא,וידוא על צ'ק בוקס זכור סיסמא, </summary>
         function Login() {
 
-            var mail1 = $("#UserMail").val();
-            var pass1 = $("#UserPass").val();
+            var mail = $("#UserMail").val();
+            var pass = $("#UserPass").val();
 
             $.ajax({
                 dataType: "json",
                 url: "/../WebService.asmx/ValidateUser",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ mail: mail1 , pass : pass1 }),
+                data: JSON.stringify({ mail: mail , pass : pass }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
 
                     if (isUser == true)
                     {
-            location.href = "Main-Taramti.html";
-        }
+                        // בדיקה האם המשתמש עם סיסמא זמנית. אם כן - נשלח אותו ליצירת סיסמא חדשה
+                        if (pass == "000000")
+                        {
+                            location.href = "Login-Taramti.html#RestorePassPage";
+                        }
+                        else {
+                            location.href = "Main-Taramti.html";
+                        }
+                    }
                     else {
                         alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
                         location.href = "Login-Taramti.html#LoginPage";
                     }
+
+
                 },
                 error: function (err) { }
             });
         }
 
         function ConRegister() {
+
             location.href = "Login-Taramti.html#CompleteRegisterPage";
             
         };
 
+        /// <summary>וידוא כל השדות</summary>
         function FirstRegisterUser() {
-            location.href = "Login-Taramti.html#LoginPage";
-            alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
+
+            var id = $("#UserId").val();
+            var first = $("#UserFirstName").val();
+            var last = $("#UserLastName").val();
+            var mail = $("#UserMail").val();
+            var pass = $("#UserPass").val();
+            var pass2 = $("#UserPass2").val();
+
+            if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
+                $.ajax({
+                    dataType: "json",
+                    url: "/../WebService.asmx/AddUser",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ mail: mail, pass: pass, first: first, last:last, id : id }),
+                    success: function (data) {
+
+                        var isUser = JSON.parse(data.d);
+
+                        if (isUser == true) {
+                            alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
+                        }
+                        else {
+                            alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
+                        }
+                        location.href = "Login-Taramti.html#LoginPage";
+                    },
+                    error: function (err) { }
+                });
+            }
         }
 
+        /// <summary>ולידטוריםםםם</summary>
         function RegisterUser() {
-            location.href = "Login-Taramti.html#LoginPage";
-            alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
-        }
+
+            var id = $("#UserId").val();
+            var phone = $("#UserPhon").val();
+            var city = $("#UserCity").val();
+            var street = $("#UserStreet").val();
+            var num = $("#UserHomeNum").val();
+
+                $.ajax({
+                    dataType: "json",
+                    url: "/../WebService.asmx/AddUserAllInfo",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: id, phone : phone, city : city, street : street, num : num }),
+                    success: function (data) {
+
+                        var isUser = JSON.parse(data.d);
+
+                        if (isUser == true) {
+                            alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
+                        }
+                        else {
+                            alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
+                        }
+                        location.href = "Login-Taramti.html#LoginPage";
+                    },
+                    error: function (err) { }
+                });
+            }
 
         function SendMailPass() {
-            location.href = "Login-Taramti.html#RestorePassPage";
+            var userID = $("#UserId").val();
+            var userMail = $("#UserMailForgot").val();
+            $.ajax({
+                dataType: "json",
+                url: "/../WebService.asmx/CheckValidUser",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ id: userID, mail: userMail }),
+                success: function (data) {
+
+                    var res = JSON.parse(data.d);
+                    if (res) {
+                        alert("סיסמתך אופסה בהצלחה. אנא בדוק את תיבת הדואר שלך לפרטי ההתחברות החדשים");
+                        location.href = "Login-Taramti.html#LoginPage";
+                    }
+                    else {
+                        alert("ת.ז או אימייל שגויים, הזן ת.ז ואימייל לצורך איפוס סיסמה");
+                        location.href = "Login-Taramti.html#ForgotPassPage";
+                    }
+                },
+                error: function (err) {
+
+                }
+            });
+          
         }
 
         function RestorePass() {
-            location.href = "Main-Taramti.html";
+
+            if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
+                var id = $("#UserId").val();
+                var pass = $("#UserPassNew").val();
+
+                $.ajax({
+                    dataType: "json",
+                    url: "/../WebService.asmx/ChangePass",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: id, newPass: pass }),
+                    success: function (data) {
+
+                        var isUser = JSON.parse(data.d);
+
+                        alert("סיסמתך שונתה בהצלחה");
+                        location.href = "Login-Taramti.html#LoginPage";
+                    },
+                    error: function (err) { }
+                });
+            }
+            else {
+                alert("הסיסמאות אינם תואמות!");
+            }
+        
+      
         }
         function ToMainTaramti() {
+
             location.href = "Main-Taramti.html";
         };
+
+        function CityList() {
+
+            $.ajax({
+                dataType: "json",
+                url: "/../WebService.asmx/GetAllCities",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({  }),
+                success: function (data) {
+
+                    var Cities = JSON.parse(data.d);
+
+                    if (Cities[0] != null) {
+                        for (var i = 0; i < Cities.length; i++) {
+                            var opt = '';
+                            opt += '<option value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
+                            $("#UserCity").append(opt);
+                        }
+                    }
+                },
+                error: function (err) { }
+            });
+        }
+
+        
     </script>
 
 </head>
@@ -121,8 +265,10 @@
 
         <div class="Form" id="ForgotPassForm">
             <h2>שכחת סיסמה?!</h2>
+            <h4>הזן תעודת זהות: </h4>
+            <input type="text" id="UserId" />
             <h4>הזן כתובת אימייל: </h4>
-            <input type="text" id="UserMail" />
+            <input type="text" id="UserMailForgot" />
 
             <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
             <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
@@ -138,8 +284,8 @@
             <h2>שחזור סיסמה</h2>
             <!--<h4>הזן כתובת אימייל: </h4>-->
             <input type="text" placeholder="הזן ת.ז" id="UserId" />
-            <input type="text" placeholder="הזן סיסמה חדשה" id="UserPass" />
-            <input type="text" placeholder="חזור על סיסמה לאישור" id="UserPass2" />
+            <input type="text" placeholder="הזן סיסמה חדשה" id="UserPassNew" />
+            <input type="text" placeholder="חזור על סיסמה לאישור" id="UserPassNew2" />
 
             <input type="button" id="RestorePassBtn" value="שנה סיסמה" onclick="RestorePass()" />
         </div>
@@ -155,6 +301,8 @@
             <input type="text" id="UserFirstName" />
             <h4>שם משפחה: </h4>
             <input type="text" id="UserLastName" />
+            <h4>תעודת זהות: </h4>
+            <input type="text" id="UserId" />
             <h4>כתובת אימייל: </h4>
             <input type="text" id="UserMail" />
             <h4>הזן סיסמה: </h4>
@@ -178,7 +326,10 @@
             <h4>מספר טלפון: </h4>
             <input type="text" id="UserPhon" />
             <h4>עיר מגורים: </h4>
-            <input type="text" id="UserCity" />
+            <!--<input type="text" id="UserCity" />-->
+            <select id="UserCity" onclick="CityList()">
+
+            </select>
             <h4>רחוב: </h4>
             <input type="text" id="UserStreet" />
             <h4>מספר בית: </h4>

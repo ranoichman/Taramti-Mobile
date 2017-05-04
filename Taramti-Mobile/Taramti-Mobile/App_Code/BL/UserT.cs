@@ -217,6 +217,8 @@ public class UserT
 
     }
 
+
+
     /// <summary>
     /// מתודה לבדיקת ההרשאות של המשתמש
     /// </summary>
@@ -493,7 +495,27 @@ public class UserT
 
     public void Subscribe() { }
 
-    public void UpdateUser() { }
+    public bool UpdateUser()
+    {
+        string sqlInsert = @"insert into [dbo].[users]
+                           ([user_id],[first_name],[last_name],[email],[password],[city])
+                            VALUES 
+                            (@id, @fName, @lname, @mail, @pass, @city) 
+                            Where [user_id] ='" + UserId + "' ";
+
+        DbService db = new DbService();
+        SqlParameter parId = new SqlParameter("@id", UserId);
+        SqlParameter parFName = new SqlParameter("@fName", FirstName);
+        SqlParameter parLName = new SqlParameter("@lName", LastName);
+        SqlParameter parMail = new SqlParameter("@mail", Mail);
+        SqlParameter parPassword = new SqlParameter("@pass", Password);
+        SqlParameter parCity = new SqlParameter("@city", City);
+        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parId, parFName, parLName, parMail, parPassword, parCity) == 0)
+        {
+            return false;
+        }
+        return true;
+    }
 
     public UserT GetUserDetails()
     {
