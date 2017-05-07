@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import '../css/timer.css';
 
 class Timer extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            secondsRemaining: 0,
+            secondsRemaining: Date.parse(this.props.endDate) - Date.now() ,
             elapsed: ""
         }
         this.tick = this.tick.bind(this);
@@ -14,15 +14,22 @@ class Timer extends Component {
         this.renderBlink = this.renderBlink.bind(this);
         this.renderReg = this.renderReg.bind(this);
     }
-    tick() {
+    //countdown timer - interval function
+    tick() {    
         if (this.state.secondsRemaining !== 'undefined') {
             this.state.secondsRemaining = this.state.secondsRemaining - 1000;
             this.setState({ elapsed: this.calculateElapsed() });
             if (this.state.secondsRemaining <= 0) {
-                clearInterval(interval);
+                this.setState({ elapsed: "finished" });
+                if (this.props.timerFinished !== 'undefined') {
+                    this.props.timerFinished();
+                }
+                clearInterval(this.loadInterval);
             }
         }
     }
+
+    //calculate and display elapsed time in hh:mm:ss format
     calculateElapsed() {
         let elaps = this.state.secondsRemaining / 1000;
         let seconds = Math.floor(elaps % 60) >= 10 ? Math.floor(elaps % 60) : `0${Math.floor(elaps % 60)}`;
@@ -35,8 +42,13 @@ class Timer extends Component {
     }
 
     componentDidMount() {
-        this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
-        var interval = setInterval(this.tick, 1000);
+        //this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
+        this.loadInterval = setInterval(this.tick, 1000);
+    }
+
+    componentWillUnmount() {
+        this.loadInterval && clearInterval(this.loadInterval);
+        this.loadInterval = false;
     }
 
     renderReg() {
@@ -45,6 +57,7 @@ class Timer extends Component {
                 <h3 className="text-center">{this.state.elapsed}</h3>
             </div>)
     }
+
     renderBlink() {
         return (
             <div className="rect blinkBorder">

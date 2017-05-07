@@ -133,5 +133,27 @@ input{
     
 }
 
+.down-arrow {
+    display: inline-block;
+    position: relative;
+    background: #286090;
+    padding: 15px 0;
+    width: 50px;
+    border: none;
+    text-align: center;
+}
+    .down-arrow:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 70px;
+        height: 0;
+        border-top: 20px solid #286090;
+        border-right: 40px solid transparent;
+        border-bottom: 0 solid transparent;
+        border-left: 40px solid transparent;
+    }
 
 
