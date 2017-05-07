@@ -20,8 +20,7 @@
 
 
     <script>
-        //var local = "/../WebService.asmx/";
-        var local = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
+        const generic = GENERAL.genericWebServerAddress;
     </script>
     <script>
 
@@ -36,7 +35,7 @@
               
                 $.ajax({
                     dataType: "json",
-                    url: local + "ValidateUser",
+                    url: generic + "ValidateUser",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
                     data: JSON.stringify({ mail: mail, pass: pass }),
@@ -87,7 +86,7 @@
             console.log("אני בלוגין")
             $.ajax({
                 dataType: "json",
-                url: local + "ValidateUser",
+                url: generic + "ValidateUser",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ mail: mail, pass: pass }),
@@ -134,7 +133,7 @@
             if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
                 $.ajax({
                     dataType: "json",
-                    url: local + "AddUser",
+                    url: generic + "AddUser",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
                     data: JSON.stringify({ mail: mail, pass: pass, first: first, last: last, id: id }),
@@ -166,7 +165,7 @@
 
             $.ajax({
                 dataType: "json",
-                url: local + "AddUserAllInfo",
+                url: generic + "AddUserAllInfo",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
@@ -191,7 +190,7 @@
             var userMail = $("#UserMailForgot").val();
             $.ajax({
                 dataType: "json",
-                url: local + "CheckValidUser",
+                url: generic + "CheckValidUser",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 async: false,
@@ -223,7 +222,7 @@
 
                 $.ajax({
                     dataType: "json",
-                    url: local + "ChangePass",
+                    url: generic + "ChangePass",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
                     data: JSON.stringify({ id: id, newPass: pass }),
@@ -252,7 +251,7 @@
 
             $.ajax({
                 dataType: "json",
-                url: local + "GetAllCities",
+                url: generic + "GetAllCities",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({}),
