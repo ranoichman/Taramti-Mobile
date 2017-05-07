@@ -31,7 +31,7 @@ const App = React.createClass({
                 },
                 {
                     price: 1234,
-                    endDate: "5/6/2017",
+                    endDate: "5/8/2017",
                     imgArr: [
                         "img/Logo.JPG",
                         "img/image.png",
