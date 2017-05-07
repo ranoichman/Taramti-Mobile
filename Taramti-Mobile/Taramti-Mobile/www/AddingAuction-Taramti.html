@@ -4,7 +4,7 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">-->
 
     <script src="./cordova.js"></script>
 
@@ -35,14 +35,14 @@
             $('#DefualtTab').addClass('ui-btn-active');
         });
 
-        //function OpenCamera() {
-        //    navigator.camera.getPicture(savePic, onError, {
-        //        quality: 100,
-        //        destinationType: Camera.DestinationType.FILE_URI,//FILE_URI
-        //        targetHeight: 640,
-        //        targetWidth: 640
-        //    });
-        //}
+        function OpenCamera() {
+            navigator.camera.getPicture(savePic, onError, {
+                quality: 100,
+                destinationType: Camera.DestinationType.FILE_URI,//FILE_URI
+                targetHeight: 640,
+                targetWidth: 640
+            });
+        }
 
 
 
@@ -78,7 +78,7 @@
                     <h4>שם המוצר</h4>
                     <input type="text" id="ProdNum">
                     <h4>תיאור המוצר</h4>
-                    <textarea class="form-control" id="ProdDesc" rows="5"></textarea>
+                    <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
                     <h4>מיקום</h4>
                     <input type="text" id="ProdLocation" required>
@@ -108,19 +108,21 @@
                     <h4>תמונות המוצר</h4>
                     <!--מצלמה-->
                     <div>
-                        <button id="CameraBtn" type="button" onclick="OpenCamera();"><i class="fa fa-camera w3-xlarge w3-text-black"></i></button>
+                        <button id="CameraBtn" type="button" onclick="OpenCamera();"><i class="fa fa-camera w3-large w3-text-black"></i></button>
                         <div style="height:0px; overflow:hidden">
                             <input type="file" id="fileInput" name="fileInput" />
                         </div>
                         <button id="UploadFileBtn" type="button" onclick="ChooseFile();">בחר תמונה מגלריה</button>
                     </div>
-
+                    <!------------------------->
+                    <!-------------להוסיף איקסים על התמונות לצורך מחיקה------------>
                     <div id="image_holder">
-
+                        <img src="img/Desert.jpg" />
+                        <img src="img/Koala.jpg" />
                     </div>
 
                     <input type="button" id="AddingProductAuctionbtn" value="שגר מכרז" onclick="AddingProductAuction()" />
-                    <h5><a href="#app.html"> חזור</a></h5>
+                    <h5><a href="Login-Taramti.html"> חזור</a></h5>
 
                     <!------------------------->
                     <!------------------------->

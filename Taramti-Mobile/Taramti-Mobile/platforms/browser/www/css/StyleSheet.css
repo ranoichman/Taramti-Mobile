@@ -93,3 +93,8 @@ footer {
     display: inline;
     float: left;
 }
+
+#image_holder img{
+    width:50%;
+    float:left;
+}
