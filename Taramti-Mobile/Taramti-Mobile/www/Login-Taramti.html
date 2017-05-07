@@ -12,19 +12,60 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
-
+    <!--מאסטר-->
+    <script src="js/master.js"></script>
 
     <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
 
     <script>
-        var local = "/../WebService.asmx/";
+        //var local = "/../WebService.asmx/";
+        var local = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
     </script>
     <script>
 
-        //$(document).ready(function () {
-        //});
+        $(document).ready(function () {
+            
+            console.log("אני בלוגgfdggfין")
+            $("#Loginbtn").on("tap", function() {
+                console.log("אני בלוגין")
+                var mail = $("#UserMail").val();
+                var pass = $("#UserPass").val();
+
+              
+                $.ajax({
+                    dataType: "json",
+                    url: local + "ValidateUser",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ mail: mail, pass: pass }),
+                    success: function (data) {
+
+                        var isUser = JSON.parse(data.d);
+
+                        if (isUser == true) {
+                            // בדיקה האם המשתמש עם סיסמא זמנית. אם כן - נשלח אותו ליצירת סיסמא חדשה
+                            if (pass == "000000") {
+                                location.href = "Login-Taramti.html#RestorePassPage";
+                            }
+                            else {
+                                location.href = "Main-Taramti.html";
+                            }
+                        }
+                        else {
+                            alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
+                            location.href = "Login-Taramti.html#LoginPage";
+                        }
+
+
+                    },
+                    error: function (err) { }
+                });
+
+            }
+            )
+        });
 
 
 
@@ -43,6 +84,7 @@
             var mail = $("#UserMail").val();
             var pass = $("#UserPass").val();
 
+            console.log("אני בלוגין")
             $.ajax({
                 dataType: "json",
                 url: local + "ValidateUser",
@@ -253,7 +295,7 @@
             <h6 id="ImHereToStay">אני כאן כדי להשאר</h6>
 
 
-            <input type="button" id="Loginbtn" value="התחבר" onclick="Login()" />
+            <input type="button" id="Loginbtn" value="התחבר" />
             <h5><a href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
             <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
             <!------------------------->
