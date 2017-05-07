@@ -38,7 +38,6 @@
     "jquey": "npm install jquery",
     "faIcons": "npm install --save react-fontawesome",
     "react-modal": "npm install --save react-modal",
-    "boom": "boom",
     "serve": "cordova serve",
     "test": "echo \"No tests (yet!) -- submit a PR?\" && exit 0"
   },
