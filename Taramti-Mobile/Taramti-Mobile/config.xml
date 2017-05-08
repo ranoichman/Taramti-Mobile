@@ -1,17 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-<!--<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.phonegap.helloworld" version="1.0.0">-->
-  <name>Mobile - Tar 3</name>
+  <name>תרמתי בבית</name>
     <description>
         Hello World sample application that responds to the deviceready event.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="golanhuppert9@gmail.com , hilly.jackobson@gmail.com , ran.oichman@gmail.com" href="http://phonegap.com">
+        Golan Huppert Hilly Jackobson Ran  Oichman
     </author>
     <content src="index.html" />
     <preference name="phonegap-version" value="3.7.0" />
-    <!--<gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" source="npm" />-->
-  <gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
     <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
