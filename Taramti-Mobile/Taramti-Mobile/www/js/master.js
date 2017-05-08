@@ -1,5 +1,5 @@
 ﻿
-const GENERAL = {
+ const GENERAL = {
 
     //genericWebServerAddress: "/WebService.asmx/",
     genericWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/webservice.asmx/",

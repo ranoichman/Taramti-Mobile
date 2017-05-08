@@ -7,11 +7,16 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
+import axios from 'axios';
 
 import Hello from './components/Hello';
 import Auction from './components/Auction';
 import Search from './components/Search';
 
+import GENERAL from '../www/js/master'
+
+//const auctionWS = GENERAL.auctionWebServerAddress;
+const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
 
 const App = React.createClass({
     getInitialState() {
@@ -64,6 +69,7 @@ const App = React.createClass({
 
     componentWillMount() {
         // Lifecycle function that is triggered just before a component mounts
+        this.getAuctionsByParams([1,2],-1,-1,0)
     },
     componentWillUnmount() {
         // Lifecycle function that is triggered just before a component unmounts
@@ -90,11 +96,43 @@ const App = React.createClass({
         this.setState({ searchModalIsOpen: false })
     },
 
+    getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
+
+
+
+
+        axios.post(auctionWS + 'GetAuctionPrice', {
+            auctionCode: 1
+        })
+            .then(function (response) {
+                let ans = JSON.parse(response.d);
+                console.log(ans);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        axios.post(auctionWS + 'GetAuctionByParam', {
+            cities: [1,2],
+            lowPrice: -1,
+            highPrice: -1,
+            catCode: 0
+        })
+            .then(function (response) {
+                let res = JSON.parse(response.d);
+                console.log(res);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    },
+
+
     addAuction(item, i) {
         let arr = this.state.auctionsArr;
         let newAuction = {
             code: item.AuctionID,
-            endDate : item.End_Date,
+            endDate: item.End_Date,
             price: item.Price,
             percentage: item.Percentage,
             prodName: item.ProdName,
@@ -102,7 +140,7 @@ const App = React.createClass({
             imgArr: item.Images,
         }
         arr.push(newAuction);
-        this.setState({auctionsArr:arr});
+        this.setState({ auctionsArr: arr });
 
     },
 
