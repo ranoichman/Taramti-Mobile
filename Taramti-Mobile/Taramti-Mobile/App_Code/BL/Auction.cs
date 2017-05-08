@@ -17,6 +17,12 @@ public abstract class Auction
     Voluntary_association vol_asc;
     UserT seller, buyer;
     int score;
+    int itemCode;
+    string catDesc;
+    string[] images;
+    int percentage;
+    string desc;
+
 
     //props
     #region
@@ -108,6 +114,71 @@ public abstract class Auction
         set
         {
             auctionID = value;
+        }
+    }
+
+    public int Percentage
+    {
+        get
+        {
+            return percentage;
+        }
+
+        set
+        {
+            percentage = value;
+        }
+    }
+
+    public string Desc
+    {
+        get
+        {
+            return desc;
+        }
+
+        set
+        {
+            desc = value;
+        }
+    }
+
+    public int ItemCode
+    {
+        get
+        {
+            return itemCode;
+        }
+
+        set
+        {
+            itemCode = value;
+        }
+    }
+
+    public string CatDesc
+    {
+        get
+        {
+            return catDesc;
+        }
+
+        set
+        {
+            catDesc = value;
+        }
+    }
+
+    public string[] Images
+    {
+        get
+        {
+            return images;
+        }
+
+        set
+        {
+            images = value;
         }
     }
 
