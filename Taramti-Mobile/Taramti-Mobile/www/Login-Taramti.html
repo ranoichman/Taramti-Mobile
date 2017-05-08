@@ -4,9 +4,9 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
-    <script src="./cordova.js"></script>
+    <script src="cordova.js"></script>
 
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
@@ -75,7 +75,7 @@
     </script>
 
     <script>
-
+      
         /// <summary>ולידטורים</summary>
         /// <summary>שם משתמש וסיסמא,וידוא על צ'ק בוקס זכור סיסמא, </summary>
         function Login() {
@@ -247,6 +247,16 @@
             location.href = "Main-Taramti.html";
         };
 
+        function TORegisterAssoc() {
+
+            location.href = "RegisterAssoc-Taramti.html";
+        };
+
+        function TOAddingAuction() {
+
+            location.href = "AddingAuction-Taramti.html";
+        };
+
         function CityList() {
 
             $.ajax({
@@ -299,10 +309,12 @@
             <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
             <!------------------------->
             <!------------------------->
-            <a href="RegisterAssoc-Taramti.html">RegisterAssoc-Taramti.html</a>
-            <a href="AddingAuction-Taramti.html">AddingAuction-Taramti.html</a>
+            <a onclick="location.href='RegisterAssoc-Taramti.html'">RegisterAssoc-Taramti.html</a>
+            <a onclick="location.href = 'AddingAuction-Taramti.html'">AddingAuction-Taramti.html</a>
             <!------------------------->
             <!------------------------->
+
+
         </div>
     </div>
 

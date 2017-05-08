@@ -4,9 +4,9 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
-    <script src="./cordova.js"></script>
+    <script src="cordova.js"></script>
 
     <!--מאסטר-->
     <script src="js/master.js"></script>
@@ -32,22 +32,80 @@
 
 
     <script>
+
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
         });
 
-        //function OpenCamera() {
-        //    navigator.camera.getPicture(savePic, onError, {
-        //        quality: 100,
-        //        destinationType: Camera.DestinationType.FILE_URI,//FILE_URI
-        //        targetHeight: 640,
-        //        targetWidth: 640
-        //    });
-        //}
+        function OpenCameraORChooseFile(Flag) {
+            var x = Camera.PictureSourceType.PHOTOLIBRARY;
+            if (Flag)
+            {
+                x = Camera.PictureSourceType.CAMERA;
+            }
+            navigator.camera.getPicture(savePic, onError, {
+                quality: 100,
+                destinationType: Camera.DestinationType.FILE_URI,//FILE_URI
+                targetHeight: 640,
+                targetWidth: 640,
+                sourceType: x
+
+            });
+        }
+
+        function savePic(fileURI) {
+
+            var $img = $("<img>").attr("src", fileURI);
+            $("#image_holder").append($img);
 
 
+            //var options = new FileUploadOptions();
+            //options.fileKey = "recFile";
+            //options.mimeType = "image/jpeg";
+            //options.chunkedMode = true;
+            //options.params = {}; // if we need to send parameters to the server request
+            //var params = {};
+            //params.fileName = $("#name_for_file").val();
+            //options.params = params;
+
+            //var ft = new FileTransfer();
+            //ft.upload(fileURI, serverService + "saveImage", function () {
+
+            //    //success
+
+
+            //}, function (error) {
+
+            //    alert("An error has occurred: Code = " + error.code);
+
+            //}, options);
+
+            var win = function (r) {
+                console.log("Code = " + r.responseCode);
+                console.log("Response = " + r.response);
+                console.log("Sent = " + r.bytesSent);
+            }
+
+            var fail = function (error) {
+                alert("An error has occurred: Code = " + error.code);
+                console.log("upload error source " + error.source);
+                console.log("upload error target " + error.target);
+            }
+
+            var options = new FileUploadOptions();
+            options.fileKey = "file";
+            options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+            options.mimeType = "image/jpeg";
+
+            var ft = new FileTransfer();
+            ft.upload(fileURL, encodeURI(""), win, fail, options);
+        }
+
+        function onError() {
+            alert("error");
+        }
 
         //function ChooseFile() {
         //    document.getElementById("fileInput").click();
@@ -81,7 +139,7 @@
                     <h4>שם המוצר</h4>
                     <input type="text" id="ProdNum">
                     <h4>תיאור המוצר</h4>
-                    <textarea class="form-control" id="ProdDesc" rows="5"></textarea>
+                    <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
                     <h4>מיקום</h4>
                     <input type="text" id="ProdLocation" required>
@@ -111,23 +169,25 @@
                     <h4>תמונות המוצר</h4>
                     <!--מצלמה-->
                     <div>
-                        <button id="CameraBtn" type="button" onclick="OpenCamera();"><i class="fa fa-camera w3-xlarge w3-text-black"></i></button>
+                        <a class="ui-btn" id="CameraBtn" onclick="OpenCameraORChooseFile(true);" ><i class="fa fa-camera w3-large w3-text-black"></i> </a>
                         <div style="height:0px; overflow:hidden">
                             <input type="file" id="fileInput" name="fileInput" />
                         </div>
-                        <button id="UploadFileBtn" type="button" onclick="ChooseFile();">בחר תמונה מגלריה</button>
+                        <button id="UploadFileBtn" type="button" onclick="OpenCameraORChooseFile(false);">בחר תמונה מגלריה</button>
                     </div>
-
+                    <!------------------------->
+                    <!-------------להוסיף איקסים על התמונות לצורך מחיקה------------>
                     <div id="image_holder">
-
+                        <img src="img/Desert.jpg" />
+                        <img src="img/Koala.jpg" />
                     </div>
 
                     <input type="button" id="AddingProductAuctionbtn" value="שגר מכרז" onclick="AddingProductAuction()" />
-                    <h5><a href="#app.html"> חזור</a></h5>
+                    <h5><a href="Login-Taramti.html"> חזור</a></h5>
 
                     <!------------------------->
                     <!------------------------->
-                    <a href="Login-Taramti.html">Login-Taramti.html</a>
+                    <a onclick="location.href = 'Login-Taramti.html'">Login-Taramti.html</a>
                     <!------------------------->
                     <!------------------------->
                 </div>

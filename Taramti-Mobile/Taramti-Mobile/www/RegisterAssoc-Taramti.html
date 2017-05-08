@@ -7,7 +7,7 @@
     <title>רישום עמותה</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
     <script src="./cordova.js"></script>
 
@@ -20,7 +20,6 @@
     <link href="css/StyleSheet.css" rel="stylesheet" />
 
 
-    <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
 
@@ -31,7 +30,9 @@
     </script>
 
     <script>
-
+        $(document).ready(function () {
+            console.log("in");
+        })
         function RegisterAssoc() {
 
             var Code = ($("#AssocNum").val() != "") ? $("#AssocNum").val() : null;
@@ -147,11 +148,11 @@
 
             <a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">רשום עמותה</a>
 
-            <h5><a href="#"> חזור</a></h5>
+            <h5><a href="Login-Taramti.html"> חזור</a></h5>
 
             <!------------------------->
             <!------------------------->
-            <a href="Login-Taramti.html">Login-Taramti.html</a>
+            <a onclick="location.href = 'Login-Taramti.html'">Login-Taramti.html</a>
             <!------------------------->
             <!------------------------->
 

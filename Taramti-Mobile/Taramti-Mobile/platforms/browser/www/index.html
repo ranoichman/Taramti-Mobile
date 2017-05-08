@@ -36,7 +36,7 @@
         * Enable eval(): add 'unsafe-eval' to default-src
     * Create your own at http://cspisawesome.com
     -->
-     <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> 
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
     <script>
 
             //// כרגע עובד בווב ולא בנייד... כדי למחוק את הלוקלסטורג' בעליית הפונקציה אבל לא כל פעם שבאים אליה...
@@ -44,8 +44,8 @@
             //if (oldURL == "") {
             //    localStorage.clear();
             //}
-        
-        location.href = "Login-Taramti.html";
+
+            location.href = "Login-Taramti.html";
 
 
     </script>
