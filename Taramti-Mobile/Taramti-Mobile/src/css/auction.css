@@ -1,0 +1,159 @@
+img {
+    max-width: 100%;
+    margin-top: 10px; 
+    }
+
+.descPar {
+    margin-right: 8px;
+    direction: rtl;
+    float: right;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    }
+.row{
+    margin-top: 10px;
+    border-bottom: 1px solid teal;
+    height: 250px;
+}
+
+.imgContainer{
+    position: relative;
+	display: inline-block;
+    }
+
+
+.priceTag {
+    display: inline-block;
+    box-sizing: content-box;
+    height: 12px;
+    position: relative;
+    content: "";
+    cursor: pointer;
+    margin: 0 13px 0 0;
+    padding: 10px 20px 10px 8px;
+    border: none;
+    border-radius: 4px 1px 1px 4px;
+    color: rgba(255,255,255,1);
+    text-align: center;
+    text-transform: uppercase;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    background: rgb(103, 158, 41);
+    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);
+    transform: rotate(-20deg);
+    top:10px;
+    right:-10%;
+    position: absolute;
+    display:block;
+}
+.priceTag:before {
+    display: inline-block;
+    box-sizing: content-box;
+    z-index: 1;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    content: "";
+    cursor: pointer;
+    top: 5px;
+    right: -12px;
+    border: none;
+    border-radius: 1px 1px 4px;
+    color: #fff;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgb(103, 158, 41);
+    box-shadow: 0 6px 0 0 rgb(64, 101, 23);
+    text-shadow: none;
+    transform: rotateY(1deg) rotateZ(-45deg);
+    }
+.priceTag:after {
+    display: inline-block;
+    box-sizing: content-box;
+    z-index: 2;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    content: "";
+    cursor: pointer;
+    top: 12px;
+    right: 0;
+    border: none;
+    border-radius: 10px;
+    color: rgba(255,255,255,0.9);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: #fcfcfc;
+    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;
+    text-shadow: none;
+    }
+      
+.priceTag h5 {
+    font-family: arial;
+    font-size:16px;
+    color:#fff;
+    margin-top: 0;
+    }
+
+.basicInfo{
+    margin-top:10px;
+    margin-bottom:20px;
+    overflow:hidden;
+}
+
+.time{
+    float: left;
+    margin-left:10px;
+    margin-top:5px;
+}
+
+i{
+    float:right;
+    margin-left:2px;
+}
+
+input{
+    width:20%;
+    margin: 10px 40%;
+    border: 2px solid;
+}
+
+.circle{
+    height:100px;
+    width:100px;
+    border-radius:50%;
+    background-color:aqua;
+}
+.circle h4{
+    direction:rtl;
+    text-align:center;
+    padding-top:30px;
+    
+}
+
+.down-arrow {
+    display: inline-block;
+    position: relative;
+    background: #286090;
+    padding: 15px 0;
+    width: 50px;
+    border: none;
+    text-align: center;
+}
+    .down-arrow:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 70px;
+        height: 0;
+        border-top: 20px solid #286090;
+        border-right: 40px solid transparent;
+        border-bottom: 0 solid transparent;
+        border-left: 40px solid transparent;
+    }
+
+

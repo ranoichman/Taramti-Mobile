@@ -1,13 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Mobile - Tar 3</name>
+  <name>תרמתי בבית</name>
     <description>
         Hello World sample application that responds to the deviceready event.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="golanhuppert9@gmail.com , hilly.jackobson@gmail.com , ran.oichman@gmail.com" href="http://phonegap.com">
+        Golan Huppert Hilly Jackobson Ran  Oichman
     </author>
     <content src="index.html" />
+
   <system.web>
     <webServices>
     <protocols>
@@ -18,7 +19,7 @@
   </system.web>
  
   <preference name="phonegap-version" value="3.7.0" />
-  
+
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
     <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
@@ -112,13 +113,12 @@
         <splash height="1920" platform="windows" src="www/res/screen/windows/SplashScreenPhone.scale-240.png" width="1152" />
     </platform>
     <access origin="*" />
-  <access origin="http://*.phonegap.com" subdomains="true" />
-  <access origin="*://*.googleapis.com/*" subdomains="true" />
-  <access origin="*://*.gstatic.com/*" subdomains="true" />
-  <access origin="*://*.google.com/*" subdomains="true" />
-  <access origin="*://*.googleusercontent.com/*" subdomains="true" />
-
-  <plugin name="cordova-plugin-whitelist" />
+    <access origin="http://*.phonegap.com" subdomains="true" />
+    <access origin="*://*.googleapis.com/*" subdomains="true" />
+    <access origin="*://*.gstatic.com/*" subdomains="true" />
+    <access origin="*://*.google.com/*" subdomains="true" />
+    <access origin="*://*.googleusercontent.com/*" subdomains="true" />
+    <plugin name="cordova-plugin-whitelist" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
