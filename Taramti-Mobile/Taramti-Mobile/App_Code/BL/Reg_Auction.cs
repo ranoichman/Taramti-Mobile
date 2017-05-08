@@ -157,6 +157,27 @@ public class Reg_Auction : Auction
         }
         return relevantAuctions;
     }
+
+    public int GetLatestBid()
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+
+        string StrSql = "SELECT auction_code, MAX(price) AS Maximum " +
+                        "FROM dbo.bid " +
+                        "GROUP BY auction_code " +
+                        "HAVING(auction_code = " + AuctionID + ") ";
+        DS = db.GetDataSetByQuery(StrSql);
+
+        if (DS.Tables[0].Rows.Count > 0 )
+        {
+            return int.Parse(DS.Tables[0].Rows[0][1].ToString());
+        }
+        else
+        {
+            return -1;
+        }
+    }
     #endregion
 
 
