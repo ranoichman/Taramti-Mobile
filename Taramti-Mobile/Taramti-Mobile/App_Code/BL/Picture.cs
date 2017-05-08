@@ -10,7 +10,6 @@ public class Picture
 {
     //fields
      string path;
-     string pic_Description;
      Item item;
 
     //props
@@ -25,19 +24,6 @@ public class Picture
         set
         {
             path = value;
-        }
-    }
-
-    public string Pic_Description
-    {
-        get
-        {
-            return pic_Description;
-        }
-
-        set
-        {
-            pic_Description = value;
         }
     }
 

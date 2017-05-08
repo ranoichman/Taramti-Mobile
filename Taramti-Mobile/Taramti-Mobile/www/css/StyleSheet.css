@@ -80,7 +80,7 @@ footer {
 }
 
 #CameraBtn {
-    height:44px;
+    height:44.38px;
     width: 20%;
     display: inline;
     float: left;
@@ -94,13 +94,20 @@ footer {
     float: left;
 }
 
+#image_holder{
+     width:100%;
+    display:block;
+    overflow:auto;
+}
+
 #image_holder img{
     width:48%;
     float:left;
-    padding: 1% 1% 1% 1%;
+    margin:3px 1% 3px 1%;
     
 }
 
 #AddingProductAuctionbtn{
+    margin-top:5px;
     width:100%;
 }
