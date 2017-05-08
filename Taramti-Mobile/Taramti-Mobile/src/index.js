@@ -4,9 +4,13 @@ import './css/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
+import Swipeable from 'react-swipeable';
+import FontAwesome from 'react-fontawesome';
+import Modal from 'react-modal';
 
 import Hello from './components/Hello';
 import Auction from './components/Auction';
+import Search from './components/Search';
 
 
 const App = React.createClass({
@@ -14,6 +18,7 @@ const App = React.createClass({
         //return StepStore.getState();
         return {
             animationName: 'push',
+            searchModalIsOpen: false,
             home: true, // for knowing which auction page to display
             displayedAuction: -1,
             auctionsArr: [
@@ -31,7 +36,7 @@ const App = React.createClass({
                 },
                 {
                     price: 1234,
-                    endDate: "5/8/2017",
+                    endDate: "5/10/2017",
                     imgArr: [
                         "img/Logo.JPG",
                         "img/image.png",
@@ -43,7 +48,7 @@ const App = React.createClass({
                 },
                 {
                     price: 15,
-                    endDate: "5/8/2017",
+                    endDate: "5/10/2017",
                     imgArr: [
                         "img/ASP.JPG",
                         "img/Logo.JPG",
@@ -74,8 +79,31 @@ const App = React.createClass({
 
     //
     offerBid(i) {
-        
+
         this.setState({ displayedAuction: i, home: false });
+    },
+
+    openSearchModal() {
+        this.setState({ searchModalIsOpen: true })
+    },
+    closeSearchModal() {
+        this.setState({ searchModalIsOpen: false })
+    },
+
+    addAuction(item, i) {
+        let arr = this.state.auctionsArr;
+        let newAuction = {
+            code: item.AuctionID,
+            endDate : item.End_Date,
+            price: 5,
+            percentage: 0.2,
+            prodName: "",
+            prodDesc: "",
+            imgArr: item.Picture,
+        }
+        arr.push(newAuction);
+        this.setState({auctionsArr:arr});
+
     },
 
     eachAuction(item, i) {
@@ -84,10 +112,22 @@ const App = React.createClass({
             imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc} percentage={item.percentage} />
     },
 
+
     renderHome() {
         return (
-            <div className="container-fluid">
-                {this.state.auctionsArr.map(this.eachAuction)}
+            <div>
+                <Swipeable onTap={this.openSearchModal}>
+                    <FontAwesome name='search' border="true" className="fa-3x" tag="div" />
+                    <Modal
+                        isOpen={this.state.searchModalIsOpen}
+                        onRequestClose={this.closeSearchModal}
+                        contentLabel="open search``">
+                        <Search closeModal={this.closeSearchModal} />
+                    </Modal>
+                </Swipeable>
+                <div className="container-fluid">
+                    {this.state.auctionsArr.map(this.eachAuction)}
+                </div>
             </div>
         );
     },
@@ -96,12 +136,12 @@ const App = React.createClass({
         console.log(this.state.displayedAuction)
         let curAuction = this.state.auctionsArr[this.state.displayedAuction];
         return (
-        <div className="container-fluid">
+            <div className="container-fluid">
                 <Auction index={this.state.displayedAuction} auctionfinished={this.deleteAuction}
                     home={this.state.home} price={curAuction.price} endDate={curAuction.endDate}
                     imgArr={curAuction.imgArr} prodName={curAuction.prodName} prodDesc={curAuction.prodDesc} percentage={curAuction.percentage} />
             </div>
-            )
+        )
     },
 
 

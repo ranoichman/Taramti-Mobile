@@ -16,6 +16,7 @@ import '../css/jqmCss.css';
 import '../css/auction.css';
 
 class Auction extends Component {
+    
     constructor(props) {
         super(props);
         this.state = {

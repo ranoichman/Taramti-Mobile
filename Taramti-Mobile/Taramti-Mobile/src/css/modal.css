@@ -41,3 +41,11 @@ a.boxclose {
 .boxclose:before {
     content: "×";
 }
+
+input{
+    display: inline;
+    width: 45%;
+    margin: 2px 5px;
+    
+
+}
