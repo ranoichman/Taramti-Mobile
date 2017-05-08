@@ -11,6 +11,8 @@
     <!--מאסטר-->
     <script src="js/master.js"></script>
 
+    <script src="js/jquery.js"></script>
+
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
@@ -22,7 +24,6 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
     <!--<script src="lib/jquery.mobile-1.4.5.min.js"></script>-->
@@ -107,9 +108,6 @@
             alert("error");
         }
 
-        //function ChooseFile() {
-        //    document.getElementById("fileInput").click();
-        //}
     </script>
 
 </head>
@@ -182,8 +180,10 @@
                         <img src="img/Koala.jpg" />
                     </div>
 
+                    <br />
+
                     <input type="button" id="AddingProductAuctionbtn" value="שגר מכרז" onclick="AddingProductAuction()" />
-                    <h5><a href="Login-Taramti.html"> חזור</a></h5>
+                    <h5><a onclick="location.href = 'Login-Taramti.html'">חזור</a></h5>
 
                     <!------------------------->
                     <!------------------------->
