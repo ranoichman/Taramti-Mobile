@@ -32,8 +32,7 @@ public class AuctionWebService : System.Web.Services.WebService
     public string GetAuctionByParam(int[] cities, int lowPrice, int highPrice, int catCode)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        Reg_Auction auction = new Reg_Auction();
-        return j.Serialize(auction.GetAuctionsByParam(cities, lowPrice, highPrice, catCode));
+        return j.Serialize(Reg_Auction.GetAuctionsByParam(cities, lowPrice, highPrice, catCode));
     }
 
 

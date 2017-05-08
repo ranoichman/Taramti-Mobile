@@ -21,7 +21,8 @@ public abstract class Auction
     string catDesc;
     string[] images;
     int percentage;
-    string desc;
+    string prodName;
+    string prodDesc;
 
 
     //props
@@ -130,16 +131,29 @@ public abstract class Auction
         }
     }
 
-    public string Desc
+    public string ProdDesc
     {
         get
         {
-            return desc;
+            return prodDesc;
         }
 
         set
         {
-            desc = value;
+            prodDesc = value;
+        }
+    }
+
+    public string ProdName
+    {
+        get
+        {
+            return prodName;
+        }
+
+        set
+        {
+            prodName = value;
         }
     }
 

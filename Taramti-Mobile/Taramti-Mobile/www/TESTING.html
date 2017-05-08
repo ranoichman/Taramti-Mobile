@@ -33,13 +33,18 @@
             // alert("NANA");
             $.ajax({
                 dataType: "json",
-                url: generic + "/GetAuctionByParam",
+                url: generic + "GetAuctionByParam",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ cities: x, lowPrice: low, highPrice: high, catCode : code }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
+                    //console.log(isUser[0].Price );
+                    isUser.map(function (item, i) {
+                        console.log(item);
+
+                    });
 
                 },
                 error: function (err) { }

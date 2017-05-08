@@ -95,11 +95,11 @@ const App = React.createClass({
         let newAuction = {
             code: item.AuctionID,
             endDate : item.End_Date,
-            price: 5,
-            percentage: 0.2,
-            prodName: "",
-            prodDesc: "",
-            imgArr: item.Picture,
+            price: item.Price,
+            percentage: item.Percentage,
+            prodName: item.ProdName,
+            prodDesc: item.ProdDesc,
+            imgArr: item.Images,
         }
         arr.push(newAuction);
         this.setState({auctionsArr:arr});
