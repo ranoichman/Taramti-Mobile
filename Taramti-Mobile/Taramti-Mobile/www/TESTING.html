@@ -50,11 +50,30 @@
                 error: function (err) { }
             });
         }
+
+        function GetAuctionPrice() {
+            var x = 2;
+            // alert("NANA");
+            $.ajax({
+                dataType: "json",
+                url: generic + "/GetAuctionPrice",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ auctionCode: x }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+
+                },
+                error: function (err) { }
+            });
+        }
         
     </script>
 
 </head>
 <body>
     <input type="button" onclick="test()" value="GetAuctionByParam" />
+    <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
 </body>
 </html>

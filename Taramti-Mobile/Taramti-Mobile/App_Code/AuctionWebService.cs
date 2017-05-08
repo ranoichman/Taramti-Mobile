@@ -35,5 +35,14 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(Reg_Auction.GetAuctionsByParam(cities, lowPrice, highPrice, catCode));
     }
 
+    [WebMethod (Description = "מתודה להבאת ביד אחרון בהינתן מספר אוקשן")]
+    public string GetAuctionPrice(int auctionCode)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Reg_Auction auction = new Reg_Auction();
+        auction.AuctionID = auctionCode;
+        return j.Serialize(auction.GetLatestBid());
+    }
+
 
 }

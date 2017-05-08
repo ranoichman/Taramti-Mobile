@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -9,10 +11,10 @@ using System.Web;
 public class Item
 {
     //fields
-     UserT user;
-     Item_Bid[] item_Bids;
-     Item_Category[] item_Categories;
-	 Picture[] pictures;
+    UserT user;
+    Item_Bid[] item_Bids;
+    Item_Category[] item_Categories;
+    string[] pictures;
 
     //props
     #region
@@ -55,7 +57,7 @@ public class Item
         }
     }
 
-    public Picture[] Pictures
+    public string[] Pictures
     {
         get
         {
@@ -97,6 +99,33 @@ public class Item
     {
         throw new System.Exception("Not implemented");
     }
+
+    public bool AddPictures()
+    {
+        for (int i = 0; i < Pictures.Length; i++)
+        {
+
+            string sqlInsert = @"INSERT INTO[dbo].[product_pictures]
+                               ([product_code] ,[pic_code] ,[path])
+                                VALUES
+                               (@ProductCode ,@PicCode ,@Path)";
+
+            DbService db = new DbService();
+            SqlParameter parProductCode = new SqlParameter("@ProductCode", 14);
+            SqlParameter parPicCode = new SqlParameter("@PicCode", (14 + i));
+            SqlParameter parPath = new SqlParameter("@Path", Pictures[i]);
+
+            if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProductCode, parPicCode, parPath) == 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+}
+
     #endregion
 
 }

@@ -11,6 +11,8 @@
     <!--מאסטר-->
     <script src="js/master.js"></script>
 
+    <script src="js/jquery.js"></script>
+
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
@@ -22,13 +24,15 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
     <!--<script src="lib/jquery.mobile-1.4.5.min.js"></script>-->
     <!--<script src="lib/jqueryUI/jqueryUI.js"></script>-->
 
-    
+    <script>
+        const generic = GENERAL.genericWebServerAddress;
+
+    </script>
 
 
     <script>
@@ -37,12 +41,14 @@
 
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
+            picArr = new Array();
+            i = 0;
         });
+
 
         function OpenCameraORChooseFile(Flag) {
             var x = Camera.PictureSourceType.PHOTOLIBRARY;
-            if (Flag)
-            {
+            if (Flag) {
                 x = Camera.PictureSourceType.CAMERA;
             }
             navigator.camera.getPicture(savePic, onError, {
@@ -60,56 +66,70 @@
             var $img = $("<img>").attr("src", fileURI);
             $("#image_holder").append($img);
 
-
-            //var options = new FileUploadOptions();
-            //options.fileKey = "recFile";
-            //options.mimeType = "image/jpeg";
-            //options.chunkedMode = true;
-            //options.params = {}; // if we need to send parameters to the server request
-            //var params = {};
-            //params.fileName = $("#name_for_file").val();
-            //options.params = params;
-
-            //var ft = new FileTransfer();
-            //ft.upload(fileURI, serverService + "saveImage", function () {
-
-            //    //success
-
-
-            //}, function (error) {
-
-            //    alert("An error has occurred: Code = " + error.code);
-
-            //}, options);
-
-            var win = function (r) {
-                console.log("Code = " + r.responseCode);
-                console.log("Response = " + r.response);
-                console.log("Sent = " + r.bytesSent);
-            }
-
-            var fail = function (error) {
-                alert("An error has occurred: Code = " + error.code);
-                console.log("upload error source " + error.source);
-                console.log("upload error target " + error.target);
-            }
+            //---------------בדיקה-----------------------------------------
+            alert("bla bla " + i)
+            //---------------בדיקה-----------------------------------------
 
             var options = new FileUploadOptions();
             options.fileKey = "file";
-            options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+            options.chunkedMode = true;
+            options.fileName = fileURI.split("/")[10];
             options.mimeType = "image/jpeg";
+            //---------------בדיקה-----------------------------------------
+            alert(fileURI)
+            alert(options.fileName)
+            //---------------בדיקה-----------------------------------------
+            picArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName);
+            i++;
 
             var ft = new FileTransfer();
-            ft.upload(fileURL, encodeURI(""), win, fail, options);
+            ft.upload(fileURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/"), win, fail, options);
+            //---------------בדיקה-----------------------------------------
+            alert("Finish")
+            //---------------בדיקה-----------------------------------------
+        }
+
+        var win = function (r) {
+            console.log("Code = " + r.responseCode);
+            console.log("Response = " + r.response);
+            console.log("Sent = " + r.bytesSent);
+        }
+
+        var fail = function (error) {
+            alert("An error has occurred: Code = " + error.code);
+            alert("An error has occurred: Code = " + error.body);
+            alert("upload error source " + error.source);
+            alert("upload error target " + error.target);
         }
 
         function onError() {
             alert("error");
         }
 
-        //function ChooseFile() {
-        //    document.getElementById("fileInput").click();
-        //}
+        function AddingProductAuction() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "AddingProductAuction",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ Arr : picArr }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+
+                    if (isUser == true) {
+                        alert("התמונות נשמרו.. אולי");
+                    }
+                    else {
+                        alert("התמונות לא נשמרו.. כנראה");
+                    }
+                },
+                error: function (err) { }
+            });
+
+        }
+
+
     </script>
 
 </head>
@@ -169,7 +189,7 @@
                     <h4>תמונות המוצר</h4>
                     <!--מצלמה-->
                     <div>
-                        <a class="ui-btn" id="CameraBtn" onclick="OpenCameraORChooseFile(true);" ><i class="fa fa-camera w3-large w3-text-black"></i> </a>
+                        <a class="ui-shadow ui-btn ui-corner-all ui-btn-block" id="CameraBtn" onclick="OpenCameraORChooseFile(true);"><i class="fa fa-camera w3-large w3-text-black"></i> </a>
                         <div style="height:0px; overflow:hidden">
                             <input type="file" id="fileInput" name="fileInput" />
                         </div>
@@ -180,10 +200,13 @@
                     <div id="image_holder">
                         <img src="img/Desert.jpg" />
                         <img src="img/Koala.jpg" />
+                        <img src="img/Tulips.jpg" />
                     </div>
+                    
+                    <!--<input type="button" id="Adonbtn" value="cshev" onclick="savePic8()" />-->
 
                     <input type="button" id="AddingProductAuctionbtn" value="שגר מכרז" onclick="AddingProductAuction()" />
-                    <h5><a href="Login-Taramti.html"> חזור</a></h5>
+                    <h5><a onclick="location.href = 'Login-Taramti.html'">חזור</a></h5>
 
                     <!------------------------->
                     <!------------------------->
