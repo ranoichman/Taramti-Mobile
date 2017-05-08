@@ -807,7 +807,7 @@ html {
 body, input, select, textarea, button, .ui-btn {
     font-size: 1em;
     line-height: 1.3;
-    font-family: sans-serif;
+    font-family: "Segoe UI",Arial,sans-serif;
 }
 
 legend, .ui-input-text input, .ui-input-search input {
@@ -964,7 +964,8 @@ legend, .ui-input-text input, .ui-input-search input {
     background-color: #000;
 }
 
-.ui-icon-loading {
+.ui-icon-
+ {
     background: url(images/ajax-loader.gif);
     background-size: 2.875em 2.875em;
 }
@@ -3035,7 +3036,7 @@ ul.ui-grid-a, ul.ui-grid-b, ul.ui-grid-c, ul.ui-grid-d, ul.ui-grid-solo, li.ui-b
     }
 
     .ui-navbar li .ui-btn {
-        font-size: 12.5px;
+        font-size: 18px;
         display: block;
         margin: 0;
         border-right-width: 0;
@@ -4413,7 +4414,7 @@ div.ui-rangeslider label {
 .ui-input-text input, .ui-input-search input {
     margin: 0;
     min-height: 2.2em;
-    text-align: left;
+    text-align:right;
     border: 0;
     background: transparent none;
     -webkit-appearance: none;
