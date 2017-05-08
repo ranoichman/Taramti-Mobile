@@ -127,4 +127,50 @@ public class WebService : System.Web.Services.WebService
         return "false";
     }
 
+
+    [WebMethod]
+    public void saveImage()
+    {
+       
+    }
+
+
+    //[WebMethod]
+    //public void saveImage()
+    //{
+    //    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["igroup77_prod"].ConnectionString);
+    //    SqlCommand cmd = new SqlCommand(@"insert into pictures(img_description, img_data)
+    //                                    values(@description, @img)", con);
+
+
+    //    string file_name = "";
+
+    //    HttpPostedFile file = HttpContext.Current.Request.Files["recFile"];
+    //    System.Collections.Specialized.NameValueCollection param = HttpContext.Current.Request.Params;
+    //    file_name = param["fileName"];      //file name
+
+    //    Stream s = file.InputStream;
+    //    BinaryReader br = new BinaryReader(s);
+    //    byte[] b = br.ReadBytes((int)s.Length); //data
+
+
+    //    cmd.Parameters.AddWithValue("@img", b);
+    //    cmd.Parameters.AddWithValue("@description", file_name);
+
+
+    //    try
+    //    {
+    //        con.Open();
+    //        cmd.ExecuteNonQuery();
+    //    }
+    //    catch
+    //    {
+
+    //    }
+    //    finally
+    //    {
+    //        con.Close();
+    //    }
+    //}
+
 }
