@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+
+    <script src="cordova.js"></script>
+
+    <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
+    <link href="css/w3.css" rel="stylesheet" />
+    <link href="css/jqmCss.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <!--מאסטר-->
+    <script src="js/master.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jqm.js"></script>
+
+    <script>
+        const generic = GENERAL.auctionWebServerAddress;
+    </script>
+
+    <script>
+
+        function test()
+        {
+            var x = [1, 2];
+            var low = 100;
+            var high = -1;
+            var code = 1;
+            // alert("NANA");
+            $.ajax({
+                dataType: "json",
+                url: generic + "/GetAuctionByParam",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ cities: x, lowPrice: low, highPrice: high, catCode : code }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+
+                },
+                error: function (err) { }
+            });
+        }
+
+        function GetAuctionPrice() {
+            var x = 2;
+            // alert("NANA");
+            $.ajax({
+                dataType: "json",
+                url: generic + "/GetAuctionPrice",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ auctionCode: x }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+
+                },
+                error: function (err) { }
+            });
+        }
+        
+    </script>
+
+</head>
+<body>
+    <input type="button" onclick="test()" value="GetAuctionByParam" />
+    <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
+</body>
+</html>

@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+
+    <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
+    <link href="css/w3.css" rel="stylesheet" />
+    <link href="css/jqmCss.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jqm.js"></script>
+
+    <!--מאסטר-->
+    <script src="js/master.js"></script>
+
+    <script src="./cordova.js"></script>
+
+    <script>
+
+        //$(document).ready(function () {
+        //});
+
+
+
+        //window.onbeforeunload = function () {
+        //};
+
+
+    </script>
+
+    <script>
+
+        function Login() {
+            location.href = "Main-Taramti.html";
+        }
+
+        function ConRegister() {
+            location.href = "Login-Taramti.html#CompleteRegisterPage";
+
+        };
+
+        function FirstRegisterUser() {
+            location.href = "Login-Taramti.html#LoginPage";
+            alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
+        }
+
+        function RegisterUser() {
+            location.href = "Login-Taramti.html#LoginPage";
+            alert("הרישום בוצע בהצלחה, עכשיו אפשר להתחבר (:")
+        }
+
+        function ToMainTaramti() {
+            location.href = "Main-Taramti.html";
+        };
+
+        //----------------------------------------------------
+
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+    </style>
+</head>
+<body>
+
+    <!--דף זה יכיל לא ברור ולא ידוע כרגע-->
+    <!--דף לוגין-->
+    <div data-role="page" id="LoginPage">
+
+        <div id="UpperLogo">
+            <img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            <div id="TaramtiMenuIconDiv"><i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i></div>
+        </div>
+
+            <div class="dropdown">
+                <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                <div id="myDropdown" class="dropdown-content">
+                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                </div>
+            </div>
+        
+
+        <div id="What">
+            <h1>דף בית</h1>
+            <!--<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>-->
+
+            <i class="fa fa-home"></i>
+            <i class="fa fa-search"></i>
+            <i class="fa fa-cloud"></i>
+            <i class="fa fa-trash"></i>
+
+            <string name="vertical_ellipsis">&#8942;</string>
+
+        </div>
+    </div>
+
+
+    <!--דף שכחתי סיסמה-->
+    <div data-role="page" id="ForgotPassPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+
+        <div id="ForgotPassForm">
+            <h2>שכחת סיסמה?!</h2>
+            <h4>הזן כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+
+            <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
+            <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
+            <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+        </div>
+    </div>
+
+    <!--דף רישום ראשוני-->
+    <div data-role="page" id="FirstRegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="FirstRegisterForm">
+            <h2>רישום משתמש</h2>
+            <h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <h4>הזן סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <h4>הזן סיסמה לאישור: </h4>
+            <input type="text" id="UserPass2" />
+
+            <input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />
+            <input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />
+            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+        </div>
+    </div>
+
+    <!--דף השלמה לרישום מלא-->
+    <div data-role="page" id="CompleteRegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="CompleteRegisterForm">
+            <h2>המשך רישום משתמש</h2>
+            <h4>מספר טלפון: </h4>
+            <input type="text" id="UserPhon" />
+            <h4>עיר מגורים: </h4>
+            <input type="text" id="UserCity" />
+            <h4>רחוב: </h4>
+            <input type="text" id="UserStreet" />
+            <h4>מספר בית: </h4>
+            <input type="text" id="UserHomeNum" />
+            <input type="button" id="CompleteRegisterBtn" value="הרשם" onclick="RegisterUser()" />
+            <h5><a href="#FirstRegisterPage"> חזור</a></h5>
+        </div>
+    </div>
+
+    <!--דף רישום משתמש-->
+    <div data-role="page" id="RegisterPage">
+        <div id="UpperLogo"><img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="RegisterForm">
+            <h2>רישום משתמש</h2>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>תעודת זהות: </h4>
+            <input type="text" id="UserId" />
+            <h4>מספר טלפון: </h4>
+            <input type="text" id="UserPhon" />
+            <h4>עיר מגורים: </h4>
+            <input type="text" id="UserCity" />
+            <h4>רחוב: </h4>
+            <input type="text" id="UserStreet" />
+            <h4>מספר: </h4>
+            <input type="text" id="UserHomeNum" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <h4>הזן סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <h4>הזן סיסמה לאישור: </h4>
+            <input type="text" id="UserPass2" />
+
+            <input type="button" id="RegisterBtn" value="הרשם" onclick="RegisterUser()" />
+            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+        </div>
+    </div>
+</body>
+</html>

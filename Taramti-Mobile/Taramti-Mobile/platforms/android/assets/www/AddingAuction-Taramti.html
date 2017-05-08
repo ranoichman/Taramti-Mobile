@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+
+    <script src="cordova.js"></script>
+
+    <!--מאסטר-->
+    <script src="js/master.js"></script>
+
+    <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
+    <link href="css/w3.css" rel="stylesheet" />
+    <link href="css/jqmCss.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+
+    <!--<link href="lib/jquery.mobile-1.4.5.min.css" rel="stylesheet" />-->
+    <!--<link href="lib/jqueryUI/jqueryUI.css" rel="stylesheet" />-->
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jqm.js"></script>
+
+    <!--<script src="lib/jquery.mobile-1.4.5.min.js"></script>-->
+    <!--<script src="lib/jqueryUI/jqueryUI.js"></script>-->
+
+    
+
+
+    <script>
+
+        $(document).on("pagecreate", "#AddingAuctionPage", function () {
+
+            $("#tabs").tabs("option", "active", 1);
+            $('#DefualtTab').addClass('ui-btn-active');
+        });
+
+        function OpenCameraORChooseFile(Flag) {
+            var x = Camera.PictureSourceType.PHOTOLIBRARY;
+            if (Flag)
+            {
+                x = Camera.PictureSourceType.CAMERA;
+            }
+            navigator.camera.getPicture(savePic, onError, {
+                quality: 100,
+                destinationType: Camera.DestinationType.FILE_URI,//FILE_URI
+                targetHeight: 640,
+                targetWidth: 640,
+                sourceType: x
+
+            });
+        }
+
+        function savePic(fileURI) {
+
+            var $img = $("<img>").attr("src", fileURI);
+            $("#image_holder").append($img);
+
+
+            //var options = new FileUploadOptions();
+            //options.fileKey = "recFile";
+            //options.mimeType = "image/jpeg";
+            //options.chunkedMode = true;
+            //options.params = {}; // if we need to send parameters to the server request
+            //var params = {};
+            //params.fileName = $("#name_for_file").val();
+            //options.params = params;
+
+            //var ft = new FileTransfer();
+            //ft.upload(fileURI, serverService + "saveImage", function () {
+
+            //    //success
+
+
+            //}, function (error) {
+
+            //    alert("An error has occurred: Code = " + error.code);
+
+            //}, options);
+
+            var win = function (r) {
+                console.log("Code = " + r.responseCode);
+                console.log("Response = " + r.response);
+                console.log("Sent = " + r.bytesSent);
+            }
+
+            var fail = function (error) {
+                alert("An error has occurred: Code = " + error.code);
+                console.log("upload error source " + error.source);
+                console.log("upload error target " + error.target);
+            }
+
+            var options = new FileUploadOptions();
+            options.fileKey = "file";
+            options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+            options.mimeType = "image/jpeg";
+
+            var ft = new FileTransfer();
+            ft.upload(fileURL, encodeURI(""), win, fail, options);
+        }
+
+        function onError() {
+            alert("error");
+        }
+
+        //function ChooseFile() {
+        //    document.getElementById("fileInput").click();
+        //}
+    </script>
+
+</head>
+<body>
+
+    <!--דף זה מכיל דף הוספת מכרז-->
+
+    <div data-role="page" id="AddingAuctionPage">
+        <div id="UpperLogo">
+            <img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            <div id="TaramtiMenuIconDiv">
+                <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+            </div>
+        </div>
+
+        <div data-role="tabs" id="tabs">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#AddingMoneyAuctionTab" data-ajax="false">צור מכרז תרומה</a></li>
+                    <li><a id="DefualtTab" href="#AddingProductAuctionTab" data-ajax="false">צור מכרז מוצר</a></li>
+                </ul>
+            </div>
+
+            <div id="AddingProductAuctionTab" class="ui-body-d ui-content">
+                <div class="Form" id="AddingProductAuctionForm">
+                    <h2> יצירת מכרז מוצר</h2>
+                    <h4>שם המוצר</h4>
+                    <input type="text" id="ProdNum">
+                    <h4>תיאור המוצר</h4>
+                    <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
+
+                    <h4>מיקום</h4>
+                    <input type="text" id="ProdLocation" required>
+                    <!-- שימוש בג'יפיאס -->
+
+                    <h4>בחר קטגוריה</h4>
+                    <select id="AuctionKategories">
+                        <option value="value">שליפה מאג'אקס</option>
+                    </select>
+
+                    <h4>משך המכרז (בימים)</h4>
+                    <select id="AuctionLast">
+                        <option value="value">1</option>
+                        <option value="value">2</option>
+                        <option value="value">3</option>
+                        <option value="value">4</option>
+                        <option value="value">5</option>
+                        <option value="value">6</option>
+                        <option value="value">7</option>
+                    </select>
+                    <h4>בחר עמותה</h4>
+                    <select id="AuctionAssoc">
+                        <option value="value">שליפה מאג'אקס</option>
+                    </select>
+                    <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
+                    <input type="text" id="AuctionMinPrice" />
+                    <h4>תמונות המוצר</h4>
+                    <!--מצלמה-->
+                    <div>
+                        <a class="ui-btn" id="CameraBtn" onclick="OpenCameraORChooseFile(true);" ><i class="fa fa-camera w3-large w3-text-black"></i> </a>
+                        <div style="height:0px; overflow:hidden">
+                            <input type="file" id="fileInput" name="fileInput" />
+                        </div>
+                        <button id="UploadFileBtn" type="button" onclick="OpenCameraORChooseFile(false);">בחר תמונה מגלריה</button>
+                    </div>
+                    <!------------------------->
+                    <!-------------להוסיף איקסים על התמונות לצורך מחיקה------------>
+                    <div id="image_holder">
+                        <img src="img/Desert.jpg" />
+                        <img src="img/Koala.jpg" />
+                    </div>
+
+                    <input type="button" id="AddingProductAuctionbtn" value="שגר מכרז" onclick="AddingProductAuction()" />
+                    <h5><a href="Login-Taramti.html"> חזור</a></h5>
+
+                    <!------------------------->
+                    <!------------------------->
+                    <a onclick="location.href = 'Login-Taramti.html'">Login-Taramti.html</a>
+                    <!------------------------->
+                    <!------------------------->
+                </div>
+            </div>
+
+            <div id="AddingMoneyAuctionTab">
+                <h1>דף יצירת מכרז תרומה</h1>
+            </div>
+        </div>
+        <!-- להוריד פלייס הולדרים מיותרים -->
+
+    </div>
+
+
+</body>
+</html>
