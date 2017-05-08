@@ -82,16 +82,15 @@
     <splash density="port-xxhdpi" src="www/res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash density="port-xxxhdpi" src="www/res/screen/android/drawable-port-xxxhdpi-screen.png" />
     <allow-intent href="market:*" />
-    <name>Mobile - Tar 3</name>
+    <name>תרמתי ב h hjvs hj hjבית</name>
     <description>
         Hello World sample application that responds to the deviceready event.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="golanhuppert9@gmail.com , hilly.jackobson@gmail.com , ran.oichman@gmail.com" href="http://phonegap.com">
+        Golan Huppert Hilly Jackobson Ran  Oichman
     </author>
     <content src="index.html" />
     <preference name="phonegap-version" value="3.7.0" />
-    <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" source="npm" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
     <access origin="*" />
