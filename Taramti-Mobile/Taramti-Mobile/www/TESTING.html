@@ -38,7 +38,7 @@
                 type: "POST",
                 data: JSON.stringify({ cities: x, lowPrice: low, highPrice: high, catCode : code }),
                 success: function (data) {
-
+                    console.log("Ran - test");
                     var isUser = JSON.parse(data.d);
                     //console.log(isUser[0].Price );
                     isUser.map(function (item, i) {
@@ -56,12 +56,12 @@
             // alert("NANA");
             $.ajax({
                 dataType: "json",
-                url: generic + "/GetAuctionPrice",
+                url: generic + "GetAuctionPrice",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ auctionCode: x }),
                 success: function (data) {
-
+                    console.log("Ran");
                     var isUser = JSON.parse(data.d);
 
                 },
