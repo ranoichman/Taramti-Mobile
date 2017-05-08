@@ -4,7 +4,7 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">-->
+    <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
@@ -18,6 +18,9 @@
 
     <script src="./cordova.js"></script>
 
+    <!--מאסטר-->
+    <script src="js/master.js"></script>
+
 </head>
 <body>
     <form id="settingsForm">
@@ -26,32 +29,23 @@
 
             <div id="avatar"></div>
             <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
-            <table>
-                <tr>
-                    <td>
-                        <label><b>אפשר הודעות פוש</b></label>
-                    </td>
-                    <td>
-                        <select name="pushOpt" form="settingsForm">
-                            <option value="yes">כן </option>
-                            <option value="no">לא </option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label><b>התראות שמע</b></label>
-                    </td>
-                    <td>
-                        <select name="soundOpt" form="settingsForm">
-                            <option value="soundAndVibe">שמע + רטט</option>
-                            <option value="sound">שמע בלבד</option>
-                            <option value="vibe">רטט בלבד</option>
-                            <option value="off">ללא</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
+            <div id="SettingsForm">
+                            <label><b>אפשר הודעות פוש</b></label>
+ 
+                            <select name="pushOpt" form="settingsForm">
+                                <option value="yes">כן </option>
+                                <option value="no">לא </option>
+                            </select>
+
+                            <label><b>התראות שמע</b></label>
+
+                            <select name="soundOpt" form="settingsForm">
+                                <option value="soundAndVibe">שמע + רטט</option>
+                                <option value="sound">שמע בלבד</option>
+                                <option value="vibe">רטט בלבד</option>
+                                <option value="off">ללא</option>
+                            </select>
+            </div>
         </div>
     </form>
 </body>
