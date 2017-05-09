@@ -218,6 +218,31 @@ public class UserT
     }
 
 
+    public int GetuserID()
+    {
+        string sqlSelect = @"SELECT [user_id]
+                            FROM [dbo].[users]
+                            where (email = @email) and ([password] = @password)";
+        DbService db = new DbService();
+        SqlParameter parEmail = new SqlParameter("@email", Mail);
+        SqlParameter parPass = new SqlParameter("@password", Password);
+        try
+        {
+            UserId = db.GetScalarByQuery(sqlSelect, CommandType.Text, parEmail, parPass).ToString();
+            if (UserId != "0")
+            {
+                return int.Parse( UserId);
+            }
+            else
+                return -1;
+        }
+        catch (Exception ex)
+        {
+            return -1;
+        }
+
+    }
+
 
     /// <summary>
     /// מתודה לבדיקת ההרשאות של המשתמש

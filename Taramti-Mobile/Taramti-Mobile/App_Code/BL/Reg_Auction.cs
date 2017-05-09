@@ -153,9 +153,10 @@ public class Reg_Auction : Auction
                     }
                 }
                 auction.CatDesc = row[2].ToString();
-                DateTime G = DateTime.Parse(row[3].ToString());
-                string ng = G.ToString("MM/dd/yyyy HH:mm:ss");
-                auction.End_Date = DateTime.Parse(ng);
+                //DateTime G = DateTime.Parse(row[3].ToString());
+                //string ng = G.ToString("MM/dd/yyyy HH:mm:ss");
+                //auction.End_Date = DateTime.Parse(ng);
+                auction.End_Date = row[3].ToString();
                 auction.Percentage = int.Parse(row[4].ToString());
                 auction.ProdDesc = row[5].ToString();
                 auction.ProdName = row[6].ToString();

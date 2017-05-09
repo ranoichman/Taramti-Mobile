@@ -13,7 +13,7 @@ public abstract class Auction
     //fields
     int auctionID;
     DateTime start_Date;
-    DateTime end_Date;
+    string end_Date;
     Voluntary_association vol_asc;
     UserT seller, buyer;
     int score;
@@ -40,7 +40,7 @@ public abstract class Auction
         }
     }
 
-    public DateTime End_Date
+    public string End_Date
     {
         get
         {
