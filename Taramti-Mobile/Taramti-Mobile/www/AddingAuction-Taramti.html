@@ -51,7 +51,7 @@
             if (Flag) {
                 x = Camera.PictureSourceType.CAMERA;
             }
-            navigator.camera.getPicture(savePic, onError, {
+            navigator.camera.getPicture(onCameraSuccess, onCameraFail, {
                 quality: 100,
                 destinationType: Camera.DestinationType.FILE_URI,//FILE_URI
                 targetHeight: 640,
@@ -61,33 +61,33 @@
             });
         }
 
-        function savePic(fileURI) {
+        //function savePic(fileURI) {
 
-            var $img = $("<img>").attr("src", fileURI);
-            $("#image_holder").append($img);
+        //    var $img = $("<img>").attr("src", fileURI);
+        //    $("#image_holder").append($img);
 
-            //---------------בדיקה-----------------------------------------
-            alert("bla bla " + i)
-            //---------------בדיקה-----------------------------------------
+        //    //---------------בדיקה-----------------------------------------
+        //    alert("bla bla " + i)
+        //    //---------------בדיקה-----------------------------------------
 
-            var options = new FileUploadOptions();
-            options.fileKey = "file";
-            options.chunkedMode = true;
-            options.fileName = fileURI.split("/")[10];
-            options.mimeType = "image/jpeg";
-            //---------------בדיקה-----------------------------------------
-            alert(fileURI)
-            alert(options.fileName)
-            //---------------בדיקה-----------------------------------------
-            picArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName);
-            i++;
+        //    var options = new FileUploadOptions();
+        //    options.fileKey = "file";
+        //    options.chunkedMode = true;
+        //    options.fileName = fileURI.split("/")[10];
+        //    options.mimeType = "image/jpeg";
+        //    //---------------בדיקה-----------------------------------------
+        //    alert(fileURI)
+        //    alert(options.fileName)
+        //    //---------------בדיקה-----------------------------------------
+        //    picArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName);
+        //    i++;
 
-            var ft = new FileTransfer();
-            ft.upload(fileURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/"), win, fail, options);
-            //---------------בדיקה-----------------------------------------
-            alert("Finish")
-            //---------------בדיקה-----------------------------------------
-        }
+        //    var ft = new FileTransfer();
+        //    ft.upload(fileURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/"), win, fail, options);
+        //    //---------------בדיקה-----------------------------------------
+        //    alert("Finish")
+        //    //---------------בדיקה-----------------------------------------
+        //}
 
         var win = function (r) {
             console.log("Code = " + r.responseCode);
@@ -112,7 +112,7 @@
                 url: generic + "AddingProductAuction",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ Arr : picArr }),
+                data: JSON.stringify({ Arr: picArr }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
@@ -129,6 +129,66 @@
 
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function onCameraSuccess(imageURI) {
+            var $img = $("<img>").attr("src", imageURI);
+            $("#image_holder").append($img);
+            uploadPhoto(imageURI);
+
+        }
+
+
+
+        function uploadPhoto(imageURI) {
+            //   Load(); // Start the spinning "working" animation
+            var options = new FileUploadOptions(); // PhoneGap object to allow server upload
+            options.fileKey = "file";
+            options.fileName = "pic2"; // file name
+            options.mimeType = "image/jpeg"; // file type
+            //var params = {}; // Optional parameters
+            //params.value1 = "test";
+            //params.value2 = "param";
+
+            //options.params = params; // add parameters to the FileUploadOptions object
+            var ft = new FileTransfer();
+            ft.upload(imageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
+        } // Upload Photo
+
+        function win(r) {
+            var path = r.response;
+            $img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + "pic2" + ".jpg");
+            // UnLoad(); // Stop "working" animation
+        } // win (upload success)
+
+        function fail(error) {
+            alert("An error has occurred: Code = " + error.code);
+        }
+
+        function onCameraFail(message) {
+            alert('Failed because: ' + message);
+        }
 
     </script>
 
@@ -202,7 +262,7 @@
                         <img src="img/Koala.jpg" />
                         <img src="img/Tulips.jpg" />
                     </div>
-                    
+
                     <!--<input type="button" id="Adonbtn" value="cshev" onclick="savePic8()" />-->
 
                     <input type="button" id="AddingProductAuctionbtn" value="שגר מכרז" onclick="AddingProductAuction()" />
