@@ -3,25 +3,24 @@ import React, { Component } from 'react';
 class Ddl extends Component {
     constructor(props) {
         super(props)
-this.ddlChanged = this.ddlChanged.bind(this);
+        this.ddlChanged = this.ddlChanged.bind(this);
 
     }
 
     eachOption(opt, i) {
         return (
-            <option value={opt.val} label={opt.text}>{opt.text}</option>
+            <option key={i} value={opt.val} label={opt.text}>{opt.text}</option>
         )
     }
 
-ddlChanged(){
-this.props.onChange(this.refs.ddl);
+    ddlChanged() {
+        this.props.onChange(this.refs.ddl.value);
 
-}
-
+    }
 
     render() {
         return (
-            <select ref="ddl" onChange={this.ddlChanged} style={{width:"100%"}}>
+            <select ref="ddl" onChange={this.ddlChanged} className={this.props.css} style={this.props.style}>
                 {this.props.options.map(this.eachOption)}
             </select>
         );

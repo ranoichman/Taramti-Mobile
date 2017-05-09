@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
+import axios from 'axios';
 
 import Timer from './Timer';
 import Pic from './Pic';
@@ -15,6 +16,8 @@ import '../css/bootstrap.css';
 import '../css/jqmCss.css';
 import '../css/auction.css';
 
+const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+
 class Auction extends Component {
     
     constructor(props) {
@@ -22,6 +25,7 @@ class Auction extends Component {
         this.state = {
             home: true,
             tempPrice: this.props.price,
+            price: this.props.price,
             tempDonation: "",
             borderColor: "red",
             infoModalIsOpen: false,
@@ -43,17 +47,30 @@ class Auction extends Component {
     }
 
     componentDidMount() {
-        //this.setState({ tempPrice: this.props.price });
         this.calcDonation();
-        var interval = setInterval(this.getCurPrice, 5000);
+        this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
 
     componentWillUnmount() {
         //clear interval!!!
+        this.loadInterval && clearInterval(this.loadInterval);
+        this.loadInterval = false;
     }
 
     getCurPrice() {
-        console.log("got new price!!!")
+        const self = this;
+        axios.post(auctionWS + 'GetAuctionPrice', {
+            auctionCode: self.props.code
+        })
+            .then(function (response) {
+                let ans = response.data.d;
+                if (ans !== "-1") {
+                    self.setState({price:ans});
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     render() {
@@ -86,7 +103,7 @@ class Auction extends Component {
             <div className="row">
                 <div className="col-xs-6 imgContainer">
                     <div className="priceTag">
-                        <h5>{this.props.price}</h5>
+                        <h5>{this.state.price}</h5>
                     </div>
                     <Pic imagesArr={this.props.imgArr} />
                 </div>
@@ -96,7 +113,7 @@ class Auction extends Component {
                         <h4 className="text-center">{this.props.prodName}</h4>
                         <p className="descPar">{this.props.prodDesc}</p>
                         <Swipeable onTap={this.offerBid}>
-                            <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> הצע ביד!  </button>
+                            <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>
                         </Swipeable>
                     </div>
                 </div>
@@ -177,7 +194,8 @@ class Auction extends Component {
                         <Modal
                             isOpen={this.state.infoModalIsOpen}
                             onRequestClose={this.closeInfoModal}
-                            contentLabel="open info">
+                            contentLabel="open info"
+                            className="box">
                             <AuctionInfo prodName={this.props.prodName} closeModal={this.closeInfoModal}
                                 price={this.props.price} endDate={this.props.endDate}
                                 imgArr={this.props.imgArr} prodDesc={this.props.prodDesc}
@@ -190,7 +208,8 @@ class Auction extends Component {
                         <Modal
                             isOpen={this.state.fAQModalIsOpen}
                             onRequestClose={this.closeFAQModal}
-                            contentLabel="open FAQ">
+                            contentLabel="open FAQ"
+                            className="box">
                             <AuctionFAQ closeModal={this.closeFAQModal} />
                         </Modal>
                     </Swipeable>
