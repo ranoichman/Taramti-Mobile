@@ -167,12 +167,12 @@
 
             alert("הגדיר");
             
-            for (var Pic in LocalPicArr) {
-                alert(Pic);
+            for (var picNum in LocalPicArr) {
+                alert(picNum);
                 alert(productCode);
-                var imageURI = LocalPicArr[Pic]
+                var imageURI = LocalPicArr[picNum]
                 alert(imageURI);
-                uploadPhoto(imageURI, productCode)
+                uploadPhoto(imageURI, picNum, productCode)
             }
 
             alert("העלה לסרבר");
@@ -208,11 +208,11 @@
 
 
 
-        function uploadPhoto(imageURI, productCode) {
+        function uploadPhoto(imageURI, picNum, productCode) {
             //   Load(); // Start the spinning "working" animation
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
-            options.fileName = productCode + "_pic_" + i; // file name
+            options.fileName = productCode + "_pic_" + picNum; // file name
             options.mimeType = "image/jpeg"; // file type
 
             var ft = new FileTransfer();
