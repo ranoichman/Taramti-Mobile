@@ -177,6 +177,7 @@
             }
 
             alert("העלה לסרבר");
+            alret(ServerPicArr[Server_i]);
 
             //$.ajax({
             //    dataType: "json",
@@ -226,12 +227,15 @@
             var stringServerPath = "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg";
 
             alert(stringServerPath);
+            alert(Server_i);
 
             ServerPicArr.push(stringServerPath);
 
             alret("ServerPicArr[Server_i]");
             alret(ServerPicArr[Server_i]);
             Server_i++;
+
+            alert(Server_i++);
 
         } // Upload Photo
 
