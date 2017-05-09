@@ -86,14 +86,12 @@
         });
 
 
-
-
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
             LocalPicArr = new Array();
-            ServerPicArr = new Array();
+            SerPicArr = new Array();
             Local_i = 0;
             Server_i = 0;
         });
@@ -110,10 +108,8 @@
                 targetHeight: 640,
                 targetWidth: 640,
                 sourceType: x
-
             });
         }
-
 
 
         function AddingProductAuction() {
@@ -139,15 +135,17 @@
 
                     if (productCode != "") {
 
-                        for (var pic in LocalPicArr) {
-                            uploadPhoto(imageURI, productCode)
+                        for (var picNum in LocalPicArr) {
+                            var thisImageURI = LocalPicArr[picNum]
+                            alert(thisImageURI);
+                            uploadPhoto(thisImageURI, picNum, productCode)
                         }
                         $.ajax({
                             dataType: "json",
                             url: aucwebservice + "AddingProductPictures",
                             contentType: "application/json; charset=utf-8",
                             type: "POST",
-                            data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode}),
+                            data: JSON.stringify({ Arr: SerPicArr, itemId: productCode }),
                             success: function (data) {
                                 var isSaved = JSON.parse(data.d)
                                 if (isSaved) {
@@ -174,6 +172,57 @@
 
 
 
+
+
+
+
+
+
+        //--לבדיקה מול ניר
+
+        //function AddingProductAuction() {
+
+        //    alert("נכנס");
+
+        //    var productCode = 13;
+
+        //    alert("הגדיר");
+
+        //    for (var picNum in LocalPicArr) {
+        //        alert(picNum);
+        //        alert(productCode);
+        //        var thisImageURI = LocalPicArr[picNum]
+        //        alert(thisImageURI);
+        //        uploadPhoto(thisImageURI, picNum, productCode)
+        //        alert("לפני תמונה אחת הועלתה");
+        //        alert(stringServerPath);
+        //        //addToSerPicArr(stringServerPath);
+        //        alert(" אחרי תמונה אחת הועלתה");
+        //    }
+
+        //    alert("העלה לסרבר");
+        //    alret(SerPicArr[Server_i]);
+
+        //    //$.ajax({
+        //    //    dataType: "json",
+        //    //    url: aucwebservice + "AddingProductPictures",
+        //    //    contentType: "application/json; charset=utf-8",
+        //    //    type: "POST",
+        //    //    data: JSON.stringify({ Arr: SerPicArr, itemId: productCode }),
+        //    //    success: function (data) {
+        //    //        var isSaved = JSON.parse(data.d)
+        //    //        if (isSaved) {
+        //    //            alert("המכרז נשמר בהצלחה");
+        //    //        }
+        //    //        else {
+        //    //            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+        //    //        }
+        //    //    },
+        //    //    error: function (err) { }
+        //    //});
+        //}
+
+
         function onCameraSuccess(imageURI) {
             var $img = $("<img>").attr("src", imageURI);
             $("#image_holder").append($img);
@@ -182,24 +231,47 @@
             //uploadPhoto(imageURI);
         }
 
+        function addToSerPicArr(stringServerPath) {
+            alret("נכנסתי");
+            SerPicArr.push(stringServerPath);
+            alret("SerPicArr[Server_i]");
+            alret(SerPicArr[Server_i]);
+            Server_i++;
+            alert(Server_i++);
+
+        }
 
 
-        function uploadPhoto(imageURI, productCode) {
+
+        function uploadPhoto(thisImageURI, picNum, productCode) {
             //   Load(); // Start the spinning "working" animation
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
-            options.fileName = productCode + "_pic_" + i; // file name
+            options.fileName = productCode + "_pic_" + picNum; // file name
             options.mimeType = "image/jpeg"; // file type
 
+            alert(options.fileName);
+
             var ft = new FileTransfer();
-            ft.upload(imageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
+            ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
+
+            stringServerPath = "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg";
+            alert(stringServerPath);
+
         } // Upload Photo
 
         function win(r) {
             var path = r.response;
             //$img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
-            ServerPicArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
-            Server_i++;
+
+            //alert(Server_i);
+            //alret(SerPicArr[Server_i]);
+            //SerPicArr[Server_i] = stringServerPath;
+            //alret("SerPicArr[Server_i]");
+            //alret(SerPicArr[Server_i]);
+            //Server_i++;
+            //alert(Server_i++);
+
             // UnLoad(); // Stop "working" animation
         } // win (upload success)
 

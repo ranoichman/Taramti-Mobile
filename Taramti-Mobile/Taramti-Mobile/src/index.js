@@ -24,45 +24,48 @@ const App = React.createClass({
         return {
             animationName: 'push',
             searchModalIsOpen: false,
-            home: true, // for knowing which auction page to display
-            displayedAuction: -1,
+            home: true,
+            displayedAuction: -1, // for knowing which auction page to display
             auctionsArr: [
-                {
-                    price: 535,
-                    endDate: "5/9/2017",
-                    imgArr: [
-                        "img/image.png",
-                        "img/ASP.JPG",
-                        "img/Logo.JPG"
-                    ],
-                    percentage: 0.15,
-                    prodName: "ספה שהיא נפתחת",
-                    prodDesc: "קצת מלל וכל מיני דברים שבא לי לכתוב וכן הנה עוד קצת דברים ותכף יהיו כאן גם תמונות וזה בסך הכל תיאור של מוצר גניהנכי חי כג הכ חיה יגכ הכגכ יחה גכ חיהד חכ החיגכ יח דגחב ד ח בגי דגח בגד בדב  "
-                },
-                {
-                    price: 1234,
-                    endDate: "5/10/2017",
-                    imgArr: [
-                        "img/Logo.JPG",
-                        "img/image.png",
-                        "img/ASP.JPG"
-                    ],
-                    percentage: 0.45,
-                    prodName: "מחשב נייד",
-                    prodDesc: "בוא נכתוב כאן משהו שאפשר יהיה לראות שהכל עובד כמו שצריך. האם זה הצליח???"
-                },
-                {
-                    price: 15,
-                    endDate: "5/10/2017",
-                    imgArr: [
-                        "img/ASP.JPG",
-                        "img/Logo.JPG",
-                        "img/image.png"
-                    ],
-                    percentage: 0.2,
-                    prodName: "שעון יד",
-                    prodDesc: "הנה כמה דברים שיש לי לומר  "
-                }
+                // {
+                //     code: 15,
+                //     price: 535,
+                //     endDate: "5/9/2017",
+                //     imgArr: [
+                //         "img/image.png",
+                //         "img/ASP.JPG",
+                //         "img/Logo.JPG"
+                //     ],
+                //     percentage: 0.15,
+                //     prodName: "ספה שהיא נפתחת",
+                //     prodDesc: "קצת מלל וכל מיני דברים שבא לי לכתוב וכן הנה עוד קצת דברים ותכף יהיו כאן גם תמונות וזה בסך הכל תיאור של מוצר גניהנכי חי כג הכ חיה יגכ הכגכ יחה גכ חיהד חכ החיגכ יח דגחב ד ח בגי דגח בגד בדב  "
+                // },
+                // {
+                //     code: 5,
+                //     price: 1234,
+                //     endDate: "5/10/2017",
+                //     imgArr: [
+                //         "img/Logo.JPG",
+                //         "img/image.png",
+                //         "img/ASP.JPG"
+                //     ],
+                //     percentage: 0.45,
+                //     prodName: "מחשב נייד",
+                //     prodDesc: "בוא נכתוב כאן משהו שאפשר יהיה לראות שהכל עובד כמו שצריך. האם זה הצליח???"
+                // },
+                // {
+                //     code: 14,
+                //     price: 15,
+                //     endDate: "5/10/2017",
+                //     imgArr: [
+                //         "img/ASP.JPG",
+                //         "img/Logo.JPG",
+                //         "img/image.png"
+                //     ],
+                //     percentage: 0.2,
+                //     prodName: "שעון יד",
+                //     prodDesc: "הנה כמה דברים שיש לי לומר  "
+                // }
             ]
         }
     },
@@ -85,40 +88,37 @@ const App = React.createClass({
         this.setState({ auctionsArr: arr });
     },
 
-    //
+    //change states to show specific auction page
     offerBid(i) {
-
         this.setState({ displayedAuction: i, home: false });
     },
 
     openSearchModal() {
         this.setState({ searchModalIsOpen: true })
     },
+
     closeSearchModal() {
         this.setState({ searchModalIsOpen: false })
     },
 
+    searchTriggered(cities, lowPrice, highPrice, catCode) {
+        this.setState({auctionsArr: []});
+        this.getAuctionsByParams(cities,lowPrice,highPrice,catCode)
+
+    },
+
+
     getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
-        // axios.post(auctionWS + 'GetAuctionPrice', {
-        //     auctionCode: 1
-        // })
-        //     .then(function (response) {
-        //         let ans = response.data;
-        //         console.log(ans);
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
+
         const self = this;
         axios.post(auctionWS + 'GetAuctionByParam', {
-            cities: [1, 2],
-            lowPrice: -1,
-            highPrice: -1,
-            catCode: 0
+            cities: cities,
+            lowPrice: lowPrice,
+            highPrice: highPrice,
+            catCode: catCode
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
-            res.map(self.addAuction)
-            
+            res.map(self.addAuction);
         })
             .catch(function (error) {
                 console.log(error);
@@ -126,10 +126,8 @@ const App = React.createClass({
 
     },
 
-
     addAuction(item, i) {
         let arr = this.state.auctionsArr;
-        console.log(item.End_Date.toString())
         let newAuction = {
             code: item.AuctionID,
             endDate: item.End_Date,
@@ -146,10 +144,9 @@ const App = React.createClass({
 
     eachAuction(item, i) {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-            home={this.state.home} price={item.price} endDate={item.endDate}
+            home={this.state.home} price={item.price} endDate={item.endDate} code={item.code}
             imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc} percentage={item.percentage} />
     },
-
 
     renderHome() {
         return (
@@ -159,8 +156,9 @@ const App = React.createClass({
                     <Modal
                         isOpen={this.state.searchModalIsOpen}
                         onRequestClose={this.closeSearchModal}
-                        contentLabel="open search``">
-                        <Search closeModal={this.closeSearchModal} />
+                        contentLabel="open search``"
+                        className="box" >
+                        <Search closeModal={this.closeSearchModal} clearSearch={this.clearSearch} startSearch={this.searchTriggered} />
                     </Modal>
                 </Swipeable>
                 <div className="container-fluid">

@@ -8,11 +8,11 @@
     top: 40px;
     left: 40px;
     right: 40px;
-    bottom: 40px;
+    /*bottom: 30px;*/
     background-color: #fff;
     color: #7F7F7F;
     padding: 20px;
-    border: 2px solid #ccc;
+    border: 2px solid blue;
     /*-moz-border-radius: 20px;
     -webkit-border-radius: 20px;
     -khtml-border-radius: 20px;
@@ -42,10 +42,29 @@ a.boxclose {
     content: "×";
 }
 
-input{
+input[type=text]{
     display: inline;
     width: 45%;
     margin: 2px 5px;
-    
+}
 
+.priceSelect{
+width: 100%;
+
+}
+
+.gpsCont{
+margin-top: 20px;
+font-size: 14px;
+}
+
+.gpsCont input[type=checkbox]{
+    display: inline;
+    width: 5%;
+    margin-left: 5px;
+}
+
+.gpsCont .gpsSelect{
+    width: 30%;
+    margin-right: 10px;
 }
