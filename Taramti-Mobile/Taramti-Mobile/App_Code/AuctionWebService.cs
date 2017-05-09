@@ -60,5 +60,19 @@ public class AuctionWebService : System.Web.Services.WebService
         return auction.OfferBid(auc,bid,buyer);
     }
 
+    [WebMethod]
+    public string AddingProductAuction(string[] Arr, string itemName, string itemDesc, string city, string cat, string days, string assoc, string price)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Item NewItem = new Item();
+        City c = new City(int.Parse(city));
+        Item_Category IC = new Item_Category(int.Parse(cat));
+        NewItem.Pictures = Arr;
+        NewItem.ItemName = itemName;
+        NewItem.ItemDesc = itemDesc;
+        NewItem.Location = c;
+        NewItem.Item_Categories = IC;
+        return j.Serialize(NewItem.AddPictures());
 
+    }
 }

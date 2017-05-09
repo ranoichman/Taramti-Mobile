@@ -61,6 +61,11 @@ public class Item_Category
 
     }
 
+    public Item_Category(int code)
+    {
+        Cat_id = code;
+    }
+
     //methods
     #region
     public void GetCatItems()
