@@ -236,6 +236,35 @@ public class Reg_Auction : Auction
         return true;
 
     }
+
+    public bool AddNewAuction(int prod, int assoc)
+    {
+        DbService db = new DbService();
+        string sqlInsert = @"INSERT INTO[dbo].[auction]
+           ([start_date]
+           ,[end_date]
+           ,[product_code]
+           ,[seller_id]
+           ,[donation_percentage]
+           ,[association_code])
+     VALUES
+           (@parStart, @parEnd,@parCode,@parSeller,@parPercent, @parAssoCode) ";
+        Random rnd = new Random();
+        
+        int n = rnd.Next(15, 30);
+        SqlParameter parStart = new SqlParameter("@parStart", DateTime.Now);
+        SqlParameter parEnd = new SqlParameter("@parEnd", End_Date);
+        SqlParameter parCode = new SqlParameter("@parCode", prod);
+        SqlParameter parSeller = new SqlParameter("@parSeller", Seller.UserId);
+        SqlParameter parPercent = new SqlParameter("@parPercent", n);
+        SqlParameter parAssoCode = new SqlParameter("@parAssoCode", assoc);
+        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parStart, parEnd, parCode, parSeller, parPercent, parAssoCode) == 0)
+        {
+            return false;
+        }
+        return true;
+
+    }
     #endregion
 
 
