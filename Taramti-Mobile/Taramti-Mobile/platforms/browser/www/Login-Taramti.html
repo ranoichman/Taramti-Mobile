@@ -23,6 +23,7 @@
 
 
     <script>
+        const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
 
         $(document).ready(function () {
@@ -50,7 +51,24 @@
                                 location.href = "Login-Taramti.html#RestorePassPage";
                             }
                             else {
-                                location.href = "app.html";
+
+                                $.ajax({
+                                    dataType: "json",
+                                    url: generic + "GetUserID",
+                                    contentType: "application/json; charset=utf-8",
+                                    type: "POST",
+                                    data: JSON.stringify({ mail: mail, pass: pass}),
+                                    success: function (data) {
+
+                                        var UserId = JSON.parse(data.d);
+                                        localStorage.setItem("UserID", UserId);
+
+                                        location.href = "app.html";
+                                    },
+                                    error: function (err) { }
+                                });
+                  
+                                //location.href = "app.html";
                             }
                         }
                         else {
@@ -76,41 +94,43 @@
     <script>
         /// <summary>ולידטורים</summary>
         /// <summary>שם משתמש וסיסמא,וידוא על צ'ק בוקס זכור סיסמא, </summary>
-        function Login() {
+        //function Login() {
 
-            var mail = $("#UserMail").val();
-            var pass = $("#UserPass").val();
+        //    var mail = $("#UserMail").val();
+        //    var pass = $("#UserPass").val();
 
-            console.log("אני בלוגין")
-            $.ajax({
-                dataType: "json",
-                url: generic + "ValidateUser",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ mail: mail, pass: pass }),
-                success: function (data) {
+        //    console.log("אני בלוגין")
+        //    $.ajax({
+        //        dataType: "json",
+        //        url: generic + "ValidateUser",
+        //        contentType: "application/json; charset=utf-8",
+        //        type: "POST",
+        //        data: JSON.stringify({ mail: mail, pass: pass }),
+        //        success: function (data) {
 
-                    var isUser = JSON.parse(data.d);
+        //            var isUser = JSON.parse(data.d);
 
-                    if (isUser == true) {
-                        // בדיקה האם המשתמש עם סיסמא זמנית. אם כן - נשלח אותו ליצירת סיסמא חדשה
-                        if (pass == "000000") {
-                            location.href = "Login-Taramti.html#RestorePassPage";
-                        }
-                        else {
-                            location.href = "app.html";
-                        }
-                    }
-                    else {
-                        alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
-                        location.href = "Login-Taramti.html#LoginPage";
-                    }
+        //            if (isUser == true) {
+        //                // בדיקה האם המשתמש עם סיסמא זמנית. אם כן - נשלח אותו ליצירת סיסמא חדשה
+        //                if (pass == "000000") {
+        //                    location.href = "Login-Taramti.html#RestorePassPage";
+        //                }
+        //                else {
 
 
-                },
-                error: function (err) { }
-            });
-        }
+        //                    location.href = "app.html";
+        //                }
+        //            }
+        //            else {
+        //                alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
+        //                location.href = "Login-Taramti.html#LoginPage";
+        //            }
+
+
+        //        },
+        //        error: function (err) { }
+        //    });
+        //}
 
         function ConRegister() {
 
