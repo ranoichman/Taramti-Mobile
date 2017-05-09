@@ -216,17 +216,31 @@
             options.fileName = productCode + "_pic_" + picNum; // file name
             options.mimeType = "image/jpeg"; // file type
 
-            alert(productCode);
+            alert(options.fileName);
 
             var ft = new FileTransfer();
             ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
+
+            alert("before WIN");
+
+            ServerPicArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
+            alret("ServerPicArr[Server_i]");
+            alret(ServerPicArr[Server_i]);
+            Server_i++;
+
         } // Upload Photo
 
         function win(r) {
             var path = r.response;
+            alert("r.response");
+            alert(r.response);
             //$img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
             ServerPicArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
-            alret(ServerPicArr[Server_i])
+
+            alert("After WIN");
+
+            alret("ServerPicArr[Server_i++]");
+            alret(ServerPicArr[Server_i]);
             Server_i++;
             // UnLoad(); // Stop "working" animation
         } // win (upload success)
