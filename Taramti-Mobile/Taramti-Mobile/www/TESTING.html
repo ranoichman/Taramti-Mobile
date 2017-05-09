@@ -81,7 +81,8 @@
                 data: JSON.stringify({ }),
                 success: function (data) {
                     var isUser = JSON.parse(data.d);
-
+                    console.log("user 0" + isUser[0])
+                    console.log("user 0________-" + isUser[0])
                     console.log(isUser);
                 },
                 error: function (err) { }
