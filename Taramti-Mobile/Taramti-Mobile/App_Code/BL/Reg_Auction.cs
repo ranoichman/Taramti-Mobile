@@ -196,7 +196,7 @@ public class Reg_Auction : Auction
         DbService db = new DbService();
         DataSet DS = new DataSet();
         List<Item_Category> allCat = new List<Item_Category>();
-        string StrSql = "SELECT * FROM product_category ";
+        string StrSql = "SELECT * FROM product_category order by category_name ";
         DS = db.GetDataSetByQuery(StrSql);
 
         if (DS.Tables.Count > 0)

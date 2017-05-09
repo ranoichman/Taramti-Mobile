@@ -31,11 +31,61 @@
 
     <script>
         const generic = GENERAL.genericWebServerAddress;
-
+        const aucwebservice = GENERAL.auctionWebServerAddress;
+        const assoc = GENERAL.assocWebServerAddress;
     </script>
-
+    
 
     <script>
+
+        $(document).ready(function () {
+            // אג'קס למילוי כל הקטגוריות
+            $.ajax({
+                dataType: "json",
+                url: aucwebservice + "GetAllProductsCategories",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
+
+                    var categories = JSON.parse(data.d);
+
+                    if (categories[0] != null) {
+                        for (var i = 0; i < categories.length; i++) {
+                            var opt = '';
+                            opt += '<option value="' + categories[i].Cat_id + '">' + categories[i].Cat_Name + '</option>';
+                            $("#AuctionCategories").append(opt);
+                        }
+                    }
+                },
+                error: function (err) { }
+            });
+
+            // אג'קס למילוי כל העמותות
+            $.ajax({
+                dataType: "json",
+                url: assoc + "GetAllAmotaDetails",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
+
+                    var Associations = JSON.parse(data.d);
+
+                    if (Associations[0] != null) {
+                        for (var i = 0; i < Associations.length; i++) {
+                            var opt = '';
+                            opt += '<option value="' + Associations[i].Association_Code + '">' + Associations[i].Association_Name + '</option>';
+                            $("#AuctionAssoc").append(opt);
+                        }
+                    }
+                },
+                error: function (err) { }
+            });
+        });
+
+
+
 
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
@@ -132,25 +182,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
         function onCameraSuccess(imageURI) {
             var $img = $("<img>").attr("src", imageURI);
@@ -226,8 +258,8 @@
                     <!-- שימוש בג'יפיאס -->
 
                     <h4>בחר קטגוריה</h4>
-                    <select id="AuctionKategories">
-                        <option value="value">שליפה מאג'אקס</option>
+                    <select id="AuctionCategories">
+                        <!--<option value="value">שליפה מאג'אקס</option>-->
                     </select>
 
                     <h4>משך המכרז (בימים)</h4>
@@ -241,8 +273,8 @@
                         <option value="value">7</option>
                     </select>
                     <h4>בחר עמותה</h4>
-                    <select id="AuctionAssoc">
-                        <option value="value">שליפה מאג'אקס</option>
+                    <select id="AuctionAssoc" ">
+                        <!--<option value="value">שליפה מאג'אקס</option>-->
                     </select>
                     <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
                     <input type="text" id="AuctionMinPrice" />
