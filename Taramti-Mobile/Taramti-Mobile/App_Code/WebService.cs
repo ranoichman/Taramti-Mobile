@@ -36,6 +36,14 @@ public class WebService : System.Web.Services.WebService
         return j.Serialize(temp.CheckLogin());
     }
 
+    [WebMethod]
+    public string GetUserID(string mail, string pass)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT temp = new UserT(mail, pass);
+        return j.Serialize(temp.GetuserID());
+    }
+
     //[WebMethod(Description = "בדיקה אם פרטי המשתמש נכונים ואיפוס סיסמה")]
     //public string CheckValidUser(string id, string mail)
     //{
