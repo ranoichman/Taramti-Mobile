@@ -188,6 +188,28 @@ public class Reg_Auction : Auction
             return -1;
         }
     }
+
+    public List<Item_Category> GetAllProductsCategories()
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        List<Item_Category> allCat = new List<Item_Category>();
+        string StrSql = "SELECT * FROM product_category ";
+        DS = db.GetDataSetByQuery(StrSql);
+
+        if (DS.Tables.Count > 0)
+        {
+            foreach (DataRow row in DS.Tables[0].Rows)
+            {
+                Item_Category Item = new Item_Category();
+                Item.Cat_id = int.Parse(row[0].ToString());
+                Item.Cat_Name = row[1].ToString();
+                allCat.Add(Item);
+            }
+        }
+        return allCat;
+    }
+
     #endregion
 
 
