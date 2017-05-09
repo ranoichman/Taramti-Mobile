@@ -133,11 +133,11 @@ public class Reg_Auction : Auction
 
                 if (DSprice.Tables[0].Rows.Count > 0)
                 {
-                    auction.Price = int.Parse(DSprice.Tables[0].Rows[0][0].ToString());
+                    auction.Price = int.Parse(DSprice.Tables[0].Rows[0][1].ToString());
                 }
                 else
                 {
-                    auction.Price = int.Parse(DS.Tables[0].Rows[0][8].ToString());
+                    auction.Price = int.Parse(row[8].ToString());
                 }
 
                 StrSql = "SELECT dbo.product_pictures.path " +
