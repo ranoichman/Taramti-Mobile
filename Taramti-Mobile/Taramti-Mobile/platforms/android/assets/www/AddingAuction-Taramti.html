@@ -31,18 +31,70 @@
 
     <script>
         const generic = GENERAL.genericWebServerAddress;
-
+        const aucwebservice = GENERAL.auctionWebServerAddress;
+        const assoc = GENERAL.assocWebServerAddress;
     </script>
 
 
     <script>
 
+        $(document).ready(function () {
+            // אג'קס למילוי כל הקטגוריות
+            $.ajax({
+                dataType: "json",
+                url: aucwebservice + "GetAllProductsCategories",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
+
+                    var categories = JSON.parse(data.d);
+
+                    if (categories[0] != null) {
+                        for (var i = 0; i < categories.length; i++) {
+                            var opt = '';
+                            opt += '<option value="' + categories[i].Cat_id + '">' + categories[i].Cat_Name + '</option>';
+                            $("#AuctionCategories").append(opt);
+                        }
+                    }
+                },
+                error: function (err) { }
+            });
+
+            // אג'קס למילוי כל העמותות
+            $.ajax({
+                dataType: "json",
+                url: assoc + "GetAllAmotaDetails",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
+
+                    var Associations = JSON.parse(data.d);
+
+                    if (Associations[0] != null) {
+                        for (var i = 0; i < Associations.length; i++) {
+                            var opt = '';
+                            opt += '<option value="' + Associations[i].Association_Code + '">' + Associations[i].Association_Name + '</option>';
+                            $("#AuctionAssoc").append(opt);
+                        }
+                    }
+                },
+                error: function (err) { }
+            });
+        });
+
+
+
+
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
-            picArr = new Array();
-            i = 0;
+            LocalPicArr = new Array();
+            SerPicArr = new Array();
+            Local_i = 0;
+            Server_i = 0;
         });
 
 
@@ -57,128 +109,140 @@
                 targetHeight: 640,
                 targetWidth: 640,
                 sourceType: x
-
             });
         }
 
-        //function savePic(fileURI) {
 
-        //    var $img = $("<img>").attr("src", fileURI);
-        //    $("#image_holder").append($img);
 
-        //    //---------------בדיקה-----------------------------------------
-        //    alert("bla bla " + i)
-        //    //---------------בדיקה-----------------------------------------
+        //function AddingProductAuction() {
+        //    $.ajax({
+        //        dataType: "json",
+        //        url: aucwebservice + "AddingProductAuction",
+        //        contentType: "application/json; charset=utf-8",
+        //        type: "POST",
+        //        data: JSON.stringify({ Arr: picArr }),
+        //        success: function (data) {
 
-        //    var options = new FileUploadOptions();
-        //    options.fileKey = "file";
-        //    options.chunkedMode = true;
-        //    options.fileName = fileURI.split("/")[10];
-        //    options.mimeType = "image/jpeg";
-        //    //---------------בדיקה-----------------------------------------
-        //    alert(fileURI)
-        //    alert(options.fileName)
-        //    //---------------בדיקה-----------------------------------------
-        //    picArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName);
-        //    i++;
+        //            var productCode = JSON.parse(data.d)
 
-        //    var ft = new FileTransfer();
-        //    ft.upload(fileURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/"), win, fail, options);
-        //    //---------------בדיקה-----------------------------------------
-        //    alert("Finish")
-        //    //---------------בדיקה-----------------------------------------
+        //            if (productCode != "") {
+
+        //                for (var pic in LocalPicArr) {
+        //                    uploadPhoto(imageURI, productCode)
+        //                }
+        //                $.ajax({
+        //                    dataType: "json",
+        //                    url: aucwebservice + "AddingProductPictures",
+        //                    contentType: "application/json; charset=utf-8",
+        //                    type: "POST",
+        //                    data: JSON.stringify({ Arr: SerPicArr, itemId: productCode}),
+        //                    success: function (data) {
+        //                        var isSaved = JSON.parse(data.d)
+        //                        if (isSaved) {
+        //                            alert("המכרז נשמר בהצלחה");
+        //                        }
+        //                        else {
+        //                            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+        //                        }
+        //                    },
+        //                    error: function (err) { }
+        //                });
+        //            }
+        //            else {
+        //                alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
+        //            }
+        //        },
+        //        error: function (err) { }
+        //    });
+
         //}
 
-        var win = function (r) {
-            console.log("Code = " + r.responseCode);
-            console.log("Response = " + r.response);
-            console.log("Sent = " + r.bytesSent);
-        }
-
-        var fail = function (error) {
-            alert("An error has occurred: Code = " + error.code);
-            alert("An error has occurred: Code = " + error.body);
-            alert("upload error source " + error.source);
-            alert("upload error target " + error.target);
-        }
-
-        function onError() {
-            alert("error");
-        }
 
         function AddingProductAuction() {
-            $.ajax({
-                dataType: "json",
-                url: generic + "AddingProductAuction",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ Arr: picArr }),
-                success: function (data) {
 
-                    var isUser = JSON.parse(data.d);
+            alert("נכנס");
 
-                    if (isUser == true) {
-                        alert("התמונות נשמרו.. אולי");
-                    }
-                    else {
-                        alert("התמונות לא נשמרו.. כנראה");
-                    }
-                },
-                error: function (err) { }
-            });
+            var productCode = 14;
 
+            alert("הגדיר");
+            
+            for (var picNum in LocalPicArr) {
+                alert(picNum);
+                alert(productCode);
+                var thisImageURI = LocalPicArr[picNum]
+                alert(thisImageURI);
+                uploadPhoto(thisImageURI, picNum, productCode)
+                alert("תמונה אחת הועלתה");
+            }
+
+            alert("העלה לסרבר");
+            alret(SerPicArr[Server_i]);
+
+            //$.ajax({
+            //    dataType: "json",
+            //    url: aucwebservice + "AddingProductPictures",
+            //    contentType: "application/json; charset=utf-8",
+            //    type: "POST",
+            //    data: JSON.stringify({ Arr: SerPicArr, itemId: productCode }),
+            //    success: function (data) {
+            //        var isSaved = JSON.parse(data.d)
+            //        if (isSaved) {
+            //            alert("המכרז נשמר בהצלחה");
+            //        }
+            //        else {
+            //            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+            //        }
+            //    },
+            //    error: function (err) { }
+            //});
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
         function onCameraSuccess(imageURI) {
             var $img = $("<img>").attr("src", imageURI);
             $("#image_holder").append($img);
-            uploadPhoto(imageURI);
-
+            LocalPicArr.push(imageURI);
+            Local_i++;
+            //uploadPhoto(imageURI);
         }
 
 
 
-        function uploadPhoto(imageURI) {
+        function uploadPhoto(thisImageURI, picNum, productCode) {
             //   Load(); // Start the spinning "working" animation
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
-            options.fileName = "pic2"; // file name
+            options.fileName = productCode + "_pic_" + picNum; // file name
             options.mimeType = "image/jpeg"; // file type
-            //var params = {}; // Optional parameters
-            //params.value1 = "test";
-            //params.value2 = "param";
 
-            //options.params = params; // add parameters to the FileUploadOptions object
+            alert(options.fileName);
+
             var ft = new FileTransfer();
-            ft.upload(imageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
+            ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
+
+            alert("before WIN");
+
+            var stringServerPath = "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg";
+
+            alert(stringServerPath);
+            alert(Server_i);
+
+            alret(SerPicArr[Server_i]);
+
+            SerPicArr[Server_i] = stringServerPath;
+
+            alret("SerPicArr[Server_i]");
+            alret(SerPicArr[Server_i]);
+            Server_i++;
+
+            alert(Server_i++);
+
         } // Upload Photo
 
         function win(r) {
             var path = r.response;
-            $img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + "pic2" + ".jpg");
+            //$img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
             // UnLoad(); // Stop "working" animation
         } // win (upload success)
 
@@ -226,8 +290,8 @@
                     <!-- שימוש בג'יפיאס -->
 
                     <h4>בחר קטגוריה</h4>
-                    <select id="AuctionKategories">
-                        <option value="value">שליפה מאג'אקס</option>
+                    <select id="AuctionCategories">
+                        <!--<option value="value">שליפה מאג'אקס</option>-->
                     </select>
 
                     <h4>משך המכרז (בימים)</h4>
@@ -242,7 +306,8 @@
                     </select>
                     <h4>בחר עמותה</h4>
                     <select id="AuctionAssoc">
-                        <option value="value">שליפה מאג'אקס</option>
+                        <!--<option value=" value">
+                        שליפה מאג'אקס</option>-->
                     </select>
                     <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
                     <input type="text" id="AuctionMinPrice" />

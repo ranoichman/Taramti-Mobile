@@ -85,14 +85,12 @@
         });
 
 
-
-
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
             LocalPicArr = new Array();
-            ServerPicArr = new Array();
+            SerPicArr = new Array();
             Local_i = 0;
             Server_i = 0;
         });
@@ -109,95 +107,109 @@
                 targetHeight: 640,
                 targetWidth: 640,
                 sourceType: x
-
             });
         }
 
 
-
-        //function AddingProductAuction() {
-        //    $.ajax({
-        //        dataType: "json",
-        //        url: aucwebservice + "AddingProductAuction",
-        //        contentType: "application/json; charset=utf-8",
-        //        type: "POST",
-        //        data: JSON.stringify({ Arr: picArr }),
-        //        success: function (data) {
-
-        //            var productCode = JSON.parse(data.d)
-
-        //            if (productCode != "") {
-
-        //                for (var pic in LocalPicArr) {
-        //                    uploadPhoto(imageURI, productCode)
-        //                }
-        //                $.ajax({
-        //                    dataType: "json",
-        //                    url: aucwebservice + "AddingProductPictures",
-        //                    contentType: "application/json; charset=utf-8",
-        //                    type: "POST",
-        //                    data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode}),
-        //                    success: function (data) {
-        //                        var isSaved = JSON.parse(data.d)
-        //                        if (isSaved) {
-        //                            alert("המכרז נשמר בהצלחה");
-        //                        }
-        //                        else {
-        //                            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
-        //                        }
-        //                    },
-        //                    error: function (err) { }
-        //                });
-        //            }
-        //            else {
-        //                alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
-        //            }
-        //        },
-        //        error: function (err) { }
-        //    });
-
-        //}
-
-
         function AddingProductAuction() {
+            $.ajax({
+                dataType: "json",
+                url: aucwebservice + "AddingProductAuction",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ Arr: picArr }),
+                success: function (data) {
 
-            alert("נכנס");
+                    var productCode = JSON.parse(data.d)
 
-            var productCode = 14;
+                    if (productCode != "") {
 
-            alert("הגדיר");
-            
-            for (var picNum in LocalPicArr) {
-                alert(picNum);
-                alert(productCode);
-                var thisImageURI = LocalPicArr[picNum]
-                alert(thisImageURI);
-                uploadPhoto(thisImageURI, picNum, productCode)
-                alert("תמונה אחת הועלתה");
-            }
+                        for (var picNum in LocalPicArr) {
+                            var thisImageURI = LocalPicArr[picNum]
+                            alert(thisImageURI);
+                            uploadPhoto(thisImageURI, picNum, productCode)
+                        }
+                        $.ajax({
+                            dataType: "json",
+                            url: aucwebservice + "AddingProductPictures",
+                            contentType: "application/json; charset=utf-8",
+                            type: "POST",
+                            data: JSON.stringify({ Arr: SerPicArr, itemId: productCode }),
+                            success: function (data) {
+                                var isSaved = JSON.parse(data.d)
+                                if (isSaved) {
+                                    alert("המכרז נשמר בהצלחה");
+                                }
+                                else {
+                                    alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+                                }
+                            },
+                            error: function (err) { }
+                        });
+                    }
+                    else {
+                        alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
+                    }
+                },
+                error: function (err) { }
+            });
 
-            alert("העלה לסרבר");
-            alret(ServerPicArr[Server_i]);
-
-            //$.ajax({
-            //    dataType: "json",
-            //    url: aucwebservice + "AddingProductPictures",
-            //    contentType: "application/json; charset=utf-8",
-            //    type: "POST",
-            //    data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
-            //    success: function (data) {
-            //        var isSaved = JSON.parse(data.d)
-            //        if (isSaved) {
-            //            alert("המכרז נשמר בהצלחה");
-            //        }
-            //        else {
-            //            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
-            //        }
-            //    },
-            //    error: function (err) { }
-            //});
         }
 
+
+
+
+
+
+
+
+
+
+
+
+        //--לבדיקה מול ניר
+
+        //function AddingProductAuction() {
+
+        //    alert("נכנס");
+
+        //    var productCode = 13;
+
+        //    alert("הגדיר");
+
+        //    for (var picNum in LocalPicArr) {
+        //        alert(picNum);
+        //        alert(productCode);
+        //        var thisImageURI = LocalPicArr[picNum]
+        //        alert(thisImageURI);
+        //        uploadPhoto(thisImageURI, picNum, productCode)
+        //        alert("לפני תמונה אחת הועלתה");
+        //        alert(stringServerPath);
+        //        //addToSerPicArr(stringServerPath);
+        //        alert(" אחרי תמונה אחת הועלתה");
+        //    }
+
+        //    alert("העלה לסרבר");
+        //    alret(SerPicArr[Server_i]);
+
+        //    //$.ajax({
+        //    //    dataType: "json",
+        //    //    url: aucwebservice + "AddingProductPictures",
+        //    //    contentType: "application/json; charset=utf-8",
+        //    //    type: "POST",
+        //    //    data: JSON.stringify({ Arr: SerPicArr, itemId: productCode }),
+        //    //    success: function (data) {
+        //    //        var isSaved = JSON.parse(data.d)
+        //    //        if (isSaved) {
+        //    //            alert("המכרז נשמר בהצלחה");
+        //    //        }
+        //    //        else {
+        //    //            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+        //    //        }
+        //    //    },
+        //    //    error: function (err) { }
+        //    //});
+        //}
 
 
         function onCameraSuccess(imageURI) {
@@ -206,6 +218,16 @@
             LocalPicArr.push(imageURI);
             Local_i++;
             //uploadPhoto(imageURI);
+        }
+
+        function addToSerPicArr(stringServerPath) {
+            alret("נכנסתי");
+            SerPicArr.push(stringServerPath);
+            alret("SerPicArr[Server_i]");
+            alret(SerPicArr[Server_i]);
+            Server_i++;
+            alert(Server_i++);
+
         }
 
 
@@ -222,28 +244,23 @@
             var ft = new FileTransfer();
             ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
 
-            alert("before WIN");
-
-            var stringServerPath = "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg";
-
+            stringServerPath = "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg";
             alert(stringServerPath);
-            alert(Server_i);
-
-            alret(ServerPicArr[Server_i]);
-
-            ServerPicArr[Server_i] = stringServerPath;
-
-            alret("ServerPicArr[Server_i]");
-            alret(ServerPicArr[Server_i]);
-            Server_i++;
-
-            alert(Server_i++);
 
         } // Upload Photo
 
         function win(r) {
             var path = r.response;
             //$img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
+
+            //alert(Server_i);
+            //alret(SerPicArr[Server_i]);
+            //SerPicArr[Server_i] = stringServerPath;
+            //alret("SerPicArr[Server_i]");
+            //alret(SerPicArr[Server_i]);
+            //Server_i++;
+            //alert(Server_i++);
+
             // UnLoad(); // Stop "working" animation
         } // win (upload success)
 

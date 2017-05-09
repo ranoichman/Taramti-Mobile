@@ -64,11 +64,11 @@
     </feature>
     <name>תרמתי בבית</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
-    </description>
+    Hello World sample application that responds to the deviceready event.
+  </description>
     <author email="golanhuppert9@gmail.com , hilly.jackobson@gmail.com , ran.oichman@gmail.com" href="http://phonegap.com">
-        Golan Huppert Hilly Jackobson Ran  Oichman
-    </author>
+    Golan Huppert Hilly Jackobson Ran  Oichman
+  </author>
     <content src="index.html" />
     <system.web>
         <webServices>
