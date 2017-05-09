@@ -172,7 +172,7 @@
                 url: aucwebservice + "AddingProductPictures",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode}),
+                data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
                 success: function (data) {
                     var isSaved = JSON.parse(data.d)
                     if (isSaved) {
@@ -276,7 +276,7 @@
                         <option value="value">7</option>
                     </select>
                     <h4>בחר עמותה</h4>
-                    <select id="AuctionAssoc" ">
+                    <select id="AuctionAssoc">
                         <!--<option value=" value">
                         שליפה מאג'אקס</option>-->
                     </select>
