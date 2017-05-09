@@ -11,18 +11,23 @@
 }
 
 
+.blinkBorder {
+  border: 2px solid red;
+}
 .blinkBorder h3 {
   color: red;
 }
-@keyframes blink {
+
+
+/*@keyframes blink {
             25% {
                 border: 2px solid red;
             }
-        }
-        .blinkBorder {
+        }*/
+        /*.blinkBorder {
             animation-name: blink;
             animation-duration: .08s;
             animation-timing-function: step-end;
             animation-iteration-count: infinite;
             animation-direction: alternate;
-        }
+        }*/

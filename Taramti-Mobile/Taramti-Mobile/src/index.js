@@ -69,7 +69,9 @@ const App = React.createClass({
 
     componentWillMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams([1,2],-1,-1,0)
+        // console.log("cmw -- " + this.state.auctionsArr)
+
+        this.getAuctionsByParams([1, 2], -1, -1, 0)
     },
     componentWillUnmount() {
         // Lifecycle function that is triggered just before a component unmounts
@@ -97,30 +99,27 @@ const App = React.createClass({
     },
 
     getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
-
-
-
-
-        axios.post(auctionWS + 'GetAuctionPrice', {
-            auctionCode: 1
-        })
-            .then(function (response) {
-                let ans = JSON.parse(response.d);
-                console.log(ans);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        // axios.post(auctionWS + 'GetAuctionPrice', {
+        //     auctionCode: 1
+        // })
+        //     .then(function (response) {
+        //         let ans = response.data;
+        //         console.log(ans);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+        const self = this;
         axios.post(auctionWS + 'GetAuctionByParam', {
-            cities: [1,2],
+            cities: [1, 2],
             lowPrice: -1,
             highPrice: -1,
             catCode: 0
+        }).then(function (response) {
+            let res = JSON.parse(response.data.d);
+            res.map(self.addAuction)
+            
         })
-            .then(function (response) {
-                let res = JSON.parse(response.d);
-                console.log(res);
-            })
             .catch(function (error) {
                 console.log(error);
             });
@@ -130,6 +129,7 @@ const App = React.createClass({
 
     addAuction(item, i) {
         let arr = this.state.auctionsArr;
+        console.log(item.End_Date.toString())
         let newAuction = {
             code: item.AuctionID,
             endDate: item.End_Date,

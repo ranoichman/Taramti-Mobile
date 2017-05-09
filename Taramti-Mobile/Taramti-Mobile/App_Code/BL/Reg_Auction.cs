@@ -151,14 +151,14 @@ public class Reg_Auction : Auction
                         images.Add(img[0].ToString());
                     }
                 }
-                auction.CatDesc = DS.Tables[0].Rows[0][2].ToString();
-                DateTime G = DateTime.Parse(DS.Tables[0].Rows[0][3].ToString());
+                auction.CatDesc = row[2].ToString();
+                DateTime G = DateTime.Parse(row[3].ToString());
                 string ng = G.ToString("MM/dd/yyyy HH:mm:ss");
                 auction.End_Date = DateTime.Parse(ng);
-                auction.Percentage = int.Parse(DS.Tables[0].Rows[0][4].ToString());
-                auction.ProdDesc = DS.Tables[0].Rows[0][5].ToString();
-                auction.ProdName = DS.Tables[0].Rows[0][6].ToString();
-                auction.ItemCode = int.Parse(DS.Tables[0].Rows[0][7].ToString());
+                auction.Percentage = int.Parse(row[4].ToString());
+                auction.ProdDesc = row[5].ToString();
+                auction.ProdName = row[6].ToString();
+                auction.ItemCode = int.Parse(row[7].ToString());
                 auction.Images = images.Count > 0 ? images.ToArray() : null;
 
                 relevantAuctions.Add(auction);
