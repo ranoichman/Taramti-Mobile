@@ -34,7 +34,7 @@
         const aucwebservice = GENERAL.auctionWebServerAddress;
         const assoc = GENERAL.assocWebServerAddress;
     </script>
-    
+
 
     <script>
 
@@ -182,7 +182,7 @@
 
 
 
-    
+
 
         function onCameraSuccess(imageURI) {
             var $img = $("<img>").attr("src", imageURI);
@@ -197,7 +197,7 @@
             //   Load(); // Start the spinning "working" animation
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
-            options.fileName = "pic2"; // file name
+            options.fileName = "pic" + i; // file name
             options.mimeType = "image/jpeg"; // file type
             //var params = {}; // Optional parameters
             //params.value1 = "test";
@@ -212,6 +212,8 @@
             var path = r.response;
             $img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
             $("#image_holder").append($img);
+            picArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
+            i++;
             // UnLoad(); // Stop "working" animation
         } // win (upload success)
 
@@ -275,7 +277,8 @@
                     </select>
                     <h4>בחר עמותה</h4>
                     <select id="AuctionAssoc" ">
-                        <!--<option value="value">שליפה מאג'אקס</option>-->
+                        <!--<option value=" value">
+                        שליפה מאג'אקס</option>-->
                     </select>
                     <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
                     <input type="text" id="AuctionMinPrice" />
