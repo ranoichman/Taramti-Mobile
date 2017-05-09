@@ -223,7 +223,12 @@
 
             alert("before WIN");
 
-            ServerPicArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
+            var stringServerPath = "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg";
+
+            alert(stringServerPath);
+
+            ServerPicArr.push(stringServerPath);
+
             alret("ServerPicArr[Server_i]");
             alret(ServerPicArr[Server_i]);
             Server_i++;
@@ -232,16 +237,7 @@
 
         function win(r) {
             var path = r.response;
-            alert("r.response");
-            alert(r.response);
             //$img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
-            ServerPicArr.push("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
-
-            alert("After WIN");
-
-            alret("ServerPicArr[Server_i++]");
-            alret(ServerPicArr[Server_i]);
-            Server_i++;
             // UnLoad(); // Stop "working" animation
         } // win (upload success)
 

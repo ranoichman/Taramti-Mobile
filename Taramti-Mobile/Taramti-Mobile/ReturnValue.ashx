@@ -18,7 +18,7 @@ public class ReturnValue : IHttpHandler
                 continue;
             try
             {
-                savedFileName = context.Server.MapPath(".") + @"/Uploads/Items/" + hpf.FileName + ".jpg";
+                savedFileName = context.Server.MapPath(".") + @"\Uploads\Items\" + hpf.FileName + ".jpg";
             }
             catch (Exception ex)
             {
