@@ -185,7 +185,7 @@ public class Item
         return true;
     }
 
-    public bool AddItem()
+    public bool AddItem(int seller)
     {
         string sqlInsert = @"INSERT INTO [dbo].[product]
            ([product_description]
@@ -194,14 +194,14 @@ public class Item
            ,[seller_id]
            ,[product_Name])
      VALUES
-           (@ProductDesc, @ProductCode, @ProductCity, @ProductSeller, @ProductName)";
+           (@ProductDesc, @ProductCatCode, @ProductCity, @ProductSeller, @ProductName)";
 
             DbService db = new DbService();
-        SqlParameter parProdDesc = new SqlParameter("@ProductDesc", 14);
-        SqlParameter parProdCatCode = new SqlParameter("@ProductCode", 14);
-        SqlParameter parProdCity = new SqlParameter("@ProductCity", 14);
-        SqlParameter parProdSeller = new SqlParameter("@ProductSeller", 14);
-        SqlParameter parProdName = new SqlParameter("@ProductName", 14);
+        SqlParameter parProdDesc = new SqlParameter("@ProductDesc", ItemDesc);
+        SqlParameter parProdCatCode = new SqlParameter("@ProductCatCode", Item_Categories.Cat_id);
+        SqlParameter parProdCity = new SqlParameter("@ProductCity", Location.CityCode);
+        SqlParameter parProdSeller = new SqlParameter("@ProductSeller", seller);
+        SqlParameter parProdName = new SqlParameter("@ProductName", ItemName);
 
         if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProdDesc, parProdCatCode, parProdCity, parProdSeller, parProdName) == 0)
             {
