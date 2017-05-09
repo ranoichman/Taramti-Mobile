@@ -12,8 +12,11 @@ public class Item
 {
     //fields
     UserT user;
+    string itemName;
+    string itemDesc;
+    City location;
     Item_Bid[] item_Bids;
-    Item_Category[] item_Categories;
+    Item_Category item_Category;
     string[] pictures;
 
     //props
@@ -44,16 +47,16 @@ public class Item
         }
     }
 
-    public Item_Category[] Item_Categories
+    public Item_Category Item_Categories
     {
         get
         {
-            return item_Categories;
+            return item_Category;
         }
 
         set
         {
-            item_Categories = value;
+            item_Category = value;
         }
     }
 
@@ -69,12 +72,57 @@ public class Item
             pictures = value;
         }
     }
+
+    public string ItemName
+    {
+        get
+        {
+            return itemName;
+        }
+
+        set
+        {
+            itemName = value;
+        }
+    }
+
+    public string ItemDesc
+    {
+        get
+        {
+            return itemDesc;
+        }
+
+        set
+        {
+            itemDesc = value;
+        }
+    }
+
+    public City Location
+    {
+        get
+        {
+            return location;
+        }
+
+        set
+        {
+            location = value;
+        }
+    }
     #endregion
 
     //ctor
     public Item()
     {
 
+    }
+
+    public Item(string itemName, string itemDesc)
+    {
+        this.itemName = itemName;
+        this.itemDesc = itemDesc;
     }
 
     //methods
@@ -123,6 +171,30 @@ public class Item
         return true;
     }
 
+    public bool AddItem()
+    {
+        string sqlInsert = @"INSERT INTO [dbo].[product]
+           ([product_description]
+           ,[product_category_code]
+           ,[city_code]
+           ,[seller_id]
+           ,[product_Name])
+     VALUES
+           (@ProductDesc, @ProductCode, @ProductCity, @ProductSeller, @ProductName)";
+
+            DbService db = new DbService();
+        SqlParameter parProdDesc = new SqlParameter("@ProductDesc", 14);
+        SqlParameter parProdCatCode = new SqlParameter("@ProductCode", 14);
+        SqlParameter parProdCity = new SqlParameter("@ProductCity", 14);
+        SqlParameter parProdSeller = new SqlParameter("@ProductSeller", 14);
+        SqlParameter parProdName = new SqlParameter("@ProductName", 14);
+
+        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProdDesc, parProdCatCode, parProdCity, parProdSeller, parProdName) == 0)
+            {
+                return false;
+            }
+        return true;
+    }
 
 }
 

@@ -48,6 +48,11 @@ public class City
 
     }
 
+    public City(int code)
+    {
+        CityCode = code;
+    }
+
     //methods
     #region
     public void ShowAuctionByCity() { }
