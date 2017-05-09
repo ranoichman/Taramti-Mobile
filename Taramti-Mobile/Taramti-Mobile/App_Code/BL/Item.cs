@@ -12,6 +12,7 @@ public class Item
 {
     //fields
     UserT user;
+    int itemId;
     string itemName;
     string itemDesc;
     City location;
@@ -111,6 +112,19 @@ public class Item
             location = value;
         }
     }
+
+    public int ItemId
+    {
+        get
+        {
+            return itemId;
+        }
+
+        set
+        {
+            itemId = value;
+        }
+    }
     #endregion
 
     //ctor
@@ -159,8 +173,8 @@ public class Item
                                (@ProductCode ,@PicCode ,@Path)";
 
             DbService db = new DbService();
-            SqlParameter parProductCode = new SqlParameter("@ProductCode", 14);
-            SqlParameter parPicCode = new SqlParameter("@PicCode", (14 + i));
+            SqlParameter parProductCode = new SqlParameter("@ProductCode", ItemId);
+            SqlParameter parPicCode = new SqlParameter("@PicCode", i);
             SqlParameter parPath = new SqlParameter("@Path", Pictures[i]);
 
             if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProductCode, parPicCode, parPath) == 0)

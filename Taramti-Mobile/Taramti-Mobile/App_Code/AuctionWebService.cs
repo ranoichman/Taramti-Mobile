@@ -75,4 +75,13 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(NewItem.AddPictures());
 
     }
+
+    public string AddingProductPictures(string[] Arr, int itemId)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Item NewItem = new Item();
+        NewItem.ItemId = itemId;
+        return j.Serialize(NewItem.AddPictures());
+    }
+
 }

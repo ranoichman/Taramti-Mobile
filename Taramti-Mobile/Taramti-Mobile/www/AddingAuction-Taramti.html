@@ -113,6 +113,8 @@
             });
         }
 
+
+
         function AddingProductAuction() {
             $.ajax({
                 dataType: "json",
@@ -122,13 +124,33 @@
                 data: JSON.stringify({ Arr: picArr }),
                 success: function (data) {
 
-                    var isUser = JSON.parse(data.d);
+                    var productCode = JSON.parse(data.d)
 
-                    if (isUser == true) {
-                        alert("התמונות נשמרו.. אולי");
+                    if (productCode != "") {
+
+                        for (var pic in LocalPicArr) {
+                            uploadPhoto(imageURI, productCode)
+                        }
+                        $.ajax({
+                            dataType: "json",
+                            url: aucwebservice + "AddingProductPictures",
+                            contentType: "application/json; charset=utf-8",
+                            type: "POST",
+                            data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode}),
+                            success: function (data) {
+                                var isSaved = JSON.parse(data.d)
+                                if (isSaved) {
+                                    alert("המכרז נשמר בהצלחה");
+                                }
+                                else {
+                                    alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+                                }
+                            },
+                            error: function (err) { }
+                        });
                     }
                     else {
-                        alert("התמונות לא נשמרו.. כנראה");
+                        alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
                     }
                 },
                 error: function (err) { }
@@ -149,11 +171,13 @@
             //uploadPhoto(imageURI);
         }
 
-        function uploadPhoto(imageURI,productCode) {
+
+
+        function uploadPhoto(imageURI, productCode) {
             //   Load(); // Start the spinning "working" animation
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
-            options.fileName = productCode +"_pic_" + i; // file name
+            options.fileName = productCode + "_pic_" + i; // file name
             options.mimeType = "image/jpeg"; // file type
 
             var ft = new FileTransfer();
