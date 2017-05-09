@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +9,7 @@
 
     <script src="cordova.js"></script>
 
-    <script src="js/jquery.js"></script>
+
 
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
@@ -17,23 +18,22 @@
     <!--מאסטר-->
     <script src="js/master.js"></script>
 
+    <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
 
     <script>
         const generic = GENERAL.genericWebServerAddress;
-    </script>
-    <script>
 
         $(document).ready(function () {
-            
+
             console.log("אני בלוגgfdggfין")
-            $("#Loginbtn").on("tap", function() {
+            $("#Loginbtn").on("tap", function () {
                 console.log("אני בלוגין")
                 var mail = $("#UserMail").val();
                 var pass = $("#UserPass").val();
 
-              
+
                 $.ajax({
                     dataType: "json",
                     url: generic + "ValidateUser",
@@ -71,12 +71,9 @@
 
         //window.onbeforeunload = function () {
         //};
-
-
     </script>
 
     <script>
-      
         /// <summary>ולידטורים</summary>
         /// <summary>שם משתמש וסיסמא,וידוא על צ'ק בוקס זכור סיסמא, </summary>
         function Login() {
@@ -270,11 +267,10 @@
                 error: function (err) { }
             });
         }
-
-
     </script>
 
 </head>
+
 <body>
 
     <!--דף זה יכיל דף לוגין, דף רישום משתמש ודף שכחתי סיסמה ויוביל לדף הבית-->
@@ -287,9 +283,9 @@
         <div class="Form" id="LoginForm">
             <h2>כיף שבאת!</h2>
             <h4>מייל משתמש: </h4>
-            <input type="text" id="UserMail" />
+            <input type="text" id="UserMail" value="ran@gmail.com" />
             <h4>סיסמה: </h4>
-            <input type="text" id="UserPass" />
+            <input type="text" id="UserPass" value="121212" />
             <input class="w3-margin-right" id="StayCB" type="checkbox" checked />
             <h6 id="ImHereToStay">אני כאן כדי להשאר</h6>
 
@@ -360,7 +356,7 @@
             <h4>הזן סיסמה לאישור: </h4>
             <input type="text" id="UserPass2" />
 
-            <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים  <a href="#">תנאים מחייבים</a>.</p>
+            <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
 
             <input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />
             <input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />
@@ -383,7 +379,7 @@
             <h4>מספר בית: </h4>
             <input type="text" id="UserHomeNum" />
 
-            <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים  <a href="#">תנאים מחייבים</a>.</p>
+            <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
             <input type="button" id="CompleteRegisterBtn" value="הרשם" onclick="RegisterUser()" />
             <h5><a href="#FirstRegisterPage"> חזור</a></h5>
         </div>
@@ -420,4 +416,5 @@
         </div>
     </div>
 </body>
+
 </html>
