@@ -12,8 +12,12 @@ public class Item
 {
     //fields
     UserT user;
+    int itemId;
+    string itemName;
+    string itemDesc;
+    City location;
     Item_Bid[] item_Bids;
-    Item_Category[] item_Categories;
+    Item_Category item_Category;
     string[] pictures;
 
     //props
@@ -44,16 +48,16 @@ public class Item
         }
     }
 
-    public Item_Category[] Item_Categories
+    public Item_Category Item_Categories
     {
         get
         {
-            return item_Categories;
+            return item_Category;
         }
 
         set
         {
-            item_Categories = value;
+            item_Category = value;
         }
     }
 
@@ -69,12 +73,70 @@ public class Item
             pictures = value;
         }
     }
+
+    public string ItemName
+    {
+        get
+        {
+            return itemName;
+        }
+
+        set
+        {
+            itemName = value;
+        }
+    }
+
+    public string ItemDesc
+    {
+        get
+        {
+            return itemDesc;
+        }
+
+        set
+        {
+            itemDesc = value;
+        }
+    }
+
+    public City Location
+    {
+        get
+        {
+            return location;
+        }
+
+        set
+        {
+            location = value;
+        }
+    }
+
+    public int ItemId
+    {
+        get
+        {
+            return itemId;
+        }
+
+        set
+        {
+            itemId = value;
+        }
+    }
     #endregion
 
     //ctor
     public Item()
     {
 
+    }
+
+    public Item(string itemName, string itemDesc)
+    {
+        this.itemName = itemName;
+        this.itemDesc = itemDesc;
     }
 
     //methods
@@ -111,8 +173,8 @@ public class Item
                                (@ProductCode ,@PicCode ,@Path)";
 
             DbService db = new DbService();
-            SqlParameter parProductCode = new SqlParameter("@ProductCode", 14);
-            SqlParameter parPicCode = new SqlParameter("@PicCode", (14 + i));
+            SqlParameter parProductCode = new SqlParameter("@ProductCode", ItemId);
+            SqlParameter parPicCode = new SqlParameter("@PicCode", i);
             SqlParameter parPath = new SqlParameter("@Path", Pictures[i]);
 
             if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProductCode, parPicCode, parPath) == 0)
@@ -123,6 +185,30 @@ public class Item
         return true;
     }
 
+    public bool AddItem(int seller)
+    {
+        string sqlInsert = @"INSERT INTO [dbo].[product]
+           ([product_description]
+           ,[product_category_code]
+           ,[city_code]
+           ,[seller_id]
+           ,[product_Name])
+     VALUES
+           (@ProductDesc, @ProductCatCode, @ProductCity, @ProductSeller, @ProductName)";
+
+            DbService db = new DbService();
+        SqlParameter parProdDesc = new SqlParameter("@ProductDesc", ItemDesc);
+        SqlParameter parProdCatCode = new SqlParameter("@ProductCatCode", Item_Categories.Cat_id);
+        SqlParameter parProdCity = new SqlParameter("@ProductCity", Location.CityCode);
+        SqlParameter parProdSeller = new SqlParameter("@ProductSeller", seller);
+        SqlParameter parProdName = new SqlParameter("@ProductName", ItemName);
+
+        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProdDesc, parProdCatCode, parProdCity, parProdSeller, parProdName) == 0)
+            {
+                return false;
+            }
+        return true;
+    }
 
 }
 
