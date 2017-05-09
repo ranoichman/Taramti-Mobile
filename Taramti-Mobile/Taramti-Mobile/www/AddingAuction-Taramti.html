@@ -167,9 +167,11 @@
 
             alert("הגדיר");
             
-            for (var imageURI in LocalPicArr) {
-                alert(imageURI);
+            for (var Pic in LocalPicArr) {
+                alert(Pic);
                 alert(productCode);
+                var imageURI = LocalPicArr[Pic]
+                alert(imageURI);
                 uploadPhoto(imageURI, productCode)
             }
 
