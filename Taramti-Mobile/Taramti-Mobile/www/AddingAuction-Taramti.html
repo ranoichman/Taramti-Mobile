@@ -161,11 +161,17 @@
 
         function AddingProductAuction() {
 
+            alert("נכנס");
+
             var productCode = 14;
+
+            alert("הגדיר");
 
             for (var pic in LocalPicArr) {
                 uploadPhoto(imageURI, productCode)
             }
+
+            alert("העלה לסרבר");
 
             $.ajax({
                 dataType: "json",
