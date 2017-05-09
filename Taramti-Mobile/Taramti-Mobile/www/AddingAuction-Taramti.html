@@ -154,7 +154,7 @@
 
         function onCameraSuccess(imageURI) {
             var $img = $("<img>").attr("src", imageURI);
-            $("#image_holder").append($img);
+            //$("#image_holder").append($img);
             uploadPhoto(imageURI);
 
         }
@@ -178,7 +178,8 @@
 
         function win(r) {
             var path = r.response;
-            $img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + "pic2" + ".jpg");
+            $img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
+            $("#image_holder").append($img);
             // UnLoad(); // Stop "working" animation
         } // win (upload success)
 
