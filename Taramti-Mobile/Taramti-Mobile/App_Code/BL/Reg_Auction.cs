@@ -122,6 +122,7 @@ public class Reg_Auction : Auction
             // נבדוק האם יש למכרז בידים, אם כן נציג את הביד הגבוה, אם לא נביא את המחיר ההתחלתי שלו
             foreach (DataRow row in DS.Tables[0].Rows)
             {
+                bool b = true; // כדי לדעת מה המצב עם מחיר הבידים - אם הם גבוהים מהמחיר בטווח 
                 Reg_Auction auction = new Reg_Auction(int.Parse(row[0].ToString()));
                 List<string> images = new List<string>();
                 StrSql = @"SELECT dbo.auction.auction_code, MAX(dbo.bid.price) AS Expr1
@@ -133,7 +134,16 @@ public class Reg_Auction : Auction
 
                 if (DSprice.Tables[0].Rows.Count > 0)
                 {
-                    auction.Price = int.Parse(DSprice.Tables[0].Rows[0][1].ToString());
+                    if (int.Parse(DSprice.Tables[0].Rows[0][1].ToString()) > highPrice)
+                    {
+                        b = false;
+                    }
+                    else
+                    {
+                        //auction.Price = int.Parse(DSprice.Tables[0].Rows[0][1].ToString());
+                        auction.Price = int.Parse(DSprice.Tables[0].Rows[0][0].ToString());
+                    }
+        
                 }
                 else
                 {
@@ -163,7 +173,11 @@ public class Reg_Auction : Auction
                 auction.ItemCode = int.Parse(row[7].ToString());
                 auction.Images = images.Count > 0 ? images.ToArray() : null;
 
-                relevantAuctions.Add(auction);
+                if (b)
+                {
+                    relevantAuctions.Add(auction);
+                }
+                
             }
         }
 
