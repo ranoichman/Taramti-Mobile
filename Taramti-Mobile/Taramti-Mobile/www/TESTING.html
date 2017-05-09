@@ -87,6 +87,30 @@
                 error: function (err) { }
             });
         }
+
+        function OfferBid() {
+
+            var auc1 = 1;
+            var bid1 = 1000;
+            var buy1 = 302921481;
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "OfferBid",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ auc : auc1, bid: bid1, buyer : buy1}),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    var isUser = JSON.parse(data.d);
+
+                    console.log(isUser);
+                },
+                error: function (err) { }
+            });
+        }
+
     </script>
 
 </head>
@@ -94,5 +118,6 @@
     <input type="button" onclick="test()" value="GetAuctionByParam" />
     <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
     <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
+    <input type="button" onclick="OfferBid()" value="OfferBid" />
 </body>
 </html>

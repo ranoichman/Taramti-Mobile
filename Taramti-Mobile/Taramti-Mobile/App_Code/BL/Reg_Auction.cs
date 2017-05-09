@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -210,6 +211,30 @@ public class Reg_Auction : Auction
         return allCat;
     }
 
+    public bool OfferBid(int auc, int bid, int buyer)
+    {
+        DbService db = new DbService();
+        string sqlInsert = @"INSERT INTO [dbo].[bid]
+           ([auction_code]
+           ,[bid_code]
+           ,[bid_time]
+           ,[buyer_id]
+           ,[price])
+     VALUES
+           (@auc, @bidCode,@bidTime,@buyer,@price) ";
+
+        SqlParameter parauc = new SqlParameter("@auc", auc);
+        SqlParameter parbid = new SqlParameter("@bidCode", bid);
+        SqlParameter partime = new SqlParameter("@bidTime", DateTime.Now);
+        SqlParameter parbuy = new SqlParameter("@buyer", buyer);
+        SqlParameter parprice = new SqlParameter("@price", bid);
+        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parauc, parbid, partime, parbuy, parprice) == 0)
+        {
+            return false;
+        }
+        return true;
+
+    }
     #endregion
 
 

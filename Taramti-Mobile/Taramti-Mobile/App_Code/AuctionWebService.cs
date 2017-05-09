@@ -52,5 +52,13 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(auction.GetAllProductsCategories());
     }
 
+    [WebMethod (Description = "הצעת ביד")]
+    public bool OfferBid(int auc, int bid, int buyer)
+    {
+        //JavaScriptSerializer j = new JavaScriptSerializer();
+        Reg_Auction auction = new Reg_Auction();
+        return auction.OfferBid(auc,bid,buyer);
+    }
+
 
 }
