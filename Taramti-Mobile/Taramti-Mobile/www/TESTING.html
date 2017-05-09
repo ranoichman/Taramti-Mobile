@@ -27,19 +27,24 @@
         function test()
         {
             var x = [1, 2];
-            var low = 100;
+            var low = -1;
             var high = -1;
-            var code = 1;
+            var code = 0;
             // alert("NANA");
             $.ajax({
                 dataType: "json",
-                url: generic + "/GetAuctionByParam",
+                url: generic + "GetAuctionByParam",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ cities: x, lowPrice: low, highPrice: high, catCode : code }),
                 success: function (data) {
-
+                    console.log("Ran - test");
                     var isUser = JSON.parse(data.d);
+                    //console.log(isUser[0].Price );
+                    isUser.map(function (item, i) {
+                        console.log(item);
+
+                    });
 
                 },
                 error: function (err) { }
@@ -51,12 +56,12 @@
             // alert("NANA");
             $.ajax({
                 dataType: "json",
-                url: generic + "/GetAuctionPrice",
+                url: generic + "GetAuctionPrice",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ auctionCode: x }),
                 success: function (data) {
-
+                    console.log("Ran");
                     var isUser = JSON.parse(data.d);
 
                 },
@@ -64,11 +69,55 @@
             });
         }
         
+
+        function GetAllProductsCategories() {
+            var x = 2;
+            // alert("NANA");
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAllProductsCategories",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ }),
+                success: function (data) {
+                    var isUser = JSON.parse(data.d);
+
+                    console.log(isUser);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function OfferBid() {
+
+            var auc1 = 1;
+            var bid1 = 1000;
+            var buy1 = 302921481;
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "OfferBid",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ auc : auc1, bid: bid1, buyer : buy1}),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    var isUser = JSON.parse(data.d);
+
+                    console.log(isUser);
+                },
+                error: function (err) { }
+            });
+        }
+
     </script>
 
 </head>
 <body>
     <input type="button" onclick="test()" value="GetAuctionByParam" />
     <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
+    <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
+    <input type="button" onclick="OfferBid()" value="OfferBid" />
 </body>
 </html>

@@ -32,8 +32,7 @@ public class AuctionWebService : System.Web.Services.WebService
     public string GetAuctionByParam(int[] cities, int lowPrice, int highPrice, int catCode)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        Reg_Auction auction = new Reg_Auction();
-        return j.Serialize(auction.GetAuctionsByParam(cities, lowPrice, highPrice, catCode));
+        return j.Serialize(Reg_Auction.GetAuctionsByParam(cities, lowPrice, highPrice, catCode));
     }
 
     [WebMethod (Description = "מתודה להבאת ביד אחרון בהינתן מספר אוקשן")]
@@ -43,6 +42,22 @@ public class AuctionWebService : System.Web.Services.WebService
         Reg_Auction auction = new Reg_Auction();
         auction.AuctionID = auctionCode;
         return j.Serialize(auction.GetLatestBid());
+    }
+
+    [WebMethod (Description = "הבאת כל קטגוריות המוצרים")]
+    public string GetAllProductsCategories()
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Reg_Auction auction = new Reg_Auction();
+        return j.Serialize(auction.GetAllProductsCategories());
+    }
+
+    [WebMethod (Description = "הצעת ביד")]
+    public bool OfferBid(int auc, int bid, int buyer)
+    {
+        //JavaScriptSerializer j = new JavaScriptSerializer();
+        Reg_Auction auction = new Reg_Auction();
+        return auction.OfferBid(auc,bid,buyer);
     }
 
 
