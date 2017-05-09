@@ -35,6 +35,7 @@
     "start": "node config && webpack-dev-server",
     "remove": "cordova platform remove android",
     "add": "cordova platform add android@5.0.0",
+    "navbar": "npm i react-bootstrap-navbar",
     "jquey": "npm install jquery",
     "faIcons": "npm install --save react-fontawesome",
     "react-modal": "npm install --save react-modal",
