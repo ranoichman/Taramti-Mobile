@@ -48,8 +48,11 @@
                         $("#UserNum").val(UserId.Number);
                         $("#UserScore").attr('disabled', 'disabled');
                         $("#UserAddress").attr('disabled', 'disabled');
-
-
+                        $("#UserFirstName").attr('disabled', 'disabled');
+                        $("#UserLastName").attr('disabled', 'disabled');
+                        $("#UserId").attr('disabled', 'disabled');
+                        $("#UserNum").attr('disabled', 'disabled');
+                        $("#UserMail").attr('disabled', 'disabled');
                     }
                 },
                 error: function (err) { }
@@ -57,6 +60,49 @@
 
         });
 
+        function EditUser() {
+            
+            // אפשור עריכת חלק מהשדות
+            $("#UserAddress").removeAttr('disabled', 'disabled');
+            $("#UserFirstName").removeAttr('disabled', 'disabled');
+            $("#UserLastName").removeAttr('disabled', 'disabled');
+            $("#UserNum").removeAttr('disabled', 'disabled');
+
+            // הסרת כפתור העריכה
+            $("#EditUserBtn").remove();
+
+           // var ok = $('<input type="button" id="okbtn" value="אוקיי" onclick="SubmitChanges()">');
+            var ook = $('<a href="#ImSureDialog1" id="UpdateUserbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">');
+            ook.appendTo("#UserDetailsForm");
+
+        }
+
+        function SubmitChanges() {
+            var U = user.userID();
+            var first = $("#UserFirstName").val();
+            var last = $("#UserLastName").val();
+            var address = $("#UserAddress").val();
+            var phone = $("#UserNum").val();
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "UpdateUser",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ userId: U, first: first, last: last, address:address, phone:phone }),
+                success: function (data) {
+
+                    var UserId = JSON.parse(data.d);
+                    if (UserId == true)
+                    {
+                        alert("הנתונים נשמרו בהצלחה. הינך מועבר חזרה לדף הבית");
+                        location.href = "app.html";
+                    }
+
+                },
+                error: function (err) { }
+            });
+        }
 
 
     </script>
@@ -64,36 +110,48 @@
 </head>
 <body>
 
-    <div data-role="page" id="UserDetailsPage">
-        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
-        <div class="Form" id="UserDetailsForm">
-            <h2>דף פרטי משתמש   </h2>
-            <!--<h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
-            <div id="avatar" style="margin:0 auto"></div>
-            <h4>שם פרטי: </h4>
-            <input type="text" id="UserFirstName"  />
-            <h4>שם משפחה: </h4>
-            <input type="text" id="UserLastName" />
-            <h4>תעודת זהות: </h4>
-            <input type="text" id="UserId" />
-            <h4>כתובת: </h4>
-            <input type="text" id="UserAddress" />
-            <h4>כתובת אימייל: </h4>
-            <input type="text" id="UserMail" />
-            <h4>טלפון: </h4>
-            <input type="text" id="UserNum" />
-            <h4>ניקוד: </h4>
-            <input type="text" id="UserScore" />
-            <!--<h4>הזן סיסמה: </h4>
-            <input type="text" id="UserPass" />
-            <h4>הזן סיסמה לאישור: </h4>
-            <input type="text" id="UserPass2" />-->
+        <div data-role="page" id="UserDetailsPage">
+            <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+            <div class="Form" id="UserDetailsForm">
+                <h2>דף פרטי משתמש   </h2>
+                <!--<h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
+                <div id="avatar" style="margin:0 auto"></div>
+                <h4>שם פרטי: </h4>
+                <input type="text" id="UserFirstName" />
+                <h4>שם משפחה: </h4>
+                <input type="text" id="UserLastName" />
+                <h4>תעודת זהות: </h4>
+                <input type="text" id="UserId" />
+                <h4>כתובת: </h4>
+                <input type="text" id="UserAddress" />
+                <h4>כתובת אימייל: </h4>
+                <input type="text" id="UserMail" />
+                <h4>טלפון: </h4>
+                <input type="text" id="UserNum" />
+                <h4>ניקוד: </h4>
+                <input type="text" id="UserScore" />
 
-            <!--<p>בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>-->
 
-            <!--<input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />-->
-            <!--<input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />-->
-            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+                <input type="button" id="EditUserBtn" value="עריכה" onclick="EditUser()" />
+                <!--<input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />-->
+                <a onclick="location.href = 'app.html'">חזרה לדף הבית</a>
+            </div>
+        </div>
+
+    <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog1">
+        <div data-role="header">
+            <h2>תרמתי בבית</h2>
+        </div>
+        <div class="ui-content" role="main">
+            <h4>האם אתה בטוח שאתה רוצה לעדכן את הנתונים במערכת?</h4>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#UserDetailsPage" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#UserDetailsPage" onclick="SubmitChanges()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
+                </div>
+            </div>
         </div>
     </div>
 

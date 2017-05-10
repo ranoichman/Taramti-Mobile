@@ -556,6 +556,24 @@ public class UserT
         return true;
     }
 
+    // מעדכן פרטים שהפונקציה הרגילה לא מעדכנת
+    public bool UpdateExistingUser()
+    {
+        string sqlInsert = @"update [dbo].[users] set [first_name] = @fName,[last_name]= @lname,[address] = @address,[phone] = @phone 
+                            Where [user_id] ='" + UserId + "' ";
+
+        DbService db = new DbService();
+        SqlParameter parFName = new SqlParameter("@fName", FirstName);
+        SqlParameter parLName = new SqlParameter("@lName", LastName);
+        SqlParameter parCity = new SqlParameter("@address", address);
+        SqlParameter parNum = new SqlParameter("@phone", Number);
+        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parFName, parLName, parCity, parNum) == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public UserT GetUserDetails()
     {
         DbService db = new DbService();
@@ -601,7 +619,6 @@ public class UserT
         }
         return R;
     }
-
 
     public void GetUserBids() { }
 

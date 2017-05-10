@@ -285,6 +285,19 @@ public class WebService : System.Web.Services.WebService
         return j.Serialize(C.GetAllCities());
     }
 
+    [WebMethod (Description = "עדכון פרטי משתמש")]
+    public string UpdateUser(string userId, string first, string last, string address, string phone)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT U = new UserT();
+        U.UserId = userId;
+        U.FirstName = first;
+        U.LastName = last;
+        U.Address = address;
+        U.Number = phone;
+        return j.Serialize(U.UpdateExistingUser());
+    }
+
 
 
 
