@@ -11,6 +11,10 @@
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
 
+    <!--// לינקים רלוונטיים רק לעמוד הזה-->
+    <link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
+    <link href="css/tagit.ui-zendesk.css" rel="stylesheet" type="text/css">
+
 
     <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
@@ -21,6 +25,8 @@
     <!--מאסטר-->
     <script src="js/master.js"></script>
 
+
+    
 </head>
 <body>
     <form id="settingsForm">
@@ -30,21 +36,24 @@
             <div id="avatar"></div>
             <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
             <div id="SettingsForm">
-                            <label><b>אפשר הודעות פוש</b></label>
- 
-                            <select name="pushOpt" form="settingsForm">
-                                <option value="yes">כן </option>
-                                <option value="no">לא </option>
-                            </select>
+                <label><b>אפשר הודעות פוש</b></label>
 
-                            <label><b>התראות שמע</b></label>
+                <select name="pushOpt" form="settingsForm">
+                    <option value="yes">כן </option>
+                    <option value="no">לא </option>
+                </select>
 
-                            <select name="soundOpt" form="settingsForm">
-                                <option value="soundAndVibe">שמע + רטט</option>
-                                <option value="sound">שמע בלבד</option>
-                                <option value="vibe">רטט בלבד</option>
-                                <option value="off">ללא</option>
-                            </select>
+                <label><b>התראות שמע</b></label>
+
+                <select name="soundOpt" form="settingsForm">
+                    <option value="soundAndVibe">שמע + רטט</option>
+                    <option value="sound">שמע בלבד</option>
+                    <option value="vibe">רטט בלבד</option>
+                    <option value="off">ללא</option>
+                </select>
+
+
+
             </div>
         </div>
     </form>
