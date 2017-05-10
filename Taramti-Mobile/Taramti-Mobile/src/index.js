@@ -275,7 +275,8 @@ class App extends Component {
     }
 
     renderHome() {
-        console.log("dom rendered!!!")
+        console.log("dom rendered!!!");
+        alert("התרפרשתי ביצ'ס!!!!")
         return (
             <Home offerBid={this.offerBid} auctionsArr={this.state.auctionsArr} />
         );
