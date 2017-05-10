@@ -113,7 +113,7 @@ class Auction extends Component {
                         <h4 className="text-center">{this.props.prodName}</h4>
                         {/*<p className="descPar">{this.props.prodDesc}</p>*/}
                         <Swipeable onTap={this.offerBid}>
-                            {/*<button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>*/}
+                            <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>
                         </Swipeable>
                     </div>
                 </div>
@@ -147,7 +147,7 @@ class Auction extends Component {
 
     //disable input and button
     timerFinishedAuc() {
-
+        console.log("pressed in info button")
     }
     
     //calculate donation amount to insert to circle
@@ -199,7 +199,7 @@ class Auction extends Component {
                             <AuctionInfo prodName={this.props.prodName} closeModal={this.closeInfoModal}
                                 price={this.props.price} endDate={this.props.endDate}
                                 imgArr={this.props.imgArr} prodDesc={this.props.prodDesc}
-                                percentage={this.props.percentage} />
+                                percentage={this.props.percentage} searchBTN={this.timerFinishedAuc}/>
                         </Modal>
                     </Swipeable>
 

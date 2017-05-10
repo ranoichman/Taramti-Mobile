@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
-//import axios from 'axios';
+import axios from 'axios';
 
 import Ddl from './Ddl';
 
 import '../css/modal.css';
 
-class Search extends Component {
-constructor() {
+//const auctionWS = GENERAL.auctionWebServerAddress;
+const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+
+class Search5 extends Component {
+    constructor() {
         super()
         this.state = {
             categroy: 0,
@@ -20,7 +23,6 @@ constructor() {
         this.cbChanged = this.cbChanged.bind(this);
         this.searchBTN = this.searchBTN.bind(this);
     }
-
 
     componentDidMount() {
         const self = this;
@@ -36,6 +38,8 @@ constructor() {
                 console.log(error);
             });
     }
+
+
 
     onSelectedCat(opt) {
         console.log(`category: ${opt}`);
@@ -73,7 +77,6 @@ constructor() {
         //this.props.startSearch(cities,low,high,catCode);
     }
 
-
     render() {
         return (
             <div className="box">
@@ -81,7 +84,7 @@ constructor() {
                     <a className="boxclose"></a>
                 </Swipeable>
                 <div>
-                    <form>
+                    {/*<form>*/}
                         {/*GPS checkbox*/}
                         <div className="gpsCont">
                             <input type="checkbox" ref="locationCB" onClick={this.cbChanged} />הצג מוצרים בקרבתי
@@ -103,12 +106,12 @@ constructor() {
                         <input type="text" ref="higherPrice" placeholder="עד..." />
                         <button className="ui-btn ui-btn-corner-all btn-info" onClick={this.searchBTN}> חפש </button>
 
-                    </form>
+                    {/*</form>*/}
 
                 </div>
             </div>
-        );
+        )
     }
 }
 
-export default Search;
+export default Search5;

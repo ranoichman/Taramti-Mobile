@@ -7,9 +7,13 @@ import '../css/modal.css';
 class AuctionInfo extends Component {
     constructor(props) {
         super(props)
-
+this.btnClicked = this.btnClicked.bind(this);
     }
 
+btnClicked(){
+    console.log("Btn clicked!!!!!!@!@!@!@!")
+    this.props.searchBTN();
+}
 
     render() {
         return (
@@ -30,13 +34,16 @@ class AuctionInfo extends Component {
                             })
 
                         }
+
+                        <button className="ui-btn ui-btn-corner-all btn-info" onClick={this.btnClicked}> חפש </button>
+
                     </div>
                 </div>
             </div>
 
         )
     }
-    
+
 }
 
 export default AuctionInfo;

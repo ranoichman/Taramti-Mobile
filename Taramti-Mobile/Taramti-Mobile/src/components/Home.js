@@ -41,6 +41,7 @@ class Home extends Component {
 
     //call function to get auctions from serveer
     getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
+        console.log(`entered search Auctions on ----- ${Date.now()}`)
         const self = this;
         axios.post(auctionWS + 'GetAuctionByParam', {
             cities: cities,
@@ -59,6 +60,7 @@ class Home extends Component {
 
     //add auction from server to array
     addAuction(item, i) {
+        console.log(`entered search Auctions on ----- ${Date.now()}`)
         let arr = this.state.auctionsArr;
         let newAuction = {
             code: item.AuctionID,
@@ -76,6 +78,7 @@ class Home extends Component {
 
     //function that returns a render of 1 auction
     eachAuction(item, i) {
+        console.log(`entered each auction on _____________ ${Date.now()}`)
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid}
             home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc} 
             price={item.price} endDate={item.endDate} code={item.code}
@@ -84,6 +87,7 @@ class Home extends Component {
 
     //remove finished auction from displayed array
     deleteAuction(i) {
+        console.log(`entered delete auction on ::::::::: ${Date.now()}`)
         console.log(`delete: ${i} --- ${this.state.auctionsArr[i]} `)
         var arr = this.state.auctionsArr;
         arr.splice(i, 1);
@@ -92,6 +96,7 @@ class Home extends Component {
     }
 
     offerBid(i) {
+        console.log(`entered offer bid on ///////// ${Date.now()}`)
         this.props.offerBid(i);
     }
 
