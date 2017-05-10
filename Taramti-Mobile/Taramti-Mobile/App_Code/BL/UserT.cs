@@ -559,10 +559,7 @@ public class UserT
     // מעדכן פרטים שהפונקציה הרגילה לא מעדכנת
     public bool UpdateExistingUser()
     {
-        string sqlInsert = @"insert into [dbo].[users]
-                           ([first_name],[last_name],[address],[phone])
-                            VALUES 
-                            (@fName, @lname, @address, @phone) 
+        string sqlInsert = @"update [dbo].[users] set [first_name] = @fName,[last_name]= @lname,[address] = @address,[phone] = @phone 
                             Where [user_id] ='" + UserId + "' ";
 
         DbService db = new DbService();

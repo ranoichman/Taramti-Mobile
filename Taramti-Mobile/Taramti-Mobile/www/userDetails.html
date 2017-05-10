@@ -93,6 +93,11 @@
                 success: function (data) {
 
                     var UserId = JSON.parse(data.d);
+                    if (UserId == true)
+                    {
+                        alert("הנתונים נשמרו בהצלחה. הינך מועבר חזרה לדף הבית");
+                        location.href = "app.html";
+                    }
 
                 },
                 error: function (err) { }
@@ -125,15 +130,11 @@
                 <input type="text" id="UserNum" />
                 <h4>ניקוד: </h4>
                 <input type="text" id="UserScore" />
-                <!--<h4>הזן סיסמה: </h4>
-                <input type="text" id="UserPass" />
-                <h4>הזן סיסמה לאישור: </h4>
-                <input type="text" id="UserPass2" />-->
-                <!--<p>בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>-->
+
 
                 <input type="button" id="EditUserBtn" value="עריכה" onclick="EditUser()" />
                 <!--<input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />-->
-                <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+                <a onclick="location.href = 'app.html'">חזרה לדף הבית</a>
             </div>
         </div>
 
