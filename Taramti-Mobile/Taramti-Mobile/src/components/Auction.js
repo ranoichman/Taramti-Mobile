@@ -105,15 +105,15 @@ class Auction extends Component {
                     <div className="priceTag">
                         <h5>{this.state.price}</h5>
                     </div>
-                    <Pic imagesArr={this.props.imgArr} />
+                    {/*<Pic imagesArr={this.props.imgArr} />*/}
                 </div>
                 <div className="col-xs-6" dir="rtl">
                     <div>
                         <Timer endDate={this.props.endDate} timerFinished={this.timerFinishedHome} />
                         <h4 className="text-center">{this.props.prodName}</h4>
-                        <p className="descPar">{this.props.prodDesc}</p>
+                        {/*<p className="descPar">{this.props.prodDesc}</p>*/}
                         <Swipeable onTap={this.offerBid}>
-                            <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>
+                            {/*<button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>*/}
                         </Swipeable>
                     </div>
                 </div>
