@@ -7,6 +7,9 @@ import axios from 'axios';
 import Auction from './Auction';
 import Search from './Search';
 
+
+const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+
 class Home extends Component {
     constructor(props) {
         super(props)
@@ -34,14 +37,15 @@ class Home extends Component {
     }
 
     searchTriggered(cities, lowPrice, highPrice, catCode) {
-        console.log(`entered search on ----- ${Date.now()}`)
-        //this.setState({ auctionsArr: [] });
-        //this.getAuctionsByParams(cities, lowPrice, highPrice, catCode);
+        //console.log(`entered search on ----- ${Date.now()}`)
+        this.setState({ auctionsArr: [] });
+        this.getAuctionsByParams(cities, lowPrice, highPrice, catCode);
     }
 
     //call function to get auctions from serveer
     getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
         const self = this;
+        this.setState({searchModalIsOpen:false});
         axios.post(auctionWS + 'GetAuctionByParam', {
             cities: cities,
             lowPrice: lowPrice,
@@ -84,7 +88,7 @@ class Home extends Component {
 
     //remove finished auction from displayed array
     deleteAuction(i) {
-        console.log(`delete: ${i} --- ${this.state.auctionsArr[i]} `)
+        // console.log(`delete: ${i} --- ${this.state.auctionsArr[i]} `)
         var arr = this.state.auctionsArr;
         arr.splice(i, 1);
         this.setState({ auctionsArr: arr });
