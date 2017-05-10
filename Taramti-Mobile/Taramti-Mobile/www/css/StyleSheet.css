@@ -43,8 +43,9 @@ footer {
 
 #TaramtiMenuIconDiv {
     width: 5%;
-    float: left;
+    float: right;
     margin-top: 7.5px;
+    margin-right: 8px;
 }
 
 #TaramtiMenuIcon {
@@ -80,37 +81,53 @@ footer {
 }
 
 #CameraBtn {
-    height:44.38px;
+    height: 44.38px;
     width: 20%;
     display: inline;
     float: left;
-    
 }
 
 #UploadFileBtn {
-    margin-left:2%;
+    margin-left: 2%;
     width: 78%;
     display: inline;
     float: left;
 }
 
-#image_holder{
-     width:100%;
-    display:block;
-    overflow:auto;
+#image_holder {
+    width: 100%;
+    display: block;
+    overflow: auto;
 }
 
-#image_holder img{
-    width:48%;
-    float:left;
-    margin:3px 1% 3px 1%;
-    
+    #image_holder img {
+        width: 48%;
+        float: left;
+        margin: 3px 1% 3px 1%;
+    }
+
+#AddingProductAuctionbtn {
+    margin-top: 5px;
+    width: 100%;
 }
 
-#AddingProductAuctionbtn{
-    margin-top:5px;
-    width:100%;
+input[type=text] {
+    text-align: center;
 }
-input[type=text] { 
-    text-align: center; 
+
+
+h1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {
+    width: 30px;
+    height: 74PX;
+    padding: 0 0 0 0;
+    border: 0 0 0 0;
+}
+
+div.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {
+    position: fixed;
+    top: 0PX;
+    margin: 0 0 0 0;
+    z-index: 100;
+    border-top-width: 0px;
+    width: 100%;
 }
