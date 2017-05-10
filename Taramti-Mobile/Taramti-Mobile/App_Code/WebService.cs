@@ -268,6 +268,15 @@ public class WebService : System.Web.Services.WebService
         }
     }
 
+    [WebMethod (Description = "הבאת פרטי המשתמש המחובר")]
+    public string GetUserDetailsMobile(string userId)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT U = new UserT();
+        U.UserId = userId;
+        return j.Serialize(U.GetUserDetails());
+    }
+
     [WebMethod]
     public string GetAllCities()
     {
