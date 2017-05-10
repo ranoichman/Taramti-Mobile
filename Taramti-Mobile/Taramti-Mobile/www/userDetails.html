@@ -41,6 +41,15 @@
                     {
                         $("#UserFirstName").val(UserId.FirstName);
                         $("#UserLastName").val(UserId.LastName);
+                        $("#UserId").val(UserId.UserId);
+                        $("#UserAddress").val(UserId.Address);
+                        $("#UserMail").val(UserId.Mail);
+                        $("#UserScore").val(UserId.Rank.RankDesc);
+                        $("#UserNum").val(UserId.Number);
+                        $("#UserScore").attr('disabled', 'disabled');
+                        $("#UserAddress").attr('disabled', 'disabled');
+
+
                     }
                 },
                 error: function (err) { }
@@ -62,13 +71,19 @@
             <!--<h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
             <div id="avatar" style="margin:0 auto"></div>
             <h4>שם פרטי: </h4>
-            <input type="text" id="UserFirstName" />
+            <input type="text" id="UserFirstName"  />
             <h4>שם משפחה: </h4>
             <input type="text" id="UserLastName" />
             <h4>תעודת זהות: </h4>
             <input type="text" id="UserId" />
+            <h4>כתובת: </h4>
+            <input type="text" id="UserAddress" />
             <h4>כתובת אימייל: </h4>
             <input type="text" id="UserMail" />
+            <h4>טלפון: </h4>
+            <input type="text" id="UserNum" />
+            <h4>ניקוד: </h4>
+            <input type="text" id="UserScore" />
             <!--<h4>הזן סיסמה: </h4>
             <input type="text" id="UserPass" />
             <h4>הזן סיסמה לאישור: </h4>
