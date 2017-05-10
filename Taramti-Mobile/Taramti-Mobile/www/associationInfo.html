@@ -73,6 +73,12 @@
                         $("#AssocAccount").val(Association.Association_Account);
                         $("#AssocSite").val(Association.Association_WebSite);
                         $("#AssocYear").val(Association.Association_Year);
+
+                        $("#AssocName").attr('disabled', 'disabled');
+                        $("#AssocCode").attr('disabled', 'disabled');
+                        $("#AssocAccount").attr('disabled', 'disabled');
+                        $("#AssocSite").attr('disabled', 'disabled');
+                        $("#AssocYear").attr('disabled', 'disabled');
                     }
                 },
                 error: function (err) { }
@@ -88,36 +94,28 @@
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
 
         <div id="SearchAssoc">
+            <h2>כיף שבאת!</h2>
+            <h3> בחר עמותה להצגת פרטיה</h3>
             <select id="AllAssoc">
 
             </select>
         </div>
 
         <div class="Form" id="AssocInfo" style="visibility:hidden" >
-            <h2>כיף שבאת!</h2>
+      
             <h4>שם עמותה: </h4>
-            <input type="text" id="AssocName" value="" />
+            <input type="text" id="AssocName"  />
             <h4>קוד עמותה: </h4>
-            <input type="text" id="AssocCode" value="" />
+            <input type="text" id="AssocCode"  />
             <h4>פרטי חשבון העמותה: </h4>
-            <input type="text" id="AssocAccount" value="" />
+            <input type="text" id="AssocAccount"  />
             <h4>אתר עמותה: </h4>
-            <input type="text" id="AssocSite" value="" />
+            <input type="text" id="AssocSite" />
             <h4>שנת ייסוד: </h4>
-            <input type="text" id="AssocYear" value="" />
-            <input class="w3-margin-right" id="StayCB" type="checkbox" checked />
-            <h6 id="ImHereToStay">אני כאן כדי להשאר</h6>
+            <input type="text" id="AssocYear"  />
 
+            <a onclick="location.href = 'app.html'">חזרה לדף הבית</a>
 
-            <!--<input type="button" id="Loginbtn" value="התחבר" />
-            <h5><a href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
-            <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>-->
-            <!------------------------->
-            <!------------------------->
-            <!--<a onclick="location.href='RegisterAssoc-Taramti.html'">RegisterAssoc-Taramti.html</a>
-            <a onclick="location.href = 'AddingAuction-Taramti.html'">AddingAuction-Taramti.html</a>-->
-            <!------------------------->
-            <!------------------------->
 
 
         </div>
