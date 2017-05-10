@@ -20,6 +20,7 @@ class Home extends Component {
         this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
         this.addAuction = this.addAuction.bind(this);
         this.eachAuction = this.eachAuction.bind(this);
+        this.offerBid = this.offerBid.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
     }
 
