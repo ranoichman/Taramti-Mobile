@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -61,8 +62,10 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public string AddingProductAuction(string[] Arr, string itemName, string itemDesc, string city, string cat, string days, string assoc, string price, string user)
+    public string AddingProductAuction( string itemName, string itemDesc, string city, string cat, string days, string assoc, string price, string user)
     {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
         JavaScriptSerializer j = new JavaScriptSerializer();
         Item NewItem = new Item();
         Reg_Auction Auction = new Reg_Auction();
@@ -70,8 +73,8 @@ public class AuctionWebService : System.Web.Services.WebService
         Item_Category IC = new Item_Category(int.Parse(cat));
         Voluntary_association Vol = new Voluntary_association(assoc);
         UserT Seller = new UserT(user,true);
-
-        NewItem.Pictures = Arr;
+        int ProductCode = 0;
+        
         NewItem.ItemName = itemName;
         NewItem.ItemDesc = itemDesc;
         NewItem.Location = c;
@@ -84,7 +87,17 @@ public class AuctionWebService : System.Web.Services.WebService
 
         NewItem.AddItem(int.Parse(Auction.Seller.UserId));
 
-        return j.Serialize(NewItem.AddPictures());
+        string StrSql = "select max(product_code) from product ";
+        DS = db.GetDataSetByQuery(StrSql);
+
+        if (DS.Tables.Count > 0)
+        {
+            ProductCode = int.Parse(DS.Tables[0].Rows[0][0].ToString());
+        }
+
+        Auction.AddNewAuction(ProductCode, int.Parse(assoc));
+
+        return j.Serialize(ProductCode);
 
     }
 

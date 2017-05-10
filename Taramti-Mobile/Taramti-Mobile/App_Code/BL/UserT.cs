@@ -13,6 +13,7 @@ using System.Net.Mail;
 public class UserT
 {
     string userId, firstName, lastName, address, mail, password;
+    string number;
     bool active;
     Rank rank;
     City city;
@@ -133,6 +134,19 @@ public class UserT
         set
         {
             active = value;
+        }
+    }
+
+    public string Number
+    {
+        get
+        {
+            return number;
+        }
+
+        set
+        {
+            number = value;
         }
     }
     #endregion
@@ -546,6 +560,7 @@ public class UserT
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
+        
         string StrSql = "";
         StrSql = "select * from users where user_id ='" + UserId + "' ";
         DS = db.GetDataSetByQuery(StrSql);
@@ -554,15 +569,39 @@ public class UserT
             FirstName = DS.Tables[0].Rows[0][1].ToString();
             LastName = DS.Tables[0].Rows[0][2].ToString();
             Address = DS.Tables[0].Rows[0][4].ToString();
-            Mail = DS.Tables[0].Rows[0][5].ToString();
+            Number = DS.Tables[0].Rows[0][5].ToString();
+            Mail = DS.Tables[0].Rows[0][6].ToString();
             Active = bool.Parse(DS.Tables[0].Rows[0][8].ToString());
-        }
-        else
-        {
-
+            Rank = GetUserRank(UserId);
         }
         return this;
     }
+
+    internal static Rank GetUserRank(string userId)
+    {
+        DbService db = new DbService();
+        string sqlSelect = @"SELECT        user_id, Rank
+                                FROM            dbo.V_full_users_rank_combo
+                                WHERE        (user_id = N'" + userId + "')";
+        DataTable rankDT = db.GetDataSetByQuery(sqlSelect).Tables[0];
+        List<Rank> ranksList = Rank.GetAllRanks();
+        Rank R = new Rank();
+        if (rankDT.Rows.Count > 0)
+        {
+            int rankSum = rankDT.Rows[0][1].Equals(DBNull.Value) ? 0 : int.Parse(rankDT.Rows[0][1].ToString());
+
+            foreach (Rank item in ranksList)
+            {
+                if ((rankSum >= item.Minimum) && (rankSum <= item.Max))
+                {
+                    R = item;
+                    break;
+                }
+            }
+        }
+        return R;
+    }
+
 
     public void GetUserBids() { }
 

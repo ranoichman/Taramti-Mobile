@@ -111,3 +111,6 @@ footer {
     margin-top:5px;
     width:100%;
 }
+input[type=text] { 
+    text-align: center; 
+}

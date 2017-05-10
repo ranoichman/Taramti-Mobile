@@ -27,8 +27,8 @@
         function test()
         {
             var x = [1, 2];
-            var low = -1;
-            var high = -1;
+            var low = 200;
+            var high = 900;
             var code = 0;
             // alert("NANA");
             $.ajax({
@@ -81,7 +81,8 @@
                 data: JSON.stringify({ }),
                 success: function (data) {
                     var isUser = JSON.parse(data.d);
-
+                    console.log("user 0" + isUser[0])
+                    console.log("user 0________-" + isUser[0])
                     console.log(isUser);
                 },
                 error: function (err) { }

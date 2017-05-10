@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
+import axios from 'axios';
 
 import Ddl from './Ddl';
 
 import '../css/modal.css';
 
+//const auctionWS = GENERAL.auctionWebServerAddress;
+const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
 
 class Search extends Component {
     constructor(props) {
@@ -12,13 +15,30 @@ class Search extends Component {
         this.state = {
             categroy: 0,
             gps: 0,
-            display: "none"
+            display: "none",
+            categoriesArr: [{val:0 , text:"כל הקטגוריות"}]
         }
         this.onSelectedCat = this.onSelectedCat.bind(this);
         this.onSelectedGPS = this.onSelectedGPS.bind(this);
         this.cbChanged = this.cbChanged.bind(this);
         this.searchBTN = this.searchBTN.bind(this);
     }
+
+componentDidMount() {
+    const self=this;
+    axios.post(auctionWS + "GetAllProductsCategories",{}).then(function (response) {
+            let res = JSON.parse(response.data.d);
+            res.map(function(cat,i){
+                let arr = self.state.categoriesArr;
+                arr.push({val:cat.Cat_id , text:cat.Cat_Name });
+                self.setState({categoriesArr: arr});
+            });
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+}
+
 
 
     onSelectedCat(opt) {
@@ -77,9 +97,7 @@ class Search extends Component {
 
                         {/*category select*/}
                         <h3>קטגוריית מוצר</h3>
-                        <Ddl key="2" onChange={this.onSelectedCat} options={[{ val: '1', text: 'One' },
-                        { val: '2', text: 'Two' }, { val: '3', text: 'three' }, { val: '4', text: 'four' }
-                        ]} css="priceSelect" />
+                        <Ddl key="2" onChange={this.onSelectedCat}  options={this.state.categoriesArr} css="priceSelect" />
 
 
                         {/*between price area*/}

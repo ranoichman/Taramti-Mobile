@@ -122,6 +122,7 @@ public class Reg_Auction : Auction
             // נבדוק האם יש למכרז בידים, אם כן נציג את הביד הגבוה, אם לא נביא את המחיר ההתחלתי שלו
             foreach (DataRow row in DS.Tables[0].Rows)
             {
+                bool b = true; // כדי לדעת מה המצב עם מחיר הבידים - אם הם גבוהים מהמחיר בטווח 
                 Reg_Auction auction = new Reg_Auction(int.Parse(row[0].ToString()));
                 List<string> images = new List<string>();
                 StrSql = @"SELECT dbo.auction.auction_code, MAX(dbo.bid.price) AS Expr1
@@ -133,11 +134,20 @@ public class Reg_Auction : Auction
 
                 if (DSprice.Tables[0].Rows.Count > 0)
                 {
-                    auction.Price = int.Parse(DSprice.Tables[0].Rows[0][0].ToString());
+                    if (int.Parse(DSprice.Tables[0].Rows[0][1].ToString()) > highPrice)
+                    {
+                        b = false;
+                    }
+                    else
+                    {
+                        //auction.Price = int.Parse(DSprice.Tables[0].Rows[0][1].ToString());
+                        auction.Price = int.Parse(DSprice.Tables[0].Rows[0][0].ToString());
+                    }
+        
                 }
                 else
                 {
-                    auction.Price = int.Parse(DS.Tables[0].Rows[0][8].ToString());
+                    auction.Price = int.Parse(row[8].ToString());
                 }
 
                 StrSql = "SELECT dbo.product_pictures.path " +
@@ -163,7 +173,11 @@ public class Reg_Auction : Auction
                 auction.ItemCode = int.Parse(row[7].ToString());
                 auction.Images = images.Count > 0 ? images.ToArray() : null;
 
-                relevantAuctions.Add(auction);
+                if (b)
+                {
+                    relevantAuctions.Add(auction);
+                }
+                
             }
         }
 
@@ -230,6 +244,35 @@ public class Reg_Auction : Auction
         SqlParameter parbuy = new SqlParameter("@buyer", buyer);
         SqlParameter parprice = new SqlParameter("@price", bid);
         if (db.ExecuteQuery(sqlInsert, CommandType.Text, parauc, parbid, partime, parbuy, parprice) == 0)
+        {
+            return false;
+        }
+        return true;
+
+    }
+
+    public bool AddNewAuction(int prod, int assoc)
+    {
+        DbService db = new DbService();
+        string sqlInsert = @"INSERT INTO[dbo].[auction]
+           ([start_date]
+           ,[end_date]
+           ,[product_code]
+           ,[seller_id]
+           ,[donation_percentage]
+           ,[association_code])
+     VALUES
+           (@parStart, @parEnd,@parCode,@parSeller,@parPercent, @parAssoCode) ";
+        Random rnd = new Random();
+        
+        int n = rnd.Next(15, 30);
+        SqlParameter parStart = new SqlParameter("@parStart", DateTime.Now);
+        SqlParameter parEnd = new SqlParameter("@parEnd", End_Date);
+        SqlParameter parCode = new SqlParameter("@parCode", prod);
+        SqlParameter parSeller = new SqlParameter("@parSeller", Seller.UserId);
+        SqlParameter parPercent = new SqlParameter("@parPercent", n);
+        SqlParameter parAssoCode = new SqlParameter("@parAssoCode", assoc);
+        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parStart, parEnd, parCode, parSeller, parPercent, parAssoCode) == 0)
         {
             return false;
         }
