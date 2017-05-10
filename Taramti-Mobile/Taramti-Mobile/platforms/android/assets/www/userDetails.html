@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+
+    <script src="cordova.js"></script>
+
+    <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
+    <link href="css/w3.css" rel="stylesheet" />
+    <link href="css/jqmCss.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <!--מאסטר-->
+    <script src="js/master.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jqm.js"></script>
+
+    <script>
+        // קונסטנטות
+        const generic = GENERAL.genericWebServerAddress;
+        const user = GENERAL.USER;
+    </script>
+
+    <script>
+        $(document).ready(function () {
+           
+            var U = user.userID();
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetUserDetailsMobile",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ userId : U }),
+                success: function (data) {
+                    var UserId = JSON.parse(data.d);
+
+                    if (UserId != "")
+                    {
+                        $("#UserFirstName").val(UserId.FirstName);
+                        $("#UserLastName").val(UserId.LastName);
+                    }
+                },
+                error: function (err) { }
+            });
+
+        });
+
+
+
+    </script>
+
+</head>
+<body>
+
+    <div data-role="page" id="UserDetailsPage">
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+        <div class="Form" id="UserDetailsForm">
+            <h2>דף פרטי משתמש   </h2>
+            <!--<h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
+            <div id="avatar" style="margin:0 auto"></div>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>תעודת זהות: </h4>
+            <input type="text" id="UserId" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <!--<h4>הזן סיסמה: </h4>
+            <input type="text" id="UserPass" />
+            <h4>הזן סיסמה לאישור: </h4>
+            <input type="text" id="UserPass2" />-->
+
+            <!--<p>בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>-->
+
+            <!--<input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />-->
+            <!--<input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />-->
+            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+        </div>
+    </div>
+
+</body>
+</html>

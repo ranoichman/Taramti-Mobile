@@ -20,6 +20,7 @@ class Home extends Component {
         this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
         this.addAuction = this.addAuction.bind(this);
         this.eachAuction = this.eachAuction.bind(this);
+        this.offerBid = this.offerBid.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
     }
 
@@ -33,8 +34,9 @@ class Home extends Component {
     }
 
     searchTriggered(cities, lowPrice, highPrice, catCode) {
-        this.setState({ auctionsArr: [] });
-        this.getAuctionsByParams(cities, lowPrice, highPrice, catCode);
+        console.log(`entered search on ----- ${Date.now()}`)
+        //this.setState({ auctionsArr: [] });
+        //this.getAuctionsByParams(cities, lowPrice, highPrice, catCode);
     }
 
     //call function to get auctions from serveer
@@ -75,16 +77,18 @@ class Home extends Component {
     //function that returns a render of 1 auction
     eachAuction(item, i) {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-            home="true" price={item.price} endDate={item.endDate} code={item.code}
-            imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc} percentage={item.percentage} />
+            home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc} 
+            price={item.price} endDate={item.endDate} code={item.code}
+            percentage={item.percentage} />
     }
 
     //remove finished auction from displayed array
     deleteAuction(i) {
         console.log(`delete: ${i} --- ${this.state.auctionsArr[i]} `)
-        let arr = this.state.auctionsArr;
-        arr.splice(i, 0);
+        var arr = this.state.auctionsArr;
+        arr.splice(i, 1);
         this.setState({ auctionsArr: arr });
+        this.state.auctionsArr.map(function(item,i){console.log(i + "____" +  item.endDate + ":::::::" + item.price)})
     }
 
     offerBid(i) {
