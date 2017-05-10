@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+
+    <script src="cordova.js"></script>
+
+    <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
+    <link href="css/w3.css" rel="stylesheet" />
+    <link href="css/jqmCss.css" rel="stylesheet" />
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <!--מאסטר-->
+    <script src="js/master.js"></script>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jqm.js"></script>
+
+    <script>
+        const Gen = GENERAL.USER;
+        const generic = GENERAL.genericWebServerAddress;
+        const assoc = GENERAL.assocWebServerAddress;
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $.ajax({
+                dataType: "json",
+                url: assoc + "GetAllAmotaDetails",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({  }),
+                success: function (data) {
+
+                    var AssocArray = JSON.parse(data.d);
+
+                    if (AssocArray[0] != null) {
+                        for (var i = 0; i < AssocArray.length; i++) {
+                            var opt = '';
+                            opt += '<option value="' + AssocArray[i].Association_Code + '">' + AssocArray[i].Association_Name + '</option>';
+                            $("#AllAssoc").append(opt);
+                        }
+                    }
+                },
+                error: function (err) { }
+            });
+
+   
+
+        $("#AllAssoc").change(function () {
+
+            var code = $("#AllAssoc").val();
+            $.ajax({
+                dataType: "json",
+                url: assoc + "GetAmutaDetails",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ code: code }),
+                success: function (data) {
+
+                    var Association = JSON.parse(data.d);
+
+                    if (Association != "") {
+                        $("#AssocInfo").removeAttr("style", "visibility:hidden");
+
+                        $("#AssocName").val(Association.Association_Name);
+                        $("#AssocCode").val(Association.Association_Code);
+                        $("#AssocAccount").val(Association.Association_Account);
+                        $("#AssocSite").val(Association.Association_WebSite);
+                        $("#AssocYear").val(Association.Association_Year);
+                    }
+                },
+                error: function (err) { }
+            });
+        });
+        });
+    </script>
+
+</head>
+<body>
+
+    <div data-role="page" id="AssocInfoPage">
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+
+        <div id="SearchAssoc">
+            <select id="AllAssoc">
+
+            </select>
+        </div>
+
+        <div class="Form" id="AssocInfo" style="visibility:hidden" >
+            <h2>כיף שבאת!</h2>
+            <h4>שם עמותה: </h4>
+            <input type="text" id="AssocName" value="" />
+            <h4>קוד עמותה: </h4>
+            <input type="text" id="AssocCode" value="" />
+            <h4>פרטי חשבון העמותה: </h4>
+            <input type="text" id="AssocAccount" value="" />
+            <h4>אתר עמותה: </h4>
+            <input type="text" id="AssocSite" value="" />
+            <h4>שנת ייסוד: </h4>
+            <input type="text" id="AssocYear" value="" />
+            <input class="w3-margin-right" id="StayCB" type="checkbox" checked />
+            <h6 id="ImHereToStay">אני כאן כדי להשאר</h6>
+
+
+            <!--<input type="button" id="Loginbtn" value="התחבר" />
+            <h5><a href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
+            <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>-->
+            <!------------------------->
+            <!------------------------->
+            <!--<a onclick="location.href='RegisterAssoc-Taramti.html'">RegisterAssoc-Taramti.html</a>
+            <a onclick="location.href = 'AddingAuction-Taramti.html'">AddingAuction-Taramti.html</a>-->
+            <!------------------------->
+            <!------------------------->
+
+
+        </div>
+        <!--<input type="button" id="AssocDetailsbtn" value="הבא פרטי עמותה" onclick="GetAssocDetails()" />-->
+    </div>
+
+</body>
+</html>
