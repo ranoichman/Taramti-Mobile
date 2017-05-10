@@ -194,19 +194,19 @@ class App extends Component {
                     prodName: "מחשב נייד",
                     prodDesc: "בוא נכתוב כאן משהו שאפשר יהיה לראות שהכל עובד כמו שצריך. האם זה הצליח???"
                 },
-                // {
-                //     code: 14,
-                //     price: 15,
-                //     endDate: "5/14/2017",
-                //     imgArr: [
-                //         "img/ASP.JPG",
-                //         "img/Logo.JPG",
-                //         "img/image.png"
-                //     ],
-                //     percentage: 0.2,
-                //     prodName: "שעון יד",
-                //     prodDesc: "הנה כמה דברים שיש לי לומר  "
-                // }
+                {
+                    code: 14,
+                    price: 15,
+                    endDate: "5/14/2017",
+                    imgArr: [
+                        "img/ASP.JPG",
+                        "img/Logo.JPG",
+                        "img/image.png"
+                    ],
+                    percentage: 0.2,
+                    prodName: "שעון יד",
+                    prodDesc: "הנה כמה דברים שיש לי לומר  "
+                }
             ]
         }
         this.offerBid = this.offerBid.bind(this);
