@@ -39,6 +39,7 @@
 
     <script>
 
+
         $(document).ready(function () {
             // אג'קס למילוי כל הקטגוריות
             $.ajax({
@@ -85,17 +86,15 @@
             });
         });
 
-
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
-            LocalPicArr = new Array();
-            SerPicArr = new Array();
+            LocalPicArr = new Array(); //שמירת הנתיב של התמונות במכשיר
             Local_i = 0;
-            Server_i = 0;
+            SerPicArr = new Array();//שמירת הנתיב של התמונות בשרת
+            Server_i = 0;     
         });
-
 
         function OpenCameraORChooseFile(Flag) {
             var x = Camera.PictureSourceType.PHOTOLIBRARY;
@@ -111,6 +110,22 @@
             });
         }
 
+        function onCameraSuccess(imageURI) {
+            var $img = $("<img>").attr("src", imageURI);
+            $("#image_holder").append($img);
+            LocalPicArr.push(imageURI);
+            Local_i++;
+            //uploadPhoto(imageURI);
+        }
+
+        function addToSerPicArr(stringServerPath) {
+            alret("נכנסתי");
+            SerPicArr.push(stringServerPath);
+            alret("SerPicArr[Server_i]");
+            alret(SerPicArr[Server_i]);
+            Server_i++;
+            alert(Server_i++);
+        }
 
         function AddingProductAuction() {
            
@@ -130,11 +145,8 @@
                 type: "POST",
                 data: JSON.stringify({ itemName: itemName, itemDesc:itemDesc,city:city,cat:cat, days:days,assoc:assoc,price:price, user:user   }),
                 success: function (data) {
-
                     var productCode = JSON.parse(data.d)
-
                     if (productCode != "") {
-
                         for (var picNum in LocalPicArr) {
                             var thisImageURI = LocalPicArr[picNum]
                             alert(thisImageURI);
@@ -164,21 +176,10 @@
                 },
                 error: function (err) { }
             });
-
         }
 
 
-
-
-
-
-
-
-
-
-
-
-        //--לבדיקה מול ניר
+        ////--לבדיקה מול ניר
 
         //function AddingProductAuction() {
 
@@ -194,7 +195,7 @@
         //        var thisImageURI = LocalPicArr[picNum]
         //        alert(thisImageURI);
         //        uploadPhoto(thisImageURI, picNum, productCode)
-        //        alert("לפני תמונה אחת הועלתה");
+        //        alert("לפני תמונה אחת הועלתה");                
         //        alert(stringServerPath);
         //        //addToSerPicArr(stringServerPath);
         //        alert(" אחרי תמונה אחת הועלתה");
@@ -223,26 +224,6 @@
         //}
 
 
-        function onCameraSuccess(imageURI) {
-            var $img = $("<img>").attr("src", imageURI);
-            $("#image_holder").append($img);
-            LocalPicArr.push(imageURI);
-            Local_i++;
-            //uploadPhoto(imageURI);
-        }
-
-        function addToSerPicArr(stringServerPath) {
-            alret("נכנסתי");
-            SerPicArr.push(stringServerPath);
-            alret("SerPicArr[Server_i]");
-            alret(SerPicArr[Server_i]);
-            Server_i++;
-            alert(Server_i++);
-
-        }
-
-
-
         function uploadPhoto(thisImageURI, picNum, productCode) {
             //   Load(); // Start the spinning "working" animation
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
@@ -255,7 +236,7 @@
             var ft = new FileTransfer();
             ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
 
-            stringServerPath = "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg";
+            stringServerPath = String( "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
             alert(stringServerPath);
 
         } // Upload Photo
@@ -352,9 +333,9 @@
                     <!------------------------->
                     <!-------------להוסיף איקסים על התמונות לצורך מחיקה------------>
                     <div id="image_holder">
-                        <img src="img/Desert.jpg" />
+                        <!--<img src="img/Desert.jpg" />
                         <img src="img/Koala.jpg" />
-                        <img src="img/Tulips.jpg" />
+                        <img src="img/Tulips.jpg" />-->
                     </div>
 
                     <!--<input type="button" id="Adonbtn" value="cshev" onclick="savePic8()" />-->
