@@ -28,6 +28,171 @@ public class WebService : System.Web.Services.WebService
         return "Hello World";
     }
 
+
+    // מתודה להחזרת פרטי עמותה ספציפים ע"פ קוד עמותה
+    //[WebMethod]
+    //public Voluntary_association GetAssociationInfo(string code)
+    //{
+    //    // Voluntary_association V = new Voluntary_association();
+    //    DataTable DT = new DataTable();
+    //    List<string> L = Voluntary_association.GetAssociationByCode(code);
+
+    //    if (DT.Rows.Count > 0)
+    //    {
+    //        return new Voluntary_association(DT.Rows[0][0].ToString(), DT.Rows[0][1].ToString(), DT.Rows[0][2].ToString());
+    //    }
+    //    else
+    //    {
+    //        return new Voluntary_association();
+    //    }
+    //}
+
+    // מתודה להחזרת כלל העמותות
+    //[WebMethod]
+    //public List<Voluntary_association> GetAllAssociations()
+    //{
+    //    // Voluntary_association V = new Voluntary_association();
+    //    DataTable DT = new DataTable();
+    //    List<Voluntary_association> L = Voluntary_association.GetAllAssociations();
+    //    if (DT.Rows.Count > 0)
+    //    {
+    //        //return  new Voluntary_association(DT.Rows[0][0].ToString(), DT.Rows[0][1].ToString(), DT.Rows[0][2].ToString());
+    //        return L;
+    //    }
+    //    else
+    //    {
+    //        return L;
+    //    }
+    //}
+
+    [WebMethod(Description = "בדיקה אם פרטי המשתמש נכונים ואיפוס סיסמה")]
+    public string CheckValidUser(string id, string mail)
+    {
+        UserT temp_user = new UserT();
+        temp_user.Mail = mail;
+        temp_user.UserId = id;
+        if (temp_user.CheckForResetPass())
+        {
+            temp_user.SendMail();//שליחת מייל
+            return "true";
+        }
+        return "false";
+    }
+
+    [WebMethod(Description = "")]
+    public string CheckInDatabase(string id, string mail)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT temp_user = new UserT();
+        temp_user.Mail = mail;
+        temp_user.UserId = id;
+        if (temp_user.CheckForResetPass())
+        {
+            temp_user.GetUserName();
+            return j.Serialize(temp_user);
+            //return temp_user.FirstName + " " + temp_user.LastName;
+        }
+        return "false";
+    }
+
+    [WebMethod(Description = "הוספת משתמש כמורשה גישה לעמותה")]
+    public string AddMursheAssoc(string id, int assocCode)
+    {
+        if (!CheckMursheAssoc(id, assocCode))
+        {
+            if (Voluntary_association.AddMursheAssoc(id, assocCode))
+            {
+                return "true";
+            }
+            else
+            {
+                return "קיימת בעיה עם הוספת המורשה יש לפנות למנהלי המערכת, תודה";
+            }
+        }
+        return "המשתמש הוגדר כבר בעבר כמורשה לעמותה זו";
+    }
+
+    /// <summary>
+    /// מתודה שבודקת אם למשתמש יש הרשאה לעמותה לפי קוד עמותה ות.ז משתמש
+    /// </summary>
+    /// <returns>מחזירה נכון או לא</returns>
+    [WebMethod]
+    public bool CheckMursheAssoc(string id, int assocCode)
+    {
+        List<string> MurshimId = new List<string>();
+        MurshimId = Voluntary_association.GetAssociationMurshimByCodeAmuta(assocCode);
+
+        foreach (string MursheId in MurshimId)
+        {
+            while (MursheId == id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    [WebMethod]
+    public string ChangePass(string id, string newPass)
+    {
+        UserT temp_user = new UserT();
+        temp_user.UserId = id;
+        temp_user.Password = newPass;
+        temp_user.UpdatePassword();
+        return "true";
+    }
+
+    /// <summary>
+    /// נקודתית!!!!!!!!!!!!!!
+    /// בפונקציה זו נדרוס את כתובת היוזר בערך ההרשאה של היוזר!!!
+    /// </summary>
+    /// <returns></returns>
+    //(Description ="WebService to return the logged in user ID and info ")
+    [WebMethod(EnableSession = true)]
+    public string GetUserDetails()
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT temp_user = new UserT();
+
+        HttpContext context = HttpContext.Current;
+
+        if (context.Session["UserID"] == null)
+        {
+            return j.Serialize("NOCOOKIE");
+        }
+        temp_user.UserId = (string)(context.Session["UserID"]);
+        int auth = temp_user.CheckAuthDesktop();
+        if (auth == -1)
+        {
+            return j.Serialize("NOCOOKIE");
+        }
+        else
+        {
+
+            temp_user.Address = auth.ToString();
+        }
+
+        temp_user.GetUserDetails();
+        return j.Serialize(temp_user);
+    }
+
+    [WebMethod(Description = "Clearing User cookies")]
+    public void ClearCookie()
+    {
+        HttpRequest Request = System.Web.HttpContext.Current.Request;
+
+        if (Request.Cookies.Get("userCookie") != null)
+        {
+            HttpCookie cookie = Request.Cookies["userCookie"];
+            cookie.Expires = DateTime.Now.AddYears(-12);
+            HttpContext.Current.Response.SetCookie(cookie);
+        }
+
+    }
+
+
+
     [WebMethod]
     public string ValidateUser(string mail, string pass)
     {
@@ -57,16 +222,6 @@ public class WebService : System.Web.Services.WebService
     //    }
     //    return "false";
     //}
-
-    [WebMethod]
-    public string ChangePass(string id, string newPass)
-    {
-        UserT temp_user = new UserT();
-        temp_user.UserId = id;
-        temp_user.Password = newPass;
-        temp_user.UpdatePassword();
-        return "True";
-    }
 
     [WebMethod]
     public string AddUser (string mail, string pass, string first, string last, string id)
@@ -121,19 +276,7 @@ public class WebService : System.Web.Services.WebService
         return j.Serialize(C.GetAllCities());
     }
 
-    [WebMethod(Description = "בדיקה אם פרטי המשתמש נכונים ואיפוס סיסמה")]
-    public string CheckValidUser(string id, string mail)
-    {
-        UserT temp_user = new UserT();
-        temp_user.Mail = mail;
-        temp_user.UserId = id;
-        if (temp_user.CheckForResetPass())
-        {
-            temp_user.SendMail();//שליחת מייל
-            return "true";
-        }
-        return "false";
-    }
+
 
 
   
