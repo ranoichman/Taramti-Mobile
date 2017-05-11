@@ -76,7 +76,7 @@ class App extends Component {
 
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams([1, 2], 50, 900, 0);
+        this.getAuctionsByParams([1, 2], -1, -1, 0);
     }
 
     componentWillUnmount() {
