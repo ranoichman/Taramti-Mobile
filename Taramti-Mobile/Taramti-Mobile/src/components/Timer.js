@@ -20,7 +20,7 @@ class Timer extends Component {
             this.state.secondsRemaining = this.state.secondsRemaining - 1000;
             this.setState({ elapsed: this.calculateElapsed() });
             if (this.state.secondsRemaining <= 0) {
-                this.setState({ elapsed: "finished" });
+                this.setState({ elapsed: "המכרז הסתיים" });
                 if (this.props.timerFinished !== 'undefined') {
                     this.props.timerFinished();
                 }
