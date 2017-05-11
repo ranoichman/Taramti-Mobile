@@ -68,13 +68,19 @@ componentDidMount() {
         let cities = [];
         let catCode = this.state.categroy;
         
+        if (!(this.refs.locationCB.checked)) {
+            this.props.startSearch(cities,low,high,catCode); // start search without location    
+        } else {
         navigator.geolocation.getCurrentPosition(function(pos_result){
             console.log(`alt -- ${pos_result.coords.altitude} _____ lat-- ${pos_result.coords.longitude}` )
-
+            this.props.startSearch(cities,low,high,catCode); // start search with location after city arr is filled
 
         })
 
-        this.props.startSearch(cities,low,high,catCode);
+        }
+        
+
+        
     }
 
     render() {
@@ -84,7 +90,7 @@ componentDidMount() {
                     <a className="boxclose"></a>
                 </Swipeable>
                 <div>
-                    <form>
+                    {/*<form>*/}
                         {/*GPS checkbox*/}
                         <div className="gpsCont">
                             <input type="checkbox" ref="locationCB" onClick={this.cbChanged} />הצג מוצרים בקרבתי
@@ -106,7 +112,7 @@ componentDidMount() {
                         <input type="text" ref="higherPrice" placeholder="עד..." />
                         <button className="ui-btn ui-btn-corner-all btn-info" onClick={this.searchBTN}> חפש </button>
 
-                    </form>
+                    {/*</form>*/}
 
                 </div>
             </div>

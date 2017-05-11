@@ -222,18 +222,13 @@ class App extends Component {
         if (this.state.reRender) {
             //this.getAuctionsByParams([1, 2], 50, 900, 0);
             this.setState({ reRender: false });
-            console.log(`will mount _______ ${this.state.reRender}!`)
+            //console.log(`will mount _______ ${this.state.reRender}!`)
         }
     }
 
     componentWillUnmount() {
         // Lifecycle function that is triggered just before a component unmounts
     }
-
-    // shouldComponentUpdate(nextProps, nextState){
-    //     console.log( " should update???????? "+nextState)
-    //     return true;
-    // },
 
     //change states to show specific auction page
     offerBid(i) {
@@ -286,7 +281,7 @@ class App extends Component {
         return (
             <div className="container-fluid">
                 <Auction index={this.state.displayedAuction} auctionfinished={this.deleteAuction}
-                    home={this.state.home} price={curAuction.price} endDate={curAuction.endDate}
+                    home={this.state.home} price={curAuction.price} endDate={curAuction.endDate} code={curAuction.code}
                     imgArr={curAuction.imgArr} prodName={curAuction.prodName} prodDesc={curAuction.prodDesc} percentage={curAuction.percentage} />
             </div>
         )
