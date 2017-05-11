@@ -63,8 +63,8 @@ class Search extends Component {
 
     //send search params to index.js
     searchBTN() {
-        let low = this.refs.lowerPrice.value !== 'undefined' ? this.refs.lowerPrice.value : -1;
-        let high = this.refs.higherPrice.value !== 'undefined' ? this.refs.higherPrice.value : -1;
+        let low = this.refs.lowerPrice.value !== "" ? this.refs.lowerPrice.value : -1;
+        let high = this.refs.higherPrice.value !== "" ? this.refs.higherPrice.value : -1;
         let cities = [];
         let catCode = this.state.categroy;
 
