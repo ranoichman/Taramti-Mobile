@@ -103,7 +103,7 @@
 
                     $a.on("swipeleft", function () {
                         lastPage = "SearchAssoc";
-                        MoveToAssocDetails($(this).attr("data-code"));
+                        MoveToAssocDetails($(this).children("span").attr("data-code"));
                     })
 
 
@@ -303,7 +303,7 @@
             <h4>שנת ייסוד: </h4>
             <input type="text" id="AssocYear" />
 
-            <a onclick="goBack">חזור</a>
+            <a onclick="goBack()">חזור</a>
         </div>
     </div>
 
