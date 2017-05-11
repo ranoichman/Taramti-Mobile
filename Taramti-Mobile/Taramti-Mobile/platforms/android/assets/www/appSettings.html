@@ -128,75 +128,10 @@
             });
         }
 
-        function MoveToAssocDetails(assocId) {
-
-            associationCode = assocId;
-            
-            
-            $.ajax({
-                dataType: "json",
-                url: assoc + "GetAmutaDetails",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ code: associationCode }),
-                success: function (data) {
-
-                    var Association = JSON.parse(data.d);
-
-                    if (Association != "") {
-                        $("#AssocInfo").removeAttr("style", "visibility:hidden");
-
-                        $("#AssocName").val(Association.Association_Name);
-                        $("#AssocCode").val(Association.Association_Code);
-                        $("#AssocAccount").val(Association.Association_Account);
-                        $("#AssocSite").val(Association.Association_WebSite);
-                        $("#AssocYear").val(Association.Association_Year);
-
-                        $("#AssocName").attr('readonly', true);
-                        $("#AssocCode").attr('readonly', true);
-                        $("#AssocAccount").attr('readonly', true);
-                        $("#AssocSite").attr('readonly', true);
-                        $("#AssocYear").attr('readonly', true);
-
-                        location.href = "appSettings.html#AssocInfoPage";
-                    }
-                },
-                error: function (err) { }
-            });
-        }
-
-        function SaveSettings()
+        function vibrate()
         {
-            var userId = user.userID();
-            var push = $("#flip-1").val();
-            var sound = false;
-            var vibe = false;
-
-            if ($("#soundOpt").val() == 1)
-            {
-                vibe = true;
-            }
-            else if ($("#soundOpt").val() == 2)
-            {
-                sound = true;
-            }
-            else if ($("#soundOpt").val() == 3)
-            {
-                vibe = true;
-                sound = true;
-            }
-        
-            $.ajax({
-                dataType: "json",
-                url: generic + "SaveSettings",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ user : userId, push : push, sound : sound, vibe : vibe }),
-                success: function (data) {
-                    alert("העדפותיך האישיות התעדכנו במערכת בהצלחה");
-                },
-                error: function (err) { }
-            });
+            navigator.vibrate(1000);
+            console.log("hiii");
         }
 
     </script>
@@ -215,10 +150,10 @@
                 <div id="SettingsForm">
                     <br />
                     <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
-                    <div style="direction:ltr; display:inline; float:left">
-                        <select name="flip-1" id="flip-1" data-role="slider">
+                    <div style="direction:ltr; display:inline; float:left" >
+                        <select name="flip-1" id="flip-1" data-role="slider" >
                             <option value=false>Off</option>
-                            <option value=true>On</option>
+                            <option value=true >On</option>
                         </select>
                     </div>
                     <br /><br />

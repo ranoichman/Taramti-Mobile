@@ -19,6 +19,7 @@ public class Item
     Item_Bid[] item_Bids;
     Item_Category item_Category;
     string[] pictures;
+    string price;
 
     //props
     #region
@@ -125,6 +126,19 @@ public class Item
             itemId = value;
         }
     }
+
+    public string Price
+    {
+        get
+        {
+            return price;
+        }
+
+        set
+        {
+            price = value;
+        }
+    }
     #endregion
 
     //ctor
@@ -192,9 +206,10 @@ public class Item
            ,[product_category_code]
            ,[city_code]
            ,[seller_id]
-           ,[product_Name])
+           ,[product_Name]
+           ,[price])
      VALUES
-           (@ProductDesc, @ProductCatCode, @ProductCity, @ProductSeller, @ProductName)";
+           (@ProductDesc, @ProductCatCode, @ProductCity, @ProductSeller, @ProductName,@Price)";
 
             DbService db = new DbService();
         SqlParameter parProdDesc = new SqlParameter("@ProductDesc", ItemDesc);
@@ -202,8 +217,9 @@ public class Item
         SqlParameter parProdCity = new SqlParameter("@ProductCity", Location.CityCode);
         SqlParameter parProdSeller = new SqlParameter("@ProductSeller", seller);
         SqlParameter parProdName = new SqlParameter("@ProductName", ItemName);
+        SqlParameter parPrice = new SqlParameter("@Price", int.Parse(Price) * 1.2);
 
-        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProdDesc, parProdCatCode, parProdCity, parProdSeller, parProdName) == 0)
+        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProdDesc, parProdCatCode, parProdCity, parProdSeller, parProdName, parPrice) == 0)
             {
                 return false;
             }

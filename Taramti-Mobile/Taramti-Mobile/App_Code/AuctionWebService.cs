@@ -90,6 +90,7 @@ public class AuctionWebService : System.Web.Services.WebService
         NewItem.ItemDesc = itemDesc;
         NewItem.Location = c;
         NewItem.Item_Categories = IC;
+        NewItem.Price = price;
 
         Auction.End_Date = DateTime.Now.AddDays(double.Parse(days)).ToString();
         Auction.Vol_asc = Vol;

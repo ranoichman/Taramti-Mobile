@@ -180,6 +180,7 @@
             var street = $("#UserStreet").val();
             var num = $("#UserHomeNum").val();
 
+            if (city != -1) {
             $.ajax({
                 dataType: "json",
                 url: generic + "AddUserAllInfo",
@@ -200,6 +201,10 @@
                 },
                 error: function (err) { }
             });
+            }
+            else {
+                alert("אנא בחר עיר מגורים");
+            }
         }
 
         function SendMailPass() {
@@ -394,7 +399,9 @@
             <input type="text" id="UserPhon" />
             <h4>עיר מגורים: </h4>
             <!--<input type="text" id="UserCity" />-->
-            <select id="UserCity" onclick="CityList()" data-icon="arrow-r"></select>
+            <select id="UserCity" onclick="CityList()" data-icon="arrow-r">
+                <option value="-1"> בחר</option>
+            </select>
             <h4>רחוב: </h4>
             <input type="text" id="UserStreet" />
             <h4>מספר בית: </h4>
