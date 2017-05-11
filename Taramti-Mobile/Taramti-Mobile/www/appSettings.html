@@ -29,13 +29,13 @@
     
 </head>
 <body>
-    <form id="settingsForm">
+    <form id="settingsForm" class="Form">
         <div class="container">
             <h1> הגדרות אפליקציה </h1>
 
             <div id="avatar"></div>
             <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
-            <div id="SettingsForm">
+            <div id="SettingsForm" >
                 <label><b>אפשר הודעות פוש</b></label>
 
                 <select name="pushOpt" form="settingsForm">
@@ -52,6 +52,19 @@
                     <option value="off">ללא</option>
                 </select>
 
+                <div style="direction:ltr">
+                    <select name="flip-1" id="flip-1" data-role="slider">
+                        <option value="off">Off</option>
+                        <option value="on">On</option>
+                    </select>
+                </div>
+                <!--<div class="containing-element">
+                    <label for="flip-min">Flip switch:</label>
+                    <select name="flip-min" id="flip-min" data-role="slider">
+                        <option value="off">Switch Off</option>
+                        <option value="on">Switch On</option>
+                    </select>
+                </div>-->
 
 
             </div>
