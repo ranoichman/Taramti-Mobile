@@ -238,7 +238,7 @@ public class Reg_Auction : Auction
      VALUES
            (@auc, @bidCode,@bidTime,@buyer,@price) ";
 
-        SqlParameter parauc = new SqlParameter("@auc", auc);
+        SqlParameter parauc = new SqlParameter("@auc", AuctionID);
         SqlParameter parbid = new SqlParameter("@bidCode", bid);
         SqlParameter partime = new SqlParameter("@bidTime", DateTime.Now);
         SqlParameter parbuy = new SqlParameter("@buyer", buyer);
