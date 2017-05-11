@@ -131,14 +131,14 @@
             var days = $("#AuctionLast").val();
             var assoc = $("#AuctionAssoc").val();
             var price = $("#AuctionMinPrice").val();
-            var user = userID.userID();
+            var user1 = user.userID();
 
             $.ajax({
                 dataType: "json",
                 url: aucwebservice + "AddingProductAuction",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user }),
+                data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user1 }),
                 success: function (data) {
                     var productCode = JSON.parse(data.d)
                     if (productCode != "") {
@@ -292,13 +292,13 @@
 
                     <h4>משך המכרז (בימים)</h4>
                     <select id="AuctionLast">
-                        <option value="value">1</option>
-                        <option value="value">2</option>
-                        <option value="value">3</option>
-                        <option value="value">4</option>
-                        <option value="value">5</option>
-                        <option value="value">6</option>
-                        <option value="value">7</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
                     </select>
                     <h4>בחר עמותה</h4>
                     <select id="AuctionAssoc">
