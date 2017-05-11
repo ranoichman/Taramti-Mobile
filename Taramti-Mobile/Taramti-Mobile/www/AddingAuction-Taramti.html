@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
@@ -257,16 +256,6 @@
     </script>
 
     <style>
-        .ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {
-            display: none;
-        }
-
-        a.ui-btn.ui-btn-icon-right.ui-icon-carat-r{
-            background-color:#98b8dc;
-            border-color:black;
-        }
-
-
         /*#MenuBar {
             width: 20px;
             height: 70px;
@@ -276,7 +265,6 @@
         MenuBarUL li {
             z-index: 100;
         }*/
-
     </style>
 </head>
 <body>
@@ -284,27 +272,36 @@
     <!--דף זה מכיל דף הוספת מכרז-->
 
     <div data-role="page" id="AddingAuctionPage">
-        <div data-role="collapsible">
-            <h1>
-                <span id="TaramtiMenuIconDiv">
-                    <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
-                </span>
-            </h1>
-            <!--<p><a onclick="location.href = 'Login-Taramti.html'">Login-Taramti.html</a></p>-->
-            <ul id="MenuBarUL" data-role="listview" data-inset="false">
-                <li><a onclick="location.href = 'Login-Taramti.html'">דף הבית</a></li>
-                <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוסף עמותה</a></li>
-                <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוסף מכרז</a></li>   
-            </ul>
-        </div>
-        <div id="UpperLogo">
-            <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
-            
-            <!--<div id="TaramtiMenuIconDiv" onclick="">
-                <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
-            </div>-->
-        </div>
+        <div id="MenuBarDiv">
+            <div data-role="collapsible">
+                <h1>
+                    <span id="TaramtiMenuIconDiv">
+                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                    </span>
+                </h1>
+                <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                    <li><a onclick="location.href = 'Login-Taramti.html'">דף הבית</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
+                    <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
 
+
+                    
+
+
+
+
+                    <li><a onclick="location.href = 'Login-Taramti.html'">דף הבית</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוסף עמותה</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוסף מכרז</a></li>
+                </ul>
+            </div>
+
+            <div id="UpperLogo">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            </div>
+        </div>
 
         <!--<div id="MenuBar" data-role="collapsible">
             <h4></h4>
@@ -384,6 +381,7 @@
                     <a onclick="location.href = 'Login-Taramti.html'">Login-Taramti.html</a>
                     <!------------------------->
                     <!------------------------->
+
                 </div>
             </div>
 

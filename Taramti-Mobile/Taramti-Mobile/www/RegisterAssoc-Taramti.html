@@ -10,6 +10,7 @@
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
     <meta http-equiv="Content-Security-Policy" content="default-src * gap: ws: https://ssl.gstatic.com;img-src 'self' data: content:;style-src 'self' 'unsafe-inline' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
     <script src="./cordova.js"></script>
 
@@ -116,6 +117,15 @@
         }
     </script>
 
+    <style>
+        #fixedsocial {
+            bottom: -20%;
+            height: 200px;
+            width: 60px;
+            left:1%;
+            position: fixed;
+        }
+    </style>
 </head>
 
 <body>
@@ -123,21 +133,23 @@
     <!--דף זה מכיל הוספת עמותה -->
 
     <div data-role="page" id="RegisterAssocPage">
-        <div id="UpperLogo">
-            <img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
-            <div id="TaramtiMenuIconDiv">
-                <!--<i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x" data-role="collapsible"></i>
-                <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-                <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
+        <div id="MenuBarDiv">
+            <div data-role="collapsible">
+                <h1>
+                    <span id="TaramtiMenuIconDiv">
+                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                    </span>
+                </h1>
+                <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                    <li><a onclick="location.href = 'Login-Taramti.html'">דף הבית</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוסף עמותה</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוסף מכרז</a></li>
+                </ul>
             </div>
 
-            <div data-role="collapsible">
-                <h4>Heading</h4>
-                <p>I'm the collapsible content. By default I'm closed, but you can click the header to open me.</p>
-            </div>-->
+            <div id="UpperLogo">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            </div>
         </div>
 
         <!-- להוריד פלייס הולדרים מיותרים -->
@@ -168,6 +180,12 @@
             <a onclick="location.href = 'Login-Taramti.html'">Login-Taramti.html</a>
             <!------------------------->
             <!------------------------->
+
+
+            <div id="fixedsocial">
+                <div> <a href="#"><i class="fa fa-plus-circle fa-4x" aria-hidden="true"></i></a></div>
+            </div>
+
 
         </div>
     </div>
