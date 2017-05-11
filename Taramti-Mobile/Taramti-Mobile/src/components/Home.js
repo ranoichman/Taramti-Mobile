@@ -103,7 +103,7 @@ class Home extends Component {
         return (
             <div>
                 <Swipeable onTap={this.openSearchModal}>
-                    <FontAwesome name='search' border="true" className="fa-3x" tag="div" />
+                    <FontAwesome name='search' border={true} className="fa-3x" tag="div" />
                     <Modal
                         isOpen={this.state.searchModalIsOpen}
                         onRequestClose={this.closeSearchModal}

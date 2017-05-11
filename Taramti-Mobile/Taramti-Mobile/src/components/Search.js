@@ -6,8 +6,8 @@ import Ddl from './Ddl';
 
 import '../css/modal.css';
 
-//const auctionWS = GENERAL.auctionWebServerAddress;
-const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+const auctionWS = GENERAL.auctionWebServerAddress;
+//const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
 
 class Search extends Component {
     constructor(props) {
