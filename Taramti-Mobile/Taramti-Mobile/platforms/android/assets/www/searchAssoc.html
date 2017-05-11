@@ -56,12 +56,13 @@
                     
                     let $a = $("<a>").append($name,$tag).addClass("ui-btn ui-shadow ui-corner-all");
 
+                    $a.on("swipeleft",function(){
+                        MoveToAssocDetails($(this).attr("data-code"));
+                    })
+
 
                     $("#assocFilter").append($a);
                     })//end map func
-
-
-
 
 
                 },
