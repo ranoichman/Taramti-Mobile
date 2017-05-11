@@ -131,7 +131,9 @@
             var days = $("#AuctionLast").val();
             var assoc = $("#AuctionAssoc").val();
             var price = $("#AuctionMinPrice").val();
-            var user1 = user.userID();
+            //var user1 = user.userID();
+            var user1 = "300948552";
+            
 
             $.ajax({
                 dataType: "json",
@@ -142,10 +144,12 @@
                 success: function (data) {
                     var productCode = JSON.parse(data.d)
                     if (productCode != "") {
+                        alert("נכנסתי לאיף");
                         for (var picNum in LocalPicArr) {
                             var thisImageURI = LocalPicArr[picNum]
                             uploadPhoto(thisImageURI, picNum, productCode)
                             addToServerPicArr(stringServerPath);
+                            alert(ServerPicArr[Server_i - 1]);
                         }
                         $.ajax({
                             dataType: "json",
@@ -190,14 +194,9 @@
             options.fileKey = "file";
             options.fileName = productCode + "_pic_" + picNum; // file name
             options.mimeType = "image/jpeg"; // file type
-
-            alert(options.fileName);
-
             var ft = new FileTransfer();
             ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
-
             stringServerPath = String("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
-            alert(stringServerPath);
 
         } // Upload Photo
 
@@ -239,15 +238,12 @@
                     </span>
                 </h1>
                 <ul id="MenuBarUL" data-role="listview" data-inset="false">
-                    <li><a onclick="location.href = 'Login-Taramti.html'">דף הבית</a></li>
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
-                    <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
-
-                    <li><a onclick="location.href = 'Login-Taramti.html'">דף הבית</a></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוסף עמותה</a></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוסף מכרז</a></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
                 </ul>
             </div>
 
@@ -292,13 +288,13 @@
 
                     <h4>משך המכרז (בימים)</h4>
                     <select id="AuctionLast">
-                        <option value="value">1</option>
-                        <option value="value">2</option>
-                        <option value="value">3</option>
-                        <option value="value">4</option>
-                        <option value="value">5</option>
-                        <option value="value">6</option>
-                        <option value="value">7</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
                     </select>
                     <h4>בחר עמותה</h4>
                     <select id="AuctionAssoc">

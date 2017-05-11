@@ -106,6 +106,7 @@ public class AuctionWebService : System.Web.Services.WebService
         JavaScriptSerializer j = new JavaScriptSerializer();
         Item NewItem = new Item();
         NewItem.ItemId = itemId;
+        NewItem.Pictures = Arr;
         return j.Serialize(NewItem.AddPictures());
     }
 
