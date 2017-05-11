@@ -292,6 +292,7 @@
                 error: function (err) { }
             });
         }
+
     </script>
 
 </head>
@@ -308,11 +309,11 @@
         <div class="Form" id="LoginForm">
             <h2>כיף שבאת!</h2>
             <h4>מייל משתמש: </h4>
-            <input type="text" id="UserMail" value="izik@gmail.com" />
+            <input type="email" id="UserMail" value="izik@gmail.com" />
             <h4>סיסמה: </h4>
-            <input type="text" id="UserPass" value="mashaush" />
-            <input class="w3-margin-right" id="StayCB" type="checkbox" checked />
-            <h6 id="ImHereToStay">אני כאן כדי להשאר</h6>
+            <input type="password" id="UserPass" value="mashaush" />
+            <!--<input class="w3-margin-right" id="StayCB" type="checkbox" checked />-->
+            <!--<h6 id="ImHereToStay">אני כאן כדי להשאר</h6>-->
 
 
             <input type="button" id="Loginbtn" value="התחבר" />
@@ -338,9 +339,9 @@
         <div class="Form" id="ForgotPassForm">
             <h2>שכחת סיסמה?!</h2>
             <h4>הזן תעודת זהות: </h4>
-            <input type="text" id="UserId" />
+            <input type="email" id="UserId" />
             <h4>הזן כתובת אימייל: </h4>
-            <input type="text" id="UserMailForgot" />
+            <input type="password" id="UserMailForgot" />
 
             <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
             <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
@@ -355,9 +356,9 @@
         <div class="Form" id="RestorePassForm">
             <h2>שחזור סיסמה</h2>
             <!--<h4>הזן כתובת אימייל: </h4>-->
-            <input type="text" placeholder="הזן ת.ז" id="UserIdRestore" />
-            <input type="text" placeholder="הזן סיסמה חדשה" id="UserPassNew" />
-            <input type="text" placeholder="חזור על סיסמה לאישור" id="UserPassNew2" />
+            <input type="number" placeholder="הזן ת.ז" id="UserIdRestore" />
+            <input type="password" placeholder="הזן סיסמה חדשה" id="UserPassNew" />
+            <input type="password" placeholder="חזור על סיסמה לאישור" id="UserPassNew2" />
 
             <input type="button" id="RestorePassBtn" value="שנה סיסמה" onclick="RestorePass()" />
         </div>
@@ -374,13 +375,13 @@
             <h4>שם משפחה: </h4>
             <input type="text" id="UserLastName" />
             <h4>תעודת זהות: </h4>
-            <input type="text" id="UserId" />
+            <input type="number" id="UserId" />
             <h4>כתובת אימייל: </h4>
-            <input type="text" id="UserMail" />
+            <input type="email" id="UserMail" />
             <h4>הזן סיסמה: </h4>
-            <input type="text" id="UserPass" />
+            <input type="password" id="UserPass" />
             <h4>הזן סיסמה לאישור: </h4>
-            <input type="text" id="UserPass2" />
+            <input type="password" id="UserPass2" />
 
             <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
 
@@ -396,7 +397,7 @@
         <div class="Form" id="CompleteRegisterForm">
             <h2>המשך רישום משתמש</h2>
             <h4>מספר טלפון: </h4>
-            <input type="text" id="UserPhon" />
+            <input type="tel" id="UserPhon" />
             <h4>עיר מגורים: </h4>
             <!--<input type="text" id="UserCity" />-->
             <select id="UserCity" onclick="CityList()" data-icon="arrow-r">
@@ -423,21 +424,21 @@
             <h4>שם משפחה: </h4>
             <input type="text" id="UserLastName" />
             <h4>תעודת זהות: </h4>
-            <input type="text" id="UserId" />
+            <input type="number" id="UserId" />
             <h4>מספר טלפון: </h4>
-            <input type="text" id="UserPhon" />
+            <input type="tel" id="UserPhon" />
             <h4>עיר מגורים: </h4>
             <input type="text" id="UserCity" />
             <h4>רחוב: </h4>
             <input type="text" id="UserStreet" />
             <h4>מספר: </h4>
-            <input type="text" id="UserHomeNum" />
+            <input type="number" id="UserHomeNum" />
             <h4>כתובת אימייל: </h4>
-            <input type="text" id="UserMail" />
+            <input type="email" id="UserMail" />
             <h4>הזן סיסמה: </h4>
-            <input type="text" id="UserPass" />
+            <input type="password" id="UserPass" />
             <h4>הזן סיסמה לאישור: </h4>
-            <input type="text" id="UserPass2" />
+            <input type="password" id="UserPass2" />
 
             <input type="button" id="RegisterBtn" value="הרשם" onclick="RegisterUser()" />
             <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
