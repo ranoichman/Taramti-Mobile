@@ -226,7 +226,7 @@ public class Reg_Auction : Auction
         return allCat;
     }
 
-    public bool OfferBid(int auc, int bid, int buyer)
+    public bool OfferBid(int bid, int buyer)
     {
         DbService db = new DbService();
         string sqlInsert = @"INSERT INTO [dbo].[bid]

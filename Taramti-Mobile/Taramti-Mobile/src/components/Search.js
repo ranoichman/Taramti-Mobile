@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import axios from 'axios';
 
+import {auctionWS} from './constants/general';
+
 import Ddl from './Ddl';
 
 import '../css/modal.css';
 
-const auctionWS = GENERAL.auctionWebServerAddress;
+//const auctionWS = GENERAL.auctionWebServerAddress;
 //const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
 
 class Search extends Component {

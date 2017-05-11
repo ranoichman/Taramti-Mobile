@@ -163,34 +163,9 @@ input{
         border-left: 40px solid transparent;
     }
     */
-.cut-diamond {
-    content: "הצע ביד";
-    border-style: solid;
-    border-color: transparent transparent #286090 transparent;
-    border-width: 0 25px 25px 25px;
-    height: 0;
-    width: 98px;
-    position: relative;
-    margin: 20px 0 50px 0;
-}
-.cut-diamond:after {
-    content: "";
-    position: absolute;
-    top: 25px;
-    left: -25px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-color: #286090 transparent transparent transparent;
-    border-width: 70px 50px 0 50px;
-}
-.cut-diamond span{
-    color: white;
-    z-index: 5;
-}
 
 .base {
-    z-index: 1;
+    /*z-index: 1;*/
   background: #286090;
   display: inline-block;
   height: 55px;

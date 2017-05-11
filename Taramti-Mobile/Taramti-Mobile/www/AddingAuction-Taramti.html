@@ -138,7 +138,7 @@
                 url: aucwebservice + "AddingProductAuction",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user }),
+                data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user1 }),
                 success: function (data) {
                     var productCode = JSON.parse(data.d)
                     if (productCode != "") {
