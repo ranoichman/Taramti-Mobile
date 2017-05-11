@@ -40,7 +40,6 @@ class Auction extends Component {
             borderColor: "red",
             msgClass: "box notEnough",
             shownMessage: "",
-            showX: "none",
             infoModalIsOpen: false,
             fAQModalIsOpen: false,
             msg_ModalIsOpen: false
@@ -172,8 +171,7 @@ class Auction extends Component {
     }
 
     closeMSGModal() {
-        this.setState({ msg_ModalIsOpen: false,
-                        showX: "none"})
+        this.setState({ msg_ModalIsOpen: false})
     }
 
     //disable input and button
@@ -196,8 +194,7 @@ class Auction extends Component {
 
     //display a congratulate message to the seller when the auction is finished
     congratulateSeller() {
-        this.setState({showX: "block",
-        shownMessage:`מזל טוב!
+        this.setState({shownMessage:`מזל טוב!
         המכרז על ${this.props.prodName} הסתיים בהצלחה בסכום של ${this.state.price} ש"ח מתוכם ${this.state.price*this.props.percentage/100} ש"ח הולכים לתרומה ו${this.state.price*(100-this.props.percentage)/100} ש"ח אליך! 
         כעת, כל מה שנותר הוא לחכות שהקונה יבצע את התשלום ולאחר מכן פרטיכם יועברו.
         `});
@@ -285,7 +282,7 @@ class Auction extends Component {
                         contentLabel="open info"
                         className={this.state.msgClass}>
                         <Swipeable onTap={this.props.closeModal}>
-                            <a className="boxclose" style={{display:"none"}}></a>
+                            <a className="boxclose"></a>
                         </Swipeable>
                         <h3>{this.state.shownMessage}</h3>
                     </Modal>
