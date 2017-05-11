@@ -111,8 +111,14 @@
         }
 
         function onCameraSuccess(imageURI) {
+
+            var $imgDiv = $("<div>");
+            var $imgA = $("<a>").addClass("boxclose");
             var $img = $("<img>").attr("src", imageURI);
-            $("#image_holder").append($img);
+            $imgDiv.append($imgA).append($img);
+            $("#image_holder").append($imgDiv);
+
+
             LocalPicArr.push(imageURI);
             Local_i++;
         }
@@ -206,6 +212,7 @@
 
         function fail(error) {
             alert("An error has occurred: Code = " + error.code);
+            alert(error.body);
         }
 
         function onCameraFail(message) {

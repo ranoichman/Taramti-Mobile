@@ -43,6 +43,7 @@
         var Local_i = 0;
         var ServerPicArr = new Array();//שמירת הנתיב של התמונות בשרת
         var Server_i = 0;
+        var CancelMessage = "";
 
         $(document).ready(function () {
             // אג'קס למילוי כל הקטגוריות
@@ -98,8 +99,10 @@
 
         function OpenCameraORChooseFile(Flag) {
             var x = Camera.PictureSourceType.PHOTOLIBRARY;
+            CancelMessage = "שים לב-אף תמונה לא נבחרה "
             if (Flag) {
                 x = Camera.PictureSourceType.CAMERA;
+                CancelMessage = "שים לב- לא צולמה אף תמונה"
             }
             navigator.camera.getPicture(onCameraSuccess, onCameraFail, {
                 quality: 100,
@@ -111,8 +114,22 @@
         }
 
         function onCameraSuccess(imageURI) {
+            var $imgDiv = $("<div>");
+            var $imgA = $("<a>").addClass("boxclose").attr("id", Local_i);
             var $img = $("<img>").attr("src", imageURI);
-            $("#image_holder").append($img);
+            $imgDiv.append($imgA).append($img);
+            $("#image_holder").append($imgDiv);
+
+            $imgA.on("tap", function () {
+                $(this).parent().remove();
+                ////מציאת האינדקס של הנתיב במערך ומחיקתו
+                var imgIndex = $(this).attr("id");
+                alert("index bitches " + imgIndex);
+                alert(LocalPicArr[imgIndex]);
+                LocalPicArr.splice(imgIndex, 1);
+                alert(LocalPicArr[imgIndex]);
+            });
+
             LocalPicArr.push(imageURI);
             Local_i++;
         }
@@ -131,9 +148,8 @@
             var days = $("#AuctionLast").val();
             var assoc = $("#AuctionAssoc").val();
             var price = $("#AuctionMinPrice").val();
-            //var user1 = user.userID();
-            var user1 = "300948552";
-            
+            var user1 = user.userID();
+            //var user1 = "300948552";
 
             $.ajax({
                 dataType: "json",
@@ -146,6 +162,8 @@
                     if (productCode != "") {
                         alert("נכנסתי לאיף");
                         for (var picNum in LocalPicArr) {
+                            alert(picNum);
+                            alert(LocalPicArr[picNum]);
                             var thisImageURI = LocalPicArr[picNum]
                             uploadPhoto(thisImageURI, picNum, productCode)
                             addToServerPicArr(stringServerPath);
@@ -161,6 +179,7 @@
                                 var isSaved = JSON.parse(data.d)
                                 if (isSaved) {
                                     alert("המכרז נשמר בהצלחה");
+                                    location.href = 'app.html';
                                 }
                                 else {
                                     alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
@@ -176,18 +195,7 @@
                 error: function (err) { }
             });
         }
-        //--לבדיקה מול ניר
 
-        //function AddingProductAuction() {
-
-        //    var productCode = 12;
-
-        //    for (var picNum in LocalPicArr) {
-        //        var thisImageURI = LocalPicArr[picNum]
-        //        uploadPhoto(thisImageURI, picNum, productCode)
-        //        addToServerPicArr(stringServerPath);
-        //    }
-        //}
 
         function uploadPhoto(thisImageURI, picNum, productCode) {
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
@@ -210,21 +218,10 @@
         }
 
         function onCameraFail(message) {
-            alert('Failed because: ' + message);
+            alert(CancelMessage);
+            //alert('Failed because: ' + message);
         }
     </script>
-
-    <style>
-        /*#MenuBar {
-            width: 20px;
-            height: 70px;
-            padding: 0 0 0 0;
-        }
-
-        MenuBarUL li {
-            z-index: 100;
-        }*/
-    </style>
 </head>
 <body>
 

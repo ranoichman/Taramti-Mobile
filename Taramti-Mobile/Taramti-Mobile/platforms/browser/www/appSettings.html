@@ -27,33 +27,72 @@
     </script>
     
     <script>
-
+        var associationCode;
         $(document).ready(function () {
 
             var id = user.userID();
-
             $.ajax({
                 dataType: "json",
                 url: assoc + "GetFavAssocById",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ id:id }),
+                data: JSON.stringify({ id: id }),
                 success: function (data) {
 
                     var AssocArray = JSON.parse(data.d);
 
                     if (AssocArray[0] != null) {
-                        for (var i = 0; i < AssocArray.length; i++) {
-                            var opt = '';
-                            opt += '<a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left" </option>'
-                            opt += '<option value="' + AssocArray[i].Association_Code + '">' + AssocArray[i].Association_Name + '</option>';
-                            $("#FavAssocGroup").append(opt);
+                        for (let i = 0; i < AssocArray.length; i++) {
+                            var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name" : "assoc" + i}).text(AssocArray[i].Association_Name);
+                            $("#FavAssocGroup").append($a);
+
+                            // השמת ה Swipe
+                            $a.on("swipeleft", function () {
+                                MoveToAssocDetails(AssocArray[i].Association_Code);
+                            });
                         }
                     }
                 },
                 error: function (err) { }
             });
         });
+
+        function MoveToAssocDetails(assocId) {
+
+            associationCode = assocId;
+            
+            
+            $.ajax({
+                dataType: "json",
+                url: assoc + "GetAmutaDetails",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ code: associationCode }),
+                success: function (data) {
+
+                    var Association = JSON.parse(data.d);
+
+                    if (Association != "") {
+                        $("#AssocInfo").removeAttr("style", "visibility:hidden");
+
+                        $("#AssocName").val(Association.Association_Name);
+                        $("#AssocCode").val(Association.Association_Code);
+                        $("#AssocAccount").val(Association.Association_Account);
+                        $("#AssocSite").val(Association.Association_WebSite);
+                        $("#AssocYear").val(Association.Association_Year);
+
+                        $("#AssocName").attr('readonly', true);
+                        $("#AssocCode").attr('readonly', true);
+                        $("#AssocAccount").attr('readonly', true);
+                        $("#AssocSite").attr('readonly', true);
+                        $("#AssocYear").attr('readonly', true);
+
+                        location.href = "appSettings.html#AssocInfoPage";
+                    }
+                },
+                error: function (err) { }
+            });
+        }
 
 
     </script>
@@ -93,12 +132,7 @@
                     <h4><b> העמותות המועדפות שלי: </b></h4>
                     <h6> (גלול שמאלה לפרטים נוספים) </h6>
                     <div data-role="controlgroup" id="FavAssocGroup">
-                        <a href="#" class="ui-btn ui-corner-all">No icon</a>
-                        <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-left">Left</a>
-                        <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">Right</a>
-                        <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-top">Top</a>
-                        <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-bottom">Bottom</a>
-                        <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext">Icon only</a>
+
                     </div>
 
                     <br /><br />
@@ -106,8 +140,35 @@
                     <input type="button" id="Acceptbtn" value="אישור" />
 
                     </div>
+                <h5><a href="#AssocInfoPage"> חזור לדף עמותה</a></h5>
             </div>
         <!--</form>-->
         </div>
+
+    <!--דף פרטי עמותה -->
+    <div data-role="page" id="AssocInfoPage">
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+
+        <div id="SearchAssoc">
+            <h2>כיף שבאת!</h2>
+
+        </div>
+
+        <div class="Form" id="AssocInfo" style="visibility:hidden">
+
+            <h4>שם עמותה: </h4>
+            <input type="text" id="AssocName" />
+            <h4>קוד עמותה: </h4>
+            <input type="text" id="AssocCode" />
+            <h4>פרטי חשבון העמותה: </h4>
+            <input type="text" id="AssocAccount" />
+            <h4>אתר עמותה: </h4>
+            <input type="text" id="AssocSite" />
+            <h4>שנת ייסוד: </h4>
+            <input type="text" id="AssocYear" />
+
+            <a onclick="location.href = 'appSettings.html#LoginPage'">חזרה לדף הבית</a>
+        </div>
+    </div>
 </body>
 </html>

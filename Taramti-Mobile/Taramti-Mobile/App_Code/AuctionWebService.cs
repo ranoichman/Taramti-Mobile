@@ -112,6 +112,7 @@ public class AuctionWebService : System.Web.Services.WebService
 
     }
 
+    [WebMethod]
     public string AddingProductPictures(string[] Arr, int itemId)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
