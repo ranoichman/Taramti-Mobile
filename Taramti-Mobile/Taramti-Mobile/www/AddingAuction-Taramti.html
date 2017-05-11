@@ -31,7 +31,6 @@
     <!--<script src="lib/jqueryUI/jqueryUI.js"></script>-->
 
     <script>
-        const userID = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
         const aucwebservice = GENERAL.auctionWebServerAddress;
         const assoc = GENERAL.assocWebServerAddress;
@@ -94,7 +93,7 @@
             LocalPicArr = new Array(); //שמירת הנתיב של התמונות במכשיר
             Local_i = 0;
             SerPicArr = new Array();//שמירת הנתיב של התמונות בשרת
-            Server_i = 0;     
+            Server_i = 0;
         });
 
         function OpenCameraORChooseFile(Flag) {
@@ -129,22 +128,12 @@
         }
 
         function AddingProductAuction() {
-           
-            var itemName = $("#ProdNum").val();
-            var itemDesc = $("#ProdDesc").val();
-            var city = $("#ProdLocation").val();
-            var cat = $("#AuctionCategories").val();
-            var days = $("#AuctionLast").val();
-            var assoc = $("#AuctionAssoc").val();
-            var price = $("#AuctionMinPrice").val();
-            var user = userID.userID();
-
             $.ajax({
                 dataType: "json",
                 url: aucwebservice + "AddingProductAuction",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ itemName: itemName, itemDesc:itemDesc,city:city,cat:cat, days:days,assoc:assoc,price:price, user:user   }),
+                data: JSON.stringify({ Arr: picArr }),
                 success: function (data) {
                     var productCode = JSON.parse(data.d)
                     if (productCode != "") {
@@ -196,7 +185,7 @@
         //        var thisImageURI = LocalPicArr[picNum]
         //        alert(thisImageURI);
         //        uploadPhoto(thisImageURI, picNum, productCode)
-        //        alert("לפני תמונה אחת הועלתה");                
+        //        alert("לפני תמונה אחת הועלתה");
         //        alert(stringServerPath);
         //        //addToSerPicArr(stringServerPath);
         //        alert(" אחרי תמונה אחת הועלתה");
@@ -237,7 +226,7 @@
             var ft = new FileTransfer();
             ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
 
-            stringServerPath = String( "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
+            stringServerPath = String("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
             alert(stringServerPath);
 
         } // Upload Photo
@@ -267,18 +256,59 @@
 
     </script>
 
+    <style>
+        .ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {
+            display: none;
+        }
+
+
+        /*#MenuBar {
+            width: 20px;
+            height: 70px;
+            padding: 0 0 0 0;
+        }
+
+        MenuBarUL li {
+            z-index: 100;
+        }*/
+
+    </style>
 </head>
 <body>
 
     <!--דף זה מכיל דף הוספת מכרז-->
 
     <div data-role="page" id="AddingAuctionPage">
-        <div id="UpperLogo">
-            <img id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
-            <div id="TaramtiMenuIconDiv">
-                <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
-            </div>
+        <div data-role="collapsible">
+            <h1>
+                <span id="TaramtiMenuIconDiv">
+                    <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                </span>
+            </h1>
+            <!--<p><a onclick="location.href = 'Login-Taramti.html'">Login-Taramti.html</a></p>-->
+            <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                <li><a onclick="location.href = 'Login-Taramti.html'">דף הבית</a></li>
+                <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוסף עמותה</a></li>
+                <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוסף מכרז</a></li>   
+            </ul>
         </div>
+        <div id="UpperLogo">
+            <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            
+            <!--<div id="TaramtiMenuIconDiv" onclick="">
+                <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+            </div>-->
+        </div>
+
+
+        <!--<div id="MenuBar" data-role="collapsible">
+            <h4></h4>
+            <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                <li>Read-only list item 1</li>
+                <li>Read-only list item 2</li>
+                <li>Read-only list item 3</li>
+            </ul>
+        </div>-->
 
         <div data-role="tabs" id="tabs">
             <div data-role="navbar">
@@ -307,13 +337,13 @@
 
                     <h4>משך המכרז (בימים)</h4>
                     <select id="AuctionLast">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
+                        <option value="value">1</option>
+                        <option value="value">2</option>
+                        <option value="value">3</option>
+                        <option value="value">4</option>
+                        <option value="value">5</option>
+                        <option value="value">6</option>
+                        <option value="value">7</option>
                     </select>
                     <h4>בחר עמותה</h4>
                     <select id="AuctionAssoc">

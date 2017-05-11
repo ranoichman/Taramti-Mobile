@@ -42,7 +42,7 @@ class Timer extends Component {
     }
 
     componentDidMount() {
-        //this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
+        this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
         this.loadInterval = setInterval(this.tick, 1000);
     }
 
