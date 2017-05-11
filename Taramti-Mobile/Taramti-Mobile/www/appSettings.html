@@ -154,6 +154,10 @@
         }
 
         function SaveSettings() {
+<<<<<<< HEAD
+=======
+            var userId = user.userID();
+>>>>>>> 03be33f175a80d025a5bfbda692ed0e9c46c1004
             var push = $("#flip-1").val();
             var sound = false;
             var vibe = false;
@@ -198,9 +202,31 @@
     <!--דף הגדרות אפליקציה-->
     <div data-role="page" id="Settings">
 
-        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="MenuBarDiv">
+            <div data-role="collapsible">
+                <h1>
+                    <span id="TaramtiMenuIconDiv">
+                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                    </span>
+                </h1>
+                <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                </ul>
+            </div>
+
+            <div id="UpperLogo">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            </div>
+        </div>
+
         <!--<form id="settingsForm" class="Form">-->
         <div class="Form">
+<<<<<<< HEAD
             <h1> הגדרות אפליקציה </h1>
 
             <div id="avatar" style="margin: 0 auto"></div>
@@ -210,6 +236,17 @@
                 <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
                 <div style="direction:ltr; display:inline; float:left">
                     <select name="flip-1" id="flip-1" data-role="slider">
+=======
+                <h1> הגדרות אפליקציה </h1>
+
+                <div id="avatar" style="margin: 0 auto"></div>
+                <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
+                <div id="SettingsForm">
+                    <br />
+                    <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
+                    <div style="direction:ltr; display:inline; float:left" >
+                        <select name="flip-1" id="flip-1" data-role="slider" >
+>>>>>>> 03be33f175a80d025a5bfbda692ed0e9c46c1004
                             <option value=false>Off</option>
                             <option value=true >On</option>
                         </select>
@@ -238,6 +275,16 @@
 
                 <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
 
+<<<<<<< HEAD
+=======
+                    </div>
+            <div id="fixedCircle">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+            </div>
+            <div id="fixedHome">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+            </div>
+>>>>>>> 03be33f175a80d025a5bfbda692ed0e9c46c1004
             </div>
             <h5><a href="#AssocInfoPage"> חזור לדף עמותה</a></h5>
         </div>
