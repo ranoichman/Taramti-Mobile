@@ -311,8 +311,9 @@
 
 
             <input type="button" id="Loginbtn" value="התחבר" />
-            <h5><a href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
-            <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+            <h5 class="styleLinkH"><a class="styleLink" href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
+            <h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+
             <!------------------------->
             <!------------------------->
             <a onclick="location.href='RegisterAssoc-Taramti.html'">RegisterAssoc-Taramti.html</a>
@@ -332,10 +333,11 @@
 
         <div class="Form" id="ForgotPassForm">
             <h2>שכחת סיסמה?!</h2>
-            <h4>הזן תעודת זהות: </h4>
-            <input type="text" id="UserId" />
             <h4>הזן כתובת אימייל: </h4>
             <input type="text" id="UserMailForgot" />
+            <h4>הזן תעודת זהות: </h4>
+            <input type="number" id="UserId" />
+            
 
             <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
             <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>

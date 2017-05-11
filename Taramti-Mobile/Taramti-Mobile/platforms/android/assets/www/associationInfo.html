@@ -91,7 +91,27 @@
 <body>
 
     <div data-role="page" id="AssocInfoPage">
-        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="MenuBarDiv">
+            <div data-role="collapsible">
+                <h1>
+                    <span id="TaramtiMenuIconDiv">
+                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                    </span>
+                </h1>
+                <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                </ul>
+            </div>
+
+            <div id="UpperLogo">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            </div>
+        </div>
 
         <div class="Form" id="AssocInfoPage">
             <h2>כיף שבאת!</h2>
@@ -115,10 +135,15 @@
                 <input type="text" id="AssocYear" />
 
                 <a onclick="location.href = 'app.html'">חזרה לדף הבית</a>
-
-
             </div>
             <!--<input type="button" id="AssocDetailsbtn" value="הבא פרטי עמותה" onclick="GetAssocDetails()" />-->
+
+            <div id="fixedCircle">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+            </div>
+            <div id="fixedHome">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+            </div>
         </div>
     </div>
 </body>
