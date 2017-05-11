@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,12 +20,12 @@
     <!--מאסטר-->
     <script src="js/master.js"></script>
 
-  <script>
+    <script>
         const assoc = GENERAL.assocWebServerAddress;
     </script>
 
 
-<script>
+    <script>
         $(document).ready(function () {
 
             $.ajax({
@@ -32,77 +33,104 @@
                 url: assoc + "GetAllAmotaDetails",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({  }),
+                data: JSON.stringify({}),
                 success: function (data) {
 
-                    var AssocArray = JSON.parse(data.d);
+                    var arrAssoc = new Array();
+                    var j = 0;
+                    var usersSet = new Set();
+                    var assocRes = JSON.parse(data.d);
 
-                    if (AssocArray[0] != null) {
-                        for (var i = 0; i < AssocArray.length; i++) {
-                            var opt = '';
-                            opt += '<option value="' + AssocArray[i].Association_Code + '">' + AssocArray[i].Association_Name + '</option>';
-                            $("#AllAssoc").append(opt);
+
+                    assocRes.map(function(assoc,i){
+                        var tags = ""; //string for tag list
+
+                        //מילוי רשימת תגיות
+                        for (let tag of assoc.Association_Tags) {
+                            tags += tag.Tag_Name + ", ";
                         }
-                    }
+                        tags = tags.slice(0, -2);
+
+                    let $name = $("<span>").text(assoc.Association_Name).attr({"class":"assocName","data-code":assoc.Association_Code});
+                    let $tag = $("<span>").text(tags).addClass("assocTag");
+                    
+                    let $a = $("<a>").append($name,$tag).addClass("ui-btn ui-shadow ui-corner-all");
+
+
+                    $("#assocFilter").append($a);
+                    })//end map func
+
+
+
+
+
                 },
                 error: function (err) { }
             });
 
-   
 
-        $("#AllAssoc").change(function () {
 
-            var code = $("#AllAssoc").val();
-            $.ajax({
-                dataType: "json",
-                url: assoc + "GetAmutaDetails",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ code: code }),
-                success: function (data) {
+        // $("#AllAssoc").change(function () {
 
-                    var Association = JSON.parse(data.d);
+        //     var code = $("#AllAssoc").val();
+        //     $.ajax({
+        //         dataType: "json",
+        //         url: assoc + "GetAmutaDetails",
+        //         contentType: "application/json; charset=utf-8",
+        //         type: "POST",
+        //         data: JSON.stringify({ code: code }),
+        //         success: function (data) {
 
-                    if (Association != "") {
-                        $("#AssocInfo").removeAttr("style", "visibility:hidden");
+        //             var Association = JSON.parse(data.d);
 
-                        $("#AssocName").val(Association.Association_Name);
-                        $("#AssocCode").val(Association.Association_Code);
-                        $("#AssocAccount").val(Association.Association_Account);
-                        $("#AssocSite").val(Association.Association_WebSite);
-                        $("#AssocYear").val(Association.Association_Year);
+        //             if (Association != "") {
+        //                 $("#AssocInfo").removeAttr("style", "visibility:hidden");
 
-                        $("#AssocName").attr('disabled', 'disabled');
-                        $("#AssocCode").attr('disabled', 'disabled');
-                        $("#AssocAccount").attr('disabled', 'disabled');
-                        $("#AssocSite").attr('disabled', 'disabled');
-                        $("#AssocYear").attr('disabled', 'disabled');
-                    }
-                },
-                error: function (err) { }
-            });
-        });
+        //                 $("#AssocName").val(Association.Association_Name);
+        //                 $("#AssocCode").val(Association.Association_Code);
+        //                 $("#AssocAccount").val(Association.Association_Account);
+        //                 $("#AssocSite").val(Association.Association_WebSite);
+        //                 $("#AssocYear").val(Association.Association_Year);
+
+        //                 $("#AssocName").attr('disabled', 'disabled');
+        //                 $("#AssocCode").attr('disabled', 'disabled');
+        //                 $("#AssocAccount").attr('disabled', 'disabled');
+        //                 $("#AssocSite").attr('disabled', 'disabled');
+        //                 $("#AssocYear").attr('disabled', 'disabled');
+        //             }
+        //         },
+        //         error: function (err) { }
+        //     });
+        // });
         });
     </script>
-    
-</head>
-<body>
-    <form>
-    <input data-type="search" id="searchForCollapsibleSetChildren">
-</form>
+    <style>
+        .assocName {
+            font-size: 16px;
+            margin-left: 5px;
+        }
 
-<div data-role="collapsible-set" data-filter="true" data-children="> div, > div div ul li" data-inset="true"
-     id="collapsiblesetForFilterChildren" data-input="#searchForCollapsibleSetChildren">
-<div data-role="collapsible" data-filtertext="Animals Cats Dogs Lizards snakes">
-            <h3>Animals</h3>
-            <ul data-role="listview" data-inset="false">
-                <li data-filtertext="Animals Cats">Cats</li>
-                <li data-filtertext="Animals Dogs">Dogs</li>
-                <li data-filtertext="Animals Lizards">Lizards</li>
-                <li data-filtertext="Animals Snakes">Snakes</li>
-            </ul>
-        </div>
-     
-</div>
+        .assocTag {
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <input data-type="search" id="filterControlgroup-input">
+
+    <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
+        <!--<a href="#" class="ui-btn ui-shadow ui-corner-all"><span class="assocName">תנו לחיות לחיות</span><span class="assocTag">(חיות, כלבים, חתולים)</span></a>
+        <a href="#" class="ui-btn ui-shadow ui-corner-all">עולים מיוגוסלביה<span class="assocName"></span>
+        <span class="assocTag">(עולים , בריה"מ")</span>
+        </a>
+        <a href="#" class="ui-btn ui-shadow ui-corner-all">
+            <span class="assocName">עטלף</span>
+            <span class="assocTag">(חיות, עטלפים, מעופפים)</span>
+        </a>-->
+
+    </div>
 </body>
+
 </html>
