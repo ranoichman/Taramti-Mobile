@@ -528,6 +528,31 @@ public class UserT
         return res;
     }
 
+    public List<Voluntary_association> GetFavAssocById()
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        List<Voluntary_association> FavAssoc = new List<Voluntary_association>();
+
+        string StrSql = @"SELECT dbo.association.association_code as AssocCode, dbo.association.association_name as AssocName
+                    FROM  dbo.user_pref_association INNER JOIN
+                           dbo.association ON dbo.user_pref_association.association_code = dbo.association.association_code
+                    WHERE   (dbo.user_pref_association.user_id = N'" + UserId + "')";
+        DS = db.GetDataSetByQuery(StrSql);
+
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            foreach (DataRow row in DS.Tables[0].Rows)
+            {
+                Voluntary_association V = new Voluntary_association();
+                V.Association_Code = row["AssocCode"].ToString();
+                V.Association_Name = row["AssocName"].ToString();
+                FavAssoc.Add(V);
+            }
+        }
+        return FavAssoc;
+    }
+
     public void GetUsersAuctions() { }
 
     public void ShowAvgRank() { }
