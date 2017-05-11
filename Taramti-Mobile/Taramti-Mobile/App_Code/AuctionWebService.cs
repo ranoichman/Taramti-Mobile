@@ -58,7 +58,18 @@ public class AuctionWebService : System.Web.Services.WebService
     {
         //JavaScriptSerializer j = new JavaScriptSerializer();
         Reg_Auction auction = new Reg_Auction();
-        return auction.OfferBid(auc,bid,buyer);
+        auction.AuctionID = auc;
+        int lastBid = auction.GetLatestBid();
+        if (lastBid < bid)
+        {
+            return auction.OfferBid(bid,buyer);
+        }
+        else
+        {
+        return false;
+        }
+
+        
     }
 
     [WebMethod]

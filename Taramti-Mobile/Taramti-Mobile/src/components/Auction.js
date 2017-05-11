@@ -12,20 +12,21 @@ import Tetris from './Tetris';
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
 
+//constants messages
+import {successMSG,failedMSG,notEnoughtMSG,errorMSG} from './constants/messages';
+import {auctionWS,buyerID} from './constants/general';
+
+
 import '../css/bootstrap.css';
 import '../css/jqmCss.css';
 import '../css/auction.css';
 import '../css/modal.css';
 
-//const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
-const auctionWS = GENERAL.auctionWebServerAddress;
-const buyerID = GENERAL.USER.userID();
 
-//constants messages
-const successMSG = "מזל טוב, אתה כרגע מוביל במכרז, אך המכרז עוד לא נגמר אז אל תלך לישון עדיין!";
-const failedMSG = "מישהו עקף אותך ברגע האחרון, הצע ביד נוסף כדי לעקוף אותו";
-const notEnoughtMSG = "הסכום המוצע לא מספיק, נא הצע סכום גדול יותר כדי להשתתף במכרז"
-const errorMSG = "משהו לא הלך כשורה, נא נסה שוב";
+// const auctionWS = GENERAL.auctionWebServerAddress;
+// const buyerID = GENERAL.USER.userID();
+
+
 
 class Auction extends Component {
 
@@ -281,7 +282,7 @@ class Auction extends Component {
                             contentLabel="open info"
                             className="box">
                             <AuctionInfo prodName={this.props.prodName} closeModal={this.closeInfoModal}
-                                price={this.props.price} endDate={this.props.endDate}
+                                price={this.state.price} endDate={this.props.endDate}
                                 imgArr={this.props.imgArr} prodDesc={this.props.prodDesc}
                                 percentage={this.props.percentage} />
                         </Modal>
@@ -309,7 +310,7 @@ class Auction extends Component {
 
                 <Swipeable onTap={this.makeBid}>
                     {/*<div>*/}
-                        <div ref="bidBTN" className="base" onClick={this.state.makeBid}> <span>הצע ביד</span> </div>
+                        <div ref="bidBTN" className="base"> <span>הצע ביד</span> </div>
                     {/*</div>*/}
                 </Swipeable>
                 <Tetris />
