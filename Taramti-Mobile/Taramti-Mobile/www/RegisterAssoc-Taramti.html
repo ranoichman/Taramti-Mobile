@@ -70,6 +70,7 @@
 
                                 if (amu == "True") {
                                     alert("העמותה נרשמה בהצלחה");
+                                    location.href = "app.html";
                                 }
                             },
                             error: function (err) { }
@@ -84,6 +85,7 @@
                             data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
                             success: function (data) {
                                 alert("העמותה הועברה לאישור מנהלי המערכת. ניצור עמכם קשר תוך 2 ימי עסקים להשלמת תהליך הרישום");
+                                location.href = "app.html";
                             },
                             error: function (err) { }
                         });// Ajax AddNewTempAssoc

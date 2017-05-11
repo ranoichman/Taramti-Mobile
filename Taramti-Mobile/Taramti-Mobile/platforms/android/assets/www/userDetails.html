@@ -27,7 +27,7 @@
 
     <script>
         $(document).ready(function () {
-
+           
             var U = user.userID();
             $.ajax({
                 dataType: "json",
@@ -61,7 +61,7 @@
         });
 
         function EditUser() {
-
+            
             // אפשור עריכת חלק מהשדות
             $("#UserAddress").removeAttr('disabled', 'disabled');
             $("#UserFirstName").removeAttr('disabled', 'disabled');
@@ -71,8 +71,8 @@
             // הסרת כפתור העריכה
             $("#EditUserBtn").remove();
 
-            // var ok = $('<input type="button" id="okbtn" value="אוקיי" onclick="SubmitChanges()">');
-            var ook = $('<a href="#ImSureDialog1" id="UpdateUserbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">');
+           // var ok = $('<input type="button" id="okbtn" value="אוקיי" onclick="SubmitChanges()">');
+            var ook = $('<a href="#ImSureDialog1" id="UpdateUserbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip"> אישור </a>');
             ook.appendTo("#UserDetailsForm");
 
         }
@@ -109,7 +109,7 @@
 </head>
 <body>
 
-    <div data-role="page" id="UserDetailsPage">
+        <div data-role="page" id="UserDetailsPage">
         <div id="MenuBarDiv">
             <div data-role="collapsible">
                 <h1>
@@ -132,26 +132,26 @@
             </div>
         </div>            <div class="Form" id="UserDetailsForm">
 
-            <h2>דף פרטי משתמש   </h2>
-            <!--<h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
-            <div id="avatar" style="margin:0 auto"></div>
-            <h4>שם פרטי: </h4>
-            <input type="text" id="UserFirstName" />
-            <h4>שם משפחה: </h4>
-            <input type="text" id="UserLastName" />
-            <h4>תעודת זהות: </h4>
-            <input type="text" id="UserId" />
-            <h4>כתובת: </h4>
-            <input type="text" id="UserAddress" />
-            <h4>כתובת אימייל: </h4>
-            <input type="text" id="UserMail" />
-            <h4>טלפון: </h4>
-            <input type="text" id="UserNum" />
-            <h4>ניקוד: </h4>
-            <input type="text" id="UserScore" />
+                <h2>דף פרטי משתמש   </h2>
+                <!--<h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
+                <div id="avatar" style="margin:0 auto"></div>
+                <h4>שם פרטי: </h4>
+                <input type="text" id="UserFirstName" />
+                <h4>שם משפחה: </h4>
+                <input type="text" id="UserLastName" />
+                <h4>תעודת זהות: </h4>
+                <input type="text" id="UserId" />
+                <h4>כתובת: </h4>
+                <input type="text" id="UserAddress" />
+                <h4>כתובת אימייל: </h4>
+                <input type="text" id="UserMail" />
+                <h4>טלפון: </h4>
+                <input type="text" id="UserNum" />
+                <h4>ניקוד: </h4>
+                <input type="text" id="UserScore" />
 
 
-            <input type="button" id="EditUserBtn" value="עריכה" onclick="EditUser()" />
+                <input type="button" id="EditUserBtn" value="עריכה" onclick="EditUser()" />
 
             <div id="fixedCircle">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
@@ -160,8 +160,8 @@
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
             </div>
 
+            </div>
         </div>
-    </div>
 
     <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog1">
         <div data-role="header">

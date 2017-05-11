@@ -25,7 +25,7 @@
         const generic = GENERAL.genericWebServerAddress;
         const assoc = GENERAL.assocWebServerAddress;
     </script>
-
+    
     <script>
         var associationCode;
         $(document).ready(function () {
@@ -60,8 +60,8 @@
         function MoveToAssocDetails(assocId) {
 
             associationCode = assocId;
-
-
+            
+            
             $.ajax({
                 dataType: "json",
                 url: assoc + "GetAmutaDetails",
@@ -110,7 +110,7 @@
                 vibe = true;
                 sound = true;
             }
-
+        
             $.ajax({
                 dataType: "json",
                 url: generic + "SaveSettings",
@@ -122,6 +122,12 @@
                 },
                 error: function (err) { }
             });
+        }
+
+        function vibrate()
+        {
+            navigator.vibrate(1000);
+            console.log("hiii");
         }
 
     </script>
@@ -154,51 +160,53 @@
 
         <!--<form id="settingsForm" class="Form">-->
         <div class="Form">
-            <h1> הגדרות אפליקציה </h1>
+                <h1> הגדרות אפליקציה </h1>
 
-            <div id="avatar" style="margin: 0 auto"></div>
-            <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
-            <div id="SettingsForm">
-                <br />
-                <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
-                <div style="direction:ltr; display:inline; float:left">
-                    <select name="flip-1" id="flip-1" data-role="slider">
-                        <option value=false>Off</option>
-                        <option value=true>On</option>
-                    </select>
-                </div>
-                <br /><br />
+                <div id="avatar" style="margin: 0 auto"></div>
+                <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
+                <div id="SettingsForm">
+                    <br />
+                    <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
+                    <div style="direction:ltr; display:inline; float:left" >
+                        <select name="flip-1" id="flip-1" data-role="slider" >
+                            <option value=false>Off</option>
+                            <option value=true >On</option>
+                        </select>
+                    </div>
+                    <br /><br />
 
-                <h4 style="display:inline-block"><b>התראות שמע</b></h4>
-                <div style="direction:ltr; display:inline; float:left">
-                    <select id="soundOpt" name="soundOpt" form="settingsForm">
-                        <option value="3">שמע + רטט</option>
-                        <option value="2">שמע בלבד</option>
-                        <option value="1">רטט בלבד</option>
-                        <option value="0">ללא</option>
-                    </select>
-                </div>
-                <br /><br />
-                <h4><b> העמותות המועדפות שלי: </b></h4>
-                <h6> (גלול שמאלה לפרטים נוספים) </h6>
-                <div data-role="controlgroup" id="FavAssocGroup">
+                    <h4 style="display:inline-block"><b>התראות שמע</b></h4>
+                    <div style="direction:ltr; display:inline; float:left">
+                        <select id="soundOpt" name="soundOpt" form="settingsForm">
+                            <option value="3">שמע + רטט</option>
+                            <option value="2">שמע בלבד</option>
+                            <option value="1">רטט בלבד</option>
+                            <option value="0">ללא</option>
+                        </select>
+                   </div>
+                    <br /><br />
+                    <h4><b> העמותות המועדפות שלי: </b></h4>
+                    <h6> (גלול שמאלה לפרטים נוספים) </h6>
+                    <div data-role="controlgroup" id="FavAssocGroup">
 
-                </div>
+                    </div>
 
-                <br /><br />
+                    <!--<input type="button" value="רטט" onclick="vibrate()" />-->
 
-                <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
+                    <br /><br />
 
-            </div>
+                    <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
+
+                    </div>
             <div id="fixedCircle">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
             </div>
             <div id="fixedHome">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
             </div>
-        </div>
+            </div>
         <!--</form>-->
-    </div>
+        </div>
 
     <!--דף פרטי עמותה -->
     <div data-role="page" id="AssocInfoPage">
