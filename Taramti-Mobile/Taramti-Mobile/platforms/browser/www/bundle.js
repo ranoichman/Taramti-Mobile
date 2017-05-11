@@ -104,150 +104,9 @@
 
 	//import $ from 'jquery';
 
-	// import Search from './components/Search';
 
 	//const auctionWS = GENERAL.auctionWebServerAddress;
 	var auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
-
-	/*const App = React.createClass({
-	    getInitialState() {
-	        //return StepStore.getState();
-	        return {
-	            reRender: true, //state for rendering component only once
-	            home: true,
-	            displayedAuction: -1, // for knowing which auction page to display
-	            auctionsArr: [
-	                {
-	                    code: 15,
-	                    price: 535,
-	                    endDate: "5/12/2017",
-	                    imgArr: [
-	                        "img/image.png",
-	                        "img/ASP.JPG",
-	                        "img/Logo.JPG"
-	                    ],
-	                    percentage: 0.15,
-	                    prodName: "ספה שהיא נפתחת",
-	                    prodDesc: "קצת מלל וכל מיני דברים שבא לי לכתוב וכן הנה עוד קצת דברים ותכף יהיו כאן גם תמונות וזה בסך הכל תיאור של מוצר גניהנכי חי כג הכ חיה יגכ הכגכ יחה גכ חיהד חכ החיגכ יח דגחב ד ח בגי דגח בגד בדב  "
-	                },
-	                {
-	                    code: 5,
-	                    price: 1234,
-	                    endDate: "5/10/2017",
-	                    imgArr: [
-	                        "img/Logo.JPG",
-	                        "img/image.png",
-	                        "img/ASP.JPG"
-	                    ],
-	                    percentage: 0.45,
-	                    prodName: "מחשב נייד",
-	                    prodDesc: "בוא נכתוב כאן משהו שאפשר יהיה לראות שהכל עובד כמו שצריך. האם זה הצליח???"
-	                },
-	                {
-	                    code: 14,
-	                    price: 15,
-	                    endDate: "5/14/2017",
-	                    imgArr: [
-	                        "img/ASP.JPG",
-	                        "img/Logo.JPG",
-	                        "img/image.png"
-	                    ],
-	                    percentage: 0.2,
-	                    prodName: "שעון יד",
-	                    prodDesc: "הנה כמה דברים שיש לי לומר  "
-	                }
-	            ]
-	        }
-	    },
-
-	    componentDidMount() {
-	        console.log(`will mount -- ${this.state.reRender}!`)
-	        // Lifecycle function that is triggered just before a component mounts
-	        if (this.state.reRender) {
-	            //this.getAuctionsByParams([1, 2], 50, 900, 0);
-	            this.setState({ reRender: false });
-	            console.log(`will mount _______ ${this.state.reRender}!`)
-	        }
-
-
-	    },
-
-	    componentWillUnmount() {
-	        // Lifecycle function that is triggered just before a component unmounts
-	    },
-
-	    // shouldComponentUpdate(nextProps, nextState){
-	    //     console.log( " should update???????? "+nextState)
-	    //     return true;
-	    // },
-
-	    //change states to show specific auction page
-	    offerBid(i) {
-	        this.setState({ displayedAuction: i, home: false });
-	    },
-
-	    //call function to get auctions from serveer
-	    getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
-	        const self = this;
-	        axios.post(auctionWS + 'GetAuctionByParam', {
-	            cities: cities,
-	            lowPrice: lowPrice,
-	            highPrice: highPrice,
-	            catCode: catCode
-	        }).then(function (response) {
-	            let res = JSON.parse(response.data.d);
-	            res.map(self.addAuction);
-	        })
-	            .catch(function (error) {
-	                console.log(error);
-	            });
-
-	    },
-
-	    //add auction to state array
-	    addAuction(item, i) {
-	        let arr = this.state.auctionsArr;
-	        let newAuction = {
-	            code: item.AuctionID,
-	            endDate: item.End_Date,
-	            price: item.Price,
-	            percentage: item.Percentage,
-	            prodName: item.ProdName,
-	            prodDesc: item.ProdDesc,
-	            imgArr: item.Images,
-	        }
-	        arr.push(newAuction);
-	        this.setState({ auctionsArr: arr });
-
-	    },
-
-	    renderHome() {
-	        console.log("dom rendered!!!")
-	        return (
-	            <Home offerBid={this.offerBid} auctionsArr={this.state.auctionsArr} />
-	        );
-	    },
-
-	    renderAucPage() {
-	        let curAuction = this.state.auctionsArr[this.state.displayedAuction];
-	        return (
-	            <div className="container-fluid">
-	                <Auction index={this.state.displayedAuction} auctionfinished={this.deleteAuction}
-	                    home={this.state.home} price={curAuction.price} endDate={curAuction.endDate}
-	                    imgArr={curAuction.imgArr} prodName={curAuction.prodName} prodDesc={curAuction.prodDesc} percentage={curAuction.percentage} />
-	            </div>
-	        )
-	    },
-
-	    render() {
-	        if (this.state.home) {
-	            return (this.renderHome())
-	        }
-	        else {
-	            return (this.renderAucPage())
-	        }
-	    },
-	});*/
 
 	var App = function (_Component) {
 	    _inherits(App, _Component);
@@ -261,15 +120,47 @@
 	            reRender: true, //state for rendering component only once
 	            home: true,
 	            displayedAuction: -1, // for knowing which auction page to display
-	            auctionsArr: [{
-	                code: 15,
-	                price: 535,
-	                endDate: "5/12/2017",
-	                imgArr: ["img/image.png", "img/ASP.JPG", "img/Logo.JPG"],
-	                percentage: 0.15,
-	                prodName: "ספה שהיא נפתחת",
-	                prodDesc: "קצת מלל וכל מיני דברים שבא לי לכתוב וכן הנה עוד קצת דברים ותכף יהיו כאן גם תמונות וזה בסך הכל תיאור של מוצר גניהנכי חי כג הכ חיה יגכ הכגכ יחה גכ חיהד חכ החיגכ יח דגחב ד ח בגי דגח בגד בדב  "
-	            }]
+	            auctionsArr: [
+	                // {
+	                //     code: 15,
+	                //     price: 535,
+	                //     endDate: "5/12/2017",
+	                //     imgArr: [
+	                //         "img/image.png",
+	                //         "img/ASP.JPG",
+	                //         "img/Logo.JPG"
+	                //     ],
+	                //     percentage: 0.15,
+	                //     prodName: "ספה שהיא נפתחת",
+	                //     prodDesc: "קצת מלל וכל מיני דברים שבא לי לכתוב וכן הנה עוד קצת דברים ותכף יהיו כאן גם תמונות וזה בסך הכל תיאור של מוצר גניהנכי חי כג הכ חיה יגכ הכגכ יחה גכ חיהד חכ החיגכ יח דגחב ד ח בגי דגח בגד בדב  "
+	                // },
+	                // {
+	                //     code: 5,
+	                //     price: 1234,
+	                //     endDate: "5/11/2017",
+	                //     imgArr: [
+	                //         "img/Logo.JPG",
+	                //         "img/image.png",
+	                //         "img/ASP.JPG"
+	                //     ],
+	                //     percentage: 0.45,
+	                //     prodName: "מחשב נייד",
+	                //     prodDesc: "בוא נכתוב כאן משהו שאפשר יהיה לראות שהכל עובד כמו שצריך. האם זה הצליח???"
+	                // },
+	                // {
+	                //     code: 14,
+	                //     price: 15,
+	                //     endDate: "5/14/2017",
+	                //     imgArr: [
+	                //         "img/ASP.JPG",
+	                //         "img/Logo.JPG",
+	                //         "img/image.png"
+	                //     ],
+	                //     percentage: 0.2,
+	                //     prodName: "שעון יד",
+	                //     prodDesc: "הנה כמה דברים שיש לי לומר  "
+	                // }
+	            ]
 	        };
 	        _this.offerBid = _this.offerBid.bind(_this);
 	        _this.getAuctionsByParams = _this.getAuctionsByParams.bind(_this);
@@ -282,24 +173,14 @@
 	    _createClass(App, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            console.log('will mount -- ' + this.state.reRender + '!');
 	            // Lifecycle function that is triggered just before a component mounts
-	            if (this.state.reRender) {
-	                //this.getAuctionsByParams([1, 2], 50, 900, 0);
-	                this.setState({ reRender: false });
-	                console.log('will mount _______ ' + this.state.reRender + '!');
-	            }
+	            this.getAuctionsByParams([1, 2], -1, -1, 0);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {}
 	        // Lifecycle function that is triggered just before a component unmounts
 
-
-	        // shouldComponentUpdate(nextProps, nextState){
-	        //     console.log( " should update???????? "+nextState)
-	        //     return true;
-	        // },
 
 	        //change states to show specific auction page
 
@@ -349,7 +230,6 @@
 	    }, {
 	        key: 'renderHome',
 	        value: function renderHome() {
-	            console.log("dom rendered!!!");
 	            return _react2.default.createElement(_Home2.default, { offerBid: this.offerBid, auctionsArr: this.state.auctionsArr });
 	        }
 	    }, {
@@ -360,7 +240,7 @@
 	                'div',
 	                { className: 'container-fluid' },
 	                _react2.default.createElement(_Auction2.default, { index: this.state.displayedAuction, auctionfinished: this.deleteAuction,
-	                    home: this.state.home, price: curAuction.price, endDate: curAuction.endDate,
+	                    home: this.state.home, price: curAuction.price, endDate: curAuction.endDate, code: curAuction.code,
 	                    imgArr: curAuction.imgArr, prodName: curAuction.prodName, prodDesc: curAuction.prodDesc, percentage: curAuction.percentage })
 	            );
 	        }
@@ -31609,6 +31489,8 @@
 
 	__webpack_require__(273);
 
+	__webpack_require__(266);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31620,7 +31502,15 @@
 	// import ReactSwipeEvents from 'react-Swipe-Events'
 
 
-	var auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+	//const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+	var auctionWS = GENERAL.auctionWebServerAddress;
+	var buyerID = GENERAL.USER.userID();
+
+	//constants messages
+	var successMSG = "מזל טוב, אתה כרגע מוביל במכרז, אך המכרז עוד לא נגמר אז אל תלך לישון עדיין!";
+	var failedMSG = "מישהו עקף אותך ברגע האחרון, הצע ביד נוסף כדי לעקוף אותו";
+	var notEnoughtMSG = "הסכום המוצע לא מספיק, נא הצע סכום גדול יותר כדי להשתתף במכרז";
+	var errorMSG = "משהו לא הלך כשורה, נא נסה שוב";
 
 	var Auction = function (_Component) {
 	    _inherits(Auction, _Component);
@@ -31636,8 +31526,11 @@
 	            price: _this.props.price,
 	            tempDonation: "",
 	            borderColor: "red",
+	            msgClass: "box notEnough",
+	            shownMessage: "",
 	            infoModalIsOpen: false,
-	            fAQModalIsOpen: false
+	            fAQModalIsOpen: false,
+	            msg_ModalIsOpen: false
 	        };
 	        _this.timerFinishedHome = _this.timerFinishedHome.bind(_this);
 	        _this.timerFinishedAuc = _this.timerFinishedAuc.bind(_this);
@@ -31651,7 +31544,8 @@
 	        _this.closeFAQModal = _this.closeFAQModal.bind(_this);
 	        _this.makeBid = _this.makeBid.bind(_this);
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
-
+	        _this.openMSGModal = _this.openMSGModal.bind(_this);
+	        _this.closeMSGModal = _this.closeMSGModal.bind(_this);
 	        return _this;
 	    }
 
@@ -31773,6 +31667,12 @@
 	        ***************
 	        */
 
+	        /*
+	        ***************
+	          INFO MODAL
+	        ***************
+	        */
+
 	    }, {
 	        key: 'openInfoModal',
 	        value: function openInfoModal() {
@@ -31783,6 +31683,13 @@
 	        value: function closeInfoModal() {
 	            this.setState({ infoModalIsOpen: false });
 	        }
+
+	        /*
+	           ***************
+	              FAQ MODAL
+	           ***************
+	           */
+
 	    }, {
 	        key: 'openFAQModal',
 	        value: function openFAQModal() {
@@ -31792,6 +31699,22 @@
 	        key: 'closeFAQModal',
 	        value: function closeFAQModal() {
 	            this.setState({ fAQModalIsOpen: false });
+	        }
+	        /*
+	           ***************
+	              MSG MODAL
+	           ***************
+	           */
+
+	    }, {
+	        key: 'openMSGModal',
+	        value: function openMSGModal() {
+	            this.setState({ msg_ModalIsOpen: true });
+	        }
+	    }, {
+	        key: 'closeMSGModal',
+	        value: function closeMSGModal() {
+	            this.setState({ msg_ModalIsOpen: false });
 	        }
 
 	        //disable input and button
@@ -31812,7 +31735,7 @@
 	                });
 
 	                var val = this.refs.newPrice.value;
-	                console.log('price: ' + tempPrice + ',  new price: ' + val);
+	                //console.log(`price: ${tempPrice},  new price: ${val}`)
 	                if (val > tempPrice) {
 	                    tempPrice = val;
 	                    this.setState({
@@ -31821,7 +31744,7 @@
 	                }
 	            }
 	            this.setState({
-	                tempDonation: '\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.props.percentage) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
+	                tempDonation: '\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.props.percentage / 100) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
 	            });
 	        }
 
@@ -31830,8 +31753,38 @@
 	    }, {
 	        key: 'makeBid',
 	        value: function makeBid() {
-	            var val = this.refs.newPrice.value;
-	            console.log('make bid price: ' + val);
+	            if (this.state.borderColor !== "red") {
+	                var val = this.refs.newPrice.value;
+	                self = this;
+	                //db call!!
+	                _axios2.default.post(auctionWS + 'OfferBid', {
+	                    auc: self.props.code,
+	                    bid: val,
+	                    buyer: buyerID
+	                }).then(function (response) {
+	                    var ans = response.data.d;
+	                    if (ans === true) {
+	                        self.setState({ msgClass: "box success",
+	                            shownMessage: successMSG });
+	                    } else {
+	                        self.setState({ msgClass: "box failure",
+	                            shownMessage: failedMSG });
+	                    }
+	                    self.setState({ msg_ModalIsOpen: true });
+	                }).catch(function (error) {
+	                    console.log(error);
+	                    self.setState({ msgClass: "box failure",
+	                        shownMessage: errorMSG,
+	                        msg_ModalIsOpen: true });
+	                });
+	            } else {
+	                console.log("לא מספיק כסף!!!!!");
+	                this.setState({ msgClass: "box notEnough",
+	                    shownMessage: notEnoughtMSG,
+	                    msg_ModalIsOpen: true
+	                });
+	            }
+	            //console.log(`make bid price: ${val}`)
 	        }
 
 	        //render func for auction page
@@ -31843,6 +31796,23 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(
+	                    _reactSwipeable2.default,
+	                    { onTap: this.openMSGModal },
+	                    _react2.default.createElement(
+	                        _reactModal2.default,
+	                        {
+	                            isOpen: this.state.msg_ModalIsOpen,
+	                            onRequestClose: this.closeMSGModal,
+	                            contentLabel: 'open info',
+	                            className: this.state.msgClass },
+	                        _react2.default.createElement(
+	                            'h3',
+	                            null,
+	                            this.state.shownMessage
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'basicInfo' },
 	                    _react2.default.createElement(
@@ -31853,7 +31823,7 @@
 	                    _react2.default.createElement(
 	                        _reactSwipeable2.default,
 	                        { onTap: this.openInfoModal },
-	                        _react2.default.createElement(_reactFontawesome2.default, { name: 'info-circle', border: 'true', className: 'fa-3x', tag: 'i' }),
+	                        _react2.default.createElement(_reactFontawesome2.default, { name: 'info-circle', border: true, className: 'fa-3x', tag: 'i' }),
 	                        _react2.default.createElement(
 	                            _reactModal2.default,
 	                            {
@@ -31870,7 +31840,7 @@
 	                    _react2.default.createElement(
 	                        _reactSwipeable2.default,
 	                        { onTap: this.openFAQModal },
-	                        _react2.default.createElement(_reactFontawesome2.default, { name: 'question-circle', border: 'true', className: 'fa-3x', tag: 'i' }),
+	                        _react2.default.createElement(_reactFontawesome2.default, { name: 'question-circle', border: true, className: 'fa-3x', tag: 'i' }),
 	                        _react2.default.createElement(
 	                            _reactModal2.default,
 	                            {
@@ -31882,7 +31852,7 @@
 	                        )
 	                    )
 	                ),
-	                _react2.default.createElement('input', { type: 'text', ref: 'newPrice', onChange: this.calcDonation, style: { borderColor: this.state.borderColor } }),
+	                _react2.default.createElement('input', { type: 'number', ref: 'newPrice', onChange: this.calcDonation, style: { borderColor: this.state.borderColor } }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'circle' },
@@ -31897,12 +31867,14 @@
 	                    { onTap: this.makeBid },
 	                    _react2.default.createElement(
 	                        'div',
-	                        null,
+	                        { ref: 'bidBTN', className: 'base', onClick: this.state.makeBid },
+	                        ' ',
 	                        _react2.default.createElement(
-	                            'button',
-	                            { ref: 'bidBTN', className: 'down-arrow btn-primary active' },
-	                            ' \u05D4\u05E6\u05E2 \u05D1\u05D9\u05D3  '
-	                        )
+	                            'span',
+	                            null,
+	                            '\u05D4\u05E6\u05E2 \u05D1\u05D9\u05D3'
+	                        ),
+	                        ' '
 	                    )
 	                ),
 	                _react2.default.createElement(_Tetris2.default, null)
@@ -31995,7 +31967,7 @@
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            //this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
+	            this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
 	            this.loadInterval = setInterval(this.tick, 1000);
 	        }
 	    }, {
@@ -32338,7 +32310,7 @@
 	                        _react2.default.createElement(
 	                            'b',
 	                            { style: { color: "green" } },
-	                            Math.floor(this.props.price * this.props.percentage)
+	                            Math.floor(this.props.price * this.props.percentage / 100)
 	                        ),
 	                        ' \u05D4\u05D5\u05DC\u05DB\u05D9\u05DD \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4 '
 	                    ),
@@ -32394,7 +32366,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 40px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 40px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}", ""]);
 
 	// exports
 
@@ -32573,7 +32545,7 @@
 
 
 	// module
-	exports.push([module.id, "img {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.down-arrow {\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n\r\n\r\n", ""]);
+	exports.push([module.id, "img {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n/*\r\n.down-arrow {\r\n    float: right;\r\n    z-index: 5;\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n    \r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        \r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        margin-right: 20px;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n    */\r\n.cut-diamond {\r\n    content: \"\\5D4\\5E6\\5E2   \\5D1\\5D9\\5D3\";\r\n    border-style: solid;\r\n    border-color: transparent transparent #286090 transparent;\r\n    border-width: 0 25px 25px 25px;\r\n    height: 0;\r\n    width: 98px;\r\n    position: relative;\r\n    margin: 20px 0 50px 0;\r\n}\r\n.cut-diamond:after {\r\n    content: \"\";\r\n    position: absolute;\r\n    top: 25px;\r\n    left: -25px;\r\n    width: 0;\r\n    height: 0;\r\n    border-style: solid;\r\n    border-color: #286090 transparent transparent transparent;\r\n    border-width: 70px 50px 0 50px;\r\n}\r\n.cut-diamond span{\r\n    color: white;\r\n    z-index: 5;\r\n}\r\n\r\n.base {\r\n    z-index: 1;\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}", ""]);
 
 	// exports
 
@@ -32626,6 +32598,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+
 	var Home = function (_Component) {
 	    _inherits(Home, _Component);
 
@@ -32644,6 +32618,7 @@
 	        _this.getAuctionsByParams = _this.getAuctionsByParams.bind(_this);
 	        _this.addAuction = _this.addAuction.bind(_this);
 	        _this.eachAuction = _this.eachAuction.bind(_this);
+	        _this.offerBid = _this.offerBid.bind(_this);
 	        _this.deleteAuction = _this.deleteAuction.bind(_this);
 	        return _this;
 	    }
@@ -32661,9 +32636,9 @@
 	    }, {
 	        key: 'searchTriggered',
 	        value: function searchTriggered(cities, lowPrice, highPrice, catCode) {
-	            console.log('entered search on ----- ' + Date.now());
-	            //this.setState({ auctionsArr: [] });
-	            //this.getAuctionsByParams(cities, lowPrice, highPrice, catCode);
+	            //console.log(`entered search on ----- ${Date.now()}`)
+	            this.setState({ auctionsArr: [] });
+	            this.getAuctionsByParams(cities, lowPrice, highPrice, catCode);
 	        }
 
 	        //call function to get auctions from serveer
@@ -32672,6 +32647,7 @@
 	        key: 'getAuctionsByParams',
 	        value: function getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
 	            var self = this;
+	            this.setState({ searchModalIsOpen: false });
 	            _axios2.default.post(auctionWS + 'GetAuctionByParam', {
 	                cities: cities,
 	                lowPrice: lowPrice,
@@ -32720,7 +32696,7 @@
 	    }, {
 	        key: 'deleteAuction',
 	        value: function deleteAuction(i) {
-	            console.log('delete: ' + i + ' --- ' + this.state.auctionsArr[i] + ' ');
+	            // console.log(`delete: ${i} --- ${this.state.auctionsArr[i]} `)
 	            var arr = this.state.auctionsArr;
 	            arr.splice(i, 1);
 	            this.setState({ auctionsArr: arr });
@@ -32742,7 +32718,7 @@
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.openSearchModal },
-	                    _react2.default.createElement(_reactFontawesome2.default, { name: 'search', border: 'true', className: 'fa-3x', tag: 'div' }),
+	                    _react2.default.createElement(_reactFontawesome2.default, { name: 'search', border: true, className: 'fa-3x', tag: 'div' }),
 	                    _react2.default.createElement(
 	                        _reactModal2.default,
 	                        {
@@ -32807,8 +32783,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	//const auctionWS = GENERAL.auctionWebServerAddress;
-	var auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+	var auctionWS = GENERAL.auctionWebServerAddress;
+	//const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
 
 	var Search = function (_Component) {
 	    _inherits(Search, _Component);
@@ -32876,16 +32852,19 @@
 	    }, {
 	        key: 'searchBTN',
 	        value: function searchBTN() {
-	            var low = this.refs.lowerPrice.value;
-	            var high = this.refs.higherPrice.value;
+	            var low = this.refs.lowerPrice.value !== 'undefined' ? this.refs.lowerPrice.value : -1;
+	            var high = this.refs.higherPrice.value !== 'undefined' ? this.refs.higherPrice.value : -1;
 	            var cities = [];
 	            var catCode = this.state.categroy;
 
-	            navigator.geolocation.getCurrentPosition(function (pos_result) {
-	                console.log('alt -- ' + pos_result.coords.altitude + ' _____ lat-- ' + pos_result.coords.longitude);
-	            });
-
-	            this.props.startSearch(cities, low, high, catCode);
+	            if (!this.refs.locationCB.checked) {
+	                this.props.startSearch(cities, low, high, catCode); // start search without location    
+	            } else {
+	                navigator.geolocation.getCurrentPosition(function (pos_result) {
+	                    console.log('alt -- ' + pos_result.coords.altitude + ' _____ lat-- ' + pos_result.coords.longitude);
+	                    this.props.startSearch(cities, low, high, catCode); // start search with location after city arr is filled
+	                });
+	            }
 	        }
 	    }, {
 	        key: 'render',
@@ -32904,37 +32883,33 @@
 	                    'div',
 	                    null,
 	                    _react2.default.createElement(
-	                        'form',
-	                        null,
+	                        'div',
+	                        { className: 'gpsCont' },
+	                        _react2.default.createElement('input', { type: 'checkbox', ref: 'locationCB', onClick: this.cbChanged }),
+	                        '\u05D4\u05E6\u05D2 \u05DE\u05D5\u05E6\u05E8\u05D9\u05DD \u05D1\u05E7\u05E8\u05D1\u05EA\u05D9',
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'gpsCont' },
-	                            _react2.default.createElement('input', { type: 'checkbox', ref: 'locationCB', onClick: this.cbChanged }),
-	                            '\u05D4\u05E6\u05D2 \u05DE\u05D5\u05E6\u05E8\u05D9\u05DD \u05D1\u05E7\u05E8\u05D1\u05EA\u05D9',
-	                            _react2.default.createElement(
-	                                'div',
-	                                { style: { display: this.state.display } },
-	                                _react2.default.createElement(_Ddl2.default, (_React$createElement = { key: '1', onChange: this.onSelectedGPS }, _defineProperty(_React$createElement, 'onChange', this.logChange), _defineProperty(_React$createElement, 'options', [{ val: '10', text: '10 ק"מ' }, { val: '20', text: '20 ק"מ' }, { val: '30', text: '30 ק"מ' }, { val: '50', text: '50 ק"מ' }]), _defineProperty(_React$createElement, 'css', 'gpsSelect'), _React$createElement))
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'h3',
-	                            null,
-	                            '\u05E7\u05D8\u05D2\u05D5\u05E8\u05D9\u05D9\u05EA \u05DE\u05D5\u05E6\u05E8'
-	                        ),
-	                        _react2.default.createElement(_Ddl2.default, { key: '2', onChange: this.onSelectedCat, options: this.state.categoriesArr, css: 'priceSelect' }),
-	                        _react2.default.createElement(
-	                            'h3',
-	                            null,
-	                            '\u05DE\u05D7\u05D9\u05E8 \u05D1\u05E9"\u05D7'
-	                        ),
-	                        _react2.default.createElement('input', { type: 'text', ref: 'lowerPrice', placeholder: '\u05DE...' }),
-	                        _react2.default.createElement('input', { type: 'text', ref: 'higherPrice', placeholder: '\u05E2\u05D3...' }),
-	                        _react2.default.createElement(
-	                            'button',
-	                            { className: 'ui-btn ui-btn-corner-all btn-info', onClick: this.searchBTN },
-	                            ' \u05D7\u05E4\u05E9 '
+	                            { style: { display: this.state.display } },
+	                            _react2.default.createElement(_Ddl2.default, (_React$createElement = { key: '1', onChange: this.onSelectedGPS }, _defineProperty(_React$createElement, 'onChange', this.logChange), _defineProperty(_React$createElement, 'options', [{ val: '10', text: '10 ק"מ' }, { val: '20', text: '20 ק"מ' }, { val: '30', text: '30 ק"מ' }, { val: '50', text: '50 ק"מ' }]), _defineProperty(_React$createElement, 'css', 'gpsSelect'), _React$createElement))
 	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'h3',
+	                        null,
+	                        '\u05E7\u05D8\u05D2\u05D5\u05E8\u05D9\u05D9\u05EA \u05DE\u05D5\u05E6\u05E8'
+	                    ),
+	                    _react2.default.createElement(_Ddl2.default, { key: '2', onChange: this.onSelectedCat, options: this.state.categoriesArr, css: 'priceSelect' }),
+	                    _react2.default.createElement(
+	                        'h3',
+	                        null,
+	                        '\u05DE\u05D7\u05D9\u05E8 \u05D1\u05E9"\u05D7'
+	                    ),
+	                    _react2.default.createElement('input', { type: 'text', ref: 'lowerPrice', placeholder: '\u05DE...' }),
+	                    _react2.default.createElement('input', { type: 'text', ref: 'higherPrice', placeholder: '\u05E2\u05D3...' }),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'ui-btn ui-btn-corner-all btn-info', onClick: this.searchBTN },
+	                        ' \u05D7\u05E4\u05E9 '
 	                    )
 	                )
 	            );
@@ -33020,7 +32995,7 @@
 	
 	 const GENERAL = {
 
-	    //genericWebServerAddress: "/WebService.asmx/",
+	  //  genericWebServerAddress: "/WebService.asmx/",
 	    genericWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/webservice.asmx/",
 
 	    //assocWebServerAddress: "/../AssociationsWebService.asmx/",
