@@ -129,5 +129,7 @@ div.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-cont
     margin: 0 0 0 0;
     z-index: 100;
     border-top-width: 0px;
-    width: 100%;
+    width: 60%;
+    border-color:black;
+    border-width:2px;
 }

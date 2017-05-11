@@ -17,7 +17,8 @@ import '../css/jqmCss.css';
 import '../css/auction.css';
 import '../css/modal.css';
 
-const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+//const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+const auctionWS = GENERAL.auctionWebServerAddress;
 const buyerID = GENERAL.USER.userID();
 
 //constants messages
@@ -203,7 +204,7 @@ class Auction extends Component {
             }
         }
         this.setState({
-            tempDonation: `כבר ${Math.floor(tempPrice * this.props.percentage)} ש"ח לתרומה`
+            tempDonation: `כבר ${Math.floor(tempPrice * this.props.percentage/100)} ש"ח לתרומה`
         });
 
     }
@@ -273,7 +274,7 @@ class Auction extends Component {
 
                     {/*info modal*/}
                     <Swipeable onTap={this.openInfoModal}>
-                        <FontAwesome name='info-circle' border="true" className="fa-3x" tag="i" />
+                        <FontAwesome name='info-circle' border={true} className="fa-3x" tag="i" />
                         <Modal
                             isOpen={this.state.infoModalIsOpen}
                             onRequestClose={this.closeInfoModal}
@@ -288,7 +289,7 @@ class Auction extends Component {
 
                     {/*FAQ modal*/}
                     <Swipeable onTap={this.openFAQModal}>
-                        <FontAwesome name='question-circle' border="true" className="fa-3x" tag="i" />
+                        <FontAwesome name='question-circle' border={true} className="fa-3x" tag="i" />
                         <Modal
                             isOpen={this.state.fAQModalIsOpen}
                             onRequestClose={this.closeFAQModal}
@@ -297,9 +298,9 @@ class Auction extends Component {
                             <AuctionFAQ closeModal={this.closeFAQModal} />
                         </Modal>
                     </Swipeable>
-
                 </div>
-                <input type="text" ref="newPrice" onChange={this.calcDonation} style={{ borderColor: this.state.borderColor }} />
+
+                <input type="number" ref="newPrice" onChange={this.calcDonation} style={{ borderColor: this.state.borderColor }} />
                 <div className="circle">
                     <h4>
                         {this.state.tempDonation}
@@ -307,9 +308,9 @@ class Auction extends Component {
                 </div>
 
                 <Swipeable onTap={this.makeBid}>
-                    <div>
-                        <button ref="bidBTN" className="down-arrow btn-primary active" onClick={this.state.makeBid}> הצע ביד  </button>
-                    </div>
+                    {/*<div>*/}
+                        <div ref="bidBTN" className="base" onClick={this.state.makeBid}> <span>הצע ביד</span> </div>
+                    {/*</div>*/}
                 </Swipeable>
                 <Tetris />
             </div>
