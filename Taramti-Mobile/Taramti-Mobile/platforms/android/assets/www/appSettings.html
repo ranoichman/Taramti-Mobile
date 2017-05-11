@@ -128,6 +128,12 @@
             });
         }
 
+        function vibrate()
+        {
+            navigator.vibrate(1000);
+            console.log("hiii");
+        }
+
     </script>
 
 </head>
@@ -144,10 +150,10 @@
                 <div id="SettingsForm">
                     <br />
                     <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
-                    <div style="direction:ltr; display:inline; float:left">
-                        <select name="flip-1" id="flip-1" data-role="slider">
+                    <div style="direction:ltr; display:inline; float:left" >
+                        <select name="flip-1" id="flip-1" data-role="slider" >
                             <option value=false>Off</option>
-                            <option value=true>On</option>
+                            <option value=true >On</option>
                         </select>
                     </div>
                     <br /><br />
@@ -167,6 +173,8 @@
                     <div data-role="controlgroup" id="FavAssocGroup">
 
                     </div>
+
+                    <!--<input type="button" value="רטט" onclick="vibrate()" />-->
 
                     <br /><br />
 

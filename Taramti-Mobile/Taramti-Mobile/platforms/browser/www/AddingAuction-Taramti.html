@@ -89,7 +89,31 @@
                 },
                 error: function (err) { }
             });
+
+            // אג'קס למילוי כל הערים
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAllCities",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
+
+                    var Cities = JSON.parse(data.d);
+
+                    if (Cities[0] != null) {
+                        for (var i = 0; i < Cities.length; i++) {
+                            var opt = '';
+                            opt += '<option value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
+                            $("#ProdLocation").append(opt);
+                        }
+                    }
+                },
+                error: function (err) { }
+            });
         });
+
 
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
@@ -151,49 +175,55 @@
             var user1 = user.userID();
             //var user1 = "300948552";
 
-            $.ajax({
-                dataType: "json",
-                url: aucwebservice + "AddingProductAuction",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user1 }),
-                success: function (data) {
-                    var productCode = JSON.parse(data.d)
-                    if (productCode != "") {
-                        alert("נכנסתי לאיף");
-                        for (var picNum in LocalPicArr) {
-                            alert(picNum);
-                            alert(LocalPicArr[picNum]);
-                            var thisImageURI = LocalPicArr[picNum]
-                            uploadPhoto(thisImageURI, picNum, productCode)
-                            addToServerPicArr(stringServerPath);
-                            alert(ServerPicArr[Server_i - 1]);
+            if (city != -1 && cat != -1 && days != -1 && assoc != -1) {
+                $.ajax({
+                    dataType: "json",
+                    url: aucwebservice + "AddingProductAuction",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user1 }),
+                    success: function (data) {
+                        var productCode = JSON.parse(data.d)
+                        if (productCode != "") {
+                            alert("נכנסתי לאיף");
+                            for (var picNum in LocalPicArr) {
+                                alert(picNum);
+                                alert(LocalPicArr[picNum]);
+                                var thisImageURI = LocalPicArr[picNum]
+                                uploadPhoto(thisImageURI, picNum, productCode)
+                                addToServerPicArr(stringServerPath);
+                                alert(ServerPicArr[Server_i - 1]);
+                            }
+                            $.ajax({
+                                dataType: "json",
+                                url: aucwebservice + "AddingProductPictures",
+                                contentType: "application/json; charset=utf-8",
+                                type: "POST",
+                                data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
+                                success: function (data) {
+                                    var isSaved = JSON.parse(data.d)
+                                    if (isSaved) {
+                                        alert("המכרז נשמר בהצלחה");
+                                        location.href = 'app.html';
+                                    }
+                                    else {
+                                        alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+                                    }
+                                },
+                                error: function (err) { }
+                            });
                         }
-                        $.ajax({
-                            dataType: "json",
-                            url: aucwebservice + "AddingProductPictures",
-                            contentType: "application/json; charset=utf-8",
-                            type: "POST",
-                            data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
-                            success: function (data) {
-                                var isSaved = JSON.parse(data.d)
-                                if (isSaved) {
-                                    alert("המכרז נשמר בהצלחה");
-                                    location.href = 'app.html';
-                                }
-                                else {
-                                    alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
-                                }
-                            },
-                            error: function (err) { }
-                        });
-                    }
-                    else {
-                        alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
-                    }
-                },
-                error: function (err) { }
-            });
+                        else {
+                            alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
+                        }
+                    },
+                    error: function (err) { }
+                });
+            }
+            else {
+                alert("אנא מלא את השדות המבוקשים");
+            }
+            
         }
 
 
@@ -276,16 +306,20 @@
                     <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
                     <h4>מיקום</h4>
-                    <input type="text" id="ProdLocation" required>
+                    <!--<input type="text" id="ProdLocation" required>-->
+                    <select id="ProdLocation"  data-icon="arrow-r">
+                        <option value="-1"> בחר</option>
+                    </select>
                     <!-- שימוש בג'יפיאס -->
 
                     <h4>בחר קטגוריה</h4>
                     <select id="AuctionCategories">
-                        <!--<option value="value">שליפה מאג'אקס</option>-->
+                        <option value="-1"> בחר</option>
                     </select>
 
                     <h4>משך המכרז (בימים)</h4>
                     <select id="AuctionLast">
+                        <option value="-1"> בחר</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -296,8 +330,8 @@
                     </select>
                     <h4>בחר עמותה</h4>
                     <select id="AuctionAssoc">
-                        <!--<option value=" value">
-                        שליפה מאג'אקס</option>-->
+                        <option value="-1"> בחר</option>
+    
                     </select>
                     <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
                     <input type="text" id="AuctionMinPrice" />
