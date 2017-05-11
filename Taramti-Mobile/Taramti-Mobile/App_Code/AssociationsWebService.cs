@@ -87,7 +87,16 @@ public class AssociationsWebService : System.Web.Services.WebService
         temp.AddTempAssoc();
         return j.Serialize("True");
     }
-    
+
+    [WebMethod(Description = "Get Favorite Associations For User")]
+    public string GetFavAssocById(string id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT temp = new UserT(id, true);
+        
+
+        return j.Serialize(temp.GetFavAssocById());
+    }
 }
 
 

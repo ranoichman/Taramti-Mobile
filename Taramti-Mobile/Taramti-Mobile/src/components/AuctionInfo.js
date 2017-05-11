@@ -22,7 +22,7 @@ class AuctionInfo extends Component {
                         {this.props.prodName}
                     </h1>
                     <h4> {this.props.prodDesc} </h4>
-                    <p> מחיר נוכחי <b style={{ color: "black" }}>{this.props.price}</b> ש"ח מתוכם <b style={{ color: "green" }}>{Math.floor(this.props.price * this.props.percentage)}</b> הולכים לתרומה </p>
+                    <p> מחיר נוכחי <b style={{ color: "black" }}>{this.props.price}</b> ש"ח מתוכם <b style={{ color: "green" }}>{Math.floor(this.props.price * this.props.percentage/100)}</b> הולכים לתרומה </p>
                     <div>
                         {
                             this.props.imgArr.map(function (pic, i) {

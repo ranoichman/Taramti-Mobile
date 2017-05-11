@@ -11,7 +11,6 @@
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
 
-
     <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
     <script src="js/appFuncs.js"></script>
@@ -21,32 +20,45 @@
     <!--מאסטר-->
     <script src="js/master.js"></script>
 
+
+    
 </head>
 <body>
-    <form id="settingsForm">
-        <div class="container">
-            <h1> הגדרות אפליקציה </h1>
+    <div data-role="page" id="LoginPage">
 
-            <div id="avatar"></div>
-            <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
-            <div id="SettingsForm">
-                            <label><b>אפשר הודעות פוש</b></label>
- 
-                            <select name="pushOpt" form="settingsForm">
-                                <option value="yes">כן </option>
-                                <option value="no">לא </option>
-                            </select>
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+        <form id="settingsForm" class="Form">
+            <div class="container">
+                <h1> הגדרות אפליקציה </h1>
 
-                            <label><b>התראות שמע</b></label>
+                <div id="avatar" style="margin: 0 auto"></div>
+                <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
+                <div id="SettingsForm">
+                    <br />
+                    <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
+                    <div style="direction:ltr; display:inline; float:left">
+                        <select name="flip-1" id="flip-1" data-role="slider">
+                            <option value="off">Off</option>
+                            <option value="on">On</option>
+                        </select>
+                    </div>
+                    <br /><br />
 
-                            <select name="soundOpt" form="settingsForm">
-                                <option value="soundAndVibe">שמע + רטט</option>
-                                <option value="sound">שמע בלבד</option>
-                                <option value="vibe">רטט בלבד</option>
-                                <option value="off">ללא</option>
-                            </select>
+                    <h4 style="display:inline-block"><b>התראות שמע</b></h4>
+                    <div style="direction:ltr; display:inline; float:left">
+                        <select name="soundOpt" form="settingsForm">
+                            <option value="soundAndVibe">שמע + רטט</option>
+                            <option value="sound">שמע בלבד</option>
+                            <option value="vibe">רטט בלבד</option>
+                            <option value="off">ללא</option>
+                        </select>
+<                   </div>
+
+
+
+                    </div>
             </div>
+        </form>
         </div>
-    </form>
 </body>
 </html>

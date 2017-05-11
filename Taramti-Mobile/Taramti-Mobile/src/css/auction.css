@@ -132,28 +132,89 @@ input{
     padding-top:30px;
     
 }
-
+/*
 .down-arrow {
+    float: right;
+    z-index: 5;
     display: inline-block;
     position: relative;
     background: #286090;
+    margin-left: auto;
+    margin-right: auto;
     padding: 15px 0;
     width: 50px;
     border: none;
     text-align: center;
+    
 }
     .down-arrow:after {
         content: '';
         display: block;
         position: absolute;
+        
         left: 0;
         top: 100%;
         width: 70px;
         height: 0;
+        margin-right: 20px;
         border-top: 20px solid #286090;
         border-right: 40px solid transparent;
         border-bottom: 0 solid transparent;
         border-left: 40px solid transparent;
     }
+    */
+.cut-diamond {
+    content: "הצע ביד";
+    border-style: solid;
+    border-color: transparent transparent #286090 transparent;
+    border-width: 0 25px 25px 25px;
+    height: 0;
+    width: 98px;
+    position: relative;
+    margin: 20px 0 50px 0;
+}
+.cut-diamond:after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: -25px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: #286090 transparent transparent transparent;
+    border-width: 70px 50px 0 50px;
+}
+.cut-diamond span{
+    color: white;
+    z-index: 5;
+}
 
+.base {
+    z-index: 1;
+  background: #286090;
+  display: inline-block;
+  height: 55px;
+  margin-left: 35%;
+  margin-top: 20px;
+  position: relative;
+  width: 100px;
+  text-align: center;
+}
+.base:after {
+  border-top: 35px solid #286090;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  content: "";
+  height: 0;
+  left: 0;
+  position: absolute;
+  top: 55px;
+  width: 0;
+}
 
+.base span{
+    color: white;
+    z-index: 5;
+    font-size: 20px;
+    margin: auto 0;
+}
