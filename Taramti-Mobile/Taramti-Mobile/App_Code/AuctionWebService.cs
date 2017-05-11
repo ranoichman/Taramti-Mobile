@@ -58,7 +58,18 @@ public class AuctionWebService : System.Web.Services.WebService
     {
         //JavaScriptSerializer j = new JavaScriptSerializer();
         Reg_Auction auction = new Reg_Auction();
-        return auction.OfferBid(auc,bid,buyer);
+        auction.AuctionID = auctionCode;
+        int lastBid = auction.GetLatestBid();
+        if (lastBid < bid)
+        {
+            return auction.OfferBid(bid,buyer);
+        }
+        else
+        {
+        return false;
+        }
+
+        
     }
 
     [WebMethod]
@@ -106,6 +117,7 @@ public class AuctionWebService : System.Web.Services.WebService
         JavaScriptSerializer j = new JavaScriptSerializer();
         Item NewItem = new Item();
         NewItem.ItemId = itemId;
+        NewItem.pictures = Arr;
         return j.Serialize(NewItem.AddPictures());
     }
 
