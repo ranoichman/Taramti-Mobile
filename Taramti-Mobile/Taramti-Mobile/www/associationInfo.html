@@ -93,31 +93,33 @@
     <div data-role="page" id="AssocInfoPage">
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
 
-        <div id="SearchAssoc">
-            <select id="AllAssoc">
+        <div class="Form" id="AssocInfoPage">
+            <h2>כיף שבאת!</h2>
+            <h3> בחר עמותה להצגת פרטיה</h3>
+            <div id="SearchAssoc">
 
-            </select>
+                <select id="AllAssoc"></select>
+            </div>
+
+            <div class="Form" id="AssocInfo" style="visibility:hidden">
+
+                <h4>שם עמותה: </h4>
+                <input type="text" id="AssocName" />
+                <h4>קוד עמותה: </h4>
+                <input type="text" id="AssocCode" />
+                <h4>פרטי חשבון העמותה: </h4>
+                <input type="text" id="AssocAccount" />
+                <h4>אתר עמותה: </h4>
+                <input type="text" id="AssocSite" />
+                <h4>שנת ייסוד: </h4>
+                <input type="text" id="AssocYear" />
+
+                <a onclick="location.href = 'app.html'">חזרה לדף הבית</a>
+
+
+            </div>
+            <!--<input type="button" id="AssocDetailsbtn" value="הבא פרטי עמותה" onclick="GetAssocDetails()" />-->
         </div>
-
-        <div class="Form" id="AssocInfo" style="visibility:hidden" >
-      
-            <h4>שם עמותה: </h4>
-            <input type="text" id="AssocName"  />
-            <h4>קוד עמותה: </h4>
-            <input type="text" id="AssocCode"  />
-            <h4>פרטי חשבון העמותה: </h4>
-            <input type="text" id="AssocAccount"  />
-            <h4>אתר עמותה: </h4>
-            <input type="text" id="AssocSite" />
-            <h4>שנת ייסוד: </h4>
-            <input type="text" id="AssocYear"  />
-
-            <a onclick="location.href = 'app.html'">חזרה לדף הבית</a>
-
-
-        </div>
-        <!--<input type="button" id="AssocDetailsbtn" value="הבא פרטי עמותה" onclick="GetAssocDetails()" />-->
     </div>
-
 </body>
 </html>

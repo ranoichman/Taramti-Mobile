@@ -298,10 +298,16 @@ public class WebService : System.Web.Services.WebService
         return j.Serialize(U.UpdateExistingUser());
     }
 
+    [WebMethod (Description = "הזנת נתוני העדפות מהגדרות האפליקציה לשרת")]
+    public void SaveSettings(string user,bool push, bool sound, bool vibe)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Settings S = new Settings(user, push, vibe, sound);
+        S.Insert();
+    }
 
 
 
-  
 
 
     //[WebMethod]
