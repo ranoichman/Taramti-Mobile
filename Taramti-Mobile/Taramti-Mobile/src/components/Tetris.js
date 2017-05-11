@@ -15,6 +15,7 @@ class Tetris extends Component {
     render() {
         return (
             <div className="gameBlock">
+                <img src="https://cdn-cloudflare.pelfusion.com/wp-content/uploads/2011/06/flash-tetris-game.jpg" style={{marginTop:"0px"}}/>
             </div>
         );
     }
