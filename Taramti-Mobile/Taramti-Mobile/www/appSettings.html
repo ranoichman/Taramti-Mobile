@@ -182,6 +182,15 @@
             });
         }
 
+        $(document).on('change', 'select', function () {
+            var opt = $(this).find('option:selected')[0];
+            // if the chosen value is Vibe or full sound then VIBRATE
+            if (opt.value == 1 || opt.value == 3) {
+                vibrate();
+            }
+
+        });
+
         function vibrate() {
             navigator.vibrate(1000);
             console.log("hiii");
@@ -242,7 +251,7 @@
                     <select id="soundOpt" name="soundOpt" form="settingsForm">
                             <option value="3">שמע + רטט</option>
                             <option value="2">שמע בלבד</option>
-                            <option value="1" onclick="vibrate()">רטט בלבד</option>
+                            <option value="1">רטט בלבד</option>
                             <option value="0">ללא</option>
                         </select>
                 </div>
@@ -270,7 +279,7 @@
             <h5><a href="#AssocInfoPage"> חזור לדף עמותה</a></h5>
         </div>
         <!--</form>-->
-    </div>
+
 
     <!--דף פרטי עמותה -->
     <div data-role="page" id="AssocInfoPage">
