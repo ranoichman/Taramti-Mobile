@@ -124,6 +124,10 @@
             });
         }
 
+        //$("#soundOpt").bind('change', function (event, ui) {
+        //    alert(this.value);
+        //});
+
         function vibrate()
         {
             navigator.vibrate(1000);
@@ -180,7 +184,7 @@
                         <select id="soundOpt" name="soundOpt" form="settingsForm">
                             <option value="3">שמע + רטט</option>
                             <option value="2">שמע בלבד</option>
-                            <option value="1">רטט בלבד</option>
+                            <option value="1" onclick="vibrate()">רטט בלבד</option>
                             <option value="0">ללא</option>
                         </select>
                    </div>
