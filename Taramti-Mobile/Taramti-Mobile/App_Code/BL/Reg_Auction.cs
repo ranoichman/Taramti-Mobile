@@ -134,7 +134,7 @@ public class Reg_Auction : Auction
 
                 if (DSprice.Tables[0].Rows.Count > 0)
                 {
-                    if (int.Parse(DSprice.Tables[0].Rows[0][1].ToString()) > highPrice)
+                    if (int.Parse(DSprice.Tables[0].Rows[0][1].ToString()) > high)
                     {
                         b = false;
                     }
