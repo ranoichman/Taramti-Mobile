@@ -33,11 +33,16 @@
         const generic = GENERAL.genericWebServerAddress;
         const aucwebservice = GENERAL.auctionWebServerAddress;
         const assoc = GENERAL.assocWebServerAddress;
+        const user = GENERAL.USER;
+
     </script>
 
 
     <script>
-
+        var LocalPicArr = new Array(); //שמירת הנתיב של התמונות במכשיר
+        var Local_i = 0;
+        var ServerPicArr = new Array();//שמירת הנתיב של התמונות בשרת
+        var Server_i = 0;
 
         $(document).ready(function () {
             // אג'קס למילוי כל הקטגוריות
@@ -89,10 +94,6 @@
 
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
-            LocalPicArr = new Array(); //שמירת הנתיב של התמונות במכשיר
-            Local_i = 0;
-            SerPicArr = new Array();//שמירת הנתיב של התמונות בשרת
-            Server_i = 0;
         });
 
         function OpenCameraORChooseFile(Flag) {
@@ -114,39 +115,44 @@
             $("#image_holder").append($img);
             LocalPicArr.push(imageURI);
             Local_i++;
-            //uploadPhoto(imageURI);
         }
 
-        function addToSerPicArr(stringServerPath) {
-            alret("נכנסתי");
-            SerPicArr.push(stringServerPath);
-            alret("SerPicArr[Server_i]");
-            alret(SerPicArr[Server_i]);
+        function addToServerPicArr(stringServerPath) {
+            ServerPicArr.push(stringServerPath);
             Server_i++;
-            alert(Server_i++);
         }
 
         function AddingProductAuction() {
+
+            var itemName = $("#ProdNum").val();
+            var itemDesc = $("#ProdDesc").val();
+            var city = $("#ProdLocation").val();
+            var cat = $("#AuctionCategories").val();
+            var days = $("#AuctionLast").val();
+            var assoc = $("#AuctionAssoc").val();
+            var price = $("#AuctionMinPrice").val();
+            var user = userID.userID();
+
             $.ajax({
                 dataType: "json",
                 url: aucwebservice + "AddingProductAuction",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ Arr: picArr }),
+                data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user }),
                 success: function (data) {
                     var productCode = JSON.parse(data.d)
                     if (productCode != "") {
                         for (var picNum in LocalPicArr) {
                             var thisImageURI = LocalPicArr[picNum]
-                            alert(thisImageURI);
                             uploadPhoto(thisImageURI, picNum, productCode)
+                            addToServerPicArr(stringServerPath);
                         }
                         $.ajax({
                             dataType: "json",
                             url: aucwebservice + "AddingProductPictures",
                             contentType: "application/json; charset=utf-8",
                             type: "POST",
-                            data: JSON.stringify({ Arr: SerPicArr, itemId: productCode }),
+                            data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
                             success: function (data) {
                                 var isSaved = JSON.parse(data.d)
                                 if (isSaved) {
@@ -166,55 +172,20 @@
                 error: function (err) { }
             });
         }
-
-
-        ////--לבדיקה מול ניר
+        //--לבדיקה מול ניר
 
         //function AddingProductAuction() {
 
-        //    alert("נכנס");
-
-        //    var productCode = 13;
-
-        //    alert("הגדיר");
+        //    var productCode = 12;
 
         //    for (var picNum in LocalPicArr) {
-        //        alert(picNum);
-        //        alert(productCode);
         //        var thisImageURI = LocalPicArr[picNum]
-        //        alert(thisImageURI);
         //        uploadPhoto(thisImageURI, picNum, productCode)
-        //        alert("לפני תמונה אחת הועלתה");
-        //        alert(stringServerPath);
-        //        //addToSerPicArr(stringServerPath);
-        //        alert(" אחרי תמונה אחת הועלתה");
+        //        addToServerPicArr(stringServerPath);
         //    }
-
-        //    alert("העלה לסרבר");
-        //    alret(SerPicArr[Server_i]);
-
-        //    //$.ajax({
-        //    //    dataType: "json",
-        //    //    url: aucwebservice + "AddingProductPictures",
-        //    //    contentType: "application/json; charset=utf-8",
-        //    //    type: "POST",
-        //    //    data: JSON.stringify({ Arr: SerPicArr, itemId: productCode }),
-        //    //    success: function (data) {
-        //    //        var isSaved = JSON.parse(data.d)
-        //    //        if (isSaved) {
-        //    //            alert("המכרז נשמר בהצלחה");
-        //    //        }
-        //    //        else {
-        //    //            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
-        //    //        }
-        //    //    },
-        //    //    error: function (err) { }
-        //    //});
         //}
 
-
         function uploadPhoto(thisImageURI, picNum, productCode) {
-            //   Load(); // Start the spinning "working" animation
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
             options.fileName = productCode + "_pic_" + picNum; // file name
@@ -232,17 +203,6 @@
 
         function win(r) {
             var path = r.response;
-            //$img.attr("src", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
-
-            //alert(Server_i);
-            //alret(SerPicArr[Server_i]);
-            //SerPicArr[Server_i] = stringServerPath;
-            //alret("SerPicArr[Server_i]");
-            //alret(SerPicArr[Server_i]);
-            //Server_i++;
-            //alert(Server_i++);
-
-            // UnLoad(); // Stop "working" animation
         } // win (upload success)
 
         function fail(error) {
@@ -252,7 +212,6 @@
         function onCameraFail(message) {
             alert('Failed because: ' + message);
         }
-
     </script>
 
     <style>
@@ -285,12 +244,6 @@
                     <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
                     <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
                     <li><a onclick="location.href='#'">פרופיל משתמש</a></li>
-
-
-                    
-
-
-
 
                     <li><a onclick="location.href = 'Login-Taramti.html'">דף הבית</a></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוסף עמותה</a></li>

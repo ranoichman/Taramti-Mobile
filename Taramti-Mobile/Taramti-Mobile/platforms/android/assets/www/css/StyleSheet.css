@@ -130,6 +130,15 @@ div.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-cont
     z-index: 100;
     border-top-width: 0px;
     width: 60%;
-    border-color:black;
-    border-width:2px;
+    border-color: black;
+    border-width: 2px;
+}
+
+.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {
+    display: none;
+}
+
+a.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
+    background-color: #98b8dc;
+    border-color: black;
 }
