@@ -117,12 +117,8 @@ class Home extends Component {
                             <i id={"TaramtiMenuIcon"} className="fa fa-ellipsis-v fa-4x"></i>
                         </span>
                     
-                    
-
-
-                
                 {/*<div style={{ height: "74px", width: "100%" }} >*/}
-                    <img src={"img/smaller logo.JPG"} style={{ float: "left", marginLeft: "-2%", width: "80%",position: "absolute",top: "0",marginTop: "0",right: "30px" }} />
+                    <img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/smaller_logo.jpg"} style={{ float: "left", marginLeft: "-2%", width: "80%",position: "absolute",top: "0",marginTop: "0",right: "30px" }} />
                          {/*</div>*/}
 
                 {/*search icon*/}
