@@ -42,8 +42,6 @@
         var associationCode;
         var userId = user.userID();
         var lastPage = "";
-<<<<<<< HEAD
-=======
 
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
@@ -59,7 +57,6 @@
             });
         });
 
->>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
         $(document).ready(function () {
 
             //get favorite assoc for user from server
@@ -121,11 +118,7 @@
 
                     $a.on("swipeleft", function () {
                         lastPage = "SearchAssoc";
-<<<<<<< HEAD
-                        MoveToAssocDetails($(this).attr("data-code"));
-=======
                         MoveToAssocDetails($(this).children("span").attr("data-code"));
->>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
                     })
 
 
@@ -142,11 +135,7 @@
 
             associationCode = assocId;
 
-<<<<<<< HEAD
-            //get assoc info by code and switch to ass     
-=======
             //get assoc info by code and switch to ass
->>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
             $.ajax({
                 dataType: "json",
                 url: assoc + "GetAmutaDetails",
@@ -208,8 +197,6 @@
             });
         }
 
-<<<<<<< HEAD
-=======
         $(document).on('change', 'select', function () {
             var opt = $(this).find('option:selected')[0];
             // if the chosen value is Vibe or full sound then VIBRATE
@@ -219,7 +206,6 @@
 
         });
 
->>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
         function vibrate() {
             navigator.vibrate(1000);
             console.log("hiii");
@@ -233,8 +219,6 @@
 </head>
 
 <body>
-<<<<<<< HEAD
-=======
 
     <!--דף חיפוש עמותות-->
     <div data-role="page" id="SearchAssoc">
@@ -276,7 +260,6 @@
         </div>
     </div>
 
->>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
     <!--דף הגדרות אפליקציה-->
     <div data-role="page" id="Settings">
 
@@ -312,20 +295,20 @@
                 <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
                 <div style="direction:ltr; display:inline; float:left">
                     <select name="flip-1" id="flip-1" data-role="slider">
-                            <option value=false>Off</option>
-                            <option value=true >On</option>
-                        </select>
+                        <option value=false>Off</option>
+                        <option value=true>On</option>
+                    </select>
                 </div>
                 <br /><br />
 
                 <h4 style="display:inline-block"><b>התראות שמע</b></h4>
                 <div style="direction:ltr; display:inline; float:left">
                     <select id="soundOpt" name="soundOpt" form="settingsForm">
-                            <option value="3">שמע + רטט</option>
-                            <option value="2">שמע בלבד</option>
-                            <option value="1">רטט בלבד</option>
-                            <option value="0">ללא</option>
-                        </select>
+                        <option value="3">שמע + רטט</option>
+                        <option value="2">שמע בלבד</option>
+                        <option value="1">רטט בלבד</option>
+                        <option value="0">ללא</option>
+                    </select>
                 </div>
                 <br /><br />
                 <h4><b> העמותות המועדפות שלי: </b></h4>
@@ -340,15 +323,13 @@
 
                 <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
 
-                    </div>
+            </div>
             <div id="fixedCircle">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
             </div>
             <div id="fixedHome">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
             </div>
-            </div>
-            <h5><a href="#AssocInfoPage"> חזור לדף עמותה</a></h5>
         </div>
     </div>
 
@@ -396,24 +377,6 @@
             <h4>שנת ייסוד: </h4>
             <input type="text" id="AssocYear" />
 
-<<<<<<< HEAD
-            <a onclick="goBack">חזור</a>
-        </div>
-    </div>
-
-    <!--דף חיפוש עמותות-->
-    <div data-role="page" id="SearchAssoc">
-
-        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
-        <!--<form id="settingsForm" class="Form">-->
-        <div class="Form">
-            <input data-type="search" id="filterControlgroup-input">
-
-            <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
-
-            </div>
-        </div>
-=======
 
             <a onclick="goBack()">חזור</a>
 
@@ -426,7 +389,6 @@
         </div>
     </div>
 
->>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
 
 
 </body>

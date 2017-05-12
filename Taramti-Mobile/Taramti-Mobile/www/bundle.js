@@ -31552,12 +31552,14 @@
 	        _this.openMSGModal = _this.openMSGModal.bind(_this);
 	        _this.closeMSGModal = _this.closeMSGModal.bind(_this);
 	        _this.openMSGModal = _this.openMSGModal.bind(_this);
+	        _this.moveToHomePage = _this.moveToHomePage.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(Auction, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+
 	            this.calcDonation();
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
 	        }
@@ -31739,7 +31741,8 @@
 	    }, {
 	        key: 'congratulateSeller',
 	        value: function congratulateSeller() {
-	            this.setState({ shownMessage: '\u05DE\u05D6\u05DC \u05D8\u05D5\u05D1!\n        \u05D4\u05DE\u05DB\u05E8\u05D6 \u05E2\u05DC ' + this.props.prodName + ' \u05D4\u05E1\u05EA\u05D9\u05D9\u05DD \u05D1\u05D4\u05E6\u05DC\u05D7\u05D4 \u05D1\u05E1\u05DB\u05D5\u05DD \u05E9\u05DC ' + this.state.price + ' \u05E9"\u05D7 \u05DE\u05EA\u05D5\u05DB\u05DD ' + this.state.price * this.props.percentage / 100 + ' \u05E9"\u05D7 \u05D4\u05D5\u05DC\u05DB\u05D9\u05DD \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4 \u05D5' + this.state.price * (100 - this.props.percentage) / 100 + ' \u05E9"\u05D7 \u05D0\u05DC\u05D9\u05DA! \n        \u05DB\u05E2\u05EA, \u05DB\u05DC \u05DE\u05D4 \u05E9\u05E0\u05D5\u05EA\u05E8 \u05D4\u05D5\u05D0 \u05DC\u05D7\u05DB\u05D5\u05EA \u05E9\u05D4\u05E7\u05D5\u05E0\u05D4 \u05D9\u05D1\u05E6\u05E2 \u05D0\u05EA \u05D4\u05EA\u05E9\u05DC\u05D5\u05DD \u05D5\u05DC\u05D0\u05D7\u05E8 \u05DE\u05DB\u05DF \u05E4\u05E8\u05D8\u05D9\u05DB\u05DD \u05D9\u05D5\u05E2\u05D1\u05E8\u05D5.\n        ' });
+	            this.setState({
+	                shownMessage: '\u05DE\u05D6\u05DC \u05D8\u05D5\u05D1!\n        \u05D4\u05DE\u05DB\u05E8\u05D6 \u05E2\u05DC ' + this.props.prodName + ' \u05D4\u05E1\u05EA\u05D9\u05D9\u05DD \u05D1\u05D4\u05E6\u05DC\u05D7\u05D4 \u05D1\u05E1\u05DB\u05D5\u05DD \u05E9\u05DC ' + this.state.price + ' \u05E9"\u05D7 \u05DE\u05EA\u05D5\u05DB\u05DD ' + this.state.price * this.props.percentage / 100 + ' \u05E9"\u05D7 \u05D4\u05D5\u05DC\u05DB\u05D9\u05DD \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4 \u05D5' + this.state.price * (100 - this.props.percentage) / 100 + ' \u05E9"\u05D7 \u05D0\u05DC\u05D9\u05DA! \n        \u05DB\u05E2\u05EA, \u05DB\u05DC \u05DE\u05D4 \u05E9\u05E0\u05D5\u05EA\u05E8 \u05D4\u05D5\u05D0 \u05DC\u05D7\u05DB\u05D5\u05EA \u05E9\u05D4\u05E7\u05D5\u05E0\u05D4 \u05D9\u05D1\u05E6\u05E2 \u05D0\u05EA \u05D4\u05EA\u05E9\u05DC\u05D5\u05DD \u05D5\u05DC\u05D0\u05D7\u05E8 \u05DE\u05DB\u05DF \u05E4\u05E8\u05D8\u05D9\u05DB\u05DD \u05D9\u05D5\u05E2\u05D1\u05E8\u05D5.\n        ' });
 	        }
 
 	        //calculate donation amount to insert to circle
@@ -31812,6 +31815,11 @@
 	            }
 	            //console.log(`make bid price: ${val}`)
 	        }
+	    }, {
+	        key: 'moveToHomePage',
+	        value: function moveToHomePage() {
+	            location.href = 'app.html';
+	        }
 
 	        //render func for auction page
 
@@ -31821,6 +31829,34 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(
+	                    'div',
+	                    { id: 'fixedCircle' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        ' ',
+	                        _react2.default.createElement(
+	                            'a',
+	                            { onClick: this.moveToHomePage },
+	                            _react2.default.createElement('i', { className: 'fa fa-circle-o fa-5x', 'aria-hidden': 'true' })
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { id: 'fixedHome' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        ' ',
+	                        _react2.default.createElement(
+	                            'a',
+	                            { onClick: this.moveToHomePage },
+	                            _react2.default.createElement('i', { className: 'fa fa-home fa-3x', 'aria-hidden': 'true' })
+	                        )
+	                    )
+	                ),
 	                _react2.default.createElement(
 	                    _reactModal2.default,
 	                    {
@@ -31890,11 +31926,11 @@
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    _reactTappable2.default,
+	                    _reactSwipeable2.default,
 	                    { onTap: this.makeBid },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { onClick: this.makeBid, ref: 'bidBTN', className: 'base' },
+	                        { ref: 'makeBidBTN', className: 'base' },
 	                        ' ',
 	                        _react2.default.createElement(
 	                            'span',
@@ -32790,75 +32826,9 @@
 	                null,
 	                _react2.default.createElement('div', { style: { height: "74px", width: "100%" } }),
 	                _react2.default.createElement(
-	                    'div',
-	                    { 'data-role': "collapsible" },
-	                    _react2.default.createElement(
-	                        'h1',
-	                        null,
-	                        _react2.default.createElement(
-	                            'span',
-	                            { id: "TaramtiMenuIconDiv" },
-	                            _react2.default.createElement('i', { id: "TaramtiMenuIcon", className: 'fa fa-ellipsis-v fa-4x' })
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'ul',
-	                        { id: "MenuBarUL", 'data-role': "listview", 'data-inset': false },
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                '\u05D3\u05E3 \u05D4\u05D1\u05D9\u05EA'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                '\u05D4\u05D5\u05E1\u05E4\u05EA \u05DE\u05DB\u05E8\u05D6'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                '\u05E4\u05E8\u05D5\u05E4\u05D9\u05DC \u05DE\u05E9\u05EA\u05DE\u05E9'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                '\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                '\u05E4\u05E8\u05D8\u05D9 \u05E2\u05DE\u05D5\u05EA\u05D5\u05EA'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                '\u05D4\u05D5\u05E1\u05E4\u05EA \u05E2\u05DE\u05D5\u05EA\u05D4'
-	                            )
-	                        )
-	                    )
+	                    'span',
+	                    { id: "TaramtiMenuIconDiv", style: { position: "absolute", top: "7px", right: "9px" } },
+	                    _react2.default.createElement('i', { id: "TaramtiMenuIcon", className: 'fa fa-ellipsis-v fa-4x' })
 	                ),
 	                _react2.default.createElement('img', { src: "img/smaller logo.JPG", style: { float: "left", marginLeft: "-2%", width: "80%", position: "absolute", top: "0", marginTop: "0", right: "30px" } }),
 	                _react2.default.createElement(
@@ -32882,7 +32852,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    'div',
-	                    { id: 'fixedsocial' },
+	                    { id: 'fixedPlus' },
 	                    _react2.default.createElement(
 	                        'a',
 	                        { onClick: this.moveToAddAuction },
