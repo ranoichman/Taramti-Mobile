@@ -5,7 +5,7 @@
 
 .box {
     position: fixed;
-    top: 40px;
+    top: 80px;
     left: 40px;
     right: 40px;
     /*bottom: 30px;*/
@@ -51,6 +51,7 @@ a.boxclose {
     display: inline-block;
     line-height: 0px;
     padding: 11px 3px;
+    z-index: 105;
 }
 
 .boxclose:before {
@@ -82,4 +83,52 @@ font-size: 14px;
 .gpsCont .gpsSelect{
     width: 30%;
     margin-right: 10px;
+}
+
+.search{
+    float: left;
+    z-index: 300;
+    position: absolute;
+    top: 22px;
+    left: 5px;
+    
+}
+
+/*remove menu*/
+
+h1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {
+    width: 30px;
+    height: 74PX;
+    padding: 0 0 0 0;
+    border: 0 0 0 0;
+}
+
+.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {
+    display: none !important; 
+    content: none !important;
+}
+
+/*.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after{
+    display: none;
+}*/
+
+div.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {
+    position: fixed;
+    top: 0PX;
+    margin: 0 0 0 0;
+    z-index: 100;
+    border-top-width: 0px;
+    width: 60%;
+    border-color: black;
+    border-width: 2px;
+}
+
+.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {
+    display: none !important; 
+    content: none !important;
+}
+
+a.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
+    background-color: #98b8dc;
+    border-color: black;
 }

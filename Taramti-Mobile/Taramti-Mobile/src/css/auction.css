@@ -193,3 +193,19 @@ input{
     font-size: 20px;
     margin: auto 0;
 }
+
+.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {
+    display: none !important; 
+    content: none !important;
+}
+
+/*
+#UpperLogo {
+    height: 74.05px;
+}
+
+#TaramtiLogo {
+    float: left;
+    margin-left: -2%;
+    width: 95%;
+}*/

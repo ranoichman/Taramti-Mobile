@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +35,6 @@
         const aucwebservice = GENERAL.auctionWebServerAddress;
         const assoc = GENERAL.assocWebServerAddress;
         const user = GENERAL.USER;
-
     </script>
 
 
@@ -139,7 +139,7 @@
 
         function onCameraSuccess(imageURI) {
             var $imgDiv = $("<div>");
-            var $imgA = $("<a>").addClass("boxclose").attr("id", Local_i);
+            var $imgA = $("<a>").addClass("closeBox").attr("id", Local_i);
             var $img = $("<img>").attr("src", imageURI);
             $imgDiv.append($imgA).append($img);
             $("#image_holder").append($imgDiv);
@@ -223,7 +223,7 @@
             else {
                 alert("אנא מלא את השדות המבוקשים");
             }
-            
+
         }
 
 
@@ -253,6 +253,7 @@
         }
     </script>
 </head>
+
 <body>
 
     <!--דף זה מכיל דף הוספת מכרז-->
@@ -271,7 +272,7 @@
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
                     <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
                     <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                    <li><a onclick="location.href =  'RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
                 </ul>
             </div>
 
@@ -307,7 +308,7 @@
 
                     <h4>מיקום</h4>
                     <!--<input type="text" id="ProdLocation" required>-->
-                    <select id="ProdLocation"  data-icon="arrow-r">
+                    <select id="ProdLocation" data-icon="arrow-r">
                         <option value="-1"> בחר</option>
                     </select>
                     <!-- שימוש בג'יפיאס -->
@@ -377,4 +378,5 @@
 
 
 </body>
+
 </html>

@@ -1,4 +1,13 @@
-﻿html {
+﻿/*
+stylllllllllllllllllllllleeeeeeeeeeeeee sheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeet
+
+
+
+*/
+
+
+
+html {
     direction: rtl;
 }
 
@@ -150,7 +159,7 @@ a.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
     border-color: black;
 }
 
-a.boxclose {
+a.closeBox {
     position: relative;
     float: right;
     top: 25px;
@@ -170,7 +179,7 @@ a.boxclose {
     padding: 11px 3px;
 }
 
-.boxclose:before {
+.closeBox:before {
     content: "×";
 }
 

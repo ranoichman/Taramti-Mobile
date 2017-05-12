@@ -41,8 +41,6 @@ class Search extends Component {
             });
     }
 
-
-
     onSelectedCat(opt) {
         console.log(`category: ${opt}`);
         this.setState({ categroy: opt });

@@ -6,7 +6,11 @@ import axios from 'axios';
 
 import Auction from './Auction';
 import Search from './Search';
+import TaramtiMenu from './TaramtiMenu'
 
+
+//import '../css/jqmCss.css';
+//import '../../www/css/StyleSheet.css';
 
 const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
 
@@ -25,8 +29,8 @@ class Home extends Component {
         this.eachAuction = this.eachAuction.bind(this);
         this.offerBid = this.offerBid.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
+        this.moveToAddAuction = this.moveToAddAuction.bind(this);
     }
-
 
     openSearchModal() {
         this.setState({ searchModalIsOpen: true })
@@ -45,7 +49,7 @@ class Home extends Component {
     //call function to get auctions from serveer
     getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
         const self = this;
-        this.setState({searchModalIsOpen:false});
+        this.setState({ searchModalIsOpen: false });
         axios.post(auctionWS + 'GetAuctionByParam', {
             cities: cities,
             lowPrice: lowPrice,
@@ -58,7 +62,6 @@ class Home extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-
     }
 
     //add auction from server to array
@@ -81,7 +84,7 @@ class Home extends Component {
     //function that returns a render of 1 auction
     eachAuction(item, i) {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-            home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc} 
+            home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc}
             price={item.price} endDate={item.endDate} code={item.code}
             percentage={item.percentage} />
     }
@@ -92,18 +95,39 @@ class Home extends Component {
         var arr = this.state.auctionsArr;
         arr.splice(i, 1);
         this.setState({ auctionsArr: arr });
-        this.state.auctionsArr.map(function(item,i){console.log(i + "____" +  item.endDate + ":::::::" + item.price)})
+        this.state.auctionsArr.map(function (item, i) { console.log(i + "____" + item.endDate + ":::::::" + item.price) })
     }
 
     offerBid(i) {
         this.props.offerBid(i);
     }
 
+    moveToAddAuction() {
+        location.href = 'AddingAuction-Taramti.html'
+    }
+
     render() {
         return (
             <div>
-                <Swipeable onTap={this.openSearchModal}>
-                    <FontAwesome name='search' border={true} className="fa-3x" tag="div" />
+                <div style={{ height: "74px", width: "100%" }} >
+                </div>
+                {/*menu*/}
+                
+                        <span id={"TaramtiMenuIconDiv"} style={{position: "absolute",top: "7px",right:"9px"}}>
+                            <i id={"TaramtiMenuIcon"} className="fa fa-ellipsis-v fa-4x"></i>
+                        </span>
+                    
+                    
+
+
+                
+                {/*<div style={{ height: "74px", width: "100%" }} >*/}
+                    <img src={"img/smaller logo.JPG"} style={{ float: "left", marginLeft: "-2%", width: "80%",position: "absolute",top: "0",marginTop: "0",right: "30px" }} />
+                         {/*</div>*/}
+
+                {/*search icon*/}
+                <Swipeable onTap={this.openSearchModal} className="search">
+                    <FontAwesome name='search' border={false} className="fa-2x" tag="div" />
                     <Modal
                         isOpen={this.state.searchModalIsOpen}
                         onRequestClose={this.closeSearchModal}
@@ -112,9 +136,17 @@ class Home extends Component {
                         <Search closeModal={this.closeSearchModal} startSearch={this.searchTriggered} />
                     </Modal>
                 </Swipeable>
+
+                {/*auctions display*/}
                 <div className="container-fluid">
                     {this.state.auctionsArr.map(this.eachAuction)}
                 </div>
+
+                {/*move to add auction*/}
+                <div id="fixedPlus">
+                    <a onClick={this.moveToAddAuction}><i className="fa fa-plus-circle fa-4x" aria-hidden="true"></i></a>
+                </div>
+
             </div>
         );
     }

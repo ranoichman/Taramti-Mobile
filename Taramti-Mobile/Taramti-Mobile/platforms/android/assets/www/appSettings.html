@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +21,17 @@
     <!--מאסטר-->
     <script src="js/master.js"></script>
 
+    <style>
+        .assocName {
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
+        .assocTag {
+            font-size: 10px;
+        }
+    </style>
+
     <script>
         const user = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
@@ -28,15 +40,17 @@
 
     <script>
         var associationCode;
+        var userId = user.userID();
+        var lastPage = "";
         $(document).ready(function () {
 
-            var id = user.userID();
+            //get favorite assoc for user from server
             $.ajax({
                 dataType: "json",
                 url: assoc + "GetFavAssocById",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ id: id }),
+                data: JSON.stringify({ id: userId }),
                 success: function (data) {
 
                     var AssocArray = JSON.parse(data.d);
@@ -46,8 +60,9 @@
                             var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
                             $("#FavAssocGroup").append($a);
 
-                            // השמת ה Swipe
+                            // move to assoc details page
                             $a.on("swipeleft", function () {
+                                lastPage = "Settings";
                                 MoveToAssocDetails(AssocArray[i].Association_Code);
                             });
                         }
@@ -57,11 +72,55 @@
             });
         });
 
+        //get all assoc name and tags
+        $.ajax({
+            dataType: "json",
+            url: assoc + "GetAllAmotaDetails",
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({}),
+            success: function (data) {
+
+                var arrAssoc = new Array();
+                var j = 0;
+                var usersSet = new Set();
+                var assocRes = JSON.parse(data.d);
+
+
+                assocRes.map(function (assoc, i) {
+                    var tags = ""; //string for tag list
+
+                    //מילוי רשימת תגיות
+                    for (let tag of assoc.Association_Tags) {
+                        tags += tag.Tag_Name + ", ";
+                    }
+                    tags = tags.slice(0, -2);
+
+                    let $name = $("<span>").text(assoc.Association_Name).attr({ "class": "assocName", "data-code": assoc.Association_Code });
+                    let $tag = $("<span>").text(tags).addClass("assocTag");
+
+                    let $a = $("<a>").append($name, $tag).addClass("ui-btn ui-shadow ui-corner-all");
+
+                    $a.on("swipeleft", function () {
+                        lastPage = "SearchAssoc";
+                        MoveToAssocDetails($(this).attr("data-code"));
+                    })
+
+
+                    $("#assocFilter").append($a);
+                })//end map func
+
+
+            },
+            error: function (err) { }
+        }); // end ajax call
+
+
         function MoveToAssocDetails(assocId) {
 
             associationCode = assocId;
 
-
+            //get assoc info by code and switch to ass     
             $.ajax({
                 dataType: "json",
                 url: assoc + "GetAmutaDetails",
@@ -95,7 +154,6 @@
         }
 
         function SaveSettings() {
-            var userId = user.userID();
             var push = $("#flip-1").val();
             var sound = false;
             var vibe = false;
@@ -124,11 +182,21 @@
             });
         }
 
+        function vibrate() {
+            navigator.vibrate(1000);
+            console.log("hiii");
+        }
+
+        function goBack() {
+            location.href = `appSettings.html#${lastPage}`;
+        }
     </script>
 
 </head>
+
 <body>
-    <div data-role="page" id="LoginPage">
+    <!--דף הגדרות אפליקציה-->
+    <div data-role="page" id="Settings">
 
         <div id="MenuBarDiv">
             <div data-role="collapsible">
@@ -163,20 +231,20 @@
                 <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
                 <div style="direction:ltr; display:inline; float:left">
                     <select name="flip-1" id="flip-1" data-role="slider">
-                        <option value=false>Off</option>
-                        <option value=true>On</option>
-                    </select>
+                            <option value=false>Off</option>
+                            <option value=true >On</option>
+                        </select>
                 </div>
                 <br /><br />
 
                 <h4 style="display:inline-block"><b>התראות שמע</b></h4>
                 <div style="direction:ltr; display:inline; float:left">
                     <select id="soundOpt" name="soundOpt" form="settingsForm">
-                        <option value="3">שמע + רטט</option>
-                        <option value="2">שמע בלבד</option>
-                        <option value="1">רטט בלבד</option>
-                        <option value="0">ללא</option>
-                    </select>
+                            <option value="3">שמע + רטט</option>
+                            <option value="2">שמע בלבד</option>
+                            <option value="1">רטט בלבד</option>
+                            <option value="0">ללא</option>
+                        </select>
                 </div>
                 <br /><br />
                 <h4><b> העמותות המועדפות שלי: </b></h4>
@@ -185,17 +253,21 @@
 
                 </div>
 
+                <!--<input type="button" value="רטט" onclick="vibrate()" />-->
+
                 <br /><br />
 
                 <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
 
-            </div>
+                    </div>
             <div id="fixedCircle">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
             </div>
             <div id="fixedHome">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
             </div>
+            </div>
+            <h5><a href="#AssocInfoPage"> חזור לדף עמותה</a></h5>
         </div>
         <!--</form>-->
     </div>
@@ -222,8 +294,24 @@
             <h4>שנת ייסוד: </h4>
             <input type="text" id="AssocYear" />
 
-            <a onclick="location.href = 'appSettings.html#LoginPage'">חזרה לדף הבית</a>
+            <a onclick="goBack">חזור</a>
         </div>
     </div>
+
+    <!--דף חיפוש עמותות-->
+    <div data-role="page" id="SearchAssoc">
+
+        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+        <!--<form id="settingsForm" class="Form">-->
+        <div class="Form">
+            <input data-type="search" id="filterControlgroup-input">
+
+            <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
+
+            </div>
+        </div>
+
+
 </body>
+
 </html>
