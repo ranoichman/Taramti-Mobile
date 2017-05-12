@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 // import ReactSwipeEvents from 'react-Swipe-Events'
 import Swipeable from 'react-swipeable';
-import Tappable from 'react-tappable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
@@ -136,10 +135,7 @@ class Auction extends Component {
                         <h4 className="text-center">{this.props.prodName}</h4>
                         <p className="descPar">{this.props.prodDesc}</p>
                         <Swipeable onTap={this.offerBid}>
-                      
                                 <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>
-                      
-                            
                         </Swipeable>
                     </div>
                 </div>
@@ -195,7 +191,7 @@ class Auction extends Component {
                 let ans = response.data.d;
                 if (ans !== "-1") {
                     self.congratulateSeller();
-                    this.openMSGModal();
+                    self.openMSGModal();
                 }
             })
             .catch(function (error) {
@@ -294,12 +290,16 @@ moveToHomePage() {
             <div>
 
                 {/*home page fixed circle*/}
+                <Swipeable onTap={this.moveToHomePage}>
                 <div id="fixedCircle">
-                    <div> <a onClick={this.moveToHomePage}><i className="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+                    <div> <a>
+                        <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
                 </div>
                 <div id="fixedHome">
-                    <div> <a onClick={this.moveToHomePage}><i className="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+                    <div> <a><FontAwesome name='home' className="fa-3x" tag="i" />
+                        </a></div>
                 </div>
+                </Swipeable>
 
                 {/*shown messegae*/}
                 <Modal
@@ -307,7 +307,7 @@ moveToHomePage() {
                     onRequestClose={this.closeMSGModal}
                     contentLabel="open info"
                     className={this.state.msgClass}>
-                    <Swipeable onTap={this.props.closeModal}>
+                    <Swipeable onTap={this.closeMSGModal}>
                         <a className="boxclose"></a>
                     </Swipeable>
                     <h3>{this.state.shownMessage}</h3>
