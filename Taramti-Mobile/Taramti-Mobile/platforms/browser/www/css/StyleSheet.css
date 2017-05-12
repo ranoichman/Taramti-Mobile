@@ -102,14 +102,13 @@ footer {
 
     #image_holder img {
         width: 100%;
-        /*float: left;
-        margin: 3px 1% 3px 1%;*/
+        max-height:150px;
     }
 
     #image_holder div {
         width: 48%;
         float: left;
-        margin: 3px 1% 3px 1%;
+        margin: 1.5px 1% 1.5px 1%;
     }
 
 

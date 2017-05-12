@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
@@ -34,7 +34,7 @@
                 url: assoc + "GetAllAmotaDetails",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({  }),
+                data: JSON.stringify({}),
                 success: function (data) {
 
                     var AssocArray = JSON.parse(data.d);
@@ -50,40 +50,40 @@
                 error: function (err) { }
             });
 
-   
 
-        $("#AllAssoc").change(function () {
 
-            var code = $("#AllAssoc").val();
-            $.ajax({
-                dataType: "json",
-                url: assoc + "GetAmutaDetails",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ code: code }),
-                success: function (data) {
+            $("#AllAssoc").change(function () {
 
-                    var Association = JSON.parse(data.d);
+                var code = $("#AllAssoc").val();
+                $.ajax({
+                    dataType: "json",
+                    url: assoc + "GetAmutaDetails",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ code: code }),
+                    success: function (data) {
 
-                    if (Association != "") {
-                        $("#AssocInfo").removeAttr("style", "visibility:hidden");
+                        var Association = JSON.parse(data.d);
 
-                        $("#AssocName").val(Association.Association_Name);
-                        $("#AssocCode").val(Association.Association_Code);
-                        $("#AssocAccount").val(Association.Association_Account);
-                        $("#AssocSite").val(Association.Association_WebSite);
-                        $("#AssocYear").val(Association.Association_Year);
+                        if (Association != "") {
+                            $("#AssocInfo").removeAttr("style", "visibility:hidden");
 
-                        $("#AssocName").attr('disabled', 'disabled');
-                        $("#AssocCode").attr('disabled', 'disabled');
-                        $("#AssocAccount").attr('disabled', 'disabled');
-                        $("#AssocSite").attr('disabled', 'disabled');
-                        $("#AssocYear").attr('disabled', 'disabled');
-                    }
-                },
-                error: function (err) { }
+                            $("#AssocName").val(Association.Association_Name);
+                            $("#AssocCode").val(Association.Association_Code);
+                            $("#AssocAccount").val(Association.Association_Account);
+                            $("#AssocSite").val(Association.Association_WebSite);
+                            $("#AssocYear").val(Association.Association_Year);
+
+                            $("#AssocName").attr('disabled', 'disabled');
+                            $("#AssocCode").attr('disabled', 'disabled');
+                            $("#AssocAccount").attr('disabled', 'disabled');
+                            $("#AssocSite").attr('disabled', 'disabled');
+                            $("#AssocYear").attr('disabled', 'disabled');
+                        }
+                    },
+                    error: function (err) { }
+                });
             });
-        });
         });
     </script>
 
@@ -102,8 +102,8 @@
                     <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
-                    <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
                 </ul>
             </div>
@@ -135,8 +135,6 @@
                 <input type="text" id="AssocSite" />
                 <h4>שנת ייסוד: </h4>
                 <input type="text" id="AssocYear" />
-
-                <a onclick="location.href = 'app.html'">חזרה לדף הבית</a>
             </div>
             <!--<input type="button" id="AssocDetailsbtn" value="הבא פרטי עמותה" onclick="GetAssocDetails()" />-->
 

@@ -27,7 +27,7 @@
 
     <script>
         $(document).ready(function () {
-           
+
             var U = user.userID();
             $.ajax({
                 dataType: "json",
@@ -60,8 +60,23 @@
 
         });
 
+        $(document).ready(function () {
+            var _originalSize = $(window).width() + $(window).height()
+            $(window).resize(function () {
+                if ($(window).width() + $(window).height() != _originalSize) {
+                    $("#fixedCircle").css("display", "none");
+                    $("#fixedHome").css("display", "none");
+                }
+                else {
+                    $("#fixedCircle").css("display", "block");
+                    $("#fixedHome").css("display", "block");
+                }
+            });
+        });
+
+
         function EditUser() {
-            
+
             // אפשור עריכת חלק מהשדות
             $("#UserAddress").removeAttr('disabled', 'disabled');
             $("#UserFirstName").removeAttr('disabled', 'disabled');
@@ -71,7 +86,7 @@
             // הסרת כפתור העריכה
             $("#EditUserBtn").remove();
 
-           // var ok = $('<input type="button" id="okbtn" value="אוקיי" onclick="SubmitChanges()">');
+            // var ok = $('<input type="button" id="okbtn" value="אוקיי" onclick="SubmitChanges()">');
             var ook = $('<a href="#ImSureDialog1" id="UpdateUserbtn" class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="position:initial" data-transition="flip"> שמירת נתונים </a>');
             ook.appendTo("#UserDetailsForm");
 
@@ -109,7 +124,7 @@
 </head>
 <body>
 
-        <div data-role="page" id="UserDetailsPage">
+    <div data-role="page" id="UserDetailsPage">
         <div id="MenuBarDiv">
             <div data-role="collapsible">
                 <h1>
@@ -121,8 +136,8 @@
                     <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
-                    <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
                 </ul>
             </div>
@@ -130,28 +145,29 @@
             <div id="UpperLogo">
                 <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
             </div>
-        </div>            <div class="Form" id="UserDetailsForm">
+        </div>
+        <div class="Form" id="UserDetailsForm">
 
-                <h2>דף פרטי משתמש   </h2>
-                <!--<h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
-                <div id="avatar" style="margin:0 auto"></div>
-                <h4>שם פרטי: </h4>
-                <input type="text" id="UserFirstName" />
-                <h4>שם משפחה: </h4>
-                <input type="text" id="UserLastName" />
-                <h4>תעודת זהות: </h4>
-                <input type="text" id="UserId" />
-                <h4>כתובת: </h4>
-                <input type="text" id="UserAddress" />
-                <h4>כתובת אימייל: </h4>
-                <input type="text" id="UserMail" />
-                <h4>טלפון: </h4>
-                <input type="text" id="UserNum" />
-                <h4>ניקוד: </h4>
-                <input type="text" id="UserScore" />
+            <h2>דף פרטי משתמש   </h2>
+            <!--<h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
+            <div id="avatar" style="margin:0 auto"></div>
+            <h4>שם פרטי: </h4>
+            <input type="text" id="UserFirstName" />
+            <h4>שם משפחה: </h4>
+            <input type="text" id="UserLastName" />
+            <h4>תעודת זהות: </h4>
+            <input type="text" id="UserId" />
+            <h4>כתובת: </h4>
+            <input type="text" id="UserAddress" />
+            <h4>כתובת אימייל: </h4>
+            <input type="text" id="UserMail" />
+            <h4>טלפון: </h4>
+            <input type="text" id="UserNum" />
+            <h4>ניקוד: </h4>
+            <input type="text" id="UserScore" />
 
 
-                <input type="button" id="EditUserBtn" value="עריכה" onclick="EditUser()" />
+            <input type="button" id="EditUserBtn" value="עריכה" onclick="EditUser()" />
 
             <div id="fixedCircle">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
@@ -160,8 +176,8 @@
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
             </div>
 
-            </div>
         </div>
+    </div>
 
     <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog1">
         <div data-role="header">

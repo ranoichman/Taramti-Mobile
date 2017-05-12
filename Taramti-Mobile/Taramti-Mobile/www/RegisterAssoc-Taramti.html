@@ -8,9 +8,9 @@
     <title>רישום עמותה</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
-    <meta http-equiv="Content-Security-Policy" content="default-src * gap: ws: https://ssl.gstatic.com;img-src 'self' data: content:;style-src 'self' 'unsafe-inline' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
-    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">-->
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; gap: ws: https://ssl.gstatic.com;img-src 'self' data: content:;style-src 'self' 'unsafe-inline' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
 
     <script src="./cordova.js"></script>
 
@@ -99,7 +99,7 @@
                             type: "POST",
                             data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
                             success: function (data) {
-             
+
                                 alert("העמותה הועברה לאישור מנהלי המערכת. ניצור עמכם קשר תוך 2 ימי עסקים להשלמת תהליך הרישום");
                                 location.href = "app.html";
                             },
@@ -131,8 +131,8 @@
                     <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
-                    <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
+                                        <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
                 </ul>
             </div>
@@ -171,7 +171,7 @@
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
             </div>
             <div id="fixedHome">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>            
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
             </div>
         </div>
     </div>

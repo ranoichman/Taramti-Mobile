@@ -42,6 +42,21 @@
         var associationCode;
         var userId = user.userID();
         var lastPage = "";
+
+        $(document).ready(function () {
+            var _originalSize = $(window).width() + $(window).height()
+            $(window).resize(function () {
+                if ($(window).width() + $(window).height() != _originalSize) {
+                    $("#fixedCircle").css("display", "none");
+                    $("#fixedHome").css("display", "none");
+                }
+                else {
+                    $("#fixedCircle").css("display", "block");
+                    $("#fixedHome").css("display", "block");
+                }
+            });
+        });
+
         $(document).ready(function () {
 
             //get favorite assoc for user from server
@@ -120,7 +135,7 @@
 
             associationCode = assocId;
 
-            //get assoc info by code and switch to ass     
+            //get assoc info by code and switch to ass
             $.ajax({
                 dataType: "json",
                 url: assoc + "GetAmutaDetails",
@@ -204,6 +219,47 @@
 </head>
 
 <body>
+
+    <!--דף חיפוש עמותות-->
+    <div data-role="page" id="SearchAssoc">
+
+        <div id="MenuBarDiv">
+            <div data-role="collapsible">
+                <h1>
+                    <span id="TaramtiMenuIconDiv">
+                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                    </span>
+                </h1>
+                <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                </ul>
+            </div>
+
+            <div id="UpperLogo">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            </div>
+        </div>
+
+        <div class="Form">
+            <input data-type="search" id="filterControlgroup-input">
+
+            <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
+
+            </div>
+            <div id="fixedCircle">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+            </div>
+            <div id="fixedHome">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+            </div>
+        </div>
+    </div>
+
     <!--דף הגדרות אפליקציה-->
     <div data-role="page" id="Settings">
 
@@ -219,7 +275,7 @@
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
                     <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
-                    <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
                 </ul>
             </div>
@@ -229,7 +285,6 @@
             </div>
         </div>
 
-        <!--<form id="settingsForm" class="Form">-->
         <div class="Form">
             <h1> הגדרות אפליקציה </h1>
 
@@ -240,20 +295,20 @@
                 <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
                 <div style="direction:ltr; display:inline; float:left">
                     <select name="flip-1" id="flip-1" data-role="slider">
-                            <option value=false>Off</option>
-                            <option value=true >On</option>
-                        </select>
+                        <option value=false>Off</option>
+                        <option value=true>On</option>
+                    </select>
                 </div>
                 <br /><br />
 
                 <h4 style="display:inline-block"><b>התראות שמע</b></h4>
                 <div style="direction:ltr; display:inline; float:left">
                     <select id="soundOpt" name="soundOpt" form="settingsForm">
-                            <option value="3">שמע + רטט</option>
-                            <option value="2">שמע בלבד</option>
-                            <option value="1">רטט בלבד</option>
-                            <option value="0">ללא</option>
-                        </select>
+                        <option value="3">שמע + רטט</option>
+                        <option value="2">שמע בלבד</option>
+                        <option value="1">רטט בלבד</option>
+                        <option value="0">ללא</option>
+                    </select>
                 </div>
                 <br /><br />
                 <h4><b> העמותות המועדפות שלי: </b></h4>
@@ -268,25 +323,44 @@
 
                 <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
 
-                    </div>
+            </div>
             <div id="fixedCircle">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
             </div>
             <div id="fixedHome">
                 <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
             </div>
-            </div>
-            <h5><a href="#AssocInfoPage"> חזור לדף עמותה</a></h5>
         </div>
-        <!--</form>-->
+    </div>
+
 
 
     <!--דף פרטי עמותה -->
     <div data-role="page" id="AssocInfoPage">
-        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="MenuBarDiv">
+            <div data-role="collapsible">
+                <h1>
+                    <span id="TaramtiMenuIconDiv">
+                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                    </span>
+                </h1>
+                <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                </ul>
+            </div>
+
+            <div id="UpperLogo">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            </div>
+        </div>
 
         <div id="SearchAssoc">
-            <h2>כיף שבאת!</h2>
+            <h2>פרטי העמותה</h2>
 
         </div>
 
@@ -303,24 +377,19 @@
             <h4>שנת ייסוד: </h4>
             <input type="text" id="AssocYear" />
 
-       
+
             <a onclick="goBack()">חזור</a>
+
+            <div id="fixedCircle">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+            </div>
+            <div id="fixedHome">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+            </div>
         </div>
     </div>
 
-    <!--דף חיפוש עמותות-->
-    <div data-role="page" id="SearchAssoc">
 
-        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
-        <!--<form id="settingsForm" class="Form">-->
-        <div class="Form">
-            <input data-type="search" id="filterControlgroup-input">
-
-            <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
-
-            </div>
-        </div>
-</div>
 
 </body>
 
