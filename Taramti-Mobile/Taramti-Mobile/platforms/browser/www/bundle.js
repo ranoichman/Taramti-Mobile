@@ -186,8 +186,8 @@
 
 	    }, {
 	        key: 'offerBid',
-	        value: function offerBid(i) {
-	            this.setState({ displayedAuction: i, home: false });
+	        value: function offerBid(i, arr) {
+	            this.setState({ auctionsArr: arr, displayedAuction: i, home: false });
 	        }
 
 	        //call function to get auctions from serveer
@@ -31451,10 +31451,6 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTappable = __webpack_require__(247);
-
-	var _reactTappable2 = _interopRequireDefault(_reactTappable);
-
 	var _reactFontawesome = __webpack_require__(200);
 
 	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
@@ -31551,7 +31547,7 @@
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
 	        _this.openMSGModal = _this.openMSGModal.bind(_this);
 	        _this.closeMSGModal = _this.closeMSGModal.bind(_this);
-	        _this.openMSGModal = _this.openMSGModal.bind(_this);
+	        _this.congratulateSeller = _this.congratulateSeller.bind(_this);
 	        _this.moveToHomePage = _this.moveToHomePage.bind(_this);
 	        return _this;
 	    }
@@ -31729,7 +31725,7 @@
 	                var ans = response.data.d;
 	                if (ans !== "-1") {
 	                    self.congratulateSeller();
-	                    this.openMSGModal();
+	                    self.openMSGModal();
 	                }
 	            }).catch(function (error) {
 	                console.log(error);
@@ -31809,9 +31805,9 @@
 	                console.log("לא מספיק כסף!!!!!");
 	                this.setState({
 	                    msgClass: "box notEnough",
-	                    shownMessage: _messages.notEnoughtMSG,
-	                    msg_ModalIsOpen: true
+	                    shownMessage: _messages.notEnoughtMSG
 	                });
+	                this.openMSGModal();
 	            }
 	            //console.log(`make bid price: ${val}`)
 	        }
@@ -31830,30 +31826,34 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    'div',
-	                    { id: 'fixedCircle' },
+	                    _reactSwipeable2.default,
+	                    { onTap: this.moveToHomePage },
 	                    _react2.default.createElement(
 	                        'div',
-	                        null,
-	                        ' ',
+	                        { id: 'fixedCircle' },
 	                        _react2.default.createElement(
-	                            'a',
-	                            { onClick: this.moveToHomePage },
-	                            _react2.default.createElement('i', { className: 'fa fa-circle-o fa-5x', 'aria-hidden': 'true' })
+	                            'div',
+	                            null,
+	                            ' ',
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                _react2.default.createElement('i', { className: 'fa fa-circle-o fa-5x', 'aria-hidden': 'true' })
+	                            )
 	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { id: 'fixedHome' },
+	                    ),
 	                    _react2.default.createElement(
 	                        'div',
-	                        null,
-	                        ' ',
+	                        { id: 'fixedHome' },
 	                        _react2.default.createElement(
-	                            'a',
-	                            { onClick: this.moveToHomePage },
-	                            _react2.default.createElement('i', { className: 'fa fa-home fa-3x', 'aria-hidden': 'true' })
+	                            'div',
+	                            null,
+	                            ' ',
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                _react2.default.createElement(_reactFontawesome2.default, { name: 'home', className: 'fa-3x', tag: 'i' })
+	                            )
 	                        )
 	                    )
 	                ),
@@ -31866,7 +31866,7 @@
 	                        className: this.state.msgClass },
 	                    _react2.default.createElement(
 	                        _reactSwipeable2.default,
-	                        { onTap: this.props.closeModal },
+	                        { onTap: this.closeMSGModal },
 	                        _react2.default.createElement('a', { className: 'boxclose' })
 	                    ),
 	                    _react2.default.createElement(
@@ -32811,7 +32811,7 @@
 	    }, {
 	        key: 'offerBid',
 	        value: function offerBid(i) {
-	            this.props.offerBid(i);
+	            this.props.offerBid(i, this.state.auctionsArr);
 	        }
 	    }, {
 	        key: 'moveToAddAuction',

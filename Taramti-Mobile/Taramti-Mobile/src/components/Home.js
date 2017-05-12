@@ -99,7 +99,7 @@ class Home extends Component {
     }
 
     offerBid(i) {
-        this.props.offerBid(i);
+        this.props.offerBid(i,this.state.auctionsArr);
     }
 
     moveToAddAuction() {

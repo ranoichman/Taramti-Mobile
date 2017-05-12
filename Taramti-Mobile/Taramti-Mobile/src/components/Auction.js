@@ -61,12 +61,12 @@ class Auction extends Component {
         this.getCurPrice = this.getCurPrice.bind(this);
         this.openMSGModal = this.openMSGModal.bind(this);
         this.closeMSGModal = this.closeMSGModal.bind(this);
-        this.openMSGModal = this.openMSGModal.bind(this);
+        this.congratulateSeller = this.congratulateSeller.bind(this);
         this.moveToHomePage = this.moveToHomePage.bind(this);
     }
 
     componentDidMount() {
-      
+
         this.calcDonation();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
@@ -135,7 +135,7 @@ class Auction extends Component {
                         <h4 className="text-center">{this.props.prodName}</h4>
                         <p className="descPar">{this.props.prodDesc}</p>
                         <Swipeable onTap={this.offerBid}>
-                                <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>
+                            <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>
                         </Swipeable>
                     </div>
                 </div>
@@ -271,17 +271,17 @@ class Auction extends Component {
             console.log("לא מספיק כסף!!!!!");
             this.setState({
                 msgClass: "box notEnough",
-                shownMessage: notEnoughtMSG,
-                msg_ModalIsOpen: true
+                shownMessage: notEnoughtMSG
             });
+            this.openMSGModal();
         }
         //console.log(`make bid price: ${val}`)
 
     }
 
 
-moveToHomePage() {
-        location.href =  'app.html'
+    moveToHomePage() {
+        location.href = 'app.html'
     }
 
     //render func for auction page
@@ -291,14 +291,14 @@ moveToHomePage() {
 
                 {/*home page fixed circle*/}
                 <Swipeable onTap={this.moveToHomePage}>
-                <div id="fixedCircle">
-                    <div> <a>
-                        <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
-                </div>
-                <div id="fixedHome">
-                    <div> <a><FontAwesome name='home' className="fa-3x" tag="i" />
+                    <div id="fixedCircle">
+                        <div> <a>
+                            <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+                    </div>
+                    <div id="fixedHome">
+                        <div> <a><FontAwesome name='home' className="fa-3x" tag="i" />
                         </a></div>
-                </div>
+                    </div>
                 </Swipeable>
 
                 {/*shown messegae*/}
@@ -356,10 +356,10 @@ moveToHomePage() {
                 </div>
 
                 <Swipeable onTap={this.makeBid}>
-                
+
 
                     <div ref="makeBidBTN" className="base"> <span>הצע ביד</span> </div>
-                
+
                 </Swipeable>
                 <Tetris />
             </div>
