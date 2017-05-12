@@ -32830,7 +32830,7 @@
 	                    { id: "TaramtiMenuIconDiv", style: { position: "absolute", top: "7px", right: "9px" } },
 	                    _react2.default.createElement('i', { id: "TaramtiMenuIcon", className: 'fa fa-ellipsis-v fa-4x' })
 	                ),
-	                _react2.default.createElement('img', { src: "img/smaller logo.JPG", style: { float: "left", marginLeft: "-2%", width: "80%", position: "absolute", top: "0", marginTop: "0", right: "30px" } }),
+	                _react2.default.createElement('img', { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/smaller_logo.jpg", style: { float: "left", marginLeft: "-2%", width: "80%", position: "absolute", top: "0", marginTop: "0", right: "30px" } }),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.openSearchModal, className: 'search' },
