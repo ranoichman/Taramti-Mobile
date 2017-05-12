@@ -42,6 +42,24 @@
         var associationCode;
         var userId = user.userID();
         var lastPage = "";
+<<<<<<< HEAD
+=======
+
+        $(document).ready(function () {
+            var _originalSize = $(window).width() + $(window).height()
+            $(window).resize(function () {
+                if ($(window).width() + $(window).height() != _originalSize) {
+                    $("#fixedCircle").css("display", "none");
+                    $("#fixedHome").css("display", "none");
+                }
+                else {
+                    $("#fixedCircle").css("display", "block");
+                    $("#fixedHome").css("display", "block");
+                }
+            });
+        });
+
+>>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
         $(document).ready(function () {
 
             //get favorite assoc for user from server
@@ -103,7 +121,11 @@
 
                     $a.on("swipeleft", function () {
                         lastPage = "SearchAssoc";
+<<<<<<< HEAD
                         MoveToAssocDetails($(this).attr("data-code"));
+=======
+                        MoveToAssocDetails($(this).children("span").attr("data-code"));
+>>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
                     })
 
 
@@ -120,7 +142,11 @@
 
             associationCode = assocId;
 
+<<<<<<< HEAD
             //get assoc info by code and switch to ass     
+=======
+            //get assoc info by code and switch to ass
+>>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
             $.ajax({
                 dataType: "json",
                 url: assoc + "GetAmutaDetails",
@@ -182,6 +208,18 @@
             });
         }
 
+<<<<<<< HEAD
+=======
+        $(document).on('change', 'select', function () {
+            var opt = $(this).find('option:selected')[0];
+            // if the chosen value is Vibe or full sound then VIBRATE
+            if (opt.value == 1 || opt.value == 3) {
+                vibrate();
+            }
+
+        });
+
+>>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
         function vibrate() {
             navigator.vibrate(1000);
             console.log("hiii");
@@ -195,6 +233,50 @@
 </head>
 
 <body>
+<<<<<<< HEAD
+=======
+
+    <!--דף חיפוש עמותות-->
+    <div data-role="page" id="SearchAssoc">
+
+        <div id="MenuBarDiv">
+            <div data-role="collapsible">
+                <h1>
+                    <span id="TaramtiMenuIconDiv">
+                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                    </span>
+                </h1>
+                <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                </ul>
+            </div>
+
+            <div id="UpperLogo">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            </div>
+        </div>
+
+        <div class="Form">
+            <input data-type="search" id="filterControlgroup-input">
+
+            <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
+
+            </div>
+            <div id="fixedCircle">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+            </div>
+            <div id="fixedHome">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+            </div>
+        </div>
+    </div>
+
+>>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
     <!--דף הגדרות אפליקציה-->
     <div data-role="page" id="Settings">
 
@@ -210,7 +292,7 @@
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
                     <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
-                    <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
                 </ul>
             </div>
@@ -220,7 +302,6 @@
             </div>
         </div>
 
-        <!--<form id="settingsForm" class="Form">-->
         <div class="Form">
             <h1> הגדרות אפליקציה </h1>
 
@@ -269,15 +350,36 @@
             </div>
             <h5><a href="#AssocInfoPage"> חזור לדף עמותה</a></h5>
         </div>
-        <!--</form>-->
     </div>
+
+
 
     <!--דף פרטי עמותה -->
     <div data-role="page" id="AssocInfoPage">
-        <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
+        <div id="MenuBarDiv">
+            <div data-role="collapsible">
+                <h1>
+                    <span id="TaramtiMenuIconDiv">
+                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                    </span>
+                </h1>
+                <ul id="MenuBarUL" data-role="listview" data-inset="false">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                </ul>
+            </div>
+
+            <div id="UpperLogo">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            </div>
+        </div>
 
         <div id="SearchAssoc">
-            <h2>כיף שבאת!</h2>
+            <h2>פרטי העמותה</h2>
 
         </div>
 
@@ -294,6 +396,7 @@
             <h4>שנת ייסוד: </h4>
             <input type="text" id="AssocYear" />
 
+<<<<<<< HEAD
             <a onclick="goBack">חזור</a>
         </div>
     </div>
@@ -310,6 +413,20 @@
 
             </div>
         </div>
+=======
+
+            <a onclick="goBack()">חזור</a>
+
+            <div id="fixedCircle">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+            </div>
+            <div id="fixedHome">
+                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+            </div>
+        </div>
+    </div>
+
+>>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
 
 
 </body>

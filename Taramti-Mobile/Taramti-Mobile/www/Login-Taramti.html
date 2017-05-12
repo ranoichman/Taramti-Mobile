@@ -27,9 +27,7 @@
 
         $(document).ready(function () {
 
-            console.log("אני בלוגgfdggfין")
             $("#Loginbtn").on("tap", function () {
-                console.log("אני בלוגין")
                 var mail = $("#UserMail").val();
                 var pass = $("#UserPass").val();
 
@@ -74,8 +72,6 @@
                             alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
                             location.href = "Login-Taramti.html#LoginPage";
                         }
-
-
                     },
                     error: function (err) { }
                 });
@@ -84,52 +80,9 @@
             )
         });
 
-
-
-        //window.onbeforeunload = function () {
-        //};
-    </script>
+   </script>
 
     <script>
-        /// <summary>ולידטורים</summary>
-        /// <summary>שם משתמש וסיסמא,וידוא על צ'ק בוקס זכור סיסמא, </summary>
-        //function Login() {
-
-        //    var mail = $("#UserMail").val();
-        //    var pass = $("#UserPass").val();
-
-        //    console.log("אני בלוגין")
-        //    $.ajax({
-        //        dataType: "json",
-        //        url: generic + "ValidateUser",
-        //        contentType: "application/json; charset=utf-8",
-        //        type: "POST",
-        //        data: JSON.stringify({ mail: mail, pass: pass }),
-        //        success: function (data) {
-
-        //            var isUser = JSON.parse(data.d);
-
-        //            if (isUser == true) {
-        //                // בדיקה האם המשתמש עם סיסמא זמנית. אם כן - נשלח אותו ליצירת סיסמא חדשה
-        //                if (pass == "000000") {
-        //                    location.href = "Login-Taramti.html#RestorePassPage";
-        //                }
-        //                else {
-
-
-        //                    location.href = "app.html";
-        //                }
-        //            }
-        //            else {
-        //                alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
-        //                location.href = "Login-Taramti.html#LoginPage";
-        //            }
-
-
-        //        },
-        //        error: function (err) { }
-        //    });
-        //}
 
         function ConRegister() {
 
@@ -237,7 +190,6 @@
         }
 
         function RestorePass() {
-
             if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
                 var id = $("#UserIdRestore").val();
                 var pass = $("#UserPassNew").val();
@@ -263,14 +215,8 @@
             }
 
         }
-        function ToMainTaramti() {
-
-            location.href = "app.html";
-
-        };
 
         function CityList() {
-
             $.ajax({
                 dataType: "json",
                 url: generic + "GetAllCities",
@@ -292,7 +238,6 @@
                 error: function (err) { }
             });
         }
-
     </script>
 
 </head>
@@ -312,22 +257,14 @@
             <input type="email" id="UserMail" value="izik@gmail.com" />
             <h4>סיסמה: </h4>
             <input type="password" id="UserPass" value="mashaush" />
+
+            <!-------------לא למחוק------------>
             <!--<input class="w3-margin-right" id="StayCB" type="checkbox" checked />-->
             <!--<h6 id="ImHereToStay">אני כאן כדי להשאר</h6>-->
-
 
             <input type="button" id="Loginbtn" value="התחבר" />
             <h5 class="styleLinkH"><a class="styleLink" href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
             <h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
-
-            <!------------------------->
-            <!------------------------->
-            <a onclick="location.href='RegisterAssoc-Taramti.html'">RegisterAssoc-Taramti.html</a>
-            <a onclick="location.href = 'AddingAuction-Taramti.html'">AddingAuction-Taramti.html</a>
-            <a onclick="location.href = 'appSettings.html'">appSettings.html</a>
-            <!------------------------->
-            <!------------------------->
-
 
         </div>
     </div>
@@ -346,8 +283,8 @@
             
 
             <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
-            <h5><a href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
-            <h6><a href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+            <h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
+            <h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
         </div>
     </div>
 
@@ -389,7 +326,7 @@
 
             <input type="button" id="FirstRegisterBtn" value="הרשם" onclick="FirstRegisterUser()" />
             <input type="button" id="ConRegisterBtn" value="המשך לרישום מלא" onclick="ConRegister()" />
-            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+            <h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> חזור לדף התחברות</a></h5>
         </div>
     </div>
 
@@ -401,7 +338,6 @@
             <h4>מספר טלפון: </h4>
             <input type="tel" id="UserPhon" />
             <h4>עיר מגורים: </h4>
-            <!--<input type="text" id="UserCity" />-->
             <select id="UserCity" onclick="CityList()" data-icon="arrow-r">
                 <option value="-1"> בחר</option>
             </select>
@@ -443,7 +379,7 @@
             <input type="password" id="UserPass2" />
 
             <input type="button" id="RegisterBtn" value="הרשם" onclick="RegisterUser()" />
-            <h5><a href="#LoginPage"> חזור לדף התחברות</a></h5>
+            <h5 class="styleLinkH"><a class="styleLink"a href="#LoginPage"> חזור לדף התחברות</a></h5>
         </div>
     </div>
 </body>

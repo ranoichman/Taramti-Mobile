@@ -6,37 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
-
     <script src="cordova.js"></script>
 
     <!--מאסטר-->
     <script src="js/master.js"></script>
 
     <script src="js/jquery.js"></script>
-
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
 
-    <!--<link href="lib/jquery.mobile-1.4.5.min.css" rel="stylesheet" />-->
-    <!--<link href="lib/jqueryUI/jqueryUI.css" rel="stylesheet" />-->
-
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="js/jqm.js"></script>
-
-    <!--<script src="lib/jquery.mobile-1.4.5.min.js"></script>-->
-    <!--<script src="lib/jqueryUI/jqueryUI.js"></script>-->
-
     <script>
         const generic = GENERAL.genericWebServerAddress;
         const aucwebservice = GENERAL.auctionWebServerAddress;
         const assoc = GENERAL.assocWebServerAddress;
         const user = GENERAL.USER;
     </script>
-
 
     <script>
         var LocalPicArr = new Array(); //שמירת הנתיב של התמונות במכשיר
@@ -114,11 +104,24 @@
             });
         });
 
-
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
+        });
+
+        $(document).ready(function () {
+            var _originalSize = $(window).width() + $(window).height()
+            $(window).resize(function () {
+                if ($(window).width() + $(window).height() != _originalSize) {
+                    $("#fixedCircle").css("display", "none");
+                    $("#fixedHome").css("display", "none");
+                }
+                else {
+                    $("#fixedCircle").css("display", "block");
+                    $("#fixedHome").css("display", "block");
+                }
+            });
         });
 
         function OpenCameraORChooseFile(Flag) {
@@ -143,15 +146,13 @@
             var $img = $("<img>").attr("src", imageURI);
             $imgDiv.append($imgA).append($img);
             $("#image_holder").append($imgDiv);
+            
 
             $imgA.on("tap", function () {
                 $(this).parent().remove();
                 ////מציאת האינדקס של הנתיב במערך ומחיקתו
                 var imgIndex = $(this).attr("id");
-                alert("index bitches " + imgIndex);
-                alert(LocalPicArr[imgIndex]);
                 LocalPicArr.splice(imgIndex, 1);
-                alert(LocalPicArr[imgIndex]);
             });
 
             LocalPicArr.push(imageURI);
@@ -164,68 +165,70 @@
         }
 
         function AddingProductAuction() {
+            if (!Local_i == 0) {
+                var itemName = $("#ProdNum").val();
+                var itemDesc = $("#ProdDesc").val();
+                var city = $("#ProdLocation").val();
+                var cat = $("#AuctionCategories").val();
+                var days = $("#AuctionLast").val();
+                var assoc = $("#AuctionAssoc").val();
+                var price = $("#AuctionMinPrice").val();
+                var user1 = user.userID();
+                //var user1 = "300948552";
 
-            var itemName = $("#ProdNum").val();
-            var itemDesc = $("#ProdDesc").val();
-            var city = $("#ProdLocation").val();
-            var cat = $("#AuctionCategories").val();
-            var days = $("#AuctionLast").val();
-            var assoc = $("#AuctionAssoc").val();
-            var price = $("#AuctionMinPrice").val();
-            var user1 = user.userID();
-            //var user1 = "300948552";
-
-            if (city != -1 && cat != -1 && days != -1 && assoc != -1) {
-                $.ajax({
-                    dataType: "json",
-                    url: aucwebservice + "AddingProductAuction",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user1 }),
-                    success: function (data) {
-                        var productCode = JSON.parse(data.d)
-                        if (productCode != "") {
-                            alert("נכנסתי לאיף");
-                            for (var picNum in LocalPicArr) {
-                                alert(picNum);
-                                alert(LocalPicArr[picNum]);
-                                var thisImageURI = LocalPicArr[picNum]
-                                uploadPhoto(thisImageURI, picNum, productCode)
-                                addToServerPicArr(stringServerPath);
-                                alert(ServerPicArr[Server_i - 1]);
+                if (city != -1 && cat != -1 && days != -1 && assoc != -1) {
+                    $.ajax({
+                        dataType: "json",
+                        url: aucwebservice + "AddingProductAuction",
+                        contentType: "application/json; charset=utf-8",
+                        type: "POST",
+                        data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user1 }),
+                        success: function (data) {
+                            var productCode = JSON.parse(data.d)
+                            if (productCode != "") {
+                                for (var picNum in LocalPicArr) {
+                                    var thisImageURI = LocalPicArr[picNum]
+                                    uploadPhoto(thisImageURI, picNum, productCode)
+                                    addToServerPicArr(stringServerPath);
+                                }
+                                $.ajax({
+                                    dataType: "json",
+                                    url: aucwebservice + "AddingProductPictures",
+                                    contentType: "application/json; charset=utf-8",
+                                    type: "POST",
+                                    data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
+                                    success: function (data) {
+                                        var isSaved = JSON.parse(data.d)
+                                        if (isSaved) {
+                                            alert("המכרז נשמר בהצלחה");
+                                            location.href = 'app.html';
+                                        }
+                                        else {
+                                            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+                                        }
+                                    },
+                                    error: function (err) { }
+                                });
                             }
-                            $.ajax({
-                                dataType: "json",
-                                url: aucwebservice + "AddingProductPictures",
-                                contentType: "application/json; charset=utf-8",
-                                type: "POST",
-                                data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
-                                success: function (data) {
-                                    var isSaved = JSON.parse(data.d)
-                                    if (isSaved) {
-                                        alert("המכרז נשמר בהצלחה");
-                                        location.href = 'app.html';
-                                    }
-                                    else {
-                                        alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
-                                    }
-                                },
-                                error: function (err) { }
-                            });
-                        }
-                        else {
-                            alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
-                        }
-                    },
-                    error: function (err) { }
-                });
+                            else {
+                                alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
+                            }
+                        },
+                        error: function (err) { }
+                    });
+                }
+                else {
+                    alert("אנא מלא את השדות המבוקשים");
+                }
             }
             else {
-                alert("אנא מלא את השדות המבוקשים");
+                    alert("לא ניתן להוסיף מכרז ללא תמונות- יש להוסיף לפחות תמונה אחת")
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
         }
-
 
         function uploadPhoto(thisImageURI, picNum, productCode) {
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
@@ -235,7 +238,6 @@
             var ft = new FileTransfer();
             ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
             stringServerPath = String("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
-
         } // Upload Photo
 
         function win(r) {
@@ -270,9 +272,15 @@
                     <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
+<<<<<<< HEAD
                     <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
                     <li><a onclick="location.href = 'associationInfo.html'">פרטי עמותות</a></li>
                     <li><a onclick="location.href =  'RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+=======
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+>>>>>>> 9df6c25644f371056e5d96c3406515e81ec0ffa0
                 </ul>
             </div>
 
@@ -280,15 +288,6 @@
                 <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
             </div>
         </div>
-
-        <!--<div id="MenuBar" data-role="collapsible">
-            <h4></h4>
-            <ul id="MenuBarUL" data-role="listview" data-inset="false">
-                <li>Read-only list item 1</li>
-                <li>Read-only list item 2</li>
-                <li>Read-only list item 3</li>
-            </ul>
-        </div>-->
 
         <div data-role="tabs" id="tabs">
             <div data-role="navbar">
@@ -332,7 +331,7 @@
                     <h4>בחר עמותה</h4>
                     <select id="AuctionAssoc">
                         <option value="-1"> בחר</option>
-    
+
                     </select>
                     <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
                     <input type="text" id="AuctionMinPrice" />
@@ -345,26 +344,18 @@
                         </div>
                         <button id="UploadFileBtn" type="button" onclick="OpenCameraORChooseFile(false);">בחר תמונה מגלריה</button>
                     </div>
-                    <!------------------------->
-                    <!-------------להוסיף איקסים על התמונות לצורך מחיקה------------>
-                    <div id="image_holder">
-                        <!--<img src="img/Desert.jpg" />
-                        <img src="img/Koala.jpg" />
-                        <img src="img/Tulips.jpg" />-->
-                    </div>
 
-                    <!--<input type="button" id="Adonbtn" value="cshev" onclick="savePic8()" />-->
+                    <div id="image_holder">
+                    </div>
 
                     <input type="button" id="AddingProductAuctionbtn" value="שגר מכרז" onclick="AddingProductAuction()" />
-                    <h5><a onclick="location.href = 'Login-Taramti.html'">חזור</a></h5>
 
                     <div id="fixedCircle">
-                        <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+                        <div> <a onclick="location.href ='app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
                     </div>
                     <div id="fixedHome">
-                        <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+                        <div> <a onclick="location.href ='app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
                     </div>
-
                 </div>
             </div>
 
@@ -373,10 +364,7 @@
             </div>
         </div>
         <!-- להוריד פלייס הולדרים מיותרים -->
-
     </div>
-
-
 </body>
 
 </html>
