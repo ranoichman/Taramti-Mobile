@@ -9,21 +9,21 @@ import axios from 'axios';
 
 
 
-import Timer from './Timer';
-import Pic from './Pic';
-import Tetris from './Tetris';
+import Timer from '../Generic/Timer';
+import Pic from '../Generic/Pic';
+import Tetris from '../Tetris';
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
 
 //constants messages
-import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from './constants/messages';
-import { auctionWS, buyerID } from './constants/general';
+import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from '../constants/messages';
+import { auctionWS, buyerID } from '../constants/general';
 
 
-import '../css/bootstrap.css';
-import '../css/jqmCss.css';
-import '../css/auction.css';
-import '../css/modal.css';
+import '../../css/bootstrap.css';
+import '../../css/jqmCss.css';
+import '../../css/auction.css';
+import '../../css/modal.css';
 
 
 // const auctionWS = GENERAL.auctionWebServerAddress;

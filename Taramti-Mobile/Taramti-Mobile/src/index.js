@@ -1,17 +1,18 @@
 import './css/index.css';
 
-//import $ from 'jquery';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
+import { Router, Route, hashHistory } from 'react-router'
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios';
 
-import Hello from './components/Hello';
-import Auction from './components/Auction';
-import Home from './components/Home';
+
+import Auction from './components/Home/Auction';
+import Home from './components/Home/Home';
+
 
 import GENERAL from '../www/js/master'
 
@@ -151,5 +152,7 @@ class App extends Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<Router>
+    <Route path="/" component={App}/>
+</Router>, document.getElementById('app'));
 
