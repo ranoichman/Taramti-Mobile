@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 
-import '../css/modal.css';
+import '../../css/modal.css';
 
 
 class AuctionInfo extends Component {

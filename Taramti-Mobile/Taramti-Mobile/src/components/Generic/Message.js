@@ -1,4 +1,4 @@
-import '../css/message.css';
+import '../../css/message.css';
 
 import React from 'react';
 import CSSTransitionGroup from 'react-addons-css-transition-group';

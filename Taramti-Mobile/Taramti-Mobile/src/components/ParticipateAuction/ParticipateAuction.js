@@ -1,148 +1,52 @@
-//import $ from 'jquery';
 import React, { Component } from 'react';
-// import ReactSwipeEvents from 'react-Swipe-Events'
+import { Link } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
-import axios from 'axios';
 
 
-
-
-import Timer from './Timer';
-import Pic from './Pic';
-import Tetris from './Tetris';
+// taramti babait components
+import Auction from '../Home/Auction';
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
+import Timer from '../Generic/Timer';
+import Pic from '../Generic/Pic';
+import Tetris from '../Tetris';
 
-//constants messages
-import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from './constants/messages';
-import { auctionWS, buyerID } from './constants/general';
+//constants 
+import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from '../../constants/messages';
 
-
-import '../css/bootstrap.css';
-import '../css/jqmCss.css';
-import '../css/auction.css';
-import '../css/modal.css';
-
-
-// const auctionWS = GENERAL.auctionWebServerAddress;
-// const buyerID = GENERAL.USER.userID();
-
-
-
-class Auction extends Component {
-
+class ParticipateAuction extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            home: true,
-            tempPrice: this.props.price,
-            price: this.props.price,
-            tempDonation: "",
+            infoModalIsOpen: false,
+            fAQModalIsOpen: false,
+            msg_ModalIsOpen: false,
             borderColor: "red",
             msgClass: "box notEnough",
             shownMessage: "",
-            infoModalIsOpen: false,
-            fAQModalIsOpen: false,
-            msg_ModalIsOpen: false
+            price: this.props.price,
+            tempDonation: ""
         }
-        this.timerFinishedHome = this.timerFinishedHome.bind(this);
-        this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
-        this.offerBid = this.offerBid.bind(this);
-        this.calcDonation = this.calcDonation.bind(this);
-        this.renderHomePage = this.renderHomePage.bind(this);
-        this.renderAucPage = this.renderAucPage.bind(this);
+        this.openMSGModal = this.openMSGModal.bind(this);
+        this.closeMSGModal = this.closeMSGModal.bind(this);
+        this.congratulateSeller = this.congratulateSeller.bind(this);
         this.openInfoModal = this.openInfoModal.bind(this);
         this.closeInfoModal = this.closeInfoModal.bind(this);
         this.openFAQModal = this.openFAQModal.bind(this);
         this.closeFAQModal = this.closeFAQModal.bind(this);
         this.makeBid = this.makeBid.bind(this);
-        this.getCurPrice = this.getCurPrice.bind(this);
-        this.openMSGModal = this.openMSGModal.bind(this);
-        this.closeMSGModal = this.closeMSGModal.bind(this);
-        this.congratulateSeller = this.congratulateSeller.bind(this);
-        this.moveToHomePage = this.moveToHomePage.bind(this);
+        this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
+        this.calcDonation = this.calcDonation.bind(this);
     }
 
     componentDidMount() {
 
         this.calcDonation();
-        this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
 
-    componentWillUnmount() {
-        //clear interval!!!
-        this.loadInterval && clearInterval(this.loadInterval);
-        this.loadInterval = false;
-    }
-
-    getCurPrice() {
-        const self = this;
-        axios.post(auctionWS + 'GetAuctionPrice', {
-            auctionCode: self.props.code
-        })
-            .then(function (response) {
-                let ans = response.data.d;
-                if (ans !== "-1") {
-                    self.setState({ price: ans });
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    render() {
-        if (this.props.home) {
-            return (this.renderHomePage())
-        } else {
-            return (this.renderAucPage())
-        }
-    }
-
-    /*
-    ***************
-    ***************
-    home page funcs
-    ***************
-    ***************
-    */
-
-    timerFinishedHome() {
-        this.props.auctionfinished(this.props.index);
-    }
-
-    offerBid() {
-        this.props.offerBid(this.props.index);
-    }
-
-    //render func for home page
-    renderHomePage() {
-        return (
-
-
-            <div className="row">
-                <div className="col-xs-6 imgContainer">
-                    <div className="priceTag">
-                        <h5>{this.state.price}</h5>
-                    </div>
-                    <Pic imagesArr={this.props.imgArr} />
-                </div>
-                <div className="col-xs-6" dir="rtl">
-                    <div>
-                        <Timer endDate={this.props.endDate} timerFinished={this.timerFinishedHome} />
-                        <h4 className="text-center">{this.props.prodName}</h4>
-                        <p className="descPar">{this.props.prodDesc}</p>
-                        <Swipeable onTap={this.offerBid}>
-                            <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>
-                        </Swipeable>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
+    //#region modal methods
     /*
    ***************
       INFO MODAL
@@ -180,15 +84,16 @@ class Auction extends Component {
     closeMSGModal() {
         this.setState({ msg_ModalIsOpen: false })
     }
+    //#endregion modal methods
 
     //disable input and button
     timerFinishedAuc() {
         const self = this;
         axios.post(auctionWS + 'GetAuctionPrice', {
-            auctionCode: self.props.code
+            auctionCode: self.props.params.code
         })
             .then(function (response) {
-                let ans = response.data.d;
+                let ans = response.this.d;
                 if (ans !== "-1") {
                     self.congratulateSeller();
                     self.openMSGModal();
@@ -210,7 +115,7 @@ class Auction extends Component {
 
     //calculate donation amount to insert to circle
     calcDonation() {
-        let tempPrice = this.props.price;
+        let tempPrice = this.state.price;
         if (this.refs.newPrice !== undefined) {
             this.setState({
                 borderColor: "red"
@@ -279,18 +184,12 @@ class Auction extends Component {
 
     }
 
-
-    moveToHomePage() {
-        location.href = 'app.html'
-    }
-
-    //render func for auction page
-    renderAucPage() {
+    render() {
         return (
             <div>
 
                 {/*home page fixed circle*/}
-                <Swipeable onTap={this.moveToHomePage}>
+                <Link to="/">
                     <div id="fixedCircle">
                         <div> <a>
                             <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
@@ -299,7 +198,7 @@ class Auction extends Component {
                         <div> <a><FontAwesome name='home' className="fa-3x" tag="i" />
                         </a></div>
                     </div>
-                </Swipeable>
+                </Link>
 
                 {/*shown messegae*/}
                 <Modal
@@ -356,17 +255,12 @@ class Auction extends Component {
                 </div>
 
                 <Swipeable onTap={this.makeBid}>
-
-
                     <div ref="makeBidBTN" className="base"> <span>הצע ביד</span> </div>
-
                 </Swipeable>
                 <Tetris />
             </div>
-        )
+        );
     }
-
-
 }
 
-export default Auction;
+export default ParticipateAuction;
