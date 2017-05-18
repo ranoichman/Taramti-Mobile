@@ -4,9 +4,10 @@ import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
 
+// taramti babait components
 import Auction from './Auction';
 import Search from './Search';
-import TaramtiMenu from './TaramtiMenu'
+//import TaramtiMenu from './TaramtiMenu'
 
 
 //import '../css/jqmCss.css';
@@ -19,7 +20,7 @@ class Home extends Component {
         super(props)
         this.state = {
             searchModalIsOpen: false,
-            auctionsArr: this.props.auctionsArr
+            auctionsArr:[]
         }
         this.openSearchModal = this.openSearchModal.bind(this);
         this.closeSearchModal = this.closeSearchModal.bind(this);
@@ -30,6 +31,11 @@ class Home extends Component {
         this.offerBid = this.offerBid.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
         this.moveToAddAuction = this.moveToAddAuction.bind(this);
+    }
+
+    componentDidMount() {
+        // Lifecycle function that is triggered just before a component mounts
+        this.getAuctionsByParams([], -1, -1, 0); //initial data will come from 
     }
 
     openSearchModal() {
@@ -99,7 +105,7 @@ class Home extends Component {
     }
 
     offerBid(i) {
-        this.props.offerBid(i,this.state.auctionsArr);
+        this.props.offerBid(i, this.state.auctionsArr);
     }
 
     moveToAddAuction() {
@@ -112,14 +118,14 @@ class Home extends Component {
                 <div style={{ height: "74px", width: "100%" }} >
                 </div>
                 {/*menu*/}
-                
-                        <span id={"TaramtiMenuIconDiv"} style={{position: "absolute",top: "7px",right:"9px"}}>
-                            <i id={"TaramtiMenuIcon"} className="fa fa-ellipsis-v fa-4x"></i>
-                        </span>
-                    
+
+                <span id={"TaramtiMenuIconDiv"} style={{ position: "absolute", top: "7px", right: "9px" }}>
+                    <i id={"TaramtiMenuIcon"} className="fa fa-ellipsis-v fa-4x"></i>
+                </span>
+
                 {/*<div style={{ height: "74px", width: "100%" }} >*/}
-                    <img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/smaller_logo.jpg"} style={{ float: "left", marginLeft: "-2%", width: "80%",position: "absolute",top: "0",marginTop: "0",right: "30px" }} />
-                         {/*</div>*/}
+                <img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/smaller_logo.jpg"} style={{ float: "left", marginLeft: "-2%", width: "80%", position: "absolute", top: "0", marginTop: "0", right: "30px" }} />
+                {/*</div>*/}
 
                 {/*search icon*/}
                 <Swipeable onTap={this.openSearchModal} className="search">

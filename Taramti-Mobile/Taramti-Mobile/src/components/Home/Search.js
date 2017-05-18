@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import axios from 'axios';
 
-import {auctionWS} from './constants/general';
+// taramti babait components
+import Ddl from '../Generic/Ddl';
 
-import Ddl from './Ddl';
+//constants 
+import {auctionWS} from '../../constants/general';
 
-import '../css/modal.css';
+import '../../css/modal.css';
 
 //const auctionWS = GENERAL.auctionWebServerAddress;
 //const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
