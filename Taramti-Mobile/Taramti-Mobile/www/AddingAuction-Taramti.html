@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +26,6 @@
         const aucwebservice = GENERAL.auctionWebServerAddress;
         const assoc = GENERAL.assocWebServerAddress;
         const user = GENERAL.USER;
-
     </script>
 
     <script>
@@ -142,7 +142,7 @@
 
         function onCameraSuccess(imageURI) {
             var $imgDiv = $("<div>");
-            var $imgA = $("<a>").addClass("boxclose").attr("id", Local_i);
+            var $imgA = $("<a>").addClass("closeBox").attr("id", Local_i);
             var $img = $("<img>").attr("src", imageURI);
             $imgDiv.append($imgA).append($img);
             $("#image_holder").append($imgDiv);
@@ -251,6 +251,7 @@
         }
     </script>
 </head>
+
 <body>
 
     <!--דף זה מכיל דף הוספת מכרז-->
@@ -355,4 +356,5 @@
         <!-- להוריד פלייס הולדרים מיותרים -->
     </div>
 </body>
+
 </html>

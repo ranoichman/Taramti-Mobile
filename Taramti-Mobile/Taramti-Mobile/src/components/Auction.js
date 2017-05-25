@@ -6,6 +6,9 @@ import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
 
+
+
+
 import Timer from './Timer';
 import Pic from './Pic';
 import Tetris from './Tetris';
@@ -58,10 +61,12 @@ class Auction extends Component {
         this.getCurPrice = this.getCurPrice.bind(this);
         this.openMSGModal = this.openMSGModal.bind(this);
         this.closeMSGModal = this.closeMSGModal.bind(this);
-        this.openMSGModal = this.openMSGModal.bind(this);
+        this.congratulateSeller = this.congratulateSeller.bind(this);
+        this.moveToHomePage = this.moveToHomePage.bind(this);
     }
 
     componentDidMount() {
+
         this.calcDonation();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
@@ -115,6 +120,8 @@ class Auction extends Component {
     //render func for home page
     renderHomePage() {
         return (
+
+
             <div className="row">
                 <div className="col-xs-6 imgContainer">
                     <div className="priceTag">
@@ -171,7 +178,7 @@ class Auction extends Component {
     }
 
     closeMSGModal() {
-        this.setState({ msg_ModalIsOpen: false})
+        this.setState({ msg_ModalIsOpen: false })
     }
 
     //disable input and button
@@ -184,7 +191,7 @@ class Auction extends Component {
                 let ans = response.data.d;
                 if (ans !== "-1") {
                     self.congratulateSeller();
-                    this.openMSGModal();
+                    self.openMSGModal();
                 }
             })
             .catch(function (error) {
@@ -194,8 +201,9 @@ class Auction extends Component {
 
     //display a congratulate message to the seller when the auction is finished
     congratulateSeller() {
-        this.setState({shownMessage:`מזל טוב!
-        המכרז על ${this.props.prodName} הסתיים בהצלחה בסכום של ${this.state.price} ש"ח מתוכם ${this.state.price*this.props.percentage/100} ש"ח הולכים לתרומה ו${this.state.price*(100-this.props.percentage)/100} ש"ח אליך! 
+        this.setState({
+            shownMessage: `מזל טוב!
+        המכרז על ${this.props.prodName} הסתיים בהצלחה בסכום של ${this.state.price} ש"ח מתוכם ${this.state.price * this.props.percentage / 100} ש"ח הולכים לתרומה ו${this.state.price * (100 - this.props.percentage) / 100} ש"ח אליך! 
         כעת, כל מה שנותר הוא לחכות שהקונה יבצע את התשלום ולאחר מכן פרטיכם יועברו.
         `});
     }
@@ -263,29 +271,47 @@ class Auction extends Component {
             console.log("לא מספיק כסף!!!!!");
             this.setState({
                 msgClass: "box notEnough",
-                shownMessage: notEnoughtMSG,
-                msg_ModalIsOpen: true
+                shownMessage: notEnoughtMSG
             });
+            this.openMSGModal();
         }
         //console.log(`make bid price: ${val}`)
 
+    }
+
+
+    moveToHomePage() {
+        location.href = 'app.html'
     }
 
     //render func for auction page
     renderAucPage() {
         return (
             <div>
+
+                {/*home page fixed circle*/}
+                <Swipeable onTap={this.moveToHomePage}>
+                    <div id="fixedCircle">
+                        <div> <a>
+                            <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+                    </div>
+                    <div id="fixedHome">
+                        <div> <a><FontAwesome name='home' className="fa-3x" tag="i" />
+                        </a></div>
+                    </div>
+                </Swipeable>
+
                 {/*shown messegae*/}
-                    <Modal
-                        isOpen={this.state.msg_ModalIsOpen}
-                        onRequestClose={this.closeMSGModal}
-                        contentLabel="open info"
-                        className={this.state.msgClass}>
-                        <Swipeable onTap={this.props.closeModal}>
-                            <a className="boxclose"></a>
-                        </Swipeable>
-                        <h3>{this.state.shownMessage}</h3>
-                    </Modal>
+                <Modal
+                    isOpen={this.state.msg_ModalIsOpen}
+                    onRequestClose={this.closeMSGModal}
+                    contentLabel="open info"
+                    className={this.state.msgClass}>
+                    <Swipeable onTap={this.closeMSGModal}>
+                        <a className="boxclose"></a>
+                    </Swipeable>
+                    <h3>{this.state.shownMessage}</h3>
+                </Modal>
 
                 {/*basic info*/}
                 <div className="basicInfo">
@@ -330,9 +356,10 @@ class Auction extends Component {
                 </div>
 
                 <Swipeable onTap={this.makeBid}>
-                    {/*<div>*/}
-                    <div ref="bidBTN" className="base"> <span>הצע ביד</span> </div>
-                    {/*</div>*/}
+
+
+                    <div ref="makeBidBTN" className="base"> <span>הצע ביד</span> </div>
+
                 </Swipeable>
                 <Tetris />
             </div>

@@ -84,8 +84,8 @@ class App extends Component {
     }
 
     //change states to show specific auction page
-    offerBid(i) {
-        this.setState({ displayedAuction: i, home: false });
+    offerBid(i, arr) {
+        this.setState({ auctionsArr: arr,displayedAuction: i, home: false });
     }
 
     //call function to get auctions from serveer
@@ -122,9 +122,11 @@ class App extends Component {
 
     }
 
+    
+
     renderHome() {
         return (
-            <Home offerBid={this.offerBid} auctionsArr={this.state.auctionsArr} />
+            <Home offerBid={this.offerBid} auctionsArr={this.state.auctionsArr}  />
         );
     }
 
