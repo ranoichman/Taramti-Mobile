@@ -159,6 +159,11 @@ public class UserT
         //
     }
 
+    public UserT(string userID)
+    {
+        UserId = userID;
+    }
+
     public UserT(string userId, string firstName, string lastName, bool active, Rank tempRank)
     {
         UserId = userId;

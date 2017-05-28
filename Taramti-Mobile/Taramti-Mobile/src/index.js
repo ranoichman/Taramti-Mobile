@@ -3,7 +3,7 @@ import './css/index.css';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 //import { Router, Route, hashHistory } from 'react-router'
-import {HashRouter, Route, Link} from 'react-router-dom';
+import { HashRouter, Route, Link } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
@@ -152,7 +152,8 @@ class App extends Component {
 ReactDOM.render(<HashRouter>
     <App>
         <Route exact path="/" component={Home} />
-        <Route path="/participate" component={ParticipateAuction}/>
+        {/* Parameter route*/}
+        <Route path="/participate" component={ParticipateAuction} />
     </App>
 </HashRouter>, document.getElementById('app'));
 

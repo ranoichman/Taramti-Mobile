@@ -29,14 +29,14 @@ public class AuctionWebService : System.Web.Services.WebService
         return "Hello World";
     }
 
-    [WebMethod (Description = "מתודה להבאת מכרזים על פי פרמטרים")]
+    [WebMethod(Description = "מתודה להבאת מכרזים על פי פרמטרים")]
     public string GetAuctionByParam(int[] cities, int lowPrice, int highPrice, int catCode)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         return j.Serialize(Reg_Auction.GetAuctionsByParam(cities, lowPrice, highPrice, catCode));
     }
 
-    [WebMethod (Description = "מתודה להבאת ביד אחרון בהינתן מספר אוקשן")]
+    [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר אוקשן")]
     public string GetAuctionPrice(int auctionCode)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -45,7 +45,7 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(auction.GetLatestBid());
     }
 
-    [WebMethod (Description = "הבאת כל קטגוריות המוצרים")]
+    [WebMethod(Description = "הבאת כל קטגוריות המוצרים")]
     public string GetAllProductsCategories()
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -53,7 +53,7 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(auction.GetAllProductsCategories());
     }
 
-    [WebMethod (Description = "הצעת ביד")]
+    [WebMethod(Description = "הצעת ביד")]
     public bool OfferBid(int auc, int bid, int buyer)
     {
         //JavaScriptSerializer j = new JavaScriptSerializer();
@@ -62,18 +62,18 @@ public class AuctionWebService : System.Web.Services.WebService
         int lastBid = auction.GetLatestBid();
         if (lastBid < bid)
         {
-            return auction.OfferBid(bid,buyer);
+            return auction.OfferBid(bid, buyer);
         }
         else
         {
-        return false;
+            return false;
         }
 
-        
+
     }
 
     [WebMethod]
-    public string AddingProductAuction( string itemName, string itemDesc, string city, string cat, string days, string assoc, string price, string user)
+    public string AddingProductAuction(string itemName, string itemDesc, string city, string cat, string days, string assoc, string price, string user)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -83,9 +83,9 @@ public class AuctionWebService : System.Web.Services.WebService
         City c = new City(int.Parse(city));
         Item_Category IC = new Item_Category(int.Parse(cat));
         Voluntary_association Vol = new Voluntary_association(assoc);
-        UserT Seller = new UserT(user,true);
+        UserT Seller = new UserT(user, true);
         int ProductCode = 0;
-        
+
         NewItem.ItemName = itemName;
         NewItem.ItemDesc = itemDesc;
         NewItem.Location = c;
@@ -121,6 +121,15 @@ public class AuctionWebService : System.Web.Services.WebService
         NewItem.ItemId = itemId;
         NewItem.Pictures = Arr;
         return j.Serialize(NewItem.AddPictures());
+    }
+
+    [WebMethod]
+    public string GetAuctionByCode(Reg_Auction auc)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        //Reg_Auction auc = new Reg_Auction(auctionCode);
+        auc.GetDataByCode();
+        return j.Serialize(auc);
     }
 
 }

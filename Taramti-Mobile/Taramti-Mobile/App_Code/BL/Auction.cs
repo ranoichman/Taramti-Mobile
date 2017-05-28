@@ -18,6 +18,7 @@ public abstract class Auction
     UserT seller, buyer;
     int score;
     int itemCode;
+    City location;
     string catDesc;
     string[] images;
     int percentage;
@@ -196,6 +197,19 @@ public abstract class Auction
         }
     }
 
+    public City Location
+    {
+        get
+        {
+            return location;
+        }
+
+        set
+        {
+            location = value;
+        }
+    }
+
     #endregion
 
     //ctor
@@ -269,7 +283,7 @@ public abstract class Auction
 						where auction.association_code = association.association_code and (end_date >= CONVERT(DATETIME, @startDate, 102)) AND (final_price * donation_percentage / 100 > 0) and
                         (end_date <= CONVERT(DATETIME, @endDate, 102))
 						group by association_name 
-order by SUM(final_price * donation_percentage / 100) desc ";
+                        order by SUM(final_price * donation_percentage / 100) desc ";
         SqlParameter parStart = new SqlParameter("@startDate", start);
         SqlParameter parEnd = new SqlParameter("@endDate", end);
         DbService db = new DbService();
