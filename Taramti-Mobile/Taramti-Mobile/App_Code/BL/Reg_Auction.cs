@@ -12,7 +12,7 @@ using System.Web;
 public class Reg_Auction : Auction
 {
     //fields
-     Money_Bid[] money_Bids;
+    Money_Bid[] money_Bids;
     int price;
 
     //props
@@ -53,7 +53,7 @@ public class Reg_Auction : Auction
     public Reg_Auction(int aucID)
     {
         AuctionID = aucID;
-       
+
     }
 
     //methods
@@ -67,13 +67,13 @@ public class Reg_Auction : Auction
         Money_Bid winning = new Money_Bid();
         foreach (Money_Bid bid in money_Bids)
         {
-            if (max>bid.GetBidAmount())
+            if (max > bid.GetBidAmount())
             {
                 max = bid.GetBidAmount();
                 winning = bid;
             }
         }
-        
+
         return winning;
     }
 
@@ -106,7 +106,6 @@ public class Reg_Auction : Auction
         else
             code = "=" + catCode;
 
-
         string StrSql = "SELECT dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, " +
                          "dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price, dbo.product.product_code " +
                          "FROM  dbo.auction INNER JOIN dbo.product ON dbo.auction.product_code = dbo.product.product_code " +
@@ -129,7 +128,7 @@ public class Reg_Auction : Auction
                          FROM dbo.bid INNER JOIN
                          dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code
                          GROUP BY dbo.auction.auction_code
-                         HAVING  (dbo.auction.auction_code = " + auction.AuctionID.ToString()   + ")";
+                         HAVING  (dbo.auction.auction_code = " + auction.AuctionID.ToString() + ")";
                 DSprice = db.GetDataSetByQuery(StrSql);
 
                 if (DSprice.Tables[0].Rows.Count > 0)
@@ -143,7 +142,7 @@ public class Reg_Auction : Auction
                         //auction.Price = int.Parse(DSprice.Tables[0].Rows[0][1].ToString());
                         auction.Price = int.Parse(DSprice.Tables[0].Rows[0][0].ToString());
                     }
-        
+
                 }
                 else
                 {
@@ -155,7 +154,7 @@ public class Reg_Auction : Auction
                          "dbo.product ON dbo.product_pictures.product_code = dbo.product.product_code " +
                          "WHERE(dbo.product_pictures.product_code = " + row[9].ToString() + ") ";
                 DSpic = db.GetDataSetByQuery(StrSql);
-                if (DSpic.Tables.Count > 0 )
+                if (DSpic.Tables.Count > 0)
                 {
                     foreach (DataRow img in DSpic.Tables[0].Rows)
                     {
@@ -177,7 +176,6 @@ public class Reg_Auction : Auction
                 {
                     relevantAuctions.Add(auction);
                 }
-                
             }
         }
 
@@ -195,7 +193,7 @@ public class Reg_Auction : Auction
                         "HAVING(auction_code = " + AuctionID + ") ";
         DS = db.GetDataSetByQuery(StrSql);
 
-        if (DS.Tables[0].Rows.Count > 0 )
+        if (DS.Tables[0].Rows.Count > 0)
         {
             return int.Parse(DS.Tables[0].Rows[0][1].ToString());
         }
@@ -230,13 +228,8 @@ public class Reg_Auction : Auction
     {
         DbService db = new DbService();
         string sqlInsert = @"INSERT INTO [dbo].[bid]
-           ([auction_code]
-           ,[bid_code]
-           ,[bid_time]
-           ,[buyer_id]
-           ,[price])
-     VALUES
-           (@auc, @bidCode,@bidTime,@buyer,@price) ";
+           ([auction_code] ,[bid_code] ,[bid_time] ,[buyer_id] ,[price])
+            VALUES (@auc, @bidCode,@bidTime,@buyer,@price) ";
 
         SqlParameter parauc = new SqlParameter("@auc", AuctionID);
         SqlParameter parbid = new SqlParameter("@bidCode", bid);
@@ -255,16 +248,10 @@ public class Reg_Auction : Auction
     {
         DbService db = new DbService();
         string sqlInsert = @"INSERT INTO[dbo].[auction]
-           ([start_date]
-           ,[end_date]
-           ,[product_code]
-           ,[seller_id]
-           ,[donation_percentage]
-           ,[association_code])
-     VALUES
-           (@parStart, @parEnd,@parCode,@parSeller,@parPercent, @parAssoCode) ";
+           ([start_date], [end_date], [product_code], [seller_id], [donation_percentage], [association_code])
+            VALUES (@parStart, @parEnd,@parCode,@parSeller,@parPercent, @parAssoCode) ";
         Random rnd = new Random();
-        
+
         int n = rnd.Next(15, 30);
         SqlParameter parStart = new SqlParameter("@parStart", DateTime.Now);
         SqlParameter parEnd = new SqlParameter("@parEnd", End_Date);
@@ -279,6 +266,68 @@ public class Reg_Auction : Auction
         return true;
 
     }
+
+    public void GetDataByCode()
+    {
+        string strSql = @"SELECT dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
+                         dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price, dbo.product.product_code, dbo.auction.seller_id, dbo.product.city_code
+                    FROM dbo.auction INNER JOIN  dbo.product
+                        ON dbo.auction.product_code = dbo.product.product_code INNER JOIN dbo.product_category
+                        ON dbo.product.product_category_code = dbo.product_category.category_code
+                    GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
+                         dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.auction.seller_id, dbo.product.city_code
+                         HAVING (dbo.auction.auction_code = @Code)";
+        SqlParameter parCode = new SqlParameter("@Code", AuctionID);
+        DbService db = new DbService();
+        DataTable dt = new DataTable();
+        dt = db.GetDataSetByQuery(strSql,CommandType.Text,parCode).Tables[0];
+        DataRow row = dt.Rows[0];
+        
+        if (row != null)
+        {
+            CatDesc = row["category_name"] != null ? row["category_name"].ToString() : "";
+            End_Date = row["end_date"] != null ? row["end_date"].ToString() : DateTime.Now.ToString();
+            Percentage = row["donation_percentage"] != null ? int.Parse(row["donation_percentage"].ToString()) : 0;
+            ProdDesc = row["product_description"] != null ? row["product_description"].ToString() : "";
+            ProdName = row["product_Name"] != null ? row["product_Name"].ToString() : "";
+            Seller = row["seller_id"] != null ? new UserT(row["seller_id"].ToString()) : new UserT("-1");
+            Price = row["price"] != null ? int.Parse(row["price"].ToString()) : -1;
+            //get the most updated price
+            int tempPrice = GetLatestBid();
+            if (tempPrice !=-1)
+            {
+                Price = tempPrice;
+            }
+            Location = row["city_code"] != null ? new City(int.Parse(row["city_code"].ToString())) : new City( -1);
+            Seller.Rank = UserT.GetUserRank(Seller.UserId);
+
+
+
+            //getting all product pics
+            string picSql = @"SELECT dbo.product_pictures.path
+                         FROM dbo.product_pictures INNER JOIN
+                         dbo.product ON dbo.product_pictures.product_code = dbo.product.product_code 
+                         WHERE(dbo.product_pictures.product_code = @prodCode)";
+
+            SqlParameter parProd = new SqlParameter("@prodCode", row["product_code"].ToString());
+            DataSet dsPic = db.GetDataSetByQuery(picSql, CommandType.Text, parProd);
+
+            List<string> pics = new List<string>();
+            if (dsPic.Tables.Count > 0)
+            {
+                foreach (DataRow picRow in dsPic.Tables[0].Rows)
+                {
+                    pics.Add(picRow["path"].ToString());
+                }
+            }
+                //    ItemCode
+                   Images = pics.Count > 0 ? pics.ToArray() : null;
+
+        }
+
+    }
+
+
     #endregion
 
 

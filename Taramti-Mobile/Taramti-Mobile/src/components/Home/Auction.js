@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
@@ -24,13 +24,15 @@ class Auction extends Component {
 
     constructor(props) {
         super(props);
-        this.state={
-            price:this.props.price
+        this.state = {
+            reDirect: false,
+            price: this.props.price
         };
         this.timerFinishedHome = this.timerFinishedHome.bind(this);
-       // this.offerBid = this.offerBid.bind(this);
-     //   this.renderHomePage = this.renderHomePage.bind(this);
+        // this.offerBid = this.offerBid.bind(this);
+        //   this.renderHomePage = this.renderHomePage.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
+        this.toParticipate = this.toParticipate.bind(this);
     }
 
     componentDidMount() {
@@ -43,8 +45,6 @@ class Auction extends Component {
         //clear interval!!!
         this.loadInterval && clearInterval(this.loadInterval);
         this.loadInterval = false;
-        const data = {props: this.props, price:this.state.price};
-        localStorage.setItem("auctionData",JSON.stringify(data));
     }
 
     getCurPrice() {
@@ -67,9 +67,20 @@ class Auction extends Component {
         this.props.auctionfinished(this.props.index);
     }
 
+    toParticipate() {
+         //let aucData = Object.assign({},)
+        // aucData.price = this.state.price;
+        localStorage.setItem("aucData", JSON.stringify({props: this.props,price : this.state.price}));
+        this.setState({ reDirect: true });
+
+    }
+
     render() {
-        return(
-           <div className="row">
+        if (this.state.reDirect) {
+            return <Redirect push to="/participate" />;
+        }
+        return (
+            <div className="row">
                 <div className="col-xs-6 imgContainer">
                     <div className="priceTag">
                         <h5>{this.state.price}</h5>
@@ -81,9 +92,7 @@ class Auction extends Component {
                         <Timer endDate={this.props.endDate} timerFinished={this.timerFinishedHome} />
                         <h4 className="text-center">{this.props.prodName}</h4>
                         <p className="descPar">{this.props.prodDesc}</p>
-                        <Link to="/participate">
-                            <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary"> השתתף במכרז!  </button>
-                        </Link>
+                        <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary" onClick={this.toParticipate}> השתתף במכרז!  </button>
                     </div>
                 </div>
             </div>)

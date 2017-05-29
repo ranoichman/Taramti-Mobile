@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
-
+import axios from 'axios';
 
 // taramti babait components
 import Auction from '../Home/Auction';
@@ -15,10 +15,14 @@ import Tetris from '../Tetris';
 
 //constants 
 import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from '../../constants/messages';
+import { auctionWS } from '../../constants/general';
 
 class ParticipateAuction extends Component {
+
+
     constructor(props) {
         super(props);
+        const par = JSON.parse(localStorage.getItem("aucData"));
         this.state = {
             infoModalIsOpen: false,
             fAQModalIsOpen: false,
@@ -26,8 +30,17 @@ class ParticipateAuction extends Component {
             borderColor: "red",
             msgClass: "box notEnough",
             shownMessage: "",
-            price: this.props.price,
-            tempDonation: ""
+            tempDonation: "",
+            // auc data
+            auc: {
+                code: par.props.code,
+                price: par.price,
+                endDate: par.props.endDate,
+                percentage: par.props.percentage,
+                prodName: par.props.prodName,
+                prodDesc: par.props.prodDesc,
+                imgArr: par.props.imgArr
+            }
         }
         this.openMSGModal = this.openMSGModal.bind(this);
         this.closeMSGModal = this.closeMSGModal.bind(this);
@@ -41,9 +54,28 @@ class ParticipateAuction extends Component {
         this.calcDonation = this.calcDonation.bind(this);
     }
 
+
+
     componentDidMount() {
+        // const par = this.props.match.params.end;
+        // console.log(`end!!!! ${par}`);
+        // const aucCode = this.props.match.params.code;
+        // var auc = { AuctionID: aucCode }
+        // const self = this;
+        // //fetch data from server by auction code  
+        // axios.post(auctionWS + 'GetAuctionByCode', {
+        //     auc
+        // }).then(function (response) {
+        //     let res = JSON.parse(response.data.d);
+        //     self.setState({ auc: res });
+        // });
 
         this.calcDonation();
+    }
+
+
+    componentWillMount() {
+
     }
 
     //#region modal methods
@@ -108,14 +140,14 @@ class ParticipateAuction extends Component {
     congratulateSeller() {
         this.setState({
             shownMessage: `מזל טוב!
-        המכרז על ${this.props.prodName} הסתיים בהצלחה בסכום של ${this.state.price} ש"ח מתוכם ${this.state.price * this.props.percentage / 100} ש"ח הולכים לתרומה ו${this.state.price * (100 - this.props.percentage) / 100} ש"ח אליך! 
+        המכרז על ${this.state.auc.prodName} הסתיים בהצלחה בסכום של ${this.state.auc.price} ש"ח מתוכם ${this.state.auc.price * this.state.auc.percentage / 100} ש"ח הולכים לתרומה ו${this.state.auc.price * (100 - this.state.auc.percentage) / 100} ש"ח אליך! 
         כעת, כל מה שנותר הוא לחכות שהקונה יבצע את התשלום ולאחר מכן פרטיכם יועברו.
         `});
     }
 
     //calculate donation amount to insert to circle
     calcDonation() {
-        let tempPrice = this.state.price;
+        let tempPrice = this.state.auc.price;
         if (this.refs.newPrice !== undefined) {
             this.setState({
                 borderColor: "red"
@@ -131,7 +163,7 @@ class ParticipateAuction extends Component {
             }
         }
         this.setState({
-            tempDonation: `כבר ${Math.floor(tempPrice * this.props.percentage / 100)} ש"ח לתרומה`
+            tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
         });
 
     }
@@ -143,7 +175,7 @@ class ParticipateAuction extends Component {
             self = this;
             //db call!!
             axios.post(auctionWS + 'OfferBid', {
-                auc: self.props.code,
+                auc: self.state.auc.code,
                 bid: val,
                 buyer: buyerID
             })
@@ -184,6 +216,7 @@ class ParticipateAuction extends Component {
 
     }
 
+
     render() {
         return (
             <div>
@@ -216,7 +249,7 @@ class ParticipateAuction extends Component {
                 <div className="basicInfo">
                     {/*timer Component*/}
                     <div className="time">
-                        <Timer endDate={this.props.endDate} timerFinished={this.timerFinishedAuc} />
+                        <Timer endDate={this.state.auc.endDate} timerFinished={this.timerFinishedAuc} />
                     </div>
 
                     {/*info modal*/}
@@ -227,10 +260,7 @@ class ParticipateAuction extends Component {
                             onRequestClose={this.closeInfoModal}
                             contentLabel="open info"
                             className="box">
-                            <AuctionInfo prodName={this.props.prodName} closeModal={this.closeInfoModal}
-                                price={this.state.price} endDate={this.props.endDate}
-                                imgArr={this.props.imgArr} prodDesc={this.props.prodDesc}
-                                percentage={this.props.percentage} />
+                            <AuctionInfo closeModal={this.closeInfoModal} auc={this.state.auc} />
                         </Modal>
                     </Swipeable>
 

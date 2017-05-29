@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -51,16 +52,38 @@ public class City
     public City(int code)
     {
         CityCode = code;
+        getCityName();
     }
 
     //methods
     #region
     public void ShowAuctionByCity() { }
 
+    private void getCityName()
+    {
+        if (CityCode == -1)
+        {
+            CityName = "";
+        }
+        else
+        {
+            string strSql = @"SELECT city_name
+                            FROM dbo.city
+                            WHERE (city_code = @city)";
+            SqlParameter parCity = new SqlParameter("@city", CityCode);
+            DbService dbs = new DbService();
+            DataTable dt = new DataTable();
+
+            dt = dbs.GetDataSetByQuery(strSql, CommandType.Text, parCity).Tables[0];
+
+            CityName = dt.Rows[0]["city_name"].ToString();
+        }
+    }
+
     public List<City> GetAllCities()
     {
         DbService dbs = new DbService();
-        DataSet DS = new DataSet(); 
+        DataSet DS = new DataSet();
         List<City> Cities = new List<City>();
 
         string StrSql = "select * from City ";
