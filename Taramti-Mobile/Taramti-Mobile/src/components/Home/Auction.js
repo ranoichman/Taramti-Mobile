@@ -15,6 +15,7 @@ import ParticipateAuction from '../ParticipateAuction/ParticipateAuction';
 //constants 
 import { auctionWS, buyerID } from '../../constants/general';
 
+//style
 import '../../css/bootstrap.css';
 //import '../../css/jqmCss.css';
 import '../../css/auction.css';
@@ -29,15 +30,11 @@ class Auction extends Component {
             price: this.props.price
         };
         this.timerFinishedHome = this.timerFinishedHome.bind(this);
-        // this.offerBid = this.offerBid.bind(this);
-        //   this.renderHomePage = this.renderHomePage.bind(this);
-        this.getCurPrice = this.getCurPrice.bind(this);
+                this.getCurPrice = this.getCurPrice.bind(this);
         this.toParticipate = this.toParticipate.bind(this);
     }
 
     componentDidMount() {
-
-        //this.calcDonation();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
 

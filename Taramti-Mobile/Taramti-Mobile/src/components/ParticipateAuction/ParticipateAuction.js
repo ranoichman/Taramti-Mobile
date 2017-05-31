@@ -52,6 +52,7 @@ class ParticipateAuction extends Component {
         this.makeBid = this.makeBid.bind(this);
         this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
         this.calcDonation = this.calcDonation.bind(this);
+        this.getCurPrice = this.getCurPrice.bind(this);
     }
 
 
@@ -70,12 +71,32 @@ class ParticipateAuction extends Component {
         //     self.setState({ auc: res });
         // });
 
-        this.calcDonation();
+        this.calcDonation(); 
+        this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
 
+    componentWillUnmount() {
+        //clear interval!!!
+        this.loadInterval && clearInterval(this.loadInterval);
+        this.loadInterval = false;
+    }
 
-    componentWillMount() {
-
+    getCurPrice() {
+        const self = this;
+        axios.post(auctionWS + 'GetAuctionPrice', {
+            auctionCode: self.props.code
+        })
+            .then(function (response) {
+                let ans = response.data.d;
+                if (ans !== "-1") {
+                    let tempObj = self.state.auc;
+                    tempObj.price = ans;
+                    self.setState({ auc: tempObj });
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     //#region modal methods
