@@ -35,7 +35,7 @@ class Home extends Component {
 
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams([], -1, -1, 0); //initial data will come from 
+        this.getAuctionsByParams(-1, -1, 0,0,0,0); //initial data will come from 
     }
 
     openSearchModal() {
