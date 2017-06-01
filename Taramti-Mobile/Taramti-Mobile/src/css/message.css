@@ -36,25 +36,32 @@
 
 .question{
   position: relative;
-    display: block;
-    padding: 20px 20px;
-    font-size: 1.2em;
-    cursor: pointer;
-    background: rgba(246, 246, 246, 1);
-    color: #5a9aa8;
-    z-index: 2;
-    box-shadow: 0 0 10px rgba(0,0,0,.1);
-    border-radius: 3px;
+  float:right;
+  text-align: right;
+  display: block;
+  padding: 10px 10px;
+  width: 100%;
+  margin-top: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+  background: rgba(246, 246, 246, 1);
+  color: #8B0000;
+  z-index: 2;
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  border-radius: 3px;
 }
 
 .response{
-    position: relative;
-    background: #7B2623;
-    color: #7A2723;
-    padding: 10px 20px;
-    -webkit-transform: translate3d(0,-40px, 0) rotate(-.5deg);
-    z-index: 1;
-    box-shadow: 0 0 10px rgba(0,0,0,.1);
-    opacity: 0;
-    border-radius: 3px;
+  position: relative;
+  float:right;
+  color: #2E8B57;
+  padding: 10px 20px;
+  z-index: 10;
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  border-radius: 3px;
+  display: inline;
+}
+
+.responseInActive{
+  display: none;
 }

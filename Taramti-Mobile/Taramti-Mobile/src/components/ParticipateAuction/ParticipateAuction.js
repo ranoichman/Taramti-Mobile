@@ -71,7 +71,7 @@ class ParticipateAuction extends Component {
         //     self.setState({ auc: res });
         // });
 
-        this.calcDonation(); 
+        this.calcDonation();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
 
@@ -257,7 +257,7 @@ class ParticipateAuction extends Component {
                 {/*shown messegae*/}
                 <Modal
                     isOpen={this.state.msg_ModalIsOpen}
-                    onRequestClose={this.closeMSGModal}
+                    
                     contentLabel="open info"
                     className={this.state.msgClass}>
                     <Swipeable onTap={this.closeMSGModal}>
@@ -278,7 +278,7 @@ class ParticipateAuction extends Component {
                         <FontAwesome name='info-circle' border={true} className="fa-3x" tag="i" />
                         <Modal
                             isOpen={this.state.infoModalIsOpen}
-                            onRequestClose={this.closeInfoModal}
+                            
                             contentLabel="open info"
                             className="box">
                             <AuctionInfo closeModal={this.closeInfoModal} auc={this.state.auc} />
@@ -290,14 +290,15 @@ class ParticipateAuction extends Component {
                         <FontAwesome name='question-circle' border={true} className="fa-3x" tag="i" />
                         <Modal
                             isOpen={this.state.fAQModalIsOpen}
-                            onRequestClose={this.closeFAQModal}
+                            
                             contentLabel="open FAQ"
-                            className="box">
+                            className="FAQbox">
                             <AuctionFAQ closeModal={this.closeFAQModal} />
                         </Modal>
                     </Swipeable>
                 </div>
 
+                {/*price manipulation*/}
                 <input type="number" ref="newPrice" onChange={this.calcDonation} style={{ borderColor: this.state.borderColor }} />
                 <div className="circle">
                     <h4>
