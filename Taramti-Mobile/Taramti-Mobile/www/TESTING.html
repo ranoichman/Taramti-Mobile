@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,8 +28,7 @@
     </script>
 
     <script>
-
-        function test(){
+        function test() {
             var x = [];
             var low = -1;
             var high = -1;
@@ -39,7 +39,7 @@
                 url: generic + "GetAuctionByParam",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ cities: x, lowPrice: low, highPrice: high, catCode : code }),
+                data: JSON.stringify({ cities: x, lowPrice: low, highPrice: high, catCode: code }),
                 success: function (data) {
                     console.log("Ran - test");
                     var isUser = JSON.parse(data.d);
@@ -71,7 +71,7 @@
                 error: function (err) { }
             });
         }
-        
+
         function GetAuctionByCode() {
             var auc = { AuctionID: 1 }
             // alert("NANA");
@@ -80,7 +80,7 @@
                 url: generic + "GetAuctionByCode",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ auc}),
+                data: JSON.stringify({ auc }),
                 success: function (data) {
                     console.log("got inside");
                     var auction = JSON.parse(data.d);
@@ -99,7 +99,7 @@
                 url: generic + "GetAllProductsCategories",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ }),
+                data: JSON.stringify({}),
                 success: function (data) {
                     var isUser = JSON.parse(data.d);
                     console.log("user 0" + isUser[0])
@@ -121,7 +121,7 @@
                 url: generic + "OfferBid",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ auc : auc1, bid: bid1, buyer : buy1}),
+                data: JSON.stringify({ auc: auc1, bid: bid1, buyer: buy1 }),
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -133,7 +133,7 @@
             });
         }
 
-        function getLocation(city,lat,lng) {
+        function getLocation(city, lat, lng) {
 
             var mygc = new google.maps.Geocoder();
             var locationOrigem;
@@ -147,42 +147,40 @@
                 locationOrigem = results[0].geometry.location;
                 latOrigem = results[0].geometry.location.lat();
                 longOrigem = results[0].geometry.location.lng();
-                mygc.geocode({ }, function (results, status) {
-                    locationDestino = new google.maps.LatLng(lat, lng); 
-                   // alert(latDestino + " " + longDestino);
+                mygc.geocode({}, function (results, status) {
+                    locationDestino = new google.maps.LatLng(lat, lng);
+                    // alert(latDestino + " " + longDestino);
                     console.log(locationOrigem);
                     console.log(locationDestino);
-                    return(google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
+                    return (google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
                 });
             });
         }
 
-            function insertsearch() {
+        function insertsearch() {
 
 
 
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "testsearch",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({  }),
-                    success: function (data) {
+            $.ajax({
+                dataType: "json",
+                url: generic + "testsearch",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
 
-                        console.log("נכנסתי");
-                        var isUser = JSON.parse(data.d);
+                    console.log("נכנסתי");
+                    var isUser = JSON.parse(data.d);
 
-                        console.log(isUser);
-                    },
-                    error: function (err) { }
-                });
-            }
-
-        
-
+                    console.log(isUser);
+                },
+                error: function (err) { }
+            });
+        }
     </script>
 
 </head>
+
 <body>
     <input type="button" onclick="test()" value="GetAuctionByParam" />
     <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
@@ -192,4 +190,5 @@
     <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
     <input type="button" onclick="insertsearch()" value="insertsearch" />
 </body>
+
 </html>
