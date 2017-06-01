@@ -229,7 +229,7 @@ public class WebService : System.Web.Services.WebService
         JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT(mail,pass);
         temp.UserId = id;
-        if (temp.CheckIfExictById())
+        if (!temp.CheckIfExictById())
         {
             temp.FirstName = first;
             temp.LastName = last;

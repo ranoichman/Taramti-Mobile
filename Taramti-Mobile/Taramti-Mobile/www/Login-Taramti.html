@@ -93,25 +93,25 @@
         /// <summary>וידוא כל השדות</summary>
         function FirstRegisterUser() {
 
-            var id = $("#UserId").val();
+            var id = $("#Userid").val();
             var first = $("#UserFirstName").val();
             var last = $("#UserLastName").val();
-            var mail = $("#UserMail").val();
+            var mail = $("#Usermail").val();
             var pass = $("#UserPass").val();
             var pass2 = $("#UserPass2").val();
-
+            alert(id + " " + first + " " + last + " " + mail + " " + pass + " " + pass2 + " ");
             if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
                 $.ajax({
                     dataType: "json",
                     url: generic + "AddUser",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
-                    data: JSON.stringify({ mail: mail, pass: pass, first: first, last: last, id: id }),
+                    data: JSON.stringify({ mail: mail, pass: pass2, first: first, last: last, id: id }),
                     success: function (data) {
 
                         var isUser = JSON.parse(data.d);
 
-                        if (isUser == true) {
+                        if (isUser == "True") {
                             alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
                         }
                         else {
@@ -254,9 +254,9 @@
         <div class="Form" id="LoginForm">
             <h2>כיף שבאת!</h2>
             <h4>מייל משתמש: </h4>
-            <input type="email" id="UserMail" value="golanhuppert9@gmail.com" />
+            <input type="email" id="UserMail" value="" />
             <h4>סיסמה: </h4>
-            <input type="password" id="UserPass" value="golanh" />
+            <input type="password" id="UserPass" value="" />
 
             <!-------------לא למחוק------------>
             <!--<input class="w3-margin-right" id="StayCB" type="checkbox" checked />-->
@@ -314,9 +314,9 @@
             <h4>שם משפחה: </h4>
             <input type="text" id="UserLastName" />
             <h4>תעודת זהות: </h4>
-            <input type="number" id="UserId" />
+            <input type="number" id="Userid" />
             <h4>כתובת אימייל: </h4>
-            <input type="email" id="UserMail" />
+            <input type="email" id="Usermail" />
             <h4>הזן סיסמה: </h4>
             <input type="password" id="UserPass" />
             <h4>הזן סיסמה לאישור: </h4>

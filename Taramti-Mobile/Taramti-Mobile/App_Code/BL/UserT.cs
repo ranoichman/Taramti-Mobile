@@ -668,7 +668,7 @@ public class UserT
         SqlParameter parFName = new SqlParameter("@fName", FirstName);
         SqlParameter parLName = new SqlParameter("@lName", LastName);
         SqlParameter parMail = new SqlParameter("@mail", Mail);
-        SqlParameter parPassword = new SqlParameter("@pass", "000000");
+        SqlParameter parPassword = new SqlParameter("@pass", Password);
         if (db.ExecuteQuery(sqlInsert, CommandType.Text, parId, parFName, parLName, parMail, parPassword) == 0)
         {
             return false;
