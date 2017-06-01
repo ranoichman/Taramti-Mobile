@@ -82,7 +82,7 @@ public class Reg_Auction : Auction
         return 0;
     }
 
-    public static List<Reg_Auction> GetAuctionsByParam(int[] cities, int lowPrice, int highPrice, int catCode)
+    public static List<Reg_Auction> GetAuctionsByParam(int[] cities, int lowPrice, int highPrice, int catCode, int id, decimal lat, decimal lng, int radius)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -179,7 +179,32 @@ public class Reg_Auction : Auction
             }
         }
 
+        AddNewSearch(id,lat, lng, radius, lowPrice, highPrice, catCode);
         return relevantAuctions;
+    }
+
+    public static void AddNewSearch(int id,decimal lat, decimal lng, int radius, int lowPrice, int highPrice, int catCode)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+
+        string StrSql = @"INSERT INTO [dbo].[search_log] ([search_time] ,[user_id] ,[user_lat] ,[user_lng] ,[radius] ,[low_price],[high_price],[cat_code])
+            VALUES (@auc, @bidCode,@bidTime,@buyer,@price) ";
+
+        SqlParameter partime = new SqlParameter("@auc", DateTime.Now);
+        SqlParameter parid = new SqlParameter("@bidCode", id);
+        SqlParameter parlat = new SqlParameter("@bidTime", lat);
+        SqlParameter parlng = new SqlParameter("@buyer", lng);
+        SqlParameter parradius = new SqlParameter("@buyer", radius);
+        SqlParameter parlow = new SqlParameter("@price", lowPrice);
+        SqlParameter parhigh = new SqlParameter("@price", highPrice);
+        SqlParameter parcat = new SqlParameter("@price", catCode);
+        if (db.ExecuteQuery(StrSql, CommandType.Text, partime, parid, parlat, parlng, parradius, parlow, parhigh, parcat) == 0)
+        {
+            
+        }
+
+
     }
 
     public int GetLatestBid()
