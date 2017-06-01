@@ -133,7 +133,7 @@
             });
         }
 
-        function getLocation() {
+        function getLocation(city,lat,lng) {
 
             var mygc = new google.maps.Geocoder();
             var locationOrigem;
@@ -143,20 +143,43 @@
             var latDestino = 0;
             var longDestino = 0;
 
-            mygc.geocode({ 'address': 'נתניה' }, function (results, status) {
+            mygc.geocode({ 'address': city }, function (results, status) {
                 locationOrigem = results[0].geometry.location;
                 latOrigem = results[0].geometry.location.lat();
                 longOrigem = results[0].geometry.location.lng();
-                mygc.geocode({ 'address': 'חדרה' }, function (results, status) {
-                    locationDestino = results[0].geometry.location;
-                    latDestino = results[0].geometry.location.lat();
-                    longDestino = results[0].geometry.location.lng();
+                mygc.geocode({ }, function (results, status) {
+                    locationDestino = new google.maps.LatLng(lat, lng); 
+                   // alert(latDestino + " " + longDestino);
                     console.log(locationOrigem);
                     console.log(locationDestino);
-                    alert(google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
+                    return(google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
                 });
             });
         }
+
+            function insertsearch() {
+
+
+
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "testsearch",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({  }),
+                    success: function (data) {
+
+                        console.log("נכנסתי");
+                        var isUser = JSON.parse(data.d);
+
+                        console.log(isUser);
+                    },
+                    error: function (err) { }
+                });
+            }
+
+        
+
     </script>
 
 </head>
@@ -166,6 +189,7 @@
     <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
     <input type="button" onclick="OfferBid()" value="OfferBid" />
     <input type="button" onclick="GetAuctionByCode()" value="GetAuctionByCode" />
-    <input type="button" onclick="getLocation()" value="GetLocation" />
+    <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
+    <input type="button" onclick="insertsearch()" value="insertsearch" />
 </body>
 </html>
