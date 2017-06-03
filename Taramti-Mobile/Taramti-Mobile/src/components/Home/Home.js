@@ -13,7 +13,7 @@ import Search from './Search';
 //import '../css/jqmCss.css';
 //import '../../www/css/StyleSheet.css';
 
-import { auctionWS,buyerID } from '../../constants/general';
+import { auctionWS, buyerID } from '../../constants/general';
 
 class Home extends Component {
     constructor(props) {
@@ -35,7 +35,7 @@ class Home extends Component {
 
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams(-1, -1, 0,0,0,0); //initial data will come from 
+        this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
     }
 
     openSearchModal() {
@@ -51,24 +51,27 @@ class Home extends Component {
         this.setState({ auctionsArr: [] });
         this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
     }
-
+    // lowPrice,highPrice,catCode,id,lat,lng,radius
     //call function to get auctions from serveer
-    getAuctionsByParams(lowPrice, highPrice, catCode,lat,lng,radius) {
+    getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
         const self = this;
+        console.log(`buyerrrrrr ------- ${buyerID}`)
+        const id = parseInt(buyerID);
         this.setState({ searchModalIsOpen: false });
         axios.post(auctionWS + 'GetAuctionByParam', {
             lowPrice: lowPrice,
             highPrice: highPrice,
             catCode: catCode,
-            id: buyerID,
-            lat:lat,
-            lng:lng,
-            radius:radius
+            id: id,
+            lat: lat,
+            lng: lng,
+            radius: radius
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
             res.map(self.addAuction);
         })
             .catch(function (error) {
+                console.log('shgiaaaaaaa')
                 console.log(error);
             });
     }

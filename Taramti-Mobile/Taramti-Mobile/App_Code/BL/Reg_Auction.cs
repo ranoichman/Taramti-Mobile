@@ -111,7 +111,7 @@ public class Reg_Auction : Auction
                          "FROM  dbo.auction INNER JOIN dbo.product ON dbo.auction.product_code = dbo.product.product_code " +
                          "INNER JOIN dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code " +
                          "GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, " +
-                         "dbo.auction.auction_code, dbo.product.price,dbo.product.product_code,dbo.product.product_Name ";
+                         "dbo.auction.auction_code, dbo.product.price,dbo.product.product_code,dbo.product.product_Name,dbo.product.city_code ";
 
         StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
 
