@@ -17,9 +17,9 @@ class ChatMsg extends Component {
     //function that returns a render of 1 FAQ
     generateFAQ(item, i) {
         return (
-            <Panel className="question" header={item.question} key={i}>
+            <Panel className="question" header={item.Question} key={i}>
                 <p className={this.state.activeKey == i ? "response" : "responseInActive"}>
-                    {item.answer !== "" ? item.answer : "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות"}
+                    {item.Answer !== "" ? item.Answer : "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות"}
                 </p>
             </Panel>
         )

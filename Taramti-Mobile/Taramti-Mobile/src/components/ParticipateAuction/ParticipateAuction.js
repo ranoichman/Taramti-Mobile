@@ -37,9 +37,11 @@ class ParticipateAuction extends Component {
                 price: par.price,
                 endDate: par.props.endDate,
                 percentage: par.props.percentage,
+                prodCode: par.props.prodCode,
                 prodName: par.props.prodName,
                 prodDesc: par.props.prodDesc,
                 imgArr: par.props.imgArr
+                
             }
         }
         this.openMSGModal = this.openMSGModal.bind(this);
@@ -293,7 +295,7 @@ class ParticipateAuction extends Component {
                             
                             contentLabel="open FAQ"
                             className="FAQbox">
-                            <AuctionFAQ closeModal={this.closeFAQModal} />
+                            <AuctionFAQ closeModal={this.closeFAQModal} prodCode={this.state.auc.prodCode} />
                         </Modal>
                     </Swipeable>
                 </div>

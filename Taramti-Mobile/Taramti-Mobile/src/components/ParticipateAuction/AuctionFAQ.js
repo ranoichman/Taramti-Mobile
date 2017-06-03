@@ -11,14 +11,28 @@ class AuctionFAQ extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            FAQs: [{ question: "יש לי איזו שאלה", answer: "כל מיני מללים ועוד מלא מלא מללים והנה הוספתי קצת כדי שיהיה ככה בשביל התחושה הטובה והכיפית" },
-            { question: "יש לי איזו שאלה", answer: "והנה התשובה לשאלה הזאת" },
-            { question: "יש לי איזו שאלה", answer: "" },
-            { question: "יש לי איזו שאלה", answer: "בלה בלה בלה בלה בלה בלה" },
-            { question: "יש לי איזו שאלה", answer: "" }]
+            FAQs: []
         }
         this.addQuestion = this.addQuestion.bind(this);
     }
+
+    componentDidMount() {
+
+        let product = { ItemId: this.props.prodCode }
+        const self = this;
+
+        axios.post(auctionWS + 'GetAllQuestions', {
+            prod: product
+        }).then(function (response) {
+            let res = JSON.parse(response.data.d);
+            // res.map(self.addAuction);
+            self.setState({ FAQ: res })
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
 
     addQuestion() {
         console.log(`asked: ${this.refs.newQ.value}`);
@@ -35,7 +49,7 @@ class AuctionFAQ extends Component {
                 <ChatMsg FAQs={this.state.FAQs} />
 
                 <div >
-                    <textarea ref="newQ" rows="2" cols="25"/>
+                    <textarea ref="newQ" rows="2" cols="25" />
                     <Swipeable onTap={this.addQuestion}>
                         <div className="btn"> <span>הוסף שאלה</span> </div>
                     </Swipeable>

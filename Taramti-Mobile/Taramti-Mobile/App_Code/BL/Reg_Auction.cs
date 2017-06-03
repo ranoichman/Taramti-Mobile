@@ -169,7 +169,7 @@ public class Reg_Auction : Auction
                 auction.Percentage = int.Parse(row[4].ToString());
                 auction.ProdDesc = row[5].ToString();
                 auction.ProdName = row[6].ToString();
-                auction.ItemCode = int.Parse(row[7].ToString());
+                auction.ItemCode = int.Parse(row["product_code"].ToString());
                 auction.Images = images.Count > 0 ? images.ToArray() : null;
 
                 if (b)

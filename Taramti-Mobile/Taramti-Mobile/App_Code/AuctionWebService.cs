@@ -123,13 +123,21 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(NewItem.AddPictures());
     }
 
-    [WebMethod]
+    [WebMethod(Description ="get all auction details by code")]
     public string GetAuctionByCode(Reg_Auction auc)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         //Reg_Auction auc = new Reg_Auction(auctionCode);
         auc.GetDataByCode();
         return j.Serialize(auc);
+    }
+
+    [WebMethod(Description ="get all questions for product by product code")]
+    public string GetAllQuestions(Item prod)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        prod.GetAllQuestions();
+        return j.Serialize(prod.Questions);
     }
 
 }

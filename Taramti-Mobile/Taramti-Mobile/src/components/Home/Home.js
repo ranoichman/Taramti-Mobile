@@ -78,6 +78,7 @@ class Home extends Component {
             endDate: item.End_Date,
             price: item.Price,
             percentage: item.Percentage,
+            prodCode: item.ItemCode,
             prodName: item.ProdName,
             prodDesc: item.ProdDesc,
             imgArr: item.Images,
@@ -92,7 +93,7 @@ class Home extends Component {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid}
             home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc}
             price={item.price} endDate={item.endDate} code={item.code}
-            percentage={item.percentage} />
+            percentage={item.percentage} prodCode={item.prodCode}/>
     }
 
     //remove finished auction from displayed array
