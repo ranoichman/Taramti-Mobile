@@ -30,13 +30,14 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "מתודה להבאת מכרזים על פי פרמטרים")]
-    public string GetAuctionByParam(int[] cities, int lowPrice, int highPrice, int catCode)
+    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode, int id, double lat, double lng, int radius)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        return j.Serialize(Reg_Auction.GetAuctionsByParam(cities, lowPrice, highPrice, catCode));
+        return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, id, lat, lng, radius));
+        return "";
     }
 
-    [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר אוקשן")]
+    [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר מכרז")]
     public string GetAuctionPrice(int auctionCode)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -132,4 +133,10 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(auc);
     }
 
+    //[WebMethod]
+    //public void testsearch()
+    //{
+    //    JavaScriptSerializer j = new JavaScriptSerializer();
+    //    Reg_Auction.AddNewSearch(302921481, 32.2262262, 36.3562, 10, 100, 500, 4);
+    //}
 }

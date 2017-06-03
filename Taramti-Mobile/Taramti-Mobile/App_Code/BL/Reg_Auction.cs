@@ -82,7 +82,7 @@ public class Reg_Auction : Auction
         return 0;
     }
 
-    public static List<Reg_Auction> GetAuctionsByParam(int[] cities, int lowPrice, int highPrice, int catCode)
+    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int catCode, int id, double lat, double lng, int radius)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -107,11 +107,11 @@ public class Reg_Auction : Auction
             code = "=" + catCode;
 
         string StrSql = "SELECT dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, " +
-                         "dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price, dbo.product.product_code " +
+                         "dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price, dbo.product.product_code,dbo.product.city_code " +
                          "FROM  dbo.auction INNER JOIN dbo.product ON dbo.auction.product_code = dbo.product.product_code " +
                          "INNER JOIN dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code " +
                          "GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, " +
-                         "dbo.auction.auction_code, dbo.product.price,dbo.product.product_code,dbo.product.product_Name ";
+                         "dbo.auction.auction_code, dbo.product.price,dbo.product.product_code,dbo.product.product_Name,dbo.product.city_code ";
 
         StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
 
@@ -165,6 +165,7 @@ public class Reg_Auction : Auction
                 //DateTime G = DateTime.Parse(row[3].ToString());
                 //string ng = G.ToString("MM/dd/yyyy HH:mm:ss");
                 //auction.End_Date = DateTime.Parse(ng);
+                auction.Location = new City(int.Parse(row[8].ToString()));
                 auction.End_Date = row[3].ToString();
                 auction.Percentage = int.Parse(row[4].ToString());
                 auction.ProdDesc = row[5].ToString();
@@ -179,7 +180,36 @@ public class Reg_Auction : Auction
             }
         }
 
+        //var coord1 = new GeoCoordinate(lat, long);
+        //var coord2 = new GeoCoordinate(lat2, long2);
+
+        //var distance = coord1.GetDistanceTo(coord2);
+
+        AddNewSearch(id,lat, lng, radius, lowPrice, highPrice, catCode);
         return relevantAuctions;
+    }
+
+
+    public static void AddNewSearch(int id,double lat, double lng, int radius, int lowPrice, int highPrice, int catCode)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+
+        string StrSql = @"INSERT INTO [dbo].[search_log] ([search_time] ,[user_id] ,[user_lat] ,[user_lng] ,[radius] ,[low_price],[high_price],[cat_code])
+            VALUES (@time, @id,@lat,@lng,@radius,@lowprice, @highprice,@cat) ";
+
+        SqlParameter partime = new SqlParameter("@time", DateTime.Now);
+        SqlParameter parid = new SqlParameter("@id", id);
+        SqlParameter parlat = new SqlParameter("@lat", lat);
+        SqlParameter parlng = new SqlParameter("@lng", lng);
+        SqlParameter parradius = new SqlParameter("@radius", radius);
+        SqlParameter parlow = new SqlParameter("@lowprice", lowPrice);
+        SqlParameter parhigh = new SqlParameter("@highprice", highPrice);
+        SqlParameter parcat = new SqlParameter("@cat", catCode);
+        if (db.ExecuteQuery(StrSql, CommandType.Text, partime, parid, parlat, parlng, parradius, parlow, parhigh, parcat) == 0)
+        {
+            
+        }
     }
 
     public int GetLatestBid()
