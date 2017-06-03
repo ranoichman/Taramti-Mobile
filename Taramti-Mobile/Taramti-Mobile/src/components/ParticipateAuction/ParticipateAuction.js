@@ -15,7 +15,7 @@ import Tetris from '../Tetris';
 
 //constants 
 import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from '../../constants/messages';
-import { auctionWS } from '../../constants/general';
+import { auctionWS,buyerID } from '../../constants/general';
 
 class ParticipateAuction extends Component {
 
