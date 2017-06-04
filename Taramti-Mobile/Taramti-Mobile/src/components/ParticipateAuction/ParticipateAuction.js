@@ -74,7 +74,7 @@ class ParticipateAuction extends Component {
         // });
 
         this.calcDonation();
-        this.loadInterval = setInterval(this.getCurPrice, 5000);
+       // this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
 
     componentWillUnmount() {

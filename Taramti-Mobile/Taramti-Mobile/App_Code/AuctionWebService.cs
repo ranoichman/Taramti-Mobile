@@ -34,7 +34,6 @@ public class AuctionWebService : System.Web.Services.WebService
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, id, lat, lng, radius));
-        return "";
     }
 
     [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר מכרז")]

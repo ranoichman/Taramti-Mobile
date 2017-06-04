@@ -1,12 +1,12 @@
 ﻿import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
-
+import axios from 'axios';
 
 import ChatMsg from '../Generic/ChatMsg';
 
 import '../../css/modal.css';
 
-
+import { auctionWS } from '../../constants/general';
 class AuctionFAQ extends Component {
     constructor(props) {
         super(props)
@@ -26,7 +26,7 @@ class AuctionFAQ extends Component {
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
             // res.map(self.addAuction);
-            self.setState({ FAQ: res })
+            self.setState({ FAQs: res })
         })
             .catch(function (error) {
                 console.log(error);
