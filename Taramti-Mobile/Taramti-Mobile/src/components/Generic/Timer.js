@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import '../css/timer.css';
+import '../../css/timer.css';
 
 class Timer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            secondsRemaining: Date.parse(this.props.endDate) - Date.now() ,
+            secondsRemaining: Date.parse(this.props.endDate) - Date.now(),
             elapsed: ""
         }
         this.tick = this.tick.bind(this);
@@ -15,7 +15,7 @@ class Timer extends Component {
         this.renderReg = this.renderReg.bind(this);
     }
     //countdown timer - interval function
-    tick() {    
+    tick() {
         if (this.state.secondsRemaining !== 'undefined') {
             this.state.secondsRemaining = this.state.secondsRemaining - 1000;
             this.setState({ elapsed: this.calculateElapsed() });
@@ -42,7 +42,8 @@ class Timer extends Component {
     }
 
     componentDidMount() {
-        this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
+        console.log(`end---${this.props.endDate}`)
+         this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
         this.loadInterval = setInterval(this.tick, 1000);
     }
 
@@ -50,6 +51,16 @@ class Timer extends Component {
         this.loadInterval && clearInterval(this.loadInterval);
         this.loadInterval = false;
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     if (this.props.endDate != nextProps.endDate) {
+    //         this.loadInterval && clearInterval(this.loadInterval);
+    //         this.loadInterval = false;
+    //         this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
+    //         this.loadInterval = setInterval(this.tick, 1000);
+    //     }
+    // }
+
 
     renderReg() {
         return (

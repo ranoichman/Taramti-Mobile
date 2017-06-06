@@ -1,17 +1,21 @@
 import './css/index.css';
 
-//import $ from 'jquery';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
+//import { Router, Route, hashHistory } from 'react-router'
+import { HashRouter, Route, Link } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 import axios from 'axios';
 
-import Hello from './components/Hello';
-import Auction from './components/Auction';
-import Home from './components/Home';
+// taramti babait components
+import Home from './components/Home/Home';
+import ParticipateAuction from './components/ParticipateAuction/ParticipateAuction';
+import ChatMsg from './components/Generic/ChatMsg';
+
+
 
 import GENERAL from '../www/js/master'
 
@@ -22,9 +26,6 @@ class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            reRender: true, //state for rendering component only once
-            home: true,
-            displayedAuction: -1, // for knowing which auction page to display
             auctionsArr: [
                 // {
                 //     code: 15,
@@ -67,89 +68,96 @@ class App extends Component {
                 // }
             ]
         }
-        this.offerBid = this.offerBid.bind(this);
-        this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
-        this.addAuction = this.addAuction.bind(this);
-        this.renderHome = this.renderHome.bind(this);
-        this.renderAucPage = this.renderAucPage.bind(this);
+        // this.offerBid = this.offerBid.bind(this);
+        // this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
+        // this.addAuction = this.addAuction.bind(this);
+        // this.renderHome = this.renderHome.bind(this);
+        // this.renderAucPage = this.renderAucPage.bind(this);
     }
 
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams([], -1, -1, 0);
+        //this.getAuctionsByParams([], -1, -1, 0);
     }
 
     componentWillUnmount() {
         // Lifecycle function that is triggered just before a component unmounts
     }
-
+    //#region removed methods
     //change states to show specific auction page
-    offerBid(i, arr) {
-        this.setState({ auctionsArr: arr,displayedAuction: i, home: false });
-    }
+    // offerBid(i, arr) {
+    //     this.setState({ auctionsArr: arr,displayedAuction: i, home: false });
+    // }
 
-    //call function to get auctions from serveer
-    getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
-        const self = this;
-        axios.post(auctionWS + 'GetAuctionByParam', {
-            cities: cities,
-            lowPrice: lowPrice,
-            highPrice: highPrice,
-            catCode: catCode
-        }).then(function (response) {
-            let res = JSON.parse(response.data.d);
-            res.map(self.addAuction);
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+    // //call function to get auctions from serveer
+    // getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
+    //     const self = this;
+    //     axios.post(auctionWS + 'GetAuctionByParam', {
+    //         cities: cities,
+    //         lowPrice: lowPrice,
+    //         highPrice: highPrice,
+    //         catCode: catCode
+    //     }).then(function (response) {
+    //         let res = JSON.parse(response.data.d);
+    //         res.map(self.addAuction);
+    //     })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         });
+    // }
 
-    //add auction to state array
-    addAuction(item, i) {
-        let arr = this.state.auctionsArr;
-        let newAuction = {
-            code: item.AuctionID,
-            endDate: item.End_Date,
-            price: item.Price,
-            percentage: item.Percentage,
-            prodName: item.ProdName,
-            prodDesc: item.ProdDesc,
-            imgArr: item.Images,
+    // //add auction to state array
+    // addAuction(item, i) {
+    //     let arr = this.state.auctionsArr;
+    //     let newAuction = {
+    //         code: item.AuctionID,
+    //         endDate: item.End_Date,
+    //         price: item.Price,
+    //         percentage: item.Percentage,
+    //         prodName: item.ProdName,
+    //         prodDesc: item.ProdDesc,
+    //         imgArr: item.Images,
+    //     }
+    //     arr.push(newAuction);
+    //     this.setState({ auctionsArr: arr });
+
+    // }
+    /*
+        renderHome() {
+            return (
+                <Home offerBid={this.offerBid} auctionsArr={this.state.auctionsArr}  />
+            );
         }
-        arr.push(newAuction);
-        this.setState({ auctionsArr: arr });
-
-    }
-
     
-
-    renderHome() {
-        return (
-            <Home offerBid={this.offerBid} auctionsArr={this.state.auctionsArr}  />
-        );
-    }
-
-    renderAucPage() {
-        let curAuction = this.state.auctionsArr[this.state.displayedAuction];
-        return (
-            <div className="container-fluid">
-                <Auction index={this.state.displayedAuction} auctionfinished={this.deleteAuction}
-                    home={this.state.home} price={curAuction.price} endDate={curAuction.endDate} code={curAuction.code}
-                    imgArr={curAuction.imgArr} prodName={curAuction.prodName} prodDesc={curAuction.prodDesc} percentage={curAuction.percentage} />
-            </div>
-        )
-    }
-
+        renderAucPage() {
+            let curAuction = this.state.auctionsArr[this.state.displayedAuction];
+            return (
+                <div className="container-fluid">
+                    <Auction index={this.state.displayedAuction} auctionfinished={this.deleteAuction}
+                        home={this.state.home} price={curAuction.price} endDate={curAuction.endDate} code={curAuction.code}
+                        imgArr={curAuction.imgArr} prodName={curAuction.prodName} prodDesc={curAuction.prodDesc} percentage={curAuction.percentage} />
+                </div>
+            )
+        }*/
+    //#region removed methods
     render() {
-        if (this.state.home) {
-            return (this.renderHome())
-        }
-        else {
-            return (this.renderAucPage())
-        }
+        return (
+            <div>
+                {this.props.children}
+            </div>
+
+        )
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<HashRouter>
+    <App>
+        <Route exact path="/" component={Home} />
+        {/* Parameter route*/}
+        <Route path="/participate" component={ParticipateAuction} />
+
+        {/*testing route*/}
+        <Route path="/bdika" component={ChatMsg}/>
+    </App>
+</HashRouter>, document.getElementById('app'));
 
