@@ -78,7 +78,7 @@ class Search extends Component {
             navigator.geolocation.getCurrentPosition(function (pos_result) {
                 console.log(`lat -- ${pos_result.coords.latitude} _____ lat-- ${pos_result.coords.longitude}`)
                 coords = {lat: pos_result.coords.latitude, lng: pos_result.coords.longitude};
-                radius= this.state.gps;
+                radius= self.state.gps;
                 self.props.startSearch(low, high, catCode,coords,radius); // start search with location after city arr is filled
 
             })
@@ -100,8 +100,8 @@ class Search extends Component {
                     <div className="gpsCont">
                         <input type="checkbox" ref="locationCB" onClick={this.cbChanged} />הצג מוצרים בקרבתי
                             <div style={{ display: this.state.display }}  >
-                            <Ddl key="1" onChange={this.onSelectedGPS} options={[{ val: '10', text: '10 ק"מ' },
-                            { val: '20', text: '20 ק"מ' }, { val: '30', text: '30 ק"מ' }, { val: '50', text: '50 ק"מ' }
+                            <Ddl key="1" onChange={this.onSelectedGPS} options={[{ val: '10000', text: '10 ק"מ' },
+                            { val: '20000', text: '20 ק"מ' }, { val: '30000', text: '30 ק"מ' }, { val: '50000', text: '50 ק"מ' }
                             ]} css="gpsSelect" />
                         </div>
                     </div>

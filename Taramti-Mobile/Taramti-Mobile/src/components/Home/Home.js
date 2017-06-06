@@ -31,6 +31,7 @@ class Home extends Component {
         this.offerBid = this.offerBid.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
         this.moveToAddAuction = this.moveToAddAuction.bind(this);
+        this.getDistance = this.getDistance.bind(this);
     }
 
     componentDidMount() {
@@ -51,7 +52,7 @@ class Home extends Component {
         this.setState({ auctionsArr: [] });
         this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
     }
-    // lowPrice,highPrice,catCode,id,lat,lng,radius
+
     //call function to get auctions from serveer
     getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
         const self = this;
@@ -68,7 +69,38 @@ class Home extends Component {
             radius: radius
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
-            res.map(self.addAuction);
+            //if no radius selected >>> add auction
+            if (radius === 0) {
+                res.map(self.addAuction);
+            } else { //add only auctions withing specified range
+                for (let k in res) {
+
+                    let mygc = new google.maps.Geocoder();
+                    let locationOrigem;
+                    let locationDestino;
+                    let latOrigem = 0;
+                    let longOrigem = 0;
+                    let latDestino = 0;
+                    let longDestino = 0;
+
+                    mygc.geocode({ 'address': res[k].Location.CityName }, function (results, status) {
+                        console.log(`${k} -- city______ : ${res[k].Location.CityName}`)
+                        locationOrigem = results[0].geometry.location;
+                        latOrigem = results[0].geometry.location.lat();
+                        longOrigem = results[0].geometry.location.lng();
+                        mygc.geocode({}, function (results, status) {
+                            locationDestino = new google.maps.LatLng(lat, lng);
+                            //locationDestino = new google.maps.LatLng(32.313367, 34.945139);
+                            let dist = google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino)
+                            console.log(`${k} -- dist : ${dist}`)
+                            if (dist<=radius){
+                                self.addAuction(res[k])
+                            };
+                        });
+                    });
+                }
+            }
+
         })
             .catch(function (error) {
                 console.log('shgiaaaaaaa')
@@ -76,7 +108,7 @@ class Home extends Component {
             });
     }
 
-    getLocation(city, lat, lng) {
+    getDistance(item, lat, lng) {
         let mygc = new google.maps.Geocoder();
         let locationOrigem;
         let locationDestino;
@@ -100,7 +132,7 @@ class Home extends Component {
     }
 
     //add auction from server to array
-    addAuction(item, i) {
+    addAuction(item) {
         let arr = this.state.auctionsArr;
         let newAuction = {
             code: item.AuctionID,
@@ -122,7 +154,7 @@ class Home extends Component {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid}
             home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc}
             price={item.price} endDate={item.endDate} code={item.code}
-            percentage={item.percentage} prodCode={item.prodCode}/>
+            percentage={item.percentage} prodCode={item.prodCode} />
     }
 
     //remove finished auction from displayed array
