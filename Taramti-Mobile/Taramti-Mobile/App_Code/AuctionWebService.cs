@@ -140,6 +140,13 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(prod.Questions);
     }
 
+    [WebMethod(Description = "add question to DB")]
+    public string AddQuestion(FAQ quest)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        
+        return j.Serialize(quest.AddQuestion().ToString());
+    }
     //[WebMethod]
     //public void testsearch()
     //{

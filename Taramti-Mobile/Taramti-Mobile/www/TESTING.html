@@ -182,6 +182,30 @@
                 error: function (err) { }
             });
         }
+
+        function addQuestion() {
+            let questioner = { UserId: 986548654 };
+            let quest = {
+                ProdCode: 39,
+                Question: "בדיקה בדיקתית~~!!!!",
+                Questioner: questioner
+            };
+            $.ajax({
+                dataType: "json",
+                url: generic + "AddQuestion",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({quest : quest}),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    console.log("result-----" + data.d)
+                },
+                error: function (err) { }
+            });
+        }
+
+
     </script>
 
 </head>
@@ -194,6 +218,7 @@
     <input type="button" onclick="GetAuctionByCode()" value="GetAuctionByCode" />
     <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
     <input type="button" onclick="insertsearch()" value="insertsearch" />
+    <input type="button" onclick="addQuestion()" value="add Question" />
 </body>
 
 </html>
