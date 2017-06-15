@@ -219,6 +219,17 @@
     <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
     <input type="button" onclick="insertsearch()" value="insertsearch" />
     <input type="button" onclick="addQuestion()" value="add Question" />
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+        <input type="hidden" name="cmd" value="_xclick" />
+        <input type="hidden" name="business" value="heregteam@gmail.com" />
+
+        <input type="hidden" name="item_name" value="My painting" />
+        <input type="hidden" name="amount" value="10.00" />
+        <input type="submit" value="Buy!" />
+
+    </form>
 </body>
 
 </html>
