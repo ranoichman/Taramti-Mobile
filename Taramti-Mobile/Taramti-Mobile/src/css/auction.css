@@ -132,6 +132,10 @@ input{
     padding-top:30px;
     
 }
+
+span.info{
+    color: red
+}
 /*
 .down-arrow {
     float: right;

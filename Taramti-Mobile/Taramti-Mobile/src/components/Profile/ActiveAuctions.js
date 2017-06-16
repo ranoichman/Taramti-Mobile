@@ -42,6 +42,7 @@ class ActiveAuctions extends Component {
         }
         else { this.setState({ tabIndex: i }) }
     }
+
     tabSwipeRight() {
         let i = this.state.tabIndex + 1;
         if (i === 3) {
@@ -49,8 +50,6 @@ class ActiveAuctions extends Component {
         }
         else { this.setState({ tabIndex: i }) }
     }
-
-
 
     render() {
 
