@@ -77,6 +77,7 @@
                                         //});
 
                                         /// רישום פוש
+                                        alert("לפני אינישילייז");
                                         var push = PushNotification.init({
                                             "android": {
                                                 "senderID": "336880743356"
@@ -90,11 +91,12 @@
                                             },
                                             "windows": {}
                                         })
+                                        alert("אחרי אינישילייז");
                                         push.on('registration', function (res) {
 
                                             res.registrationId;   // hold   device number in GCM
                                             res.platform;
-
+                                            alert(res.registrationId + "   " + res.platform);
                                             //here we will make ajax call to our server for
                                             // storing the registrationId in DB.
                                             // we will add to the call:
