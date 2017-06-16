@@ -27,6 +27,8 @@
 
         $(document).ready(function () {
 
+
+
             $("#Loginbtn").on("tap", function () {
                 var mail = $("#UserMail").val();
                 var pass = $("#UserPass").val();
@@ -60,6 +62,47 @@
                                         var UserId = JSON.parse(data.d);
                                         localStorage.setItem("UserID", UserId);
 
+                                        /// רישום פוש
+                                        var push = PushNotification.init({
+                                            "android": {
+                                                "senderID": "336880743356"
+                                            },
+                                            "ios": {
+                                                "alert": "true",
+                                                "badge": "true",
+                                                "sound": "true",
+                                                "senderID": "336880743356",
+                                                "gcmSandbox": true
+                                            },
+                                            "windows": {}
+                                        })
+                                        push.on('registration', function (res) {
+
+                                            res.registrationId;   // hold   device number in GCM
+                                            res.platform;
+
+                                            //here we will make ajax call to our server for
+                                            // storing the registrationId in DB.
+                                            // we will add to the call:
+                                            // user platform (ios, android etc..) and more data
+                                            //for further use
+
+                                            $.ajax({
+                                                dataType: "json",
+                                                url: generic + "SavePushInfo",
+                                                contentType: "application/json; charset=utf-8",
+                                                type: "POST",
+                                                //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+                                                data: JSON.stringify({ userId: "302921481", deviceString: "fsdfsgdfdgdfgdfgd", platform: "Android" }),
+                                                success: function (data) {
+
+                                                    var isUser = JSON.parse(data.d);
+                                                },
+                                                error: function (err) { }
+                                            });
+
+                                        });
+
                                         location.href = "app.html";
                                     },
                                     error: function (err) { }
@@ -75,8 +118,9 @@
                     },
                     error: function (err) { }
                 });
-
             }
+
+
             )
         });
 

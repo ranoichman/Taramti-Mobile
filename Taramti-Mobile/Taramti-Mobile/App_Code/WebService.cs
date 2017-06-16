@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PushSharp;
+using PushSharp.Android;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -304,6 +306,30 @@ public class WebService : System.Web.Services.WebService
         JavaScriptSerializer j = new JavaScriptSerializer();
         Settings S = new Settings(user, push, vibe, sound);
         S.Insert();
+    }
+
+    [WebMethod (Description = "שמירת נתונים בטבלת פוש בבסיס הנתונים")]
+    public string SavePushInfo(string userId, string deviceString, string platform)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Push P = new Push(userId, deviceString, platform);
+        return j.Serialize( P.AddPushDetails());
+    }
+
+    [WebMethod (Description = "פונקציה לשליחת הודעת פוש")]
+    public void SendPush(string head, string msg)
+    {
+        //Create our push services broker
+        var push = new PushBroker();
+
+        push.RegisterGcmService(new GcmPushChannelSettings("API KEY"));
+
+        push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("REG ID")
+                              .WithJson("{\"message\": \" " + msg + " \", \"title\": \" " + head + " \"}"));
+
+        //Stop and wait for the queues to drains
+        push.StopAllServices();
+
     }
 
 

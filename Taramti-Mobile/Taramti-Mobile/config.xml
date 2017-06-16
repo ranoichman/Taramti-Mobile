@@ -39,7 +39,12 @@
     <plugin name="cordova-plugin-statusbar" source="npm" spec="~2.1.2" />
     <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.0" />
     <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
-    <platform name="android">
+  <!--///////////////////////////////////////Push Plugin /////////////-->
+  <gap:plugin name="phonegap-plugin-push" source="npm" spec="1.7.2">
+    <param name="SENDER_ID" value="336880743356" />
+  </gap:plugin>
+  
+  <platform name="android">
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="www/res/icon/android/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="www/res/icon/android/drawable-hdpi-icon.png" />
