@@ -1,5 +1,5 @@
-﻿using PushSharp;
-using PushSharp.Android;
+﻿//using PushSharp;
+//using PushSharp.Android;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -319,16 +319,16 @@ public class WebService : System.Web.Services.WebService
     [WebMethod (Description = "פונקציה לשליחת הודעת פוש")]
     public void SendPush(string head, string msg)
     {
-        //Create our push services broker
-        var push = new PushBroker();
+        ////Create our push services broker
+        //var push = new PushBroker();
 
-        push.RegisterGcmService(new GcmPushChannelSettings("API KEY"));
+        //push.RegisterGcmService(new GcmPushChannelSettings("API KEY"));
 
-        push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("REG ID")
-                              .WithJson("{\"message\": \" " + msg + " \", \"title\": \" " + head + " \"}"));
+        //push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("REG ID")
+        //                      .WithJson("{\"message\": \" " + msg + " \", \"title\": \" " + head + " \"}"));
 
-        //Stop and wait for the queues to drains
-        push.StopAllServices();
+        ////Stop and wait for the queues to drains
+        //push.StopAllServices();
 
     }
 
