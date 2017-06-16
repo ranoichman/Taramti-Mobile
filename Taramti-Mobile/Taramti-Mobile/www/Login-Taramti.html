@@ -62,19 +62,19 @@
                                         var UserId = JSON.parse(data.d);
                                         localStorage.setItem("UserID", UserId);
 
-                                        $.ajax({
-                                            dataType: "json",
-                                            url: generic + "SavePushInfo",
-                                            contentType: "application/json; charset=utf-8",
-                                            type: "POST",
-                                            //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                                            data: JSON.stringify({ userId: "302921481", deviceString: "fsdfsgdfdgdfgdfgd", platform: "Android" }),
-                                            success: function (data) {
+                                        //$.ajax({
+                                        //    dataType: "json",
+                                        //    url: generic + "SavePushInfo",
+                                        //    contentType: "application/json; charset=utf-8",
+                                        //    type: "POST",
+                                        //    //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+                                        //    data: JSON.stringify({ userId: "302921481", deviceString: "fsdfsgdfdgdfgdfgd", platform: "Android" }),
+                                        //    success: function (data) {
 
-                                                var isUser = JSON.parse(data.d);
-                                            },
-                                            error: function (err) { }
-                                        });
+                                        //        var isUser = JSON.parse(data.d);
+                                        //    },
+                                        //    error: function (err) { }
+                                        //});
 
                                         /// רישום פוש
                                         var push = PushNotification.init({
@@ -107,7 +107,7 @@
                                                 contentType: "application/json; charset=utf-8",
                                                 type: "POST",
                                                 //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                                                data: JSON.stringify({ userId: "302921481", deviceString: "fsdfsgdfdgdfgdfgd", platform: "Android" }),
+                                                data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: res.platform }),
                                                 success: function (data) {
 
                                                     var isUser = JSON.parse(data.d);
