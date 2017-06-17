@@ -94,9 +94,9 @@
                                         alert("אחרי אינישילייז");
                                         push.on('registration', function (res) {
 
-                                            res.registrationId;   // hold   device number in GCM
-                                            res.platform;
-                                            alert(res.registrationId + "   " + res.platform);
+                                            alert("regID---- " + res.registrationId);   // hold   device number in GCM
+                                            //res.platform;
+                                            //alert(res.registrationId + "   " + res.platform);
                                             //here we will make ajax call to our server for
                                             // storing the registrationId in DB.
                                             // we will add to the call:
@@ -109,9 +109,9 @@
                                                 contentType: "application/json; charset=utf-8",
                                                 type: "POST",
                                                 //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                                                data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: res.platform }),
+                                                data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: "res.platform" }),
                                                 success: function (data) {
-
+                                                    alert("saved!!!!")
                                                     var isUser = JSON.parse(data.d);
                                                 },
                                                 error: function (err) { }
