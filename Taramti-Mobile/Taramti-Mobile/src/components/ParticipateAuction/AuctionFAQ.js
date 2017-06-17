@@ -3,6 +3,7 @@ import Swipeable from 'react-swipeable';
 import axios from 'axios';
 
 import ChatMsg from '../Generic/ChatMsg';
+import TextInput from '../Generic/TextInput';
 
 import '../../css/modal.css';
 
@@ -75,12 +76,7 @@ class AuctionFAQ extends Component {
                 {/*all FAQ's*/}
                 <ChatMsg FAQs={this.state.FAQs} />
 
-                <div >
-                    <textarea ref="newQ" rows="2" cols="25" />
-                    <Swipeable onTap={this.addQuestion}>
-                        <div className="btn"> <span>הוסף שאלה</span> </div>
-                    </Swipeable>
-                </div>
+                <TextInput send={this.addQuestion}/>
             </div>
         )
     }

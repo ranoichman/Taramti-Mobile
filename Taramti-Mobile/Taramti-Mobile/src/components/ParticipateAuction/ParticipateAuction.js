@@ -71,7 +71,7 @@ class ParticipateAuction extends Component {
     getCurPrice() {
         const self = this;
         axios.post(auctionWS + 'GetAuctionPrice', {
-            auctionCode: self.props.code
+            auctionCode: self.state.auc.code
         })
             .then(function (response) {
                 let ans = response.data.d;
@@ -79,6 +79,7 @@ class ParticipateAuction extends Component {
                     let tempObj = self.state.auc;
                     tempObj["price"] = ans;
                     self.setState({ auc: tempObj });
+                    self.calcDonation();
                 }
             })
             .catch(function (error) {
