@@ -31,21 +31,26 @@
 
             function onCordovaReady()
             {
-                /// רישום פוש
-                alert("לפני אינישילייז");
-                var push = PushNotification.init({
-                    "android": {
-                        "senderID": "336880743356"
-                    },
-                    "ios": {
-                        "alert": "true",
-                        "badge": "true",
-                        "sound": "true",
-                        "senderID": "336880743356",
-                        "gcmSandbox": true
-                    },
-                    "windows": {}
-                })
+                try {
+                    /// רישום פוש
+                    alert("לפני אינישילייז");
+                    var push = PushNotification.init({
+                        "android": {
+                            "senderID": "336880743356"
+                        },
+                        "ios": {
+                            "alert": "true",
+                            "badge": "true",
+                            "sound": "true",
+                            "senderID": "336880743356",
+                            "gcmSandbox": true
+                        },
+                        "windows": {}
+                    })
+                } catch (e) {
+                    alert(e.message);
+                }
+               
                 alert("אחרי אינישילייז");
                 push.on('registration', function (res) {
 
