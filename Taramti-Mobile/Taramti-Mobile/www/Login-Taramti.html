@@ -54,7 +54,7 @@
                                     url: generic + "GetUserID",
                                     contentType: "application/json; charset=utf-8",
                                     type: "POST",
-                                    data: JSON.stringify({ mail: mail, pass: pass}),
+                                    data: JSON.stringify({ mail: mail, pass: pass }),
                                     success: function (data) {
 
                                         var UserId = JSON.parse(data.d);
@@ -74,54 +74,13 @@
                                         //    error: function (err) { }
                                         //});
 
-                                        /// רישום פוש
-                                        alert("לפני אינישילייז");
-                                        var push = PushNotification.init({
-                                            "android": {
-                                                "senderID": "336880743356"
-                                            },
-                                            "ios": {
-                                                "alert": "true",
-                                                "badge": "true",
-                                                "sound": "true",
-                                                "senderID": "336880743356",
-                                                "gcmSandbox": true
-                                            },
-                                            "windows": {}
-                                        })
-                                        alert("אחרי אינישילייז");
-                                        push.on('registration', function (res) {
 
-                                            alert("regID---- " + res.registrationId);   // hold   device number in GCM
-                                            //res.platform;
-                                            //alert(res.registrationId + "   " + res.platform);
-                                            //here we will make ajax call to our server for
-                                            // storing the registrationId in DB.
-                                            // we will add to the call:
-                                            // user platform (ios, android etc..) and more data
-                                            //for further use
-
-                                            $.ajax({
-                                                dataType: "json",
-                                                url: generic + "SavePushInfo",
-                                                contentType: "application/json; charset=utf-8",
-                                                type: "POST",
-                                                //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                                                data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: "res.platform" }),
-                                                success: function (data) {
-                                                    alert("saved!!!!")
-                                                    var isUser = JSON.parse(data.d);
-                                                },
-                                                error: function (err) { }
-                                            });
-
-                                        });
 
                                         location.href = "app.html";
                                     },
                                     error: function (err) { }
                                 });
-                  
+
                                 //location.href = "app.html";
                             }
                         }
@@ -138,10 +97,55 @@
             )
         });
 
-   </script>
+        document.addEventListener("deviceready", cordovaReady, false);
+
+        function cordovaReady() {
+            /// רישום פוש
+            alert("לפני אינישילייז");
+            var push = PushNotification.init({
+                "android": {
+                    "senderID": "336880743356"
+                },
+                "ios": {
+                    "alert": "true",
+                    "badge": "true",
+                    "sound": "true",
+                    "senderID": "336880743356",
+                    "gcmSandbox": true
+                },
+                "windows": {}
+            })
+            alert("אחרי אינישילייז");
+            push.on('registration', function (res) {
+
+                alert("regID---- " + res.registrationId);   // hold   device number in GCM
+                //res.platform;
+                //alert(res.registrationId + "   " + res.platform);
+                //here we will make ajax call to our server for
+                // storing the registrationId in DB.
+                // we will add to the call:
+                // user platform (ios, android etc..) and more data
+                //for further use
+
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "SavePushInfo",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+                    data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: "res.platform" }),
+                    success: function (data) {
+                        alert("saved!!!!")
+                        var isUser = JSON.parse(data.d);
+                    },
+                    error: function (err) { }
+                });
+
+            });
+        }
+    </script>
 
     <script>
-
         function ConRegister() {
 
             location.href = "Login-Taramti.html#CompleteRegisterPage";
@@ -192,27 +196,27 @@
             var num = $("#UserHomeNum").val();
 
             if (city != -1) {
-            $.ajax({
-                dataType: "json",
-                url: generic + "AddUserAllInfo",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
-                success: function (data) {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "AddUserAllInfo",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
+                    success: function (data) {
 
-                    var isUser = JSON.parse(data.d);
+                        var isUser = JSON.parse(data.d);
 
-                    if (isUser == true) {
-                        alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
-                    }
-                    else {
-                        alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
-                    }
-                    location.href = "Login-Taramti.html#LoginPage";
-                },
-                error: function (err) { }
-            });
-        }
+                        if (isUser == true) {
+                            alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
+                        }
+                        else {
+                            alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
+                        }
+                        location.href = "Login-Taramti.html#LoginPage";
+                    },
+                    error: function (err) { }
+                });
+            }
             else {
                 alert("אנא בחר עיר מגורים");
             }
@@ -338,7 +342,7 @@
             <input type="text" id="UserMailForgot" />
             <h4>הזן תעודת זהות: </h4>
             <input type="number" id="UserId" />
-            
+
 
             <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
             <h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
@@ -437,7 +441,7 @@
             <input type="password" id="UserPass2" />
 
             <input type="button" id="RegisterBtn" value="הרשם" onclick="RegisterUser()" />
-            <h5 class="styleLinkH"><a class="styleLink"a href="#LoginPage"> חזור לדף התחברות</a></h5>
+            <h5 class="styleLinkH"><a class="styleLink" a href="#LoginPage"> חזור לדף התחברות</a></h5>
         </div>
     </div>
 </body>
