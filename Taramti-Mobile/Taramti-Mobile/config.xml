@@ -44,7 +44,7 @@
     <param name="SENDER_ID" value="336880743356" />
   </gap:plugin>-->
   <plugin name="phonegap-plugin-push" version="1.7.4" src="https://github.com/phonegap/phonegap-plugin-push.git" spec="1.7.4">
-    <variable name="SENDER_ID" value="336880743356" />
+    <variable name="SENDER_ID" value="554906213045" />
   </plugin>
   <platform name="android">
         <icon density="ldpi" src="www/res/icon/android/drawable-ldpi-icon.png" />
