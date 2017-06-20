@@ -11,7 +11,7 @@ using System.Web;
 public class FAQ
 {
     //fields
-    int prodCode;
+    int prodCode, questionCode;
     string question, answer;
     UserT questioner;
 
@@ -27,6 +27,19 @@ public class FAQ
         set
         {
             prodCode = value;
+        }
+    }
+
+    public int QuestionCode
+    {
+        get
+        {
+            return questionCode;
+        }
+
+        set
+        {
+            questionCode = value;
         }
     }
 
@@ -78,6 +91,11 @@ public class FAQ
         //
     }
 
+    public FAQ(int prod_code, int question_code, string quest, string ans):this(prod_code,quest,ans)
+    {
+        QuestionCode = question_code;
+    }
+    
     public FAQ(int code, string quest, string ans)
     {
         ProdCode = code;
@@ -94,9 +112,18 @@ public class FAQ
         SqlParameter parQuestion = new SqlParameter("@question", Question);
         SqlParameter parQuestioner = new SqlParameter("@questioner", Questioner.UserId);
         DbService db = new DbService();
-        return db.ExecuteQuery(strSql, CommandType.Text, parCode, parQuestion, parQuestioner);
+        return db.ExecuteQuery(strSql, CommandType.Text, parCode, parQuestion, parQuestioner);   
+    }
 
-        
+    public int AddAnswer()
+    {
+        string strSql = @"UPDATE [dbo].[product_FAQ]
+                         SET [answer] = @ans
+                         WHERE [question_code] = @questCode";
+        SqlParameter parCode = new SqlParameter("@questCode", QuestionCode);
+        SqlParameter parAnswer = new SqlParameter("@ans", Answer);
+        DbService db = new DbService();
+        return db.ExecuteQuery(strSql, CommandType.Text, parCode, parAnswer);   
     }
 
 }
