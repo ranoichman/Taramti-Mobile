@@ -20,7 +20,7 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
     <!--///////////////////////////////////////Push Plugin /////////////-->
-  <gap:plugin name="phonegap-plugin-push" source="npm" spec="1.7.2">
+  <gap:plugin name="phonegap-plugin-push" source="npm" spec="1.4.5">
     <param name="SENDER_ID" value="336880743356" />
   </gap:plugin>
     <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
