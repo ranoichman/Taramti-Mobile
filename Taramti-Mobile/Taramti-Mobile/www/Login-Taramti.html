@@ -25,55 +25,113 @@
         const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
 
+        var SENDER_ID = "336880743356";
+
         document.addEventListener("deviceready", onCordovaReady, false);
 
+
+
         function onCordovaReady() {
-           
-                /// רישום פוש
-                alert("לפני אינישילייז");
-                var push = PushNotification.init({
-                    "android": {
-                        "senderID": "336880743356"
-                    },
-                    "ios": {
-                        "alert": "true",
-                        "badge": "true",
-                        "sound": "true",
-                        "senderID": "336880743356",
-                        "gcmSandbox": true
-                    },
-                    "windows": {}
+
+            alert("ready");
+            var push = PushNotification.init({
+                "android": {
+                    "senderID": SENDER_ID
+                },
+                "ios": {
+                    "alert": "true",
+                    "badge": "true",
+                    "sound": "true",
+                    "senderID": SENDER_ID,
+                    "gcmSandbox": true
+                },
+                "windows": {}
+            });
+            alert("אחרי אינישיאלייז");
+
+            push.on('registration', function (data) {
+                alert("Reg");
+                notification_id = data.registrationId;
+
+                if (IsIphone()) {
+                    user_platform = "ios";
+                }
+                else {
+                    user_platform = "android";
+                }
+            });
+
+            push.on('notification', function (data) {
+                console.log("notification event");
+
+                if (data.additionalData.foreground && data.additionalData.sender != localStorage.user_name) {
+
+                    addMessageToChat(data.additionalData.sender, data.message);
+                }
+                else {
+
+                }
+
+
+                push.finish(function () {
+                    console.log('finish successfully called');
                 });
+            });
 
-            alert("אחרי אינישילייז");
-            push.on('registration', function (res) {
-
-                alert("אני בפנייי");
-                //res.registrationId;   // hold   device number in GCM
-                //res.platform;
-                alert(res.registrationId + "   ");// + res.platform);
-                //here we will make ajax call to our server for
-                // storing the registrationId in DB.
-                // we will add to the call:
-                // user platform (ios, android etc..) and more data
-                //for further use
-
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "SavePushInfo",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                    data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: res.platform }),
-                    success: function (data) {
-
-                        var isUser = JSON.parse(data.d);
-                    },
-                    error: function (err) { }
-                });
-
+            push.on('error', function (e) {
+                console.log("push error");
             });
         }
+
+        //document.addEventListener("deviceready", onCordovaReady, false);
+
+        //function onCordovaReady() {
+           
+        //        /// רישום פוש
+        //        alert("לפני אינישילייז");
+        //        var push = PushNotification.init({
+        //            "android": {
+        //                "senderID": "336880743356"
+        //            },
+        //            "ios": {
+        //                "alert": "true",
+        //                "badge": "true",
+        //                "sound": "true",
+        //                "senderID": "336880743356",
+        //                "gcmSandbox": true
+        //            },
+        //            "windows": {}
+        //        });
+
+        //    alert("אחרי אינישילייז");
+        //    push.on('registration', function (res) {
+
+        //        alert("אני בפנייי");
+        //        //res.registrationId;   // hold   device number in GCM
+        //        //res.platform;
+        //        alert(res.registrationId + "   ");// + res.platform);
+        //        //here we will make ajax call to our server for
+        //        // storing the registrationId in DB.
+        //        // we will add to the call:
+        //        // user platform (ios, android etc..) and more data
+        //        //for further use
+
+        //        $.ajax({
+        //            dataType: "json",
+        //            url: generic + "SavePushInfo",
+        //            contentType: "application/json; charset=utf-8",
+        //            type: "POST",
+        //            //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+        //            data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: res.platform }),
+        //            success: function (data) {
+
+        //                var isUser = JSON.parse(data.d);
+        //            },
+        //            error: function (err) { }
+        //        });
+
+        //    });
+        //}
 
 
 
