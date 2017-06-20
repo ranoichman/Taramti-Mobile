@@ -28,7 +28,7 @@
         document.addEventListener("deviceready", onCordovaReady, false);
 
         function onCordovaReady() {
-            try {
+           
                 /// רישום פוש
                 alert("לפני אינישילייז");
                 var push = PushNotification.init({
@@ -43,16 +43,13 @@
                         "gcmSandbox": true
                     },
                     "windows": {}
-                })
-            } catch (e) {
-                alert(e.message);
-                alert("עד מתי ");
-            }
+                });
 
             alert("אחרי אינישילייז");
             push.on('registration', function (res) {
 
-                res.registrationId;   // hold   device number in GCM
+                alert("אני בפנייי");
+                //res.registrationId;   // hold   device number in GCM
                 //res.platform;
                 alert(res.registrationId + "   ");// + res.platform);
                 //here we will make ajax call to our server for
