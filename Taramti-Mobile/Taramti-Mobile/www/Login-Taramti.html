@@ -25,11 +25,6 @@
         const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
 
-        if (localStorage.user_name) {
-            location.href = "#sendPush";
-        }
-
-
         var user_platform;
         var notification_id;
         var SENDER_ID = "336880743356";
@@ -40,6 +35,7 @@
 
         function onCordovaReady() {
 
+            alert("Redy");
             var push = PushNotification.init({
                 "android": {
                     "senderID": SENDER_ID
@@ -54,7 +50,9 @@
                 "windows": {}
             });
 
+            alert("אחרי");
             push.on('registration', function (data) {
+                alert(data.registrationId);
                 notification_id = data.registrationId;
 
                 if (IsIphone()) {
