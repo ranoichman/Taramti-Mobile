@@ -25,6 +25,7 @@
 
     <script>
         const generic = GENERAL.auctionWebServerAddress;
+        const gen = GENERAL.genericWebServerAddress;
     </script>
 
     <script>
@@ -204,8 +205,23 @@
                 error: function (err) { }
             });
         }
+        
+        function addToPush() {
+                    $.ajax({
+                        dataType: "json",
+                        url: gen + "SavePushInfo",
+                        contentType: "application/json; charset=utf-8",
+                        type: "POST",
+                        //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+                        data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
+                        success: function (data) {
 
-       
+                            var isUser = JSON.parse(data.d);
+                        },
+                        error: function (err) { }
+                    });
+
+        }
 
 
     </script>
@@ -221,6 +237,7 @@
     <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
     <input type="button" onclick="insertsearch()" value="insertsearch" />
     <input type="button" onclick="addQuestion()" value="add Question" />
+    <input type="button" onclick="addToPush()" value="add Bush" />
 
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 

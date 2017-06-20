@@ -63,7 +63,7 @@ public class Push
         //
     }
 
-    public Push(string userId, string platform, string deviceString)
+    public Push(string userId, string deviceString, string platform)
     {
         this.UserId = userId;
         this.Platform = platform;
