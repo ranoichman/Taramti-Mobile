@@ -36,19 +36,24 @@
         function onCordovaReady() {
 
             alert("Redy");
-            var push = PushNotification.init({
-                "android": {
-                    "senderID": SENDER_ID
-                },
-                "ios": {
-                    "alert": "true",
-                    "badge": "true",
-                    "sound": "true",
-                    "senderID": SENDER_ID,
-                    "gcmSandbox": true
-                },
-                "windows": {}
-            });
+            try {
+                var push = PushNotification.init({
+                    "android": {
+                        "senderID": SENDER_ID
+                    },
+                    "ios": {
+                        "alert": "true",
+                        "badge": "true",
+                        "sound": "true",
+                        "senderID": SENDER_ID,
+                        "gcmSandbox": true
+                    },
+                    "windows": {}
+                });
+            } catch (e) {
+                alert(e.message);
+            }
+         
 
             alert("אחרי");
             push.on('registration', function (data) {
