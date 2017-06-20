@@ -19,7 +19,10 @@
     <preference name="phonegap-version" value="3.7.0" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> e3d8e215daddfc3dd048ded6b08568d5d68c106f
     <gap:plugin name="phonegap-plugin-push" source="npm" spec="1.8.4">
         <param name="SENDER_ID" value="336880743356" />
     </gap:plugin>
