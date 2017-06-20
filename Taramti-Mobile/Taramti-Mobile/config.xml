@@ -40,7 +40,7 @@
     <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.0" />
     <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
   <!--///////////////////////////////////////Push Plugin /////////////-->
-  <gap:plugin name="phonegap-plugin-push" source="npm" spec="1.7.2">
+  <gap:plugin name="phonegap-plugin-push" source="npm" spec="1.9.2">
     <param name="SENDER_ID" value="336880743356" />
   </gap:plugin>
   <!--<plugin name="phonegap-plugin-push" version="1.7.4" src="https://github.com/phonegap/phonegap-plugin-push.git" spec="1.7.4">
