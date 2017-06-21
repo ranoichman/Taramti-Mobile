@@ -58,12 +58,13 @@
             push.on('registration', function (data) {
                 //alert(data.registrationId);
                 notification_id = data.registrationId;
-
+                alert(notification_id);
                 if (IsIphone()) {
                     user_platform = "ios";
                 }
                 else {
                     user_platform = "android";
+                    alert(user_platform);
                 }
                 //alert("regID ===" + notification_id)
                 //alert("platforma ===" + user_platform)
