@@ -50,39 +50,41 @@
                     },
                     "windows": {}
                 });
+
+                push.on('registration', function (data) {
+                    //alert(data.registrationId);
+                    notification_id = data.registrationId;
+                    alert(notification_id);
+                    if (IsIphone()) {
+                        user_platform = "ios";
+                    }
+                    else {
+                        user_platform = "android";
+                        alert(user_platform);
+                    }
+                    //alert("regID ===" + notification_id)
+                    //alert("platforma ===" + user_platform)
+                    //$.ajax({
+                    //    dataType: "json",
+                    //    url: webServerAddress + "SavePushInfo",
+                    //    contentType: "application/json; charset=utf-8",
+                    //    type: "POST",
+                    //    //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+                    //    //data: JSON.stringify({ userId: "302921481", deviceString': notification_id, platform: user_platform }),
+                    //    data: JSON.stringify({ userId: "302921481", deviceString: notification_id, platform: user_platform }),
+                    //    success: function (data) {
+
+                    //        var isUser = JSON.parse(data.d);
+                    //    },
+                    //    error: function (err) { }
+                    //});
+                });
             } catch (e) {
                 alert(e.message);
             }
 
             alert("אחרי");
-            push.on('registration', function (data) {
-                //alert(data.registrationId);
-                notification_id = data.registrationId;
-                alert(notification_id);
-                if (IsIphone()) {
-                    user_platform = "ios";
-                }
-                else {
-                    user_platform = "android";
-                    alert(user_platform);
-                }
-                //alert("regID ===" + notification_id)
-                //alert("platforma ===" + user_platform)
-                //$.ajax({
-                //    dataType: "json",
-                //    url: webServerAddress + "SavePushInfo",
-                //    contentType: "application/json; charset=utf-8",
-                //    type: "POST",
-                //    //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                //    //data: JSON.stringify({ userId: "302921481", deviceString': notification_id, platform: user_platform }),
-                //    data: JSON.stringify({ userId: "302921481", deviceString: notification_id, platform: user_platform }),
-                //    success: function (data) {
-
-                //        var isUser = JSON.parse(data.d);
-                //    },
-                //    error: function (err) { }
-                //});
-            });
+          
 
             push.on('notification', function (data) {
                 console.log("notification event");
