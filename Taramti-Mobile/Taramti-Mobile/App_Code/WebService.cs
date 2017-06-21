@@ -203,12 +203,15 @@ public class WebService : System.Web.Services.WebService
         return j.Serialize(temp.CheckLogin());
     }
 
-    [WebMethod]
-    public string GetUserID(string mail, string pass)
+    [WebMethod (Description = "הפונקציה מחזירה את תז של המשתמש. בנוסף - תזין את פרטי המכשיר לצורך פוש ")]
+    public string GetUserID(string mail, string pass, string device, string platform)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT(mail, pass);
-        return j.Serialize(temp.GetuserID());
+        //return j.Serialize(temp.GetuserID());
+        int UserId = temp.GetuserID();
+        SavePushInfo(UserId.ToString(),device,platform);
+        return j.Serialize(UserId);
     }
 
     //[WebMethod(Description = "בדיקה אם פרטי המשתמש נכונים ואיפוס סיסמה")]
