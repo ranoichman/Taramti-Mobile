@@ -1,5 +1,6 @@
 //import $ from 'jquery';
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group'
 import Swipeable from 'react-swipeable';
 
 class Pic extends Component {
@@ -7,6 +8,7 @@ class Pic extends Component {
         super();
         this.state = {
             index: 0,
+            animationDirection: "left"
         };
         this.imgSwipeLeft = this.imgSwipeLeft.bind(this);
         this.imgSwipeRight = this.imgSwipeRight.bind(this);
@@ -28,10 +30,21 @@ class Pic extends Component {
     }
 
     render() {
-        return (
-                <Swipeable ref="swipeIMG" onSwipedLeft={this.imgSwipeLeft} onSwipedRight={this.imgSwipeRight} >
-                    <img ref="disIMG" src={this.props.imagesArr[this.state.index]} />
+return(
+
+    // <Swipeable ref="swipeIMG" onSwipedLeft={this.imgSwipeLeft} onSwipedRight={this.imgSwipeRight} >
+    //                 <img ref="disIMG" src={this.props.imagesArr[this.state.index]} />
+    //             </Swipeable>
+
+            <CSSTransitionGroup
+                transitionName="slideLeft"
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={500}>
+                <Swipeable key={0} className={this.state.animationDirection} onSwipedLeft={this.imgSwipeLeft} onSwipedRight={this.imgSwipeRight} >
+                    <img className={this.state.animationDirection} src={this.props.imagesArr[this.state.index]} />
                 </Swipeable>
+            </CSSTransitionGroup> 
+                
         );
     }
 }

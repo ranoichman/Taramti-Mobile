@@ -54,7 +54,10 @@ class ActiveAuctions extends Component {
     render() {
 
         return (
-            <div>
+           <CSSTransitionGroup
+                        transitionName="slideRight"
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={500}>
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                         {/*header*/}
@@ -70,7 +73,7 @@ class ActiveAuctions extends Component {
                             <Auction key={0} index={0}
                                 // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
                                 home="true" imgArr={this.state.imgArr} prodName={"דמחמחכמה"} prodDesc={" כ יחכ יחכח כיחיחג חיג חי יחגכ חיגכחי יחיג יגכ ג דמהיחהכ"}
-                                price={500} endDate={"7/7/2017"} code={4}
+                                price={500} endDate={"7/7/2017"} code={38}
                                 percentage={20} prodCode={4} />
                         </TabPanel>
 
@@ -80,7 +83,7 @@ class ActiveAuctions extends Component {
                             <Auction key={1} index={1}
                                 // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
                                 home="true" imgArr={this.state.imgArr} prodName={"dnjvnhjsbv h fs "} prodDesc={" djs jh kjs jk hj  ah hgdaj jk kjsk kjdjk djk hj hjad jd ahjad hj "}
-                                price={500} endDate={"7/7/2017"} code={4}
+                                price={500} endDate={"7/7/2017"} code={49}
                                 percentage={20} prodCode={4} />
                         </TabPanel>
 
@@ -91,7 +94,7 @@ class ActiveAuctions extends Component {
 
                     </Tabs>
                 </Swipeable>
-            </div>
+            </CSSTransitionGroup>
         );
     }
 }
