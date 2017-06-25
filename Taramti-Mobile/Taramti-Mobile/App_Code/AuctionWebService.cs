@@ -30,13 +30,13 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "מתודה להבאת מכרזים על פי פרמטרים")]
-    public string GetAuctionByParam(int[] cities, int lowPrice, int highPrice, int catCode)
+    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode, int id, double lat, double lng, int radius)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        return j.Serialize(Reg_Auction.GetAuctionsByParam(cities, lowPrice, highPrice, catCode));
+        return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, id, lat, lng, radius));
     }
 
-    [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר אוקשן")]
+    [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר מכרז")]
     public string GetAuctionPrice(int auctionCode)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -123,7 +123,7 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(NewItem.AddPictures());
     }
 
-    [WebMethod]
+    [WebMethod(Description ="get all auction details by code")]
     public string GetAuctionByCode(Reg_Auction auc)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -132,4 +132,37 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(auc);
     }
 
+    [WebMethod(Description ="get all questions for product by product code")]
+    public string GetAllQuestions(Item prod)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        prod.GetAllQuestions();
+        return j.Serialize(prod.Questions);
+    }
+
+    [WebMethod(Description = "add question to DB")]
+    public string AddQuestion(FAQ quest)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        
+        return j.Serialize(quest.AddQuestion().ToString());
+    }
+
+    [WebMethod(Description = "add answer of question to DB")]
+    public string AddAnswer(FAQ quest)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(quest.AddAnswer().ToString());
+    }
+
+
+
+
+
+    //[WebMethod]
+    //public void testsearch()
+    //{
+    //    JavaScriptSerializer j = new JavaScriptSerializer();
+    //    Reg_Auction.AddNewSearch(302921481, 32.2262262, 36.3562, 10, 100, 500, 4);
+    //}
 }

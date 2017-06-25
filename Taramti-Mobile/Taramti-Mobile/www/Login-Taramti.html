@@ -8,8 +8,6 @@
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
-    <script src="cordova.js"></script>
-
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
@@ -20,17 +18,25 @@
     <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
+    <script src="cordova.js"></script>
 
     <script>
         const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
+        //const SENDER_ID = GENERAL.GOOGLE.SENDER_ID;
+        //alert("sender-------  " + SENDER_ID);
+        var SENDER_ID = "336880743356";
+        var user_platform;
+        var notification_id;
+        //var SENDER_ID = "336880743356";
+        //var webServerAddress = "../";
+        var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
 
         $(document).ready(function () {
-
             $("#Loginbtn").on("tap", function () {
                 var mail = $("#UserMail").val();
                 var pass = $("#UserPass").val();
-
+                alert("ready - doc");
 
                 $.ajax({
                     dataType: "json",
@@ -48,23 +54,21 @@
                                 location.href = "Login-Taramti.html#RestorePassPage";
                             }
                             else {
-
                                 $.ajax({
                                     dataType: "json",
                                     url: generic + "GetUserID",
                                     contentType: "application/json; charset=utf-8",
                                     type: "POST",
-                                    data: JSON.stringify({ mail: mail, pass: pass}),
+                                    data: JSON.stringify({ mail: mail, pass: pass, device: notification_id, platform: user_platform }),
                                     success: function (data) {
 
                                         var UserId = JSON.parse(data.d);
                                         localStorage.setItem("UserID", UserId);
-
                                         location.href = "app.html";
                                     },
                                     error: function (err) { }
                                 });
-                  
+
                                 //location.href = "app.html";
                             }
                         }
@@ -75,19 +79,280 @@
                     },
                     error: function (err) { }
                 });
-
             }
+
+
             )
         });
 
-   </script>
+        // קריאת נתונים לצורך הודעות פוש בהמשך
+        document.addEventListener("deviceready", onCordovaReady, false);
+        function onCordovaReady() {
+
+            //alert("Redy");
+            try {
+                var push = PushNotification.init({
+                    "android": {
+                        "senderID": SENDER_ID
+                    },
+                    "ios": {
+                        "alert": "true",
+                        "badge": "true",
+                        "sound": "true",
+                        "senderID": SENDER_ID,
+                        "gcmSandbox": true
+                    },
+                    "windows": {}
+                });
+
+                push.on('registration', function (data) {
+                    //alert(data.registrationId);
+                    notification_id = data.registrationId;
+                    //alert(notification_id);
+                    if (IsIphone()) {
+                        user_platform = "ios";
+                    }
+                    else {
+                        user_platform = "android";
+                    }
+                    //alert(user_platform);
+                    //alert("regID ===" + notification_id)
+                    //alert("platforma ===" + user_platform)
+                    //$.ajax({
+                    //    dataType: "json",
+                    //    url: webServerAddress + "SavePushInfo",
+                    //    contentType: "application/json; charset=utf-8",
+                    //    type: "POST",
+                    //    //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+                    //    //data: JSON.stringify({ userId: "302921481", deviceString': notification_id, platform: user_platform }),
+                    //    data: JSON.stringify({ userId: "302921481", deviceString: notification_id, platform: user_platform }),
+                    //    success: function (data) {
+
+                    //        var isUser = JSON.parse(data.d);
+                    //    },
+                    //    error: function (err) { }
+                    //});
+                });
+            } catch (e) {
+                alert(e.message);
+            }
+
+            //alert("אחרי");
+
+
+            push.on('notification', function (data) {
+                console.log("notification event");
+
+                if (data.additionalData.foreground && data.additionalData.sender != localStorage.user_name) {
+
+                    addMessageToChat(data.additionalData.sender, data.message);
+                }
+                else {
+
+                }
+
+                push.finish(function () {
+                    console.log('finish successfully called');
+                });
+            });
+
+            push.on('error', function (e) {
+                alert("error----" + e.message)
+                console.log("push error");
+            });
+        }
+
+        function IsIphone() {
+            var userAgent = navigator.userAgent;
+
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return true;
+            }
+            else {
+
+                return false;
+            }
+        }
+
+        function sendMsg() {
+            if ($("#msg").val() == "") {
+                return;
+            }
+
+            $.ajax({
+
+                type: "POST",
+                url: webServerAddress + "NotificationCenter.asmx/SendMessage",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ user_name: localStorage.user_name, msg: $("#msg").val() }),
+                dataType: "json",
+                success: function (data) {
+
+
+                },
+                error: function () {
+
+                }
+
+            })
+
+            addMessageToChat(localStorage.user_name, $("#msg").val());
+            $("#msg").val('');
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        function register() {
+            alert("regID ===" + notification_id)
+            alert("platforma ===" + user_platform)
+            $.ajax({
+                dataType: "json",
+                url: webServerAddress + "SavePushInfo",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+                //data: JSON.stringify({ userId: "302921481", deviceString': notification_id, platform: user_platform }),
+                data: JSON.stringify({ userId: "302921481", deviceString: notification_id, platform: user_platform }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+            //$.ajax({
+            //    type: "POST",
+            //    url: webServerAddress + "SavePushInfo",
+            //    contentType: "application/json; charset=utf-8",
+            //    data: JSON.stringify({ userId: "302921481", deviceString: "shmegeg", platform: "shmok" }),
+            //    dataType: "json",
+            //    success: function (data) {
+            //        alert("יששששששששששששששש");
+            //        localStorage.user_name = $("#user_name").val();
+            //        location.href = "#sendPush"
+            //    },
+            //    error: function () {
+            //        //alert("error");
+            //    }
+            //});
+
+            //var SENDER_ID = "336880743356";
+
+            //document.addEventListener("deviceready", onCordovaReady, false);
+
+
+
+            //function onCordovaReady() {
+
+            //    alert("ready");
+            //    var push = PushNotification.init({
+            //        "android": {
+            //            "senderID": SENDER_ID
+            //        },
+            //        "ios": {
+            //            "alert": "true",
+            //            "badge": "true",
+            //            "sound": "true",
+            //            "senderID": SENDER_ID,
+            //            "gcmSandbox": true
+            //        },
+            //        "windows": {}
+            //    });
+            //    alert("אחרי אינישיאלייז");
+
+            //    push.on('registration', function (data) {
+            //        alert("Reg");
+            //        notification_id = data.registrationId;
+
+            //        if (IsIphone()) {
+            //            user_platform = "ios";
+            //        }
+            //        else {
+            //            user_platform = "android";
+            //        }
+            //    });
+
+            //    push.on('notification', function (data) {
+            //        console.log("notification event");
+
+            //        if (data.additionalData.foreground && data.additionalData.sender != localStorage.user_name) {
+
+            //            addMessageToChat(data.additionalData.sender, data.message);
+            //        }
+            //        else {
+
+            //        }
+
+
+            //        push.finish(function () {
+            //            console.log('finish successfully called');
+            //        });
+            //    });
+
+            //    push.on('error', function (e) {
+            //        console.log("push error");
+            //    });
+            //}
+
+            //document.addEventListener("deviceready", onCordovaReady, false);
+
+            //function onCordovaReady() {
+
+            //        /// רישום פוש
+            //        alert("לפני אינישילייז");
+            //        var push = PushNotification.init({
+            //            "android": {
+            //                "senderID": "336880743356"
+            //            },
+            //            "ios": {
+            //                "alert": "true",
+            //                "badge": "true",
+            //                "sound": "true",
+            //                "senderID": "336880743356",
+            //                "gcmSandbox": true
+            //            },
+            //            "windows": {}
+            //        });
+
+            //    alert("אחרי אינישילייז");
+            //    push.on('registration', function (res) {
+
+            //        alert("אני בפנייי");
+            //        //res.registrationId;   // hold   device number in GCM
+            //        //res.platform;
+            //        alert(res.registrationId + "   ");// + res.platform);
+            //        //here we will make ajax call to our server for
+            //        // storing the registrationId in DB.
+            //        // we will add to the call:
+            //        // user platform (ios, android etc..) and more data
+            //        //for further use
+
+            //        $.ajax({
+            //            dataType: "json",
+            //            url: generic + "SavePushInfo",
+            //            contentType: "application/json; charset=utf-8",
+            //            type: "POST",
+            //            //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+            //            data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: res.platform }),
+            //            success: function (data) {
+
+            //                var isUser = JSON.parse(data.d);
+            //            },
+            //            error: function (err) { }
+            //        });
+
+            //    });
+            //}
+
+
+
+
+
+        }
+    </script>
 
     <script>
-
         function ConRegister() {
 
             location.href = "Login-Taramti.html#CompleteRegisterPage";
-
         };
 
         /// <summary>וידוא כל השדות</summary>
@@ -99,7 +364,7 @@
             var mail = $("#Usermail").val();
             var pass = $("#UserPass").val();
             var pass2 = $("#UserPass2").val();
-            alert(id + " " + first + " " + last + " " + mail + " " + pass + " " + pass2 + " ");
+            //alert(id + " " + first + " " + last + " " + mail + " " + pass + " " + pass2 + " ");
             if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
                 $.ajax({
                     dataType: "json",
@@ -134,27 +399,27 @@
             var num = $("#UserHomeNum").val();
 
             if (city != -1) {
-            $.ajax({
-                dataType: "json",
-                url: generic + "AddUserAllInfo",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
-                success: function (data) {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "AddUserAllInfo",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
+                    success: function (data) {
 
-                    var isUser = JSON.parse(data.d);
+                        var isUser = JSON.parse(data.d);
 
-                    if (isUser == true) {
-                        alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
-                    }
-                    else {
-                        alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
-                    }
-                    location.href = "Login-Taramti.html#LoginPage";
-                },
-                error: function (err) { }
-            });
-        }
+                        if (isUser == true) {
+                            alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
+                        }
+                        else {
+                            alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
+                        }
+                        location.href = "Login-Taramti.html#LoginPage";
+                    },
+                    error: function (err) { }
+                });
+            }
             else {
                 alert("אנא בחר עיר מגורים");
             }
@@ -269,7 +534,6 @@
         </div>
     </div>
 
-
     <!--דף שכחתי סיסמה-->
     <div data-role="page" id="ForgotPassPage">
         <div id="UpperLogo"><img id="TaramtiLogoLogin" src="img/Taramti-LOGO.JPG" /></div>
@@ -280,7 +544,7 @@
             <input type="text" id="UserMailForgot" />
             <h4>הזן תעודת זהות: </h4>
             <input type="number" id="UserId" />
-            
+
 
             <input type="button" id="ForgotBtn" value="שלח לי מייל!" onclick="SendMailPass()" />
             <h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
@@ -379,7 +643,7 @@
             <input type="password" id="UserPass2" />
 
             <input type="button" id="RegisterBtn" value="הרשם" onclick="RegisterUser()" />
-            <h5 class="styleLinkH"><a class="styleLink"a href="#LoginPage"> חזור לדף התחברות</a></h5>
+            <h5 class="styleLinkH"><a class="styleLink" a href="#LoginPage"> חזור לדף התחברות</a></h5>
         </div>
     </div>
 </body>

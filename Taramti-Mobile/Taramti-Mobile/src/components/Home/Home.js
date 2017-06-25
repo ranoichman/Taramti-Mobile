@@ -13,14 +13,14 @@ import Search from './Search';
 //import '../css/jqmCss.css';
 //import '../../www/css/StyleSheet.css';
 
-const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+import { auctionWS, buyerID } from '../../constants/general';
 
 class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
             searchModalIsOpen: false,
-            auctionsArr:[]
+            auctionsArr: []
         }
         this.openSearchModal = this.openSearchModal.bind(this);
         this.closeSearchModal = this.closeSearchModal.bind(this);
@@ -31,11 +31,12 @@ class Home extends Component {
         this.offerBid = this.offerBid.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
         this.moveToAddAuction = this.moveToAddAuction.bind(this);
+        this.getDistance = this.getDistance.bind(this);
     }
 
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams([], -1, -1, 0); //initial data will come from 
+        this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
     }
 
     openSearchModal() {
@@ -46,38 +47,99 @@ class Home extends Component {
         this.setState({ searchModalIsOpen: false })
     }
 
-    searchTriggered(cities, lowPrice, highPrice, catCode) {
+    searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
         //console.log(`entered search on ----- ${Date.now()}`)
         this.setState({ auctionsArr: [] });
-        this.getAuctionsByParams(cities, lowPrice, highPrice, catCode);
+        this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
     }
 
     //call function to get auctions from serveer
-    getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
+    getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
         const self = this;
+        console.log(`buyerrrrrr ------- ${buyerID}`)
+        const id = parseInt(buyerID);
         this.setState({ searchModalIsOpen: false });
         axios.post(auctionWS + 'GetAuctionByParam', {
-            cities: cities,
             lowPrice: lowPrice,
             highPrice: highPrice,
-            catCode: catCode
+            catCode: catCode,
+            id: id,
+            lat: lat,
+            lng: lng,
+            radius: radius
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
-            res.map(self.addAuction);
+            //if no radius selected >>> add auction
+            if (radius === 0) {
+                res.map(self.addAuction);
+            } else { //add only auctions withing specified range
+                for (let k in res) {
+
+                    let mygc = new google.maps.Geocoder();
+                    let locationOrigem;
+                    let locationDestino;
+                    let latOrigem = 0;
+                    let longOrigem = 0;
+                    let latDestino = 0;
+                    let longDestino = 0;
+
+                    mygc.geocode({ 'address': res[k].Location.CityName }, function (results, status) {
+                        console.log(`${k} -- city______ : ${res[k].Location.CityName}`)
+                        locationOrigem = results[0].geometry.location;
+                        latOrigem = results[0].geometry.location.lat();
+                        longOrigem = results[0].geometry.location.lng();
+                        mygc.geocode({}, function (results, status) {
+                            locationDestino = new google.maps.LatLng(lat, lng);
+                            //locationDestino = new google.maps.LatLng(32.313367, 34.945139);
+                            let dist = google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino)
+                            console.log(`${k} -- dist : ${dist}`)
+                            if (dist<=radius){
+                                self.addAuction(res[k])
+                            };
+                        });
+                    });
+                }
+            }
+
         })
             .catch(function (error) {
+                console.log('shgiaaaaaaa')
                 console.log(error);
             });
     }
 
+    getDistance(item, lat, lng) {
+        let mygc = new google.maps.Geocoder();
+        let locationOrigem;
+        let locationDestino;
+        let latOrigem = 0;
+        let longOrigem = 0;
+        let latDestino = 0;
+        let longDestino = 0;
+
+        mygc.geocode({ 'address': city }, function (results, status) {
+            locationOrigem = results[0].geometry.location;
+            latOrigem = results[0].geometry.location.lat();
+            longOrigem = results[0].geometry.location.lng();
+            mygc.geocode({}, function (results, status) {
+                locationDestino = new google.maps.LatLng(lat, lng);
+                // alert(latDestino + " " + longDestino);
+                console.log(locationOrigem);
+                console.log(locationDestino);
+                return (google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
+            });
+        });
+    }
+
     //add auction from server to array
-    addAuction(item, i) {
+    addAuction(item) {
         let arr = this.state.auctionsArr;
         let newAuction = {
             code: item.AuctionID,
             endDate: item.End_Date,
             price: item.Price,
             percentage: item.Percentage,
+            prodCode: item.ItemCode,
             prodName: item.ProdName,
             prodDesc: item.ProdDesc,
             imgArr: item.Images,
@@ -92,7 +154,7 @@ class Home extends Component {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid}
             home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc}
             price={item.price} endDate={item.endDate} code={item.code}
-            percentage={item.percentage} />
+            percentage={item.percentage} prodCode={item.prodCode} />
     }
 
     //remove finished auction from displayed array

@@ -20,6 +20,7 @@ public class Item
     Item_Category item_Category;
     string[] pictures;
     string price;
+    List<FAQ> questions;
 
     //props
     #region
@@ -139,42 +140,63 @@ public class Item
             price = value;
         }
     }
+
+    public List<FAQ> Questions
+    {
+        get
+        {
+            return questions;
+        }
+
+        set
+        {
+            questions = value;
+        }
+    }
     #endregion
 
     //ctor
     public Item()
     {
-
+        Questions = new List<FAQ>();
     }
 
     public Item(string itemName, string itemDesc)
     {
-        this.itemName = itemName;
-        this.itemDesc = itemDesc;
+        ItemName = itemName;
+        ItemDesc = itemDesc;
+        Questions = new List<FAQ>();
     }
 
     //methods
     #region
-    public void ShowItemImgs()
+
+    public void GetAllQuestions()
     {
-        throw new System.Exception("Not implemented");
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        List<Item_Category> allCat = new List<Item_Category>();
+        string StrSql = @"SELECT        dbo.product_FAQ.*
+                        FROM            dbo.product_FAQ
+                        WHERE        (product_code = @prodID)";
+        SqlParameter parID = new SqlParameter("@prodID", ItemId);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parID);
+
+        if (DS.Tables.Count > 0)
+        {
+            foreach (DataRow row in DS.Tables[0].Rows)
+            {
+                int questCode = row["question_code"] != null ? int.Parse(row["question"].ToString()) : -1; 
+                string quest = row["question"] != null ? row["question"].ToString() : "";
+                string ans = row["answer"] != null ? row["answer"].ToString() : "";
+                FAQ question = new FAQ(ItemId, questCode, quest, ans);
+                Questions.Add(question);
+            }
+        }
+
     }
-    public void ShowItemCategories()
-    {
-        throw new System.Exception("Not implemented");
-    }
-    public void ShowItemDetails()
-    {
-        throw new System.Exception("Not implemented");
-    }
-    public void GetActiveItems()
-    {
-        throw new System.Exception("Not implemented");
-    }
-    public void GetItemDetails()
-    {
-        throw new System.Exception("Not implemented");
-    }
+
+   
 
     public bool AddPictures()
     {
@@ -211,7 +233,7 @@ public class Item
      VALUES
            (@ProductDesc, @ProductCatCode, @ProductCity, @ProductSeller, @ProductName,@Price)";
 
-            DbService db = new DbService();
+        DbService db = new DbService();
         SqlParameter parProdDesc = new SqlParameter("@ProductDesc", ItemDesc);
         SqlParameter parProdCatCode = new SqlParameter("@ProductCatCode", Item_Categories.Cat_id);
         SqlParameter parProdCity = new SqlParameter("@ProductCity", Location.CityCode);
@@ -220,14 +242,34 @@ public class Item
         SqlParameter parPrice = new SqlParameter("@Price", int.Parse(Price) * 1.2);
 
         if (db.ExecuteQuery(sqlInsert, CommandType.Text, parProdDesc, parProdCatCode, parProdCity, parProdSeller, parProdName, parPrice) == 0)
-            {
-                return false;
-            }
+        {
+            return false;
+        }
         return true;
     }
 
+    public void ShowItemImgs()
+    {
+        throw new System.Exception("Not implemented");
+    }
+    public void ShowItemCategories()
+    {
+        throw new System.Exception("Not implemented");
+    }
+    public void ShowItemDetails()
+    {
+        throw new System.Exception("Not implemented");
+    }
+    public void GetActiveItems()
+    {
+        throw new System.Exception("Not implemented");
+    }
+    public void GetItemDetails()
+    {
+        throw new System.Exception("Not implemented");
+    }
 }
 
-    #endregion
+#endregion
 
 
