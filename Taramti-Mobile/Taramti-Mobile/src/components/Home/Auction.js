@@ -39,6 +39,7 @@ class Auction extends Component {
 
     componentDidMount() {
         this.loadInterval = setInterval(this.getCurPrice, 5000);
+        console.log(this)
     }
 
     componentWillUnmount() {
@@ -84,7 +85,7 @@ class Auction extends Component {
             <div className="row">
                 <div className="col-xs-6 imgContainer">
                    
-                        <PriceTag key={this.key} price={this.state.price} />
+                        <PriceTag key={`.$${this.props.index}`} index={this.props.index} price={this.state.price} />
 
                     <CSSTransitionGroup
                         transitionName="slide"

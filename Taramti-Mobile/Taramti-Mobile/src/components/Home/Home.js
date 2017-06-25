@@ -205,11 +205,7 @@ class Home extends Component {
                 </Swipeable>
 
                 {/*auctions display*/}
-                {/*<CSSTransitionGroup transitionName="animate"
-                transitionEnterTimeout={400}
-                transitionLeaveTimeout={400}
-                >*/}
-
+                
                 <div className="container-fluid">
                     <CSSTransitionGroup
                         transitionName="auction"

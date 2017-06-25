@@ -16,11 +16,11 @@ class PriceTag extends Component {
         return (
             <CSSTransitionGroup
                 transitionName="priceTag"
-                transitionAppear={true}
-                transitionAppearTimeout={700}
+                /*transitionAppear={true}
+                transitionAppearTimeout={700}*/
                 transitionEnterTimeout={700}
                 transitionLeaveTimeout={500}>
-                <div className="priceTag" key={this.key}>
+                <div className="priceTag" key={this.props.index}>
                     <h5>{this.state.price}</h5>
                 </div>
             </CSSTransitionGroup>

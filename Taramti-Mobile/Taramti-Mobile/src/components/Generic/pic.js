@@ -2,16 +2,22 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
 import Swipeable from 'react-swipeable';
+import Modal from 'react-modal';
+import Slider from 'react-slick';
+
 
 class Pic extends Component {
     constructor() {
         super();
         this.state = {
             index: 0,
+            carouselModalIsOpen: false,
             animationDirection: "left"
         };
         this.imgSwipeLeft = this.imgSwipeLeft.bind(this);
         this.imgSwipeRight = this.imgSwipeRight.bind(this);
+        this.openCarouselModal = this.openCarouselModal.bind(this);
+        this.closeCarouselModal = this.closeCarouselModal.bind(this);
     }
 
     imgSwipeLeft() {
@@ -29,22 +35,37 @@ class Pic extends Component {
         else { this.setState({ index: i }) }
     }
 
+
+    openCarouselModal() {
+        this.setState({ carouselModalIsOpen: true });
+    }
+
+    closeCarouselModal() {
+        this.setState({ carouselModalIsOpen: false })
+    }
+
     render() {
-return(
+        const settings = {
+            infinite: true,
+            arrows: false,
+            slidesToShow: 1,
+        }
 
-    // <Swipeable ref="swipeIMG" onSwipedLeft={this.imgSwipeLeft} onSwipedRight={this.imgSwipeRight} >
-    //                 <img ref="disIMG" src={this.props.imagesArr[this.state.index]} />
-    //             </Swipeable>
-
-            <CSSTransitionGroup
-                transitionName="slideLeft"
-                transitionEnterTimeout={500}
-                transitionLeaveTimeout={500}>
-                <Swipeable key={0} className={this.state.animationDirection} onSwipedLeft={this.imgSwipeLeft} onSwipedRight={this.imgSwipeRight} >
+        return (
+            <div>
+                <Modal
+                    isOpen={this.state.carouselModalIsOpen}
+                    onRequestClose={this.closeCarouselModal}
+                    contentLabel="open carousel"
+                    className="picBox">
+                    <Slider {...settings}>
+                        {this.props.imagesArr.map((imageUrl, i) => { return <img key={i} src={imageUrl} /> })}
+                    </Slider>
+                </Modal>
+                <Swipeable onTap={this.openCarouselModal}>
                     <img className={this.state.animationDirection} src={this.props.imagesArr[this.state.index]} />
                 </Swipeable>
-            </CSSTransitionGroup> 
-                
+            </div>
         );
     }
 }
