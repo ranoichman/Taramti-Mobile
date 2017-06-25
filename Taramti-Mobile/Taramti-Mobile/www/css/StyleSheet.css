@@ -215,3 +215,16 @@ a.closeBox {
 .styleLinkH {
     text-align:center;
 }
+
+#Loginbtn{
+    width: 100%;
+    font-size: 1.4em;
+
+}
+div.button-1{
+     margin: 0 auto;
+}
+
+#UserMail, #UserPass{
+
+}
