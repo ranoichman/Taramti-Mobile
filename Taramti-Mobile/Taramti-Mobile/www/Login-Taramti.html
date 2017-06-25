@@ -71,7 +71,9 @@
                                         localStorage.setItem("UserID", UserId);
                                         location.href = "app.html";
                                     },
-                                    error: function (err) { }
+                                    error: function (err) {
+                                        alert(err.message);
+                                    }
                                 });
 
                                 //location.href = "app.html";
