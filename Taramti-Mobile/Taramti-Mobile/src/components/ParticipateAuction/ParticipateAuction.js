@@ -15,7 +15,7 @@ import Tetris from '../Tetris';
 
 //constants 
 import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from '../../constants/messages';
-import { auctionWS } from '../../constants/general';
+import { auctionWS, buyerID } from '../../constants/general';
 
 class ParticipateAuction extends Component {
 
@@ -37,8 +37,10 @@ class ParticipateAuction extends Component {
                 price: par.price,
                 endDate: par.props.endDate,
                 percentage: par.props.percentage,
+                prodCode: par.props.prodCode,
                 prodName: par.props.prodName,
                 prodDesc: par.props.prodDesc,
+                finished: false,
                 imgArr: par.props.imgArr
             }
         }
@@ -55,22 +57,7 @@ class ParticipateAuction extends Component {
         this.getCurPrice = this.getCurPrice.bind(this);
     }
 
-
-
     componentDidMount() {
-        // const par = this.props.match.params.end;
-        // console.log(`end!!!! ${par}`);
-        // const aucCode = this.props.match.params.code;
-        // var auc = { AuctionID: aucCode }
-        // const self = this;
-        // //fetch data from server by auction code  
-        // axios.post(auctionWS + 'GetAuctionByCode', {
-        //     auc
-        // }).then(function (response) {
-        //     let res = JSON.parse(response.data.d);
-        //     self.setState({ auc: res });
-        // });
-
         this.calcDonation();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
@@ -84,14 +71,15 @@ class ParticipateAuction extends Component {
     getCurPrice() {
         const self = this;
         axios.post(auctionWS + 'GetAuctionPrice', {
-            auctionCode: self.props.code
+            auctionCode: self.state.auc.code
         })
             .then(function (response) {
                 let ans = response.data.d;
                 if (ans !== "-1") {
                     let tempObj = self.state.auc;
-                    tempObj.price = ans;
+                    tempObj["price"] = ans;
                     self.setState({ auc: tempObj });
+                    self.calcDonation();
                 }
             })
             .catch(function (error) {
@@ -141,6 +129,9 @@ class ParticipateAuction extends Component {
 
     //disable input and button
     timerFinishedAuc() {
+        let tempObj = this.state.auc;
+        tempObj["finished"] = true;
+        this.setState({ auc: tempObj });
         const self = this;
         axios.post(auctionWS + 'GetAuctionPrice', {
             auctionCode: self.props.params.code
@@ -257,7 +248,7 @@ class ParticipateAuction extends Component {
                 {/*shown messegae*/}
                 <Modal
                     isOpen={this.state.msg_ModalIsOpen}
-                    
+
                     contentLabel="open info"
                     className={this.state.msgClass}>
                     <Swipeable onTap={this.closeMSGModal}>
@@ -278,7 +269,7 @@ class ParticipateAuction extends Component {
                         <FontAwesome name='info-circle' border={true} className="fa-3x" tag="i" />
                         <Modal
                             isOpen={this.state.infoModalIsOpen}
-                            
+
                             contentLabel="open info"
                             className="box">
                             <AuctionInfo closeModal={this.closeInfoModal} auc={this.state.auc} />
@@ -290,10 +281,10 @@ class ParticipateAuction extends Component {
                         <FontAwesome name='question-circle' border={true} className="fa-3x" tag="i" />
                         <Modal
                             isOpen={this.state.fAQModalIsOpen}
-                            
+
                             contentLabel="open FAQ"
                             className="FAQbox">
-                            <AuctionFAQ closeModal={this.closeFAQModal} />
+                            <AuctionFAQ closeModal={this.closeFAQModal} prodCode={this.state.auc.prodCode} />
                         </Modal>
                     </Swipeable>
                 </div>
@@ -307,7 +298,7 @@ class ParticipateAuction extends Component {
                 </div>
 
                 <Swipeable onTap={this.makeBid}>
-                    <div ref="makeBidBTN" className="base"> <span>הצע ביד</span> </div>
+                    <div ref="makeBidBTN" className="base" style={{display: this.state.auc.finished? "none":"inline-block"}}> <span>הצע ביד</span> </div>
                 </Swipeable>
                 <Tetris />
             </div>

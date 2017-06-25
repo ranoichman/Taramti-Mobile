@@ -1,27 +1,69 @@
 ﻿import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
-
+import axios from 'axios';
 
 import ChatMsg from '../Generic/ChatMsg';
+import TextInput from '../Generic/TextInput';
 
 import '../../css/modal.css';
 
-
+import { auctionWS, buyerID } from '../../constants/general';
 class AuctionFAQ extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            FAQs: [{ question: "יש לי איזו שאלה", answer: "כל מיני מללים ועוד מלא מלא מללים והנה הוספתי קצת כדי שיהיה ככה בשביל התחושה הטובה והכיפית" },
-            { question: "יש לי איזו שאלה", answer: "והנה התשובה לשאלה הזאת" },
-            { question: "יש לי איזו שאלה", answer: "" },
-            { question: "יש לי איזו שאלה", answer: "בלה בלה בלה בלה בלה בלה" },
-            { question: "יש לי איזו שאלה", answer: "" }]
+            FAQs: []
         }
         this.addQuestion = this.addQuestion.bind(this);
     }
 
-    addQuestion() {
-        console.log(`asked: ${this.refs.newQ.value}`);
+    componentDidMount() {
+
+        let product = { ItemId: this.props.prodCode }
+        const self = this;
+
+        axios.post(auctionWS + 'GetAllQuestions', {
+            prod: product
+        }).then(function (response) {
+            let res = JSON.parse(response.data.d);
+            // res.map(self.addAuction);
+            self.setState({ FAQs: res })
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    addQuestion(val) {
+        console.log(`addQuestion---- ${val}`)
+        let questioner = { UserId: buyerID };
+        let quest = {
+            ProdCode: this.props.prodCode,
+            Question: val,
+            Questioner: questioner
+        };
+        let newFAQ = this.state.FAQs;
+        newFAQ.push({ Question: val, Answer: "" })
+        this.setState({FAQs:newFAQ});
+
+        axios.post(auctionWS + 'AddQuestion', {
+            quest: quest
+        }).then(function (response) {
+            let res = JSON.parse(response.data.d);
+            if (res != 1) {
+                //insert to localhost and deal with it later
+                console.log(`res not 1`)
+            } else {
+                console.log("question added");
+            }
+
+            //dispaly modal with success!!!
+
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     }
 
     render() {
@@ -32,14 +74,9 @@ class AuctionFAQ extends Component {
                     <a className="boxclose" ></a>
                 </Swipeable>
                 {/*all FAQ's*/}
-                <ChatMsg FAQs={this.state.FAQs} />
+                <ChatMsg FAQs={this.state.FAQs} chat="true" />
 
-                <div >
-                    <textarea ref="newQ" rows="2" cols="25"/>
-                    <Swipeable onTap={this.addQuestion}>
-                        <div className="btn"> <span>הוסף שאלה</span> </div>
-                    </Swipeable>
-                </div>
+                <TextInput send={this.addQuestion} />
             </div>
         )
     }

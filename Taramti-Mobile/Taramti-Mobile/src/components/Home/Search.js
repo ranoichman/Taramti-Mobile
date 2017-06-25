@@ -67,18 +67,21 @@ class Search extends Component {
     searchBTN() {
         let low = this.refs.lowerPrice.value !== "" ? this.refs.lowerPrice.value : -1;
         let high = this.refs.higherPrice.value !== "" ? this.refs.higherPrice.value : -1;
-        let cities = [];
         let catCode = this.state.categroy;
+        let coords = {lat: 0, lng: 0};
+        let radius = 0;
 
         if (!(this.refs.locationCB.checked)) {
-            this.props.startSearch(cities, low, high, catCode); // start search without location    
+            this.props.startSearch(low, high, catCode,coords,radius); // start search without location    
         } else {
+            const self = this;
             navigator.geolocation.getCurrentPosition(function (pos_result) {
-                console.log(`alt -- ${pos_result.coords.altitude} _____ lat-- ${pos_result.coords.longitude}`)
-                this.props.startSearch(cities, low, high, catCode); // start search with location after city arr is filled
+                console.log(`lat -- ${pos_result.coords.latitude} _____ lat-- ${pos_result.coords.longitude}`)
+                coords = {lat: pos_result.coords.latitude, lng: pos_result.coords.longitude};
+                radius= self.state.gps;
+                self.props.startSearch(low, high, catCode,coords,radius); // start search with location after city arr is filled
 
             })
-
         }
 
 
@@ -97,8 +100,8 @@ class Search extends Component {
                     <div className="gpsCont">
                         <input type="checkbox" ref="locationCB" onClick={this.cbChanged} />הצג מוצרים בקרבתי
                             <div style={{ display: this.state.display }}  >
-                            <Ddl key="1" onChange={this.onSelectedGPS} onChange={this.logChange} options={[{ val: '10', text: '10 ק"מ' },
-                            { val: '20', text: '20 ק"מ' }, { val: '30', text: '30 ק"מ' }, { val: '50', text: '50 ק"מ' }
+                            <Ddl key="1" onChange={this.onSelectedGPS} options={[{ val: '10000', text: '10 ק"מ' },
+                            { val: '20000', text: '20 ק"מ' }, { val: '30000', text: '30 ק"מ' }, { val: '50000', text: '50 ק"מ' }
                             ]} css="gpsSelect" />
                         </div>
                     </div>

@@ -17,6 +17,8 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-swipeable": "^3.9.2",
+    "react-tabs": "^1.0.0",
+    "react-transition-group": "^1.1.3",
     "webpack": "^1.12.12",
     "webpack-dev-server": "^1.14.1"
   },
@@ -36,9 +38,6 @@
     "start": "node config && webpack-dev-server",
     "remove": "cordova platform remove android",
     "add": "cordova platform add android@5.0.0",
-    "jquey": "npm install jquery",
-    "faIcons": "npm install --save react-fontawesome",
-    "react-modal": "npm install --save react-modal",
     "serve": "cordova serve",
     "test": "echo \"No tests (yet!) -- submit a PR?\" && exit 0"
   },
