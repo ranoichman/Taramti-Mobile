@@ -46,8 +46,9 @@ class Pic extends Component {
 
     render() {
         const settings = {
-            infinite: true,
+            infinite: false,
             arrows: false,
+            rtl: true,
             slidesToShow: 1,
         }
 
