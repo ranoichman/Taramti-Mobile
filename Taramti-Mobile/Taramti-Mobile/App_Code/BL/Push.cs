@@ -63,6 +63,11 @@ public class Push
         //
     }
 
+    public Push(string userId)
+    {
+        this.UserId = userId;
+    }
+
     public Push(string userId, string deviceString, string platform)
     {
         this.UserId = userId;
@@ -86,5 +91,23 @@ public class Push
             return false;
         }
         return true;
+    }
+
+    public void GetPushInfo()
+    {
+        string sqlSelect = @"SELECT [device_string],[platform]
+                            FROM [dbo].[push]
+                            where (user_id =" + UserId + ") ";
+        DbService db = new DbService();
+        //SqlParameter parUser = new SqlParameter("@user", UserId);
+
+        DataTable DT = new DataTable();
+        DT = db.GetDataSetByQuery(sqlSelect).Tables[0];
+
+        if (DT.Rows.Count > 0)
+        {
+            Platform = DT.Rows[0]["platform"].ToString();
+            DeviceString = DT.Rows[0]["device_string"].ToString();
+        }
     }
 }

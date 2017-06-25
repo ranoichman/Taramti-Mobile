@@ -25,9 +25,9 @@
         const generic = GENERAL.genericWebServerAddress;
         //const SENDER_ID = GENERAL.GOOGLE.SENDER_ID;
         //alert("sender-------  " + SENDER_ID);
-        var SENDER_ID = "336880743356";
-        var user_platform;
-        var notification_id;
+        var SENDER_ID = "183259485502";
+        var user_platform = "";
+        var notification_id = "";
         //var SENDER_ID = "336880743356";
         //var webServerAddress = "../";
         var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
@@ -54,8 +54,11 @@
                                 location.href = "Login-Taramti.html#RestorePassPage";
                             }
                             else {
-                                notification_id = "11221122";
-                                user_platform = "android";
+                                if (notification_id == "" || user_platform == "") {
+                                    notification_id = "11221122";
+                                    user_platform = "android";
+                                }
+                      
                                 $.ajax({
                                     dataType: "json",
                                     url: generic + "GetUserID",

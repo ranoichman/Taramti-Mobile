@@ -226,10 +226,10 @@
         {
             $.ajax({
                 dataType: "json",
-                url: gen + "SendPush",
+                url: gen  + "SendPush",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ head: "YoHOo", msg: "ButtMuncher" }),
+                data: JSON.stringify({ user : "302921481" ,head: "YoHOo", msg: "ButtMuncher" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);

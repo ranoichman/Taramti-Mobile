@@ -320,14 +320,17 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod (Description = "פונקציה לשליחת הודעת פוש")]
-    public void SendPush(string head, string msg)
+    public void SendPush(string user, string head, string msg)
     {
         //Create our push services broker
         var push = new PushBroker();
 
-        push.RegisterGcmService(new GcmPushChannelSettings("336880743356"));
+        Push P = new Push(user);
+        P.GetPushInfo();
 
-        push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("dYxk5h3NSVc:APA91bEzK4JRtty0m9_IH4Vf47exkxz3svYM-svPAHF939iCPICcyEflgQxJbl5jPqaM4ZTU9NoKo0on-I6IDYKl9DAkXSpbE8foi7igCbBJZ-Kbbk5t0mmZNjRznajtRHxZUJtEaHbF")
+        push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyAdIPl5479XpwceiGWgC5DhwslA2pKrJrA"));
+
+        push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(P.DeviceString)
                               .WithJson("{\"message\": \" " + msg + " \", \"title\": \" " + head + " \"}"));
 
         //Stop and wait for the queues to drains
