@@ -56,6 +56,7 @@ class ActiveAuctions extends Component {
             infinite: false,
             arrows: false,
             slidesToShow: 1,
+            slide: "360px"
         }
 
         const list = ["מישהו עקף אותי","ההצעות שלי","הבידים שלי"]
@@ -73,7 +74,7 @@ class ActiveAuctions extends Component {
                     </ul>
                     <Slider {...settings}>
                         {/*someone beat me to it*/}
-                        <div>
+                        <div className={this.state.tabIndex === 0 ? "slick-active" : ""}>
                             <h2>עקפו אותי</h2>
                             <Auction key={0} index={0}
                                 // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
@@ -83,7 +84,7 @@ class ActiveAuctions extends Component {
                         </div>
 
                         {/*offers*/}
-                        <div>
+                        <div className={this.state.tabIndex === 1 ? "slick-active" : ""}>
                             <h2>ההצעות</h2>
                             <Auction key={1} index={1}
                                 // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
@@ -93,7 +94,7 @@ class ActiveAuctions extends Component {
                         </div>
 
                         {/*bids*/}
-                        <div>
+                        <div className={this.state.tabIndex === 2 ? "slick-active" : ""}>
                             <h2>בידים</h2>
                         </div>
                     </Slider>
