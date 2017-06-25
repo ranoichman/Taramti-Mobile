@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,13 +19,17 @@
     <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&sensor=false&language=en"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm8eut2C8AirtD3f9Ba2wvfS8EGGWMhqM"></script>
+    <script type="text/javascript" src="javascripts/jquery.googlemap.js"></script>
+
     <script>
         const generic = GENERAL.auctionWebServerAddress;
+        const gen = GENERAL.genericWebServerAddress;
     </script>
 
     <script>
-
-        function test(){
+        function test() {
             var x = [];
             var low = -1;
             var high = -1;
@@ -35,7 +40,15 @@
                 url: generic + "GetAuctionByParam",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ cities: x, lowPrice: low, highPrice: high, catCode : code }),
+                data: JSON.stringify({
+                    lowPrice: -1,
+                    highPrice: -1,
+                    catCode: 0,
+                    id: 300294485,
+                    lat: 14.123,
+                    lng: 32.851,
+                    radius: 0
+                }),
                 success: function (data) {
                     console.log("Ran - test");
                     var isUser = JSON.parse(data.d);
@@ -67,7 +80,7 @@
                 error: function (err) { }
             });
         }
-        
+
         function GetAuctionByCode() {
             var auc = { AuctionID: 1 }
             // alert("NANA");
@@ -76,7 +89,7 @@
                 url: generic + "GetAuctionByCode",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ auc}),
+                data: JSON.stringify({ auc }),
                 success: function (data) {
                     console.log("got inside");
                     var auction = JSON.parse(data.d);
@@ -95,7 +108,7 @@
                 url: generic + "GetAllProductsCategories",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ }),
+                data: JSON.stringify({}),
                 success: function (data) {
                     var isUser = JSON.parse(data.d);
                     console.log("user 0" + isUser[0])
@@ -117,7 +130,7 @@
                 url: generic + "OfferBid",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ auc : auc1, bid: bid1, buyer : buy1}),
+                data: JSON.stringify({ auc: auc1, bid: bid1, buyer: buy1 }),
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -129,14 +142,113 @@
             });
         }
 
+        function getLocation(city, lat, lng) {
+
+            var mygc = new google.maps.Geocoder();
+            var locationOrigem;
+            var locationDestino;
+            var latOrigem = 0;
+            var longOrigem = 0;
+            var latDestino = 0;
+            var longDestino = 0;
+
+            mygc.geocode({ 'address': city }, function (results, status) {
+                locationOrigem = results[0].geometry.location;
+                latOrigem = results[0].geometry.location.lat();
+                longOrigem = results[0].geometry.location.lng();
+                mygc.geocode({}, function (results, status) {
+                    locationDestino = new google.maps.LatLng(lat, lng);
+                    // alert(latDestino + " " + longDestino);
+                    console.log(locationOrigem);
+                    console.log(locationDestino);
+                    return (google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
+                });
+            });
+        }
+
+        function insertsearch() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "testsearch",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    var isUser = JSON.parse(data.d);
+
+                    console.log(isUser);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function addQuestion() {
+            let questioner = { UserId: 986548654 };
+            let quest = {
+                ProdCode: 39,
+                Question: "בדיקה בדיקתית~~!!!!",
+                Questioner: questioner
+            };
+            $.ajax({
+                dataType: "json",
+                url: generic + "AddQuestion",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({quest : quest}),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    console.log("result-----" + data.d)
+                },
+                error: function (err) { }
+            });
+        }
+        
+        function addToPush() {
+                    $.ajax({
+                        dataType: "json",
+                        url: gen + "SavePushInfo",
+                        contentType: "application/json; charset=utf-8",
+                        type: "POST",
+                        //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
+                        data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
+                        success: function (data) {
+
+                            var isUser = JSON.parse(data.d);
+                        },
+                        error: function (err) { }
+                    });
+
+        }
+
+
     </script>
 
 </head>
+
 <body>
     <input type="button" onclick="test()" value="GetAuctionByParam" />
     <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
     <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
     <input type="button" onclick="OfferBid()" value="OfferBid" />
     <input type="button" onclick="GetAuctionByCode()" value="GetAuctionByCode" />
+    <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
+    <input type="button" onclick="insertsearch()" value="insertsearch" />
+    <input type="button" onclick="addQuestion()" value="add Question" />
+    <input type="button" onclick="addToPush()" value="add Bush" />
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+        <input type="hidden" name="cmd" value="_xclick" />
+        <input type="hidden" name="business" value="heregteam@gmail.com" />
+
+        <input type="hidden" name="item_name" value="My painting" />
+        <input type="hidden" name="amount" value="10.00" />
+        <input type="submit" value="Buy!" />
+
+    </form>
 </body>
+
 </html>

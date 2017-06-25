@@ -1,0 +1,111 @@
+.react-tabs__tab-list {
+  /*border-bottom: 1px solid #aaa;*/
+  width: 100%;
+  background-color: darkcyan;
+  margin: 0 0 10px;
+  padding: 0;
+  font: bold 20px;
+}
+
+.react-tabs__tab {
+  display: inline-block;
+  margin: 0 3%;
+  
+  border: 1px solid transparent;
+  border-bottom: none;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+
+}
+
+.react-tabs__tab--selected {
+  border-bottom: 4px solid cyan ;
+  color: black;
+
+}
+
+.react-tabs__tab-panel {
+  margin-top: 10px;
+  display: none;
+}
+
+.react-tabs__tab-panel--selected {
+  display: block;
+  /*-webkit-animation: slide 0.5s forwards;*/
+  animation: slide 1s forwards;
+}
+
+/*@-webkit-keyframes slide {
+    from{
+      left:-300px;
+    }
+    to{
+      left:0;
+    }
+    }*/
+
+@keyframes slide {
+    from{
+      left:-300px;
+    }
+    to{
+      left:0;
+    }
+    }
+
+.react-tabs__tab--disabled {
+  color: GrayText;
+  cursor: default;
+  
+
+  /*auction-leave*/
+  /*transform: translate(0%);*/
+}
+
+.react-tabs__tab:focus {
+  box-shadow: 0 0 5px hsl(208, 99%, 50%);
+  border-color: hsl(208, 99%, 50%);
+  outline: none;
+}
+
+.react-tabs__tab:focus:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  left: -4px;
+  right: -4px;
+  bottom: -5px;
+  background: #fff;
+}
+
+.tab-animate-left{
+  position:relative;
+  animation:animateleft 0.4s
+  }
+  
+  @keyframes animateleft{
+    from{
+      left:-300px;
+    opacity:0}
+    to{
+      left:0;
+    opacity:1}
+    }
+
+.tab-animate-right{
+  position:relative;
+  animation:animateright 0.4s
+  }
+
+  @keyframes animateright{
+    from{
+    right:-300px;
+    opacity:0
+    }
+  to{
+    right:0;
+    opacity:1
+  }
+  }
