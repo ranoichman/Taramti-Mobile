@@ -16,6 +16,12 @@ const GENERAL = {
 
             return localStorage.UserID;
         },
+    },
+
+    GOOGLE: {
+        SENDER_ID: function () {
+            return "336880743356";
+        },
     }
 }
 
