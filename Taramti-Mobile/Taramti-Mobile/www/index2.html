@@ -40,10 +40,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <link href="css/StyleSheet.css" rel="stylesheet" />
 
     <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $(".scroll").click(function(event){
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
                 event.preventDefault();
-                $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
             });
         });
     </script>
@@ -360,11 +360,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 
     <div id="LoginPage">
-        
-        <img style="width:100%" src="images/banner1.jpg" />
-        <div class="Form" id="LoginForm">
-            <h2>כיף שבאת!</h2>
-            <div class="input-field">
+
+        <img style="width:100%; z-index:0; position:absolute; top:0;" src="images/LoginBackground.jpg" />
+        <img style="width:100%; z-index:0; position:absolute; top:0;" src="images/LogoNew.PNG" />
+        <div class="Form" id="LoginForm" style=" z-index:10; margin-top:60%; background-color:white; opacity:0.9; border-radius:20PX;">
+            <!--<h2>כיף שבאת!</h2>-->
+            <div class="input-field" style="padding:0 5% 5% 5% ;">
                 <div class="input-top">
                     <div class="input-top-top">
 
@@ -383,22 +384,22 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="clearfix"> </div>
                 </div>
                 <!---->
+                <input type="button" id="Loginbtn" value="התחבר" />
 
             </div>
 
             <!-------------לא למחוק------------>
             <!--<input class="w3-margin-right" id="StayCB" type="checkbox" checked />-->
             <!--<h6 id="ImHereToStay">אני כאן כדי להשאר</h6>-->
-
-            <input type="button" id="Loginbtn" value="התחבר" />
-
             <!--<div class="button-1">
                 <button type="button" id="Loginbtn" class=" btn-l btn-10" value="התחבר">התחבר</button>
             </div>-->
-            <h5 class="styleLinkH"><a class="styleLink" href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
-            <h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+
 
         </div>
+        <!--<h5 class="styleLinkH"><a class="styleLink" href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
+        <h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>-->
+
     </div>
 
 
