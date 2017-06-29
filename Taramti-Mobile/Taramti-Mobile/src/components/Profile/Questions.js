@@ -1,20 +1,14 @@
-﻿import React, { Component } from 'react';
+import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
-import axios from 'axios';
 
 import ChatMsg from '../Generic/ChatMsg';
-import TextInput from '../Generic/TextInput';
 
-import '../../css/modal.css';
-
-import { auctionWS, buyerID } from '../../constants/general';
-class AuctionFAQ extends Component {
+class Questions extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             FAQs: []
         }
-        this.addQuestion = this.addQuestion.bind(this);
     }
 
     componentDidMount() {
@@ -34,8 +28,8 @@ class AuctionFAQ extends Component {
             });
     }
 
-    addQuestion(val) {
-        console.log(`addQuestion---- ${val}`)
+    addAnswer(val) {
+        console.log(`add answer---- ${val}`)
         let questioner = { UserId: buyerID };
         let quest = {
             ProdCode: this.props.prodCode,
@@ -44,8 +38,6 @@ class AuctionFAQ extends Component {
         };
         let newFAQ = this.state.FAQs;
         newFAQ.push({ Question: val, Answer: "" })
-        this.setState({FAQs:newFAQ});
-
         axios.post(auctionWS + 'AddQuestion', {
             quest: quest
         }).then(function (response) {
@@ -54,7 +46,7 @@ class AuctionFAQ extends Component {
                 //insert to localhost and deal with it later
                 console.log(`res not 1`)
             } else {
-                console.log("question added");
+                console.log("answer added");
             }
 
             //dispaly modal with success!!!
@@ -64,7 +56,9 @@ class AuctionFAQ extends Component {
                 console.log(error);
             });
 
+
     }
+
 
     render() {
         return (
@@ -74,12 +68,10 @@ class AuctionFAQ extends Component {
                     <a className="boxclose" ></a>
                 </Swipeable>
                 {/*all FAQ's*/}
-                <ChatMsg FAQs={this.state.FAQs} chat="true" />
-
-                <TextInput send={this.addQuestion} />
+                <ChatMsg FAQs={this.state.FAQs} chat="false" />
             </div>
-        )
+        );
     }
 }
 
-export default AuctionFAQ;
+export default Questions;

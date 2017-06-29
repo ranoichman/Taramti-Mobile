@@ -1,3 +1,8 @@
+.sliderDiv{
+  display: inline-block;
+  /*margin-top: 40px;*/
+}
+
 .react-tabs__tab-list {
   /*border-bottom: 1px solid #aaa;*/
   width: 100%;

@@ -1,3 +1,5 @@
+
+
 img {
     max-width: 100%;
     margin-top: 10px; 
@@ -30,7 +32,6 @@ img {
     height: 12px;
     position: relative;
     content: "";
-    cursor: pointer;
     margin: 0 13px 0 0;
     padding: 10px 20px 10px 8px;
     border: none;
@@ -43,6 +44,7 @@ img {
     background: rgb(103, 158, 41);
     box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);
     transform: rotate(-20deg);
+    /*z-index: 1;*/
     top:10px;
     right:-10%;
     position: absolute;
@@ -131,6 +133,28 @@ input{
     text-align:center;
     padding-top:30px;
     
+}
+
+.icon_circle{
+      background: #008a7c;
+  border-radius: 50%;
+  color: #fff;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+}
+
+.icon_circle i{
+font-size: 24px;
+  margin-right: 8px;
+  }
+
+span.info{
+    color: red
 }
 /*
 .down-arrow {

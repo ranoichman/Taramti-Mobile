@@ -14,6 +14,8 @@ import axios from 'axios';
 import Home from './components/Home/Home';
 import ParticipateAuction from './components/ParticipateAuction/ParticipateAuction';
 import ActiveAuctions from './components/Profile/ActiveAuctions';
+import Profile from './components/Profile/Profile';
+import Bdika from './components/Generic/Bdika';
 
 
 
@@ -157,7 +159,7 @@ ReactDOM.render(<HashRouter>
         <Route path="/participate" component={ParticipateAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={ActiveAuctions}/>
+        <Route path="/bdika" component={Profile}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 

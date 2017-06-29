@@ -186,9 +186,10 @@ public class Item
         {
             foreach (DataRow row in DS.Tables[0].Rows)
             {
+                int questCode = row["question_code"] != null ? int.Parse(row["question"].ToString()) : -1; 
                 string quest = row["question"] != null ? row["question"].ToString() : "";
                 string ans = row["answer"] != null ? row["answer"].ToString() : "";
-                FAQ question = new FAQ(ItemId, quest, ans);
+                FAQ question = new FAQ(ItemId, questCode, quest, ans);
                 Questions.Add(question);
             }
         }
