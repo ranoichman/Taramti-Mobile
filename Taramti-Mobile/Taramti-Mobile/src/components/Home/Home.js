@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group'
 import Swipeable from 'react-swipeable';
 import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
+
 
 // taramti babait components
 import Auction from './Auction';
@@ -12,6 +14,7 @@ import Search from './Search';
 
 //import '../css/jqmCss.css';
 //import '../../www/css/StyleSheet.css';
+import '../../css/transition.css';
 
 import { auctionWS, buyerID } from '../../constants/general';
 
@@ -93,7 +96,7 @@ class Home extends Component {
                             //locationDestino = new google.maps.LatLng(32.313367, 34.945139);
                             let dist = google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino)
                             console.log(`${k} -- dist : ${dist}`)
-                            if (dist<=radius){
+                            if (dist <= radius) {
                                 self.addAuction(res[k])
                             };
                         });
@@ -202,9 +205,19 @@ class Home extends Component {
                 </Swipeable>
 
                 {/*auctions display*/}
+                
                 <div className="container-fluid">
-                    {this.state.auctionsArr.map(this.eachAuction)}
+                    <CSSTransitionGroup
+                        transitionName="auction"
+                        transitionAppear={true}
+                        transitionAppearTimeout={700}
+                        transitionEnterTimeout={700}
+                        transitionLeave={false}>
+                        {this.state.auctionsArr.map(this.eachAuction)}
+                    </CSSTransitionGroup>
                 </div>
+
+                {/*</CSSTransitionGroup>*/}
 
                 {/*move to add auction*/}
                 <div id="fixedPlus">

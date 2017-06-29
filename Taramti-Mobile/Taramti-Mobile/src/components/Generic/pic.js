@@ -1,15 +1,23 @@
 //import $ from 'jquery';
 import React, { Component } from 'react';
+import { CSSTransitionGroup } from 'react-transition-group'
 import Swipeable from 'react-swipeable';
+import Modal from 'react-modal';
+import Slider from 'react-slick';
+
 
 class Pic extends Component {
     constructor() {
         super();
         this.state = {
             index: 0,
+            carouselModalIsOpen: false,
+            animationDirection: "left"
         };
         this.imgSwipeLeft = this.imgSwipeLeft.bind(this);
         this.imgSwipeRight = this.imgSwipeRight.bind(this);
+        this.openCarouselModal = this.openCarouselModal.bind(this);
+        this.closeCarouselModal = this.closeCarouselModal.bind(this);
     }
 
     imgSwipeLeft() {
@@ -27,11 +35,37 @@ class Pic extends Component {
         else { this.setState({ index: i }) }
     }
 
+
+    openCarouselModal() {
+        this.setState({ carouselModalIsOpen: true });
+    }
+
+    closeCarouselModal() {
+        this.setState({ carouselModalIsOpen: false })
+    }
+
     render() {
+        const settings = {
+            infinite: false,
+            arrows: false,
+            slidesToShow: 1,
+        }
+
         return (
-                <Swipeable ref="swipeIMG" onSwipedLeft={this.imgSwipeLeft} onSwipedRight={this.imgSwipeRight} >
-                    <img ref="disIMG" src={this.props.imagesArr[this.state.index]} />
+            <div>
+                <Modal
+                    isOpen={this.state.carouselModalIsOpen}
+                    onRequestClose={this.closeCarouselModal}
+                    contentLabel="open carousel"
+                    className="picBox">
+                    <Slider {...settings}>
+                        {this.props.imagesArr.map((imageUrl, i) => { return <img key={i} src={imageUrl} /> })}
+                    </Slider>
+                </Modal>
+                <Swipeable onTap={this.openCarouselModal}>
+                    <img className={this.state.animationDirection} src={this.props.imagesArr[this.state.index]} />
                 </Swipeable>
+            </div>
         );
     }
 }

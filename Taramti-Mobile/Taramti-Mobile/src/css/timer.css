@@ -8,15 +8,19 @@
 
 .regBorder {
   border: 2px solid green;
+      color: antiquewhite;
+    background-color: springgreen;
 }
 
 
 .blinkBorder {
   border: 2px solid red;
+   color: antiquewhite;
+    background-color: rgb(255, 98, 98);
 }
-.blinkBorder h3 {
+/*.blinkBorder h3 {
   color: red;
-}
+}*/
 
 
 /*@keyframes blink {
