@@ -58,11 +58,30 @@ public class AuctionWebService : System.Web.Services.WebService
     {
         //JavaScriptSerializer j = new JavaScriptSerializer();
         Reg_Auction auction = new Reg_Auction();
+        bool SendPush = false;
+        string PrevBuyerID = "";
         auction.AuctionID = auc;
         int lastBid = auction.GetLatestBid();
+        if (lastBid != -1)
+        {
+            Money_Bid LastBid = new Money_Bid(auction, lastBid);
+            LastBid = LastBid.GetBidDetails(auc);
+            PrevBuyerID = LastBid.Buyer.UserId;
+            SendPush = true;
+        }
+
+
         if (lastBid < bid)
         {
-            return auction.OfferBid(bid, buyer);
+            auction.OfferBid(bid, buyer);
+            WebService Push = new WebService();
+
+            if (SendPush)
+            {
+                Push.SendPush(PrevBuyerID, "אטהפאלי", "איך עקפו אותך ככה יא-אלללה");
+            }
+
+            return true;
         }
         else
         {
