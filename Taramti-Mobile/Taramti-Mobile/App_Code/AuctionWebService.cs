@@ -62,6 +62,7 @@ public class AuctionWebService : System.Web.Services.WebService
         string PrevBuyerID = "";
         auction.AuctionID = auc;
         int lastBid = auction.GetLatestBid();
+        // אם אין בידים קודמים - לא נשלח פוש לאף אחד
         if (lastBid != -1)
         {
             Money_Bid LastBid = new Money_Bid(auction, lastBid);
@@ -70,15 +71,14 @@ public class AuctionWebService : System.Web.Services.WebService
             SendPush = true;
         }
 
-
         if (lastBid < bid)
         {
             auction.OfferBid(bid, buyer);
             WebService Push = new WebService();
-
+            // אם יש בידים קודמים, נשלח הודעת פוש למשתמש שנעקף
             if (SendPush)
             {
-                Push.SendPush(PrevBuyerID, "אטהפאלי", "איך עקפו אותך ככה יא-אלללה");
+                Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה " + auction.ProdName + " הצע הצעה חדשה עכשיו!");
             }
 
             return true;
