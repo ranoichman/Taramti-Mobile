@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -63,7 +64,7 @@ public abstract class Bid
 
     //methods
     #region
-    public void GetBidDetails()
+    public DataTable GetBidDetails(int aucId)
     {
         throw new System.Exception("Not implemented");
     }
