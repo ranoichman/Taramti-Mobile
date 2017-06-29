@@ -48,7 +48,6 @@ class Pic extends Component {
         const settings = {
             infinite: false,
             arrows: false,
-            rtl: true,
             slidesToShow: 1,
         }
 
