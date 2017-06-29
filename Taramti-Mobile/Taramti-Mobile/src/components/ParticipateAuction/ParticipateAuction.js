@@ -159,13 +159,13 @@ class ParticipateAuction extends Component {
 
     //calculate donation amount to insert to circle
     calcDonation() {
-        let tempPrice = this.state.auc.price;
+        let tempPrice =parseInt(this.state.auc.price);
         if (this.refs.newPrice !== undefined) {
             this.setState({
                 borderColor: "red"
             });
 
-            let val = this.refs.newPrice.value;
+            let val = parseInt(this.refs.newPrice.value);
             //console.log(`price: ${tempPrice},  new price: ${val}`)
             if (val > tempPrice) {
                 tempPrice = val;
