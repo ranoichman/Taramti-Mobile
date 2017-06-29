@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Services;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Summary description for AuctionWebService
@@ -54,31 +55,31 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "הצעת ביד")]
-    public bool OfferBid(int auc, int bid, int buyer)
+    public bool OfferBid(Reg_Auction auc, int bid)
     {
-        //JavaScriptSerializer j = new JavaScriptSerializer();
-        Reg_Auction auction = new Reg_Auction();
+        //Reg_Auction auction = new Reg_Auction();
         bool SendPush = false;
         string PrevBuyerID = "";
-        auction.AuctionID = auc;
-        int lastBid = auction.GetLatestBid();
+        //auction.AuctionID = int.Parse(auc.Buyer.UserId);
+        int lastBid = auc.GetLatestBid();
         // אם אין בידים קודמים - לא נשלח פוש לאף אחד
         if (lastBid != -1)
         {
-            Money_Bid LastBid = new Money_Bid(auction, lastBid);
-            LastBid = LastBid.GetBidDetails(auc);
+            Money_Bid LastBid = new Money_Bid(auc, lastBid);
+            LastBid = LastBid.GetBidDetails(auc.AuctionID);
             PrevBuyerID = LastBid.Buyer.UserId;
             SendPush = true;
         }
 
         if (lastBid < bid)
         {
-            auction.OfferBid(bid, buyer);
+            auc.OfferBid(bid, int.Parse(auc.Buyer.UserId.ToString()));
             WebService Push = new WebService();
             // אם יש בידים קודמים, נשלח הודעת פוש למשתמש שנעקף
             if (SendPush)
             {
-                Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה " + auction.ProdName + " הצע הצעה חדשה עכשיו!");
+                //Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה " + auction.ProdName + " הצע הצעה חדשה עכשיו!");
+                new Task(() => { Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה " + auc.ProdName + " הצע הצעה חדשה עכשיו!"); }).Start();   
             }
 
             return true;
