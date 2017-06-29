@@ -208,7 +208,6 @@ public class WebService : System.Web.Services.WebService
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT(mail, pass);
-        //return j.Serialize(temp.GetuserID());
         int UserId = temp.GetuserID();
         SavePushInfo(UserId.ToString(),device,platform);
         return j.Serialize(UserId);
@@ -320,14 +319,17 @@ public class WebService : System.Web.Services.WebService
     }
 
     [WebMethod (Description = "פונקציה לשליחת הודעת פוש")]
-    public void SendPush(string head, string msg)
+    public void SendPush(string user, string head, string msg)
     {
         //Create our push services broker
         var push = new PushBroker();
 
-        push.RegisterGcmService(new GcmPushChannelSettings("API KEY"));
+        Push P = new Push(user);
+        P.GetPushInfo();
 
-        push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("REG ID")
+        push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyAPLuLHXvJc4z7XgMfKoH9KMDDgDQS7cGQ"));
+
+        push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(P.DeviceString)
                               .WithJson("{\"message\": \" " + msg + " \", \"title\": \" " + head + " \"}"));
 
         //Stop and wait for the queues to drains

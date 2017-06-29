@@ -236,12 +236,18 @@ class ParticipateAuction extends Component {
                 {/*home page fixed circle*/}
                 <Link to="/">
                     <div id="fixedCircle">
-                        <div> <a>
-                            <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
+                        <div>
+                            <a>
+                                <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i>
+                            </a>
+                        </div>
                     </div>
                     <div id="fixedHome">
-                        <div> <a><FontAwesome name='home' className="fa-3x" tag="i" />
-                        </a></div>
+                        <div>
+                            <a>
+                                <FontAwesome name='home' className="fa-3x" tag="i" />
+                            </a>
+                        </div>
                     </div>
                 </Link>
 
@@ -290,7 +296,7 @@ class ParticipateAuction extends Component {
                 </div>
 
                 {/*price manipulation*/}
-                <input type="number" ref="newPrice" onChange={this.calcDonation} style={{ borderColor: this.state.borderColor }} />
+                <input type="number" ref="newPrice" placeholder={this.state.auc.price} onChange={this.calcDonation} style={{ borderColor: this.state.borderColor }} />
                 <div className="circle">
                     <h4>
                         {this.state.tempDonation}
@@ -298,7 +304,7 @@ class ParticipateAuction extends Component {
                 </div>
 
                 <Swipeable onTap={this.makeBid}>
-                    <div ref="makeBidBTN" className="base" style={{display: this.state.auc.finished? "none":"inline-block"}}> <span>הצע ביד</span> </div>
+                    <div ref="makeBidBTN" className="base" style={{ display: this.state.auc.finished ? "none" : "inline-block" }}> <span>הצע ביד</span> </div>
                 </Swipeable>
                 <Tetris />
             </div>
