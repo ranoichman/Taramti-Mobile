@@ -208,7 +208,6 @@ public class WebService : System.Web.Services.WebService
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT(mail, pass);
-        //return j.Serialize(temp.GetuserID());
         int UserId = temp.GetuserID();
         SavePushInfo(UserId.ToString(),device,platform);
         return j.Serialize(UserId);

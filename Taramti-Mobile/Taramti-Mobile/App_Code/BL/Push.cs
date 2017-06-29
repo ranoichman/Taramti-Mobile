@@ -76,16 +76,28 @@ public class Push
     }
 
     //methods
+    // הפונקציה תעדכן או תוסיף נתונים לבסיס הנתונים אודות המכשיר המתאים לשלוח אליו התראות
     public bool AddPushDetails()
     {
-        string sqlInsert = @"insert into [dbo].[push]
-                           ([user_id],[device_string],[platform])
-                            VALUES 
-                            (@id, @device, @platform)";
         DbService db = new DbService();
+        string sqlInsert = "select [user_id] from [dbo].[push] where [user_id] = @id ";
         SqlParameter parId = new SqlParameter("@id", UserId);
         SqlParameter parDevice = new SqlParameter("@device", DeviceString);
         SqlParameter parPlatform = new SqlParameter("@platform", Platform);
+
+        if (db.GetDataSetByQuery(sqlInsert, CommandType.Text, parId).Tables[0].Rows.Count > 0)
+        {
+            sqlInsert = @"update [dbo].[push]
+                             set [device_string] = @device, [platform] = @platform
+                             where [user_id] = @id ";
+        }
+        else
+        {
+            sqlInsert = @"insert into [dbo].[push]
+                           ([user_id],[device_string],[platform])
+                            VALUES 
+                            (@id, @device, @platform)";
+        }
         if (db.ExecuteQuery(sqlInsert, CommandType.Text, parId, parDevice, parPlatform) == 0)
         {
             return false;
