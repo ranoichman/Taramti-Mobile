@@ -327,7 +327,7 @@ public class WebService : System.Web.Services.WebService
         Push P = new Push(user);
         P.GetPushInfo();
 
-        push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyAdIPl5479XpwceiGWgC5DhwslA2pKrJrA"));
+        push.RegisterGcmService(new GcmPushChannelSettings("AIzaSyAPLuLHXvJc4z7XgMfKoH9KMDDgDQS7cGQ"));
 
         push.QueueNotification(new GcmNotification().ForDeviceRegistrationId(P.DeviceString)
                               .WithJson("{\"message\": \" " + msg + " \", \"title\": \" " + head + " \"}"));
