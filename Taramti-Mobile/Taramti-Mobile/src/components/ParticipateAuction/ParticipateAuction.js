@@ -184,7 +184,7 @@ class ParticipateAuction extends Component {
     makeBid() {
         if (this.state.borderColor !== "red") {
             const currentAuc = this.state.auc;
-            let val = this.refs.newPrice.value;
+            let val = parseInt(this.refs.newPrice.value);
             let buyer = {UserId:buyerID}
             let auc = {AuctionID : currentAuc.code, Buyer: buyer, ProdName:currentAuc.prodName}
             self = this;
