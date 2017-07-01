@@ -14,8 +14,6 @@ class ChatMsg extends Component {
             activeKey: 0
         }
         this.generateFAQ = this.generateFAQ.bind(this);
-        this.postAnswer = this.postAnswer.bind(this);
-        this.addQuestion = this.addQuestion.bind(this);
     }
 
     //function that returns a render of 1 FAQ
@@ -26,14 +24,6 @@ class ChatMsg extends Component {
                 <FAQ faq={item} key={i} index={i} display={this.state.activeKey == i ? true:false} chat={this.props.chat} />
             </Panel>
         )
-    }
-
-    postAnswer(ans){
-        if (this.props.chat === "true") {
-            return (ans !== "" ? ans : "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות")
-        } else {
-            return (ans !== "" ? ans : <TextInput send={this.addQuestion} />)
-        }
     }
 
     render() {
