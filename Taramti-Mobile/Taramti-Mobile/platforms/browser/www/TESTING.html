@@ -131,50 +131,6 @@
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ auc: auc1, bid: bid1, buyer: buy1 }),
-
-                success: function (data) {
-
-                    console.log("נכנסתי");
-                    var isUser = JSON.parse(data.d);
-
-                    console.log(isUser);
-                },
-                error: function (err) { }
-            });
-        }
-
-        function getLocation(city, lat, lng) {
-
-            var mygc = new google.maps.Geocoder();
-            var locationOrigem;
-            var locationDestino;
-            var latOrigem = 0;
-            var longOrigem = 0;
-            var latDestino = 0;
-            var longDestino = 0;
-
-            mygc.geocode({ 'address': city }, function (results, status) {
-                locationOrigem = results[0].geometry.location;
-                latOrigem = results[0].geometry.location.lat();
-                longOrigem = results[0].geometry.location.lng();
-                mygc.geocode({}, function (results, status) {
-                    locationDestino = new google.maps.LatLng(lat, lng);
-                    // alert(latDestino + " " + longDestino);
-                    console.log(locationOrigem);
-                    console.log(locationDestino);
-                    return (google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
-                });
-            });
-        }
-
-        function insertsearch() {
-            $.ajax({
-                dataType: "json",
-                url: generic + "testsearch",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({}),
-
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -227,6 +183,7 @@
                 error: function (err) { }
             });
         }
+
         function addQuestion() {
             let questioner = { UserId: 986548654 };
             let quest = {
@@ -248,7 +205,6 @@
                 error: function (err) { }
             });
         }
-
         
         function addToPush() {
                     $.ajax({
@@ -256,7 +212,6 @@
                         url: gen + "SavePushInfo",
                         contentType: "application/json; charset=utf-8",
                         type: "POST",
-                        //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
                         data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
                         success: function (data) {
 
@@ -264,7 +219,22 @@
                         },
                         error: function (err) { }
                     });
+        }
 
+        function SendPush()
+        {
+            $.ajax({
+                dataType: "json",
+                url: gen  + "SendPush",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user: "300294485", head: "סתכל למעלה", msg: "מפיל עלייך תיק" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
         }
 
 
@@ -281,9 +251,8 @@
     <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
     <input type="button" onclick="insertsearch()" value="insertsearch" />
     <input type="button" onclick="addQuestion()" value="add Question" />
-
     <input type="button" onclick="addToPush()" value="add Bush" />
-
+    <input type="button" onclick="SendPush()" value="Send Bush" />
 
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 

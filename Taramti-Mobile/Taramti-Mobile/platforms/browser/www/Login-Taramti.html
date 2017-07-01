@@ -8,8 +8,6 @@
     <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
     <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
 
-    <script src="cordova.js"></script>
-
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
@@ -20,22 +18,72 @@
     <script src="js/jquery.js"></script>
     <script src="js/jqm.js"></script>
 
+    <script src="cordova.js"></script>
 
     <script>
         const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
-
+        var SENDER_ID = "336880743356";
         var user_platform;
         var notification_id;
-        var SENDER_ID = "336880743356";
-        //var webServerAddress = "../";
         var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
 
+        $(document).ready(function () {
+            $("#Loginbtn").on("tap", function () {
+                var mail = $("#UserMail").val();
+                var pass = $("#UserPass").val();
+                //alert("ready - doc");
+
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "ValidateUser",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ mail: mail, pass: pass }),
+                    success: function (data) {
+
+                        var isUser = JSON.parse(data.d);
+
+                        if (isUser == true) {
+                            // בדיקה האם המשתמש עם סיסמא זמנית. אם כן - נשלח אותו ליצירת סיסמא חדשה
+                            if (pass == "000000") {
+                                location.href = "Login-Taramti.html#RestorePassPage";
+                            }
+                            else {
+                                $.ajax({
+                                    dataType: "json",
+                                    url: generic + "GetUserID",
+                                    contentType: "application/json; charset=utf-8",
+                                    type: "POST",
+                                    data: JSON.stringify({ mail: mail, pass: pass, device: notification_id, platform: user_platform }),
+                                    success: function (data) {
+
+                                        var UserId = JSON.parse(data.d);
+                                        localStorage.setItem("UserID", UserId);
+                                        location.href = "app.html";
+                                    },
+                                    error: function (err) { }
+                                });
+
+                                //location.href = "app.html";
+                            }
+                        }
+                        else {
+                            alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
+                            location.href = "Login-Taramti.html#LoginPage";
+                        }
+                    },
+                    error: function (err) { }
+                });
+            }
+
+
+            )
+        });
+
+        // קריאת נתונים לצורך הודעות פוש בהמשך
         document.addEventListener("deviceready", onCordovaReady, false);
-
         function onCordovaReady() {
-
-            alert("Redy");
             try {
                 var push = PushNotification.init({
                     "android": {
@@ -50,40 +98,19 @@
                     },
                     "windows": {}
                 });
+
+                push.on('registration', function (data) {
+                    notification_id = data.registrationId;
+                    if (IsIphone()) {
+                        user_platform = "ios";
+                    }
+                    else {
+                        user_platform = "android";
+                    }
+                });
             } catch (e) {
                 alert(e.message);
             }
-         
-
-            alert("אחרי");
-            push.on('registration', function (data) {
-                alert(data.registrationId);
-                notification_id = data.registrationId;
-
-                if (IsIphone()) {
-                    user_platform = "ios";
-                }
-                else {
-                    user_platform = "android";
-                }
-                alert("regID ===" + notification_id)
-                alert("platforma ===" + user_platform)
-                $.ajax({
-                    dataType: "json",
-                    url: webServerAddress + "SavePushInfo",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                    //data: JSON.stringify({ userId: "302921481", deviceString': notification_id, platform: user_platform }),
-                    data: JSON.stringify({ userId: "302921481", deviceString: notification_id, platform: user_platform }),
-                    success: function (data) {
-
-                        var isUser = JSON.parse(data.d);
-                    },
-                    error: function (err) { }
-                });
-            });
-
             push.on('notification', function (data) {
                 console.log("notification event");
 
@@ -95,17 +122,16 @@
 
                 }
 
-
                 push.finish(function () {
                     console.log('finish successfully called');
                 });
             });
 
             push.on('error', function (e) {
+                alert("error----" + e.message)
                 console.log("push error");
             });
         }
-
 
         function IsIphone() {
             var userAgent = navigator.userAgent;
@@ -289,125 +315,8 @@
 
 
 
-            $(document).ready(function () {
 
 
-                $("#Loginbtn").on("tap", function () {
-                    var mail = $("#UserMail").val();
-                    var pass = $("#UserPass").val();
-
-
-                    $.ajax({
-                        dataType: "json",
-                        url: generic + "ValidateUser",
-                        contentType: "application/json; charset=utf-8",
-                        type: "POST",
-                        data: JSON.stringify({ mail: mail, pass: pass }),
-                        success: function (data) {
-
-                            var isUser = JSON.parse(data.d);
-
-                            if (isUser == true) {
-                                // בדיקה האם המשתמש עם סיסמא זמנית. אם כן - נשלח אותו ליצירת סיסמא חדשה
-                                if (pass == "000000") {
-                                    location.href = "Login-Taramti.html#RestorePassPage";
-                                }
-                                else {
-
-                                    $.ajax({
-                                        dataType: "json",
-                                        url: generic + "GetUserID",
-                                        contentType: "application/json; charset=utf-8",
-                                        type: "POST",
-                                        data: JSON.stringify({ mail: mail, pass: pass }),
-                                        success: function (data) {
-
-                                            var UserId = JSON.parse(data.d);
-                                            localStorage.setItem("UserID", UserId);
-
-                                            //$.ajax({
-                                            //    dataType: "json",
-                                            //    url: generic + "SavePushInfo",
-                                            //    contentType: "application/json; charset=utf-8",
-                                            //    type: "POST",
-                                            //    //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                                            //    data: JSON.stringify({ userId: "302921481", deviceString: "fsdfsgdfdgdfgdfgd", platform: "Android" }),
-                                            //    success: function (data) {
-
-                                            //        var isUser = JSON.parse(data.d);
-                                            //    },
-                                            //    error: function (err) { }
-                                            //});
-
-
-
-                                            location.href = "app.html";
-                                        },
-                                        error: function (err) { }
-                                    });
-
-                                    //location.href = "app.html";
-                                }
-                            }
-                            else {
-                                alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
-                                location.href = "Login-Taramti.html#LoginPage";
-                            }
-                        },
-                        error: function (err) { }
-                    });
-                }
-
-
-                )
-            });
-
-            document.addEventListener("deviceready", cordovaReady, false);
-
-            function cordovaReady() {
-                /// רישום פוש
-                alert("לפני אינישילייז");
-                var push = PushNotification.init({
-                    "android": {
-                        "senderID": "336880743356"
-                    },
-                    "ios": {
-                        "alert": "true",
-                        "badge": "true",
-                        "sound": "true",
-                        "senderID": "336880743356",
-                        "gcmSandbox": true
-                    },
-                    "windows": {}
-                })
-                alert("אחרי אינישילייז");
-                push.on('registration', function (res) {
-
-                    alert("regID---- " + res.registrationId);   // hold   device number in GCM
-                    //res.platform;
-                    //alert(res.registrationId + "   " + res.platform);
-                    //here we will make ajax call to our server for
-                    // storing the registrationId in DB.
-                    // we will add to the call:
-                    // user platform (ios, android etc..) and more data
-                    //for further use
-
-                    $.ajax({
-                        dataType: "json",
-                        url: generic + "SavePushInfo",
-                        contentType: "application/json; charset=utf-8",
-                        type: "POST",
-                        //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                        data: JSON.stringify({ userId: "302921481", deviceString: res.registrationId, platform: "res.platform" }),
-                        success: function (data) {
-                            alert("saved!!!!")
-                            var isUser = JSON.parse(data.d);
-                        },
-                        error: function (err) { }
-                    });
-
-                });
-            }
         }
     </script>
 
@@ -415,7 +324,6 @@
         function ConRegister() {
 
             location.href = "Login-Taramti.html#CompleteRegisterPage";
-
         };
 
         /// <summary>וידוא כל השדות</summary>
@@ -596,7 +504,6 @@
 
         </div>
     </div>
-
 
     <!--דף שכחתי סיסמה-->
     <div data-role="page" id="ForgotPassPage">

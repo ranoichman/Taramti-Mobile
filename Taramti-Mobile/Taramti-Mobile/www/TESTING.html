@@ -212,7 +212,6 @@
                         url: gen + "SavePushInfo",
                         contentType: "application/json; charset=utf-8",
                         type: "POST",
-                        //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
                         data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
                         success: function (data) {
 
@@ -220,7 +219,22 @@
                         },
                         error: function (err) { }
                     });
+        }
 
+        function SendPush()
+        {
+            $.ajax({
+                dataType: "json",
+                url: gen  + "SendPush",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user: "300294485", head: "סתכל למעלה", msg: "מפיל עלייך תיק" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
         }
 
 
@@ -238,6 +252,7 @@
     <input type="button" onclick="insertsearch()" value="insertsearch" />
     <input type="button" onclick="addQuestion()" value="add Question" />
     <input type="button" onclick="addToPush()" value="add Bush" />
+    <input type="button" onclick="SendPush()" value="Send Bush" />
 
     <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 

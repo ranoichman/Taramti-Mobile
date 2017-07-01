@@ -168,6 +168,7 @@ class ParticipateAuction extends Component {
     calcDonation() {
         let tempPrice = parseInt(this.state.auc.price);
         let i = this.state.curIndex;
+
         if (this.refs.newPrice !== undefined) {
             this.setState({
                 borderColor: "red"
@@ -214,8 +215,10 @@ class ParticipateAuction extends Component {
         if (this.state.borderColor !== "red") {
             const currentAuc = this.state.auc;
             let val = this.refs.newPrice.value;
-            let buyer = { UserId: buyerID }
-            let auc = { AuctionID: currentAuc.code, Buyer: buyer, ProdName: currentAuc.prodName }
+
+            let buyer = {UserId:buyerID}
+            let auc = {AuctionID : currentAuc.code, Buyer: buyer, ProdName:currentAuc.prodName}
+
             self = this;
 
             //db call!!
