@@ -27,19 +27,23 @@ class Balloon extends Component {
         const balloonDim = [
             {
                 width: "17%",
-                height: "11%"
+                height: "11%",
+                left: "50%"
             },
             {
                 width: "23%",
-                height: "15%"
+                height: "15%",
+                left: "47%"
             },
             {
                 width: "30%",
-                height: "20%"
+                height: "20%",
+                left: "43%"
             },
             {
                 width: "47%",
-                height: "33%"
+                height: "33%",
+                left: "35%"
             }
         ]
 
@@ -54,7 +58,7 @@ class Balloon extends Component {
             width: balloonDim[this.props.curIndex]["width"],
             height: balloonDim[this.props.curIndex]["height"],
             // bottom: "20px",
-            // left: "50%",
+             left: balloonDim[this.props.curIndex]["left"],
             //bottom: "20px",
             animation: `inflate 1s, floatingB 4s ease-in-out infinite`
             //animation: `inflate 1s` 
