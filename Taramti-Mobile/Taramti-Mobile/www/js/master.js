@@ -13,16 +13,13 @@ const GENERAL = {
 
     USER: {
         userID: function () {
-
             return localStorage.UserID;
         },
     },
 
     GOOGLE: {
-        SENDER_ID: function () {
-            return "336880743356";
-        },
-    }
+        SENDER_ID: "336880743356",
+    },
 }
 
 
