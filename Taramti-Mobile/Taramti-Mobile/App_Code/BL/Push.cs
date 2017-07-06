@@ -107,9 +107,14 @@ public class Push
 
     public void GetPushInfo()
     {
-        string sqlSelect = @"SELECT [device_string],[platform]
-                            FROM [dbo].[push]
-                            where (user_id =" + UserId + ") ";
+        //string sqlSelect = @"SELECT [device_string],[platform]
+        //                    FROM [dbo].[push]
+        //                    where (user_id =" + UserId + ") ";
+        string sqlSelect = @" SELECT dbo.users.user_id, dbo.push.device_string, dbo.push.platform, dbo.user_settings.push
+                             FROM            dbo.users INNER JOIN
+                            dbo.user_settings ON dbo.users.user_id = dbo.user_settings.user_id INNER JOIN
+                            dbo.push ON dbo.users.user_id = dbo.push.user_id
+                            where(user_id = " + UserId + " and dbo.user_settings.push = 1) ";
         DbService db = new DbService();
         //SqlParameter parUser = new SqlParameter("@user", UserId);
 

@@ -79,7 +79,7 @@ public class AuctionWebService : System.Web.Services.WebService
             if (SendPush)
             {
                 //Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה " + auction.ProdName + " הצע הצעה חדשה עכשיו!");
-                new Task(() => { Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה " + auc.ProdName + " הצע הצעה חדשה עכשיו!"); }).Start();   
+                new Task(() => { Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה" + auc.ProdName + " הצע הצעה חדשה עכשיו!"); }).Start();   
             }
 
             return true;
