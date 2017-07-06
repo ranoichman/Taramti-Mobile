@@ -6,7 +6,6 @@
     <feature name="Device">
         <param name="browser-package" value="Device" />
     </feature>
-    <icon src="res/just_logo.png" />
     <name>תרמתי בבית</name>
     <description>
     Hello World sample application that responds to the deviceready event.
@@ -40,5 +39,5 @@
     <allow-intent href="geo:*" />
     <preference name="phonegap-version" value="cli-6.3.1" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-minSdkVersion" value="22" />
 </widget>

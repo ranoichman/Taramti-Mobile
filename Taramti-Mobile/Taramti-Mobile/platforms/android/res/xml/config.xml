@@ -82,7 +82,6 @@
     <splash density="port-xxhdpi" src="www/res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash density="port-xxxhdpi" src="www/res/screen/android/drawable-port-xxxhdpi-screen.png" />
     <allow-intent href="market:*" />
-    <icon src="res/just_logo.png" />
     <name>תרמתי בבית</name>
     <description>
     Hello World sample application that responds to the deviceready event.
@@ -101,7 +100,7 @@
     </system.web>
     <preference name="phonegap-version" value="cli-6.3.1" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-minSdkVersion" value="22" />
     <gap:plugin name="phonegap-plugin-push" source="npm" spec="1.8.4">
         <param name="SENDER_ID" value="336880743356" />
     </gap:plugin>

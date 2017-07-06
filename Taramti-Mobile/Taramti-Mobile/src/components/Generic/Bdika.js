@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import Loader from 'react-loader';
 
 import Payment from "./Payment"
 import Home from '../Home/Home';

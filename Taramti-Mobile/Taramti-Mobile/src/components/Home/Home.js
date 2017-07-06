@@ -55,7 +55,7 @@ class Home extends Component {
 
     searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
         //console.log(`entered search on ----- ${Date.now()}`)
-        this.setState({ auctionsArr: [] });
+        this.setState({ auctionsArr: [],loaded: false,loadingCounter:0 });
         this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
     }
 
@@ -185,7 +185,7 @@ class Home extends Component {
         let couner = this.state.loadingCounter;
         couner++;
         if (couner == this.state.auctionsArr.length) {
-            this.setState({ loaded: true, loadingCounter: 0 });
+           setTimeout(()=> this.setState({ loaded: true}),1000) // display loader 1 more sec 
         }
         else {
             this.setState({ loadingCounter: couner });

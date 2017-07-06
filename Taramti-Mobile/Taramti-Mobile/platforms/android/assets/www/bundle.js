@@ -88,19 +88,19 @@
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
-	var _ActiveAuctions = __webpack_require__(439);
+	var _ActiveAuctions = __webpack_require__(440);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	var _Profile = __webpack_require__(452);
+	var _Profile = __webpack_require__(453);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _Bdika = __webpack_require__(453);
+	var _Bdika = __webpack_require__(454);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
-	var _master = __webpack_require__(457);
+	var _master = __webpack_require__(456);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -30938,7 +30938,7 @@
 	        key: 'searchTriggered',
 	        value: function searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
 	            //console.log(`entered search on ----- ${Date.now()}`)
-	            this.setState({ auctionsArr: [] });
+	            this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0 });
 	            this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
 	        }
 
@@ -31084,11 +31084,15 @@
 	    }, {
 	        key: 'handleLoad',
 	        value: function handleLoad() {
+	            var _this2 = this;
+
 	            console.log('entered');
 	            var couner = this.state.loadingCounter;
 	            couner++;
 	            if (couner == this.state.auctionsArr.length) {
-	                this.setState({ loaded: true, loadingCounter: 0 });
+	                setTimeout(function () {
+	                    return _this2.setState({ loaded: true });
+	                }, 1000); // display loader 1 more sec 
 	            } else {
 	                this.setState({ loadingCounter: couner });
 	            }
@@ -39168,7 +39172,7 @@
 	                return _react2.default.createElement(
 	                    "div",
 	                    null,
-	                    _react2.default.createElement("img", { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png", className: "loading" }),
+	                    _react2.default.createElement("img", { src: __webpack_require__(439), className: "loading" }),
 	                    _react2.default.createElement(
 	                        "h3",
 	                        { style: { textAlign: "center" } },
@@ -39191,6 +39195,12 @@
 
 /***/ }),
 /* 439 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39211,7 +39221,7 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(440);
+	var _reactTabs = __webpack_require__(441);
 
 	var _reactSlick = __webpack_require__(291);
 
@@ -39223,7 +39233,7 @@
 
 	__webpack_require__(434);
 
-	__webpack_require__(450);
+	__webpack_require__(451);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39491,7 +39501,7 @@
 	//                 </div>
 
 /***/ }),
-/* 440 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39499,23 +39509,23 @@
 	exports.__esModule = true;
 	exports.resetIdCounter = exports.Tabs = exports.TabPanel = exports.TabList = exports.Tab = undefined;
 
-	var _Tabs = __webpack_require__(441);
+	var _Tabs = __webpack_require__(442);
 
 	var _Tabs2 = _interopRequireDefault(_Tabs);
 
-	var _TabList = __webpack_require__(445);
+	var _TabList = __webpack_require__(446);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _uuid = __webpack_require__(448);
+	var _uuid = __webpack_require__(449);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39526,7 +39536,7 @@
 	exports.resetIdCounter = _uuid.reset;
 
 /***/ }),
-/* 441 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39541,13 +39551,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _propTypes3 = __webpack_require__(442);
+	var _propTypes3 = __webpack_require__(443);
 
-	var _UncontrolledTabs = __webpack_require__(447);
+	var _UncontrolledTabs = __webpack_require__(448);
 
 	var _UncontrolledTabs2 = _interopRequireDefault(_UncontrolledTabs);
 
-	var _count = __webpack_require__(449);
+	var _count = __webpack_require__(450);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39677,7 +39687,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 442 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39690,17 +39700,17 @@
 	exports.onSelectPropType = onSelectPropType;
 	exports.selectedIndexPropType = selectedIndexPropType;
 
-	var _childrenDeepMap = __webpack_require__(443);
+	var _childrenDeepMap = __webpack_require__(444);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(445);
+	var _TabList = __webpack_require__(446);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -39773,7 +39783,7 @@
 	}
 
 /***/ }),
-/* 443 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39789,15 +39799,15 @@
 
 	var _react = __webpack_require__(5);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(445);
+	var _TabList = __webpack_require__(446);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -39844,7 +39854,7 @@
 	}
 
 /***/ }),
-/* 444 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39964,7 +39974,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 445 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40031,7 +40041,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 446 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40120,7 +40130,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 447 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40141,27 +40151,27 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _uuid = __webpack_require__(448);
+	var _uuid = __webpack_require__(449);
 
 	var _uuid2 = _interopRequireDefault(_uuid);
 
-	var _propTypes3 = __webpack_require__(442);
+	var _propTypes3 = __webpack_require__(443);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(445);
+	var _TabList = __webpack_require__(446);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _count = __webpack_require__(449);
+	var _count = __webpack_require__(450);
 
-	var _childrenDeepMap = __webpack_require__(443);
+	var _childrenDeepMap = __webpack_require__(444);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40464,7 +40474,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 448 */
+/* 449 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -40483,7 +40493,7 @@
 	}
 
 /***/ }),
-/* 449 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40492,13 +40502,13 @@
 	exports.getTabsCount = getTabsCount;
 	exports.getPanelsCount = getPanelsCount;
 
-	var _childrenDeepMap = __webpack_require__(443);
+	var _childrenDeepMap = __webpack_require__(444);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -40523,13 +40533,13 @@
 	}
 
 /***/ }),
-/* 450 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(451);
+	var content = __webpack_require__(452);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -40549,7 +40559,7 @@
 	}
 
 /***/ }),
-/* 451 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -40563,7 +40573,7 @@
 
 
 /***/ }),
-/* 452 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40582,17 +40592,17 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(440);
+	var _reactTabs = __webpack_require__(441);
 
 	var _Auction = __webpack_require__(285);
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _ActiveAuctions = __webpack_require__(439);
+	var _ActiveAuctions = __webpack_require__(440);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	__webpack_require__(450);
+	__webpack_require__(451);
 
 	__webpack_require__(434);
 
@@ -40739,7 +40749,7 @@
 	exports.default = Profile;
 
 /***/ }),
-/* 453 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40758,11 +40768,7 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _reactLoader = __webpack_require__(454);
-
-	var _reactLoader2 = _interopRequireDefault(_reactLoader);
-
-	var _Payment = __webpack_require__(456);
+	var _Payment = __webpack_require__(455);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
 
@@ -40904,523 +40910,7 @@
 	exports.default = Bdika;
 
 /***/ }),
-/* 454 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory) {
-
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(41), __webpack_require__(455), __webpack_require__(190), __webpack_require__(240)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if (typeof module === 'object' && typeof module.exports === 'object') {
-	    module.exports = factory(require('react'), require('react-dom'), require('spin.js'), require('prop-types'), require('create-react-class'));
-	  } else {
-	    root.Loader = factory(root.React, root.ReactDOM, root.Spinner, root.PropTypes, root.createReactClass);
-	  }
-
-	}(this, function (React, ReactDOM, Spinner, PropTypes, createReactClass) {
-
-	  var Loader = createReactClass({
-	    propTypes: {
-	      className:       PropTypes.string,
-	      color:           PropTypes.string,
-	      component:       PropTypes.any,
-	      corners:         PropTypes.number,
-	      direction:       PropTypes.oneOf([1, -1]),
-	      fps:             PropTypes.number,
-	      hwaccell:        PropTypes.bool,
-	      left:            PropTypes.string,
-	      length:          PropTypes.number,
-	      lines:           PropTypes.number,
-	      loaded:          PropTypes.bool,
-	      loadedClassName: PropTypes.string,
-	      opacity:         PropTypes.number,
-	      options:         PropTypes.object,
-	      parentClassName: PropTypes.string,
-	      position:        PropTypes.string,
-	      radius:          PropTypes.number,
-	      rotate:          PropTypes.number,
-	      scale:           PropTypes.number,
-	      shadow:          PropTypes.bool,
-	      speed:           PropTypes.number,
-	      top:             PropTypes.string,
-	      trail:           PropTypes.number,
-	      width:           PropTypes.number,
-	      zIndex:          PropTypes.number
-	    },
-
-	    getDefaultProps: function () {
-	      return {
-	        component: 'div',
-	        loadedClassName: 'loadedContent',
-	        parentClassName: 'loader'
-	      };
-	    },
-
-	    getInitialState: function () {
-	      return { loaded: false, options: {} };
-	    },
-
-	    componentDidMount: function () {
-	      this.updateState(this.props);
-	    },
-
-	    componentWillReceiveProps: function (nextProps) {
-	      this.updateState(nextProps);
-	    },
-
-	    componentWillUnmount: function () {
-	      this.setState({ loaded: false });
-	    },
-
-	    updateState: function (props) {
-	      props || (props = {});
-
-	      var loaded = this.state.loaded;
-	      var options = this.state.options;
-
-	      // update loaded state, if supplied
-	      if ('loaded' in props) {
-	        loaded = !!props.loaded;
-	      }
-
-	      // update spinner options, if supplied
-	      var allowedOptions = Object.keys(this.constructor.propTypes);
-	      allowedOptions.splice(allowedOptions.indexOf('loaded'), 1);
-	      allowedOptions.splice(allowedOptions.indexOf('options'), 1);
-
-	      // allows passing options as either props or as an option object
-	      var propsOrObjectOptions = 'options' in props ? props.options : props;
-
-	      allowedOptions.forEach(function (key) {
-	        if (key in propsOrObjectOptions) {
-	          options[key] = propsOrObjectOptions[key];
-	        }
-	      });
-
-	      this.setState({ loaded: loaded, options: options }, this.spin);
-	    },
-
-	    spin: function () {
-	      var canUseDOM = !!(
-	        typeof window !== 'undefined' &&
-	        window.document &&
-	        window.document.createElement
-	      );
-
-	      if (canUseDOM && !this.state.loaded) {
-	        var spinner = new Spinner(this.state.options);
-	        var target =  ReactDOM.findDOMNode(this.refs.loader);
-
-	        // clear out any other spinners from previous renders
-	        target.innerHTML = '';
-	        spinner.spin(target);
-	      }
-	    },
-
-	    render: function () {
-	      var props, children;
-
-	      if (this.state.loaded) {
-	        props = { key: 'content', className: this.props.loadedClassName };
-	        children = this.props.children;
-	      } else {
-	        props = { key: 'loader', ref: 'loader', className: this.props.parentClassName };
-	      }
-
-	      return React.createElement(this.props.component, props, children);
-	    }
-	  });
-
-	  return Loader;
-
-	}));
-
-
-/***/ }),
 /* 455 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * Copyright (c) 2011-2014 Felix Gnass
-	 * Licensed under the MIT license
-	 * http://spin.js.org/
-	 *
-	 * Example:
-	    var opts = {
-	      lines: 12             // The number of lines to draw
-	    , length: 7             // The length of each line
-	    , width: 5              // The line thickness
-	    , radius: 10            // The radius of the inner circle
-	    , scale: 1.0            // Scales overall size of the spinner
-	    , corners: 1            // Roundness (0..1)
-	    , color: '#000'         // #rgb or #rrggbb
-	    , opacity: 1/4          // Opacity of the lines
-	    , rotate: 0             // Rotation offset
-	    , direction: 1          // 1: clockwise, -1: counterclockwise
-	    , speed: 1              // Rounds per second
-	    , trail: 100            // Afterglow percentage
-	    , fps: 20               // Frames per second when using setTimeout()
-	    , zIndex: 2e9           // Use a high z-index by default
-	    , className: 'spinner'  // CSS class to assign to the element
-	    , top: '50%'            // center vertically
-	    , left: '50%'           // center horizontally
-	    , shadow: false         // Whether to render a shadow
-	    , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
-	    , position: 'absolute'  // Element positioning
-	    }
-	    var target = document.getElementById('foo')
-	    var spinner = new Spinner(opts).spin(target)
-	 */
-	;(function (root, factory) {
-
-	  /* CommonJS */
-	  if (typeof module == 'object' && module.exports) module.exports = factory()
-
-	  /* AMD module */
-	  else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-
-	  /* Browser global */
-	  else root.Spinner = factory()
-	}(this, function () {
-	  "use strict"
-
-	  var prefixes = ['webkit', 'Moz', 'ms', 'O'] /* Vendor prefixes */
-	    , animations = {} /* Animation rules keyed by their name */
-	    , useCssAnimations /* Whether to use CSS animations or setTimeout */
-	    , sheet /* A stylesheet to hold the @keyframe or VML rules. */
-
-	  /**
-	   * Utility function to create elements. If no tag name is given,
-	   * a DIV is created. Optionally properties can be passed.
-	   */
-	  function createEl (tag, prop) {
-	    var el = document.createElement(tag || 'div')
-	      , n
-
-	    for (n in prop) el[n] = prop[n]
-	    return el
-	  }
-
-	  /**
-	   * Appends children and returns the parent.
-	   */
-	  function ins (parent /* child1, child2, ...*/) {
-	    for (var i = 1, n = arguments.length; i < n; i++) {
-	      parent.appendChild(arguments[i])
-	    }
-
-	    return parent
-	  }
-
-	  /**
-	   * Creates an opacity keyframe animation rule and returns its name.
-	   * Since most mobile Webkits have timing issues with animation-delay,
-	   * we create separate rules for each line/segment.
-	   */
-	  function addAnimation (alpha, trail, i, lines) {
-	    var name = ['opacity', trail, ~~(alpha * 100), i, lines].join('-')
-	      , start = 0.01 + i/lines * 100
-	      , z = Math.max(1 - (1-alpha) / trail * (100-start), alpha)
-	      , prefix = useCssAnimations.substring(0, useCssAnimations.indexOf('Animation')).toLowerCase()
-	      , pre = prefix && '-' + prefix + '-' || ''
-
-	    if (!animations[name]) {
-	      sheet.insertRule(
-	        '@' + pre + 'keyframes ' + name + '{' +
-	        '0%{opacity:' + z + '}' +
-	        start + '%{opacity:' + alpha + '}' +
-	        (start+0.01) + '%{opacity:1}' +
-	        (start+trail) % 100 + '%{opacity:' + alpha + '}' +
-	        '100%{opacity:' + z + '}' +
-	        '}', sheet.cssRules.length)
-
-	      animations[name] = 1
-	    }
-
-	    return name
-	  }
-
-	  /**
-	   * Tries various vendor prefixes and returns the first supported property.
-	   */
-	  function vendor (el, prop) {
-	    var s = el.style
-	      , pp
-	      , i
-
-	    prop = prop.charAt(0).toUpperCase() + prop.slice(1)
-	    if (s[prop] !== undefined) return prop
-	    for (i = 0; i < prefixes.length; i++) {
-	      pp = prefixes[i]+prop
-	      if (s[pp] !== undefined) return pp
-	    }
-	  }
-
-	  /**
-	   * Sets multiple style properties at once.
-	   */
-	  function css (el, prop) {
-	    for (var n in prop) {
-	      el.style[vendor(el, n) || n] = prop[n]
-	    }
-
-	    return el
-	  }
-
-	  /**
-	   * Fills in default values.
-	   */
-	  function merge (obj) {
-	    for (var i = 1; i < arguments.length; i++) {
-	      var def = arguments[i]
-	      for (var n in def) {
-	        if (obj[n] === undefined) obj[n] = def[n]
-	      }
-	    }
-	    return obj
-	  }
-
-	  /**
-	   * Returns the line color from the given string or array.
-	   */
-	  function getColor (color, idx) {
-	    return typeof color == 'string' ? color : color[idx % color.length]
-	  }
-
-	  // Built-in defaults
-
-	  var defaults = {
-	    lines: 12             // The number of lines to draw
-	  , length: 7             // The length of each line
-	  , width: 5              // The line thickness
-	  , radius: 10            // The radius of the inner circle
-	  , scale: 1.0            // Scales overall size of the spinner
-	  , corners: 1            // Roundness (0..1)
-	  , color: '#000'         // #rgb or #rrggbb
-	  , opacity: 1/4          // Opacity of the lines
-	  , rotate: 0             // Rotation offset
-	  , direction: 1          // 1: clockwise, -1: counterclockwise
-	  , speed: 1              // Rounds per second
-	  , trail: 100            // Afterglow percentage
-	  , fps: 20               // Frames per second when using setTimeout()
-	  , zIndex: 2e9           // Use a high z-index by default
-	  , className: 'spinner'  // CSS class to assign to the element
-	  , top: '50%'            // center vertically
-	  , left: '50%'           // center horizontally
-	  , shadow: false         // Whether to render a shadow
-	  , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
-	  , position: 'absolute'  // Element positioning
-	  }
-
-	  /** The constructor */
-	  function Spinner (o) {
-	    this.opts = merge(o || {}, Spinner.defaults, defaults)
-	  }
-
-	  // Global defaults that override the built-ins:
-	  Spinner.defaults = {}
-
-	  merge(Spinner.prototype, {
-	    /**
-	     * Adds the spinner to the given target element. If this instance is already
-	     * spinning, it is automatically removed from its previous target b calling
-	     * stop() internally.
-	     */
-	    spin: function (target) {
-	      this.stop()
-
-	      var self = this
-	        , o = self.opts
-	        , el = self.el = createEl(null, {className: o.className})
-
-	      css(el, {
-	        position: o.position
-	      , width: 0
-	      , zIndex: o.zIndex
-	      , left: o.left
-	      , top: o.top
-	      })
-
-	      if (target) {
-	        target.insertBefore(el, target.firstChild || null)
-	      }
-
-	      el.setAttribute('role', 'progressbar')
-	      self.lines(el, self.opts)
-
-	      if (!useCssAnimations) {
-	        // No CSS animation support, use setTimeout() instead
-	        var i = 0
-	          , start = (o.lines - 1) * (1 - o.direction) / 2
-	          , alpha
-	          , fps = o.fps
-	          , f = fps / o.speed
-	          , ostep = (1 - o.opacity) / (f * o.trail / 100)
-	          , astep = f / o.lines
-
-	        ;(function anim () {
-	          i++
-	          for (var j = 0; j < o.lines; j++) {
-	            alpha = Math.max(1 - (i + (o.lines - j) * astep) % f * ostep, o.opacity)
-
-	            self.opacity(el, j * o.direction + start, alpha, o)
-	          }
-	          self.timeout = self.el && setTimeout(anim, ~~(1000 / fps))
-	        })()
-	      }
-	      return self
-	    }
-
-	    /**
-	     * Stops and removes the Spinner.
-	     */
-	  , stop: function () {
-	      var el = this.el
-	      if (el) {
-	        clearTimeout(this.timeout)
-	        if (el.parentNode) el.parentNode.removeChild(el)
-	        this.el = undefined
-	      }
-	      return this
-	    }
-
-	    /**
-	     * Internal method that draws the individual lines. Will be overwritten
-	     * in VML fallback mode below.
-	     */
-	  , lines: function (el, o) {
-	      var i = 0
-	        , start = (o.lines - 1) * (1 - o.direction) / 2
-	        , seg
-
-	      function fill (color, shadow) {
-	        return css(createEl(), {
-	          position: 'absolute'
-	        , width: o.scale * (o.length + o.width) + 'px'
-	        , height: o.scale * o.width + 'px'
-	        , background: color
-	        , boxShadow: shadow
-	        , transformOrigin: 'left'
-	        , transform: 'rotate(' + ~~(360/o.lines*i + o.rotate) + 'deg) translate(' + o.scale*o.radius + 'px' + ',0)'
-	        , borderRadius: (o.corners * o.scale * o.width >> 1) + 'px'
-	        })
-	      }
-
-	      for (; i < o.lines; i++) {
-	        seg = css(createEl(), {
-	          position: 'absolute'
-	        , top: 1 + ~(o.scale * o.width / 2) + 'px'
-	        , transform: o.hwaccel ? 'translate3d(0,0,0)' : ''
-	        , opacity: o.opacity
-	        , animation: useCssAnimations && addAnimation(o.opacity, o.trail, start + i * o.direction, o.lines) + ' ' + 1 / o.speed + 's linear infinite'
-	        })
-
-	        if (o.shadow) ins(seg, css(fill('#000', '0 0 4px #000'), {top: '2px'}))
-	        ins(el, ins(seg, fill(getColor(o.color, i), '0 0 1px rgba(0,0,0,.1)')))
-	      }
-	      return el
-	    }
-
-	    /**
-	     * Internal method that adjusts the opacity of a single line.
-	     * Will be overwritten in VML fallback mode below.
-	     */
-	  , opacity: function (el, i, val) {
-	      if (i < el.childNodes.length) el.childNodes[i].style.opacity = val
-	    }
-
-	  })
-
-
-	  function initVML () {
-
-	    /* Utility function to create a VML tag */
-	    function vml (tag, attr) {
-	      return createEl('<' + tag + ' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">', attr)
-	    }
-
-	    // No CSS transforms but VML support, add a CSS rule for VML elements:
-	    sheet.addRule('.spin-vml', 'behavior:url(#default#VML)')
-
-	    Spinner.prototype.lines = function (el, o) {
-	      var r = o.scale * (o.length + o.width)
-	        , s = o.scale * 2 * r
-
-	      function grp () {
-	        return css(
-	          vml('group', {
-	            coordsize: s + ' ' + s
-	          , coordorigin: -r + ' ' + -r
-	          })
-	        , { width: s, height: s }
-	        )
-	      }
-
-	      var margin = -(o.width + o.length) * o.scale * 2 + 'px'
-	        , g = css(grp(), {position: 'absolute', top: margin, left: margin})
-	        , i
-
-	      function seg (i, dx, filter) {
-	        ins(
-	          g
-	        , ins(
-	            css(grp(), {rotation: 360 / o.lines * i + 'deg', left: ~~dx})
-	          , ins(
-	              css(
-	                vml('roundrect', {arcsize: o.corners})
-	              , { width: r
-	                , height: o.scale * o.width
-	                , left: o.scale * o.radius
-	                , top: -o.scale * o.width >> 1
-	                , filter: filter
-	                }
-	              )
-	            , vml('fill', {color: getColor(o.color, i), opacity: o.opacity})
-	            , vml('stroke', {opacity: 0}) // transparent stroke to fix color bleeding upon opacity change
-	            )
-	          )
-	        )
-	      }
-
-	      if (o.shadow)
-	        for (i = 1; i <= o.lines; i++) {
-	          seg(i, -2, 'progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)')
-	        }
-
-	      for (i = 1; i <= o.lines; i++) seg(i)
-	      return ins(el, g)
-	    }
-
-	    Spinner.prototype.opacity = function (el, i, val, o) {
-	      var c = el.firstChild
-	      o = o.shadow && o.lines || 0
-	      if (c && i + o < c.childNodes.length) {
-	        c = c.childNodes[i + o]; c = c && c.firstChild; c = c && c.firstChild
-	        if (c) c.opacity = val
-	      }
-	    }
-	  }
-
-	  if (typeof document !== 'undefined') {
-	    sheet = (function () {
-	      var el = createEl('style', {type : 'text/css'})
-	      ins(document.getElementsByTagName('head')[0], el)
-	      return el.sheet || el.styleSheet
-	    }())
-
-	    var probe = css(createEl('group'), {behavior: 'url(#default#VML)'})
-
-	    if (!vendor(probe, 'transform') && probe.adj) initVML()
-	    else useCssAnimations = vendor(probe, 'animation')
-	  }
-
-	  return Spinner
-
-	}));
-
-
-/***/ }),
-/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41511,7 +41001,7 @@
 	exports.default = Payment;
 
 /***/ }),
-/* 457 */
+/* 456 */
 /***/ (function(module, exports) {
 
 	
