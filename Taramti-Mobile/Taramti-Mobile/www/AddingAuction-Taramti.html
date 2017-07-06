@@ -274,7 +274,7 @@
         //}
     </script>
 
-    <script>
+    <!--<script>
 function myFunction() {
     // Declare variables
     var input, filter, ul, li, a, i;
@@ -296,7 +296,7 @@ function myFunction() {
         }
     }
 }
-    </script>
+    </script>-->
 </head>
 
 <body>
@@ -346,13 +346,13 @@ function myFunction() {
 
                     <h4>מיקום</h4> 
                     <br />
-                    <input type="search" id="SearchBox" onkeyup="myFunction()" />
+                    <input type="search" id="SearchBox" />
                     <br />
                     <!--<input type="text" id="ProdLocation" required>-->
                     <!--<div class="scrollable" id="CustomerSelectDiv">-->
-                        <select id="ProdLocation" data-icon="arrow-r">
+                        <select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">
                             <!--<option value="-1"> בחר</option>-->
-                        </select>
+                        </select> 
                         <!-- שימוש בג'יפיאס -->
                         </div>
                     <div style="display: none;">
