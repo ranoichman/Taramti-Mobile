@@ -21,14 +21,7 @@ class Profile extends Component {
         this.tabSwipeRight = this.tabSwipeRight.bind(this);
     }
 
-componentDidMount() {
-    let trialObj = "{city: haifa, num: 5, chair: false}"
-    let fsj = JSON.stringify(trialObj);
-    let wa = JSON.parse(fsj)
-    //console.log(`obj______ ${JSON.parse(trialObj)}`)
-    console.log(`wwwwwww-------------- ${wa["city"]}`)
-    console.log(`mmmmmmm::::::: ${fsj}`)
-}
+
 
 
 
