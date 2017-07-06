@@ -27,10 +27,22 @@ nav.vertical ul li{	display:block;}/* vertical menu */
 nav.horizontal ul li{	display: inline-block;}/* horizontal menu */
 img{max-width:100%; display:block;}
 /*end reset*/
+
+/*@import url(http://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+
+body{
+  font-family: "Alef Hebrew",
+               “Helvetica Neue”,
+               Helvetica,
+               Arial,
+               sans-serif;
+}*/
+
 html,body{
 	background:#f3f3f3;
 	font-size: 100%;
-	font-family: "Segoe UI",Arial,sans-serif;;
+	font-family: "Segoe UI",Arial,sans-serif;
 }
 body a{
 	transition: 0.2s all;
@@ -193,7 +205,8 @@ button.btn-10:hover{
 	background: -webkit-linear-gradient(top,  #1273b2 0%,#1273b2 0%,#2a8bcb 100%,#2a8bcb 100%,#2a8bcb 100%);
 	background: -o-linear-gradient(top,  #1273b2 0%,#1273b2 0%,#2a8bcb 100%,#2a8bcb 100%,#2a8bcb 100%);
 	background: -ms-linear-gradient(top,  #1273b2 0%,#1273b2 0%,#2a8bcb 100%,#2a8bcb 100%,#2a8bcb 100%);
-	background: linear-gradient(to bottom,  #1273b2 0%,#1273b2 0%,#2a8bcb 100%,#2a8bcb 100%,#2a8bcb 100%);
+	/*background: linear-gradient(to bottom,  #1273b2 0%,#1273b2 0%,#2a8bcb 100%,#2a8bcb 100%,#2a8bcb 100%);*/
+    background: linear-gradient(to bottom,  rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
 }
 button.btn-11{
 	background:#2980b9;
@@ -2134,7 +2147,8 @@ ul.page-mid1 {
     text-align: center;
     line-height: 2.6em;
 }
-.input-top-mid input[type="text"],.input-top-mid input[type="password"] ,.input-top-mid input[type="email"] {
+.input-top-mid input[type="text"],.input-top-mid input[type="password"] ,.input-top-mid input[type="email"] ,.input-top-mid input[type="number"] {
+    
     border: none;
     padding: 1em;
     background: none;
@@ -6446,7 +6460,7 @@ h3.app{
 }
 /*--responsive--*/
 @media(max-width:1366px){
-.input-top-mid input[type="text"],.input-top-mid input[type="password"] ,.input-top-mid input[type="email"] {
+.input-top-mid input[type="text"],.input-top-mid input[type="password"] ,.input-top-mid input[type="email"] ,.input-top-mid input[type="number"] {
     width: 74%;	
 }
 .input-top-mid13 input[type="text"] {
@@ -7246,7 +7260,7 @@ ul.full-navigation-left1 li a:hover
 }
 @media(max-width:480px){
 .button-1 {
-    width: 80%;
+    width: 100%;
 }
 .button-1:nth-child(2),.button-1:nth-child(4){
    margin-right: 0;
@@ -7310,7 +7324,7 @@ button.btn-l {
    font-size: 1.2em;
 }	
 .button-1 {
-    width: 80%;
+    width: 100%;
 }
 .button-1:nth-child(3){
 	padding-top: 1em;
@@ -7436,9 +7450,9 @@ ul.page-mid1 {
     width: 100%;
     margin: 0;
 }
-.input-top-mid input[type="text"],.input-top-mid input[type="password"] ,.input-top-mid input[type="email"] {
+.input-top-mid input[type="text"],.input-top-mid input[type="password"] ,.input-top-mid input[type="email"] ,.input-top-mid input[type="number"] {
     width: 80%;
-        padding: 0.8em 1em;
+        padding: 0.4em 1em;
 }
 .input-top-mid i {
     font-size: 1.2em;
@@ -8409,7 +8423,7 @@ a.expo {
 .tog-1 {
     margin: 1em 0 1.5em;
 }
-.input-top-mid input[type="text"],.input-top-mid input[type="password"] ,.input-top-mid input[type="email"]{
+.input-top-mid input[type="text"],.input-top-mid input[type="password"] ,.input-top-mid input[type="email"] ,.input-top-mid input[type="number"]{
     width: 73%;
     padding: 0.8em 1em;
 }

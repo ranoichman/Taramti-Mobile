@@ -48,6 +48,30 @@ footer {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
+    z-index: 10;
+    margin-top: 40%;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 20PX;
+}
+
+.FirstForm {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    z-index: 10;
+    margin-top: 60%;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 20PX;
+}
+
+    .Form .input-field, .FirstForm .input-field {
+        padding: 0 5% 5% 5%;
+    }
+
+.fa fa-user {
+    margin-top: 3%;
 }
 
 #TaramtiMenuIconDiv {
@@ -61,11 +85,11 @@ footer {
     margin: 0 auto;
 }
 
-#TaramtiLogo {
+/*#TaramtiLogo {
     float: left;
     margin-left: -2%;
     width: 95%;
-}
+}*/
 
 #TaramtiLogoLogin {
     width: 100%;
@@ -111,7 +135,7 @@ footer {
 
     #image_holder img {
         width: 100%;
-        max-height:150px;
+        max-height: 150px;
     }
 
     #image_holder div {
@@ -213,18 +237,63 @@ a.closeBox {
 }
 
 .styleLinkH {
-    text-align:center;
+    text-align: center;
 }
 
-#Loginbtn{
+#Loginbtn {
+    margin: 0 0 0 0;
+    width: 100%;
+    font-size: 1.6em;
+    font-weight: 600;
+    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+div.button-1 {
+    width: 100%;
+    margin: 0 0 0 0;
+}
+
+.Form .input-field .button-1 .btn-10 {
+    margin: 0 0 0 0;
     width: 100%;
     font-size: 1.4em;
-
+    font-weight: 600;
+    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
 }
-div.button-1{
-     margin: 0 auto;
+
+/*.button-1 {
+    width: 100%;    
+    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+}*/
+
+#UserMail, #UserPass {
 }
 
-#UserMail, #UserPass{
+.input-top-mid i {
+    margin-top: 3%;
+}
 
+#DivLogo {
+    background-color: white;
+    display: block;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    opacity: 0.9;
+}
+
+#MainLogoImg {
+    width: 70%;
+    margin: 0 auto;
+}
+
+#BkgroundImg {
+    width: 100%;
+    z-index: 0;
+    position: absolute;
+    top: 0;
 }
