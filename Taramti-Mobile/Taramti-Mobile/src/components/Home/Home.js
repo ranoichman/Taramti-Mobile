@@ -220,7 +220,7 @@ class Home extends Component {
                 </Swipeable>
 
                 {/*auctions display*/}
-                <Loader loaded={this.state.loaded}>
+                <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
                     <div className="container-fluid">
                         <CSSTransitionGroup
                             transitionName="auction"
