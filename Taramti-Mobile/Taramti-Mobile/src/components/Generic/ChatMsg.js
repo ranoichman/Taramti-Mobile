@@ -11,7 +11,7 @@ class ChatMsg extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            activeKey: 0
+            activeKey: 0,
         }
         this.generateFAQ = this.generateFAQ.bind(this);
     }

@@ -13,14 +13,23 @@ import { auctionWS, buyerID } from '../../constants/general';
 class FAQ extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            width: null
+        }
 
         this.displayAnswer = this.displayAnswer.bind(this);
         this.addAnswer = this.addAnswer.bind(this);
     }
 
+    componentDidMount() {
+        const width = this.refs.resp.clientWidth;
+        console.log(width)
+        this.setState({ width});
+    }
+
     displayAnswer() {
         return (this.props.faq.Answer !== "" ? this.props.faq.Answer :
-            this.props.chat === "true" ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : <TextInput send={this.addAnswer} />)
+            this.props.chat === "true" ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : <TextInput send={this.addAnswer} width={this.state.width} />)
     }
 
     addAnswer(val) {
@@ -36,7 +45,7 @@ class FAQ extends Component {
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
             // res.map(self.addAuction);
-           // self.setState({ FAQs: res })
+            // self.setState({ FAQs: res })
         })
             .catch(function (error) {
                 console.log(error);
@@ -52,7 +61,7 @@ class FAQ extends Component {
 
     render() {
         return (
-            <p className={this.props.display ? "response" : "responseInActive"}>
+            <p className={this.props.display ? "response" : "responseInActive"} ref="resp">
                 {this.displayAnswer()}
             </p>
         );

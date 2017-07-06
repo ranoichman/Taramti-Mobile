@@ -88,19 +88,19 @@
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
-	var _ActiveAuctions = __webpack_require__(438);
+	var _ActiveAuctions = __webpack_require__(439);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	var _Profile = __webpack_require__(451);
+	var _Profile = __webpack_require__(452);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _Bdika = __webpack_require__(452);
+	var _Bdika = __webpack_require__(453);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
-	var _master = __webpack_require__(454);
+	var _master = __webpack_require__(457);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -30865,6 +30865,10 @@
 
 	var _Search2 = _interopRequireDefault(_Search);
 
+	var _Loader = __webpack_require__(438);
+
+	var _Loader2 = _interopRequireDefault(_Loader);
+
 	__webpack_require__(434);
 
 	var _general = __webpack_require__(422);
@@ -30896,7 +30900,9 @@
 
 	        _this.state = {
 	            searchModalIsOpen: false,
-	            auctionsArr: []
+	            auctionsArr: [],
+	            loaded: false,
+	            loadingCounter: 0
 	        };
 	        _this.openSearchModal = _this.openSearchModal.bind(_this);
 	        _this.closeSearchModal = _this.closeSearchModal.bind(_this);
@@ -30908,6 +30914,7 @@
 	        _this.deleteAuction = _this.deleteAuction.bind(_this);
 	        _this.moveToAddAuction = _this.moveToAddAuction.bind(_this);
 	        _this.getDistance = _this.getDistance.bind(_this);
+	        _this.handleLoad = _this.handleLoad.bind(_this);
 	        return _this;
 	    }
 
@@ -31045,7 +31052,7 @@
 	    }, {
 	        key: 'eachAuction',
 	        value: function eachAuction(item, i) {
-	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid,
+	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid, handleLoad: this.handleLoad,
 	                home: 'true', imgArr: item.imgArr, prodName: item.prodName, prodDesc: item.prodDesc,
 	                price: item.price, endDate: item.endDate, code: item.code,
 	                percentage: item.percentage, prodCode: item.prodCode });
@@ -31075,6 +31082,18 @@
 	            location.href = 'AddingAuction-Taramti.html';
 	        }
 	    }, {
+	        key: 'handleLoad',
+	        value: function handleLoad() {
+	            console.log('entered');
+	            var couner = this.state.loadingCounter;
+	            couner++;
+	            if (couner == this.state.auctionsArr.length) {
+	                this.setState({ loaded: true, loadingCounter: 0 });
+	            } else {
+	                this.setState({ loadingCounter: couner });
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -31102,17 +31121,21 @@
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'container-fluid' },
+	                    _Loader2.default,
+	                    { loaded: this.state.loaded },
 	                    _react2.default.createElement(
-	                        _reactTransitionGroup.CSSTransitionGroup,
-	                        {
-	                            transitionName: 'auction',
-	                            transitionAppear: true,
-	                            transitionAppearTimeout: 700,
-	                            transitionEnterTimeout: 700,
-	                            transitionLeave: false },
-	                        this.state.auctionsArr.map(this.eachAuction)
+	                        'div',
+	                        { className: 'container-fluid' },
+	                        _react2.default.createElement(
+	                            _reactTransitionGroup.CSSTransitionGroup,
+	                            {
+	                                transitionName: 'auction',
+	                                transitionAppear: true,
+	                                transitionAppearTimeout: 700,
+	                                transitionEnterTimeout: 700,
+	                                transitionLeave: false },
+	                            this.state.auctionsArr.map(this.eachAuction)
+	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -31258,8 +31281,8 @@
 	    _createClass(Auction, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            this.props.handleLoad();
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
-	            console.log(this);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
@@ -31386,7 +31409,8 @@
 	        var _this = _possibleConstructorReturn(this, (PriceTag.__proto__ || Object.getPrototypeOf(PriceTag)).call(this, props));
 
 	        _this.state = {
-	            price: _this.props.price
+	            price: _this.props.price,
+	            style: {}
 	        };
 	        return _this;
 	    }
@@ -31394,27 +31418,32 @@
 	    _createClass(PriceTag, [{
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
-	            this.setState({ price: nextProps.price });
+	            var _this2 = this;
+
+	            if (parseInt(this.state.price) < parseInt(nextProps.price)) {
+	                this.setState({
+	                    price: nextProps.price,
+	                    style: {
+	                        animation: "tada 0.7s both",
+	                        WebkitAnimation: "tada 0.7s both"
+	                    }
+	                });
+	                //remove the animation style
+	                setTimeout(function () {
+	                    return _this2.setState({ style: {} });
+	                }, 700);
+	            }
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                _reactTransitionGroup.CSSTransitionGroup,
-	                {
-	                    transitionName: 'priceTag'
-	                    /*transitionAppear={true}
-	                    transitionAppearTimeout={700}*/
-	                    , transitionEnterTimeout: 700,
-	                    transitionLeaveTimeout: 500 },
+	                'div',
+	                { className: 'priceTag', style: this.state.style, key: this.props.index },
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'priceTag', key: this.props.index },
-	                    _react2.default.createElement(
-	                        'h5',
-	                        null,
-	                        this.state.price
-	                    )
+	                    'h5',
+	                    null,
+	                    this.state.price
 	                )
 	            );
 	        }
@@ -34746,7 +34775,8 @@
 	        var _this = _possibleConstructorReturn(this, (AuctionFAQ.__proto__ || Object.getPrototypeOf(AuctionFAQ)).call(this, props));
 
 	        _this.state = {
-	            FAQs: []
+	            FAQs: [],
+	            width: null
 	        };
 	        _this.addQuestion = _this.addQuestion.bind(_this);
 	        return _this;
@@ -34755,7 +34785,8 @@
 	    _createClass(AuctionFAQ, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-
+	            var width = this.refs.questions.clientWidth;
+	            this.setState({ width: width });
 	            var product = { ItemId: this.props.prodCode };
 	            var self = this;
 
@@ -34804,14 +34835,14 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { ref: 'questions' },
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.props.closeModal },
 	                    _react2.default.createElement('a', { className: 'boxclose' })
 	                ),
 	                _react2.default.createElement(_ChatMsg2.default, { FAQs: this.state.FAQs, chat: 'true' }),
-	                _react2.default.createElement(_TextInput2.default, { send: this.addQuestion })
+	                _react2.default.createElement(_TextInput2.default, { send: this.addQuestion, width: this.state.width })
 	            );
 	        }
 	    }]);
@@ -34874,8 +34905,6 @@
 	            activeKey: 0
 	        };
 	        _this.generateFAQ = _this.generateFAQ.bind(_this);
-	        _this.postAnswer = _this.postAnswer.bind(_this);
-	        _this.addQuestion = _this.addQuestion.bind(_this);
 	        return _this;
 	    }
 
@@ -34890,15 +34919,6 @@
 	                { className: 'question', header: item.Question, key: i },
 	                _react2.default.createElement(_FAQ2.default, { faq: item, key: i, index: i, display: this.state.activeKey == i ? true : false, chat: this.props.chat })
 	            );
-	        }
-	    }, {
-	        key: 'postAnswer',
-	        value: function postAnswer(ans) {
-	            if (this.props.chat === "true") {
-	                return ans !== "" ? ans : "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות";
-	            } else {
-	                return ans !== "" ? ans : _react2.default.createElement(_TextInput2.default, { send: this.addQuestion });
-	            }
 	        }
 	    }, {
 	        key: 'render',
@@ -38303,7 +38323,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', cols: '25' }),
+	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px' } }),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.sendText, className: 'icon_circle' },
@@ -38369,15 +38389,26 @@
 
 	        var _this = _possibleConstructorReturn(this, (FAQ.__proto__ || Object.getPrototypeOf(FAQ)).call(this, props));
 
+	        _this.state = {
+	            width: null
+	        };
+
 	        _this.displayAnswer = _this.displayAnswer.bind(_this);
 	        _this.addAnswer = _this.addAnswer.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(FAQ, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var width = this.refs.resp.clientWidth;
+	            console.log(width);
+	            this.setState({ width: width });
+	        }
+	    }, {
 	        key: 'displayAnswer',
 	        value: function displayAnswer() {
-	            return this.props.faq.Answer !== "" ? this.props.faq.Answer : this.props.chat === "true" ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : _react2.default.createElement(_TextInput2.default, { send: this.addAnswer });
+	            return this.props.faq.Answer !== "" ? this.props.faq.Answer : this.props.chat === "true" ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : _react2.default.createElement(_TextInput2.default, { send: this.addAnswer, width: this.state.width });
 	        }
 	    }, {
 	        key: 'addAnswer',
@@ -38404,7 +38435,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'p',
-	                { className: this.props.display ? "response" : "responseInActive" },
+	                { className: this.props.display ? "response" : "responseInActive", ref: 'resp' },
 	                this.displayAnswer()
 	            );
 	        }
@@ -38450,7 +38481,7 @@
 
 
 	// module
-	exports.push([module.id, ".hello-message {\r\n  position: absolute;\r\n  display: block;\r\n  font-size: 120%;\r\n  top: 100px;\r\n  right: 50%;\r\n  -webkit-transform: translate(50%,0);\r\n  transform: translate(50%,0);\r\n  -webkit-appearance: none;\r\n  color: #222222;\r\n  width: 300px;\r\n  text-align: center;\r\n}\r\n\r\n.fade-message-enter {\r\n  opacity: 0.01;\r\n}\r\n\r\n.fade-message-enter.fade-message-enter-active {\r\n  opacity: 1;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.fade-message-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.fade-message-leave.fade-message-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.animate{\r\n  transition: all .3s;\r\n}\r\n\r\n.question{\r\n  position: relative;\r\n  float:right;\r\n  text-align: right;\r\n  display: block;\r\n  padding: 10px 10px;\r\n  width: 100%;\r\n  margin-top: 5px;\r\n  font-size: 1.2em;\r\n  background: rgba(246, 246, 246, 1);\r\n  color: #8B0000;\r\n  z-index: 2;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  opacity: 1;\r\n  -webkit-animation: fadeIn fadeIn 1.5s both;\r\n  animation: fadeIn 1s both;\r\n  \r\n}\r\n\r\n@-webkit-keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  }\r\n  @keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  } \r\n\r\n.response{\r\n  position: relative;\r\n  float: right;\r\n  color: #2E8B57;\r\n  padding: 10px 20px;\r\n  z-index: 10;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  display: inline;\r\n  max-height: 300px;\r\n  transition: max-height 4s ease-in;\r\n}\r\n\r\n.responseInActive{\r\n  max-height: 0;\r\n  transition: max-height 4s ease-out;\r\n  display: none;\r\n}", ""]);
+	exports.push([module.id, ".hello-message {\r\n  position: absolute;\r\n  display: block;\r\n  font-size: 120%;\r\n  top: 100px;\r\n  right: 50%;\r\n  -webkit-transform: translate(50%,0);\r\n  transform: translate(50%,0);\r\n  -webkit-appearance: none;\r\n  color: #222222;\r\n  width: 300px;\r\n  text-align: center;\r\n}\r\n\r\n.fade-message-enter {\r\n  opacity: 0.01;\r\n}\r\n\r\n.fade-message-enter.fade-message-enter-active {\r\n  opacity: 1;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.fade-message-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.fade-message-leave.fade-message-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.animate{\r\n  transition: all .3s;\r\n}\r\n\r\n.question{\r\n  position: relative;\r\n  float:right;\r\n  text-align: right;\r\n  display: block;\r\n  padding: 10px 10px;\r\n  width: 100%;\r\n  margin-top: 5px;\r\n  font-size: 1.2em;\r\n  background: rgba(246, 246, 246, 1);\r\n  color: #8B0000;\r\n  z-index: 2;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  opacity: 1;\r\n  -webkit-animation: fadeIn fadeIn 1.5s both;\r\n  animation: fadeIn 1s both;\r\n  \r\n}\r\n\r\n@-webkit-keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  }\r\n  @keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  } \r\n\r\n.response{\r\n  position: relative;\r\n  float: right;\r\n  color: #2E8B57;\r\n  padding: 10px 5px;\r\n  z-index: 10;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  display: inline;\r\n  max-height: 300px;\r\n  transition: max-height 4s ease-in;\r\n}\r\n\r\n.responseInActive{\r\n  max-height: 0;\r\n  transition: max-height 4s ease-out;\r\n  display: none;\r\n}\r\n\r\ntextarea{\r\n  border-radius: 30px;\r\n}", ""]);
 
 	// exports
 
@@ -38505,8 +38536,8 @@
 	        var _this = _possibleConstructorReturn(this, (Balloon.__proto__ || Object.getPrototypeOf(Balloon)).call(this, props));
 
 	        _this.state = {
-	            width: null,
-	            height: null
+	            width: window.innerWidth,
+	            height: window.innerHeight
 	        };
 	        _this.updateWindowDimensions = _this.updateWindowDimensions.bind(_this);
 
@@ -38516,8 +38547,8 @@
 	    _createClass(Balloon, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            this.updateWindowDimensions();
-	            window.addEventListener('resize', this.updateWindowDimensions);
+	            //this.updateWindowDimensions();
+	            //        window.addEventListener('resize', this.updateWindowDimensions);
 	        }
 	    }, {
 	        key: 'updateWindowDimensions',
@@ -38550,27 +38581,14 @@
 	            var style = {
 	                width: balloonDim[this.props.curIndex]["width"],
 	                height: balloonDim[this.props.curIndex]["height"],
-	                // bottom: "20px",
 	                left: balloonDim[this.props.curIndex]["left"],
-	                //bottom: "20px",
 	                animation: 'inflate 1s, floatingB 4s ease-in-out infinite'
-	                //animation: `inflate 1s` 
 	            };
 
 	            var float = {
 	                width: balloonDim[this.props.curIndex]["width"],
 	                height: balloonDim[this.props.curIndex]["height"],
 	                animation: '' + (this.props.anim === "1" ? "releaseB 4s" : "blowDown 1.5s")
-	                // left: "50%"
-	                //  bottom: "20px",
-	                // left: "50%",
-	                //WebkitTransitionDelay: "1s",
-	                // TransitionDelay: "1s",
-	                // WebkitTransformDelay: "1s",
-	                // TransformDelay: "1s",
-	                // WebkitTransform: `translate(0,-${this.state.height-130}px) scale(1.5, 1)`,
-	                // opacity: 0,
-	                // WebkitTransition: "8s cubic-bezier(.65, 2, .03, .32)"
 	            };
 	            return _react2.default.createElement('div', { className: 'balloon', style: this.props.anim === "0" ? style : float });
 	        }
@@ -38806,7 +38824,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n\r\nimg {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    /*z-index: 1;*/\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\n      background: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n/*\r\n.down-arrow {\r\n    float: right;\r\n    z-index: 5;\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n    \r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        \r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        margin-right: 20px;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n    */\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n/*\r\n#UpperLogo {\r\n    height: 74.05px;\r\n}\r\n\r\n#TaramtiLogo {\r\n    float: left;\r\n    margin-left: -2%;\r\n    width: 95%;\r\n}*/", ""]);
+	exports.push([module.id, "\r\n\r\n\r\n\r\n\r\nimg {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    /*z-index: 1;*/\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n/*\r\n.down-arrow {\r\n    float: right;\r\n    z-index: 5;\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n    \r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        \r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        margin-right: 20px;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n    */\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n/*\r\n#UpperLogo {\r\n    height: 74.05px;\r\n}\r\n\r\n#TaramtiLogo {\r\n    float: left;\r\n    margin-left: -2%;\r\n    width: 95%;\r\n}*/", ""]);
 
 	// exports
 
@@ -38846,7 +38864,7 @@
 
 
 	// module
-	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.2s;\r\n  animation-duration: 0.2s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.2s;\r\n  animation-duration: 0.2s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n", ""]);
+	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   loading\r\n*******************\r\n*******************\r\n*/\r\n\r\n.loading{\r\n   -webkit-animation:spin 4s linear infinite;\r\n    -moz-animation:spin 4s linear infinite;\r\n    animation:spin 4s linear infinite;\r\n}\r\n\r\n@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }\r\n@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }\r\n@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }", ""]);
 
 	// exports
 
@@ -39108,6 +39126,68 @@
 /* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Loader = function (_Component) {
+	    _inherits(Loader, _Component);
+
+	    function Loader() {
+	        _classCallCheck(this, Loader);
+
+	        return _possibleConstructorReturn(this, (Loader.__proto__ || Object.getPrototypeOf(Loader)).apply(this, arguments));
+	    }
+
+	    _createClass(Loader, [{
+	        key: "render",
+	        value: function render() {
+	            if (this.props.loaded) {
+	                return _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    this.props.children
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    _react2.default.createElement("img", { src: "../../../www/img/just_logo.png", className: "loading" }),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { style: { display: "none" } },
+	                        this.props.children
+	                    )
+	                );
+	            }
+	        }
+	    }]);
+
+	    return Loader;
+	}(_react.Component);
+
+	exports.default = Loader;
+
+/***/ }),
+/* 439 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -39126,7 +39206,7 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(439);
+	var _reactTabs = __webpack_require__(440);
 
 	var _reactSlick = __webpack_require__(291);
 
@@ -39138,7 +39218,7 @@
 
 	__webpack_require__(434);
 
-	__webpack_require__(449);
+	__webpack_require__(450);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39406,7 +39486,7 @@
 	//                 </div>
 
 /***/ }),
-/* 439 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39414,23 +39494,23 @@
 	exports.__esModule = true;
 	exports.resetIdCounter = exports.Tabs = exports.TabPanel = exports.TabList = exports.Tab = undefined;
 
-	var _Tabs = __webpack_require__(440);
+	var _Tabs = __webpack_require__(441);
 
 	var _Tabs2 = _interopRequireDefault(_Tabs);
 
-	var _TabList = __webpack_require__(444);
+	var _TabList = __webpack_require__(445);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _Tab = __webpack_require__(443);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(445);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _uuid = __webpack_require__(447);
+	var _uuid = __webpack_require__(448);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39441,7 +39521,7 @@
 	exports.resetIdCounter = _uuid.reset;
 
 /***/ }),
-/* 440 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39456,13 +39536,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _propTypes3 = __webpack_require__(441);
+	var _propTypes3 = __webpack_require__(442);
 
-	var _UncontrolledTabs = __webpack_require__(446);
+	var _UncontrolledTabs = __webpack_require__(447);
 
 	var _UncontrolledTabs2 = _interopRequireDefault(_UncontrolledTabs);
 
-	var _count = __webpack_require__(448);
+	var _count = __webpack_require__(449);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39592,7 +39672,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 441 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39605,17 +39685,17 @@
 	exports.onSelectPropType = onSelectPropType;
 	exports.selectedIndexPropType = selectedIndexPropType;
 
-	var _childrenDeepMap = __webpack_require__(442);
+	var _childrenDeepMap = __webpack_require__(443);
 
-	var _Tab = __webpack_require__(443);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(444);
+	var _TabList = __webpack_require__(445);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(445);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -39688,7 +39768,7 @@
 	}
 
 /***/ }),
-/* 442 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39704,15 +39784,15 @@
 
 	var _react = __webpack_require__(5);
 
-	var _Tab = __webpack_require__(443);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(444);
+	var _TabList = __webpack_require__(445);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(445);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -39759,7 +39839,7 @@
 	}
 
 /***/ }),
-/* 443 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39879,7 +39959,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 444 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39946,7 +40026,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 445 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40035,7 +40115,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 446 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40056,27 +40136,27 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _uuid = __webpack_require__(447);
+	var _uuid = __webpack_require__(448);
 
 	var _uuid2 = _interopRequireDefault(_uuid);
 
-	var _propTypes3 = __webpack_require__(441);
+	var _propTypes3 = __webpack_require__(442);
 
-	var _Tab = __webpack_require__(443);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(444);
+	var _TabList = __webpack_require__(445);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(445);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _count = __webpack_require__(448);
+	var _count = __webpack_require__(449);
 
-	var _childrenDeepMap = __webpack_require__(442);
+	var _childrenDeepMap = __webpack_require__(443);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40379,7 +40459,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 447 */
+/* 448 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -40398,7 +40478,7 @@
 	}
 
 /***/ }),
-/* 448 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40407,13 +40487,13 @@
 	exports.getTabsCount = getTabsCount;
 	exports.getPanelsCount = getPanelsCount;
 
-	var _childrenDeepMap = __webpack_require__(442);
+	var _childrenDeepMap = __webpack_require__(443);
 
-	var _Tab = __webpack_require__(443);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(445);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -40438,13 +40518,13 @@
 	}
 
 /***/ }),
-/* 449 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(450);
+	var content = __webpack_require__(451);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -40464,7 +40544,7 @@
 	}
 
 /***/ }),
-/* 450 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -40478,7 +40558,7 @@
 
 
 /***/ }),
-/* 451 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40497,17 +40577,17 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(439);
+	var _reactTabs = __webpack_require__(440);
 
 	var _Auction = __webpack_require__(285);
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _ActiveAuctions = __webpack_require__(438);
+	var _ActiveAuctions = __webpack_require__(439);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	__webpack_require__(449);
+	__webpack_require__(450);
 
 	__webpack_require__(434);
 
@@ -40544,7 +40624,7 @@
 	            if (i === -1) {
 	                this.setState({ tabIndex: 2, animation: "slideInRight" });
 	            } else {
-	                this.setState({ tabIndex: i, animation: "slideInLeft" });
+	                this.setState({ tabIndex: i, animation: "slideInRight" });
 	            }
 	        }
 	    }, {
@@ -40554,7 +40634,7 @@
 	            if (i === 3) {
 	                this.setState({ tabIndex: 0, animation: "slideInLeft" });
 	            } else {
-	                this.setState({ tabIndex: i, animation: "slideInRight" });
+	                this.setState({ tabIndex: i, animation: "slideInLeft" });
 	            }
 	        }
 	    }, {
@@ -40562,7 +40642,7 @@
 	        value: function render() {
 	            var _this2 = this;
 
-	            var list = ["מישהו עקף אותי", "ההצעות שלי", "הבידים שלי"];
+	            var list = ["מישהו עקף אותי", "המוצרים שלי", "הבידים שלי"];
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -40654,7 +40734,7 @@
 	exports.default = Profile;
 
 /***/ }),
-/* 452 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40673,11 +40753,21 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _Payment = __webpack_require__(453);
+	var _reactLoader = __webpack_require__(454);
+
+	var _reactLoader2 = _interopRequireDefault(_reactLoader);
+
+	var _Payment = __webpack_require__(456);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
 
+	var _Home = __webpack_require__(283);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
 	__webpack_require__(424);
+
+	__webpack_require__(434);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40701,8 +40791,8 @@
 	            formerIndex: 0,
 	            float: false,
 	            width: null,
-	            height: null
-
+	            height: null,
+	            loading: false
 	        };
 	        _this.changeModalOpen = _this.changeModalOpen.bind(_this);
 	        _this.infalteB = _this.infalteB.bind(_this);
@@ -40713,8 +40803,13 @@
 	    _createClass(Bdika, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            var _this2 = this;
+
 	            this.updateWindowDimensions();
 	            window.addEventListener('resize', this.updateWindowDimensions);
+	            setTimeout(function () {
+	                return _this2.setState({ loading: true });
+	            }, 3000);
 	        }
 	    }, {
 	        key: 'updateWindowDimensions',
@@ -40738,8 +40833,6 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this2 = this;
-
 	            var auc = {
 	                price: 100,
 	                percentage: 15,
@@ -40794,26 +40887,8 @@
 	                        className: 'FAQbox' },
 	                    _react2.default.createElement(_Payment2.default, { closeModal: this.changeModalOpen, auc: auc })
 	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: this.infalteB },
-	                    '\u05E0\u05E4\u05D7'
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: function onClick() {
-	                            return _this2.setState({ float: true });
-	                        } },
-	                    '\u05E9\u05D7\u05E8\u05E8'
-	                ),
-	                _react2.default.createElement('div', { id: 'float' }),
-	                _react2.default.createElement('div', { className: 'balloon', style: this.state.float ? float : style }),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'pyro', style: this.state.float ? { display: "block" } : { display: "none" } },
-	                    _react2.default.createElement('div', { className: 'before' }),
-	                    _react2.default.createElement('div', { className: 'after' })
-	                )
+	                _react2.default.createElement('img', { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png", className: 'loading' }),
+	                _react2.default.createElement('img', { src: "../../../www/img/just_logo.png", className: 'loading' })
 	            );
 	        }
 	    }]);
@@ -40824,7 +40899,523 @@
 	exports.default = Bdika;
 
 /***/ }),
-/* 453 */
+/* 454 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory) {
+
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(41), __webpack_require__(455), __webpack_require__(190), __webpack_require__(240)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof module === 'object' && typeof module.exports === 'object') {
+	    module.exports = factory(require('react'), require('react-dom'), require('spin.js'), require('prop-types'), require('create-react-class'));
+	  } else {
+	    root.Loader = factory(root.React, root.ReactDOM, root.Spinner, root.PropTypes, root.createReactClass);
+	  }
+
+	}(this, function (React, ReactDOM, Spinner, PropTypes, createReactClass) {
+
+	  var Loader = createReactClass({
+	    propTypes: {
+	      className:       PropTypes.string,
+	      color:           PropTypes.string,
+	      component:       PropTypes.any,
+	      corners:         PropTypes.number,
+	      direction:       PropTypes.oneOf([1, -1]),
+	      fps:             PropTypes.number,
+	      hwaccell:        PropTypes.bool,
+	      left:            PropTypes.string,
+	      length:          PropTypes.number,
+	      lines:           PropTypes.number,
+	      loaded:          PropTypes.bool,
+	      loadedClassName: PropTypes.string,
+	      opacity:         PropTypes.number,
+	      options:         PropTypes.object,
+	      parentClassName: PropTypes.string,
+	      position:        PropTypes.string,
+	      radius:          PropTypes.number,
+	      rotate:          PropTypes.number,
+	      scale:           PropTypes.number,
+	      shadow:          PropTypes.bool,
+	      speed:           PropTypes.number,
+	      top:             PropTypes.string,
+	      trail:           PropTypes.number,
+	      width:           PropTypes.number,
+	      zIndex:          PropTypes.number
+	    },
+
+	    getDefaultProps: function () {
+	      return {
+	        component: 'div',
+	        loadedClassName: 'loadedContent',
+	        parentClassName: 'loader'
+	      };
+	    },
+
+	    getInitialState: function () {
+	      return { loaded: false, options: {} };
+	    },
+
+	    componentDidMount: function () {
+	      this.updateState(this.props);
+	    },
+
+	    componentWillReceiveProps: function (nextProps) {
+	      this.updateState(nextProps);
+	    },
+
+	    componentWillUnmount: function () {
+	      this.setState({ loaded: false });
+	    },
+
+	    updateState: function (props) {
+	      props || (props = {});
+
+	      var loaded = this.state.loaded;
+	      var options = this.state.options;
+
+	      // update loaded state, if supplied
+	      if ('loaded' in props) {
+	        loaded = !!props.loaded;
+	      }
+
+	      // update spinner options, if supplied
+	      var allowedOptions = Object.keys(this.constructor.propTypes);
+	      allowedOptions.splice(allowedOptions.indexOf('loaded'), 1);
+	      allowedOptions.splice(allowedOptions.indexOf('options'), 1);
+
+	      // allows passing options as either props or as an option object
+	      var propsOrObjectOptions = 'options' in props ? props.options : props;
+
+	      allowedOptions.forEach(function (key) {
+	        if (key in propsOrObjectOptions) {
+	          options[key] = propsOrObjectOptions[key];
+	        }
+	      });
+
+	      this.setState({ loaded: loaded, options: options }, this.spin);
+	    },
+
+	    spin: function () {
+	      var canUseDOM = !!(
+	        typeof window !== 'undefined' &&
+	        window.document &&
+	        window.document.createElement
+	      );
+
+	      if (canUseDOM && !this.state.loaded) {
+	        var spinner = new Spinner(this.state.options);
+	        var target =  ReactDOM.findDOMNode(this.refs.loader);
+
+	        // clear out any other spinners from previous renders
+	        target.innerHTML = '';
+	        spinner.spin(target);
+	      }
+	    },
+
+	    render: function () {
+	      var props, children;
+
+	      if (this.state.loaded) {
+	        props = { key: 'content', className: this.props.loadedClassName };
+	        children = this.props.children;
+	      } else {
+	        props = { key: 'loader', ref: 'loader', className: this.props.parentClassName };
+	      }
+
+	      return React.createElement(this.props.component, props, children);
+	    }
+	  });
+
+	  return Loader;
+
+	}));
+
+
+/***/ }),
+/* 455 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * Copyright (c) 2011-2014 Felix Gnass
+	 * Licensed under the MIT license
+	 * http://spin.js.org/
+	 *
+	 * Example:
+	    var opts = {
+	      lines: 12             // The number of lines to draw
+	    , length: 7             // The length of each line
+	    , width: 5              // The line thickness
+	    , radius: 10            // The radius of the inner circle
+	    , scale: 1.0            // Scales overall size of the spinner
+	    , corners: 1            // Roundness (0..1)
+	    , color: '#000'         // #rgb or #rrggbb
+	    , opacity: 1/4          // Opacity of the lines
+	    , rotate: 0             // Rotation offset
+	    , direction: 1          // 1: clockwise, -1: counterclockwise
+	    , speed: 1              // Rounds per second
+	    , trail: 100            // Afterglow percentage
+	    , fps: 20               // Frames per second when using setTimeout()
+	    , zIndex: 2e9           // Use a high z-index by default
+	    , className: 'spinner'  // CSS class to assign to the element
+	    , top: '50%'            // center vertically
+	    , left: '50%'           // center horizontally
+	    , shadow: false         // Whether to render a shadow
+	    , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
+	    , position: 'absolute'  // Element positioning
+	    }
+	    var target = document.getElementById('foo')
+	    var spinner = new Spinner(opts).spin(target)
+	 */
+	;(function (root, factory) {
+
+	  /* CommonJS */
+	  if (typeof module == 'object' && module.exports) module.exports = factory()
+
+	  /* AMD module */
+	  else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+
+	  /* Browser global */
+	  else root.Spinner = factory()
+	}(this, function () {
+	  "use strict"
+
+	  var prefixes = ['webkit', 'Moz', 'ms', 'O'] /* Vendor prefixes */
+	    , animations = {} /* Animation rules keyed by their name */
+	    , useCssAnimations /* Whether to use CSS animations or setTimeout */
+	    , sheet /* A stylesheet to hold the @keyframe or VML rules. */
+
+	  /**
+	   * Utility function to create elements. If no tag name is given,
+	   * a DIV is created. Optionally properties can be passed.
+	   */
+	  function createEl (tag, prop) {
+	    var el = document.createElement(tag || 'div')
+	      , n
+
+	    for (n in prop) el[n] = prop[n]
+	    return el
+	  }
+
+	  /**
+	   * Appends children and returns the parent.
+	   */
+	  function ins (parent /* child1, child2, ...*/) {
+	    for (var i = 1, n = arguments.length; i < n; i++) {
+	      parent.appendChild(arguments[i])
+	    }
+
+	    return parent
+	  }
+
+	  /**
+	   * Creates an opacity keyframe animation rule and returns its name.
+	   * Since most mobile Webkits have timing issues with animation-delay,
+	   * we create separate rules for each line/segment.
+	   */
+	  function addAnimation (alpha, trail, i, lines) {
+	    var name = ['opacity', trail, ~~(alpha * 100), i, lines].join('-')
+	      , start = 0.01 + i/lines * 100
+	      , z = Math.max(1 - (1-alpha) / trail * (100-start), alpha)
+	      , prefix = useCssAnimations.substring(0, useCssAnimations.indexOf('Animation')).toLowerCase()
+	      , pre = prefix && '-' + prefix + '-' || ''
+
+	    if (!animations[name]) {
+	      sheet.insertRule(
+	        '@' + pre + 'keyframes ' + name + '{' +
+	        '0%{opacity:' + z + '}' +
+	        start + '%{opacity:' + alpha + '}' +
+	        (start+0.01) + '%{opacity:1}' +
+	        (start+trail) % 100 + '%{opacity:' + alpha + '}' +
+	        '100%{opacity:' + z + '}' +
+	        '}', sheet.cssRules.length)
+
+	      animations[name] = 1
+	    }
+
+	    return name
+	  }
+
+	  /**
+	   * Tries various vendor prefixes and returns the first supported property.
+	   */
+	  function vendor (el, prop) {
+	    var s = el.style
+	      , pp
+	      , i
+
+	    prop = prop.charAt(0).toUpperCase() + prop.slice(1)
+	    if (s[prop] !== undefined) return prop
+	    for (i = 0; i < prefixes.length; i++) {
+	      pp = prefixes[i]+prop
+	      if (s[pp] !== undefined) return pp
+	    }
+	  }
+
+	  /**
+	   * Sets multiple style properties at once.
+	   */
+	  function css (el, prop) {
+	    for (var n in prop) {
+	      el.style[vendor(el, n) || n] = prop[n]
+	    }
+
+	    return el
+	  }
+
+	  /**
+	   * Fills in default values.
+	   */
+	  function merge (obj) {
+	    for (var i = 1; i < arguments.length; i++) {
+	      var def = arguments[i]
+	      for (var n in def) {
+	        if (obj[n] === undefined) obj[n] = def[n]
+	      }
+	    }
+	    return obj
+	  }
+
+	  /**
+	   * Returns the line color from the given string or array.
+	   */
+	  function getColor (color, idx) {
+	    return typeof color == 'string' ? color : color[idx % color.length]
+	  }
+
+	  // Built-in defaults
+
+	  var defaults = {
+	    lines: 12             // The number of lines to draw
+	  , length: 7             // The length of each line
+	  , width: 5              // The line thickness
+	  , radius: 10            // The radius of the inner circle
+	  , scale: 1.0            // Scales overall size of the spinner
+	  , corners: 1            // Roundness (0..1)
+	  , color: '#000'         // #rgb or #rrggbb
+	  , opacity: 1/4          // Opacity of the lines
+	  , rotate: 0             // Rotation offset
+	  , direction: 1          // 1: clockwise, -1: counterclockwise
+	  , speed: 1              // Rounds per second
+	  , trail: 100            // Afterglow percentage
+	  , fps: 20               // Frames per second when using setTimeout()
+	  , zIndex: 2e9           // Use a high z-index by default
+	  , className: 'spinner'  // CSS class to assign to the element
+	  , top: '50%'            // center vertically
+	  , left: '50%'           // center horizontally
+	  , shadow: false         // Whether to render a shadow
+	  , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
+	  , position: 'absolute'  // Element positioning
+	  }
+
+	  /** The constructor */
+	  function Spinner (o) {
+	    this.opts = merge(o || {}, Spinner.defaults, defaults)
+	  }
+
+	  // Global defaults that override the built-ins:
+	  Spinner.defaults = {}
+
+	  merge(Spinner.prototype, {
+	    /**
+	     * Adds the spinner to the given target element. If this instance is already
+	     * spinning, it is automatically removed from its previous target b calling
+	     * stop() internally.
+	     */
+	    spin: function (target) {
+	      this.stop()
+
+	      var self = this
+	        , o = self.opts
+	        , el = self.el = createEl(null, {className: o.className})
+
+	      css(el, {
+	        position: o.position
+	      , width: 0
+	      , zIndex: o.zIndex
+	      , left: o.left
+	      , top: o.top
+	      })
+
+	      if (target) {
+	        target.insertBefore(el, target.firstChild || null)
+	      }
+
+	      el.setAttribute('role', 'progressbar')
+	      self.lines(el, self.opts)
+
+	      if (!useCssAnimations) {
+	        // No CSS animation support, use setTimeout() instead
+	        var i = 0
+	          , start = (o.lines - 1) * (1 - o.direction) / 2
+	          , alpha
+	          , fps = o.fps
+	          , f = fps / o.speed
+	          , ostep = (1 - o.opacity) / (f * o.trail / 100)
+	          , astep = f / o.lines
+
+	        ;(function anim () {
+	          i++
+	          for (var j = 0; j < o.lines; j++) {
+	            alpha = Math.max(1 - (i + (o.lines - j) * astep) % f * ostep, o.opacity)
+
+	            self.opacity(el, j * o.direction + start, alpha, o)
+	          }
+	          self.timeout = self.el && setTimeout(anim, ~~(1000 / fps))
+	        })()
+	      }
+	      return self
+	    }
+
+	    /**
+	     * Stops and removes the Spinner.
+	     */
+	  , stop: function () {
+	      var el = this.el
+	      if (el) {
+	        clearTimeout(this.timeout)
+	        if (el.parentNode) el.parentNode.removeChild(el)
+	        this.el = undefined
+	      }
+	      return this
+	    }
+
+	    /**
+	     * Internal method that draws the individual lines. Will be overwritten
+	     * in VML fallback mode below.
+	     */
+	  , lines: function (el, o) {
+	      var i = 0
+	        , start = (o.lines - 1) * (1 - o.direction) / 2
+	        , seg
+
+	      function fill (color, shadow) {
+	        return css(createEl(), {
+	          position: 'absolute'
+	        , width: o.scale * (o.length + o.width) + 'px'
+	        , height: o.scale * o.width + 'px'
+	        , background: color
+	        , boxShadow: shadow
+	        , transformOrigin: 'left'
+	        , transform: 'rotate(' + ~~(360/o.lines*i + o.rotate) + 'deg) translate(' + o.scale*o.radius + 'px' + ',0)'
+	        , borderRadius: (o.corners * o.scale * o.width >> 1) + 'px'
+	        })
+	      }
+
+	      for (; i < o.lines; i++) {
+	        seg = css(createEl(), {
+	          position: 'absolute'
+	        , top: 1 + ~(o.scale * o.width / 2) + 'px'
+	        , transform: o.hwaccel ? 'translate3d(0,0,0)' : ''
+	        , opacity: o.opacity
+	        , animation: useCssAnimations && addAnimation(o.opacity, o.trail, start + i * o.direction, o.lines) + ' ' + 1 / o.speed + 's linear infinite'
+	        })
+
+	        if (o.shadow) ins(seg, css(fill('#000', '0 0 4px #000'), {top: '2px'}))
+	        ins(el, ins(seg, fill(getColor(o.color, i), '0 0 1px rgba(0,0,0,.1)')))
+	      }
+	      return el
+	    }
+
+	    /**
+	     * Internal method that adjusts the opacity of a single line.
+	     * Will be overwritten in VML fallback mode below.
+	     */
+	  , opacity: function (el, i, val) {
+	      if (i < el.childNodes.length) el.childNodes[i].style.opacity = val
+	    }
+
+	  })
+
+
+	  function initVML () {
+
+	    /* Utility function to create a VML tag */
+	    function vml (tag, attr) {
+	      return createEl('<' + tag + ' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">', attr)
+	    }
+
+	    // No CSS transforms but VML support, add a CSS rule for VML elements:
+	    sheet.addRule('.spin-vml', 'behavior:url(#default#VML)')
+
+	    Spinner.prototype.lines = function (el, o) {
+	      var r = o.scale * (o.length + o.width)
+	        , s = o.scale * 2 * r
+
+	      function grp () {
+	        return css(
+	          vml('group', {
+	            coordsize: s + ' ' + s
+	          , coordorigin: -r + ' ' + -r
+	          })
+	        , { width: s, height: s }
+	        )
+	      }
+
+	      var margin = -(o.width + o.length) * o.scale * 2 + 'px'
+	        , g = css(grp(), {position: 'absolute', top: margin, left: margin})
+	        , i
+
+	      function seg (i, dx, filter) {
+	        ins(
+	          g
+	        , ins(
+	            css(grp(), {rotation: 360 / o.lines * i + 'deg', left: ~~dx})
+	          , ins(
+	              css(
+	                vml('roundrect', {arcsize: o.corners})
+	              , { width: r
+	                , height: o.scale * o.width
+	                , left: o.scale * o.radius
+	                , top: -o.scale * o.width >> 1
+	                , filter: filter
+	                }
+	              )
+	            , vml('fill', {color: getColor(o.color, i), opacity: o.opacity})
+	            , vml('stroke', {opacity: 0}) // transparent stroke to fix color bleeding upon opacity change
+	            )
+	          )
+	        )
+	      }
+
+	      if (o.shadow)
+	        for (i = 1; i <= o.lines; i++) {
+	          seg(i, -2, 'progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)')
+	        }
+
+	      for (i = 1; i <= o.lines; i++) seg(i)
+	      return ins(el, g)
+	    }
+
+	    Spinner.prototype.opacity = function (el, i, val, o) {
+	      var c = el.firstChild
+	      o = o.shadow && o.lines || 0
+	      if (c && i + o < c.childNodes.length) {
+	        c = c.childNodes[i + o]; c = c && c.firstChild; c = c && c.firstChild
+	        if (c) c.opacity = val
+	      }
+	    }
+	  }
+
+	  if (typeof document !== 'undefined') {
+	    sheet = (function () {
+	      var el = createEl('style', {type : 'text/css'})
+	      ins(document.getElementsByTagName('head')[0], el)
+	      return el.sheet || el.styleSheet
+	    }())
+
+	    var probe = css(createEl('group'), {behavior: 'url(#default#VML)'})
+
+	    if (!vendor(probe, 'transform') && probe.adj) initVML()
+	    else useCssAnimations = vendor(probe, 'animation')
+	  }
+
+	  return Spinner
+
+	}));
+
+
+/***/ }),
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40915,7 +41506,7 @@
 	exports.default = Payment;
 
 /***/ }),
-/* 454 */
+/* 457 */
 /***/ (function(module, exports) {
 
 	

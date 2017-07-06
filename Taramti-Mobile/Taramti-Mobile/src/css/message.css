@@ -67,7 +67,7 @@
   position: relative;
   float: right;
   color: #2E8B57;
-  padding: 10px 20px;
+  padding: 10px 5px;
   z-index: 10;
   box-shadow: 0 0 10px rgba(0,0,0,.1);
   border-radius: 3px;
@@ -80,4 +80,8 @@
   max-height: 0;
   transition: max-height 4s ease-out;
   display: none;
+}
+
+textarea{
+  border-radius: 30px;
 }

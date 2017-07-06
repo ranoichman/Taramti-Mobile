@@ -12,13 +12,15 @@ class AuctionFAQ extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            FAQs: []
+            FAQs: [],
+            width: null
         }
         this.addQuestion = this.addQuestion.bind(this);
     }
 
     componentDidMount() {
-
+        const width = this.refs.questions.clientWidth;
+        this.setState({width});
         let product = { ItemId: this.props.prodCode }
         const self = this;
 
@@ -44,7 +46,7 @@ class AuctionFAQ extends Component {
         };
         let newFAQ = this.state.FAQs;
         newFAQ.push({ Question: val, Answer: "" })
-        this.setState({FAQs:newFAQ});
+        this.setState({ FAQs: newFAQ });
 
         axios.post(auctionWS + 'AddQuestion', {
             quest: quest
@@ -68,7 +70,7 @@ class AuctionFAQ extends Component {
 
     render() {
         return (
-            <div>
+            <div ref="questions">
                 {/*close button*/}
                 <Swipeable onTap={this.props.closeModal}>
                     <a className="boxclose" ></a>
@@ -76,7 +78,7 @@ class AuctionFAQ extends Component {
                 {/*all FAQ's*/}
                 <ChatMsg FAQs={this.state.FAQs} chat="true" />
 
-                <TextInput send={this.addQuestion} />
+                <TextInput send={this.addQuestion} width={this.state.width} />
             </div>
         )
     }

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+import Loader from 'react-loader';
 
 import Payment from "./Payment"
+import Home from '../Home/Home';
+
 
 import '../../css/balloon.css';
+import '../../css/transition.css';
 
 
 class Bdika extends Component {
@@ -16,8 +20,8 @@ class Bdika extends Component {
             formerIndex: 0,
             float: false,
             width: null,
-            height: null
-
+            height: null,
+            loading:false
         }
         this.changeModalOpen = this.changeModalOpen.bind(this);
         this.infalteB = this.infalteB.bind(this);
@@ -27,6 +31,7 @@ class Bdika extends Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        setTimeout(()=> this.setState({loading:true}),3000)
     }
 
     updateWindowDimensions() {
@@ -112,16 +117,17 @@ class Bdika extends Component {
                     <Payment closeModal={this.changeModalOpen} auc={auc} />
 
                 </Modal>
-                <button onClick={this.infalteB}>נפח</button>
+                {/*<button onClick={this.infalteB}>נפח</button>
                 <button onClick={() => this.setState({ float: true })}>שחרר</button>
                 <div id="float"></div>
                 <div className="balloon" style={this.state.float? float: style}></div>
                 <div className="pyro" style={this.state.float?  {display:"block"}: {display:"none"}}>
                     <div className="before"></div>
                     <div className="after"></div>
-                </div>
+                </div>*/}
 
-
+                <img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png"} className="loading" />
+                <img src={"../../../www/img/just_logo.png"} className="loading" />
 
             </div>
         );
