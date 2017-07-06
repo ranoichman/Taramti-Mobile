@@ -58,7 +58,6 @@ public class Reg_Auction : Auction
 
     //methods
     #region
-    public void postBid() { }
 
     //מתודה לחישוב הביד הזוכה
     public Money_Bid calcWinningBid()
@@ -352,10 +351,14 @@ public class Reg_Auction : Auction
             }
                 //    ItemCode
                    Images = pics.Count > 0 ? pics.ToArray() : null;
-
         }
+    }
+
+    public void GetItemDetails()
+    {
 
     }
+
 
 
 
