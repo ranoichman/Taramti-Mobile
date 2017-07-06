@@ -161,6 +161,11 @@ public class Item
         Questions = new List<FAQ>();
     }
 
+    public Item(int id)
+    {
+        ItemId = id;
+    }
+
     public Item(string itemName, string itemDesc)
     {
         ItemName = itemName;
@@ -186,14 +191,13 @@ public class Item
         {
             foreach (DataRow row in DS.Tables[0].Rows)
             {
-                int questCode = row["question_code"] != null ? int.Parse(row["question"].ToString()) : -1; 
+                int questCode = row["question_code"] != null ? int.Parse(row["question_code"].ToString()) : -1; 
                 string quest = row["question"] != null ? row["question"].ToString() : "";
                 string ans = row["answer"] != null ? row["answer"].ToString() : "";
                 FAQ question = new FAQ(ItemId, questCode, quest, ans);
                 Questions.Add(question);
             }
         }
-
     }
 
    
@@ -248,6 +252,24 @@ public class Item
         return true;
     }
 
+
+    // פונקציה להבאת נתוני פריט.  לא נוסתה!!
+    public Item GetItemDetails()
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+
+        string StrSql = "";
+        StrSql = "select * from [product] where product_code ='" + ItemId + "' ";
+        DS = db.GetDataSetByQuery(StrSql);
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            ItemName = DS.Tables[0].Rows[0]["product_Name"].ToString();
+            ItemDesc = DS.Tables[0].Rows[0]["product_Description"].ToString();      
+        }
+        return this;
+    }
+
     public void ShowItemImgs()
     {
         throw new System.Exception("Not implemented");
@@ -264,10 +286,7 @@ public class Item
     {
         throw new System.Exception("Not implemented");
     }
-    public void GetItemDetails()
-    {
-        throw new System.Exception("Not implemented");
-    }
+
 }
 
 #endregion
