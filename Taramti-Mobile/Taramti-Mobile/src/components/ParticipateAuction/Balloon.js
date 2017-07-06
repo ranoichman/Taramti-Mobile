@@ -15,7 +15,7 @@ class Balloon extends Component {
 
     componentDidMount() {
         this.updateWindowDimensions();
-        window.addEventListener('resize', this.updateWindowDimensions);
+//        window.addEventListener('resize', this.updateWindowDimensions);
     }
 
     updateWindowDimensions() {

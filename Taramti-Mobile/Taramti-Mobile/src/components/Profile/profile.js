@@ -21,13 +21,24 @@ class Profile extends Component {
         this.tabSwipeRight = this.tabSwipeRight.bind(this);
     }
 
+componentDidMount() {
+    let trialObj = "{city: haifa, num: 5, chair: false}"
+    let fsj = JSON.stringify(trialObj);
+    let wa = JSON.parse(fsj)
+    //console.log(`obj______ ${JSON.parse(trialObj)}`)
+    console.log(`wwwwwww-------------- ${wa["city"]}`)
+    console.log(`mmmmmmm::::::: ${fsj}`)
+}
+
+
+
     tabSwipeLeft() {
         let i = this.state.tabIndex - 1;
         if (i === -1) {
             this.setState({ tabIndex: 2, animation: "slideInRight" })
         }
         else {
-            this.setState({ tabIndex: i, animation: "slideInLeft" })
+            this.setState({ tabIndex: i, animation: "slideInRight" })
         }
     }
 
@@ -36,11 +47,11 @@ class Profile extends Component {
         if (i === 3) {
             this.setState({ tabIndex: 0, animation: "slideInLeft" })
         }
-        else { this.setState({ tabIndex: i, animation: "slideInRight" }) }
+        else { this.setState({ tabIndex: i, animation: "slideInLeft" }) }
     }
 
     render() {
-        const list = ["מישהו עקף אותי", "ההצעות שלי", "הבידים שלי"]
+        const list = ["מישהו עקף אותי", "המוצרים שלי", "הבידים שלי"]
         return (
             <div>
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
