@@ -1,7 +1,7 @@
 /*
 *******************
 *******************
-*****priceTag******
+     priceTag
 *******************
 *******************
 */
@@ -76,7 +76,7 @@
 /*
 *******************
 *******************
-*****auctions******
+     auctions
 *******************
 *******************
 */
@@ -102,7 +102,7 @@
 /*
 *******************
 *******************
-***slide effects***
+   slide effects
 *******************
 *******************
 */
@@ -110,8 +110,8 @@
 .slideInRight {
   -webkit-animation-name: slideInRight;
   animation-name: slideInRight;
-  -webkit-animation-duration: 0.2s;
-  animation-duration: 0.2s;
+  -webkit-animation-duration: 0.4s;
+  animation-duration: 0.4s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   }
@@ -141,8 +141,8 @@
 .slideInLeft {
   -webkit-animation-name: slideInLeft;
   animation-name: slideInLeft;
-  -webkit-animation-duration: 0.2s;
-  animation-duration: 0.2s;
+  -webkit-animation-duration: 0.4s;
+  animation-duration: 0.4s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
   }
@@ -168,9 +168,6 @@
   transform: translateX(0);
   }
   }
-
-
-
 
 
  .slideOutLeft {
@@ -203,3 +200,25 @@
   transform: translateX(-100%);
   }
   }
+
+  /*
+*******************
+*******************
+   loading
+*******************
+*******************
+*/
+
+.loading{
+  position: relative;
+  width: 35%;
+  display: block;
+  margin: auto;
+   -webkit-animation:spin 4s linear infinite;
+    -moz-animation:spin 4s linear infinite;
+    animation:spin 4s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

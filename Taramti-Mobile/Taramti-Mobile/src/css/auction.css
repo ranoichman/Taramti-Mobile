@@ -1,5 +1,8 @@
 
 
+
+
+
 img {
     max-width: 100%;
     margin-top: 10px; 
@@ -136,7 +139,7 @@ input{
 }
 
 .icon_circle{
-      background: #008a7c;
+background: #008a7c;
   border-radius: 50%;
   color: #fff;
   position: relative;
@@ -146,6 +149,8 @@ input{
   align-items: center;
   justify-content: center;
   float: left;
+  margin-top: 10px;
+  margin-right: 2px;
 }
 
 .icon_circle i{
