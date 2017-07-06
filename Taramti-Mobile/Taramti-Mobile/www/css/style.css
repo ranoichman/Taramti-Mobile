@@ -1797,12 +1797,12 @@ ul.page-mid1 {
 /*---*/
 .page-mid1 li a,.page-mid1 li span{
 	font-size: 1em;
-	color:#92bcd8;
+	color:#5384eb;
 	width:30px;
 	height: 30px;
 	text-align: center;
 	background:#f7f7f7;
-	border: 2px solid #92bcd8;
+	/*border: 2px solid #92bcd8;*/
 	border-radius: 100px;
 	-webkit-border-radius: 100px;
 	-o-border-radius:100px;
@@ -1820,7 +1820,7 @@ ul.page-mid1 {
   line-height: 2.5em;
   color: #92bcd8;
     background: #f7f7f7;
-    border: 2px solid #92bcd8;
+    /*border: 2px solid #92bcd8;*/
 }
 .page-mid1 li b{
 	  font-size: 2.5em;
@@ -1828,7 +1828,7 @@ ul.page-mid1 {
   vertical-align: bottom;
 }
 .page-mid1 li a:hover,.page-mid1 li span{
-	background: #5499c7;
+	background: #c04abf;
 	color:#fff;
 }
 
@@ -7411,8 +7411,8 @@ ul.page-1 {
 }
 .page-mid1 li a, .page-mid1 li span {
     font-size: 0.9em;
-    width: 28px;
-    height: 28px;
+    width: 40px;
+    height: 40px;
     line-height: 2.05em;
 }
 .page-mid1 li a.next-top1, .page-mid1 li span.pre1 {

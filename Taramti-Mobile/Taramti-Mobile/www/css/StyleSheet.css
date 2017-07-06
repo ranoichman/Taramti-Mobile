@@ -49,7 +49,7 @@ footer {
     margin-left: 5%;
     margin-right: 5%;
     z-index: 10;
-    margin-top: 40%;
+    margin-top: 35%;
     background-color: white;
     opacity: 0.9;
     border-radius: 20PX;
@@ -69,6 +69,11 @@ footer {
     .Form .input-field, .FirstForm .input-field {
         padding: 0 5% 5% 5%;
     }
+
+    #FirstRegister_input-field{
+         padding: 0 5% 0% 5%;
+    }
+
 
 .fa fa-user {
     margin-top: 3%;
@@ -151,7 +156,7 @@ footer {
 }
 
 input[type=text] {
-    text-align: center;
+    text-align: right;
 }
 
 
@@ -296,4 +301,65 @@ div.button-1 {
     z-index: 0;
     position: absolute;
     top: 0;
+}
+
+.NiceIcon {
+    width: 100%;
+}
+
+.RoundDivIcon {
+    float: left;
+    width: 32%;
+    /*margin-right: 9%;*/
+    margin-left: 12%;
+    z-index: 10;
+    margin-top: 5%;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 40PX;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3%;
+    margin-top: -5%;
+    font-size: 2em;
+    font-weight: 500;
+}
+
+.IconText {
+    text-align: center;
+    /*margin-bottom:-8%;*/
+    margin-top: -13%;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.loginText {
+    text-align: center;
+    margin-bottom: 3%;
+    margin-top:-2%;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.pre12{
+    width:150%;
+}
+
+
+.page-mid1 li a.next-top1, .page-mid1 li span.pre1 {
+    width: 50px;
+    height: 50px;
+    line-height: 2.4em;
+}
+
+.page-mid1 li a, .page-mid1 li span {
+    font-size: 1.2em;
+    width: 40px;
+    height: 40px;
+    line-height: 2.05em;
+}
+AddUserProcess{
+    margin:0 auto;
 }

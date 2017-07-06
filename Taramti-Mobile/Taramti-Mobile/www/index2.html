@@ -10,7 +10,7 @@
     <meta name="keywords" content="Fidele Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
     Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
@@ -23,7 +23,7 @@
     <script src="js/master.js"></script>
 
     <!--theme-style-->
-    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+
     <!--//theme-style-->
     <!--<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>-->
     <!--fonts-->
@@ -67,9 +67,10 @@
             <img id="MainLogoImg" src="images/MainLogo.png" />
         </div>
         <div class="Form" id="LoginForm" style="">
-            <!--<h2>כיף שבאת!</h2>-->
+
             <div class="input-field">
                 <div class="input-top">
+                    <h2 class="header">כיף שבאת!</h2>
                     <div class="input-top-top">
 
                         <div class="input-top-mid input-top-mid7">
@@ -92,11 +93,17 @@
                 </div>
 
             </div>
-            
-            <h5 class="styleLinkH"><a class="styleLink" href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>
-            <h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
-
+            <!--<h5 class="styleLinkH"><a class="styleLink" href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>-->
+            <!--<h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>-->
         </div>
+        <div class="RoundDivIcon">
+            <a class="styleLink" href="#FirstRegisterPage1"><img class="NiceIcon" src="images/add_user_male1600.png" /></a>
+        </div>
+
+        <div class="RoundDivIcon">
+            <a class="styleLink" href="#ForgotPassPage"><img class="NiceIcon" src="images/forgot_password1600.png" /></a>
+        </div>
+
 
     </div>
 
@@ -109,10 +116,8 @@
         <div class="Form" id="ForgotPassForm">
             <div class="input-field">
                 <div class="input-top">
+                    <h2 class="header">שכחת סיסמה?!</h2>
                     <div class="input-top-top">
-
-                        <h2>שכחת סיסמה?!</h2>
-
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-envelope"></i>
                             <input type="email" id="UserMailForgot" value="" placeholder="הזן כתובת אימייל">
@@ -132,8 +137,15 @@
                     <button type="button" id="ForgotBtn" onclick="SendMailPass()" class="btn-l btn-10">שלח לי מייל</button>
                 </div>
             </div>
-            <h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>
-            <h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>
+            <!--<h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>-->
+        </div>
+        <div class="surroundDiv">
+            <div class="RoundDivIcon">
+                <a class="styleLink" href="#FirstRegisterPage1"><img class="NiceIcon" src="images/add_user_male1600.png" /></a>
+            </div>
+            <div class="RoundDivIcon">
+                <a class="styleLink" href="#LoginPage"><img class="NiceIcon" src="images/backToLogin.png" /></a>
+            </div>
         </div>
     </div>
     <!--דף שחזור סיסמה-->
@@ -145,12 +157,27 @@
         <div class="Form" id="RestorePassForm">
             <div class="input-field">
                 <div class="input-top">
+                    <h2 class="header">שחזור סיסמה</h2>
                     <div class="input-top-top">
-                        <h2>שחזור סיסמה</h2>
-                        <!--<h4>הזן כתובת אימייל: </h4>-->
-                        <input type="number" placeholder="הזן ת.ז" id="UserIdRestore" />
-                        <input type="password" placeholder="הזן סיסמה חדשה" id="UserPassNew" />
-                        <input type="password" placeholder="חזור על סיסמה לאישור" id="UserPassNew2" />
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-envelope"></i>
+                            <input type="number" id="UserIdRestore" value="" placeholder="הזן ת.ז">
+                            <div class="clearfix"> </div>
+                        </div>
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-key"></i>
+                            <input type="password" id="UserPassNew" value="" placeholder="הזן סיסמה">
+                            <div class="clearfix"> </div>
+                        </div>
+
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-key"></i>
+                            <input type="password" id="UserPassNew2" value="" placeholder="הזן סיסמה לאישור">
+                            <div class="clearfix"> </div>
+                        </div>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
@@ -160,8 +187,65 @@
             </div>
         </div>
     </div>
-    <!--דף רישום ראשוני-->
-    <div data-role="page" id="FirstRegisterPage">
+
+    <!--דף רישום ראשוני1-->
+    <div data-role="page" id="FirstRegisterPage1">
+        <img id="BkgroundImg" src="images/LoginBackground.jpg" />
+        <div id="DivLogo">
+            <img id="MainLogoImg" src="images/MainLogo.png" />
+        </div>
+        <div class="Form" id="FirstRegisterForm">
+            <div id="FirstRegister_input-field" class="input-field">
+                <div class="input-top">
+                    <h2 class="header">רישום משתמש</h2>
+                    <!--<h6 class="loginText">רישום זה הוא רישום ראשוני,<br /> כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>-->
+                    <div class="input-top-top">
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-user-plus"></i>
+                            <input type="text" id="UserFirstName" value="" placeholder="שם פרטי">
+                            <div class="clearfix"> </div>
+                        </div>
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-user-plus"></i>
+                            <input type="text" id="UserLastName" value="" placeholder="שם משפחה">
+                            <div class="clearfix"> </div>
+                        </div>
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-user-plus"></i>
+                            <input type="number" id="Userid" value="" placeholder="תעודת זהות">
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="page-top-mid">
+                    <div class="page-top-mid1">
+                        <ul class="page-mid1" id="AddUserProcess">
+                            <li><a class="next-top1" href="#"><i class="fa fa-arrow-right "></i></a></li>
+                            <li><span>1</span></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><span class="pre1"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></span></li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+            <!--<h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> חזור לדף התחברות</a></h5>-->
+        </div>
+        <!--<div class="RoundDivIcon">
+            <a class="styleLink" href="#FirstRegisterPage2"><img class="NiceIcon" src="images/forrwardArrowIcon.png" /></a>
+            <h6 class="IconText">המשך</h6>
+        </div>
+        <div class="RoundDivIcon">
+            <a class="styleLink" href="#LoginPage"><img class="NiceIcon" src="images/backToLogin.png" /></a>
+            <h6 class="IconText">חזור</h6>
+        </div>-->
+    </div>
+    <!--דף רישום ראשוני 2 המשך-->
+    <div data-role="page" id="FirstRegisterPage2">
         <img id="BkgroundImg" src="images/LoginBackground.jpg" />
         <div id="DivLogo">
             <img id="MainLogoImg" src="images/MainLogo.png" />
@@ -169,23 +253,29 @@
         <div class="Form" id="FirstRegisterForm">
             <div class="input-field">
                 <div class="input-top">
+                    <!--<h2 class="header">רישום משתמש</h2>-->
+                    <h6 class="loginText">רישום זה הוא רישום ראשוני,<br /> כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>
                     <div class="input-top-top">
-                        <h2>רישום משתמש</h2>
-                        <h6>רישום זה הוא רישום ראשוני, כדי לבצע מכירה או רכישה יהיה עליך לבצע רישום מלא</h6>
-                        <h4>שם פרטי: </h4>
-                        <input type="text" id="UserFirstName" />
-                        <h4>שם משפחה: </h4>
-                        <input type="text" id="UserLastName" />
-                        <h4>תעודת זהות: </h4>
-                        <input type="number" id="Userid" />
-                        <h4>כתובת אימייל: </h4>
-                        <input type="email" id="Usermail" />
-                        <h4>הזן סיסמה: </h4>
-                        <input type="password" id="UserPass" />
-                        <h4>הזן סיסמה לאישור: </h4>
-                        <input type="password" id="UserPass2" />
 
-                        <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-envelope"></i>
+                            <input type="email" id="Usermail" value="" placeholder="כתובת אימייל">
+                            <div class="clearfix"> </div>
+                        </div>
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-key"></i>
+                            <input type="password" id="UserPass" value="" placeholder="הזן סיסמה">
+                            <div class="clearfix"> </div>
+                        </div>
+
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-key"></i>
+                            <input type="password" id="UserPass2" value="" placeholder="הזן סיסמה לאישור">
+                            <div class="clearfix"> </div>
+                        </div>
+                        <p class="loginText">בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
@@ -196,7 +286,22 @@
                     <button type="button" id="ConRegisterBtn" onclick="ConRegister()" class="btn-l btn-10">המשך לרישום מלא</button>
                 </div>
             </div>
-            <h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> חזור לדף התחברות</a></h5>
+            <div class="page-top-mid">
+                <div class="page-top-mid1">
+                    <ul class="page-mid1">
+                        <li><a class="next-top1" href="#"><i class="fa fa-arrow-right "></i></a></li>
+                        <li><span>1</span></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><span class="pre1"><i class="fa fa-arrow-left"></i></span></li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <!--<h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> חזור לדף התחברות</a></h5>-->
+        </div>
+        <div class="RoundDivIcon">
+            <a class="styleLink" href="#FirstRegisterPage1"><img class="NiceIcon" src="images/backToLogin.png" /></a>
         </div>
     </div>
 
@@ -209,30 +314,65 @@
         <div class="Form" id="CompleteRegisterForm">
             <div class="input-field">
                 <div class="input-top">
+                    <h2 class="header">רישום משתמש מלא</h2>
+
                     <div class="input-top-top">
-                        <h2>המשך רישום משתמש</h2>
-                        <h4>מספר טלפון: </h4>
-                        <input type="tel" id="UserPhon" />
-                        <h4>עיר מגורים: </h4>
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-phone"></i>
+                            <input type="number" id="UserPhon" value="" placeholder="מספר טלפון">
+                            <div class="clearfix"> </div>
+                        </div>
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-globe"></i>
+                            <input type="number" id="UserCity" value="" placeholder="עיר מגורים">
+                            <div class="clearfix"> </div>
+                        </div>
+
+                        <!--<h4>עיר מגורים: </h4>
                         <select id="UserCity" onclick="CityList()" data-icon="arrow-r">
                             <option value="-1"> בחר</option>
-                        </select>
-                        <h4>רחוב: </h4>
-                        <input type="text" id="UserStreet" />
-                        <h4>מספר בית: </h4>
-                        <input type="text" id="UserHomeNum" />
+                        </select>-->
 
-                        <p>בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-building"></i>
+                            <input type="text" id="UserStreet" value="" placeholder="רחוב">
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-home"></i>
+                            <input type="text" id="UserHomeNum" value="" placeholder="מספר בית">
+                            <div class="clearfix"> </div>
+                        </div>
+                        <!--<div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-street-view"></i>
+                            <input type="text" id="UserHomeNum2" value="" placeholder="מספר דירה">
+                            <div class="clearfix"> </div>
+                        </div>-->
+                        <p class="loginText">בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
                 <div class="button-1">
                     <button type="button" id="CompleteRegisterBtn" onclick="RegisterUser()" class="btn-l btn-10">הרשם</button>
                 </div>
-                <h5><a href="#FirstRegisterPage"> חזור</a></h5>
+                <div class="page-top-mid">
+                    <div class="page-top-mid1">
+                        <ul class="page-mid1">
+                            <li><a class="next-top1" href="#"><i class="fa fa-arrow-right "></i></a></li>
+                            <li><span>1</span></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><span class="pre1"><i class="fa fa-arrow-left"></i></span></li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <!--<h5><a href="#FirstRegisterPage"> חזור</a></h5>-->
             </div>
         </div>
     </div>
+
     <!--דף רישום משתמש-->
     <div data-role="page" id="RegisterPage">
         <img id="BkgroundImg" src="images/LoginBackground.jpg" />
@@ -270,8 +410,11 @@
                 <div class="button-1">
                     <button type="button" id="RegisterBtn" onclick="RegisterUser()" class="btn-l btn-10">הרשם</button>
                 </div>
-                <h5 class="styleLinkH"><a class="styleLink" a href="#LoginPage"> חזור לדף התחברות</a></h5>
+                <!--<h5 class="styleLinkH"><a class="styleLink" a href="#LoginPage"> חזור לדף התחברות</a></h5>-->
             </div>
+        </div>
+        <div class="RoundDivIcon">
+            <a class="styleLink" href="#LoginPage"><img class="NiceIcon" src="images/backToLogin.png" /></a>
         </div>
     </div>
 
@@ -609,7 +752,10 @@
     <script>
         function ConRegister() {
 
-            location.href = "Login-Taramti.html#CompleteRegisterPage";
+            //לתקן!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            location.href = "index2.html#CompleteRegisterPage";
+
+            //location.href = "Login-Taramti.html#CompleteRegisterPage";
         };
 
         /// <summary>וידוא כל השדות</summary>
