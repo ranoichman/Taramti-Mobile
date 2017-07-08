@@ -31,10 +31,10 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "מתודה להבאת מכרזים על פי פרמטרים")]
-    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode, int id, double lat, double lng, int radius)
+    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode, double lat, double lng, int radius, int user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, id, lat, lng, radius));
+        return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, lat, lng, radius, user_Id));
     }
 
     [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר מכרז")]
@@ -175,6 +175,11 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(quest.AddAnswer().ToString());
     }
 
+    [WebMethod (Description = "Get all active auctions in which I was outbidded ")]
+    public string GetOutBiddedAuctions(int user_Id)
+    {
+        return "";
+    }
 
 
 
