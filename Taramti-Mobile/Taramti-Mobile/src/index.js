@@ -159,7 +159,7 @@ ReactDOM.render(<HashRouter>
         <Route path="/participate" component={ParticipateAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={Profile}/>
+        <Route path="/bdika" component={Bdika}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 

@@ -38,8 +38,8 @@ class Auction extends Component {
     }
 
     componentDidMount() {
+        this.props.handleLoad();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
-        console.log(this)
     }
 
     componentWillUnmount() {

@@ -5,10 +5,10 @@ import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-
 // taramti babait components
 import Auction from './Auction';
 import Search from './Search';
+import Loader from '../Generic/Loader';
 //import TaramtiMenu from './TaramtiMenu'
 
 
@@ -23,7 +23,9 @@ class Home extends Component {
         super(props)
         this.state = {
             searchModalIsOpen: false,
-            auctionsArr: []
+            auctionsArr: [],
+            loaded: false,
+            loadingCounter: 0
         }
         this.openSearchModal = this.openSearchModal.bind(this);
         this.closeSearchModal = this.closeSearchModal.bind(this);
@@ -35,6 +37,7 @@ class Home extends Component {
         this.deleteAuction = this.deleteAuction.bind(this);
         this.moveToAddAuction = this.moveToAddAuction.bind(this);
         this.getDistance = this.getDistance.bind(this);
+        this.handleLoad = this.handleLoad.bind(this);
     }
 
     componentDidMount() {
@@ -154,7 +157,7 @@ class Home extends Component {
 
     //function that returns a render of 1 auction
     eachAuction(item, i) {
-        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid}
+        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad}
             home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc}
             price={item.price} endDate={item.endDate} code={item.code}
             percentage={item.percentage} prodCode={item.prodCode} />
@@ -175,6 +178,18 @@ class Home extends Component {
 
     moveToAddAuction() {
         location.href = 'AddingAuction-Taramti.html'
+    }
+
+    handleLoad() {
+        console.log(`entered`)
+        let couner = this.state.loadingCounter;
+        couner++;
+        if (couner == this.state.auctionsArr.length) {
+            this.setState({ loaded: true, loadingCounter: 0 });
+        }
+        else {
+            this.setState({ loadingCounter: couner });
+        }
     }
 
     render() {
@@ -205,18 +220,18 @@ class Home extends Component {
                 </Swipeable>
 
                 {/*auctions display*/}
-                
-                <div className="container-fluid">
-                    <CSSTransitionGroup
-                        transitionName="auction"
-                        transitionAppear={true}
-                        transitionAppearTimeout={700}
-                        transitionEnterTimeout={700}
-                        transitionLeave={false}>
-                        {this.state.auctionsArr.map(this.eachAuction)}
-                    </CSSTransitionGroup>
-                </div>
-
+                <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
+                    <div className="container-fluid">
+                        <CSSTransitionGroup
+                            transitionName="auction"
+                            transitionAppear={true}
+                            transitionAppearTimeout={700}
+                            transitionEnterTimeout={700}
+                            transitionLeave={false}>
+                            {this.state.auctionsArr.map(this.eachAuction)}
+                        </CSSTransitionGroup>
+                    </div>
+                </Loader>
                 {/*</CSSTransitionGroup>*/}
 
                 {/*move to add auction*/}

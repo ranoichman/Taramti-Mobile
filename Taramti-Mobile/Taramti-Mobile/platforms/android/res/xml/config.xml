@@ -82,6 +82,7 @@
     <splash density="port-xxhdpi" src="www/res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash density="port-xxxhdpi" src="www/res/screen/android/drawable-port-xxxhdpi-screen.png" />
     <allow-intent href="market:*" />
+    <icon src="res/just_logo.png" />
     <name>תרמתי בבית</name>
     <description>
     Hello World sample application that responds to the deviceready event.

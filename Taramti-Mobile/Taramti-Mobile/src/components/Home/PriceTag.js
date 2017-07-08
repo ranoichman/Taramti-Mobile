@@ -5,27 +5,32 @@ class PriceTag extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            price: this.props.price
+            price: this.props.price,
+            style: {}
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ price: nextProps.price });
+        if (parseInt(this.state.price) < parseInt(nextProps.price)) {
+            this.setState({
+                price: nextProps.price,
+                style: {
+                    animation: "tada 0.7s both",
+                    WebkitAnimation: "tada 0.7s both"
+                }
+            });
+            //remove the animation style
+            setTimeout(() => this.setState({ style: {} }), 700)
+        }
     }
-    render() {
-        return (
-            <CSSTransitionGroup
-                transitionName="priceTag"
-                /*transitionAppear={true}
-                transitionAppearTimeout={700}*/
-                transitionEnterTimeout={700}
-                transitionLeaveTimeout={500}>
-                <div className="priceTag" key={this.props.index}>
-                    <h5>{this.state.price}</h5>
-                </div>
-            </CSSTransitionGroup>
-        );
-    }
+
+render() {
+    return (
+        <div className="priceTag" style={this.state.style} key={this.props.index}>
+            <h5>{this.state.price}</h5>
+        </div>
+    );
+}
 }
 
 export default PriceTag;

@@ -88,19 +88,19 @@
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
-	var _ActiveAuctions = __webpack_require__(435);
+	var _ActiveAuctions = __webpack_require__(439);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	var _Profile = __webpack_require__(448);
+	var _Profile = __webpack_require__(452);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _Bdika = __webpack_require__(449);
+	var _Bdika = __webpack_require__(453);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
-	var _master = __webpack_require__(451);
+	var _master = __webpack_require__(457);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -269,7 +269,7 @@
 	        null,
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/participate', component: _ParticipateAuction2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Profile2.default })
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Bdika2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -30861,11 +30861,15 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _Search = __webpack_require__(433);
+	var _Search = __webpack_require__(436);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
-	__webpack_require__(431);
+	var _Loader = __webpack_require__(438);
+
+	var _Loader2 = _interopRequireDefault(_Loader);
+
+	__webpack_require__(434);
 
 	var _general = __webpack_require__(422);
 
@@ -30896,7 +30900,9 @@
 
 	        _this.state = {
 	            searchModalIsOpen: false,
-	            auctionsArr: []
+	            auctionsArr: [],
+	            loaded: false,
+	            loadingCounter: 0
 	        };
 	        _this.openSearchModal = _this.openSearchModal.bind(_this);
 	        _this.closeSearchModal = _this.closeSearchModal.bind(_this);
@@ -30908,6 +30914,7 @@
 	        _this.deleteAuction = _this.deleteAuction.bind(_this);
 	        _this.moveToAddAuction = _this.moveToAddAuction.bind(_this);
 	        _this.getDistance = _this.getDistance.bind(_this);
+	        _this.handleLoad = _this.handleLoad.bind(_this);
 	        return _this;
 	    }
 
@@ -31045,7 +31052,7 @@
 	    }, {
 	        key: 'eachAuction',
 	        value: function eachAuction(item, i) {
-	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid,
+	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid, handleLoad: this.handleLoad,
 	                home: 'true', imgArr: item.imgArr, prodName: item.prodName, prodDesc: item.prodDesc,
 	                price: item.price, endDate: item.endDate, code: item.code,
 	                percentage: item.percentage, prodCode: item.prodCode });
@@ -31075,6 +31082,18 @@
 	            location.href = 'AddingAuction-Taramti.html';
 	        }
 	    }, {
+	        key: 'handleLoad',
+	        value: function handleLoad() {
+	            console.log('entered');
+	            var couner = this.state.loadingCounter;
+	            couner++;
+	            if (couner == this.state.auctionsArr.length) {
+	                this.setState({ loaded: true, loadingCounter: 0 });
+	            } else {
+	                this.setState({ loadingCounter: couner });
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -31102,17 +31121,21 @@
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'container-fluid' },
+	                    _Loader2.default,
+	                    { loaded: this.state.loaded, loadingText: "...מחפש" },
 	                    _react2.default.createElement(
-	                        _reactTransitionGroup.CSSTransitionGroup,
-	                        {
-	                            transitionName: 'auction',
-	                            transitionAppear: true,
-	                            transitionAppearTimeout: 700,
-	                            transitionEnterTimeout: 700,
-	                            transitionLeave: false },
-	                        this.state.auctionsArr.map(this.eachAuction)
+	                        'div',
+	                        { className: 'container-fluid' },
+	                        _react2.default.createElement(
+	                            _reactTransitionGroup.CSSTransitionGroup,
+	                            {
+	                                transitionName: 'auction',
+	                                transitionAppear: true,
+	                                transitionAppearTimeout: 700,
+	                                transitionEnterTimeout: 700,
+	                                transitionLeave: false },
+	                            this.state.auctionsArr.map(this.eachAuction)
+	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -31208,13 +31231,13 @@
 
 	var _general = __webpack_require__(422);
 
-	__webpack_require__(427);
+	__webpack_require__(430);
 
-	__webpack_require__(429);
+	__webpack_require__(432);
 
 	__webpack_require__(313);
 
-	__webpack_require__(431);
+	__webpack_require__(434);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31258,8 +31281,8 @@
 	    _createClass(Auction, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            this.props.handleLoad();
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
-	            console.log(this);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
@@ -31386,7 +31409,8 @@
 	        var _this = _possibleConstructorReturn(this, (PriceTag.__proto__ || Object.getPrototypeOf(PriceTag)).call(this, props));
 
 	        _this.state = {
-	            price: _this.props.price
+	            price: _this.props.price,
+	            style: {}
 	        };
 	        return _this;
 	    }
@@ -31394,27 +31418,32 @@
 	    _createClass(PriceTag, [{
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
-	            this.setState({ price: nextProps.price });
+	            var _this2 = this;
+
+	            if (parseInt(this.state.price) < parseInt(nextProps.price)) {
+	                this.setState({
+	                    price: nextProps.price,
+	                    style: {
+	                        animation: "tada 0.7s both",
+	                        WebkitAnimation: "tada 0.7s both"
+	                    }
+	                });
+	                //remove the animation style
+	                setTimeout(function () {
+	                    return _this2.setState({ style: {} });
+	                }, 700);
+	            }
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                _reactTransitionGroup.CSSTransitionGroup,
-	                {
-	                    transitionName: 'priceTag'
-	                    /*transitionAppear={true}
-	                    transitionAppearTimeout={700}*/
-	                    , transitionEnterTimeout: 700,
-	                    transitionLeaveTimeout: 500 },
+	                'div',
+	                { className: 'priceTag', style: this.state.style, key: this.props.index },
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'priceTag', key: this.props.index },
-	                    _react2.default.createElement(
-	                        'h5',
-	                        null,
-	                        this.state.price
-	                    )
+	                    'h5',
+	                    null,
+	                    this.state.price
 	                )
 	            );
 	        }
@@ -34117,6 +34146,10 @@
 
 	var _AuctionFAQ2 = _interopRequireDefault(_AuctionFAQ);
 
+	var _Balloon = __webpack_require__(423);
+
+	var _Balloon2 = _interopRequireDefault(_Balloon);
+
 	var _Timer = __webpack_require__(287);
 
 	var _Timer2 = _interopRequireDefault(_Timer);
@@ -34125,11 +34158,13 @@
 
 	var _Pic2 = _interopRequireDefault(_Pic);
 
-	var _Tetris = __webpack_require__(423);
+	var _Tetris = __webpack_require__(426);
 
 	var _Tetris2 = _interopRequireDefault(_Tetris);
 
-	var _messages = __webpack_require__(426);
+	__webpack_require__(424);
+
+	var _messages = __webpack_require__(429);
 
 	var _general = __webpack_require__(422);
 
@@ -34164,6 +34199,10 @@
 	            msgClass: "box notEnough",
 	            shownMessage: "",
 	            tempDonation: "",
+	            curIndex: 0,
+	            formerIndex: 0,
+	            anim: "0", // determine anim: 0-reg, 1-float to top 2-blow down the balloon 
+
 	            // auc data
 	            auc: {
 	                code: par.props.code,
@@ -34312,6 +34351,8 @@
 	        key: 'calcDonation',
 	        value: function calcDonation() {
 	            var tempPrice = parseInt(this.state.auc.price);
+	            var i = this.state.curIndex;
+
 	            if (this.refs.newPrice !== undefined) {
 	                this.setState({
 	                    borderColor: "red"
@@ -34322,8 +34363,27 @@
 	                if (val > tempPrice) {
 	                    tempPrice = val;
 	                    this.setState({
+	                        curIndex: 3,
+	                        formerIndex: i,
 	                        borderColor: "green"
 	                    });
+	                } else {
+	                    if (val >= tempPrice * 0.6) {
+	                        this.setState({
+	                            curIndex: 2,
+	                            formerIndex: i
+	                        });
+	                    } else if (val >= tempPrice * 0.15) {
+	                        this.setState({
+	                            curIndex: 1,
+	                            formerIndex: i
+	                        });
+	                    } else {
+	                        this.setState({
+	                            curIndex: 0,
+	                            formerIndex: i
+	                        });
+	                    }
 	                }
 	            }
 	            this.setState({
@@ -34339,8 +34399,10 @@
 	            if (this.state.borderColor !== "red") {
 	                var currentAuc = this.state.auc;
 	                var val = this.refs.newPrice.value;
+
 	                var buyer = { UserId: _general.buyerID };
 	                var auc = { AuctionID: currentAuc.code, Buyer: buyer, ProdName: currentAuc.prodName };
+
 	                self = this;
 
 	                //db call!!
@@ -34352,15 +34414,25 @@
 	                    if (ans === true) {
 	                        self.setState({
 	                            msgClass: "box success",
+	                            anim: "1",
 	                            shownMessage: _messages.successMSG
 	                        });
+
+	                        //stop fireworks and bring baloon back
+	                        setTimeout(function () {
+	                            return self.setState({ anim: "0" });
+	                        }, 3300);
 	                    } else {
 	                        self.setState({
 	                            msgClass: "box failure",
-	                            shownMessage: _messages.failedMSG
+	                            shownMessage: _messages.failedMSG,
+	                            anim: "2"
 	                        });
+	                        setTimeout(function () {
+	                            return self.setState({ anim: "0" });
+	                        }, 1500);
 	                    }
-	                    self.setState({ msg_ModalIsOpen: true });
+	                    //self.setState({ msg_ModalIsOpen: true });
 	                }).catch(function (error) {
 	                    console.log(error);
 	                    self.setState({
@@ -34495,7 +34567,13 @@
 	                        ' '
 	                    )
 	                ),
-	                _react2.default.createElement(_Tetris2.default, null)
+	                _react2.default.createElement(_Balloon2.default, { curIndex: this.state.curIndex, formerIndex: this.state.formerIndex, anim: this.state.anim }),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'pyro', style: this.state.anim === "1" ? { display: "block" } : { display: "none" } },
+	                    _react2.default.createElement('div', { className: 'before' }),
+	                    _react2.default.createElement('div', { className: 'after' })
+	                )
 	            );
 	        }
 	    }]);
@@ -34697,7 +34775,8 @@
 	        var _this = _possibleConstructorReturn(this, (AuctionFAQ.__proto__ || Object.getPrototypeOf(AuctionFAQ)).call(this, props));
 
 	        _this.state = {
-	            FAQs: []
+	            FAQs: [],
+	            width: null
 	        };
 	        _this.addQuestion = _this.addQuestion.bind(_this);
 	        return _this;
@@ -34706,7 +34785,8 @@
 	    _createClass(AuctionFAQ, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-
+	            var width = this.refs.questions.clientWidth;
+	            this.setState({ width: width });
 	            var product = { ItemId: this.props.prodCode };
 	            var self = this;
 
@@ -34755,14 +34835,14 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { ref: 'questions' },
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.props.closeModal },
 	                    _react2.default.createElement('a', { className: 'boxclose' })
 	                ),
 	                _react2.default.createElement(_ChatMsg2.default, { FAQs: this.state.FAQs, chat: 'true' }),
-	                _react2.default.createElement(_TextInput2.default, { send: this.addQuestion })
+	                _react2.default.createElement(_TextInput2.default, { send: this.addQuestion, width: this.state.width })
 	            );
 	        }
 	    }]);
@@ -34825,8 +34905,6 @@
 	            activeKey: 0
 	        };
 	        _this.generateFAQ = _this.generateFAQ.bind(_this);
-	        _this.postAnswer = _this.postAnswer.bind(_this);
-	        _this.addQuestion = _this.addQuestion.bind(_this);
 	        return _this;
 	    }
 
@@ -34836,33 +34914,12 @@
 	    _createClass(ChatMsg, [{
 	        key: 'generateFAQ',
 	        value: function generateFAQ(item, i) {
-	            return (
-	                // <Panel className="question" header={item.Question} key={i}>
-	                //     <FAQ faq={item} key={i} index={i} active={this.state.activeKey} chat="true" />
-	                // </Panel>
-	                _react2.default.createElement(
-	                    _rcCollapse.Panel,
-	                    { className: 'question', header: item.Question, key: item.QuestionCode },
-	                    _react2.default.createElement(
-	                        'p',
-	                        { className: this.state.activeKey == i ? "response" : "responseInActive" },
-	                        this.postAnswer(item.Answer)
-	                    )
-	                )
+	            return _react2.default.createElement(
+	                _rcCollapse.Panel,
+	                { className: 'question', header: item.Question, key: i },
+	                _react2.default.createElement(_FAQ2.default, { faq: item, key: i, index: i, display: this.state.activeKey == i ? true : false, chat: this.props.chat })
 	            );
 	        }
-	    }, {
-	        key: 'postAnswer',
-	        value: function postAnswer(ans) {
-	            if (this.props.chat === "true") {
-	                return ans !== "" ? ans : "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות";
-	            } else {
-	                return ans !== "" ? ans : _react2.default.createElement(_TextInput2.default, { send: this.addQuestion });
-	            }
-	        }
-	    }, {
-	        key: 'addQuestion',
-	        value: function addQuestion(val, code) {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
@@ -38266,7 +38323,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', cols: '25' }),
+	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px' } }),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.sendText, className: 'icon_circle' },
@@ -38301,7 +38358,17 @@
 
 	var _rcCollapse2 = _interopRequireDefault(_rcCollapse);
 
+	var _axios = __webpack_require__(257);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _TextInput = __webpack_require__(418);
+
+	var _TextInput2 = _interopRequireDefault(_TextInput);
+
 	__webpack_require__(420);
+
+	var _general = __webpack_require__(422);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38322,35 +38389,55 @@
 
 	        var _this = _possibleConstructorReturn(this, (FAQ.__proto__ || Object.getPrototypeOf(FAQ)).call(this, props));
 
-	        _this.displayAnswer = _this.displayAnswer.bind(_this);
+	        _this.state = {
+	            width: null
+	        };
 
+	        _this.displayAnswer = _this.displayAnswer.bind(_this);
+	        _this.addAnswer = _this.addAnswer.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(FAQ, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var width = this.refs.resp.clientWidth;
+	            console.log(width);
+	            this.setState({ width: width });
+	        }
+	    }, {
 	        key: 'displayAnswer',
 	        value: function displayAnswer() {
-	            if (this.props.chat === "true") {
-	                return this.props.faq.Answer !== "" ? this.props.faq.Answer : "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות";
-	            } else {
-	                return this.props.faq.Answer !== "" ? this.props.faq.Answer : _react2.default.createElement(TextInput, { send: this.addQuestion });
-	            }
+	            return this.props.faq.Answer !== "" ? this.props.faq.Answer : this.props.chat === "true" ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : _react2.default.createElement(_TextInput2.default, { send: this.addAnswer, width: this.state.width });
+	        }
+	    }, {
+	        key: 'addAnswer',
+	        value: function addAnswer(val) {
+	            console.log('ans ---- ' + val);
+	            console.log('code ---- ' + this.props.faq.QuestionCode);
+
+	            var question = this.props.faq;
+	            question["Answer"] = val;
+	            var self = this;
+
+	            _axios2.default.post(_general.auctionWS + 'AddAnswer', {
+	                quest: question
+	            }).then(function (response) {
+	                var res = JSON.parse(response.data.d);
+	                // res.map(self.addAuction);
+	                // self.setState({ FAQs: res })
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'p',
-	                { className: this.props.active === this.key ? "response" : "responseInActive" },
+	                { className: this.props.display ? "response" : "responseInActive", ref: 'resp' },
 	                this.displayAnswer()
-	            )
-	            // <Panel className="question" header={this.props.faq.Question} key={this.props.key} >
-	            //     <p className={this.state.activeKey == this.props.key ? "response" : "responseInActive"}>
-	            //         {/*{item.Answer !== "" ? item.Answer : <TextInput send={this.addQuestion} />}*/}
-	            //         {this.displayAnswer()}
-	            //     </p>
-	            // </Panel>
-	            ;
+	            );
 	        }
 	    }]);
 
@@ -38394,7 +38481,7 @@
 
 
 	// module
-	exports.push([module.id, ".hello-message {\r\n  position: absolute;\r\n  display: block;\r\n  font-size: 120%;\r\n  top: 100px;\r\n  right: 50%;\r\n  -webkit-transform: translate(50%,0);\r\n  transform: translate(50%,0);\r\n  -webkit-appearance: none;\r\n  color: #222222;\r\n  width: 300px;\r\n  text-align: center;\r\n}\r\n\r\n.fade-message-enter {\r\n  opacity: 0.01;\r\n}\r\n\r\n.fade-message-enter.fade-message-enter-active {\r\n  opacity: 1;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.fade-message-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.fade-message-leave.fade-message-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.animate{\r\n  transition: all .3s;\r\n}\r\n\r\n.question{\r\n  position: relative;\r\n  float:right;\r\n  text-align: right;\r\n  display: block;\r\n  padding: 10px 10px;\r\n  width: 100%;\r\n  margin-top: 5px;\r\n  font-size: 1.2em;\r\n  cursor: pointer;\r\n  background: rgba(246, 246, 246, 1);\r\n  color: #8B0000;\r\n  z-index: 2;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n}\r\n\r\n.response{\r\n  position: relative;\r\n  float:right;\r\n  color: #2E8B57;\r\n  padding: 10px 20px;\r\n  z-index: 10;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  display: inline;\r\n}\r\n\r\n.responseInActive{\r\n  display: none;\r\n}", ""]);
+	exports.push([module.id, ".hello-message {\r\n  position: absolute;\r\n  display: block;\r\n  font-size: 120%;\r\n  top: 100px;\r\n  right: 50%;\r\n  -webkit-transform: translate(50%,0);\r\n  transform: translate(50%,0);\r\n  -webkit-appearance: none;\r\n  color: #222222;\r\n  width: 300px;\r\n  text-align: center;\r\n}\r\n\r\n.fade-message-enter {\r\n  opacity: 0.01;\r\n}\r\n\r\n.fade-message-enter.fade-message-enter-active {\r\n  opacity: 1;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.fade-message-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.fade-message-leave.fade-message-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.animate{\r\n  transition: all .3s;\r\n}\r\n\r\n.question{\r\n  position: relative;\r\n  float:right;\r\n  text-align: right;\r\n  display: block;\r\n  padding: 10px 10px;\r\n  width: 100%;\r\n  margin-top: 5px;\r\n  font-size: 1.2em;\r\n  background: rgba(246, 246, 246, 1);\r\n  color: #8B0000;\r\n  z-index: 2;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  opacity: 1;\r\n  -webkit-animation: fadeIn fadeIn 1.5s both;\r\n  animation: fadeIn 1s both;\r\n  \r\n}\r\n\r\n@-webkit-keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  }\r\n  @keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  } \r\n\r\n.response{\r\n  position: relative;\r\n  float: right;\r\n  color: #2E8B57;\r\n  padding: 10px 5px;\r\n  z-index: 10;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  display: inline;\r\n  max-height: 300px;\r\n  transition: max-height 4s ease-in;\r\n}\r\n\r\n.responseInActive{\r\n  max-height: 0;\r\n  transition: max-height 4s ease-out;\r\n  display: none;\r\n}\r\n\r\ntextarea{\r\n  border-radius: 30px;\r\n}", ""]);
 
 	// exports
 
@@ -38430,11 +38517,149 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	__webpack_require__(424);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Balloon = function (_Component) {
+	    _inherits(Balloon, _Component);
+
+	    function Balloon(props) {
+	        _classCallCheck(this, Balloon);
+
+	        var _this = _possibleConstructorReturn(this, (Balloon.__proto__ || Object.getPrototypeOf(Balloon)).call(this, props));
+
+	        _this.state = {
+	            width: window.innerWidth,
+	            height: window.innerHeight
+	        };
+	        _this.updateWindowDimensions = _this.updateWindowDimensions.bind(_this);
+
+	        return _this;
+	    }
+
+	    _createClass(Balloon, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //this.updateWindowDimensions();
+	            //        window.addEventListener('resize', this.updateWindowDimensions);
+	        }
+	    }, {
+	        key: 'updateWindowDimensions',
+	        value: function updateWindowDimensions() {
+	            this.setState({ width: window.innerWidth, height: window.innerHeight });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var balloonDim = [{
+	                width: "17%",
+	                height: "11%",
+	                left: "50%"
+	            }, {
+	                width: "23%",
+	                height: "15%",
+	                left: "47%"
+	            }, {
+	                width: "30%",
+	                height: "20%",
+	                left: "43%"
+	            }, {
+	                width: "47%",
+	                height: "33%",
+	                left: "35%"
+	            }];
+
+	            var keyframes = '@keyframes inflate {\n            0% {' + balloonDim[this.props.formerIndex] + '} \n            100% {' + balloonDim[this.props.curIndex] + '}\n        }';
+
+	            var style = {
+	                width: balloonDim[this.props.curIndex]["width"],
+	                height: balloonDim[this.props.curIndex]["height"],
+	                left: balloonDim[this.props.curIndex]["left"],
+	                animation: 'inflate 1s, floatingB 4s ease-in-out infinite'
+	            };
+
+	            var float = {
+	                width: balloonDim[this.props.curIndex]["width"],
+	                height: balloonDim[this.props.curIndex]["height"],
+	                animation: '' + (this.props.anim === "1" ? "releaseB 4s" : "blowDown 1.5s")
+	            };
+	            return _react2.default.createElement('div', { className: 'balloon', style: this.props.anim === "0" ? style : float });
+	        }
+	    }]);
+
+	    return Balloon;
+	}(_react.Component);
+
+	exports.default = Balloon;
+
+/***/ }),
+/* 424 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(425);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./balloon.css", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./balloon.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 425 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     balloon\r\n*******************\r\n*******************\r\n*/\r\n\r\n.balloon {\r\n  display: block;\r\n  margin: auto;\r\n  border-radius: 80%;\r\n  background: -webkit-radial-gradient(40% 20%, #acd9fc 10%, #0090ff 50%, #002f53 90%);\r\n  color: -webkit-radial-gradient(40% 20%, #acd9fc 10%, #0090ff 50%, #002f53 90%);\r\n  box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.07);\r\n  position: absolute;\r\n  /*top: 50%;*/\r\n  bottom: 20px;\r\n  /*left: 35%;*/\r\n  transform: translate(-50%, -50%);\r\n  transition: all 0.5s;\r\n  transform-origin: center top;\r\n  \r\n}\r\n.balloon::before {\r\n  content: \"\\25B2\";\r\n  display: block;\r\n  width: 100%;\r\n  font-size: 20px;\r\n  color: #0b75c9;\r\n  text-align: center;\r\n  z-index: -100;\r\n  position: absolute;\r\n  bottom: -12px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\nballoon animations\r\n*******************\r\n*******************\r\n*/\r\n@keyframes releaseB{\r\n  0%{\r\n    opacity: 1;\r\n    left: 50%\r\n    }\r\n  100%{\r\n    -webkit-transform: translate(0,-800px) scale(1, 1);\r\n    opacity: 0;\r\n    -webkit-transition: 2s cubic-bezier(.65, 2, .03, .32);\r\n    left: 50%\r\n  }\r\n}\r\n\r\n@keyframes floatingB {\r\n  0%,100%{ transform:translateY(0) translateX(-40px) rotate(-4deg); }\r\n  50%{ transform:translateY(-15px) translateX(-10px) rotate(4deg); }\r\n}\r\n\r\n@keyframes blowDown {\r\n  0% {\r\n    width: 47%;\r\n    height: 33%;\r\n    transform: rotate(-45deg);\r\n  }\r\n  36% {\r\n    width: 30%;\r\n    height: 20%;\r\n    left: 50%;\r\n    transform: rotate(45deg);\r\n  }\r\n  69% {\r\n    width: 23%;\r\n    height: 15%;\r\n    left:   50%;\r\n    transform: rotate(-45deg);\r\n  }\r\n  95% {\r\n    width: 0;\r\n    height: 0;\r\n    left: 65%;\r\n    /*bottom: -10%;*/\r\n    transform: rotate(0);\r\n  }\r\n  100%{\r\n    left: 150%;\r\n    content: none\r\n  }\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     fireworks\r\n*******************\r\n*******************\r\n*/\r\n.pyro > .before, .pyro > .after {\r\n  position: absolute;\r\n  width: 5px;\r\n  height: 5px;\r\n  border-radius: 50%;\r\n  box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;\r\n  -moz-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -webkit-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -o-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -ms-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n}\r\n\r\n.pyro > .after {\r\n  -moz-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -webkit-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -o-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -ms-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -moz-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -webkit-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -o-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -ms-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  animation-duration: 1.25s, 1.25s, 6.25s;\r\n}\r\n\r\n@-webkit-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-moz-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-o-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-ms-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-webkit-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-moz-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-o-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-ms-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-webkit-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-moz-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-o-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-ms-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 426 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _reactSwipeable = __webpack_require__(228);
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	__webpack_require__(424);
+	__webpack_require__(427);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38471,13 +38696,13 @@
 	exports.default = Tetris;
 
 /***/ }),
-/* 424 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(425);
+	var content = __webpack_require__(428);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38497,7 +38722,7 @@
 	}
 
 /***/ }),
-/* 425 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38511,7 +38736,7 @@
 
 
 /***/ }),
-/* 426 */
+/* 429 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -38525,13 +38750,13 @@
 	var errorMSG = exports.errorMSG = "משהו לא הלך כשורה, נא נסה שוב";
 
 /***/ }),
-/* 427 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(428);
+	var content = __webpack_require__(431);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38551,7 +38776,7 @@
 	}
 
 /***/ }),
-/* 428 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38565,13 +38790,13 @@
 
 
 /***/ }),
-/* 429 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(430);
+	var content = __webpack_require__(433);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38591,7 +38816,7 @@
 	}
 
 /***/ }),
-/* 430 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38599,19 +38824,19 @@
 
 
 	// module
-	exports.push([module.id, "\r\n\r\nimg {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    /*z-index: 1;*/\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\n      background: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n/*\r\n.down-arrow {\r\n    float: right;\r\n    z-index: 5;\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n    \r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        \r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        margin-right: 20px;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n    */\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n/*\r\n#UpperLogo {\r\n    height: 74.05px;\r\n}\r\n\r\n#TaramtiLogo {\r\n    float: left;\r\n    margin-left: -2%;\r\n    width: 95%;\r\n}*/", ""]);
+	exports.push([module.id, "\r\n\r\n\r\n\r\n\r\nimg {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    /*z-index: 1;*/\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n/*\r\n.down-arrow {\r\n    float: right;\r\n    z-index: 5;\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n    \r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        \r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        margin-right: 20px;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n    */\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n/*\r\n#UpperLogo {\r\n    height: 74.05px;\r\n}\r\n\r\n#TaramtiLogo {\r\n    float: left;\r\n    margin-left: -2%;\r\n    width: 95%;\r\n}*/", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 431 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(432);
+	var content = __webpack_require__(435);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38631,7 +38856,7 @@
 	}
 
 /***/ }),
-/* 432 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38639,13 +38864,13 @@
 
 
 	// module
-	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n*****priceTag******\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n*****auctions******\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n***slide effects***\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.2s;\r\n  animation-duration: 0.2s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.2s;\r\n  animation-duration: 0.2s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n", ""]);
+	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   loading\r\n*******************\r\n*******************\r\n*/\r\n\r\n.loading{\r\n  position: relative;\r\n  width: 35%;\r\n  display: block;\r\n  margin: auto;\r\n   -webkit-animation:spin 4s linear infinite;\r\n    -moz-animation:spin 4s linear infinite;\r\n    animation:spin 4s linear infinite;\r\n}\r\n\r\n@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }\r\n@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }\r\n@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 433 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38668,7 +38893,7 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _Ddl = __webpack_require__(434);
+	var _Ddl = __webpack_require__(437);
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
@@ -38831,7 +39056,7 @@
 	exports.default = Search;
 
 /***/ }),
-/* 434 */
+/* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -38898,7 +39123,74 @@
 	exports.default = Ddl;
 
 /***/ }),
-/* 435 */
+/* 438 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Loader = function (_Component) {
+	    _inherits(Loader, _Component);
+
+	    function Loader() {
+	        _classCallCheck(this, Loader);
+
+	        return _possibleConstructorReturn(this, (Loader.__proto__ || Object.getPrototypeOf(Loader)).apply(this, arguments));
+	    }
+
+	    _createClass(Loader, [{
+	        key: "render",
+	        value: function render() {
+	            if (this.props.loaded) {
+	                return _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    this.props.children
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    _react2.default.createElement("img", { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png", className: "loading" }),
+	                    _react2.default.createElement(
+	                        "h3",
+	                        { style: { textAlign: "center" } },
+	                        this.props.loadingText
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { style: { display: "none" } },
+	                        this.props.children
+	                    )
+	                );
+	            }
+	        }
+	    }]);
+
+	    return Loader;
+	}(_react.Component);
+
+	exports.default = Loader;
+
+/***/ }),
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38919,7 +39211,7 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(436);
+	var _reactTabs = __webpack_require__(440);
 
 	var _reactSlick = __webpack_require__(291);
 
@@ -38929,9 +39221,9 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	__webpack_require__(431);
+	__webpack_require__(434);
 
-	__webpack_require__(446);
+	__webpack_require__(450);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39199,7 +39491,7 @@
 	//                 </div>
 
 /***/ }),
-/* 436 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39207,23 +39499,23 @@
 	exports.__esModule = true;
 	exports.resetIdCounter = exports.Tabs = exports.TabPanel = exports.TabList = exports.Tab = undefined;
 
-	var _Tabs = __webpack_require__(437);
+	var _Tabs = __webpack_require__(441);
 
 	var _Tabs2 = _interopRequireDefault(_Tabs);
 
-	var _TabList = __webpack_require__(441);
+	var _TabList = __webpack_require__(445);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _Tab = __webpack_require__(440);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(442);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _uuid = __webpack_require__(444);
+	var _uuid = __webpack_require__(448);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39234,7 +39526,7 @@
 	exports.resetIdCounter = _uuid.reset;
 
 /***/ }),
-/* 437 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39249,13 +39541,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _propTypes3 = __webpack_require__(438);
+	var _propTypes3 = __webpack_require__(442);
 
-	var _UncontrolledTabs = __webpack_require__(443);
+	var _UncontrolledTabs = __webpack_require__(447);
 
 	var _UncontrolledTabs2 = _interopRequireDefault(_UncontrolledTabs);
 
-	var _count = __webpack_require__(445);
+	var _count = __webpack_require__(449);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39385,7 +39677,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 438 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39398,17 +39690,17 @@
 	exports.onSelectPropType = onSelectPropType;
 	exports.selectedIndexPropType = selectedIndexPropType;
 
-	var _childrenDeepMap = __webpack_require__(439);
+	var _childrenDeepMap = __webpack_require__(443);
 
-	var _Tab = __webpack_require__(440);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(441);
+	var _TabList = __webpack_require__(445);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(442);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -39481,7 +39773,7 @@
 	}
 
 /***/ }),
-/* 439 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39497,15 +39789,15 @@
 
 	var _react = __webpack_require__(5);
 
-	var _Tab = __webpack_require__(440);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(441);
+	var _TabList = __webpack_require__(445);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(442);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -39552,7 +39844,7 @@
 	}
 
 /***/ }),
-/* 440 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39672,7 +39964,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 441 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39739,7 +40031,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 442 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39828,7 +40120,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 443 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39849,27 +40141,27 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _uuid = __webpack_require__(444);
+	var _uuid = __webpack_require__(448);
 
 	var _uuid2 = _interopRequireDefault(_uuid);
 
-	var _propTypes3 = __webpack_require__(438);
+	var _propTypes3 = __webpack_require__(442);
 
-	var _Tab = __webpack_require__(440);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(441);
+	var _TabList = __webpack_require__(445);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(442);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _count = __webpack_require__(445);
+	var _count = __webpack_require__(449);
 
-	var _childrenDeepMap = __webpack_require__(439);
+	var _childrenDeepMap = __webpack_require__(443);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40172,7 +40464,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 444 */
+/* 448 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -40191,7 +40483,7 @@
 	}
 
 /***/ }),
-/* 445 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40200,13 +40492,13 @@
 	exports.getTabsCount = getTabsCount;
 	exports.getPanelsCount = getPanelsCount;
 
-	var _childrenDeepMap = __webpack_require__(439);
+	var _childrenDeepMap = __webpack_require__(443);
 
-	var _Tab = __webpack_require__(440);
+	var _Tab = __webpack_require__(444);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(442);
+	var _TabPanel = __webpack_require__(446);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -40231,13 +40523,13 @@
 	}
 
 /***/ }),
-/* 446 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(447);
+	var content = __webpack_require__(451);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -40257,7 +40549,7 @@
 	}
 
 /***/ }),
-/* 447 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -40271,7 +40563,7 @@
 
 
 /***/ }),
-/* 448 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40290,19 +40582,19 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(436);
+	var _reactTabs = __webpack_require__(440);
 
 	var _Auction = __webpack_require__(285);
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _ActiveAuctions = __webpack_require__(435);
+	var _ActiveAuctions = __webpack_require__(439);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	__webpack_require__(446);
+	__webpack_require__(450);
 
-	__webpack_require__(431);
+	__webpack_require__(434);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40337,7 +40629,7 @@
 	            if (i === -1) {
 	                this.setState({ tabIndex: 2, animation: "slideInRight" });
 	            } else {
-	                this.setState({ tabIndex: i, animation: "slideInLeft" });
+	                this.setState({ tabIndex: i, animation: "slideInRight" });
 	            }
 	        }
 	    }, {
@@ -40347,7 +40639,7 @@
 	            if (i === 3) {
 	                this.setState({ tabIndex: 0, animation: "slideInLeft" });
 	            } else {
-	                this.setState({ tabIndex: i, animation: "slideInRight" });
+	                this.setState({ tabIndex: i, animation: "slideInLeft" });
 	            }
 	        }
 	    }, {
@@ -40355,7 +40647,7 @@
 	        value: function render() {
 	            var _this2 = this;
 
-	            var list = ["מישהו עקף אותי", "ההצעות שלי", "הבידים שלי"];
+	            var list = ["מישהו עקף אותי", "המוצרים שלי", "הבידים שלי"];
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -40447,7 +40739,7 @@
 	exports.default = Profile;
 
 /***/ }),
-/* 449 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40466,9 +40758,21 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _Payment = __webpack_require__(450);
+	var _reactLoader = __webpack_require__(454);
+
+	var _reactLoader2 = _interopRequireDefault(_reactLoader);
+
+	var _Payment = __webpack_require__(456);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
+
+	var _Home = __webpack_require__(283);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
+	__webpack_require__(424);
+
+	__webpack_require__(434);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40487,19 +40791,49 @@
 	        var _this = _possibleConstructorReturn(this, (Bdika.__proto__ || Object.getPrototypeOf(Bdika)).call(this, props));
 
 	        _this.state = {
-	            PaymentModalIsOpen: false
+	            PaymentModalIsOpen: false,
+	            curIndex: 0,
+	            formerIndex: 0,
+	            float: false,
+	            width: null,
+	            height: null,
+	            loading: false
 	        };
 	        _this.changeModalOpen = _this.changeModalOpen.bind(_this);
+	        _this.infalteB = _this.infalteB.bind(_this);
+	        _this.updateWindowDimensions = _this.updateWindowDimensions.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(Bdika, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            this.updateWindowDimensions();
+	            window.addEventListener('resize', this.updateWindowDimensions);
+	            setTimeout(function () {
+	                return _this2.setState({ loading: true });
+	            }, 3000);
+	        }
+	    }, {
+	        key: 'updateWindowDimensions',
+	        value: function updateWindowDimensions() {
+	            this.setState({ width: window.innerWidth, height: window.innerHeight });
+	        }
+	    }, {
 	        key: 'changeModalOpen',
 	        value: function changeModalOpen() {
 	            var newStatus = !this.state.PaymentModalIsOpen;
 	            this.setState({
 	                PaymentModalIsOpen: newStatus
 	            });
+	        }
+	    }, {
+	        key: 'infalteB',
+	        value: function infalteB() {
+	            var i = this.state.curIndex;
+	            this.setState({ formerIndex: i, curIndex: i === 2 ? 0 : ++i });
 	        }
 	    }, {
 	        key: 'render',
@@ -40509,6 +40843,37 @@
 	                percentage: 15,
 	                prodName: "שם מגניב למוצר"
 
+	            };
+
+	            var balloonDim = [{
+	                width: "17%",
+	                height: "11%"
+	            }, {
+	                width: "30%",
+	                height: "20%"
+	            }, {
+	                width: "47%",
+	                height: "33%"
+	            }];
+
+	            var keyframes = '@keyframes inflate {\n            0% {' + balloonDim[this.state.curIndex] + '} \n            100% {' + balloonDim[this.state.formerIndex] + '}\n        }';
+
+	            var style = {
+	                width: balloonDim[this.state.curIndex]["width"],
+	                height: balloonDim[this.state.curIndex]["height"],
+	                animation: "inflate 1s"
+	            };
+
+	            var float = {
+	                //  width: balloonDim[this.state.curIndex]["width"],
+	                //  height: balloonDim[this.state.curIndex]["height"],
+	                // animation: "releaseB 4s"
+
+	                animation: "inflateLarge 1.5s"
+
+	                // WebkitTransform: `translate(0,-${this.state.height-130}px) scale(1.5, 1)`,
+	                // opacity: 0,
+	                // WebkitTransition: "4s cubic-bezier(.65, 2, .03, .32)"
 	            };
 
 	            return _react2.default.createElement(
@@ -40526,7 +40891,9 @@
 	                        contentLabel: 'open FAQ',
 	                        className: 'FAQbox' },
 	                    _react2.default.createElement(_Payment2.default, { closeModal: this.changeModalOpen, auc: auc })
-	                )
+	                ),
+	                _react2.default.createElement('img', { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png", className: 'loading' }),
+	                _react2.default.createElement('img', { src: "../../../www/img/just_logo.png", className: 'loading' })
 	            );
 	        }
 	    }]);
@@ -40537,7 +40904,523 @@
 	exports.default = Bdika;
 
 /***/ }),
-/* 450 */
+/* 454 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory) {
+
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(41), __webpack_require__(455), __webpack_require__(190), __webpack_require__(240)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof module === 'object' && typeof module.exports === 'object') {
+	    module.exports = factory(require('react'), require('react-dom'), require('spin.js'), require('prop-types'), require('create-react-class'));
+	  } else {
+	    root.Loader = factory(root.React, root.ReactDOM, root.Spinner, root.PropTypes, root.createReactClass);
+	  }
+
+	}(this, function (React, ReactDOM, Spinner, PropTypes, createReactClass) {
+
+	  var Loader = createReactClass({
+	    propTypes: {
+	      className:       PropTypes.string,
+	      color:           PropTypes.string,
+	      component:       PropTypes.any,
+	      corners:         PropTypes.number,
+	      direction:       PropTypes.oneOf([1, -1]),
+	      fps:             PropTypes.number,
+	      hwaccell:        PropTypes.bool,
+	      left:            PropTypes.string,
+	      length:          PropTypes.number,
+	      lines:           PropTypes.number,
+	      loaded:          PropTypes.bool,
+	      loadedClassName: PropTypes.string,
+	      opacity:         PropTypes.number,
+	      options:         PropTypes.object,
+	      parentClassName: PropTypes.string,
+	      position:        PropTypes.string,
+	      radius:          PropTypes.number,
+	      rotate:          PropTypes.number,
+	      scale:           PropTypes.number,
+	      shadow:          PropTypes.bool,
+	      speed:           PropTypes.number,
+	      top:             PropTypes.string,
+	      trail:           PropTypes.number,
+	      width:           PropTypes.number,
+	      zIndex:          PropTypes.number
+	    },
+
+	    getDefaultProps: function () {
+	      return {
+	        component: 'div',
+	        loadedClassName: 'loadedContent',
+	        parentClassName: 'loader'
+	      };
+	    },
+
+	    getInitialState: function () {
+	      return { loaded: false, options: {} };
+	    },
+
+	    componentDidMount: function () {
+	      this.updateState(this.props);
+	    },
+
+	    componentWillReceiveProps: function (nextProps) {
+	      this.updateState(nextProps);
+	    },
+
+	    componentWillUnmount: function () {
+	      this.setState({ loaded: false });
+	    },
+
+	    updateState: function (props) {
+	      props || (props = {});
+
+	      var loaded = this.state.loaded;
+	      var options = this.state.options;
+
+	      // update loaded state, if supplied
+	      if ('loaded' in props) {
+	        loaded = !!props.loaded;
+	      }
+
+	      // update spinner options, if supplied
+	      var allowedOptions = Object.keys(this.constructor.propTypes);
+	      allowedOptions.splice(allowedOptions.indexOf('loaded'), 1);
+	      allowedOptions.splice(allowedOptions.indexOf('options'), 1);
+
+	      // allows passing options as either props or as an option object
+	      var propsOrObjectOptions = 'options' in props ? props.options : props;
+
+	      allowedOptions.forEach(function (key) {
+	        if (key in propsOrObjectOptions) {
+	          options[key] = propsOrObjectOptions[key];
+	        }
+	      });
+
+	      this.setState({ loaded: loaded, options: options }, this.spin);
+	    },
+
+	    spin: function () {
+	      var canUseDOM = !!(
+	        typeof window !== 'undefined' &&
+	        window.document &&
+	        window.document.createElement
+	      );
+
+	      if (canUseDOM && !this.state.loaded) {
+	        var spinner = new Spinner(this.state.options);
+	        var target =  ReactDOM.findDOMNode(this.refs.loader);
+
+	        // clear out any other spinners from previous renders
+	        target.innerHTML = '';
+	        spinner.spin(target);
+	      }
+	    },
+
+	    render: function () {
+	      var props, children;
+
+	      if (this.state.loaded) {
+	        props = { key: 'content', className: this.props.loadedClassName };
+	        children = this.props.children;
+	      } else {
+	        props = { key: 'loader', ref: 'loader', className: this.props.parentClassName };
+	      }
+
+	      return React.createElement(this.props.component, props, children);
+	    }
+	  });
+
+	  return Loader;
+
+	}));
+
+
+/***/ }),
+/* 455 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+	 * Copyright (c) 2011-2014 Felix Gnass
+	 * Licensed under the MIT license
+	 * http://spin.js.org/
+	 *
+	 * Example:
+	    var opts = {
+	      lines: 12             // The number of lines to draw
+	    , length: 7             // The length of each line
+	    , width: 5              // The line thickness
+	    , radius: 10            // The radius of the inner circle
+	    , scale: 1.0            // Scales overall size of the spinner
+	    , corners: 1            // Roundness (0..1)
+	    , color: '#000'         // #rgb or #rrggbb
+	    , opacity: 1/4          // Opacity of the lines
+	    , rotate: 0             // Rotation offset
+	    , direction: 1          // 1: clockwise, -1: counterclockwise
+	    , speed: 1              // Rounds per second
+	    , trail: 100            // Afterglow percentage
+	    , fps: 20               // Frames per second when using setTimeout()
+	    , zIndex: 2e9           // Use a high z-index by default
+	    , className: 'spinner'  // CSS class to assign to the element
+	    , top: '50%'            // center vertically
+	    , left: '50%'           // center horizontally
+	    , shadow: false         // Whether to render a shadow
+	    , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
+	    , position: 'absolute'  // Element positioning
+	    }
+	    var target = document.getElementById('foo')
+	    var spinner = new Spinner(opts).spin(target)
+	 */
+	;(function (root, factory) {
+
+	  /* CommonJS */
+	  if (typeof module == 'object' && module.exports) module.exports = factory()
+
+	  /* AMD module */
+	  else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+
+	  /* Browser global */
+	  else root.Spinner = factory()
+	}(this, function () {
+	  "use strict"
+
+	  var prefixes = ['webkit', 'Moz', 'ms', 'O'] /* Vendor prefixes */
+	    , animations = {} /* Animation rules keyed by their name */
+	    , useCssAnimations /* Whether to use CSS animations or setTimeout */
+	    , sheet /* A stylesheet to hold the @keyframe or VML rules. */
+
+	  /**
+	   * Utility function to create elements. If no tag name is given,
+	   * a DIV is created. Optionally properties can be passed.
+	   */
+	  function createEl (tag, prop) {
+	    var el = document.createElement(tag || 'div')
+	      , n
+
+	    for (n in prop) el[n] = prop[n]
+	    return el
+	  }
+
+	  /**
+	   * Appends children and returns the parent.
+	   */
+	  function ins (parent /* child1, child2, ...*/) {
+	    for (var i = 1, n = arguments.length; i < n; i++) {
+	      parent.appendChild(arguments[i])
+	    }
+
+	    return parent
+	  }
+
+	  /**
+	   * Creates an opacity keyframe animation rule and returns its name.
+	   * Since most mobile Webkits have timing issues with animation-delay,
+	   * we create separate rules for each line/segment.
+	   */
+	  function addAnimation (alpha, trail, i, lines) {
+	    var name = ['opacity', trail, ~~(alpha * 100), i, lines].join('-')
+	      , start = 0.01 + i/lines * 100
+	      , z = Math.max(1 - (1-alpha) / trail * (100-start), alpha)
+	      , prefix = useCssAnimations.substring(0, useCssAnimations.indexOf('Animation')).toLowerCase()
+	      , pre = prefix && '-' + prefix + '-' || ''
+
+	    if (!animations[name]) {
+	      sheet.insertRule(
+	        '@' + pre + 'keyframes ' + name + '{' +
+	        '0%{opacity:' + z + '}' +
+	        start + '%{opacity:' + alpha + '}' +
+	        (start+0.01) + '%{opacity:1}' +
+	        (start+trail) % 100 + '%{opacity:' + alpha + '}' +
+	        '100%{opacity:' + z + '}' +
+	        '}', sheet.cssRules.length)
+
+	      animations[name] = 1
+	    }
+
+	    return name
+	  }
+
+	  /**
+	   * Tries various vendor prefixes and returns the first supported property.
+	   */
+	  function vendor (el, prop) {
+	    var s = el.style
+	      , pp
+	      , i
+
+	    prop = prop.charAt(0).toUpperCase() + prop.slice(1)
+	    if (s[prop] !== undefined) return prop
+	    for (i = 0; i < prefixes.length; i++) {
+	      pp = prefixes[i]+prop
+	      if (s[pp] !== undefined) return pp
+	    }
+	  }
+
+	  /**
+	   * Sets multiple style properties at once.
+	   */
+	  function css (el, prop) {
+	    for (var n in prop) {
+	      el.style[vendor(el, n) || n] = prop[n]
+	    }
+
+	    return el
+	  }
+
+	  /**
+	   * Fills in default values.
+	   */
+	  function merge (obj) {
+	    for (var i = 1; i < arguments.length; i++) {
+	      var def = arguments[i]
+	      for (var n in def) {
+	        if (obj[n] === undefined) obj[n] = def[n]
+	      }
+	    }
+	    return obj
+	  }
+
+	  /**
+	   * Returns the line color from the given string or array.
+	   */
+	  function getColor (color, idx) {
+	    return typeof color == 'string' ? color : color[idx % color.length]
+	  }
+
+	  // Built-in defaults
+
+	  var defaults = {
+	    lines: 12             // The number of lines to draw
+	  , length: 7             // The length of each line
+	  , width: 5              // The line thickness
+	  , radius: 10            // The radius of the inner circle
+	  , scale: 1.0            // Scales overall size of the spinner
+	  , corners: 1            // Roundness (0..1)
+	  , color: '#000'         // #rgb or #rrggbb
+	  , opacity: 1/4          // Opacity of the lines
+	  , rotate: 0             // Rotation offset
+	  , direction: 1          // 1: clockwise, -1: counterclockwise
+	  , speed: 1              // Rounds per second
+	  , trail: 100            // Afterglow percentage
+	  , fps: 20               // Frames per second when using setTimeout()
+	  , zIndex: 2e9           // Use a high z-index by default
+	  , className: 'spinner'  // CSS class to assign to the element
+	  , top: '50%'            // center vertically
+	  , left: '50%'           // center horizontally
+	  , shadow: false         // Whether to render a shadow
+	  , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
+	  , position: 'absolute'  // Element positioning
+	  }
+
+	  /** The constructor */
+	  function Spinner (o) {
+	    this.opts = merge(o || {}, Spinner.defaults, defaults)
+	  }
+
+	  // Global defaults that override the built-ins:
+	  Spinner.defaults = {}
+
+	  merge(Spinner.prototype, {
+	    /**
+	     * Adds the spinner to the given target element. If this instance is already
+	     * spinning, it is automatically removed from its previous target b calling
+	     * stop() internally.
+	     */
+	    spin: function (target) {
+	      this.stop()
+
+	      var self = this
+	        , o = self.opts
+	        , el = self.el = createEl(null, {className: o.className})
+
+	      css(el, {
+	        position: o.position
+	      , width: 0
+	      , zIndex: o.zIndex
+	      , left: o.left
+	      , top: o.top
+	      })
+
+	      if (target) {
+	        target.insertBefore(el, target.firstChild || null)
+	      }
+
+	      el.setAttribute('role', 'progressbar')
+	      self.lines(el, self.opts)
+
+	      if (!useCssAnimations) {
+	        // No CSS animation support, use setTimeout() instead
+	        var i = 0
+	          , start = (o.lines - 1) * (1 - o.direction) / 2
+	          , alpha
+	          , fps = o.fps
+	          , f = fps / o.speed
+	          , ostep = (1 - o.opacity) / (f * o.trail / 100)
+	          , astep = f / o.lines
+
+	        ;(function anim () {
+	          i++
+	          for (var j = 0; j < o.lines; j++) {
+	            alpha = Math.max(1 - (i + (o.lines - j) * astep) % f * ostep, o.opacity)
+
+	            self.opacity(el, j * o.direction + start, alpha, o)
+	          }
+	          self.timeout = self.el && setTimeout(anim, ~~(1000 / fps))
+	        })()
+	      }
+	      return self
+	    }
+
+	    /**
+	     * Stops and removes the Spinner.
+	     */
+	  , stop: function () {
+	      var el = this.el
+	      if (el) {
+	        clearTimeout(this.timeout)
+	        if (el.parentNode) el.parentNode.removeChild(el)
+	        this.el = undefined
+	      }
+	      return this
+	    }
+
+	    /**
+	     * Internal method that draws the individual lines. Will be overwritten
+	     * in VML fallback mode below.
+	     */
+	  , lines: function (el, o) {
+	      var i = 0
+	        , start = (o.lines - 1) * (1 - o.direction) / 2
+	        , seg
+
+	      function fill (color, shadow) {
+	        return css(createEl(), {
+	          position: 'absolute'
+	        , width: o.scale * (o.length + o.width) + 'px'
+	        , height: o.scale * o.width + 'px'
+	        , background: color
+	        , boxShadow: shadow
+	        , transformOrigin: 'left'
+	        , transform: 'rotate(' + ~~(360/o.lines*i + o.rotate) + 'deg) translate(' + o.scale*o.radius + 'px' + ',0)'
+	        , borderRadius: (o.corners * o.scale * o.width >> 1) + 'px'
+	        })
+	      }
+
+	      for (; i < o.lines; i++) {
+	        seg = css(createEl(), {
+	          position: 'absolute'
+	        , top: 1 + ~(o.scale * o.width / 2) + 'px'
+	        , transform: o.hwaccel ? 'translate3d(0,0,0)' : ''
+	        , opacity: o.opacity
+	        , animation: useCssAnimations && addAnimation(o.opacity, o.trail, start + i * o.direction, o.lines) + ' ' + 1 / o.speed + 's linear infinite'
+	        })
+
+	        if (o.shadow) ins(seg, css(fill('#000', '0 0 4px #000'), {top: '2px'}))
+	        ins(el, ins(seg, fill(getColor(o.color, i), '0 0 1px rgba(0,0,0,.1)')))
+	      }
+	      return el
+	    }
+
+	    /**
+	     * Internal method that adjusts the opacity of a single line.
+	     * Will be overwritten in VML fallback mode below.
+	     */
+	  , opacity: function (el, i, val) {
+	      if (i < el.childNodes.length) el.childNodes[i].style.opacity = val
+	    }
+
+	  })
+
+
+	  function initVML () {
+
+	    /* Utility function to create a VML tag */
+	    function vml (tag, attr) {
+	      return createEl('<' + tag + ' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">', attr)
+	    }
+
+	    // No CSS transforms but VML support, add a CSS rule for VML elements:
+	    sheet.addRule('.spin-vml', 'behavior:url(#default#VML)')
+
+	    Spinner.prototype.lines = function (el, o) {
+	      var r = o.scale * (o.length + o.width)
+	        , s = o.scale * 2 * r
+
+	      function grp () {
+	        return css(
+	          vml('group', {
+	            coordsize: s + ' ' + s
+	          , coordorigin: -r + ' ' + -r
+	          })
+	        , { width: s, height: s }
+	        )
+	      }
+
+	      var margin = -(o.width + o.length) * o.scale * 2 + 'px'
+	        , g = css(grp(), {position: 'absolute', top: margin, left: margin})
+	        , i
+
+	      function seg (i, dx, filter) {
+	        ins(
+	          g
+	        , ins(
+	            css(grp(), {rotation: 360 / o.lines * i + 'deg', left: ~~dx})
+	          , ins(
+	              css(
+	                vml('roundrect', {arcsize: o.corners})
+	              , { width: r
+	                , height: o.scale * o.width
+	                , left: o.scale * o.radius
+	                , top: -o.scale * o.width >> 1
+	                , filter: filter
+	                }
+	              )
+	            , vml('fill', {color: getColor(o.color, i), opacity: o.opacity})
+	            , vml('stroke', {opacity: 0}) // transparent stroke to fix color bleeding upon opacity change
+	            )
+	          )
+	        )
+	      }
+
+	      if (o.shadow)
+	        for (i = 1; i <= o.lines; i++) {
+	          seg(i, -2, 'progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)')
+	        }
+
+	      for (i = 1; i <= o.lines; i++) seg(i)
+	      return ins(el, g)
+	    }
+
+	    Spinner.prototype.opacity = function (el, i, val, o) {
+	      var c = el.firstChild
+	      o = o.shadow && o.lines || 0
+	      if (c && i + o < c.childNodes.length) {
+	        c = c.childNodes[i + o]; c = c && c.firstChild; c = c && c.firstChild
+	        if (c) c.opacity = val
+	      }
+	    }
+	  }
+
+	  if (typeof document !== 'undefined') {
+	    sheet = (function () {
+	      var el = createEl('style', {type : 'text/css'})
+	      ins(document.getElementsByTagName('head')[0], el)
+	      return el.sheet || el.styleSheet
+	    }())
+
+	    var probe = css(createEl('group'), {behavior: 'url(#default#VML)'})
+
+	    if (!vendor(probe, 'transform') && probe.adj) initVML()
+	    else useCssAnimations = vendor(probe, 'animation')
+	  }
+
+	  return Spinner
+
+	}));
+
+
+/***/ }),
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40628,7 +41511,7 @@
 	exports.default = Payment;
 
 /***/ }),
-/* 451 */
+/* 457 */
 /***/ (function(module, exports) {
 
 	

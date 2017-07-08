@@ -9,9 +9,12 @@ import axios from 'axios';
 import Auction from '../Home/Auction';
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
+import Balloon from './Balloon';
 import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
 import Tetris from '../Tetris';
+
+import '../../css/balloon.css';
 
 //constants 
 import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from '../../constants/messages';
@@ -31,6 +34,10 @@ class ParticipateAuction extends Component {
             msgClass: "box notEnough",
             shownMessage: "",
             tempDonation: "",
+            curIndex: 0,
+            formerIndex: 0,
+            anim: "0", // determine anim: 0-reg, 1-float to top 2-blow down the balloon 
+
             // auc data
             auc: {
                 code: par.props.code,
@@ -159,7 +166,9 @@ class ParticipateAuction extends Component {
 
     //calculate donation amount to insert to circle
     calcDonation() {
-        let tempPrice =parseInt(this.state.auc.price);
+        let tempPrice = parseInt(this.state.auc.price);
+        let i = this.state.curIndex;
+
         if (this.refs.newPrice !== undefined) {
             this.setState({
                 borderColor: "red"
@@ -170,8 +179,29 @@ class ParticipateAuction extends Component {
             if (val > tempPrice) {
                 tempPrice = val;
                 this.setState({
+                    curIndex: 3,
+                    formerIndex: i,
                     borderColor: "green"
                 });
+            }
+            else {
+                if (val >= tempPrice * 0.6) {
+                    this.setState({
+                        curIndex: 2,
+                        formerIndex: i
+                    });
+                } else if (val >= tempPrice * 0.15) {
+                    this.setState({
+                        curIndex: 1,
+                        formerIndex: i
+                    });
+                }
+                else {
+                    this.setState({
+                        curIndex: 0,
+                        formerIndex: i
+                    });
+                }
             }
         }
         this.setState({
@@ -184,9 +214,12 @@ class ParticipateAuction extends Component {
     makeBid() {
         if (this.state.borderColor !== "red") {
             const currentAuc = this.state.auc;
+
             let val = parseInt(this.refs.newPrice.value);
+
             let buyer = {UserId:buyerID}
             let auc = {AuctionID : currentAuc.code, Buyer: buyer, ProdName:currentAuc.prodName}
+
             self = this;
 
             //db call!!
@@ -199,16 +232,22 @@ class ParticipateAuction extends Component {
                     if (ans === true) {
                         self.setState({
                             msgClass: "box success",
+                            anim: "1",
                             shownMessage: successMSG
                         })
+
+                        //stop fireworks and bring baloon back
+                        setTimeout(() => self.setState({ anim: "0" }), 3300)
                     }
                     else {
                         self.setState({
                             msgClass: "box failure",
-                            shownMessage: failedMSG
+                            shownMessage: failedMSG,
+                            anim: "2"
                         })
+                        setTimeout(() => self.setState({ anim: "0" }), 1500)
                     }
-                    self.setState({ msg_ModalIsOpen: true });
+                    //self.setState({ msg_ModalIsOpen: true });
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -309,7 +348,13 @@ class ParticipateAuction extends Component {
                 <Swipeable onTap={this.makeBid}>
                     <div ref="makeBidBTN" className="base" style={{ display: this.state.auc.finished ? "none" : "inline-block" }}> <span>הצע ביד</span> </div>
                 </Swipeable>
-                <Tetris />
+                <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} />
+
+                {/*fireworks*/}
+                <div className="pyro" style={this.state.anim === "1" ? { display: "block" } : { display: "none" }}>
+                    <div className="before"></div>
+                    <div className="after"></div>
+                </div>
             </div>
         );
     }
