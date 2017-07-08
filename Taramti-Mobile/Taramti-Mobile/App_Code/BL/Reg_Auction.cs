@@ -115,6 +115,22 @@ public class Reg_Auction : Auction
         StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
 
         DS = db.GetDataSetByQuery(StrSql);
+
+        // הפונקציה תקבל את כל המכרזים ומחיר תקרה
+        if (!(lat == 0 & lng == 0 & radius == 0 & lowPrice == -1 & highPrice == -1 & catCode == 0))
+        {
+            AddNewSearch(id, lat, lng, radius, lowPrice, highPrice, catCode);
+        } 
+        return Baya(DS, high);
+    }
+
+    public static List<Reg_Auction> Baya(DataSet DS, int high)
+    {
+        DbService db = new DbService();
+        DataSet DSprice = new DataSet();
+        DataSet DSpic = new DataSet();
+        List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
+
         if (DS.Tables.Count > 0)
         {
             // נבדוק האם יש למכרז בידים, אם כן נציג את הביד הגבוה, אם לא נביא את המחיר ההתחלתי שלו
@@ -123,7 +139,7 @@ public class Reg_Auction : Auction
                 bool b = true; // כדי לדעת מה המצב עם מחיר הבידים - אם הם גבוהים מהמחיר בטווח 
                 Reg_Auction auction = new Reg_Auction(int.Parse(row[0].ToString()));
                 List<string> images = new List<string>();
-                StrSql = @"SELECT dbo.auction.auction_code, MAX(dbo.bid.price) AS Expr1
+                string StrSql = @"SELECT dbo.auction.auction_code, MAX(dbo.bid.price) AS Expr1
                          FROM dbo.bid INNER JOIN
                          dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code
                          GROUP BY dbo.auction.auction_code
@@ -178,13 +194,6 @@ public class Reg_Auction : Auction
                 }
             }
         }
-
-        //var coord1 = new GeoCoordinate(lat, long);
-        //var coord2 = new GeoCoordinate(lat2, long2);
-
-        //var distance = coord1.GetDistanceTo(coord2);
-
-        AddNewSearch(id,lat, lng, radius, lowPrice, highPrice, catCode);
         return relevantAuctions;
     }
 
