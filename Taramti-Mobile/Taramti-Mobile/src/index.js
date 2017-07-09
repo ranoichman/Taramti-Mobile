@@ -14,6 +14,7 @@ import axios from 'axios';
 import Home from './components/Home/Home';
 import ParticipateAuction from './components/ParticipateAuction/ParticipateAuction';
 import ActiveAuctions from './components/Profile/ActiveAuctions';
+import MyAuction from './components/Profile/MyAuction';
 import Profile from './components/Profile/Profile';
 import Bdika from './components/Generic/Bdika';
 

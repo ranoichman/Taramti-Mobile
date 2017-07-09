@@ -45,7 +45,7 @@
   font-size: 1.2em;
   background: rgba(246, 246, 246, 1);
   color: #8B0000;
-  z-index: 2;
+  /*z-index: 2;*/
   box-shadow: 0 0 10px rgba(0,0,0,.1);
   border-radius: 3px;
   opacity: 1;
@@ -84,4 +84,11 @@
 
 textarea{
   border-radius: 30px;
+}
+
+.newDot{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  color: red;
 }

@@ -29,7 +29,7 @@ class FAQ extends Component {
 
     displayAnswer() {
         return (this.props.faq.Answer !== "" ? this.props.faq.Answer :
-            this.props.chat === "true" ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : <TextInput send={this.addAnswer} width={this.state.width} />)
+            this.props.chat == true ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : <TextInput send={this.addAnswer} width={this.state.width} />)
     }
 
     addAnswer(val) {

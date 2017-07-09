@@ -23,12 +23,13 @@ class Home extends Component {
         super(props)
         this.state = {
             searchModalIsOpen: false,
+            modalIsOpen: false,
             auctionsArr: [],
             loaded: false,
             loadingCounter: 0
         }
-        this.openSearchModal = this.openSearchModal.bind(this);
-        this.closeSearchModal = this.closeSearchModal.bind(this);
+        this.SearchModalChanged = this.SearchModalChanged.bind(this);
+        this.picModalChanged = this.picModalChanged.bind(this);
         this.searchTriggered = this.searchTriggered.bind(this);
         this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
         this.addAuction = this.addAuction.bind(this);
@@ -38,6 +39,7 @@ class Home extends Component {
         this.moveToAddAuction = this.moveToAddAuction.bind(this);
         this.getDistance = this.getDistance.bind(this);
         this.handleLoad = this.handleLoad.bind(this);
+        
     }
 
     componentDidMount() {
@@ -45,34 +47,37 @@ class Home extends Component {
         this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
     }
 
-    openSearchModal() {
-        this.setState({ searchModalIsOpen: true })
+    SearchModalChanged() {
+        let newStatus = !this.state.searchModalIsOpen;
+        this.setState({ searchModalIsOpen: newStatus })
     }
 
-    closeSearchModal() {
-        this.setState({ searchModalIsOpen: false })
+    picModalChanged(){
+        let newStatus = !this.state.modalIsOpen;
+        this.setState({modalIsOpen: newStatus});
+
     }
 
     searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
         //console.log(`entered search on ----- ${Date.now()}`)
-        this.setState({ auctionsArr: [],loaded: false,loadingCounter:0 });
+        this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0 });
         this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
     }
 
     //call function to get auctions from serveer
     getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
-        const self = this;
-        console.log(`buyerrrrrr ------- ${buyerID}`)
         const id = parseInt(buyerID);
+        console.log(`buyer---- ${id}`)
         this.setState({ searchModalIsOpen: false });
+        const self = this;
         axios.post(auctionWS + 'GetAuctionByParam', {
             lowPrice: lowPrice,
             highPrice: highPrice,
             catCode: catCode,
-            id: id,
             lat: lat,
             lng: lng,
-            radius: radius
+            radius: radius,
+            user_Id: id
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
             //if no radius selected >>> add auction
@@ -149,6 +154,7 @@ class Home extends Component {
             prodName: item.ProdName,
             prodDesc: item.ProdDesc,
             imgArr: item.Images,
+            city: item.Location
         }
         arr.push(newAuction);
         this.setState({ auctionsArr: arr });
@@ -157,10 +163,10 @@ class Home extends Component {
 
     //function that returns a render of 1 auction
     eachAuction(item, i) {
-        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad}
+        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
             home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc}
             price={item.price} endDate={item.endDate} code={item.code}
-            percentage={item.percentage} prodCode={item.prodCode} />
+            percentage={item.percentage} prodCode={item.prodCode} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
     }
 
     //remove finished auction from displayed array
@@ -181,11 +187,10 @@ class Home extends Component {
     }
 
     handleLoad() {
-        console.log(`entered`)
         let couner = this.state.loadingCounter;
         couner++;
         if (couner == this.state.auctionsArr.length) {
-           setTimeout(()=> this.setState({ loaded: true}),1000) // display loader 1 more sec 
+            setTimeout(() => this.setState({ loaded: true }), 1000) // display loader 1 more sec 
         }
         else {
             this.setState({ loadingCounter: couner });
@@ -208,14 +213,14 @@ class Home extends Component {
                 {/*</div>*/}
 
                 {/*search icon*/}
-                <Swipeable onTap={this.openSearchModal} className="search">
+                <Swipeable onTap={this.SearchModalChanged} className="search">
                     <FontAwesome name='search' border={false} className="fa-2x" tag="div" />
                     <Modal
                         isOpen={this.state.searchModalIsOpen}
-                        onRequestClose={this.closeSearchModal}
+                        onRequestClose={this.SearchModalChanged}
                         contentLabel="open search``"
                         className="box" >
-                        <Search closeModal={this.closeSearchModal} startSearch={this.searchTriggered} />
+                        <Search closeModal={this.SearchModalChanged} startSearch={this.searchTriggered} />
                     </Modal>
                 </Swipeable>
 

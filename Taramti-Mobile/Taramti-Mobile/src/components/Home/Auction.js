@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 
 // taramti babait components
-import PriceTag from './PriceTag';
+import PriceTag from '../Generic/PriceTag';
 import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
 import ParticipateAuction from '../ParticipateAuction/ParticipateAuction';
@@ -30,6 +30,7 @@ class Auction extends Component {
         super(props);
         this.state = {
             reDirect: false,
+            sold:false,
             price: this.props.price
         };
         this.timerFinishedHome = this.timerFinishedHome.bind(this);
@@ -38,6 +39,13 @@ class Auction extends Component {
     }
 
     componentDidMount() {
+        
+        setTimeout(() => this.setState({ sold: true }), 500)
+
+
+
+
+
         this.props.handleLoad();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
@@ -83,16 +91,17 @@ class Auction extends Component {
         return (
 
             <div className="row">
+                <div className={this.state.sold? "sold stamp": "stamp"} style={{zIndex: this.props.modalIsOpen? 0:1}}>נמכר</div>
                 <div className="col-xs-6 imgContainer">
                    
-                        <PriceTag key={`.$${this.props.index}`} index={this.props.index} price={this.state.price} />
+                        <PriceTag key={`.$${this.props.index}`} index={this.props.index} price={this.state.price} modalIsOpen={this.props.modalIsOpen} />
 
-                    <CSSTransitionGroup
+                    {/*<CSSTransitionGroup
                         transitionName="slide"
                         transitionEnterTimeout={500}
-                        transitionLeaveTimeout={500}>
-                        <Pic key={this.key} imagesArr={this.props.imgArr} />
-                    </CSSTransitionGroup>
+                        transitionLeaveTimeout={500}>*/}
+                        <Pic key={this.key} imagesArr={this.props.imgArr} picModalChanged={this.props.picModalChanged} />
+                    {/*</CSSTransitionGroup>*/}
                 </div>
                 <div className="col-xs-6" dir="rtl">
                     <div>

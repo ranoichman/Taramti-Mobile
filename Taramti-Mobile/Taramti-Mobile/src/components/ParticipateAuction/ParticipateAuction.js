@@ -237,7 +237,7 @@ class ParticipateAuction extends Component {
                         })
 
                         //stop fireworks and bring baloon back
-                        setTimeout(() => self.setState({ anim: "0" }), 3300)
+                        setTimeout(() => self.setState({ anim: "0" }), 4500)
                     }
                     else {
                         self.setState({
@@ -319,8 +319,8 @@ class ParticipateAuction extends Component {
                             isOpen={this.state.infoModalIsOpen}
 
                             contentLabel="open info"
-                            className="box">
-                            <AuctionInfo closeModal={this.closeInfoModal} auc={this.state.auc} />
+                            className="zoomInRight">
+                            <AuctionInfo modal= {true} closeModal={this.closeInfoModal} auc={this.state.auc} />
                         </Modal>
                     </Swipeable>
 
@@ -331,8 +331,8 @@ class ParticipateAuction extends Component {
                             isOpen={this.state.fAQModalIsOpen}
 
                             contentLabel="open FAQ"
-                            className="FAQbox">
-                            <AuctionFAQ closeModal={this.closeFAQModal} prodCode={this.state.auc.prodCode} />
+                            className="zoomInRight">
+                            <AuctionFAQ closeModal={this.closeFAQModal} prodCode={this.state.auc.prodCode} chat={true} />
                         </Modal>
                     </Swipeable>
                 </div>

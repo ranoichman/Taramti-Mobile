@@ -13,14 +13,17 @@ class AuctionFAQ extends Component {
         super(props)
         this.state = {
             FAQs: [],
-            width: null
+            width: null,
+            open: true
         }
         this.addQuestion = this.addQuestion.bind(this);
+        this.close = this.close.bind(this);
     }
 
     componentDidMount() {
         const width = this.refs.questions.clientWidth;
-        this.setState({width});
+        console.log(`faq ---- ${width}`)
+        this.setState({ width });
         let product = { ItemId: this.props.prodCode }
         const self = this;
 
@@ -68,17 +71,28 @@ class AuctionFAQ extends Component {
 
     }
 
+    close() {
+        this.setState({ open: false });
+        setTimeout(() => this.props.closeModal(), 600)
+    }
+
+    renderQuestionInput() {
+        return ("")
+    }
+
     render() {
         return (
-            <div ref="questions">
-                {/*close button*/}
-                <Swipeable onTap={this.props.closeModal}>
-                    <a className="boxclose" ></a>
-                </Swipeable>
-                {/*all FAQ's*/}
-                <ChatMsg FAQs={this.state.FAQs} chat="true" />
+            <div  className={this.state.open ? "FAQbox" : "FAQbox zoomOut"}>
+                <div ref="questions">
+                    {/*close button*/}
+                    <Swipeable onTap={this.close}>
+                        <a className="boxclose" ></a>
+                    </Swipeable>
+                    {/*all FAQ's*/}
+                    <ChatMsg FAQs={this.state.FAQs} chat={this.props.chat} />
 
-                <TextInput send={this.addQuestion} width={this.state.width} />
+                    {this.props.chat ? <TextInput send={this.addQuestion} width={this.state.width} /> : <span></span>}
+                </div>
             </div>
         )
     }

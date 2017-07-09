@@ -20,7 +20,8 @@ class ChatMsg extends Component {
     generateFAQ(item, i) {
         return (
 
-            <Panel className="question" header={item.Question} key={i}>
+            <Panel disabled={this.props.disabled} className="question" header={item.Question} key={i}>
+                <span className="newDot"></span>
                 <FAQ faq={item} key={i} index={i} display={this.state.activeKey == i ? true:false} chat={this.props.chat} />
             </Panel>
         )
@@ -30,6 +31,7 @@ class ChatMsg extends Component {
         
         return (
             <div>
+                <h2 style={{textAlign:"right"}}>{this.props.FAQs.length == 0 ? "אין שאלות לתצוגה": ""}</h2>
                 <Collapse accordion={true} onChange={(activeKey) => this.setState({ activeKey })}>
                     {this.props.FAQs.map(this.generateFAQ)}
                 </Collapse>
