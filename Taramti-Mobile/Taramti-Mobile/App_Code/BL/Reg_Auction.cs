@@ -81,7 +81,7 @@ public class Reg_Auction : Auction
         return 0;
     }
 
-    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int catCode, int id, double lat, double lng, int radius)
+    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int catCode, double lat, double lng, int radius, int user_Id)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -110,21 +110,22 @@ public class Reg_Auction : Auction
                          "FROM  dbo.auction INNER JOIN dbo.product ON dbo.auction.product_code = dbo.product.product_code " +
                          "INNER JOIN dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code " +
                          "GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, " +
-                         "dbo.auction.auction_code, dbo.product.price,dbo.product.product_code,dbo.product.product_Name,dbo.product.city_code ";
+                         "dbo.auction.auction_code, dbo.product.price,dbo.product.product_code,dbo.product.product_Name,dbo.product.city_code, dbo.auction.seller_id ";
 
-        StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
+        StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) " +
+                  "AND (dbo.auction.seller_id <> N'" + user_Id + "') ";
 
         DS = db.GetDataSetByQuery(StrSql);
 
         // הפונקציה תקבל את כל המכרזים ומחיר תקרה
         if (!(lat == 0 & lng == 0 & radius == 0 & lowPrice == -1 & highPrice == -1 & catCode == 0))
         {
-            AddNewSearch(id, lat, lng, radius, lowPrice, highPrice, catCode);
+            AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode);
         } 
-        return Baya(DS, high);
+        return GetRelevantAuctions(DS, high);
     }
 
-    public static List<Reg_Auction> Baya(DataSet DS, int high)
+    public static List<Reg_Auction> GetRelevantAuctions(DataSet DS, int high)
     {
         DbService db = new DbService();
         DataSet DSprice = new DataSet();
@@ -154,7 +155,6 @@ public class Reg_Auction : Auction
                     }
                     else
                     {
-                        //auction.Price = int.Parse(DSprice.Tables[0].Rows[0][1].ToString());
                         auction.Price = int.Parse(DSprice.Tables[0].Rows[0][0].ToString());
                     }
 
@@ -361,6 +361,22 @@ public class Reg_Auction : Auction
                 //    ItemCode
                    Images = pics.Count > 0 ? pics.ToArray() : null;
         }
+    }
+
+    public List<Reg_Auction> GetOutBiddedAuctions(int user_Id)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+
+        List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
+        string StrSql = "SELECT        dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
+                        "FROM dbo.bid INNER JOIN " +
+                        "dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code " +
+                        "WHERE(dbo.bid.buyer_id = N'" + user_Id + "') " +
+                        "GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
+                        "HAVING(dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
+        DS = db.GetDataSetByQuery(StrSql);
+        return relevantAuctions;
     }
 
     public void GetItemDetails()
