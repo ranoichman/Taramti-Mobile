@@ -44,12 +44,10 @@ class Search extends Component {
     }
 
     onSelectedCat(opt) {
-        console.log(`category: ${opt}`);
         this.setState({ categroy: opt });
     }
 
     onSelectedGPS(opt) {
-        console.log(`gps---- ${opt}`);
         this.setState({ gps: opt });
     }
 

@@ -40,15 +40,15 @@ class ParticipateAuction extends Component {
 
             // auc data
             auc: {
-                code: par.props.code,
+                code: par.props.auc.code,
                 price: par.price,
-                endDate: par.props.endDate,
-                percentage: par.props.percentage,
-                prodCode: par.props.prodCode,
-                prodName: par.props.prodName,
-                prodDesc: par.props.prodDesc,
+                endDate: par.props.auc.endDate,
+                percentage: par.props.auc.percentage,
+                prodCode: par.props.auc.prodCode,
+                prodName: par.props.auc.prodName,
+                prodDesc: par.props.auc.prodDesc,
                 finished: false,
-                imgArr: par.props.imgArr
+                imgArr: par.props.auc.imgArr
             }
         }
         this.openMSGModal = this.openMSGModal.bind(this);

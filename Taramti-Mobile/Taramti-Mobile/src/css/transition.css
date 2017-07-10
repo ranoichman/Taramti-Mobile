@@ -204,14 +204,14 @@
   /*
 *******************
 *******************
-   loading
+      loading
 *******************
 *******************
 */
 
 .loading{
   position: relative;
-  width: 35%;
+  width: 50%;
   display: block;
   margin: auto;
    -webkit-animation:spin 4s linear infinite;

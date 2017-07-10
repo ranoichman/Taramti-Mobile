@@ -10,7 +10,7 @@ class Loader extends Component {
             );
         } else {
             return (
-                <div>
+                <div style={{marginTop:"15%"}}>
                     {/*<img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png"} className="loading" />*/}
                     <img src={require("../../../www/img/just_logo.png")} className="loading" />
                     <h3 style={{ textAlign:"center"}}>{this.props.loadingText}</h3>

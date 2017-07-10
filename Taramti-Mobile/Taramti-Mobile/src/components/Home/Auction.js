@@ -30,8 +30,8 @@ class Auction extends Component {
         super(props);
         this.state = {
             reDirect: false,
-            sold:false,
-            price: this.props.price
+            sold: false,
+            price: this.props.auc.price
         };
         this.timerFinishedHome = this.timerFinishedHome.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
@@ -39,14 +39,13 @@ class Auction extends Component {
     }
 
     componentDidMount() {
-        
-        setTimeout(() => this.setState({ sold: true }), 500)
-
-
-
-
-
+        //if product is sold display sold stamp and dont show participate button
+        if (this.props.auc.buyer != null) {
+            setTimeout(() => this.setState({ sold: true }), 500)
+        }
+        //signal home component that finished rendering
         this.props.handleLoad();
+        //get current price from db every 5s
         this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
 
@@ -59,7 +58,7 @@ class Auction extends Component {
     getCurPrice() {
         const self = this;
         axios.post(auctionWS + 'GetAuctionPrice', {
-            auctionCode: self.props.code
+            auctionCode: self.props.auc.code
         })
             .then(function (response) {
                 let ans = response.data.d;
@@ -86,29 +85,29 @@ class Auction extends Component {
 
     render() {
         if (this.state.reDirect) {
-            return <Redirect push to="/participate" />;
+            return <Redirect push to="/participate" />
         }
         return (
-
+// zIndex: this.props.modalIsOpen && !this.state.sold ? 0 : 1
             <div className="row">
-                <div className={this.state.sold? "sold stamp": "stamp"} style={{zIndex: this.props.modalIsOpen? 0:1}}>נמכר</div>
+                {/*sold stamp*/}
+                {this.props.auc.buyer != null? <div className={this.state.sold ? "sold stamp" : "stamp"} style={{zIndex: !this.state.sold? -5 : (this.props.modalIsOpen? 0:1)  }}>נמכר</div> : null }
+                
                 <div className="col-xs-6 imgContainer">
-                   
-                        <PriceTag key={`.$${this.props.index}`} index={this.props.index} price={this.state.price} modalIsOpen={this.props.modalIsOpen} />
 
-                    {/*<CSSTransitionGroup
-                        transitionName="slide"
-                        transitionEnterTimeout={500}
-                        transitionLeaveTimeout={500}>*/}
-                        <Pic key={this.key} imagesArr={this.props.imgArr} picModalChanged={this.props.picModalChanged} />
-                    {/*</CSSTransitionGroup>*/}
+                    <PriceTag key={`.$${this.props.index}`} index={this.props.index} price={this.state.price} modalIsOpen={this.props.modalIsOpen} />
+
+                    <Pic key={this.key} imagesArr={this.props.auc.imgArr} picModalChanged={this.props.picModalChanged} />
+                    
                 </div>
                 <div className="col-xs-6" dir="rtl">
                     <div>
-                        <Timer endDate={this.props.endDate} timerFinished={this.timerFinishedHome} />
-                        <h4 className="text-center">{this.props.prodName}</h4>
-                        <p className="descPar">{this.props.prodDesc}</p>
-                        <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary" onClick={this.toParticipate}> השתתף במכרז!  </button>
+                        <Timer endDate={this.props.auc.endDate} timerFinished={this.timerFinishedHome} />
+                        <h4 className="text-center">{this.props.auc.prodName}</h4>
+                        <p className="descPar">{this.props.auc.prodDesc}</p>
+                        <h5><span style={{ fontWeight: "bold" }}>מיקום: </span>{this.props.auc.city.CityName}</h5>
+
+                        {this.state.sold? "": <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary" onClick={this.toParticipate}> השתתף במכרז!  </button>}
                     </div>
                 </div>
             </div>

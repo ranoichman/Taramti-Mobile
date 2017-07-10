@@ -39,7 +39,6 @@ class Home extends Component {
         this.moveToAddAuction = this.moveToAddAuction.bind(this);
         this.getDistance = this.getDistance.bind(this);
         this.handleLoad = this.handleLoad.bind(this);
-        
     }
 
     componentDidMount() {
@@ -52,9 +51,9 @@ class Home extends Component {
         this.setState({ searchModalIsOpen: newStatus })
     }
 
-    picModalChanged(){
+    picModalChanged() {
         let newStatus = !this.state.modalIsOpen;
-        this.setState({modalIsOpen: newStatus});
+        this.setState({ modalIsOpen: newStatus });
 
     }
 
@@ -80,6 +79,11 @@ class Home extends Component {
             user_Id: id
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
+
+            if (res.length == 0) {
+                setTimeout(()=> self.setState({loaded:true}),300)
+            }
+
             //if no radius selected >>> add auction
             if (radius === 0) {
                 res.map(self.addAuction);
@@ -154,7 +158,8 @@ class Home extends Component {
             prodName: item.ProdName,
             prodDesc: item.ProdDesc,
             imgArr: item.Images,
-            city: item.Location
+            city: item.Location,
+            buyer: item.Buyer
         }
         arr.push(newAuction);
         this.setState({ auctionsArr: arr });
@@ -164,9 +169,7 @@ class Home extends Component {
     //function that returns a render of 1 auction
     eachAuction(item, i) {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
-            home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc}
-            price={item.price} endDate={item.endDate} code={item.code}
-            percentage={item.percentage} prodCode={item.prodCode} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
+            home="true" auc={item} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
     }
 
     //remove finished auction from displayed array
@@ -226,6 +229,7 @@ class Home extends Component {
 
                 {/*auctions display*/}
                 <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
+                    {this.state.auctionsArr.length == 0 ? <h1 style={{textAlign:"center"}}>אין מכרזים לתצוגה</h1> : ""}
                     <div className="container-fluid">
                         <CSSTransitionGroup
                             transitionName="auction"

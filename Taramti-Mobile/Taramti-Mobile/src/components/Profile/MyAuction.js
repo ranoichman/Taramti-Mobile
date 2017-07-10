@@ -31,28 +31,26 @@ class MyAuction extends Component {
             FAQs: [],
             tempDonation: "",
             width: null,
-            
+
             // auc data
             auc: {
-                code: par.props.code,
+                code: par.props.auc.code,
                 price: par.price,
-                endDate: par.props.endDate,
-                percentage: par.props.percentage,
-                prodCode: par.props.prodCode,
-                prodName: par.props.prodName,
-                prodDesc: par.props.prodDesc,
-                finished: false,
-                imgArr: par.props.imgArr
+                endDate: par.props.auc.endDate,
+                percentage: par.props.auc.percentage,
+                prodCode: par.props.auc.prodCode,
+                prodName: par.props.auc.prodName,
+                prodDesc: par.props.auc.prodDesc,
+                imgArr: par.props.auc.imgArr
             }
         }
         this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
         this.calcDonation = this.calcDonation.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
+        this.addQuestion = this.addQuestion.bind(this);
 
-        this.openInfoModal = this.openInfoModal.bind(this);
-        this.closeInfoModal = this.closeInfoModal.bind(this);
-        this.openFAQModal = this.openFAQModal.bind(this);
-        this.closeFAQModal = this.closeFAQModal.bind(this);
+        this.infoModalChanged = this.infoModalChanged.bind(this);
+        this.FAQModalChanged = this.FAQModalChanged.bind(this);
     }
 
     componentDidMount() {
@@ -73,8 +71,8 @@ class MyAuction extends Component {
             prod: product
         }).then(function (response) {
             let res = JSON.parse(response.data.d);
-            // res.map(self.addAuction);
-            self.setState({ FAQs: res })
+            res.map(self.addQuestion);
+            //self.setState({ FAQs: res })
         })
             .catch(function (error) {
                 console.log(error);
@@ -87,35 +85,26 @@ class MyAuction extends Component {
         this.loadInterval = false;
     }
 
-
-    /*
-       ***************
-          INFO MODAL
-       ***************
-       */
-    openInfoModal() {
-        this.setState({ infoModalIsOpen: true })
+    addQuestion(faq) {
+        if (faq.Answer == "") {
+            let tempFAQS = this.state.FAQs;
+            tempFAQS.push(faq)
+            this.setState({ FAQs: tempFAQS });
+        }
     }
 
-    closeInfoModal() {
-        this.setState({ infoModalIsOpen: false })
-    }
-
-    /*
-       ***************
-          FAQ MODAL
-       ***************
-       */
-    openFAQModal() {
-        this.setState({ fAQModalIsOpen: true })
-    }
-
-    closeFAQModal() {
-        this.setState({ fAQModalIsOpen: false })
+    //INFO MODAL
+    infoModalChanged() {
+        let newStatus = !this.state.infoModalIsOpen
+        this.setState({ infoModalIsOpen: newStatus })
     }
 
 
-
+    //FAQ MODAL
+    FAQModalChanged() {
+        let newStatus = !this.state.fAQModalIsOpen
+        this.setState({ fAQModalIsOpen: newStatus })
+    }
 
     getCurPrice() {
         const self = this;
@@ -135,7 +124,6 @@ class MyAuction extends Component {
                 console.log(error);
             });
     }
-
 
     //disable input and button
     timerFinishedAuc() {
@@ -207,13 +195,13 @@ class MyAuction extends Component {
 
     render() {
 
-        const customStyles = {
-            content: {
-                webkitAnimation: "zoomInRight 1s both",
-                animation: "zoomInRight 1s both"
+        // const customStyles = {
+        //     content: {
+        //         webkitAnimation: "zoomInRight 1s both",
+        //         animation: "zoomInRight 1s both"
 
-            }
-        };
+        //     }
+        // };
 
         return (
             <div>
@@ -244,7 +232,7 @@ class MyAuction extends Component {
                     </div>
                     {/*price manipulation*/}
                     <div style={{ position: "absolute", width: "20%", margin: "80px 40%" }}>
-                        <PriceTag price={this.state.auc.price} />
+                        <PriceTag price={this.state.auc.price} modalIsOpen={this.state.fAQModalIsOpen || this.state.infoModalIsOpen} />
                     </div>
                     <div className="circle" style={{ top: "5px", position: "absolute", left: `${this.state.width - 105}px` }}>
                         <h4>
@@ -254,35 +242,33 @@ class MyAuction extends Component {
                 </div>
 
                 <div>
-                    <div className="myAuction" style={{ width: "35%", float: "left" }} onClick={() => this.setState({ fAQModalIsOpen: true })}>
-                        <ChatMsg FAQs={this.state.FAQs} disabled="false" />
+                    <div className="myAuction" style={{ width: "35%", float: "left" }} onClick={this.FAQModalChanged}>
+                        <h4 style={{ textAlign: "center" }}>שאלות חדשות</h4>
+                        <ChatMsg FAQs={this.state.FAQs} disabled={true} />
                     </div>
 
-                    <div className="myAuction" style={{ width: "50%", float: "right" }} onClick={() => this.setState({ infoModalIsOpen: true })}>
+                    <div className="myAuction" style={{ width: "50%", float: "right" }} onClick={this.infoModalChanged}>
                         <AuctionInfo modal={false} auc={this.state.auc} />
                     </div>
                 </div>
 
                 {/*info modal*/}
-                <Swipeable onTap={this.openInfoModal}>
-                    <Modal
-                        isOpen={this.state.infoModalIsOpen}
-                        contentLabel="open info"
-                        className="zoomInRight"
-                    >
-                        <AuctionInfo modal={true} closeModal={this.closeInfoModal} auc={this.state.auc} />
-                    </Modal>
-                </Swipeable>
+                <Modal
+                    isOpen={this.state.infoModalIsOpen}
+                    contentLabel="open info"
+                    className="zoomInRight">
+                    <AuctionInfo modal={true} closeModal={this.infoModalChanged} auc={this.state.auc} />
+                </Modal>
+
 
                 {/*FAQ modal*/}
-                <Swipeable onTap={this.openFAQModal}>
-                    <Modal
-                        isOpen={this.state.fAQModalIsOpen}
-                        contentLabel="open FAQ"
-                        className="zoomInLeft">
-                        <AuctionFAQ closeModal={this.closeFAQModal} prodCode={this.state.auc.prodCode} chat={false} />
-                    </Modal>
-                </Swipeable>
+                <Modal
+                    isOpen={this.state.fAQModalIsOpen}
+                    contentLabel="open FAQ"
+                    className="zoomInLeft">
+                    <AuctionFAQ closeModal={this.FAQModalChanged} prodCode={this.state.auc.prodCode} chat={false} />
+                </Modal>
+
 
             </div>
         );
