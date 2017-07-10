@@ -733,6 +733,22 @@ public class UserT
     //    return relevantAuctions;
     //}
 
+    //public List<Reg_Auction> CurrentlyLeading()
+    //{
+    //    DbService db = new DbService();
+    //    DataSet DS = new DataSet();
+    //    string StrSql = "";
+    //    List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
+
+    //    StrSql = @"SELECT dbo.product_pictures.path
+    //                     FROM dbo.product_pictures INNER JOIN
+    //                     dbo.product ON dbo.product_pictures.product_code = dbo.product.product_code 
+    //                     WHERE(dbo.product_pictures.product_code = @prodCode)";
+
+    //    SqlParameter parProd = new SqlParameter("@prodCode", row["product_code"].ToString());
+
+    //    return relevantAuctions;
+    //}
 
 
     #endregion
