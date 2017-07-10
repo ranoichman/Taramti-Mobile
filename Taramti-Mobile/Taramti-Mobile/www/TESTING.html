@@ -243,6 +243,21 @@
             location.href = "Login-Taramti.html";
         }
 
+        function GetLeadingAuctions()
+        {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetLeadingAuctions",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_Id: "300294485"}),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
 
     </script>
 
@@ -260,6 +275,7 @@
         <input type="button" onclick="addQuestion()" value="add Question" />
         <input type="button" onclick="addToPush()" value="add Bush" />
         <input type="button" onclick="SendPush()" value="Send Bush" />
+        <input type="button" onclick="GetLeadingAuctions()" value="GetLeadingAuctions" />
         <!--<input type="button" onclick="LogOut()" value="LogOut" />-->
         <a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">התנתק</a>
 

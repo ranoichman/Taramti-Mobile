@@ -185,8 +185,8 @@ public class AuctionWebService : System.Web.Services.WebService
     public string GetLeadingAuctions(int user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        //return j.Serialize(quest.AddAnswer().ToString());
-        return "";
+        UserT U = new UserT(user_Id.ToString());
+        return j.Serialize(U.CurrentlyLeading());
     }
 
 
