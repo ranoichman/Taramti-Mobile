@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import Loader from 'react-loader';
 
 import Payment from "./Payment"
 import Home from '../Home/Home';
@@ -31,7 +30,7 @@ class Bdika extends Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-        setTimeout(()=> this.setState({loading:true}),3000)
+        setTimeout(()=> this.setState({loading:true}),500)
     }
 
     updateWindowDimensions() {
@@ -117,17 +116,9 @@ class Bdika extends Component {
                     <Payment closeModal={this.changeModalOpen} auc={auc} />
 
                 </Modal>
-                {/*<button onClick={this.infalteB}>נפח</button>
-                <button onClick={() => this.setState({ float: true })}>שחרר</button>
-                <div id="float"></div>
-                <div className="balloon" style={this.state.float? float: style}></div>
-                <div className="pyro" style={this.state.float?  {display:"block"}: {display:"none"}}>
-                    <div className="before"></div>
-                    <div className="after"></div>
-                </div>*/}
-
-                <img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png"} className="loading" />
-                <img src={"../../../www/img/just_logo.png"} className="loading" />
+               
+               <div className={this.state.loading?"sold": "stamp"}></div>
+               {/*<div className="sold stamp"></div>*/}
 
             </div>
         );

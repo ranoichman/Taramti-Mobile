@@ -84,19 +84,23 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _ParticipateAuction = __webpack_require__(311);
+	var _ParticipateAuction = __webpack_require__(313);
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
-	var _ActiveAuctions = __webpack_require__(439);
+	var _ActiveAuctions = __webpack_require__(440);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	var _Profile = __webpack_require__(452);
+	var _MyAuction = __webpack_require__(453);
+
+	var _MyAuction2 = _interopRequireDefault(_MyAuction);
+
+	var _Profile = __webpack_require__(454);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _Bdika = __webpack_require__(453);
+	var _Bdika = __webpack_require__(455);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
@@ -269,7 +273,7 @@
 	        null,
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/participate', component: _ParticipateAuction2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Bdika2.default })
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _MyAuction2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -30869,9 +30873,9 @@
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
-	__webpack_require__(434);
+	__webpack_require__(311);
 
-	var _general = __webpack_require__(422);
+	var _general = __webpack_require__(424);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30900,12 +30904,13 @@
 
 	        _this.state = {
 	            searchModalIsOpen: false,
+	            modalIsOpen: false,
 	            auctionsArr: [],
 	            loaded: false,
 	            loadingCounter: 0
 	        };
-	        _this.openSearchModal = _this.openSearchModal.bind(_this);
-	        _this.closeSearchModal = _this.closeSearchModal.bind(_this);
+	        _this.SearchModalChanged = _this.SearchModalChanged.bind(_this);
+	        _this.picModalChanged = _this.picModalChanged.bind(_this);
 	        _this.searchTriggered = _this.searchTriggered.bind(_this);
 	        _this.getAuctionsByParams = _this.getAuctionsByParams.bind(_this);
 	        _this.addAuction = _this.addAuction.bind(_this);
@@ -30925,20 +30930,22 @@
 	            this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
 	        }
 	    }, {
-	        key: 'openSearchModal',
-	        value: function openSearchModal() {
-	            this.setState({ searchModalIsOpen: true });
+	        key: 'SearchModalChanged',
+	        value: function SearchModalChanged() {
+	            var newStatus = !this.state.searchModalIsOpen;
+	            this.setState({ searchModalIsOpen: newStatus });
 	        }
 	    }, {
-	        key: 'closeSearchModal',
-	        value: function closeSearchModal() {
-	            this.setState({ searchModalIsOpen: false });
+	        key: 'picModalChanged',
+	        value: function picModalChanged() {
+	            var newStatus = !this.state.modalIsOpen;
+	            this.setState({ modalIsOpen: newStatus });
 	        }
 	    }, {
 	        key: 'searchTriggered',
 	        value: function searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
 	            //console.log(`entered search on ----- ${Date.now()}`)
-	            this.setState({ auctionsArr: [] });
+	            this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0 });
 	            this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
 	        }
 
@@ -30947,20 +30954,27 @@
 	    }, {
 	        key: 'getAuctionsByParams',
 	        value: function getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
-	            var self = this;
-	            console.log('buyerrrrrr ------- ' + _general.buyerID);
 	            var id = parseInt(_general.buyerID);
+	            console.log('buyer---- ' + id);
 	            this.setState({ searchModalIsOpen: false });
+	            var self = this;
 	            _axios2.default.post(_general.auctionWS + 'GetAuctionByParam', {
 	                lowPrice: lowPrice,
 	                highPrice: highPrice,
 	                catCode: catCode,
-	                id: id,
 	                lat: lat,
 	                lng: lng,
-	                radius: radius
+	                radius: radius,
+	                user_Id: id
 	            }).then(function (response) {
 	                var res = JSON.parse(response.data.d);
+
+	                if (res.length == 0) {
+	                    setTimeout(function () {
+	                        return self.setState({ loaded: true });
+	                    }, 300);
+	                }
+
 	                //if no radius selected >>> add auction
 	                if (radius === 0) {
 	                    res.map(self.addAuction);
@@ -31041,7 +31055,9 @@
 	                prodCode: item.ItemCode,
 	                prodName: item.ProdName,
 	                prodDesc: item.ProdDesc,
-	                imgArr: item.Images
+	                imgArr: item.Images,
+	                city: item.Location,
+	                buyer: item.Buyer
 	            };
 	            arr.push(newAuction);
 	            this.setState({ auctionsArr: arr });
@@ -31052,10 +31068,8 @@
 	    }, {
 	        key: 'eachAuction',
 	        value: function eachAuction(item, i) {
-	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid, handleLoad: this.handleLoad,
-	                home: 'true', imgArr: item.imgArr, prodName: item.prodName, prodDesc: item.prodDesc,
-	                price: item.price, endDate: item.endDate, code: item.code,
-	                percentage: item.percentage, prodCode: item.prodCode });
+	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid, handleLoad: this.handleLoad, picModalChanged: this.picModalChanged,
+	                home: 'true', auc: item, modalIsOpen: this.state.modalIsOpen || this.state.searchModalIsOpen });
 	        }
 
 	        //remove finished auction from displayed array
@@ -31084,11 +31098,14 @@
 	    }, {
 	        key: 'handleLoad',
 	        value: function handleLoad() {
-	            console.log('entered');
+	            var _this2 = this;
+
 	            var couner = this.state.loadingCounter;
 	            couner++;
 	            if (couner == this.state.auctionsArr.length) {
-	                this.setState({ loaded: true, loadingCounter: 0 });
+	                setTimeout(function () {
+	                    return _this2.setState({ loaded: true });
+	                }, 1000); // display loader 1 more sec 
 	            } else {
 	                this.setState({ loadingCounter: couner });
 	            }
@@ -31108,21 +31125,26 @@
 	                _react2.default.createElement('img', { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/smaller_logo.jpg", style: { float: "left", marginLeft: "-2%", width: "80%", position: "absolute", top: "0", marginTop: "0", right: "30px" } }),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
-	                    { onTap: this.openSearchModal, className: 'search' },
+	                    { onTap: this.SearchModalChanged, className: 'search' },
 	                    _react2.default.createElement(_reactFontawesome2.default, { name: 'search', border: false, className: 'fa-2x', tag: 'div' }),
 	                    _react2.default.createElement(
 	                        _reactModal2.default,
 	                        {
 	                            isOpen: this.state.searchModalIsOpen,
-	                            onRequestClose: this.closeSearchModal,
+	                            onRequestClose: this.SearchModalChanged,
 	                            contentLabel: 'open search``',
 	                            className: 'box' },
-	                        _react2.default.createElement(_Search2.default, { closeModal: this.closeSearchModal, startSearch: this.searchTriggered })
+	                        _react2.default.createElement(_Search2.default, { closeModal: this.SearchModalChanged, startSearch: this.searchTriggered })
 	                    )
 	                ),
 	                _react2.default.createElement(
 	                    _Loader2.default,
 	                    { loaded: this.state.loaded, loadingText: "...מחפש" },
+	                    this.state.auctionsArr.length == 0 ? _react2.default.createElement(
+	                        'h1',
+	                        { style: { textAlign: "center" } },
+	                        '\u05D0\u05D9\u05DF \u05DE\u05DB\u05E8\u05D6\u05D9\u05DD \u05DC\u05EA\u05E6\u05D5\u05D2\u05D4'
+	                    ) : "",
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'container-fluid' },
@@ -31225,19 +31247,19 @@
 
 	var _Pic2 = _interopRequireDefault(_Pic);
 
-	var _ParticipateAuction = __webpack_require__(311);
+	var _ParticipateAuction = __webpack_require__(313);
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
-	var _general = __webpack_require__(422);
-
-	__webpack_require__(430);
+	var _general = __webpack_require__(424);
 
 	__webpack_require__(432);
 
-	__webpack_require__(313);
-
 	__webpack_require__(434);
+
+	__webpack_require__(315);
+
+	__webpack_require__(311);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31270,7 +31292,8 @@
 
 	        _this.state = {
 	            reDirect: false,
-	            price: _this.props.price
+	            sold: false,
+	            price: _this.props.auc.price
 	        };
 	        _this.timerFinishedHome = _this.timerFinishedHome.bind(_this);
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
@@ -31281,7 +31304,17 @@
 	    _createClass(Auction, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            var _this2 = this;
+
+	            //if product is sold display sold stamp and dont show participate button
+	            if (this.props.auc.buyer != null) {
+	                setTimeout(function () {
+	                    return _this2.setState({ sold: true });
+	                }, 500);
+	            }
+	            //signal home component that finished rendering
 	            this.props.handleLoad();
+	            //get current price from db every 5s
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
 	        }
 	    }, {
@@ -31296,7 +31329,7 @@
 	        value: function getCurPrice() {
 	            var self = this;
 	            _axios2.default.post(_general.auctionWS + 'GetAuctionPrice', {
-	                auctionCode: self.props.code
+	                auctionCode: self.props.auc.code
 	            }).then(function (response) {
 	                var ans = response.data.d;
 	                if (ans !== "-1") {
@@ -31325,43 +31358,54 @@
 	            if (this.state.reDirect) {
 	                return _react2.default.createElement(_reactRouterDom.Redirect, { push: true, to: '/participate' });
 	            }
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
+	            return (
+	                // zIndex: this.props.modalIsOpen && !this.state.sold ? 0 : 1
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'col-xs-6 imgContainer' },
-	                    _react2.default.createElement(_PriceTag2.default, { key: '.$' + this.props.index, index: this.props.index, price: this.state.price }),
-	                    _react2.default.createElement(
-	                        _reactTransitionGroup.CSSTransitionGroup,
-	                        {
-	                            transitionName: 'slide',
-	                            transitionEnterTimeout: 500,
-	                            transitionLeaveTimeout: 500 },
-	                        _react2.default.createElement(_Pic2.default, { key: this.key, imagesArr: this.props.imgArr })
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-xs-6', dir: 'rtl' },
+	                    { className: 'row' },
+	                    this.props.auc.buyer != null ? _react2.default.createElement(
+	                        'div',
+	                        { className: this.state.sold ? "sold stamp" : "stamp", style: { zIndex: !this.state.sold ? -5 : this.props.modalIsOpen ? 0 : 1 } },
+	                        '\u05E0\u05DE\u05DB\u05E8'
+	                    ) : null,
 	                    _react2.default.createElement(
 	                        'div',
-	                        null,
-	                        _react2.default.createElement(_Timer2.default, { endDate: this.props.endDate, timerFinished: this.timerFinishedHome }),
+	                        { className: 'col-xs-6 imgContainer' },
+	                        _react2.default.createElement(_PriceTag2.default, { key: '.$' + this.props.index, index: this.props.index, price: this.state.price, modalIsOpen: this.props.modalIsOpen }),
+	                        _react2.default.createElement(_Pic2.default, { key: this.key, imagesArr: this.props.auc.imgArr, picModalChanged: this.props.picModalChanged })
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'col-xs-6', dir: 'rtl' },
 	                        _react2.default.createElement(
-	                            'h4',
-	                            { className: 'text-center' },
-	                            this.props.prodName
-	                        ),
-	                        _react2.default.createElement(
-	                            'p',
-	                            { className: 'descPar' },
-	                            this.props.prodDesc
-	                        ),
-	                        _react2.default.createElement(
-	                            'button',
-	                            { ref: 'bidBTN', className: 'ui-btn ui-btn-corner-all btn-primary', onClick: this.toParticipate },
-	                            ' \u05D4\u05E9\u05EA\u05EA\u05E3 \u05D1\u05DE\u05DB\u05E8\u05D6!  '
+	                            'div',
+	                            null,
+	                            _react2.default.createElement(_Timer2.default, { endDate: this.props.auc.endDate, timerFinished: this.timerFinishedHome }),
+	                            _react2.default.createElement(
+	                                'h4',
+	                                { className: 'text-center' },
+	                                this.props.auc.prodName
+	                            ),
+	                            _react2.default.createElement(
+	                                'p',
+	                                { className: 'descPar' },
+	                                this.props.auc.prodDesc
+	                            ),
+	                            _react2.default.createElement(
+	                                'h5',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { style: { fontWeight: "bold" } },
+	                                    '\u05DE\u05D9\u05E7\u05D5\u05DD: '
+	                                ),
+	                                this.props.auc.city.CityName
+	                            ),
+	                            this.state.sold ? "" : _react2.default.createElement(
+	                                'button',
+	                                { ref: 'bidBTN', className: 'ui-btn ui-btn-corner-all btn-primary', onClick: this.toParticipate },
+	                                ' \u05D4\u05E9\u05EA\u05EA\u05E3 \u05D1\u05DE\u05DB\u05E8\u05D6!  '
+	                            )
 	                        )
 	                    )
 	                )
@@ -31410,7 +31454,7 @@
 
 	        _this.state = {
 	            price: _this.props.price,
-	            style: {}
+	            style: { zIndex: _this.props.modalIsOpen ? 0 : 1 }
 	        };
 	        return _this;
 	    }
@@ -31420,18 +31464,25 @@
 	        value: function componentWillReceiveProps(nextProps) {
 	            var _this2 = this;
 
+	            {/*animating price upadate*/}
 	            if (parseInt(this.state.price) < parseInt(nextProps.price)) {
 	                this.setState({
 	                    price: nextProps.price,
 	                    style: {
+	                        zIndex: this.props.modalIsOpen ? 0 : 1,
 	                        animation: "tada 0.7s both",
 	                        WebkitAnimation: "tada 0.7s both"
 	                    }
 	                });
 	                //remove the animation style
 	                setTimeout(function () {
-	                    return _this2.setState({ style: {} });
+	                    return _this2.setState({ style: { zIndex: _this2.props.modalIsOpen ? 0 : 1 } });
 	                }, 700);
+	            }
+
+	            {/*controling z-index*/}
+	            if (this.props.modalIsOpen != nextProps.modalIsOpen) {
+	                this.setState({ style: { zIndex: nextProps.modalIsOpen ? 0 : 1 } });
 	            }
 	        }
 	    }, {
@@ -31648,11 +31699,17 @@
 	    value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(41);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 
 	var _reactTransitionGroup = __webpack_require__(284);
 
@@ -31667,6 +31724,8 @@
 	var _reactSlick = __webpack_require__(291);
 
 	var _reactSlick2 = _interopRequireDefault(_reactSlick);
+
+	__webpack_require__(311);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31692,8 +31751,7 @@
 	        };
 	        _this.imgSwipeLeft = _this.imgSwipeLeft.bind(_this);
 	        _this.imgSwipeRight = _this.imgSwipeRight.bind(_this);
-	        _this.openCarouselModal = _this.openCarouselModal.bind(_this);
-	        _this.closeCarouselModal = _this.closeCarouselModal.bind(_this);
+	        _this.changeCarouselModalOpen = _this.changeCarouselModalOpen.bind(_this);
 	        return _this;
 	    }
 
@@ -31718,14 +31776,11 @@
 	            }
 	        }
 	    }, {
-	        key: 'openCarouselModal',
-	        value: function openCarouselModal() {
-	            this.setState({ carouselModalIsOpen: true });
-	        }
-	    }, {
-	        key: 'closeCarouselModal',
-	        value: function closeCarouselModal() {
-	            this.setState({ carouselModalIsOpen: false });
+	        key: 'changeCarouselModalOpen',
+	        value: function changeCarouselModalOpen() {
+	            var newstatus = !this.state.carouselModalIsOpen;
+	            this.setState({ carouselModalIsOpen: newstatus });
+	            this.props.picModalChanged();
 	        }
 	    }, {
 	        key: 'render',
@@ -31743,12 +31798,12 @@
 	                    _reactModal2.default,
 	                    {
 	                        isOpen: this.state.carouselModalIsOpen,
-	                        onRequestClose: this.closeCarouselModal,
+	                        onRequestClose: this.changeCarouselModalOpen,
 	                        contentLabel: 'open carousel',
 	                        className: 'picBox' },
 	                    _react2.default.createElement(
 	                        _reactSlick2.default,
-	                        settings,
+	                        _extends({}, settings, { style: { height: 0 } }),
 	                        this.props.imagesArr.map(function (imageUrl, i) {
 	                            return _react2.default.createElement('img', { key: i, src: imageUrl });
 	                        })
@@ -31756,7 +31811,7 @@
 	                ),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
-	                    { onTap: this.openCarouselModal },
+	                    { onTap: this.changeCarouselModalOpen },
 	                    _react2.default.createElement('img', { className: this.state.animationDirection, src: this.props.imagesArr[this.state.index] })
 	                )
 	            );
@@ -34104,6 +34159,46 @@
 /* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(312);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./transition.css", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./transition.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 312 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n\r\n  /*\r\n*******************\r\n*******************\r\n      loading\r\n*******************\r\n*******************\r\n*/\r\n\r\n.loading{\r\n  position: relative;\r\n  width: 50%;\r\n  display: block;\r\n  margin: auto;\r\n   -webkit-animation:spin 4s linear infinite;\r\n    -moz-animation:spin 4s linear infinite;\r\n    animation:spin 4s linear infinite;\r\n}\r\n\r\n@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }\r\n@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }\r\n@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n  /*\r\n*******************\r\n*******************\r\nmodal zoom in RIGHT\r\n*******************\r\n*******************\r\n*/\r\n .zoomInRight {\r\n  -webkit-animation: zoomInRight 1s both;\r\n  animation: zoomInRight 1s both;\r\n  \r\n  }\r\n  @-webkit-keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  } \r\n\r\n /*\r\n*******************\r\n*******************\r\nmodal zoom in LEFT\r\n*******************\r\n*******************\r\n*/\r\n\r\n.zoomInLeft {\r\n  -webkit-animation-name: zoomInLeft;\r\n  animation-name: zoomInLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n\r\n /*\r\n*******************\r\n*******************\r\n   modal zoom out\r\n*******************\r\n*******************\r\n*/\r\n  .zoomOut {\r\n  -webkit-animation-name: zoomOut;\r\n  animation-name: zoomOut;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  \r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  }\r\n  @keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  } ", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 313 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -34138,15 +34233,15 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _AuctionInfo = __webpack_require__(312);
+	var _AuctionInfo = __webpack_require__(314);
 
 	var _AuctionInfo2 = _interopRequireDefault(_AuctionInfo);
 
-	var _AuctionFAQ = __webpack_require__(315);
+	var _AuctionFAQ = __webpack_require__(317);
 
 	var _AuctionFAQ2 = _interopRequireDefault(_AuctionFAQ);
 
-	var _Balloon = __webpack_require__(423);
+	var _Balloon = __webpack_require__(425);
 
 	var _Balloon2 = _interopRequireDefault(_Balloon);
 
@@ -34158,15 +34253,15 @@
 
 	var _Pic2 = _interopRequireDefault(_Pic);
 
-	var _Tetris = __webpack_require__(426);
+	var _Tetris = __webpack_require__(428);
 
 	var _Tetris2 = _interopRequireDefault(_Tetris);
 
-	__webpack_require__(424);
+	__webpack_require__(426);
 
-	var _messages = __webpack_require__(429);
+	var _messages = __webpack_require__(431);
 
-	var _general = __webpack_require__(422);
+	var _general = __webpack_require__(424);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34205,15 +34300,15 @@
 
 	            // auc data
 	            auc: {
-	                code: par.props.code,
+	                code: par.props.auc.code,
 	                price: par.price,
-	                endDate: par.props.endDate,
-	                percentage: par.props.percentage,
-	                prodCode: par.props.prodCode,
-	                prodName: par.props.prodName,
-	                prodDesc: par.props.prodDesc,
+	                endDate: par.props.auc.endDate,
+	                percentage: par.props.auc.percentage,
+	                prodCode: par.props.auc.prodCode,
+	                prodName: par.props.auc.prodName,
+	                prodDesc: par.props.auc.prodDesc,
 	                finished: false,
-	                imgArr: par.props.imgArr
+	                imgArr: par.props.auc.imgArr
 	            }
 	        };
 	        _this.openMSGModal = _this.openMSGModal.bind(_this);
@@ -34398,7 +34493,8 @@
 	        value: function makeBid() {
 	            if (this.state.borderColor !== "red") {
 	                var currentAuc = this.state.auc;
-	                var val = this.refs.newPrice.value;
+
+	                var val = parseInt(this.refs.newPrice.value);
 
 	                var buyer = { UserId: _general.buyerID };
 	                var auc = { AuctionID: currentAuc.code, Buyer: buyer, ProdName: currentAuc.prodName };
@@ -34421,7 +34517,7 @@
 	                        //stop fireworks and bring baloon back
 	                        setTimeout(function () {
 	                            return self.setState({ anim: "0" });
-	                        }, 3300);
+	                        }, 4500);
 	                    } else {
 	                        self.setState({
 	                            msgClass: "box failure",
@@ -34523,8 +34619,8 @@
 	                                isOpen: this.state.infoModalIsOpen,
 
 	                                contentLabel: 'open info',
-	                                className: 'box' },
-	                            _react2.default.createElement(_AuctionInfo2.default, { closeModal: this.closeInfoModal, auc: this.state.auc })
+	                                className: 'zoomInRight' },
+	                            _react2.default.createElement(_AuctionInfo2.default, { modal: true, closeModal: this.closeInfoModal, auc: this.state.auc })
 	                        )
 	                    ),
 	                    _react2.default.createElement(
@@ -34537,8 +34633,8 @@
 	                                isOpen: this.state.fAQModalIsOpen,
 
 	                                contentLabel: 'open FAQ',
-	                                className: 'FAQbox' },
-	                            _react2.default.createElement(_AuctionFAQ2.default, { closeModal: this.closeFAQModal, prodCode: this.state.auc.prodCode })
+	                                className: 'zoomInRight' },
+	                            _react2.default.createElement(_AuctionFAQ2.default, { closeModal: this.closeFAQModal, prodCode: this.state.auc.prodCode, chat: true })
 	                        )
 	                    )
 	                ),
@@ -34584,7 +34680,7 @@
 	exports.default = ParticipateAuction;
 
 /***/ }),
-/* 312 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34603,7 +34699,7 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	__webpack_require__(313);
+	__webpack_require__(315);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34619,18 +34715,36 @@
 	    function AuctionInfo(props) {
 	        _classCallCheck(this, AuctionInfo);
 
-	        return _possibleConstructorReturn(this, (AuctionInfo.__proto__ || Object.getPrototypeOf(AuctionInfo)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (AuctionInfo.__proto__ || Object.getPrototypeOf(AuctionInfo)).call(this, props));
+
+	        _this.state = {
+	            open: true
+	        };
+	        _this.renderInfo = _this.renderInfo.bind(_this);
+	        _this.renderModal = _this.renderModal.bind(_this);
+	        _this.close = _this.close.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(AuctionInfo, [{
-	        key: 'render',
-	        value: function render() {
+	        key: 'close',
+	        value: function close() {
+	            var _this2 = this;
+
+	            this.setState({ open: false });
+	            setTimeout(function () {
+	                return _this2.props.closeModal();
+	            }, 600);
+	        }
+	    }, {
+	        key: 'renderModal',
+	        value: function renderModal() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'box' },
+	                { className: this.state.open ? "box" : "box zoomOut" },
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
-	                    { onTap: this.props.closeModal },
+	                    { onTap: this.close },
 	                    _react2.default.createElement('a', { className: 'boxclose' })
 	                ),
 	                _react2.default.createElement(
@@ -34675,6 +34789,31 @@
 	                )
 	            );
 	        }
+	    }, {
+	        key: 'renderInfo',
+	        value: function renderInfo() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'h1',
+	                    { style: { textAlign: "center" } },
+	                    this.props.auc.prodName
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    this.props.auc.imgArr.map(function (pic, i) {
+	                        return _react2.default.createElement('img', { key: i, src: pic, style: { width: "35%", margin: "5%" } });
+	                    })
+	                )
+	            );
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return this.props.modal ? this.renderModal() : this.renderInfo();
+	        }
 	    }]);
 
 	    return AuctionInfo;
@@ -34683,13 +34822,13 @@
 	exports.default = AuctionInfo;
 
 /***/ }),
-/* 313 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(314);
+	var content = __webpack_require__(316);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -34709,7 +34848,7 @@
 	}
 
 /***/ }),
-/* 314 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -34717,13 +34856,13 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    background-color: transparent;\r\n    z-index: 500;\r\n}\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    \r\n}\r\n\r\n/*remove menu*/\r\n/*\r\nh1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {\r\n    width: 30px;\r\n    height: 74PX;\r\n    padding: 0 0 0 0;\r\n    border: 0 0 0 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\ndiv.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {\r\n    position: fixed;\r\n    top: 0PX;\r\n    margin: 0 0 0 0;\r\n    z-index: 100;\r\n    border-top-width: 0px;\r\n    width: 60%;\r\n    border-color: black;\r\n    border-width: 2px;\r\n}\r\n\r\n.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\na.ui-btn.ui-btn-icon-right.ui-icon-carat-r {\r\n    background-color: #98b8dc;\r\n    border-color: black;\r\n}*/", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    \r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\n/*remove menu*/\r\n/*\r\nh1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {\r\n    width: 30px;\r\n    height: 74PX;\r\n    padding: 0 0 0 0;\r\n    border: 0 0 0 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\ndiv.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {\r\n    position: fixed;\r\n    top: 0PX;\r\n    margin: 0 0 0 0;\r\n    z-index: 100;\r\n    border-top-width: 0px;\r\n    width: 60%;\r\n    border-color: black;\r\n    border-width: 2px;\r\n}\r\n\r\n.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\na.ui-btn.ui-btn-icon-right.ui-icon-carat-r {\r\n    background-color: #98b8dc;\r\n    border-color: black;\r\n}*/\r\n\r\n\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 315 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34746,17 +34885,17 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _ChatMsg = __webpack_require__(316);
+	var _ChatMsg = __webpack_require__(318);
 
 	var _ChatMsg2 = _interopRequireDefault(_ChatMsg);
 
-	var _TextInput = __webpack_require__(418);
+	var _TextInput = __webpack_require__(420);
 
 	var _TextInput2 = _interopRequireDefault(_TextInput);
 
-	__webpack_require__(313);
+	__webpack_require__(315);
 
-	var _general = __webpack_require__(422);
+	var _general = __webpack_require__(424);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34776,9 +34915,11 @@
 
 	        _this.state = {
 	            FAQs: [],
-	            width: null
+	            width: null,
+	            open: true
 	        };
 	        _this.addQuestion = _this.addQuestion.bind(_this);
+	        _this.close = _this.close.bind(_this);
 	        return _this;
 	    }
 
@@ -34786,6 +34927,7 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            var width = this.refs.questions.clientWidth;
+	            console.log('faq ---- ' + width);
 	            this.setState({ width: width });
 	            var product = { ItemId: this.props.prodCode };
 	            var self = this;
@@ -34831,18 +34973,37 @@
 	            });
 	        }
 	    }, {
+	        key: 'close',
+	        value: function close() {
+	            var _this2 = this;
+
+	            this.setState({ open: false });
+	            setTimeout(function () {
+	                return _this2.props.closeModal();
+	            }, 600);
+	        }
+	    }, {
+	        key: 'renderQuestionInput',
+	        value: function renderQuestionInput() {
+	            return "";
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { ref: 'questions' },
+	                { className: this.state.open ? "FAQbox" : "FAQbox zoomOut" },
 	                _react2.default.createElement(
-	                    _reactSwipeable2.default,
-	                    { onTap: this.props.closeModal },
-	                    _react2.default.createElement('a', { className: 'boxclose' })
-	                ),
-	                _react2.default.createElement(_ChatMsg2.default, { FAQs: this.state.FAQs, chat: 'true' }),
-	                _react2.default.createElement(_TextInput2.default, { send: this.addQuestion, width: this.state.width })
+	                    'div',
+	                    { ref: 'questions' },
+	                    _react2.default.createElement(
+	                        _reactSwipeable2.default,
+	                        { onTap: this.close },
+	                        _react2.default.createElement('a', { className: 'boxclose' })
+	                    ),
+	                    _react2.default.createElement(_ChatMsg2.default, { FAQs: this.state.FAQs, chat: this.props.chat }),
+	                    this.props.chat ? _react2.default.createElement(_TextInput2.default, { send: this.addQuestion, width: this.state.width }) : _react2.default.createElement('span', null)
+	                )
 	            );
 	        }
 	    }]);
@@ -34853,7 +35014,7 @@
 	exports.default = AuctionFAQ;
 
 /***/ }),
-/* 316 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34868,19 +35029,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _rcCollapse = __webpack_require__(317);
+	var _rcCollapse = __webpack_require__(319);
 
 	var _rcCollapse2 = _interopRequireDefault(_rcCollapse);
 
-	var _TextInput = __webpack_require__(418);
+	var _TextInput = __webpack_require__(420);
 
 	var _TextInput2 = _interopRequireDefault(_TextInput);
 
-	var _FAQ = __webpack_require__(419);
+	var _FAQ = __webpack_require__(421);
 
 	var _FAQ2 = _interopRequireDefault(_FAQ);
 
-	__webpack_require__(420);
+	__webpack_require__(422);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34916,7 +35077,7 @@
 	        value: function generateFAQ(item, i) {
 	            return _react2.default.createElement(
 	                _rcCollapse.Panel,
-	                { className: 'question', header: item.Question, key: i },
+	                { disabled: this.props.disabled, className: !this.props.chat && item.Answer == "" ? !this.props.disabled ? "newQuestion" : "question" : "question", header: item.Question, key: i },
 	                _react2.default.createElement(_FAQ2.default, { faq: item, key: i, index: i, display: this.state.activeKey == i ? true : false, chat: this.props.chat })
 	            );
 	        }
@@ -34928,6 +35089,11 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
+	                _react2.default.createElement(
+	                    'h2',
+	                    { style: { textAlign: "right" } },
+	                    this.props.FAQs.length == 0 ? "אין שאלות לתצוגה" : ""
+	                ),
 	                _react2.default.createElement(
 	                    _rcCollapse2.default,
 	                    { accordion: true, onChange: function onChange(activeKey) {
@@ -34945,7 +35111,7 @@
 	exports.default = ChatMsg;
 
 /***/ }),
-/* 317 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34955,7 +35121,7 @@
 	});
 	exports.Panel = undefined;
 
-	var _Collapse = __webpack_require__(318);
+	var _Collapse = __webpack_require__(320);
 
 	var _Collapse2 = _interopRequireDefault(_Collapse);
 
@@ -34965,7 +35131,7 @@
 	var Panel = exports.Panel = _Collapse2['default'].Panel;
 
 /***/ }),
-/* 318 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34984,11 +35150,11 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _Panel = __webpack_require__(319);
+	var _Panel = __webpack_require__(321);
 
 	var _Panel2 = _interopRequireDefault(_Panel);
 
-	var _openAnimationFactory = __webpack_require__(417);
+	var _openAnimationFactory = __webpack_require__(419);
 
 	var _openAnimationFactory2 = _interopRequireDefault(_openAnimationFactory);
 
@@ -35178,7 +35344,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 319 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35201,11 +35367,11 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _PanelContent = __webpack_require__(320);
+	var _PanelContent = __webpack_require__(322);
 
 	var _PanelContent2 = _interopRequireDefault(_PanelContent);
 
-	var _rcAnimate = __webpack_require__(321);
+	var _rcAnimate = __webpack_require__(323);
 
 	var _rcAnimate2 = _interopRequireDefault(_rcAnimate);
 
@@ -35323,7 +35489,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 320 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35416,7 +35582,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 321 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35425,27 +35591,27 @@
 	  value: true
 	});
 
-	var _extends2 = __webpack_require__(322);
+	var _extends2 = __webpack_require__(324);
 
 	var _extends3 = _interopRequireDefault(_extends2);
 
-	var _defineProperty2 = __webpack_require__(360);
+	var _defineProperty2 = __webpack_require__(362);
 
 	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-	var _classCallCheck2 = __webpack_require__(364);
+	var _classCallCheck2 = __webpack_require__(366);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _createClass2 = __webpack_require__(365);
+	var _createClass2 = __webpack_require__(367);
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(366);
+	var _possibleConstructorReturn2 = __webpack_require__(368);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(402);
+	var _inherits2 = __webpack_require__(404);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -35457,13 +35623,13 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _ChildrenUtils = __webpack_require__(410);
+	var _ChildrenUtils = __webpack_require__(412);
 
-	var _AnimateChild = __webpack_require__(411);
+	var _AnimateChild = __webpack_require__(413);
 
 	var _AnimateChild2 = _interopRequireDefault(_AnimateChild);
 
-	var _util = __webpack_require__(416);
+	var _util = __webpack_require__(418);
 
 	var _util2 = _interopRequireDefault(_util);
 
@@ -35811,14 +35977,14 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 322 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _assign = __webpack_require__(323);
+	var _assign = __webpack_require__(325);
 
 	var _assign2 = _interopRequireDefault(_assign);
 
@@ -35839,35 +36005,35 @@
 	};
 
 /***/ }),
-/* 323 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(324), __esModule: true };
-
-/***/ }),
-/* 324 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(325);
-	module.exports = __webpack_require__(328).Object.assign;
-
-/***/ }),
 /* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	// 19.1.3.1 Object.assign(target, source)
-	var $export = __webpack_require__(326);
-
-	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(341)});
+	module.exports = { "default": __webpack_require__(326), __esModule: true };
 
 /***/ }),
 /* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var global    = __webpack_require__(327)
-	  , core      = __webpack_require__(328)
-	  , ctx       = __webpack_require__(329)
-	  , hide      = __webpack_require__(331)
+	__webpack_require__(327);
+	module.exports = __webpack_require__(330).Object.assign;
+
+/***/ }),
+/* 327 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// 19.1.3.1 Object.assign(target, source)
+	var $export = __webpack_require__(328);
+
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(343)});
+
+/***/ }),
+/* 328 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(329)
+	  , core      = __webpack_require__(330)
+	  , ctx       = __webpack_require__(331)
+	  , hide      = __webpack_require__(333)
 	  , PROTOTYPE = 'prototype';
 
 	var $export = function(type, name, source){
@@ -35927,7 +36093,7 @@
 	module.exports = $export;
 
 /***/ }),
-/* 327 */
+/* 329 */
 /***/ (function(module, exports) {
 
 	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
@@ -35936,18 +36102,18 @@
 	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ }),
-/* 328 */
+/* 330 */
 /***/ (function(module, exports) {
 
 	var core = module.exports = {version: '2.4.0'};
 	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ }),
-/* 329 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// optional / simple context binding
-	var aFunction = __webpack_require__(330);
+	var aFunction = __webpack_require__(332);
 	module.exports = function(fn, that, length){
 	  aFunction(fn);
 	  if(that === undefined)return fn;
@@ -35968,7 +36134,7 @@
 	};
 
 /***/ }),
-/* 330 */
+/* 332 */
 /***/ (function(module, exports) {
 
 	module.exports = function(it){
@@ -35977,12 +36143,12 @@
 	};
 
 /***/ }),
-/* 331 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var dP         = __webpack_require__(332)
-	  , createDesc = __webpack_require__(340);
-	module.exports = __webpack_require__(336) ? function(object, key, value){
+	var dP         = __webpack_require__(334)
+	  , createDesc = __webpack_require__(342);
+	module.exports = __webpack_require__(338) ? function(object, key, value){
 	  return dP.f(object, key, createDesc(1, value));
 	} : function(object, key, value){
 	  object[key] = value;
@@ -35990,15 +36156,15 @@
 	};
 
 /***/ }),
-/* 332 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var anObject       = __webpack_require__(333)
-	  , IE8_DOM_DEFINE = __webpack_require__(335)
-	  , toPrimitive    = __webpack_require__(339)
+	var anObject       = __webpack_require__(335)
+	  , IE8_DOM_DEFINE = __webpack_require__(337)
+	  , toPrimitive    = __webpack_require__(341)
 	  , dP             = Object.defineProperty;
 
-	exports.f = __webpack_require__(336) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+	exports.f = __webpack_require__(338) ? Object.defineProperty : function defineProperty(O, P, Attributes){
 	  anObject(O);
 	  P = toPrimitive(P, true);
 	  anObject(Attributes);
@@ -36011,17 +36177,17 @@
 	};
 
 /***/ }),
-/* 333 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(334);
+	var isObject = __webpack_require__(336);
 	module.exports = function(it){
 	  if(!isObject(it))throw TypeError(it + ' is not an object!');
 	  return it;
 	};
 
 /***/ }),
-/* 334 */
+/* 336 */
 /***/ (function(module, exports) {
 
 	module.exports = function(it){
@@ -36029,24 +36195,24 @@
 	};
 
 /***/ }),
-/* 335 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = !__webpack_require__(336) && !__webpack_require__(337)(function(){
-	  return Object.defineProperty(__webpack_require__(338)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+	module.exports = !__webpack_require__(338) && !__webpack_require__(339)(function(){
+	  return Object.defineProperty(__webpack_require__(340)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ }),
-/* 336 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// Thank's IE8 for his funny defineProperty
-	module.exports = !__webpack_require__(337)(function(){
+	module.exports = !__webpack_require__(339)(function(){
 	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 	});
 
 /***/ }),
-/* 337 */
+/* 339 */
 /***/ (function(module, exports) {
 
 	module.exports = function(exec){
@@ -36058,11 +36224,11 @@
 	};
 
 /***/ }),
-/* 338 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(334)
-	  , document = __webpack_require__(327).document
+	var isObject = __webpack_require__(336)
+	  , document = __webpack_require__(329).document
 	  // in old IE typeof document.createElement is 'object'
 	  , is = isObject(document) && isObject(document.createElement);
 	module.exports = function(it){
@@ -36070,11 +36236,11 @@
 	};
 
 /***/ }),
-/* 339 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 7.1.1 ToPrimitive(input [, PreferredType])
-	var isObject = __webpack_require__(334);
+	var isObject = __webpack_require__(336);
 	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
 	// and the second argument - flag - preferred type is a string
 	module.exports = function(it, S){
@@ -36087,7 +36253,7 @@
 	};
 
 /***/ }),
-/* 340 */
+/* 342 */
 /***/ (function(module, exports) {
 
 	module.exports = function(bitmap, value){
@@ -36100,20 +36266,20 @@
 	};
 
 /***/ }),
-/* 341 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	// 19.1.2.1 Object.assign(target, source, ...)
-	var getKeys  = __webpack_require__(342)
-	  , gOPS     = __webpack_require__(357)
-	  , pIE      = __webpack_require__(358)
-	  , toObject = __webpack_require__(359)
-	  , IObject  = __webpack_require__(346)
+	var getKeys  = __webpack_require__(344)
+	  , gOPS     = __webpack_require__(359)
+	  , pIE      = __webpack_require__(360)
+	  , toObject = __webpack_require__(361)
+	  , IObject  = __webpack_require__(348)
 	  , $assign  = Object.assign;
 
 	// should work with symbols and should have deterministic property order (V8 bug)
-	module.exports = !$assign || __webpack_require__(337)(function(){
+	module.exports = !$assign || __webpack_require__(339)(function(){
 	  var A = {}
 	    , B = {}
 	    , S = Symbol()
@@ -36138,25 +36304,25 @@
 	} : $assign;
 
 /***/ }),
-/* 342 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-	var $keys       = __webpack_require__(343)
-	  , enumBugKeys = __webpack_require__(356);
+	var $keys       = __webpack_require__(345)
+	  , enumBugKeys = __webpack_require__(358);
 
 	module.exports = Object.keys || function keys(O){
 	  return $keys(O, enumBugKeys);
 	};
 
 /***/ }),
-/* 343 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var has          = __webpack_require__(344)
-	  , toIObject    = __webpack_require__(345)
-	  , arrayIndexOf = __webpack_require__(349)(false)
-	  , IE_PROTO     = __webpack_require__(353)('IE_PROTO');
+	var has          = __webpack_require__(346)
+	  , toIObject    = __webpack_require__(347)
+	  , arrayIndexOf = __webpack_require__(351)(false)
+	  , IE_PROTO     = __webpack_require__(355)('IE_PROTO');
 
 	module.exports = function(object, names){
 	  var O      = toIObject(object)
@@ -36172,7 +36338,7 @@
 	};
 
 /***/ }),
-/* 344 */
+/* 346 */
 /***/ (function(module, exports) {
 
 	var hasOwnProperty = {}.hasOwnProperty;
@@ -36181,28 +36347,28 @@
 	};
 
 /***/ }),
-/* 345 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// to indexed object, toObject with fallback for non-array-like ES3 strings
-	var IObject = __webpack_require__(346)
-	  , defined = __webpack_require__(348);
+	var IObject = __webpack_require__(348)
+	  , defined = __webpack_require__(350);
 	module.exports = function(it){
 	  return IObject(defined(it));
 	};
 
 /***/ }),
-/* 346 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// fallback for non-array-like ES3 and non-enumerable old V8 strings
-	var cof = __webpack_require__(347);
+	var cof = __webpack_require__(349);
 	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
 	  return cof(it) == 'String' ? it.split('') : Object(it);
 	};
 
 /***/ }),
-/* 347 */
+/* 349 */
 /***/ (function(module, exports) {
 
 	var toString = {}.toString;
@@ -36212,7 +36378,7 @@
 	};
 
 /***/ }),
-/* 348 */
+/* 350 */
 /***/ (function(module, exports) {
 
 	// 7.2.1 RequireObjectCoercible(argument)
@@ -36222,14 +36388,14 @@
 	};
 
 /***/ }),
-/* 349 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// false -> Array#indexOf
 	// true  -> Array#includes
-	var toIObject = __webpack_require__(345)
-	  , toLength  = __webpack_require__(350)
-	  , toIndex   = __webpack_require__(352);
+	var toIObject = __webpack_require__(347)
+	  , toLength  = __webpack_require__(352)
+	  , toIndex   = __webpack_require__(354);
 	module.exports = function(IS_INCLUDES){
 	  return function($this, el, fromIndex){
 	    var O      = toIObject($this)
@@ -36248,18 +36414,18 @@
 	};
 
 /***/ }),
-/* 350 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 7.1.15 ToLength
-	var toInteger = __webpack_require__(351)
+	var toInteger = __webpack_require__(353)
 	  , min       = Math.min;
 	module.exports = function(it){
 	  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 	};
 
 /***/ }),
-/* 351 */
+/* 353 */
 /***/ (function(module, exports) {
 
 	// 7.1.4 ToInteger
@@ -36270,10 +36436,10 @@
 	};
 
 /***/ }),
-/* 352 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(351)
+	var toInteger = __webpack_require__(353)
 	  , max       = Math.max
 	  , min       = Math.min;
 	module.exports = function(index, length){
@@ -36282,20 +36448,20 @@
 	};
 
 /***/ }),
-/* 353 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var shared = __webpack_require__(354)('keys')
-	  , uid    = __webpack_require__(355);
+	var shared = __webpack_require__(356)('keys')
+	  , uid    = __webpack_require__(357);
 	module.exports = function(key){
 	  return shared[key] || (shared[key] = uid(key));
 	};
 
 /***/ }),
-/* 354 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var global = __webpack_require__(327)
+	var global = __webpack_require__(329)
 	  , SHARED = '__core-js_shared__'
 	  , store  = global[SHARED] || (global[SHARED] = {});
 	module.exports = function(key){
@@ -36303,7 +36469,7 @@
 	};
 
 /***/ }),
-/* 355 */
+/* 357 */
 /***/ (function(module, exports) {
 
 	var id = 0
@@ -36313,7 +36479,7 @@
 	};
 
 /***/ }),
-/* 356 */
+/* 358 */
 /***/ (function(module, exports) {
 
 	// IE 8- don't enum bug keys
@@ -36322,36 +36488,36 @@
 	).split(',');
 
 /***/ }),
-/* 357 */
+/* 359 */
 /***/ (function(module, exports) {
 
 	exports.f = Object.getOwnPropertySymbols;
 
 /***/ }),
-/* 358 */
+/* 360 */
 /***/ (function(module, exports) {
 
 	exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
-/* 359 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 7.1.13 ToObject(argument)
-	var defined = __webpack_require__(348);
+	var defined = __webpack_require__(350);
 	module.exports = function(it){
 	  return Object(defined(it));
 	};
 
 /***/ }),
-/* 360 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _defineProperty = __webpack_require__(361);
+	var _defineProperty = __webpack_require__(363);
 
 	var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -36373,31 +36539,31 @@
 	};
 
 /***/ }),
-/* 361 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(362), __esModule: true };
+	module.exports = { "default": __webpack_require__(364), __esModule: true };
 
 /***/ }),
-/* 362 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(363);
-	var $Object = __webpack_require__(328).Object;
+	__webpack_require__(365);
+	var $Object = __webpack_require__(330).Object;
 	module.exports = function defineProperty(it, key, desc){
 	  return $Object.defineProperty(it, key, desc);
 	};
 
 /***/ }),
-/* 363 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var $export = __webpack_require__(326);
+	var $export = __webpack_require__(328);
 	// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-	$export($export.S + $export.F * !__webpack_require__(336), 'Object', {defineProperty: __webpack_require__(332).f});
+	$export($export.S + $export.F * !__webpack_require__(338), 'Object', {defineProperty: __webpack_require__(334).f});
 
 /***/ }),
-/* 364 */
+/* 366 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -36411,14 +36577,14 @@
 	};
 
 /***/ }),
-/* 365 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _defineProperty = __webpack_require__(361);
+	var _defineProperty = __webpack_require__(363);
 
 	var _defineProperty2 = _interopRequireDefault(_defineProperty);
 
@@ -36443,14 +36609,14 @@
 	}();
 
 /***/ }),
-/* 366 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _typeof2 = __webpack_require__(367);
+	var _typeof2 = __webpack_require__(369);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -36465,18 +36631,18 @@
 	};
 
 /***/ }),
-/* 367 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _iterator = __webpack_require__(368);
+	var _iterator = __webpack_require__(370);
 
 	var _iterator2 = _interopRequireDefault(_iterator);
 
-	var _symbol = __webpack_require__(388);
+	var _symbol = __webpack_require__(390);
 
 	var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -36491,28 +36657,28 @@
 	};
 
 /***/ }),
-/* 368 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(369), __esModule: true };
-
-/***/ }),
-/* 369 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(370);
-	__webpack_require__(383);
-	module.exports = __webpack_require__(387).f('iterator');
-
-/***/ }),
 /* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	module.exports = { "default": __webpack_require__(371), __esModule: true };
+
+/***/ }),
+/* 371 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(372);
+	__webpack_require__(385);
+	module.exports = __webpack_require__(389).f('iterator');
+
+/***/ }),
+/* 372 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
-	var $at  = __webpack_require__(371)(true);
+	var $at  = __webpack_require__(373)(true);
 
 	// 21.1.3.27 String.prototype[@@iterator]()
-	__webpack_require__(372)(String, 'String', function(iterated){
+	__webpack_require__(374)(String, 'String', function(iterated){
 	  this._t = String(iterated); // target
 	  this._i = 0;                // next index
 	// 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -36527,11 +36693,11 @@
 	});
 
 /***/ }),
-/* 371 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var toInteger = __webpack_require__(351)
-	  , defined   = __webpack_require__(348);
+	var toInteger = __webpack_require__(353)
+	  , defined   = __webpack_require__(350);
 	// true  -> String#at
 	// false -> String#codePointAt
 	module.exports = function(TO_STRING){
@@ -36549,20 +36715,20 @@
 	};
 
 /***/ }),
-/* 372 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var LIBRARY        = __webpack_require__(373)
-	  , $export        = __webpack_require__(326)
-	  , redefine       = __webpack_require__(374)
-	  , hide           = __webpack_require__(331)
-	  , has            = __webpack_require__(344)
-	  , Iterators      = __webpack_require__(375)
-	  , $iterCreate    = __webpack_require__(376)
-	  , setToStringTag = __webpack_require__(380)
-	  , getPrototypeOf = __webpack_require__(382)
-	  , ITERATOR       = __webpack_require__(381)('iterator')
+	var LIBRARY        = __webpack_require__(375)
+	  , $export        = __webpack_require__(328)
+	  , redefine       = __webpack_require__(376)
+	  , hide           = __webpack_require__(333)
+	  , has            = __webpack_require__(346)
+	  , Iterators      = __webpack_require__(377)
+	  , $iterCreate    = __webpack_require__(378)
+	  , setToStringTag = __webpack_require__(382)
+	  , getPrototypeOf = __webpack_require__(384)
+	  , ITERATOR       = __webpack_require__(383)('iterator')
 	  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
 	  , FF_ITERATOR    = '@@iterator'
 	  , KEYS           = 'keys'
@@ -36624,35 +36790,35 @@
 	};
 
 /***/ }),
-/* 373 */
+/* 375 */
 /***/ (function(module, exports) {
 
 	module.exports = true;
 
 /***/ }),
-/* 374 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(331);
+	module.exports = __webpack_require__(333);
 
 /***/ }),
-/* 375 */
+/* 377 */
 /***/ (function(module, exports) {
 
 	module.exports = {};
 
 /***/ }),
-/* 376 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var create         = __webpack_require__(377)
-	  , descriptor     = __webpack_require__(340)
-	  , setToStringTag = __webpack_require__(380)
+	var create         = __webpack_require__(379)
+	  , descriptor     = __webpack_require__(342)
+	  , setToStringTag = __webpack_require__(382)
 	  , IteratorPrototype = {};
 
 	// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-	__webpack_require__(331)(IteratorPrototype, __webpack_require__(381)('iterator'), function(){ return this; });
+	__webpack_require__(333)(IteratorPrototype, __webpack_require__(383)('iterator'), function(){ return this; });
 
 	module.exports = function(Constructor, NAME, next){
 	  Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -36660,27 +36826,27 @@
 	};
 
 /***/ }),
-/* 377 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-	var anObject    = __webpack_require__(333)
-	  , dPs         = __webpack_require__(378)
-	  , enumBugKeys = __webpack_require__(356)
-	  , IE_PROTO    = __webpack_require__(353)('IE_PROTO')
+	var anObject    = __webpack_require__(335)
+	  , dPs         = __webpack_require__(380)
+	  , enumBugKeys = __webpack_require__(358)
+	  , IE_PROTO    = __webpack_require__(355)('IE_PROTO')
 	  , Empty       = function(){ /* empty */ }
 	  , PROTOTYPE   = 'prototype';
 
 	// Create object with fake `null` prototype: use iframe Object with cleared prototype
 	var createDict = function(){
 	  // Thrash, waste and sodomy: IE GC bug
-	  var iframe = __webpack_require__(338)('iframe')
+	  var iframe = __webpack_require__(340)('iframe')
 	    , i      = enumBugKeys.length
 	    , lt     = '<'
 	    , gt     = '>'
 	    , iframeDocument;
 	  iframe.style.display = 'none';
-	  __webpack_require__(379).appendChild(iframe);
+	  __webpack_require__(381).appendChild(iframe);
 	  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
 	  // createDict = iframe.contentWindow.Object;
 	  // html.removeChild(iframe);
@@ -36707,14 +36873,14 @@
 
 
 /***/ }),
-/* 378 */
+/* 380 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var dP       = __webpack_require__(332)
-	  , anObject = __webpack_require__(333)
-	  , getKeys  = __webpack_require__(342);
+	var dP       = __webpack_require__(334)
+	  , anObject = __webpack_require__(335)
+	  , getKeys  = __webpack_require__(344);
 
-	module.exports = __webpack_require__(336) ? Object.defineProperties : function defineProperties(O, Properties){
+	module.exports = __webpack_require__(338) ? Object.defineProperties : function defineProperties(O, Properties){
 	  anObject(O);
 	  var keys   = getKeys(Properties)
 	    , length = keys.length
@@ -36725,30 +36891,30 @@
 	};
 
 /***/ }),
-/* 379 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(327).document && document.documentElement;
+	module.exports = __webpack_require__(329).document && document.documentElement;
 
 /***/ }),
-/* 380 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var def = __webpack_require__(332).f
-	  , has = __webpack_require__(344)
-	  , TAG = __webpack_require__(381)('toStringTag');
+	var def = __webpack_require__(334).f
+	  , has = __webpack_require__(346)
+	  , TAG = __webpack_require__(383)('toStringTag');
 
 	module.exports = function(it, tag, stat){
 	  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
 	};
 
 /***/ }),
-/* 381 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var store      = __webpack_require__(354)('wks')
-	  , uid        = __webpack_require__(355)
-	  , Symbol     = __webpack_require__(327).Symbol
+	var store      = __webpack_require__(356)('wks')
+	  , uid        = __webpack_require__(357)
+	  , Symbol     = __webpack_require__(329).Symbol
 	  , USE_SYMBOL = typeof Symbol == 'function';
 
 	var $exports = module.exports = function(name){
@@ -36759,13 +36925,13 @@
 	$exports.store = store;
 
 /***/ }),
-/* 382 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-	var has         = __webpack_require__(344)
-	  , toObject    = __webpack_require__(359)
-	  , IE_PROTO    = __webpack_require__(353)('IE_PROTO')
+	var has         = __webpack_require__(346)
+	  , toObject    = __webpack_require__(361)
+	  , IE_PROTO    = __webpack_require__(355)('IE_PROTO')
 	  , ObjectProto = Object.prototype;
 
 	module.exports = Object.getPrototypeOf || function(O){
@@ -36777,14 +36943,14 @@
 	};
 
 /***/ }),
-/* 383 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(384);
-	var global        = __webpack_require__(327)
-	  , hide          = __webpack_require__(331)
-	  , Iterators     = __webpack_require__(375)
-	  , TO_STRING_TAG = __webpack_require__(381)('toStringTag');
+	__webpack_require__(386);
+	var global        = __webpack_require__(329)
+	  , hide          = __webpack_require__(333)
+	  , Iterators     = __webpack_require__(377)
+	  , TO_STRING_TAG = __webpack_require__(383)('toStringTag');
 
 	for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
 	  var NAME       = collections[i]
@@ -36795,20 +36961,20 @@
 	}
 
 /***/ }),
-/* 384 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var addToUnscopables = __webpack_require__(385)
-	  , step             = __webpack_require__(386)
-	  , Iterators        = __webpack_require__(375)
-	  , toIObject        = __webpack_require__(345);
+	var addToUnscopables = __webpack_require__(387)
+	  , step             = __webpack_require__(388)
+	  , Iterators        = __webpack_require__(377)
+	  , toIObject        = __webpack_require__(347);
 
 	// 22.1.3.4 Array.prototype.entries()
 	// 22.1.3.13 Array.prototype.keys()
 	// 22.1.3.29 Array.prototype.values()
 	// 22.1.3.30 Array.prototype[@@iterator]()
-	module.exports = __webpack_require__(372)(Array, 'Array', function(iterated, kind){
+	module.exports = __webpack_require__(374)(Array, 'Array', function(iterated, kind){
 	  this._t = toIObject(iterated); // target
 	  this._i = 0;                   // next index
 	  this._k = kind;                // kind
@@ -36834,13 +37000,13 @@
 	addToUnscopables('entries');
 
 /***/ }),
-/* 385 */
+/* 387 */
 /***/ (function(module, exports) {
 
 	module.exports = function(){ /* empty */ };
 
 /***/ }),
-/* 386 */
+/* 388 */
 /***/ (function(module, exports) {
 
 	module.exports = function(done, value){
@@ -36848,58 +37014,58 @@
 	};
 
 /***/ }),
-/* 387 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports.f = __webpack_require__(381);
-
-/***/ }),
-/* 388 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(389), __esModule: true };
-
-/***/ }),
 /* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(390);
-	__webpack_require__(399);
-	__webpack_require__(400);
-	__webpack_require__(401);
-	module.exports = __webpack_require__(328).Symbol;
+	exports.f = __webpack_require__(383);
 
 /***/ }),
 /* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	module.exports = { "default": __webpack_require__(391), __esModule: true };
+
+/***/ }),
+/* 391 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(392);
+	__webpack_require__(401);
+	__webpack_require__(402);
+	__webpack_require__(403);
+	module.exports = __webpack_require__(330).Symbol;
+
+/***/ }),
+/* 392 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 	// ECMAScript 6 symbols shim
-	var global         = __webpack_require__(327)
-	  , has            = __webpack_require__(344)
-	  , DESCRIPTORS    = __webpack_require__(336)
-	  , $export        = __webpack_require__(326)
-	  , redefine       = __webpack_require__(374)
-	  , META           = __webpack_require__(391).KEY
-	  , $fails         = __webpack_require__(337)
-	  , shared         = __webpack_require__(354)
-	  , setToStringTag = __webpack_require__(380)
-	  , uid            = __webpack_require__(355)
-	  , wks            = __webpack_require__(381)
-	  , wksExt         = __webpack_require__(387)
-	  , wksDefine      = __webpack_require__(392)
-	  , keyOf          = __webpack_require__(393)
-	  , enumKeys       = __webpack_require__(394)
-	  , isArray        = __webpack_require__(395)
-	  , anObject       = __webpack_require__(333)
-	  , toIObject      = __webpack_require__(345)
-	  , toPrimitive    = __webpack_require__(339)
-	  , createDesc     = __webpack_require__(340)
-	  , _create        = __webpack_require__(377)
-	  , gOPNExt        = __webpack_require__(396)
-	  , $GOPD          = __webpack_require__(398)
-	  , $DP            = __webpack_require__(332)
-	  , $keys          = __webpack_require__(342)
+	var global         = __webpack_require__(329)
+	  , has            = __webpack_require__(346)
+	  , DESCRIPTORS    = __webpack_require__(338)
+	  , $export        = __webpack_require__(328)
+	  , redefine       = __webpack_require__(376)
+	  , META           = __webpack_require__(393).KEY
+	  , $fails         = __webpack_require__(339)
+	  , shared         = __webpack_require__(356)
+	  , setToStringTag = __webpack_require__(382)
+	  , uid            = __webpack_require__(357)
+	  , wks            = __webpack_require__(383)
+	  , wksExt         = __webpack_require__(389)
+	  , wksDefine      = __webpack_require__(394)
+	  , keyOf          = __webpack_require__(395)
+	  , enumKeys       = __webpack_require__(396)
+	  , isArray        = __webpack_require__(397)
+	  , anObject       = __webpack_require__(335)
+	  , toIObject      = __webpack_require__(347)
+	  , toPrimitive    = __webpack_require__(341)
+	  , createDesc     = __webpack_require__(342)
+	  , _create        = __webpack_require__(379)
+	  , gOPNExt        = __webpack_require__(398)
+	  , $GOPD          = __webpack_require__(400)
+	  , $DP            = __webpack_require__(334)
+	  , $keys          = __webpack_require__(344)
 	  , gOPD           = $GOPD.f
 	  , dP             = $DP.f
 	  , gOPN           = gOPNExt.f
@@ -37022,11 +37188,11 @@
 
 	  $GOPD.f = $getOwnPropertyDescriptor;
 	  $DP.f   = $defineProperty;
-	  __webpack_require__(397).f = gOPNExt.f = $getOwnPropertyNames;
-	  __webpack_require__(358).f  = $propertyIsEnumerable;
-	  __webpack_require__(357).f = $getOwnPropertySymbols;
+	  __webpack_require__(399).f = gOPNExt.f = $getOwnPropertyNames;
+	  __webpack_require__(360).f  = $propertyIsEnumerable;
+	  __webpack_require__(359).f = $getOwnPropertySymbols;
 
-	  if(DESCRIPTORS && !__webpack_require__(373)){
+	  if(DESCRIPTORS && !__webpack_require__(375)){
 	    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
 	  }
 
@@ -37101,7 +37267,7 @@
 	});
 
 	// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-	$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(331)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
+	$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__(333)($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
 	// 19.4.3.5 Symbol.prototype[@@toStringTag]
 	setToStringTag($Symbol, 'Symbol');
 	// 20.2.1.9 Math[@@toStringTag]
@@ -37110,18 +37276,18 @@
 	setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 391 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var META     = __webpack_require__(355)('meta')
-	  , isObject = __webpack_require__(334)
-	  , has      = __webpack_require__(344)
-	  , setDesc  = __webpack_require__(332).f
+	var META     = __webpack_require__(357)('meta')
+	  , isObject = __webpack_require__(336)
+	  , has      = __webpack_require__(346)
+	  , setDesc  = __webpack_require__(334).f
 	  , id       = 0;
 	var isExtensible = Object.isExtensible || function(){
 	  return true;
 	};
-	var FREEZE = !__webpack_require__(337)(function(){
+	var FREEZE = !__webpack_require__(339)(function(){
 	  return isExtensible(Object.preventExtensions({}));
 	});
 	var setMeta = function(it){
@@ -37168,25 +37334,25 @@
 	};
 
 /***/ }),
-/* 392 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var global         = __webpack_require__(327)
-	  , core           = __webpack_require__(328)
-	  , LIBRARY        = __webpack_require__(373)
-	  , wksExt         = __webpack_require__(387)
-	  , defineProperty = __webpack_require__(332).f;
+	var global         = __webpack_require__(329)
+	  , core           = __webpack_require__(330)
+	  , LIBRARY        = __webpack_require__(375)
+	  , wksExt         = __webpack_require__(389)
+	  , defineProperty = __webpack_require__(334).f;
 	module.exports = function(name){
 	  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
 	  if(name.charAt(0) != '_' && !(name in $Symbol))defineProperty($Symbol, name, {value: wksExt.f(name)});
 	};
 
 /***/ }),
-/* 393 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var getKeys   = __webpack_require__(342)
-	  , toIObject = __webpack_require__(345);
+	var getKeys   = __webpack_require__(344)
+	  , toIObject = __webpack_require__(347);
 	module.exports = function(object, el){
 	  var O      = toIObject(object)
 	    , keys   = getKeys(O)
@@ -37197,13 +37363,13 @@
 	};
 
 /***/ }),
-/* 394 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// all enumerable object keys, includes symbols
-	var getKeys = __webpack_require__(342)
-	  , gOPS    = __webpack_require__(357)
-	  , pIE     = __webpack_require__(358);
+	var getKeys = __webpack_require__(344)
+	  , gOPS    = __webpack_require__(359)
+	  , pIE     = __webpack_require__(360);
 	module.exports = function(it){
 	  var result     = getKeys(it)
 	    , getSymbols = gOPS.f;
@@ -37217,22 +37383,22 @@
 	};
 
 /***/ }),
-/* 395 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 7.2.2 IsArray(argument)
-	var cof = __webpack_require__(347);
+	var cof = __webpack_require__(349);
 	module.exports = Array.isArray || function isArray(arg){
 	  return cof(arg) == 'Array';
 	};
 
 /***/ }),
-/* 396 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-	var toIObject = __webpack_require__(345)
-	  , gOPN      = __webpack_require__(397).f
+	var toIObject = __webpack_require__(347)
+	  , gOPN      = __webpack_require__(399).f
 	  , toString  = {}.toString;
 
 	var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -37252,30 +37418,30 @@
 
 
 /***/ }),
-/* 397 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-	var $keys      = __webpack_require__(343)
-	  , hiddenKeys = __webpack_require__(356).concat('length', 'prototype');
+	var $keys      = __webpack_require__(345)
+	  , hiddenKeys = __webpack_require__(358).concat('length', 'prototype');
 
 	exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O){
 	  return $keys(O, hiddenKeys);
 	};
 
 /***/ }),
-/* 398 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var pIE            = __webpack_require__(358)
-	  , createDesc     = __webpack_require__(340)
-	  , toIObject      = __webpack_require__(345)
-	  , toPrimitive    = __webpack_require__(339)
-	  , has            = __webpack_require__(344)
-	  , IE8_DOM_DEFINE = __webpack_require__(335)
+	var pIE            = __webpack_require__(360)
+	  , createDesc     = __webpack_require__(342)
+	  , toIObject      = __webpack_require__(347)
+	  , toPrimitive    = __webpack_require__(341)
+	  , has            = __webpack_require__(346)
+	  , IE8_DOM_DEFINE = __webpack_require__(337)
 	  , gOPD           = Object.getOwnPropertyDescriptor;
 
-	exports.f = __webpack_require__(336) ? gOPD : function getOwnPropertyDescriptor(O, P){
+	exports.f = __webpack_require__(338) ? gOPD : function getOwnPropertyDescriptor(O, P){
 	  O = toIObject(O);
 	  P = toPrimitive(P, true);
 	  if(IE8_DOM_DEFINE)try {
@@ -37285,40 +37451,40 @@
 	};
 
 /***/ }),
-/* 399 */
+/* 401 */
 /***/ (function(module, exports) {
 
 	
 
 /***/ }),
-/* 400 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(392)('asyncIterator');
-
-/***/ }),
-/* 401 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(392)('observable');
-
-/***/ }),
 /* 402 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(394)('asyncIterator');
+
+/***/ }),
+/* 403 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(394)('observable');
+
+/***/ }),
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	exports.__esModule = true;
 
-	var _setPrototypeOf = __webpack_require__(403);
+	var _setPrototypeOf = __webpack_require__(405);
 
 	var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
 
-	var _create = __webpack_require__(407);
+	var _create = __webpack_require__(409);
 
 	var _create2 = _interopRequireDefault(_create);
 
-	var _typeof2 = __webpack_require__(367);
+	var _typeof2 = __webpack_require__(369);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
@@ -37341,34 +37507,34 @@
 	};
 
 /***/ }),
-/* 403 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(404), __esModule: true };
-
-/***/ }),
-/* 404 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	__webpack_require__(405);
-	module.exports = __webpack_require__(328).Object.setPrototypeOf;
-
-/***/ }),
 /* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	// 19.1.3.19 Object.setPrototypeOf(O, proto)
-	var $export = __webpack_require__(326);
-	$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(406).set});
+	module.exports = { "default": __webpack_require__(406), __esModule: true };
 
 /***/ }),
 /* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	__webpack_require__(407);
+	module.exports = __webpack_require__(330).Object.setPrototypeOf;
+
+/***/ }),
+/* 407 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// 19.1.3.19 Object.setPrototypeOf(O, proto)
+	var $export = __webpack_require__(328);
+	$export($export.S, 'Object', {setPrototypeOf: __webpack_require__(408).set});
+
+/***/ }),
+/* 408 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// Works with __proto__ only. Old v8 can't work with null proto objects.
 	/* eslint-disable no-proto */
-	var isObject = __webpack_require__(334)
-	  , anObject = __webpack_require__(333);
+	var isObject = __webpack_require__(336)
+	  , anObject = __webpack_require__(335);
 	var check = function(O, proto){
 	  anObject(O);
 	  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
@@ -37377,7 +37543,7 @@
 	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
 	    function(test, buggy, set){
 	      try {
-	        set = __webpack_require__(329)(Function.call, __webpack_require__(398).f(Object.prototype, '__proto__').set, 2);
+	        set = __webpack_require__(331)(Function.call, __webpack_require__(400).f(Object.prototype, '__proto__').set, 2);
 	        set(test, []);
 	        buggy = !(test instanceof Array);
 	      } catch(e){ buggy = true; }
@@ -37392,31 +37558,31 @@
 	};
 
 /***/ }),
-/* 407 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(408), __esModule: true };
+	module.exports = { "default": __webpack_require__(410), __esModule: true };
 
 /***/ }),
-/* 408 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	__webpack_require__(409);
-	var $Object = __webpack_require__(328).Object;
+	__webpack_require__(411);
+	var $Object = __webpack_require__(330).Object;
 	module.exports = function create(P, D){
 	  return $Object.create(P, D);
 	};
 
 /***/ }),
-/* 409 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var $export = __webpack_require__(326)
+	var $export = __webpack_require__(328)
 	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-	$export($export.S, 'Object', {create: __webpack_require__(377)});
+	$export($export.S, 'Object', {create: __webpack_require__(379)});
 
 /***/ }),
-/* 410 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37538,7 +37704,7 @@
 	}
 
 /***/ }),
-/* 411 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37547,23 +37713,23 @@
 	  value: true
 	});
 
-	var _typeof2 = __webpack_require__(367);
+	var _typeof2 = __webpack_require__(369);
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
-	var _classCallCheck2 = __webpack_require__(364);
+	var _classCallCheck2 = __webpack_require__(366);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	var _createClass2 = __webpack_require__(365);
+	var _createClass2 = __webpack_require__(367);
 
 	var _createClass3 = _interopRequireDefault(_createClass2);
 
-	var _possibleConstructorReturn2 = __webpack_require__(366);
+	var _possibleConstructorReturn2 = __webpack_require__(368);
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
-	var _inherits2 = __webpack_require__(402);
+	var _inherits2 = __webpack_require__(404);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
@@ -37579,11 +37745,11 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _cssAnimation = __webpack_require__(412);
+	var _cssAnimation = __webpack_require__(414);
 
 	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
 
-	var _util = __webpack_require__(416);
+	var _util = __webpack_require__(418);
 
 	var _util2 = _interopRequireDefault(_util);
 
@@ -37691,7 +37857,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 412 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37702,11 +37868,11 @@
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var _Event = __webpack_require__(413);
+	var _Event = __webpack_require__(415);
 
 	var _Event2 = _interopRequireDefault(_Event);
 
-	var _componentClasses = __webpack_require__(414);
+	var _componentClasses = __webpack_require__(416);
 
 	var _componentClasses2 = _interopRequireDefault(_componentClasses);
 
@@ -37886,7 +38052,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 413 */
+/* 415 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -37979,7 +38145,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 414 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -37987,9 +38153,9 @@
 	 */
 
 	try {
-	  var index = __webpack_require__(415);
+	  var index = __webpack_require__(417);
 	} catch (err) {
-	  var index = __webpack_require__(415);
+	  var index = __webpack_require__(417);
 	}
 
 	/**
@@ -38176,7 +38342,7 @@
 
 
 /***/ }),
-/* 415 */
+/* 417 */
 /***/ (function(module, exports) {
 
 	module.exports = function(arr, obj){
@@ -38188,7 +38354,7 @@
 	};
 
 /***/ }),
-/* 416 */
+/* 418 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -38220,7 +38386,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 417 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38229,7 +38395,7 @@
 	  value: true
 	});
 
-	var _cssAnimation = __webpack_require__(412);
+	var _cssAnimation = __webpack_require__(414);
 
 	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
 
@@ -38271,7 +38437,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 418 */
+/* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38321,7 +38487,7 @@
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'div',
+	                'span',
 	                null,
 	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px' } }),
 	                _react2.default.createElement(
@@ -38339,7 +38505,7 @@
 	exports.default = TextInput;
 
 /***/ }),
-/* 419 */
+/* 421 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38354,7 +38520,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _rcCollapse = __webpack_require__(317);
+	var _rcCollapse = __webpack_require__(319);
 
 	var _rcCollapse2 = _interopRequireDefault(_rcCollapse);
 
@@ -38362,13 +38528,13 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _TextInput = __webpack_require__(418);
+	var _TextInput = __webpack_require__(420);
 
 	var _TextInput2 = _interopRequireDefault(_TextInput);
 
-	__webpack_require__(420);
+	__webpack_require__(422);
 
-	var _general = __webpack_require__(422);
+	var _general = __webpack_require__(424);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38408,7 +38574,7 @@
 	    }, {
 	        key: 'displayAnswer',
 	        value: function displayAnswer() {
-	            return this.props.faq.Answer !== "" ? this.props.faq.Answer : this.props.chat === "true" ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : _react2.default.createElement(_TextInput2.default, { send: this.addAnswer, width: this.state.width });
+	            return this.props.faq.Answer !== "" ? this.props.faq.Answer : this.props.chat == true ? "המוכר טרם השיב לשאלה, נא להיעזר בסבלנות" : _react2.default.createElement(_TextInput2.default, { send: this.addAnswer, width: this.state.width });
 	        }
 	    }, {
 	        key: 'addAnswer',
@@ -38447,13 +38613,13 @@
 	exports.default = FAQ;
 
 /***/ }),
-/* 420 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(421);
+	var content = __webpack_require__(423);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38473,7 +38639,7 @@
 	}
 
 /***/ }),
-/* 421 */
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38481,13 +38647,13 @@
 
 
 	// module
-	exports.push([module.id, ".hello-message {\r\n  position: absolute;\r\n  display: block;\r\n  font-size: 120%;\r\n  top: 100px;\r\n  right: 50%;\r\n  -webkit-transform: translate(50%,0);\r\n  transform: translate(50%,0);\r\n  -webkit-appearance: none;\r\n  color: #222222;\r\n  width: 300px;\r\n  text-align: center;\r\n}\r\n\r\n.fade-message-enter {\r\n  opacity: 0.01;\r\n}\r\n\r\n.fade-message-enter.fade-message-enter-active {\r\n  opacity: 1;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.fade-message-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.fade-message-leave.fade-message-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.animate{\r\n  transition: all .3s;\r\n}\r\n\r\n.question{\r\n  position: relative;\r\n  float:right;\r\n  text-align: right;\r\n  display: block;\r\n  padding: 10px 10px;\r\n  width: 100%;\r\n  margin-top: 5px;\r\n  font-size: 1.2em;\r\n  background: rgba(246, 246, 246, 1);\r\n  color: #8B0000;\r\n  z-index: 2;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  opacity: 1;\r\n  -webkit-animation: fadeIn fadeIn 1.5s both;\r\n  animation: fadeIn 1s both;\r\n  \r\n}\r\n\r\n@-webkit-keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  }\r\n  @keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  } \r\n\r\n.response{\r\n  position: relative;\r\n  float: right;\r\n  color: #2E8B57;\r\n  padding: 10px 5px;\r\n  z-index: 10;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  display: inline;\r\n  max-height: 300px;\r\n  transition: max-height 4s ease-in;\r\n}\r\n\r\n.responseInActive{\r\n  max-height: 0;\r\n  transition: max-height 4s ease-out;\r\n  display: none;\r\n}\r\n\r\ntextarea{\r\n  border-radius: 30px;\r\n}", ""]);
+	exports.push([module.id, ".hello-message {\r\n  position: absolute;\r\n  display: block;\r\n  font-size: 120%;\r\n  top: 100px;\r\n  right: 50%;\r\n  -webkit-transform: translate(50%,0);\r\n  transform: translate(50%,0);\r\n  -webkit-appearance: none;\r\n  color: #222222;\r\n  width: 300px;\r\n  text-align: center;\r\n}\r\n\r\n.fade-message-enter {\r\n  opacity: 0.01;\r\n}\r\n\r\n.fade-message-enter.fade-message-enter-active {\r\n  opacity: 1;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.fade-message-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.fade-message-leave.fade-message-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 300ms ease-in;\r\n}\r\n\r\n.animate{\r\n  transition: all .3s;\r\n}\r\n\r\n.question{\r\n  position: relative;\r\n  float:right;\r\n  text-align: right;\r\n  display: block;\r\n  padding: 10px 10px;\r\n  width: 100%;\r\n  margin-top: 5px;\r\n  font-size: 1.2em;\r\n  background: rgba(246, 246, 246, 1);\r\n  color: #8B0000;\r\n  /*z-index: 2;*/\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  opacity: 1;\r\n  -webkit-animation: fadeIn fadeIn 1.5s both;\r\n  animation: fadeIn 1s both;\r\n}\r\n.newQuestion{\r\n  position: relative;\r\n  float:right;\r\n  text-align: right;\r\n  display: block;\r\n  padding: 10px 10px;\r\n  width: 100%;\r\n  margin-top: 5px;\r\n  font-size: 1.2em;\r\n  background: rgba(246, 246, 246, 1);\r\n  color: #8B0000;\r\n  /*z-index: 2;*/\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  opacity: 1;\r\n  -webkit-animation: fadeIn fadeIn 1.5s both;\r\n  animation: fadeIn 1s both;\r\n}\r\n\r\n.newQuestion:after{\r\n    content: \"\";\r\n    position: absolute;\r\n    height: 100%;\r\n    width: 20px;\r\n    top: 0px;\r\n    left: 0px;\r\n    background-image: radial-gradient(circle at center, red 7px, transparent 5px);\r\n    background-size: 20px 20px;\r\n    background-position: top center, bottom center;\r\n    background-repeat: no-repeat;\r\n}\r\n\r\n\r\n@-webkit-keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  }\r\n  @keyframes fadeIn {\r\n  0% {opacity: 0;}\r\n  100% {opacity: 1;}\r\n  } \r\n\r\n.response{\r\n  position: relative;\r\n  float: right;\r\n  color: #2E8B57;\r\n  padding: 10px 5px;\r\n  z-index: 10;\r\n  box-shadow: 0 0 10px rgba(0,0,0,.1);\r\n  border-radius: 3px;\r\n  display: inline;\r\n  max-height: 300px;\r\n  transition: max-height 4s ease-in;\r\n}\r\n\r\n.responseInActive{\r\n  max-height: 0;\r\n  transition: max-height 4s ease-out;\r\n  display: none;\r\n}\r\n\r\ntextarea{\r\n  border-radius: 30px;\r\n}\r\n\r\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 422 */
+/* 424 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -38502,7 +38668,7 @@
 	var buyerID = exports.buyerID = GENERAL.USER.userID();
 
 /***/ }),
-/* 423 */
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38517,7 +38683,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	__webpack_require__(424);
+	__webpack_require__(426);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38600,13 +38766,13 @@
 	exports.default = Balloon;
 
 /***/ }),
-/* 424 */
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(425);
+	var content = __webpack_require__(427);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38626,7 +38792,7 @@
 	}
 
 /***/ }),
-/* 425 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38640,7 +38806,7 @@
 
 
 /***/ }),
-/* 426 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38659,7 +38825,7 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	__webpack_require__(427);
+	__webpack_require__(429);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38696,13 +38862,13 @@
 	exports.default = Tetris;
 
 /***/ }),
-/* 427 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(428);
+	var content = __webpack_require__(430);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38722,7 +38888,7 @@
 	}
 
 /***/ }),
-/* 428 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38736,7 +38902,7 @@
 
 
 /***/ }),
-/* 429 */
+/* 431 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -38750,13 +38916,13 @@
 	var errorMSG = exports.errorMSG = "משהו לא הלך כשורה, נא נסה שוב";
 
 /***/ }),
-/* 430 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(431);
+	var content = __webpack_require__(433);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38776,46 +38942,6 @@
 	}
 
 /***/ }),
-/* 431 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "/*!\r\n * Bootstrap v3.3.7 (http://getbootstrap.com)\r\n * Copyright 2011-2016 Twitter, Inc.\r\n * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)\r\n */\r\n/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\r\nhtml {\r\n    font-family: Calibri;\r\n    -webkit-text-size-adjust: 100%;\r\n    -ms-text-size-adjust: 100%;\r\n}\r\n\r\nbody {\r\n    margin: 0;\r\n\r\n}\r\n\r\narticle,\r\naside,\r\ndetails,\r\nfigcaption,\r\nfigure,\r\nfooter,\r\nheader,\r\nhgroup,\r\nmain,\r\nmenu,\r\nnav,\r\nsection,\r\nsummary {\r\n    display: block;\r\n}\r\n\r\naudio,\r\ncanvas,\r\nprogress,\r\nvideo {\r\n    display: inline-block;\r\n    vertical-align: baseline;\r\n}\r\n\r\n#NavbarWrapper{\r\n    padding-right:0;\r\n\r\n}\r\n\r\n    audio:not([controls]) {\r\n        display: none;\r\n        height: 0;\r\n    }\r\n\r\n[hidden],\r\ntemplate {\r\n    display: none;\r\n}\r\n\r\na {\r\n    background-color: transparent;\r\n}\r\n\r\n    a:active,\r\n    a:hover {\r\n        outline: 0;\r\n    }\r\n\r\nabbr[title] {\r\n    border-bottom: 1px dotted;\r\n}\r\n\r\nb,\r\nstrong {\r\n    font-weight: bold;\r\n}\r\n\r\ndfn {\r\n    font-style: italic;\r\n}\r\n\r\nh1 {\r\n    margin: .67em 0;\r\n    font-size: 2em;\r\n}\r\n\r\nmark {\r\n    color: #000;\r\n    background: #ff0;\r\n}\r\n\r\nsmall {\r\n    font-size: 80%;\r\n}\r\n\r\nsub,\r\nsup {\r\n    position: relative;\r\n    font-size: 75%;\r\n    line-height: 0;\r\n    vertical-align: baseline;\r\n}\r\n\r\nsup {\r\n    top: -.5em;\r\n}\r\n\r\nsub {\r\n    bottom: -.25em;\r\n}\r\n\r\nimg {\r\n    border: 0;\r\n}\r\n\r\nsvg:not(:root) {\r\n    overflow: hidden;\r\n}\r\n\r\nfigure {\r\n    margin: 1em 40px;\r\n}\r\n\r\nhr {\r\n    height: 0;\r\n    -webkit-box-sizing: content-box;\r\n    -moz-box-sizing: content-box;\r\n    box-sizing: content-box;\r\n}\r\n\r\npre {\r\n    overflow: auto;\r\n}\r\n\r\ncode,\r\nkbd,\r\npre,\r\nsamp {\r\n    font-family: monospace, monospace;\r\n    font-size: 1em;\r\n}\r\n\r\nbutton,\r\ninput,\r\noptgroup,\r\nselect,\r\ntextarea {\r\n    margin: 0;\r\n    font: inherit;\r\n    color: inherit;\r\n}\r\n\r\nbutton {\r\n    overflow: visible;\r\n}\r\n\r\nbutton,\r\nselect {\r\n    text-transform: none;\r\n}\r\n\r\nbutton,\r\nhtml input[type=\"button\"],\r\ninput[type=\"reset\"],\r\ninput[type=\"submit\"] {\r\n    -webkit-appearance: button;\r\n    cursor: pointer;\r\n}\r\n\r\n    button[disabled],\r\n    html input[disabled] {\r\n        cursor: default;\r\n    }\r\n\r\n    button::-moz-focus-inner,\r\n    input::-moz-focus-inner {\r\n        padding: 0;\r\n        border: 0;\r\n    }\r\n\r\ninput {\r\n    line-height: normal;\r\n}\r\n\r\n    input[type=\"checkbox\"],\r\n    input[type=\"radio\"] {\r\n        -webkit-box-sizing: border-box;\r\n        -moz-box-sizing: border-box;\r\n        box-sizing: border-box;\r\n        padding: 0;\r\n    }\r\n\r\n    input[type=\"number\"]::-webkit-inner-spin-button,\r\n    input[type=\"number\"]::-webkit-outer-spin-button {\r\n        height: auto;\r\n    }\r\n\r\n    input[type=\"search\"] {\r\n        -webkit-box-sizing: content-box;\r\n        -moz-box-sizing: content-box;\r\n        box-sizing: content-box;\r\n        -webkit-appearance: textfield;\r\n    }\r\n\r\n        input[type=\"search\"]::-webkit-search-cancel-button,\r\n        input[type=\"search\"]::-webkit-search-decoration {\r\n            -webkit-appearance: none;\r\n        }\r\n\r\nfieldset {\r\n    padding: .35em .625em .75em;\r\n    margin: 0 2px;\r\n    border: 1px solid #c0c0c0;\r\n}\r\n\r\nlegend {\r\n    padding: 0;\r\n    border: 0;\r\n}\r\n\r\ntextarea {\r\n    overflow: auto;\r\n}\r\n\r\noptgroup {\r\n    font-weight: bold;\r\n}\r\n\r\ntable {\r\n    border-spacing: 0;\r\n    border-collapse: collapse;\r\n}\r\n\r\ntd,\r\nth {\r\n    padding: 0;\r\n}\r\n/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */\r\n@media print {\r\n    *,\r\n    *:before,\r\n    *:after {\r\n        color: #000 !important;\r\n        text-shadow: none !important;\r\n        background: transparent !important;\r\n        -webkit-box-shadow: none !important;\r\n        box-shadow: none !important;\r\n    }\r\n\r\n    a,\r\n    a:visited {\r\n        text-decoration: underline;\r\n    }\r\n\r\n        a[href]:after {\r\n            content: \" (\" attr(href) \")\";\r\n        }\r\n\r\n    abbr[title]:after {\r\n        content: \" (\" attr(title) \")\";\r\n    }\r\n\r\n    a[href^=\"#\"]:after,\r\n    a[href^=\"javascript:\"]:after {\r\n        content: \"\";\r\n    }\r\n\r\n    pre,\r\n    blockquote {\r\n        border: 1px solid #999;\r\n        page-break-inside: avoid;\r\n    }\r\n\r\n    thead {\r\n        display: table-header-group;\r\n    }\r\n\r\n    tr,\r\n    img {\r\n        page-break-inside: avoid;\r\n    }\r\n\r\n    img {\r\n        max-width: 100% !important;\r\n    }\r\n\r\n    p,\r\n    h2,\r\n    h3 {\r\n        orphans: 3;\r\n        widows: 3;\r\n    }\r\n\r\n    h2,\r\n    h3 {\r\n        page-break-after: avoid;\r\n    }\r\n\r\n    .navbar {\r\n        display: none;\r\n    }\r\n\r\n    .btn > .caret,\r\n    .dropup > .btn > .caret {\r\n        border-top-color: #000 !important;\r\n    }\r\n\r\n    .label {\r\n        border: 1px solid #000;\r\n    }\r\n\r\n    .table {\r\n        border-collapse: collapse !important;\r\n    }\r\n\r\n        .table td,\r\n        .table th {\r\n            background-color: #fff !important;\r\n        }\r\n\r\n    .table-bordered th,\r\n    .table-bordered td {\r\n        border: 1px solid #ddd !important;\r\n    }\r\n}\r\n\r\n@font-face {\r\n    font-family: 'Glyphicons Halflings';\r\n    src: url('../fonts/glyphicons-halflings-regular.eot');\r\n    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');\r\n}\r\n\r\n.glyphicon {\r\n    position: relative;\r\n    top: 1px;\r\n    display: inline-block;\r\n    font-family: 'Glyphicons Halflings';\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    line-height: 1;\r\n    -webkit-font-smoothing: antialiased;\r\n    -moz-osx-font-smoothing: grayscale;\r\n}\r\n\r\n.glyphicon-asterisk:before {\r\n    content: \"*\";\r\n}\r\n\r\n.glyphicon-plus:before {\r\n    content: \"+\";\r\n}\r\n\r\n.glyphicon-euro:before,\r\n.glyphicon-eur:before {\r\n    content: \"\\20AC\";\r\n}\r\n\r\n.glyphicon-minus:before {\r\n    content: \"\\2212\";\r\n}\r\n\r\n.glyphicon-cloud:before {\r\n    content: \"\\2601\";\r\n}\r\n\r\n.glyphicon-envelope:before {\r\n    content: \"\\2709\";\r\n}\r\n\r\n.glyphicon-pencil:before {\r\n    content: \"\\270F\";\r\n}\r\n\r\n.glyphicon-glass:before {\r\n    content: \"\\E001\";\r\n}\r\n\r\n.glyphicon-music:before {\r\n    content: \"\\E002\";\r\n}\r\n\r\n.glyphicon-search:before {\r\n    content: \"\\E003\";\r\n}\r\n\r\n.glyphicon-heart:before {\r\n    content: \"\\E005\";\r\n}\r\n\r\n.glyphicon-star:before {\r\n    content: \"\\E006\";\r\n}\r\n\r\n.glyphicon-star-empty:before {\r\n    content: \"\\E007\";\r\n}\r\n\r\n.glyphicon-user:before {\r\n    content: \"\\E008\";\r\n}\r\n\r\n.glyphicon-film:before {\r\n    content: \"\\E009\";\r\n}\r\n\r\n.glyphicon-th-large:before {\r\n    content: \"\\E010\";\r\n}\r\n\r\n.glyphicon-th:before {\r\n    content: \"\\E011\";\r\n}\r\n\r\n.glyphicon-th-list:before {\r\n    content: \"\\E012\";\r\n}\r\n\r\n.glyphicon-ok:before {\r\n    content: \"\\E013\";\r\n}\r\n\r\n.glyphicon-remove:before {\r\n    content: \"\\E014\";\r\n}\r\n\r\n.glyphicon-zoom-in:before {\r\n    content: \"\\E015\";\r\n}\r\n\r\n.glyphicon-zoom-out:before {\r\n    content: \"\\E016\";\r\n}\r\n\r\n.glyphicon-off:before {\r\n    content: \"\\E017\";\r\n}\r\n\r\n.glyphicon-signal:before {\r\n    content: \"\\E018\";\r\n}\r\n\r\n.glyphicon-cog:before {\r\n    content: \"\\E019\";\r\n}\r\n\r\n.glyphicon-trash:before {\r\n    content: \"\\E020\";\r\n}\r\n\r\n.glyphicon-home:before {\r\n    content: \"\\E021\";\r\n}\r\n\r\n.glyphicon-file:before {\r\n    content: \"\\E022\";\r\n}\r\n\r\n.glyphicon-time:before {\r\n    content: \"\\E023\";\r\n}\r\n\r\n.glyphicon-road:before {\r\n    content: \"\\E024\";\r\n}\r\n\r\n.glyphicon-download-alt:before {\r\n    content: \"\\E025\";\r\n}\r\n\r\n.glyphicon-download:before {\r\n    content: \"\\E026\";\r\n}\r\n\r\n.glyphicon-upload:before {\r\n    content: \"\\E027\";\r\n}\r\n\r\n.glyphicon-inbox:before {\r\n    content: \"\\E028\";\r\n}\r\n\r\n.glyphicon-play-circle:before {\r\n    content: \"\\E029\";\r\n}\r\n\r\n.glyphicon-repeat:before {\r\n    content: \"\\E030\";\r\n}\r\n\r\n.glyphicon-refresh:before {\r\n    content: \"\\E031\";\r\n}\r\n\r\n.glyphicon-list-alt:before {\r\n    content: \"\\E032\";\r\n}\r\n\r\n.glyphicon-lock:before {\r\n    content: \"\\E033\";\r\n}\r\n\r\n.glyphicon-flag:before {\r\n    content: \"\\E034\";\r\n}\r\n\r\n.glyphicon-headphones:before {\r\n    content: \"\\E035\";\r\n}\r\n\r\n.glyphicon-volume-off:before {\r\n    content: \"\\E036\";\r\n}\r\n\r\n.glyphicon-volume-down:before {\r\n    content: \"\\E037\";\r\n}\r\n\r\n.glyphicon-volume-up:before {\r\n    content: \"\\E038\";\r\n}\r\n\r\n.glyphicon-qrcode:before {\r\n    content: \"\\E039\";\r\n}\r\n\r\n.glyphicon-barcode:before {\r\n    content: \"\\E040\";\r\n}\r\n\r\n.glyphicon-tag:before {\r\n    content: \"\\E041\";\r\n}\r\n\r\n.glyphicon-tags:before {\r\n    content: \"\\E042\";\r\n}\r\n\r\n.glyphicon-book:before {\r\n    content: \"\\E043\";\r\n}\r\n\r\n.glyphicon-bookmark:before {\r\n    content: \"\\E044\";\r\n}\r\n\r\n.glyphicon-print:before {\r\n    content: \"\\E045\";\r\n}\r\n\r\n.glyphicon-camera:before {\r\n    content: \"\\E046\";\r\n}\r\n\r\n.glyphicon-font:before {\r\n    content: \"\\E047\";\r\n}\r\n\r\n.glyphicon-bold:before {\r\n    content: \"\\E048\";\r\n}\r\n\r\n.glyphicon-italic:before {\r\n    content: \"\\E049\";\r\n}\r\n\r\n.glyphicon-text-height:before {\r\n    content: \"\\E050\";\r\n}\r\n\r\n.glyphicon-text-width:before {\r\n    content: \"\\E051\";\r\n}\r\n\r\n.glyphicon-align-left:before {\r\n    content: \"\\E052\";\r\n}\r\n\r\n.glyphicon-align-center:before {\r\n    content: \"\\E053\";\r\n}\r\n\r\n.glyphicon-align-right:before {\r\n    content: \"\\E054\";\r\n}\r\n\r\n.glyphicon-align-justify:before {\r\n    content: \"\\E055\";\r\n}\r\n\r\n.glyphicon-list:before {\r\n    content: \"\\E056\";\r\n}\r\n\r\n.glyphicon-indent-left:before {\r\n    content: \"\\E057\";\r\n}\r\n\r\n.glyphicon-indent-right:before {\r\n    content: \"\\E058\";\r\n}\r\n\r\n.glyphicon-facetime-video:before {\r\n    content: \"\\E059\";\r\n}\r\n\r\n.glyphicon-picture:before {\r\n    content: \"\\E060\";\r\n}\r\n\r\n.glyphicon-map-marker:before {\r\n    content: \"\\E062\";\r\n}\r\n\r\n.glyphicon-adjust:before {\r\n    content: \"\\E063\";\r\n}\r\n\r\n.glyphicon-tint:before {\r\n    content: \"\\E064\";\r\n}\r\n\r\n.glyphicon-edit:before {\r\n    content: \"\\E065\";\r\n}\r\n\r\n.glyphicon-share:before {\r\n    content: \"\\E066\";\r\n}\r\n\r\n.glyphicon-check:before {\r\n    content: \"\\E067\";\r\n}\r\n\r\n.glyphicon-move:before {\r\n    content: \"\\E068\";\r\n}\r\n\r\n.glyphicon-step-backward:before {\r\n    content: \"\\E069\";\r\n}\r\n\r\n.glyphicon-fast-backward:before {\r\n    content: \"\\E070\";\r\n}\r\n\r\n.glyphicon-backward:before {\r\n    content: \"\\E071\";\r\n}\r\n\r\n.glyphicon-play:before {\r\n    content: \"\\E072\";\r\n}\r\n\r\n.glyphicon-pause:before {\r\n    content: \"\\E073\";\r\n}\r\n\r\n.glyphicon-stop:before {\r\n    content: \"\\E074\";\r\n}\r\n\r\n.glyphicon-forward:before {\r\n    content: \"\\E075\";\r\n}\r\n\r\n.glyphicon-fast-forward:before {\r\n    content: \"\\E076\";\r\n}\r\n\r\n.glyphicon-step-forward:before {\r\n    content: \"\\E077\";\r\n}\r\n\r\n.glyphicon-eject:before {\r\n    content: \"\\E078\";\r\n}\r\n\r\n.glyphicon-chevron-left:before {\r\n    content: \"\\E079\";\r\n}\r\n\r\n.glyphicon-chevron-right:before {\r\n    content: \"\\E080\";\r\n}\r\n\r\n.glyphicon-plus-sign:before {\r\n    content: \"\\E081\";\r\n}\r\n\r\n.glyphicon-minus-sign:before {\r\n    content: \"\\E082\";\r\n}\r\n\r\n.glyphicon-remove-sign:before {\r\n    content: \"\\E083\";\r\n}\r\n\r\n.glyphicon-ok-sign:before {\r\n    content: \"\\E084\";\r\n}\r\n\r\n.glyphicon-question-sign:before {\r\n    content: \"\\E085\";\r\n}\r\n\r\n.glyphicon-info-sign:before {\r\n    content: \"\\E086\";\r\n}\r\n\r\n.glyphicon-screenshot:before {\r\n    content: \"\\E087\";\r\n}\r\n\r\n.glyphicon-remove-circle:before {\r\n    content: \"\\E088\";\r\n}\r\n\r\n.glyphicon-ok-circle:before {\r\n    content: \"\\E089\";\r\n}\r\n\r\n.glyphicon-ban-circle:before {\r\n    content: \"\\E090\";\r\n}\r\n\r\n.glyphicon-arrow-left:before {\r\n    content: \"\\E091\";\r\n}\r\n\r\n.glyphicon-arrow-right:before {\r\n    content: \"\\E092\";\r\n}\r\n\r\n.glyphicon-arrow-up:before {\r\n    content: \"\\E093\";\r\n}\r\n\r\n.glyphicon-arrow-down:before {\r\n    content: \"\\E094\";\r\n}\r\n\r\n.glyphicon-share-alt:before {\r\n    content: \"\\E095\";\r\n}\r\n\r\n.glyphicon-resize-full:before {\r\n    content: \"\\E096\";\r\n}\r\n\r\n.glyphicon-resize-small:before {\r\n    content: \"\\E097\";\r\n}\r\n\r\n.glyphicon-exclamation-sign:before {\r\n    content: \"\\E101\";\r\n}\r\n\r\n.glyphicon-gift:before {\r\n    content: \"\\E102\";\r\n}\r\n\r\n.glyphicon-leaf:before {\r\n    content: \"\\E103\";\r\n}\r\n\r\n.glyphicon-fire:before {\r\n    content: \"\\E104\";\r\n}\r\n\r\n.glyphicon-eye-open:before {\r\n    content: \"\\E105\";\r\n}\r\n\r\n.glyphicon-eye-close:before {\r\n    content: \"\\E106\";\r\n}\r\n\r\n.glyphicon-warning-sign:before {\r\n    content: \"\\E107\";\r\n}\r\n\r\n.glyphicon-plane:before {\r\n    content: \"\\E108\";\r\n}\r\n\r\n.glyphicon-calendar:before {\r\n    content: \"\\E109\";\r\n}\r\n\r\n.glyphicon-random:before {\r\n    content: \"\\E110\";\r\n}\r\n\r\n.glyphicon-comment:before {\r\n    content: \"\\E111\";\r\n}\r\n\r\n.glyphicon-magnet:before {\r\n    content: \"\\E112\";\r\n}\r\n\r\n.glyphicon-chevron-up:before {\r\n    content: \"\\E113\";\r\n}\r\n\r\n.glyphicon-chevron-down:before {\r\n    content: \"\\E114\";\r\n}\r\n\r\n.glyphicon-retweet:before {\r\n    content: \"\\E115\";\r\n}\r\n\r\n.glyphicon-shopping-cart:before {\r\n    content: \"\\E116\";\r\n}\r\n\r\n.glyphicon-folder-close:before {\r\n    content: \"\\E117\";\r\n}\r\n\r\n.glyphicon-folder-open:before {\r\n    content: \"\\E118\";\r\n}\r\n\r\n.glyphicon-resize-vertical:before {\r\n    content: \"\\E119\";\r\n}\r\n\r\n.glyphicon-resize-horizontal:before {\r\n    content: \"\\E120\";\r\n}\r\n\r\n.glyphicon-hdd:before {\r\n    content: \"\\E121\";\r\n}\r\n\r\n.glyphicon-bullhorn:before {\r\n    content: \"\\E122\";\r\n}\r\n\r\n.glyphicon-bell:before {\r\n    content: \"\\E123\";\r\n}\r\n\r\n.glyphicon-certificate:before {\r\n    content: \"\\E124\";\r\n}\r\n\r\n.glyphicon-thumbs-up:before {\r\n    content: \"\\E125\";\r\n}\r\n\r\n.glyphicon-thumbs-down:before {\r\n    content: \"\\E126\";\r\n}\r\n\r\n.glyphicon-hand-right:before {\r\n    content: \"\\E127\";\r\n}\r\n\r\n.glyphicon-hand-left:before {\r\n    content: \"\\E128\";\r\n}\r\n\r\n.glyphicon-hand-up:before {\r\n    content: \"\\E129\";\r\n}\r\n\r\n.glyphicon-hand-down:before {\r\n    content: \"\\E130\";\r\n}\r\n\r\n.glyphicon-circle-arrow-right:before {\r\n    content: \"\\E131\";\r\n}\r\n\r\n.glyphicon-circle-arrow-left:before {\r\n    content: \"\\E132\";\r\n}\r\n\r\n.glyphicon-circle-arrow-up:before {\r\n    content: \"\\E133\";\r\n}\r\n\r\n.glyphicon-circle-arrow-down:before {\r\n    content: \"\\E134\";\r\n}\r\n\r\n.glyphicon-globe:before {\r\n    content: \"\\E135\";\r\n}\r\n\r\n.glyphicon-wrench:before {\r\n    content: \"\\E136\";\r\n}\r\n\r\n.glyphicon-tasks:before {\r\n    content: \"\\E137\";\r\n}\r\n\r\n.glyphicon-filter:before {\r\n    content: \"\\E138\";\r\n}\r\n\r\n.glyphicon-briefcase:before {\r\n    content: \"\\E139\";\r\n}\r\n\r\n.glyphicon-fullscreen:before {\r\n    content: \"\\E140\";\r\n}\r\n\r\n.glyphicon-dashboard:before {\r\n    content: \"\\E141\";\r\n}\r\n\r\n.glyphicon-paperclip:before {\r\n    content: \"\\E142\";\r\n}\r\n\r\n.glyphicon-heart-empty:before {\r\n    content: \"\\E143\";\r\n}\r\n\r\n.glyphicon-link:before {\r\n    content: \"\\E144\";\r\n}\r\n\r\n.glyphicon-phone:before {\r\n    content: \"\\E145\";\r\n}\r\n\r\n.glyphicon-pushpin:before {\r\n    content: \"\\E146\";\r\n}\r\n\r\n.glyphicon-usd:before {\r\n    content: \"\\E148\";\r\n}\r\n\r\n.glyphicon-gbp:before {\r\n    content: \"\\E149\";\r\n}\r\n\r\n.glyphicon-sort:before {\r\n    content: \"\\E150\";\r\n}\r\n\r\n.glyphicon-sort-by-alphabet:before {\r\n    content: \"\\E151\";\r\n}\r\n\r\n.glyphicon-sort-by-alphabet-alt:before {\r\n    content: \"\\E152\";\r\n}\r\n\r\n.glyphicon-sort-by-order:before {\r\n    content: \"\\E153\";\r\n}\r\n\r\n.glyphicon-sort-by-order-alt:before {\r\n    content: \"\\E154\";\r\n}\r\n\r\n.glyphicon-sort-by-attributes:before {\r\n    content: \"\\E155\";\r\n}\r\n\r\n.glyphicon-sort-by-attributes-alt:before {\r\n    content: \"\\E156\";\r\n}\r\n\r\n.glyphicon-unchecked:before {\r\n    content: \"\\E157\";\r\n}\r\n\r\n.glyphicon-expand:before {\r\n    content: \"\\E158\";\r\n}\r\n\r\n.glyphicon-collapse-down:before {\r\n    content: \"\\E159\";\r\n}\r\n\r\n.glyphicon-collapse-up:before {\r\n    content: \"\\E160\";\r\n}\r\n\r\n.glyphicon-log-in:before {\r\n    content: \"\\E161\";\r\n}\r\n\r\n.glyphicon-flash:before {\r\n    content: \"\\E162\";\r\n}\r\n\r\n.glyphicon-log-out:before {\r\n    content: \"\\E163\";\r\n}\r\n\r\n.glyphicon-new-window:before {\r\n    content: \"\\E164\";\r\n}\r\n\r\n.glyphicon-record:before {\r\n    content: \"\\E165\";\r\n}\r\n\r\n.glyphicon-save:before {\r\n    content: \"\\E166\";\r\n}\r\n\r\n.glyphicon-open:before {\r\n    content: \"\\E167\";\r\n}\r\n\r\n.glyphicon-saved:before {\r\n    content: \"\\E168\";\r\n}\r\n\r\n.glyphicon-import:before {\r\n    content: \"\\E169\";\r\n}\r\n\r\n.glyphicon-export:before {\r\n    content: \"\\E170\";\r\n}\r\n\r\n.glyphicon-send:before {\r\n    content: \"\\E171\";\r\n}\r\n\r\n.glyphicon-floppy-disk:before {\r\n    content: \"\\E172\";\r\n}\r\n\r\n.glyphicon-floppy-saved:before {\r\n    content: \"\\E173\";\r\n}\r\n\r\n.glyphicon-floppy-remove:before {\r\n    content: \"\\E174\";\r\n}\r\n\r\n.glyphicon-floppy-save:before {\r\n    content: \"\\E175\";\r\n}\r\n\r\n.glyphicon-floppy-open:before {\r\n    content: \"\\E176\";\r\n}\r\n\r\n.glyphicon-credit-card:before {\r\n    content: \"\\E177\";\r\n}\r\n\r\n.glyphicon-transfer:before {\r\n    content: \"\\E178\";\r\n}\r\n\r\n.glyphicon-cutlery:before {\r\n    content: \"\\E179\";\r\n}\r\n\r\n.glyphicon-header:before {\r\n    content: \"\\E180\";\r\n}\r\n\r\n.glyphicon-compressed:before {\r\n    content: \"\\E181\";\r\n}\r\n\r\n.glyphicon-earphone:before {\r\n    content: \"\\E182\";\r\n}\r\n\r\n.glyphicon-phone-alt:before {\r\n    content: \"\\E183\";\r\n}\r\n\r\n.glyphicon-tower:before {\r\n    content: \"\\E184\";\r\n}\r\n\r\n.glyphicon-stats:before {\r\n    content: \"\\E185\";\r\n}\r\n\r\n.glyphicon-sd-video:before {\r\n    content: \"\\E186\";\r\n}\r\n\r\n.glyphicon-hd-video:before {\r\n    content: \"\\E187\";\r\n}\r\n\r\n.glyphicon-subtitles:before {\r\n    content: \"\\E188\";\r\n}\r\n\r\n.glyphicon-sound-stereo:before {\r\n    content: \"\\E189\";\r\n}\r\n\r\n.glyphicon-sound-dolby:before {\r\n    content: \"\\E190\";\r\n}\r\n\r\n.glyphicon-sound-5-1:before {\r\n    content: \"\\E191\";\r\n}\r\n\r\n.glyphicon-sound-6-1:before {\r\n    content: \"\\E192\";\r\n}\r\n\r\n.glyphicon-sound-7-1:before {\r\n    content: \"\\E193\";\r\n}\r\n\r\n.glyphicon-copyright-mark:before {\r\n    content: \"\\E194\";\r\n}\r\n\r\n.glyphicon-registration-mark:before {\r\n    content: \"\\E195\";\r\n}\r\n\r\n.glyphicon-cloud-download:before {\r\n    content: \"\\E197\";\r\n}\r\n\r\n.glyphicon-cloud-upload:before {\r\n    content: \"\\E198\";\r\n}\r\n\r\n.glyphicon-tree-conifer:before {\r\n    content: \"\\E199\";\r\n}\r\n\r\n.glyphicon-tree-deciduous:before {\r\n    content: \"\\E200\";\r\n}\r\n\r\n.glyphicon-cd:before {\r\n    content: \"\\E201\";\r\n}\r\n\r\n.glyphicon-save-file:before {\r\n    content: \"\\E202\";\r\n}\r\n\r\n.glyphicon-open-file:before {\r\n    content: \"\\E203\";\r\n}\r\n\r\n.glyphicon-level-up:before {\r\n    content: \"\\E204\";\r\n}\r\n\r\n.glyphicon-copy:before {\r\n    content: \"\\E205\";\r\n}\r\n\r\n.glyphicon-paste:before {\r\n    content: \"\\E206\";\r\n}\r\n\r\n.glyphicon-alert:before {\r\n    content: \"\\E209\";\r\n}\r\n\r\n.glyphicon-equalizer:before {\r\n    content: \"\\E210\";\r\n}\r\n\r\n.glyphicon-king:before {\r\n    content: \"\\E211\";\r\n}\r\n\r\n.glyphicon-queen:before {\r\n    content: \"\\E212\";\r\n}\r\n\r\n.glyphicon-pawn:before {\r\n    content: \"\\E213\";\r\n}\r\n\r\n.glyphicon-bishop:before {\r\n    content: \"\\E214\";\r\n}\r\n\r\n.glyphicon-knight:before {\r\n    content: \"\\E215\";\r\n}\r\n\r\n.glyphicon-baby-formula:before {\r\n    content: \"\\E216\";\r\n}\r\n\r\n.glyphicon-tent:before {\r\n    content: \"\\26FA\";\r\n}\r\n\r\n.glyphicon-blackboard:before {\r\n    content: \"\\E218\";\r\n}\r\n\r\n.glyphicon-bed:before {\r\n    content: \"\\E219\";\r\n}\r\n\r\n.glyphicon-apple:before {\r\n    content: \"\\F8FF\";\r\n}\r\n\r\n.glyphicon-erase:before {\r\n    content: \"\\E221\";\r\n}\r\n\r\n.glyphicon-hourglass:before {\r\n    content: \"\\231B\";\r\n}\r\n\r\n.glyphicon-lamp:before {\r\n    content: \"\\E223\";\r\n}\r\n\r\n.glyphicon-duplicate:before {\r\n    content: \"\\E224\";\r\n}\r\n\r\n.glyphicon-piggy-bank:before {\r\n    content: \"\\E225\";\r\n}\r\n\r\n.glyphicon-scissors:before {\r\n    content: \"\\E226\";\r\n}\r\n\r\n.glyphicon-bitcoin:before {\r\n    content: \"\\E227\";\r\n}\r\n\r\n.glyphicon-btc:before {\r\n    content: \"\\E227\";\r\n}\r\n\r\n.glyphicon-xbt:before {\r\n    content: \"\\E227\";\r\n}\r\n\r\n.glyphicon-yen:before {\r\n    content: \"\\A5\";\r\n}\r\n\r\n.glyphicon-jpy:before {\r\n    content: \"\\A5\";\r\n}\r\n\r\n.glyphicon-ruble:before {\r\n    content: \"\\20BD\";\r\n}\r\n\r\n.glyphicon-rub:before {\r\n    content: \"\\20BD\";\r\n}\r\n\r\n.glyphicon-scale:before {\r\n    content: \"\\E230\";\r\n}\r\n\r\n.glyphicon-ice-lolly:before {\r\n    content: \"\\E231\";\r\n}\r\n\r\n.glyphicon-ice-lolly-tasted:before {\r\n    content: \"\\E232\";\r\n}\r\n\r\n.glyphicon-education:before {\r\n    content: \"\\E233\";\r\n}\r\n\r\n.glyphicon-option-horizontal:before {\r\n    content: \"\\E234\";\r\n}\r\n\r\n.glyphicon-option-vertical:before {\r\n    content: \"\\E235\";\r\n}\r\n\r\n.glyphicon-menu-hamburger:before {\r\n    content: \"\\E236\";\r\n}\r\n\r\n.glyphicon-modal-window:before {\r\n    content: \"\\E237\";\r\n}\r\n\r\n.glyphicon-oil:before {\r\n    content: \"\\E238\";\r\n}\r\n\r\n.glyphicon-grain:before {\r\n    content: \"\\E239\";\r\n}\r\n\r\n.glyphicon-sunglasses:before {\r\n    content: \"\\E240\";\r\n}\r\n\r\n.glyphicon-text-size:before {\r\n    content: \"\\E241\";\r\n}\r\n\r\n.glyphicon-text-color:before {\r\n    content: \"\\E242\";\r\n}\r\n\r\n.glyphicon-text-background:before {\r\n    content: \"\\E243\";\r\n}\r\n\r\n.glyphicon-object-align-top:before {\r\n    content: \"\\E244\";\r\n}\r\n\r\n.glyphicon-object-align-bottom:before {\r\n    content: \"\\E245\";\r\n}\r\n\r\n.glyphicon-object-align-horizontal:before {\r\n    content: \"\\E246\";\r\n}\r\n\r\n.glyphicon-object-align-left:before {\r\n    content: \"\\E247\";\r\n}\r\n\r\n.glyphicon-object-align-vertical:before {\r\n    content: \"\\E248\";\r\n}\r\n\r\n.glyphicon-object-align-right:before {\r\n    content: \"\\E249\";\r\n}\r\n\r\n.glyphicon-triangle-right:before {\r\n    content: \"\\E250\";\r\n}\r\n\r\n.glyphicon-triangle-left:before {\r\n    content: \"\\E251\";\r\n}\r\n\r\n.glyphicon-triangle-bottom:before {\r\n    content: \"\\E252\";\r\n}\r\n\r\n.glyphicon-triangle-top:before {\r\n    content: \"\\E253\";\r\n}\r\n\r\n.glyphicon-console:before {\r\n    content: \"\\E254\";\r\n}\r\n\r\n.glyphicon-superscript:before {\r\n    content: \"\\E255\";\r\n}\r\n\r\n.glyphicon-subscript:before {\r\n    content: \"\\E256\";\r\n}\r\n\r\n.glyphicon-menu-left:before {\r\n    content: \"\\E257\";\r\n}\r\n\r\n.glyphicon-menu-right:before {\r\n    content: \"\\E258\";\r\n}\r\n\r\n.glyphicon-menu-down:before {\r\n    content: \"\\E259\";\r\n}\r\n\r\n.glyphicon-menu-up:before {\r\n    content: \"\\E260\";\r\n}\r\n\r\n* {\r\n    -webkit-box-sizing: border-box;\r\n    -moz-box-sizing: border-box;\r\n    box-sizing: border-box;\r\n}\r\n\r\n    *:before,\r\n    *:after {\r\n        -webkit-box-sizing: border-box;\r\n        -moz-box-sizing: border-box;\r\n        box-sizing: border-box;\r\n    }\r\n\r\nhtml {\r\n    font-size: 10px;\r\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\nbody {\r\n    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n    font-size: 14px;\r\n    line-height: 1.42857143;\r\n    color: #333;\r\n    background-color: #fff;\r\n}\r\n\r\ninput,\r\nbutton,\r\nselect,\r\ntextarea {\r\n    font-family: inherit;\r\n    font-size: inherit;\r\n    line-height: inherit;\r\n}\r\n\r\na {\r\n    color: #337ab7;\r\n    text-decoration: none;\r\n}\r\n\r\n    a:hover,\r\n    a:focus {\r\n        color: #23527c;\r\n        text-decoration: underline;\r\n    }\r\n\r\n    a:focus {\r\n        outline: 5px auto -webkit-focus-ring-color;\r\n        outline-offset: -2px;\r\n    }\r\n\r\nfigure {\r\n    margin: 0;\r\n}\r\n\r\nimg {\r\n    vertical-align: middle;\r\n}\r\n\r\n.img-responsive,\r\n.thumbnail > img,\r\n.thumbnail a > img,\r\n.carousel-inner > .item > img,\r\n.carousel-inner > .item > a > img {\r\n    display: block;\r\n    max-width: 100%;\r\n    height: auto;\r\n}\r\n\r\n.img-rounded {\r\n    border-radius: 6px;\r\n}\r\n\r\n.img-thumbnail {\r\n    display: inline-block;\r\n    max-width: 100%;\r\n    height: auto;\r\n    padding: 4px;\r\n    line-height: 1.42857143;\r\n    background-color: #fff;\r\n    border: 1px solid #ddd;\r\n    border-radius: 4px;\r\n    -webkit-transition: all .2s ease-in-out;\r\n    -o-transition: all .2s ease-in-out;\r\n    transition: all .2s ease-in-out;\r\n}\r\n\r\n.img-circle {\r\n    border-radius: 50%;\r\n}\r\n\r\nhr {\r\n    margin-top: 20px;\r\n    margin-bottom: 20px;\r\n    border: 0;\r\n    border-top: 1px solid #eee;\r\n}\r\n\r\n.sr-only {\r\n    position: absolute;\r\n    width: 1px;\r\n    height: 1px;\r\n    padding: 0;\r\n    margin: -1px;\r\n    overflow: hidden;\r\n    clip: rect(0, 0, 0, 0);\r\n    border: 0;\r\n}\r\n\r\n.sr-only-focusable:active,\r\n.sr-only-focusable:focus {\r\n    position: static;\r\n    width: auto;\r\n    height: auto;\r\n    margin: 0;\r\n    overflow: visible;\r\n    clip: auto;\r\n}\r\n\r\n[role=\"button\"] {\r\n    cursor: pointer;\r\n}\r\n\r\nh1,\r\nh2,\r\nh3,\r\nh4,\r\nh5,\r\nh6,\r\n.h1,\r\n.h2,\r\n.h3,\r\n.h4,\r\n.h5,\r\n.h6 {\r\n    font-family: inherit;\r\n    font-weight: 500;\r\n    line-height: 1.1;\r\n    color: inherit;\r\n}\r\n\r\n    h1 small,\r\n    h2 small,\r\n    h3 small,\r\n    h4 small,\r\n    h5 small,\r\n    h6 small,\r\n    .h1 small,\r\n    .h2 small,\r\n    .h3 small,\r\n    .h4 small,\r\n    .h5 small,\r\n    .h6 small,\r\n    h1 .small,\r\n    h2 .small,\r\n    h3 .small,\r\n    h4 .small,\r\n    h5 .small,\r\n    h6 .small,\r\n    .h1 .small,\r\n    .h2 .small,\r\n    .h3 .small,\r\n    .h4 .small,\r\n    .h5 .small,\r\n    .h6 .small {\r\n        font-weight: normal;\r\n        line-height: 1;\r\n        color: #777;\r\n    }\r\n\r\nh1,\r\n.h1,\r\nh2,\r\n.h2,\r\nh3,\r\n.h3 {\r\n    margin-top: 20px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n    h1 small,\r\n    .h1 small,\r\n    h2 small,\r\n    .h2 small,\r\n    h3 small,\r\n    .h3 small,\r\n    h1 .small,\r\n    .h1 .small,\r\n    h2 .small,\r\n    .h2 .small,\r\n    h3 .small,\r\n    .h3 .small {\r\n        font-size: 65%;\r\n    }\r\n\r\nh4,\r\n.h4,\r\nh5,\r\n.h5,\r\nh6,\r\n.h6 {\r\n    margin-top: 10px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n    h4 small,\r\n    .h4 small,\r\n    h5 small,\r\n    .h5 small,\r\n    h6 small,\r\n    .h6 small,\r\n    h4 .small,\r\n    .h4 .small,\r\n    h5 .small,\r\n    .h5 .small,\r\n    h6 .small,\r\n    .h6 .small {\r\n        font-size: 75%;\r\n    }\r\n\r\nh1,\r\n.h1 {\r\n    font-size: 36px;\r\n}\r\n\r\nh2,\r\n.h2 {\r\n    font-size: 30px;\r\n}\r\n\r\nh3,\r\n.h3 {\r\n    font-size: 24px;\r\n}\r\n\r\nh4,\r\n.h4 {\r\n    font-size: 18px;\r\n}\r\n\r\nh5,\r\n.h5 {\r\n    font-size: 14px;\r\n}\r\n\r\nh6,\r\n.h6 {\r\n    font-size: 12px;\r\n}\r\n\r\np {\r\n    margin: 0 0 10px;\r\n}\r\n\r\n.lead {\r\n    margin-bottom: 20px;\r\n    font-size: 16px;\r\n    font-weight: 300;\r\n    line-height: 1.4;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .lead {\r\n        font-size: 21px;\r\n    }\r\n}\r\n\r\nsmall,\r\n.small {\r\n    font-size: 85%;\r\n}\r\n\r\nmark,\r\n.mark {\r\n    padding: .2em;\r\n    background-color: #fcf8e3;\r\n}\r\n\r\n.text-left {\r\n    text-align: left;\r\n}\r\n\r\n.text-right {\r\n    text-align: right;\r\n}\r\n\r\n.text-center {\r\n    text-align: center;\r\n}\r\n\r\n.text-justify {\r\n    text-align: justify;\r\n}\r\n\r\n.text-nowrap {\r\n    white-space: nowrap;\r\n}\r\n\r\n.text-lowercase {\r\n    text-transform: lowercase;\r\n}\r\n\r\n.text-uppercase {\r\n    text-transform: uppercase;\r\n}\r\n\r\n.text-capitalize {\r\n    text-transform: capitalize;\r\n}\r\n\r\n.text-muted {\r\n    color: #777;\r\n}\r\n\r\n.text-primary {\r\n    color: #337ab7;\r\n}\r\n\r\na.text-primary:hover,\r\na.text-primary:focus {\r\n    color: #286090;\r\n}\r\n\r\n.text-success {\r\n    color: #3c763d;\r\n}\r\n\r\na.text-success:hover,\r\na.text-success:focus {\r\n    color: #2b542c;\r\n}\r\n\r\n.text-info {\r\n    color: #31708f;\r\n}\r\n\r\na.text-info:hover,\r\na.text-info:focus {\r\n    color: #245269;\r\n}\r\n\r\n.text-warning {\r\n    color: #8a6d3b;\r\n}\r\n\r\na.text-warning:hover,\r\na.text-warning:focus {\r\n    color: #66512c;\r\n}\r\n\r\n.text-danger {\r\n    color: #a94442;\r\n}\r\n\r\na.text-danger:hover,\r\na.text-danger:focus {\r\n    color: #843534;\r\n}\r\n\r\n.bg-primary {\r\n    color: #fff;\r\n    background-color: #337ab7;\r\n}\r\n\r\na.bg-primary:hover,\r\na.bg-primary:focus {\r\n    background-color: #286090;\r\n}\r\n\r\n.bg-success {\r\n    background-color: #dff0d8;\r\n}\r\n\r\na.bg-success:hover,\r\na.bg-success:focus {\r\n    background-color: #c1e2b3;\r\n}\r\n\r\n.bg-info {\r\n    background-color: #d9edf7;\r\n}\r\n\r\na.bg-info:hover,\r\na.bg-info:focus {\r\n    background-color: #afd9ee;\r\n}\r\n\r\n.bg-warning {\r\n    background-color: #fcf8e3;\r\n}\r\n\r\na.bg-warning:hover,\r\na.bg-warning:focus {\r\n    background-color: #f7ecb5;\r\n}\r\n\r\n.bg-danger {\r\n    background-color: #f2dede;\r\n}\r\n\r\na.bg-danger:hover,\r\na.bg-danger:focus {\r\n    background-color: #e4b9b9;\r\n}\r\n\r\n.page-header {\r\n    padding-bottom: 9px;\r\n    margin: 40px 0 20px;\r\n    border-bottom: 1px solid #eee;\r\n}\r\n\r\nul,\r\nol {\r\n    margin-top: 0;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n    ul ul,\r\n    ol ul,\r\n    ul ol,\r\n    ol ol {\r\n        margin-bottom: 0;\r\n    }\r\n\r\n.list-unstyled {\r\n    padding-left: 0;\r\n    list-style: none;\r\n}\r\n\r\n.list-inline {\r\n    padding-left: 0;\r\n    margin-left: -5px;\r\n    list-style: none;\r\n}\r\n\r\n    .list-inline > li {\r\n        display: inline-block;\r\n        padding-right: 5px;\r\n        padding-left: 5px;\r\n    }\r\n\r\ndl {\r\n    margin-top: 0;\r\n    margin-bottom: 20px;\r\n}\r\n\r\ndt,\r\ndd {\r\n    line-height: 1.42857143;\r\n}\r\n\r\ndt {\r\n    font-weight: bold;\r\n}\r\n\r\ndd {\r\n    margin-left: 0;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .dl-horizontal dt {\r\n        float: left;\r\n        width: 160px;\r\n        overflow: hidden;\r\n        clear: left;\r\n        text-align: right;\r\n        text-overflow: ellipsis;\r\n        white-space: nowrap;\r\n    }\r\n\r\n    .dl-horizontal dd {\r\n        margin-left: 180px;\r\n    }\r\n}\r\n\r\nabbr[title],\r\nabbr[data-original-title] {\r\n    cursor: help;\r\n    border-bottom: 1px dotted #777;\r\n}\r\n\r\n.initialism {\r\n    font-size: 90%;\r\n    text-transform: uppercase;\r\n}\r\n\r\nblockquote {\r\n    padding: 10px 20px;\r\n    margin: 0 0 20px;\r\n    font-size: 17.5px;\r\n    border-left: 5px solid #eee;\r\n}\r\n\r\n    blockquote p:last-child,\r\n    blockquote ul:last-child,\r\n    blockquote ol:last-child {\r\n        margin-bottom: 0;\r\n    }\r\n\r\n    blockquote footer,\r\n    blockquote small,\r\n    blockquote .small {\r\n        display: block;\r\n        font-size: 80%;\r\n        line-height: 1.42857143;\r\n        color: #777;\r\n    }\r\n\r\n        blockquote footer:before,\r\n        blockquote small:before,\r\n        blockquote .small:before {\r\n            content: '\\2014   \\A0';\r\n        }\r\n\r\n    .blockquote-reverse,\r\n    blockquote.pull-right {\r\n        padding-right: 15px;\r\n        padding-left: 0;\r\n        text-align: right;\r\n        border-right: 5px solid #eee;\r\n        border-left: 0;\r\n    }\r\n\r\n        .blockquote-reverse footer:before,\r\n        blockquote.pull-right footer:before,\r\n        .blockquote-reverse small:before,\r\n        blockquote.pull-right small:before,\r\n        .blockquote-reverse .small:before,\r\n        blockquote.pull-right .small:before {\r\n            content: '';\r\n        }\r\n\r\n        .blockquote-reverse footer:after,\r\n        blockquote.pull-right footer:after,\r\n        .blockquote-reverse small:after,\r\n        blockquote.pull-right small:after,\r\n        .blockquote-reverse .small:after,\r\n        blockquote.pull-right .small:after {\r\n            content: '\\A0   \\2014';\r\n        }\r\n\r\naddress {\r\n    margin-bottom: 20px;\r\n    font-style: normal;\r\n    line-height: 1.42857143;\r\n}\r\n\r\ncode,\r\nkbd,\r\npre,\r\nsamp {\r\n    font-family: Menlo, Monaco, Consolas, \"Courier New\", monospace;\r\n}\r\n\r\ncode {\r\n    padding: 2px 4px;\r\n    font-size: 90%;\r\n    color: #c7254e;\r\n    background-color: #f9f2f4;\r\n    border-radius: 4px;\r\n}\r\n\r\nkbd {\r\n    padding: 2px 4px;\r\n    font-size: 90%;\r\n    color: #fff;\r\n    background-color: #333;\r\n    border-radius: 3px;\r\n    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);\r\n    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);\r\n}\r\n\r\n    kbd kbd {\r\n        padding: 0;\r\n        font-size: 100%;\r\n        font-weight: bold;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\npre {\r\n    display: block;\r\n    padding: 9.5px;\r\n    margin: 0 0 10px;\r\n    font-size: 13px;\r\n    line-height: 1.42857143;\r\n    color: #333;\r\n    word-break: break-all;\r\n    word-wrap: break-word;\r\n    background-color: #f5f5f5;\r\n    border: 1px solid #ccc;\r\n    border-radius: 4px;\r\n}\r\n\r\n    pre code {\r\n        padding: 0;\r\n        font-size: inherit;\r\n        color: inherit;\r\n        white-space: pre-wrap;\r\n        background-color: transparent;\r\n        border-radius: 0;\r\n    }\r\n\r\n.pre-scrollable {\r\n    max-height: 340px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.container {\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n    margin-right: auto;\r\n    margin-left: auto;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .container {\r\n        width: 750px;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) {\r\n    .container {\r\n        width: 970px;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .container {\r\n        width: 1170px;\r\n    }\r\n}\r\n\r\n.container-fluid {\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n    margin-right: auto;\r\n    margin-left: auto;\r\n}\r\n\r\n.row {\r\n    margin-right: -15px;\r\n    margin-left: -15px;\r\n}\r\n\r\n.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {\r\n    position: relative;\r\n    min-height: 1px;\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n}\r\n\r\n.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {\r\n    float: left;\r\n}\r\n\r\n.col-xs-12 {\r\n    width: 100%;\r\n}\r\n\r\n.col-xs-11 {\r\n    width: 91.66666667%;\r\n}\r\n\r\n.col-xs-10 {\r\n    width: 83.33333333%;\r\n}\r\n\r\n.col-xs-9 {\r\n    width: 75%;\r\n}\r\n\r\n.col-xs-8 {\r\n    width: 66.66666667%;\r\n}\r\n\r\n.col-xs-7 {\r\n    width: 58.33333333%;\r\n}\r\n\r\n.col-xs-6 {\r\n    width: 50%;\r\n}\r\n\r\n.col-xs-5 {\r\n    width: 41.66666667%;\r\n}\r\n\r\n.col-xs-4 {\r\n    width: 33.33333333%;\r\n}\r\n\r\n.col-xs-3 {\r\n    width: 25%;\r\n}\r\n\r\n.col-xs-2 {\r\n    width: 16.66666667%;\r\n}\r\n\r\n.col-xs-1 {\r\n    width: 8.33333333%;\r\n}\r\n\r\n.col-xs-pull-12 {\r\n    right: 100%;\r\n}\r\n\r\n.col-xs-pull-11 {\r\n    right: 91.66666667%;\r\n}\r\n\r\n.col-xs-pull-10 {\r\n    right: 83.33333333%;\r\n}\r\n\r\n.col-xs-pull-9 {\r\n    right: 75%;\r\n}\r\n\r\n.col-xs-pull-8 {\r\n    right: 66.66666667%;\r\n}\r\n\r\n.col-xs-pull-7 {\r\n    right: 58.33333333%;\r\n}\r\n\r\n.col-xs-pull-6 {\r\n    right: 50%;\r\n}\r\n\r\n.col-xs-pull-5 {\r\n    right: 41.66666667%;\r\n}\r\n\r\n.col-xs-pull-4 {\r\n    right: 33.33333333%;\r\n}\r\n\r\n.col-xs-pull-3 {\r\n    right: 25%;\r\n}\r\n\r\n.col-xs-pull-2 {\r\n    right: 16.66666667%;\r\n}\r\n\r\n.col-xs-pull-1 {\r\n    right: 8.33333333%;\r\n}\r\n\r\n.col-xs-pull-0 {\r\n    right: auto;\r\n}\r\n\r\n.col-xs-push-12 {\r\n    left: 100%;\r\n}\r\n\r\n.col-xs-push-11 {\r\n    left: 91.66666667%;\r\n}\r\n\r\n.col-xs-push-10 {\r\n    left: 83.33333333%;\r\n}\r\n\r\n.col-xs-push-9 {\r\n    left: 75%;\r\n}\r\n\r\n.col-xs-push-8 {\r\n    left: 66.66666667%;\r\n}\r\n\r\n.col-xs-push-7 {\r\n    left: 58.33333333%;\r\n}\r\n\r\n.col-xs-push-6 {\r\n    left: 50%;\r\n}\r\n\r\n.col-xs-push-5 {\r\n    left: 41.66666667%;\r\n}\r\n\r\n.col-xs-push-4 {\r\n    left: 33.33333333%;\r\n}\r\n\r\n.col-xs-push-3 {\r\n    left: 25%;\r\n}\r\n\r\n.col-xs-push-2 {\r\n    left: 16.66666667%;\r\n}\r\n\r\n.col-xs-push-1 {\r\n    left: 8.33333333%;\r\n}\r\n\r\n.col-xs-push-0 {\r\n    left: auto;\r\n}\r\n\r\n.col-xs-offset-12 {\r\n    margin-left: 100%;\r\n}\r\n\r\n.col-xs-offset-11 {\r\n    margin-left: 91.66666667%;\r\n}\r\n\r\n.col-xs-offset-10 {\r\n    margin-left: 83.33333333%;\r\n}\r\n\r\n.col-xs-offset-9 {\r\n    margin-left: 75%;\r\n}\r\n\r\n.col-xs-offset-8 {\r\n    margin-left: 66.66666667%;\r\n}\r\n\r\n.col-xs-offset-7 {\r\n    margin-left: 58.33333333%;\r\n}\r\n\r\n.col-xs-offset-6 {\r\n    margin-left: 50%;\r\n}\r\n\r\n.col-xs-offset-5 {\r\n    margin-left: 41.66666667%;\r\n}\r\n\r\n.col-xs-offset-4 {\r\n    margin-left: 33.33333333%;\r\n}\r\n\r\n.col-xs-offset-3 {\r\n    margin-left: 25%;\r\n}\r\n\r\n.col-xs-offset-2 {\r\n    margin-left: 16.66666667%;\r\n}\r\n\r\n.col-xs-offset-1 {\r\n    margin-left: 8.33333333%;\r\n}\r\n\r\n.col-xs-offset-0 {\r\n    margin-left: 0;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {\r\n        float: left;\r\n    }\r\n\r\n    .col-sm-12 {\r\n        width: 100%;\r\n    }\r\n\r\n    .col-sm-11 {\r\n        width: 91.66666667%;\r\n    }\r\n\r\n    .col-sm-10 {\r\n        width: 83.33333333%;\r\n    }\r\n\r\n    .col-sm-9 {\r\n        width: 75%;\r\n    }\r\n\r\n    .col-sm-8 {\r\n        width: 66.66666667%;\r\n    }\r\n\r\n    .col-sm-7 {\r\n        width: 58.33333333%;\r\n    }\r\n\r\n    .col-sm-6 {\r\n        width: 50%;\r\n    }\r\n\r\n    .col-sm-5 {\r\n        width: 41.66666667%;\r\n    }\r\n\r\n    .col-sm-4 {\r\n        width: 33.33333333%;\r\n    }\r\n\r\n    .col-sm-3 {\r\n        width: 25%;\r\n    }\r\n\r\n    .col-sm-2 {\r\n        width: 16.66666667%;\r\n    }\r\n\r\n    .col-sm-1 {\r\n        width: 8.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-12 {\r\n        right: 100%;\r\n    }\r\n\r\n    .col-sm-pull-11 {\r\n        right: 91.66666667%;\r\n    }\r\n\r\n    .col-sm-pull-10 {\r\n        right: 83.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-9 {\r\n        right: 75%;\r\n    }\r\n\r\n    .col-sm-pull-8 {\r\n        right: 66.66666667%;\r\n    }\r\n\r\n    .col-sm-pull-7 {\r\n        right: 58.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-6 {\r\n        right: 50%;\r\n    }\r\n\r\n    .col-sm-pull-5 {\r\n        right: 41.66666667%;\r\n    }\r\n\r\n    .col-sm-pull-4 {\r\n        right: 33.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-3 {\r\n        right: 25%;\r\n    }\r\n\r\n    .col-sm-pull-2 {\r\n        right: 16.66666667%;\r\n    }\r\n\r\n    .col-sm-pull-1 {\r\n        right: 8.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-0 {\r\n        right: auto;\r\n    }\r\n\r\n    .col-sm-push-12 {\r\n        left: 100%;\r\n    }\r\n\r\n    .col-sm-push-11 {\r\n        left: 91.66666667%;\r\n    }\r\n\r\n    .col-sm-push-10 {\r\n        left: 83.33333333%;\r\n    }\r\n\r\n    .col-sm-push-9 {\r\n        left: 75%;\r\n    }\r\n\r\n    .col-sm-push-8 {\r\n        left: 66.66666667%;\r\n    }\r\n\r\n    .col-sm-push-7 {\r\n        left: 58.33333333%;\r\n    }\r\n\r\n    .col-sm-push-6 {\r\n        left: 50%;\r\n    }\r\n\r\n    .col-sm-push-5 {\r\n        left: 41.66666667%;\r\n    }\r\n\r\n    .col-sm-push-4 {\r\n        left: 33.33333333%;\r\n    }\r\n\r\n    .col-sm-push-3 {\r\n        left: 25%;\r\n    }\r\n\r\n    .col-sm-push-2 {\r\n        left: 16.66666667%;\r\n    }\r\n\r\n    .col-sm-push-1 {\r\n        left: 8.33333333%;\r\n    }\r\n\r\n    .col-sm-push-0 {\r\n        left: auto;\r\n    }\r\n\r\n    .col-sm-offset-12 {\r\n        margin-left: 100%;\r\n    }\r\n\r\n    .col-sm-offset-11 {\r\n        margin-left: 91.66666667%;\r\n    }\r\n\r\n    .col-sm-offset-10 {\r\n        margin-left: 83.33333333%;\r\n    }\r\n\r\n    .col-sm-offset-9 {\r\n        margin-left: 75%;\r\n    }\r\n\r\n    .col-sm-offset-8 {\r\n        margin-left: 66.66666667%;\r\n    }\r\n\r\n    .col-sm-offset-7 {\r\n        margin-left: 58.33333333%;\r\n    }\r\n\r\n    .col-sm-offset-6 {\r\n        margin-left: 50%;\r\n    }\r\n\r\n    .col-sm-offset-5 {\r\n        margin-left: 41.66666667%;\r\n    }\r\n\r\n    .col-sm-offset-4 {\r\n        margin-left: 33.33333333%;\r\n    }\r\n\r\n    .col-sm-offset-3 {\r\n        margin-left: 25%;\r\n    }\r\n\r\n    .col-sm-offset-2 {\r\n        margin-left: 16.66666667%;\r\n    }\r\n\r\n    .col-sm-offset-1 {\r\n        margin-left: 8.33333333%;\r\n    }\r\n\r\n    .col-sm-offset-0 {\r\n        margin-left: 0;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) {\r\n    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {\r\n        float: left;\r\n    }\r\n\r\n    .col-md-12 {\r\n        width: 100%;\r\n    }\r\n\r\n    .col-md-11 {\r\n        width: 91.66666667%;\r\n    }\r\n\r\n    .col-md-10 {\r\n        width: 83.33333333%;\r\n    }\r\n\r\n    .col-md-9 {\r\n        width: 75%;\r\n    }\r\n\r\n    .col-md-8 {\r\n        width: 66.66666667%;\r\n    }\r\n\r\n    .col-md-7 {\r\n        width: 58.33333333%;\r\n    }\r\n\r\n    .col-md-6 {\r\n        width: 50%;\r\n    }\r\n\r\n    .col-md-5 {\r\n        width: 41.66666667%;\r\n    }\r\n\r\n    .col-md-4 {\r\n        width: 33.33333333%;\r\n    }\r\n\r\n    .col-md-3 {\r\n        width: 25%;\r\n    }\r\n\r\n    .col-md-2 {\r\n        width: 16.66666667%;\r\n    }\r\n\r\n    .col-md-1 {\r\n        width: 8.33333333%;\r\n    }\r\n\r\n    .col-md-pull-12 {\r\n        right: 100%;\r\n    }\r\n\r\n    .col-md-pull-11 {\r\n        right: 91.66666667%;\r\n    }\r\n\r\n    .col-md-pull-10 {\r\n        right: 83.33333333%;\r\n    }\r\n\r\n    .col-md-pull-9 {\r\n        right: 75%;\r\n    }\r\n\r\n    .col-md-pull-8 {\r\n        right: 66.66666667%;\r\n    }\r\n\r\n    .col-md-pull-7 {\r\n        right: 58.33333333%;\r\n    }\r\n\r\n    .col-md-pull-6 {\r\n        right: 50%;\r\n    }\r\n\r\n    .col-md-pull-5 {\r\n        right: 41.66666667%;\r\n    }\r\n\r\n    .col-md-pull-4 {\r\n        right: 33.33333333%;\r\n    }\r\n\r\n    .col-md-pull-3 {\r\n        right: 25%;\r\n    }\r\n\r\n    .col-md-pull-2 {\r\n        right: 16.66666667%;\r\n    }\r\n\r\n    .col-md-pull-1 {\r\n        right: 8.33333333%;\r\n    }\r\n\r\n    .col-md-pull-0 {\r\n        right: auto;\r\n    }\r\n\r\n    .col-md-push-12 {\r\n        left: 100%;\r\n    }\r\n\r\n    .col-md-push-11 {\r\n        left: 91.66666667%;\r\n    }\r\n\r\n    .col-md-push-10 {\r\n        left: 83.33333333%;\r\n    }\r\n\r\n    .col-md-push-9 {\r\n        left: 75%;\r\n    }\r\n\r\n    .col-md-push-8 {\r\n        left: 66.66666667%;\r\n    }\r\n\r\n    .col-md-push-7 {\r\n        left: 58.33333333%;\r\n    }\r\n\r\n    .col-md-push-6 {\r\n        left: 50%;\r\n    }\r\n\r\n    .col-md-push-5 {\r\n        left: 41.66666667%;\r\n    }\r\n\r\n    .col-md-push-4 {\r\n        left: 33.33333333%;\r\n    }\r\n\r\n    .col-md-push-3 {\r\n        left: 25%;\r\n    }\r\n\r\n    .col-md-push-2 {\r\n        left: 16.66666667%;\r\n    }\r\n\r\n    .col-md-push-1 {\r\n        left: 8.33333333%;\r\n    }\r\n\r\n    .col-md-push-0 {\r\n        left: auto;\r\n    }\r\n\r\n    .col-md-offset-12 {\r\n        margin-left: 100%;\r\n    }\r\n\r\n    .col-md-offset-11 {\r\n        margin-left: 91.66666667%;\r\n    }\r\n\r\n    .col-md-offset-10 {\r\n        margin-left: 83.33333333%;\r\n    }\r\n\r\n    .col-md-offset-9 {\r\n        margin-left: 75%;\r\n    }\r\n\r\n    .col-md-offset-8 {\r\n        margin-left: 66.66666667%;\r\n    }\r\n\r\n    .col-md-offset-7 {\r\n        margin-left: 58.33333333%;\r\n    }\r\n\r\n    .col-md-offset-6 {\r\n        margin-left: 50%;\r\n    }\r\n\r\n    .col-md-offset-5 {\r\n        margin-left: 41.66666667%;\r\n    }\r\n\r\n    .col-md-offset-4 {\r\n        margin-left: 33.33333333%;\r\n    }\r\n\r\n    .col-md-offset-3 {\r\n        margin-left: 25%;\r\n    }\r\n\r\n    .col-md-offset-2 {\r\n        margin-left: 16.66666667%;\r\n    }\r\n\r\n    .col-md-offset-1 {\r\n        margin-left: 8.33333333%;\r\n    }\r\n\r\n    .col-md-offset-0 {\r\n        margin-left: 0;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {\r\n        float: left;\r\n    }\r\n\r\n    .col-lg-12 {\r\n        width: 100%;\r\n    }\r\n\r\n    .col-lg-11 {\r\n        width: 91.66666667%;\r\n    }\r\n\r\n    .col-lg-10 {\r\n        width: 83.33333333%;\r\n    }\r\n\r\n    .col-lg-9 {\r\n        width: 75%;\r\n    }\r\n\r\n    .col-lg-8 {\r\n        width: 66.66666667%;\r\n    }\r\n\r\n    .col-lg-7 {\r\n        width: 58.33333333%;\r\n    }\r\n\r\n    .col-lg-6 {\r\n        width: 50%;\r\n    }\r\n\r\n    .col-lg-5 {\r\n        width: 41.66666667%;\r\n    }\r\n\r\n    .col-lg-4 {\r\n        width: 33.33333333%;\r\n    }\r\n\r\n    .col-lg-3 {\r\n        width: 25%;\r\n    }\r\n\r\n    .col-lg-2 {\r\n        width: 16.66666667%;\r\n    }\r\n\r\n    .col-lg-1 {\r\n        width: 8.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-12 {\r\n        right: 100%;\r\n    }\r\n\r\n    .col-lg-pull-11 {\r\n        right: 91.66666667%;\r\n    }\r\n\r\n    .col-lg-pull-10 {\r\n        right: 83.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-9 {\r\n        right: 75%;\r\n    }\r\n\r\n    .col-lg-pull-8 {\r\n        right: 66.66666667%;\r\n    }\r\n\r\n    .col-lg-pull-7 {\r\n        right: 58.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-6 {\r\n        right: 50%;\r\n    }\r\n\r\n    .col-lg-pull-5 {\r\n        right: 41.66666667%;\r\n    }\r\n\r\n    .col-lg-pull-4 {\r\n        right: 33.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-3 {\r\n        right: 25%;\r\n    }\r\n\r\n    .col-lg-pull-2 {\r\n        right: 16.66666667%;\r\n    }\r\n\r\n    .col-lg-pull-1 {\r\n        right: 8.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-0 {\r\n        right: auto;\r\n    }\r\n\r\n    .col-lg-push-12 {\r\n        left: 100%;\r\n    }\r\n\r\n    .col-lg-push-11 {\r\n        left: 91.66666667%;\r\n    }\r\n\r\n    .col-lg-push-10 {\r\n        left: 83.33333333%;\r\n    }\r\n\r\n    .col-lg-push-9 {\r\n        left: 75%;\r\n    }\r\n\r\n    .col-lg-push-8 {\r\n        left: 66.66666667%;\r\n    }\r\n\r\n    .col-lg-push-7 {\r\n        left: 58.33333333%;\r\n    }\r\n\r\n    .col-lg-push-6 {\r\n        left: 50%;\r\n    }\r\n\r\n    .col-lg-push-5 {\r\n        left: 41.66666667%;\r\n    }\r\n\r\n    .col-lg-push-4 {\r\n        left: 33.33333333%;\r\n    }\r\n\r\n    .col-lg-push-3 {\r\n        left: 25%;\r\n    }\r\n\r\n    .col-lg-push-2 {\r\n        left: 16.66666667%;\r\n    }\r\n\r\n    .col-lg-push-1 {\r\n        left: 8.33333333%;\r\n    }\r\n\r\n    .col-lg-push-0 {\r\n        left: auto;\r\n    }\r\n\r\n    .col-lg-offset-12 {\r\n        margin-left: 100%;\r\n    }\r\n\r\n    .col-lg-offset-11 {\r\n        margin-left: 91.66666667%;\r\n    }\r\n\r\n    .col-lg-offset-10 {\r\n        margin-left: 83.33333333%;\r\n    }\r\n\r\n    .col-lg-offset-9 {\r\n        margin-left: 75%;\r\n    }\r\n\r\n    .col-lg-offset-8 {\r\n        margin-left: 66.66666667%;\r\n    }\r\n\r\n    .col-lg-offset-7 {\r\n        margin-left: 58.33333333%;\r\n    }\r\n\r\n    .col-lg-offset-6 {\r\n        margin-left: 50%;\r\n    }\r\n\r\n    .col-lg-offset-5 {\r\n        margin-left: 41.66666667%;\r\n    }\r\n\r\n    .col-lg-offset-4 {\r\n        margin-left: 33.33333333%;\r\n    }\r\n\r\n    .col-lg-offset-3 {\r\n        margin-left: 25%;\r\n    }\r\n\r\n    .col-lg-offset-2 {\r\n        margin-left: 16.66666667%;\r\n    }\r\n\r\n    .col-lg-offset-1 {\r\n        margin-left: 8.33333333%;\r\n    }\r\n\r\n    .col-lg-offset-0 {\r\n        margin-left: 0;\r\n    }\r\n}\r\n\r\ntable {\r\n    background-color: transparent;\r\n}\r\n\r\ncaption {\r\n    padding-top: 8px;\r\n    padding-bottom: 8px;\r\n    color: #777;\r\n    text-align: left;\r\n}\r\n\r\nth {\r\n    text-align: left;\r\n}\r\n\r\n.table {\r\n    width: 100%;\r\n    max-width: 100%;\r\n    margin-bottom: 20px;\r\n}\r\n\r\n    .table > thead > tr > th,\r\n    .table > tbody > tr > th,\r\n    .table > tfoot > tr > th,\r\n    .table > thead > tr > td,\r\n    .table > tbody > tr > td,\r\n    .table > tfoot > tr > td {\r\n        padding: 8px;\r\n        line-height: 1.42857143;\r\n        vertical-align: top;\r\n        border-top: 1px solid #ddd;\r\n    }\r\n\r\n    .table > thead > tr > th {\r\n        vertical-align: bottom;\r\n        border-bottom: 2px solid #ddd;\r\n    }\r\n\r\n    .table > caption + thead > tr:first-child > th,\r\n    .table > colgroup + thead > tr:first-child > th,\r\n    .table > thead:first-child > tr:first-child > th,\r\n    .table > caption + thead > tr:first-child > td,\r\n    .table > colgroup + thead > tr:first-child > td,\r\n    .table > thead:first-child > tr:first-child > td {\r\n        border-top: 0;\r\n    }\r\n\r\n    .table > tbody + tbody {\r\n        border-top: 2px solid #ddd;\r\n    }\r\n\r\n    .table .table {\r\n        background-color: #fff;\r\n    }\r\n\r\n.table-condensed > thead > tr > th,\r\n.table-condensed > tbody > tr > th,\r\n.table-condensed > tfoot > tr > th,\r\n.table-condensed > thead > tr > td,\r\n.table-condensed > tbody > tr > td,\r\n.table-condensed > tfoot > tr > td {\r\n    padding: 5px;\r\n}\r\n\r\n.table-bordered {\r\n    border: 1px solid #ddd;\r\n}\r\n\r\n    .table-bordered > thead > tr > th,\r\n    .table-bordered > tbody > tr > th,\r\n    .table-bordered > tfoot > tr > th,\r\n    .table-bordered > thead > tr > td,\r\n    .table-bordered > tbody > tr > td,\r\n    .table-bordered > tfoot > tr > td {\r\n        border: 1px solid #ddd;\r\n    }\r\n\r\n    .table-bordered > thead > tr > th,\r\n    .table-bordered > thead > tr > td {\r\n        border-bottom-width: 2px;\r\n    }\r\n\r\n.table-striped > tbody > tr:nth-of-type(odd) {\r\n    background-color: #f9f9f9;\r\n}\r\n\r\n.table-hover > tbody > tr:hover {\r\n    background-color: #f5f5f5;\r\n}\r\n\r\ntable col[class*=\"col-\"] {\r\n    position: static;\r\n    display: table-column;\r\n    float: none;\r\n}\r\n\r\ntable td[class*=\"col-\"],\r\ntable th[class*=\"col-\"] {\r\n    position: static;\r\n    display: table-cell;\r\n    float: none;\r\n}\r\n\r\n.table > thead > tr > td.active,\r\n.table > tbody > tr > td.active,\r\n.table > tfoot > tr > td.active,\r\n.table > thead > tr > th.active,\r\n.table > tbody > tr > th.active,\r\n.table > tfoot > tr > th.active,\r\n.table > thead > tr.active > td,\r\n.table > tbody > tr.active > td,\r\n.table > tfoot > tr.active > td,\r\n.table > thead > tr.active > th,\r\n.table > tbody > tr.active > th,\r\n.table > tfoot > tr.active > th {\r\n    background-color: #f5f5f5;\r\n}\r\n\r\n.table-hover > tbody > tr > td.active:hover,\r\n.table-hover > tbody > tr > th.active:hover,\r\n.table-hover > tbody > tr.active:hover > td,\r\n.table-hover > tbody > tr:hover > .active,\r\n.table-hover > tbody > tr.active:hover > th {\r\n    background-color: #e8e8e8;\r\n}\r\n\r\n.table > thead > tr > td.success,\r\n.table > tbody > tr > td.success,\r\n.table > tfoot > tr > td.success,\r\n.table > thead > tr > th.success,\r\n.table > tbody > tr > th.success,\r\n.table > tfoot > tr > th.success,\r\n.table > thead > tr.success > td,\r\n.table > tbody > tr.success > td,\r\n.table > tfoot > tr.success > td,\r\n.table > thead > tr.success > th,\r\n.table > tbody > tr.success > th,\r\n.table > tfoot > tr.success > th {\r\n    background-color: #dff0d8;\r\n}\r\n\r\n.table-hover > tbody > tr > td.success:hover,\r\n.table-hover > tbody > tr > th.success:hover,\r\n.table-hover > tbody > tr.success:hover > td,\r\n.table-hover > tbody > tr:hover > .success,\r\n.table-hover > tbody > tr.success:hover > th {\r\n    background-color: #d0e9c6;\r\n}\r\n\r\n.table > thead > tr > td.info,\r\n.table > tbody > tr > td.info,\r\n.table > tfoot > tr > td.info,\r\n.table > thead > tr > th.info,\r\n.table > tbody > tr > th.info,\r\n.table > tfoot > tr > th.info,\r\n.table > thead > tr.info > td,\r\n.table > tbody > tr.info > td,\r\n.table > tfoot > tr.info > td,\r\n.table > thead > tr.info > th,\r\n.table > tbody > tr.info > th,\r\n.table > tfoot > tr.info > th {\r\n    background-color: #d9edf7;\r\n}\r\n\r\n.table-hover > tbody > tr > td.info:hover,\r\n.table-hover > tbody > tr > th.info:hover,\r\n.table-hover > tbody > tr.info:hover > td,\r\n.table-hover > tbody > tr:hover > .info,\r\n.table-hover > tbody > tr.info:hover > th {\r\n    background-color: #c4e3f3;\r\n}\r\n\r\n.table > thead > tr > td.warning,\r\n.table > tbody > tr > td.warning,\r\n.table > tfoot > tr > td.warning,\r\n.table > thead > tr > th.warning,\r\n.table > tbody > tr > th.warning,\r\n.table > tfoot > tr > th.warning,\r\n.table > thead > tr.warning > td,\r\n.table > tbody > tr.warning > td,\r\n.table > tfoot > tr.warning > td,\r\n.table > thead > tr.warning > th,\r\n.table > tbody > tr.warning > th,\r\n.table > tfoot > tr.warning > th {\r\n    background-color: #fcf8e3;\r\n}\r\n\r\n.table-hover > tbody > tr > td.warning:hover,\r\n.table-hover > tbody > tr > th.warning:hover,\r\n.table-hover > tbody > tr.warning:hover > td,\r\n.table-hover > tbody > tr:hover > .warning,\r\n.table-hover > tbody > tr.warning:hover > th {\r\n    background-color: #faf2cc;\r\n}\r\n\r\n.table > thead > tr > td.danger,\r\n.table > tbody > tr > td.danger,\r\n.table > tfoot > tr > td.danger,\r\n.table > thead > tr > th.danger,\r\n.table > tbody > tr > th.danger,\r\n.table > tfoot > tr > th.danger,\r\n.table > thead > tr.danger > td,\r\n.table > tbody > tr.danger > td,\r\n.table > tfoot > tr.danger > td,\r\n.table > thead > tr.danger > th,\r\n.table > tbody > tr.danger > th,\r\n.table > tfoot > tr.danger > th {\r\n    background-color: #f2dede;\r\n}\r\n\r\n.table-hover > tbody > tr > td.danger:hover,\r\n.table-hover > tbody > tr > th.danger:hover,\r\n.table-hover > tbody > tr.danger:hover > td,\r\n.table-hover > tbody > tr:hover > .danger,\r\n.table-hover > tbody > tr.danger:hover > th {\r\n    background-color: #ebcccc;\r\n}\r\n\r\n.table-responsive {\r\n    min-height: .01%;\r\n    overflow-x: auto;\r\n}\r\n\r\n@media screen and (max-width: 767px) {\r\n    .table-responsive {\r\n        width: 100%;\r\n        margin-bottom: 15px;\r\n        overflow-y: hidden;\r\n        -ms-overflow-style: -ms-autohiding-scrollbar;\r\n        border: 1px solid #ddd;\r\n    }\r\n\r\n        .table-responsive > .table {\r\n            margin-bottom: 0;\r\n        }\r\n\r\n            .table-responsive > .table > thead > tr > th,\r\n            .table-responsive > .table > tbody > tr > th,\r\n            .table-responsive > .table > tfoot > tr > th,\r\n            .table-responsive > .table > thead > tr > td,\r\n            .table-responsive > .table > tbody > tr > td,\r\n            .table-responsive > .table > tfoot > tr > td {\r\n                white-space: nowrap;\r\n            }\r\n\r\n        .table-responsive > .table-bordered {\r\n            border: 0;\r\n        }\r\n\r\n            .table-responsive > .table-bordered > thead > tr > th:first-child,\r\n            .table-responsive > .table-bordered > tbody > tr > th:first-child,\r\n            .table-responsive > .table-bordered > tfoot > tr > th:first-child,\r\n            .table-responsive > .table-bordered > thead > tr > td:first-child,\r\n            .table-responsive > .table-bordered > tbody > tr > td:first-child,\r\n            .table-responsive > .table-bordered > tfoot > tr > td:first-child {\r\n                border-left: 0;\r\n            }\r\n\r\n            .table-responsive > .table-bordered > thead > tr > th:last-child,\r\n            .table-responsive > .table-bordered > tbody > tr > th:last-child,\r\n            .table-responsive > .table-bordered > tfoot > tr > th:last-child,\r\n            .table-responsive > .table-bordered > thead > tr > td:last-child,\r\n            .table-responsive > .table-bordered > tbody > tr > td:last-child,\r\n            .table-responsive > .table-bordered > tfoot > tr > td:last-child {\r\n                border-right: 0;\r\n            }\r\n\r\n            .table-responsive > .table-bordered > tbody > tr:last-child > th,\r\n            .table-responsive > .table-bordered > tfoot > tr:last-child > th,\r\n            .table-responsive > .table-bordered > tbody > tr:last-child > td,\r\n            .table-responsive > .table-bordered > tfoot > tr:last-child > td {\r\n                border-bottom: 0;\r\n            }\r\n}\r\n\r\nfieldset {\r\n    min-width: 0;\r\n    padding: 0;\r\n    margin: 0;\r\n    border: 0;\r\n}\r\n\r\nlegend {\r\n    display: block;\r\n    width: 100%;\r\n    padding: 0;\r\n    margin-bottom: 20px;\r\n    font-size: 21px;\r\n    line-height: inherit;\r\n    color: #333;\r\n    border: 0;\r\n    border-bottom: 1px solid #e5e5e5;\r\n}\r\n\r\nlabel {\r\n    display: inline-block;\r\n    max-width: 100%;\r\n    margin-bottom: 5px;\r\n    font-weight: bold;\r\n}\r\n\r\ninput[type=\"search\"] {\r\n    -webkit-box-sizing: border-box;\r\n    -moz-box-sizing: border-box;\r\n    box-sizing: border-box;\r\n}\r\n\r\ninput[type=\"radio\"],\r\ninput[type=\"checkbox\"] {\r\n    margin: 4px 0 0;\r\n    margin-top: 1px \\9;\r\n    line-height: normal;\r\n}\r\n\r\ninput[type=\"file\"] {\r\n    display: block;\r\n}\r\n\r\ninput[type=\"range\"] {\r\n    display: block;\r\n    width: 100%;\r\n}\r\n\r\nselect[multiple],\r\nselect[size] {\r\n    height: auto;\r\n}\r\n\r\ninput[type=\"file\"]:focus,\r\ninput[type=\"radio\"]:focus,\r\ninput[type=\"checkbox\"]:focus {\r\n    outline: 5px auto -webkit-focus-ring-color;\r\n    outline-offset: -2px;\r\n}\r\n\r\noutput {\r\n    display: block;\r\n    padding-top: 7px;\r\n    font-size: 14px;\r\n    line-height: 1.42857143;\r\n    color: #555;\r\n}\r\n\r\n.form-control {\r\n    display: block;\r\n    width: 100%;\r\n    height: 34px;\r\n    padding: 6px 12px;\r\n    font-size: 14px;\r\n    line-height: 1.42857143;\r\n    color: #555;\r\n    background-color: #fff;\r\n    background-image: none;\r\n    border: 1px solid #ccc;\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;\r\n    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;\r\n    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;\r\n}\r\n\r\n    .form-control:focus {\r\n        border-color: #66afe9;\r\n        outline: 0;\r\n        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);\r\n        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);\r\n    }\r\n\r\n    .form-control::-moz-placeholder {\r\n        color: #999;\r\n        opacity: 1;\r\n    }\r\n\r\n    .form-control:-ms-input-placeholder {\r\n        color: #999;\r\n    }\r\n\r\n    .form-control::-webkit-input-placeholder {\r\n        color: #999;\r\n    }\r\n\r\n    .form-control::-ms-expand {\r\n        background-color: transparent;\r\n        border: 0;\r\n    }\r\n\r\n    .form-control[disabled],\r\n    .form-control[readonly],\r\n    fieldset[disabled] .form-control {\r\n        background-color: #eee;\r\n        opacity: 1;\r\n    }\r\n\r\n    .form-control[disabled],\r\n    fieldset[disabled] .form-control {\r\n        cursor: not-allowed;\r\n    }\r\n\r\ntextarea.form-control {\r\n    height: auto;\r\n}\r\n\r\ninput[type=\"search\"] {\r\n    -webkit-appearance: none;\r\n}\r\n\r\n@media screen and (-webkit-min-device-pixel-ratio: 0) {\r\n    input[type=\"date\"].form-control,\r\n    input[type=\"time\"].form-control,\r\n    input[type=\"datetime-local\"].form-control,\r\n    input[type=\"month\"].form-control {\r\n        line-height: 34px;\r\n    }\r\n\r\n    input[type=\"date\"].input-sm,\r\n    input[type=\"time\"].input-sm,\r\n    input[type=\"datetime-local\"].input-sm,\r\n    input[type=\"month\"].input-sm,\r\n    .input-group-sm input[type=\"date\"],\r\n    .input-group-sm input[type=\"time\"],\r\n    .input-group-sm input[type=\"datetime-local\"],\r\n    .input-group-sm input[type=\"month\"] {\r\n        line-height: 30px;\r\n    }\r\n\r\n    input[type=\"date\"].input-lg,\r\n    input[type=\"time\"].input-lg,\r\n    input[type=\"datetime-local\"].input-lg,\r\n    input[type=\"month\"].input-lg,\r\n    .input-group-lg input[type=\"date\"],\r\n    .input-group-lg input[type=\"time\"],\r\n    .input-group-lg input[type=\"datetime-local\"],\r\n    .input-group-lg input[type=\"month\"] {\r\n        line-height: 46px;\r\n    }\r\n}\r\n\r\n.form-group {\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.radio,\r\n.checkbox {\r\n    position: relative;\r\n    display: block;\r\n    margin-top: 10px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n    .radio label,\r\n    .checkbox label {\r\n        min-height: 20px;\r\n        padding-right: 20px;\r\n        margin-bottom: 0;\r\n        font-weight: normal;\r\n        cursor: pointer;\r\n    }\r\n\r\n    .radio input[type=\"radio\"],\r\n    .radio-inline input[type=\"radio\"],\r\n    .checkbox input[type=\"checkbox\"],\r\n    .checkbox-inline input[type=\"checkbox\"] {\r\n        position: absolute;\r\n        margin-top: 4px \\9;\r\n        margin-right: -20px;\r\n    }\r\n\r\n    .radio + .radio,\r\n    .checkbox + .checkbox {\r\n        margin-top: -5px;\r\n    }\r\n\r\n.radio-inline,\r\n.checkbox-inline {\r\n    position: relative;\r\n    display: inline-block;\r\n    padding-left: 20px;\r\n    margin-bottom: 0;\r\n    font-weight: normal;\r\n    vertical-align: middle;\r\n    cursor: pointer;\r\n}\r\n\r\n    .radio-inline + .radio-inline,\r\n    .checkbox-inline + .checkbox-inline {\r\n        margin-top: 0;\r\n        margin-left: 10px;\r\n    }\r\n\r\ninput[type=\"radio\"][disabled],\r\ninput[type=\"checkbox\"][disabled],\r\ninput[type=\"radio\"].disabled,\r\ninput[type=\"checkbox\"].disabled,\r\nfieldset[disabled] input[type=\"radio\"],\r\nfieldset[disabled] input[type=\"checkbox\"] {\r\n    cursor: not-allowed;\r\n}\r\n\r\n.radio-inline.disabled,\r\n.checkbox-inline.disabled,\r\nfieldset[disabled] .radio-inline,\r\nfieldset[disabled] .checkbox-inline {\r\n    cursor: not-allowed;\r\n}\r\n\r\n.radio.disabled label,\r\n.checkbox.disabled label,\r\nfieldset[disabled] .radio label,\r\nfieldset[disabled] .checkbox label {\r\n    cursor: not-allowed;\r\n}\r\n\r\n.form-control-static {\r\n    min-height: 34px;\r\n    padding-top: 7px;\r\n    padding-bottom: 7px;\r\n    margin-bottom: 0;\r\n}\r\n\r\n    .form-control-static.input-lg,\r\n    .form-control-static.input-sm {\r\n        padding-right: 0;\r\n        padding-left: 0;\r\n    }\r\n\r\n.input-sm {\r\n    height: 30px;\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\nselect.input-sm {\r\n    height: 30px;\r\n    line-height: 30px;\r\n}\r\n\r\ntextarea.input-sm,\r\nselect[multiple].input-sm {\r\n    height: auto;\r\n}\r\n\r\n.form-group-sm .form-control {\r\n    height: 30px;\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\n.form-group-sm select.form-control {\r\n    height: 30px;\r\n    line-height: 30px;\r\n}\r\n\r\n.form-group-sm textarea.form-control,\r\n.form-group-sm select[multiple].form-control {\r\n    height: auto;\r\n}\r\n\r\n.form-group-sm .form-control-static {\r\n    height: 30px;\r\n    min-height: 32px;\r\n    padding: 6px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n}\r\n\r\n.input-lg {\r\n    height: 46px;\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n    border-radius: 6px;\r\n}\r\n\r\nselect.input-lg {\r\n    height: 46px;\r\n    line-height: 46px;\r\n}\r\n\r\ntextarea.input-lg,\r\nselect[multiple].input-lg {\r\n    height: auto;\r\n}\r\n\r\n.form-group-lg .form-control {\r\n    height: 46px;\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n    border-radius: 6px;\r\n}\r\n\r\n.form-group-lg select.form-control {\r\n    height: 46px;\r\n    line-height: 46px;\r\n}\r\n\r\n.form-group-lg textarea.form-control,\r\n.form-group-lg select[multiple].form-control {\r\n    height: auto;\r\n}\r\n\r\n.form-group-lg .form-control-static {\r\n    height: 46px;\r\n    min-height: 38px;\r\n    padding: 11px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n}\r\n\r\n.has-feedback {\r\n    position: relative;\r\n}\r\n\r\n    .has-feedback .form-control {\r\n        padding-right: 12px;\r\n    }\r\n\r\n.form-control-feedback {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 2;\r\n    display: block;\r\n    width: 34px;\r\n    height: 34px;\r\n    line-height: 34px;\r\n    text-align: center;\r\n    pointer-events: none;\r\n}\r\n\r\n.input-lg + .form-control-feedback,\r\n.input-group-lg + .form-control-feedback,\r\n.form-group-lg .form-control + .form-control-feedback {\r\n    width: 46px;\r\n    height: 46px;\r\n    line-height: 46px;\r\n}\r\n\r\n.input-sm + .form-control-feedback,\r\n.input-group-sm + .form-control-feedback,\r\n.form-group-sm .form-control + .form-control-feedback {\r\n    width: 30px;\r\n    height: 30px;\r\n    line-height: 30px;\r\n}\r\n\r\n.has-success .help-block,\r\n.has-success .control-label,\r\n.has-success .radio,\r\n.has-success .checkbox,\r\n.has-success .radio-inline,\r\n.has-success .checkbox-inline,\r\n.has-success.radio label,\r\n.has-success.checkbox label,\r\n.has-success.radio-inline label,\r\n.has-success.checkbox-inline label {\r\n    color: #3c763d;\r\n}\r\n\r\n.has-success .form-control {\r\n    border-color: #3c763d;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n}\r\n\r\n    .has-success .form-control:focus {\r\n        border-color: #2b542c;\r\n        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;\r\n        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;\r\n    }\r\n\r\n.has-success .input-group-addon {\r\n    color: #3c763d;\r\n    background-color: #dff0d8;\r\n    border-color: #3c763d;\r\n}\r\n\r\n.has-success .form-control-feedback {\r\n    color: #3c763d;\r\n}\r\n\r\n.has-warning .help-block,\r\n.has-warning .control-label,\r\n.has-warning .radio,\r\n.has-warning .checkbox,\r\n.has-warning .radio-inline,\r\n.has-warning .checkbox-inline,\r\n.has-warning.radio label,\r\n.has-warning.checkbox label,\r\n.has-warning.radio-inline label,\r\n.has-warning.checkbox-inline label {\r\n    color: #8a6d3b;\r\n}\r\n\r\n.has-warning .form-control {\r\n    border-color: #8a6d3b;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n}\r\n\r\n    .has-warning .form-control:focus {\r\n        border-color: #66512c;\r\n        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;\r\n        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;\r\n    }\r\n\r\n.has-warning .input-group-addon {\r\n    color: #8a6d3b;\r\n    background-color: #fcf8e3;\r\n    border-color: #8a6d3b;\r\n}\r\n\r\n.has-warning .form-control-feedback {\r\n    color: #8a6d3b;\r\n}\r\n\r\n.has-error .help-block,\r\n.has-error .control-label,\r\n.has-error .radio,\r\n.has-error .checkbox,\r\n.has-error .radio-inline,\r\n.has-error .checkbox-inline,\r\n.has-error.radio label,\r\n.has-error.checkbox label,\r\n.has-error.radio-inline label,\r\n.has-error.checkbox-inline label {\r\n    color: #a94442;\r\n}\r\n\r\n.has-error .form-control {\r\n    border-color: #a94442;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n}\r\n\r\n    .has-error .form-control:focus {\r\n        border-color: #843534;\r\n        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;\r\n        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;\r\n    }\r\n\r\n.has-error .input-group-addon {\r\n    color: #a94442;\r\n    background-color: #f2dede;\r\n    border-color: #a94442;\r\n}\r\n\r\n.has-error .form-control-feedback {\r\n    color: #a94442;\r\n}\r\n\r\n.has-feedback label ~ .form-control-feedback {\r\n    top: 25px;\r\n}\r\n\r\n.has-feedback label.sr-only ~ .form-control-feedback {\r\n    top: 0;\r\n}\r\n\r\n.help-block {\r\n    display: block;\r\n    margin-top: 5px;\r\n    margin-bottom: 10px;\r\n    color: #737373;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .form-inline .form-group {\r\n        display: inline-block;\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .form-inline .form-control {\r\n        display: inline-block;\r\n        width: auto;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .form-inline .form-control-static {\r\n        display: inline-block;\r\n    }\r\n\r\n    .form-inline .input-group {\r\n        display: inline-table;\r\n        vertical-align: middle;\r\n    }\r\n\r\n        .form-inline .input-group .input-group-addon,\r\n        .form-inline .input-group .input-group-btn,\r\n        .form-inline .input-group .form-control {\r\n            width: auto;\r\n        }\r\n\r\n        .form-inline .input-group > .form-control {\r\n            width: 100%;\r\n        }\r\n\r\n    .form-inline .control-label {\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .form-inline .radio,\r\n    .form-inline .checkbox {\r\n        display: inline-block;\r\n        margin-top: 0;\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n        .form-inline .radio label,\r\n        .form-inline .checkbox label {\r\n            padding-left: 0;\r\n        }\r\n\r\n        .form-inline .radio input[type=\"radio\"],\r\n        .form-inline .checkbox input[type=\"checkbox\"] {\r\n            position: relative;\r\n            margin-left: 0;\r\n        }\r\n\r\n    .form-inline .has-feedback .form-control-feedback {\r\n        top: 0;\r\n    }\r\n}\r\n\r\n.form-horizontal .radio,\r\n.form-horizontal .checkbox,\r\n.form-horizontal .radio-inline,\r\n.form-horizontal .checkbox-inline {\r\n    padding-top: 7px;\r\n    margin-top: 0;\r\n    margin-bottom: 0;\r\n}\r\n\r\n.form-horizontal .radio,\r\n.form-horizontal .checkbox {\r\n    min-height: 27px;\r\n}\r\n\r\n.form-horizontal .form-group {\r\n    margin-right: -15px;\r\n    margin-left: -15px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .form-horizontal .control-label {\r\n        padding-top: 7px;\r\n        margin-bottom: 0;\r\n        text-align: right;\r\n    }\r\n}\r\n\r\n.form-horizontal .has-feedback .form-control-feedback {\r\n    right: 15px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .form-horizontal .form-group-lg .control-label {\r\n        padding-top: 11px;\r\n        font-size: 18px;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .form-horizontal .form-group-sm .control-label {\r\n        padding-top: 6px;\r\n        font-size: 12px;\r\n    }\r\n}\r\n\r\n.btn {\r\n    display: inline-block;\r\n    padding: 6px 12px;\r\n    margin-bottom: 0;\r\n    font-size: 14px;\r\n    font-weight: normal;\r\n    line-height: 1.42857143;\r\n    text-align: center;\r\n    white-space: nowrap;\r\n    vertical-align: middle;\r\n    -ms-touch-action: manipulation;\r\n    touch-action: manipulation;\r\n    cursor: pointer;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none;\r\n    user-select: none;\r\n    background-image: none;\r\n    border: 1px solid transparent;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .btn:focus,\r\n    .btn:active:focus,\r\n    .btn.active:focus,\r\n    .btn.focus,\r\n    .btn:active.focus,\r\n    .btn.active.focus {\r\n        outline: 5px auto -webkit-focus-ring-color;\r\n        outline-offset: -2px;\r\n    }\r\n\r\n    .btn:hover,\r\n    .btn:focus,\r\n    .btn.focus {\r\n        color: #333;\r\n        text-decoration: none;\r\n    }\r\n\r\n    .btn:active,\r\n    .btn.active {\r\n        background-image: none;\r\n        outline: 0;\r\n        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);\r\n        box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);\r\n    }\r\n\r\n    .btn.disabled,\r\n    .btn[disabled],\r\n    fieldset[disabled] .btn {\r\n        cursor: not-allowed;\r\n        filter: alpha(opacity=65);\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n        opacity: .65;\r\n    }\r\n\r\na.btn.disabled,\r\nfieldset[disabled] a.btn {\r\n    pointer-events: none;\r\n}\r\n\r\n.btn-default {\r\n    color: #333;\r\n    background-color: #fff;\r\n    border-color: #ccc;\r\n}\r\n\r\n    .btn-default:focus,\r\n    .btn-default.focus {\r\n        color: #333;\r\n        background-color: #e6e6e6;\r\n        border-color: #8c8c8c;\r\n    }\r\n\r\n    .btn-default:hover {\r\n        color: #333;\r\n        background-color: #e6e6e6;\r\n        border-color: #adadad;\r\n    }\r\n\r\n    .btn-default:active,\r\n    .btn-default.active,\r\n    .open > .dropdown-toggle.btn-default {\r\n        color: #333;\r\n        background-color: #e6e6e6;\r\n        border-color: #adadad;\r\n    }\r\n\r\n        .btn-default:active:hover,\r\n        .btn-default.active:hover,\r\n        .open > .dropdown-toggle.btn-default:hover,\r\n        .btn-default:active:focus,\r\n        .btn-default.active:focus,\r\n        .open > .dropdown-toggle.btn-default:focus,\r\n        .btn-default:active.focus,\r\n        .btn-default.active.focus,\r\n        .open > .dropdown-toggle.btn-default.focus {\r\n            color: #333;\r\n            background-color: #d4d4d4;\r\n            border-color: #8c8c8c;\r\n        }\r\n\r\n    .btn-default:active,\r\n    .btn-default.active,\r\n    .open > .dropdown-toggle.btn-default {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-default.disabled:hover,\r\n    .btn-default[disabled]:hover,\r\n    fieldset[disabled] .btn-default:hover,\r\n    .btn-default.disabled:focus,\r\n    .btn-default[disabled]:focus,\r\n    fieldset[disabled] .btn-default:focus,\r\n    .btn-default.disabled.focus,\r\n    .btn-default[disabled].focus,\r\n    fieldset[disabled] .btn-default.focus {\r\n        background-color: #fff;\r\n        border-color: #ccc;\r\n    }\r\n\r\n    .btn-default .badge {\r\n        color: #fff;\r\n        background-color: #333;\r\n    }\r\n\r\n.btn-primary {\r\n    color: #fff;\r\n    background-color: #337ab7;\r\n    border-color: #2e6da4;\r\n}\r\n\r\n    .btn-primary:focus,\r\n    .btn-primary.focus {\r\n        color: #fff;\r\n        background-color: #286090;\r\n        border-color: #122b40;\r\n    }\r\n\r\n    .btn-primary:hover {\r\n        color: #fff;\r\n        background-color: #286090;\r\n        border-color: #204d74;\r\n    }\r\n\r\n    .btn-primary:active,\r\n    .btn-primary.active,\r\n    .open > .dropdown-toggle.btn-primary {\r\n        color: #fff;\r\n        background-color: #286090;\r\n        border-color: #204d74;\r\n    }\r\n\r\n        .btn-primary:active:hover,\r\n        .btn-primary.active:hover,\r\n        .open > .dropdown-toggle.btn-primary:hover,\r\n        .btn-primary:active:focus,\r\n        .btn-primary.active:focus,\r\n        .open > .dropdown-toggle.btn-primary:focus,\r\n        .btn-primary:active.focus,\r\n        .btn-primary.active.focus,\r\n        .open > .dropdown-toggle.btn-primary.focus {\r\n            color: #fff;\r\n            background-color: #204d74;\r\n            border-color: #122b40;\r\n        }\r\n\r\n    .btn-primary:active,\r\n    .btn-primary.active,\r\n    .open > .dropdown-toggle.btn-primary {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-primary.disabled:hover,\r\n    .btn-primary[disabled]:hover,\r\n    fieldset[disabled] .btn-primary:hover,\r\n    .btn-primary.disabled:focus,\r\n    .btn-primary[disabled]:focus,\r\n    fieldset[disabled] .btn-primary:focus,\r\n    .btn-primary.disabled.focus,\r\n    .btn-primary[disabled].focus,\r\n    fieldset[disabled] .btn-primary.focus {\r\n        background-color: #337ab7;\r\n        border-color: #2e6da4;\r\n    }\r\n\r\n    .btn-primary .badge {\r\n        color: #337ab7;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-success {\r\n    color: #fff;\r\n    background-color: #5cb85c;\r\n    border-color: #4cae4c;\r\n}\r\n\r\n    .btn-success:focus,\r\n    .btn-success.focus {\r\n        color: #fff;\r\n        background-color: #449d44;\r\n        border-color: #255625;\r\n    }\r\n\r\n    .btn-success:hover {\r\n        color: #fff;\r\n        background-color: #449d44;\r\n        border-color: #398439;\r\n    }\r\n\r\n    .btn-success:active,\r\n    .btn-success.active,\r\n    .open > .dropdown-toggle.btn-success {\r\n        color: #fff;\r\n        background-color: #449d44;\r\n        border-color: #398439;\r\n    }\r\n\r\n        .btn-success:active:hover,\r\n        .btn-success.active:hover,\r\n        .open > .dropdown-toggle.btn-success:hover,\r\n        .btn-success:active:focus,\r\n        .btn-success.active:focus,\r\n        .open > .dropdown-toggle.btn-success:focus,\r\n        .btn-success:active.focus,\r\n        .btn-success.active.focus,\r\n        .open > .dropdown-toggle.btn-success.focus {\r\n            color: #fff;\r\n            background-color: #398439;\r\n            border-color: #255625;\r\n        }\r\n\r\n    .btn-success:active,\r\n    .btn-success.active,\r\n    .open > .dropdown-toggle.btn-success {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-success.disabled:hover,\r\n    .btn-success[disabled]:hover,\r\n    fieldset[disabled] .btn-success:hover,\r\n    .btn-success.disabled:focus,\r\n    .btn-success[disabled]:focus,\r\n    fieldset[disabled] .btn-success:focus,\r\n    .btn-success.disabled.focus,\r\n    .btn-success[disabled].focus,\r\n    fieldset[disabled] .btn-success.focus {\r\n        background-color: #5cb85c;\r\n        border-color: #4cae4c;\r\n    }\r\n\r\n    .btn-success .badge {\r\n        color: #5cb85c;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-info {\r\n    color: #fff;\r\n    background-color: #5bc0de;\r\n    border-color: #46b8da;\r\n}\r\n\r\n    .btn-info:focus,\r\n    .btn-info.focus {\r\n        color: #fff;\r\n        background-color: #31b0d5;\r\n        border-color: #1b6d85;\r\n    }\r\n\r\n    .btn-info:hover {\r\n        color: #fff;\r\n        background-color: #31b0d5;\r\n        border-color: #269abc;\r\n    }\r\n\r\n    .btn-info:active,\r\n    .btn-info.active,\r\n    .open > .dropdown-toggle.btn-info {\r\n        color: #fff;\r\n        background-color: #31b0d5;\r\n        border-color: #269abc;\r\n    }\r\n\r\n        .btn-info:active:hover,\r\n        .btn-info.active:hover,\r\n        .open > .dropdown-toggle.btn-info:hover,\r\n        .btn-info:active:focus,\r\n        .btn-info.active:focus,\r\n        .open > .dropdown-toggle.btn-info:focus,\r\n        .btn-info:active.focus,\r\n        .btn-info.active.focus,\r\n        .open > .dropdown-toggle.btn-info.focus {\r\n            color: #fff;\r\n            background-color: #269abc;\r\n            border-color: #1b6d85;\r\n        }\r\n\r\n    .btn-info:active,\r\n    .btn-info.active,\r\n    .open > .dropdown-toggle.btn-info {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-info.disabled:hover,\r\n    .btn-info[disabled]:hover,\r\n    fieldset[disabled] .btn-info:hover,\r\n    .btn-info.disabled:focus,\r\n    .btn-info[disabled]:focus,\r\n    fieldset[disabled] .btn-info:focus,\r\n    .btn-info.disabled.focus,\r\n    .btn-info[disabled].focus,\r\n    fieldset[disabled] .btn-info.focus {\r\n        background-color: #5bc0de;\r\n        border-color: #46b8da;\r\n    }\r\n\r\n    .btn-info .badge {\r\n        color: #5bc0de;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-warning {\r\n    color: #fff;\r\n    background-color: #f0ad4e;\r\n    border-color: #eea236;\r\n}\r\n\r\n    .btn-warning:focus,\r\n    .btn-warning.focus {\r\n        color: #fff;\r\n        background-color: #ec971f;\r\n        border-color: #985f0d;\r\n    }\r\n\r\n    .btn-warning:hover {\r\n        color: #fff;\r\n        background-color: #ec971f;\r\n        border-color: #d58512;\r\n    }\r\n\r\n    .btn-warning:active,\r\n    .btn-warning.active,\r\n    .open > .dropdown-toggle.btn-warning {\r\n        color: #fff;\r\n        background-color: #ec971f;\r\n        border-color: #d58512;\r\n    }\r\n\r\n        .btn-warning:active:hover,\r\n        .btn-warning.active:hover,\r\n        .open > .dropdown-toggle.btn-warning:hover,\r\n        .btn-warning:active:focus,\r\n        .btn-warning.active:focus,\r\n        .open > .dropdown-toggle.btn-warning:focus,\r\n        .btn-warning:active.focus,\r\n        .btn-warning.active.focus,\r\n        .open > .dropdown-toggle.btn-warning.focus {\r\n            color: #fff;\r\n            background-color: #d58512;\r\n            border-color: #985f0d;\r\n        }\r\n\r\n    .btn-warning:active,\r\n    .btn-warning.active,\r\n    .open > .dropdown-toggle.btn-warning {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-warning.disabled:hover,\r\n    .btn-warning[disabled]:hover,\r\n    fieldset[disabled] .btn-warning:hover,\r\n    .btn-warning.disabled:focus,\r\n    .btn-warning[disabled]:focus,\r\n    fieldset[disabled] .btn-warning:focus,\r\n    .btn-warning.disabled.focus,\r\n    .btn-warning[disabled].focus,\r\n    fieldset[disabled] .btn-warning.focus {\r\n        background-color: #f0ad4e;\r\n        border-color: #eea236;\r\n    }\r\n\r\n    .btn-warning .badge {\r\n        color: #f0ad4e;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-danger {\r\n    color: #fff;\r\n    background-color: #d9534f;\r\n    border-color: #d43f3a;\r\n}\r\n\r\n    .btn-danger:focus,\r\n    .btn-danger.focus {\r\n        color: #fff;\r\n        background-color: #c9302c;\r\n        border-color: #761c19;\r\n    }\r\n\r\n    .btn-danger:hover {\r\n        color: #fff;\r\n        background-color: #c9302c;\r\n        border-color: #ac2925;\r\n    }\r\n\r\n    .btn-danger:active,\r\n    .btn-danger.active,\r\n    .open > .dropdown-toggle.btn-danger {\r\n        color: #fff;\r\n        background-color: #c9302c;\r\n        border-color: #ac2925;\r\n    }\r\n\r\n        .btn-danger:active:hover,\r\n        .btn-danger.active:hover,\r\n        .open > .dropdown-toggle.btn-danger:hover,\r\n        .btn-danger:active:focus,\r\n        .btn-danger.active:focus,\r\n        .open > .dropdown-toggle.btn-danger:focus,\r\n        .btn-danger:active.focus,\r\n        .btn-danger.active.focus,\r\n        .open > .dropdown-toggle.btn-danger.focus {\r\n            color: #fff;\r\n            background-color: #ac2925;\r\n            border-color: #761c19;\r\n        }\r\n\r\n    .btn-danger:active,\r\n    .btn-danger.active,\r\n    .open > .dropdown-toggle.btn-danger {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-danger.disabled:hover,\r\n    .btn-danger[disabled]:hover,\r\n    fieldset[disabled] .btn-danger:hover,\r\n    .btn-danger.disabled:focus,\r\n    .btn-danger[disabled]:focus,\r\n    fieldset[disabled] .btn-danger:focus,\r\n    .btn-danger.disabled.focus,\r\n    .btn-danger[disabled].focus,\r\n    fieldset[disabled] .btn-danger.focus {\r\n        background-color: #d9534f;\r\n        border-color: #d43f3a;\r\n    }\r\n\r\n    .btn-danger .badge {\r\n        color: #d9534f;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-link {\r\n    font-weight: normal;\r\n    color: #337ab7;\r\n    border-radius: 0;\r\n}\r\n\r\n    .btn-link,\r\n    .btn-link:active,\r\n    .btn-link.active,\r\n    .btn-link[disabled],\r\n    fieldset[disabled] .btn-link {\r\n        background-color: transparent;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\n        .btn-link,\r\n        .btn-link:hover,\r\n        .btn-link:focus,\r\n        .btn-link:active {\r\n            border-color: transparent;\r\n        }\r\n\r\n            .btn-link:hover,\r\n            .btn-link:focus {\r\n                color: #23527c;\r\n                text-decoration: underline;\r\n                background-color: transparent;\r\n            }\r\n\r\n            .btn-link[disabled]:hover,\r\n            fieldset[disabled] .btn-link:hover,\r\n            .btn-link[disabled]:focus,\r\n            fieldset[disabled] .btn-link:focus {\r\n                color: #777;\r\n                text-decoration: none;\r\n            }\r\n\r\n.btn-lg,\r\n.btn-group-lg > .btn {\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n    border-radius: 6px;\r\n}\r\n\r\n.btn-sm,\r\n.btn-group-sm > .btn {\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\n.btn-xs,\r\n.btn-group-xs > .btn {\r\n    padding: 1px 5px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\n.btn-block {\r\n    display: block;\r\n    width: 100%;\r\n}\r\n\r\n    .btn-block + .btn-block {\r\n        margin-top: 5px;\r\n    }\r\n\r\ninput[type=\"submit\"].btn-block,\r\ninput[type=\"reset\"].btn-block,\r\ninput[type=\"button\"].btn-block {\r\n    width: 100%;\r\n}\r\n\r\n.fade {\r\n    opacity: 0;\r\n    -webkit-transition: opacity .15s linear;\r\n    -o-transition: opacity .15s linear;\r\n    transition: opacity .15s linear;\r\n}\r\n\r\n    .fade.in {\r\n        opacity: 1;\r\n    }\r\n\r\n.collapse {\r\n    display: none;\r\n}\r\n\r\n    .collapse.in {\r\n        display: block;\r\n    }\r\n\r\ntr.collapse.in {\r\n    display: table-row;\r\n}\r\n\r\ntbody.collapse.in {\r\n    display: table-row-group;\r\n}\r\n\r\n.collapsing {\r\n    position: relative;\r\n    height: 0;\r\n    overflow: hidden;\r\n    -webkit-transition-timing-function: ease;\r\n    -o-transition-timing-function: ease;\r\n    transition-timing-function: ease;\r\n    -webkit-transition-duration: .35s;\r\n    -o-transition-duration: .35s;\r\n    transition-duration: .35s;\r\n    -webkit-transition-property: height, visibility;\r\n    -o-transition-property: height, visibility;\r\n    transition-property: height, visibility;\r\n}\r\n\r\n.caret {\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    margin-left: 2px;\r\n    vertical-align: middle;\r\n    border-top: 4px dashed;\r\n    border-top: 4px solid \\9;\r\n    border-right: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n}\r\n\r\n.dropup,\r\n.dropdown {\r\n    position: relative;\r\n}\r\n\r\n.dropdown-toggle:focus {\r\n    outline: 0;\r\n}\r\n\r\n.dropdown-\r\n {\r\n    position: absolute;\r\n    top: 100%;\r\n    left: 0;\r\n    z-index: 1000;\r\n    display: none;\r\n    float: left;\r\n    min-width: 160px;\r\n    padding: 5px 0;\r\n    margin: 2px 0 0;\r\n    font-size: 14px;\r\n    text-align: left;\r\n    list-style: none;\r\n    background-color: #fff;\r\n    -webkit-background-clip: padding-box;\r\n    background-clip: padding-box;\r\n    border: 1px solid #ccc;\r\n    border: 1px solid rgba(0, 0, 0, .15);\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);\r\n    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);\r\n}\r\n\r\n    .dropdown-menu.pull-right {\r\n        right: 0;\r\n        left: auto;\r\n    }\r\n\r\n    .dropdown-menu .divider {\r\n        height: 1px;\r\n        margin: 9px 0;\r\n        overflow: hidden;\r\n        background-color: #e5e5e5;\r\n    }\r\n\r\n    .dropdown-menu > li > a {\r\n        display: block;\r\n        padding: 3px 20px;\r\n        clear: both;\r\n        font-weight: normal;\r\n        line-height: 1.42857143;\r\n        color: #333;\r\n        white-space: nowrap;\r\n    }\r\n\r\n        .dropdown-menu > li > a:hover,\r\n        .dropdown-menu > li > a:focus {\r\n            color: #262626;\r\n            text-decoration: none;\r\n            background-color: #f5f5f5;\r\n        }\r\n\r\n    .dropdown-menu > .active > a,\r\n    .dropdown-menu > .active > a:hover,\r\n    .dropdown-menu > .active > a:focus {\r\n        color: #fff;\r\n        text-decoration: none;\r\n        background-color: #337ab7;\r\n        outline: 0;\r\n    }\r\n\r\n    .dropdown-menu > .disabled > a,\r\n    .dropdown-menu > .disabled > a:hover,\r\n    .dropdown-menu > .disabled > a:focus {\r\n        color: #777;\r\n    }\r\n\r\n        .dropdown-menu > .disabled > a:hover,\r\n        .dropdown-menu > .disabled > a:focus {\r\n            text-decoration: none;\r\n            cursor: not-allowed;\r\n            background-color: transparent;\r\n            background-image: none;\r\n            filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\r\n        }\r\n\r\n.open > .dropdown-menu {\r\n    display: block;\r\n}\r\n\r\n.open > a {\r\n    outline: 0;\r\n}\r\n\r\n.dropdown-menu-right {\r\n    right: 0;\r\n    left: auto;\r\n}\r\n\r\n.dropdown-menu-left {\r\n    right: auto;\r\n    left: 0;\r\n}\r\n\r\n.dropdown-header {\r\n    display: block;\r\n    padding: 3px 20px;\r\n    font-size: 12px;\r\n    line-height: 1.42857143;\r\n    color: #777;\r\n    white-space: nowrap;\r\n}\r\n\r\n.dropdown-backdrop {\r\n    position: fixed;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    z-index: 990;\r\n}\r\n\r\n.pull-right > .dropdown-menu {\r\n    right: 0;\r\n    left: auto;\r\n}\r\n\r\n.dropup .caret,\r\n.navbar-fixed-bottom .dropdown .caret {\r\n    content: \"\";\r\n    border-top: 0;\r\n    border-bottom: 4px dashed;\r\n    border-bottom: 4px solid \\9;\r\n}\r\n\r\n.dropup .dropdown-menu,\r\n.navbar-fixed-bottom .dropdown .dropdown-menu {\r\n    top: auto;\r\n    bottom: 100%;\r\n    margin-bottom: 2px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-right .dropdown-menu {\r\n        right: 0;\r\n        left: auto;\r\n    }\r\n\r\n    .navbar-right .dropdown-menu-left {\r\n        right: auto;\r\n        left: 0;\r\n    }\r\n}\r\n\r\n.btn-group,\r\n.btn-group-vertical {\r\n    position: relative;\r\n    display: inline-block;\r\n    vertical-align: middle;\r\n}\r\n\r\n    .btn-group > .btn,\r\n    .btn-group-vertical > .btn {\r\n        position: relative;\r\n        float: left;\r\n    }\r\n\r\n        .btn-group > .btn:hover,\r\n        .btn-group-vertical > .btn:hover,\r\n        .btn-group > .btn:focus,\r\n        .btn-group-vertical > .btn:focus,\r\n        .btn-group > .btn:active,\r\n        .btn-group-vertical > .btn:active,\r\n        .btn-group > .btn.active,\r\n        .btn-group-vertical > .btn.active {\r\n            z-index: 2;\r\n        }\r\n\r\n    .btn-group .btn + .btn,\r\n    .btn-group .btn + .btn-group,\r\n    .btn-group .btn-group + .btn,\r\n    .btn-group .btn-group + .btn-group {\r\n        margin-left: -1px;\r\n    }\r\n\r\n.btn-toolbar {\r\n    margin-left: -5px;\r\n}\r\n\r\n    .btn-toolbar .btn,\r\n    .btn-toolbar .btn-group,\r\n    .btn-toolbar .input-group {\r\n        float: left;\r\n    }\r\n\r\n    .btn-toolbar > .btn,\r\n    .btn-toolbar > .btn-group,\r\n    .btn-toolbar > .input-group {\r\n        margin-left: 5px;\r\n    }\r\n\r\n.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {\r\n    border-radius: 0;\r\n}\r\n\r\n.btn-group > .btn:first-child {\r\n    margin-left: 0;\r\n}\r\n\r\n    .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {\r\n        border-top-right-radius: 0;\r\n        border-bottom-right-radius: 0;\r\n    }\r\n\r\n.btn-group > .btn:last-child:not(:first-child),\r\n.btn-group > .dropdown-toggle:not(:first-child) {\r\n    border-top-left-radius: 0;\r\n    border-bottom-left-radius: 0;\r\n}\r\n\r\n.btn-group > .btn-group {\r\n    float: left;\r\n}\r\n\r\n    .btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {\r\n        border-radius: 0;\r\n    }\r\n\r\n    .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,\r\n    .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {\r\n        border-top-right-radius: 0;\r\n        border-bottom-right-radius: 0;\r\n    }\r\n\r\n    .btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {\r\n        border-top-left-radius: 0;\r\n        border-bottom-left-radius: 0;\r\n    }\r\n\r\n.btn-group .dropdown-toggle:active,\r\n.btn-group.open .dropdown-toggle {\r\n    outline: 0;\r\n}\r\n\r\n.btn-group > .btn + .dropdown-toggle {\r\n    padding-right: 8px;\r\n    padding-left: 8px;\r\n}\r\n\r\n.btn-group > .btn-lg + .dropdown-toggle {\r\n    padding-right: 12px;\r\n    padding-left: 12px;\r\n}\r\n\r\n.btn-group.open .dropdown-toggle {\r\n    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);\r\n    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);\r\n}\r\n\r\n    .btn-group.open .dropdown-toggle.btn-link {\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\n.btn .caret {\r\n    margin-left: 0;\r\n}\r\n\r\n.btn-lg .caret {\r\n    border-width: 5px 5px 0;\r\n    border-bottom-width: 0;\r\n}\r\n\r\n.dropup .btn-lg .caret {\r\n    border-width: 0 5px 5px;\r\n}\r\n\r\n.btn-group-vertical > .btn,\r\n.btn-group-vertical > .btn-group,\r\n.btn-group-vertical > .btn-group > .btn {\r\n    display: block;\r\n    float: none;\r\n    width: 100%;\r\n    max-width: 100%;\r\n}\r\n\r\n    .btn-group-vertical > .btn-group > .btn {\r\n        float: none;\r\n    }\r\n\r\n    .btn-group-vertical > .btn + .btn,\r\n    .btn-group-vertical > .btn + .btn-group,\r\n    .btn-group-vertical > .btn-group + .btn,\r\n    .btn-group-vertical > .btn-group + .btn-group {\r\n        margin-top: -1px;\r\n        margin-left: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn:not(:first-child):not(:last-child) {\r\n        border-radius: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn:first-child:not(:last-child) {\r\n        border-top-left-radius: 4px;\r\n        border-top-right-radius: 4px;\r\n        border-bottom-right-radius: 0;\r\n        border-bottom-left-radius: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn:last-child:not(:first-child) {\r\n        border-top-left-radius: 0;\r\n        border-top-right-radius: 0;\r\n        border-bottom-right-radius: 4px;\r\n        border-bottom-left-radius: 4px;\r\n    }\r\n\r\n    .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {\r\n        border-radius: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn-group:first-child:not(:last-child) > .btn:last-child,\r\n    .btn-group-vertical > .btn-group:first-child:not(:last-child) > .dropdown-toggle {\r\n        border-bottom-right-radius: 0;\r\n        border-bottom-left-radius: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child {\r\n        border-top-left-radius: 0;\r\n        border-top-right-radius: 0;\r\n    }\r\n\r\n.btn-group-justified {\r\n    display: table;\r\n    width: 100%;\r\n    table-layout: fixed;\r\n    border-collapse: separate;\r\n}\r\n\r\n    .btn-group-justified > .btn,\r\n    .btn-group-justified > .btn-group {\r\n        display: table-cell;\r\n        float: none;\r\n        width: 1%;\r\n    }\r\n\r\n        .btn-group-justified > .btn-group .btn {\r\n            width: 100%;\r\n        }\r\n\r\n        .btn-group-justified > .btn-group .dropdown-menu {\r\n            left: auto;\r\n        }\r\n\r\n[data-toggle=\"buttons\"] > .btn input[type=\"radio\"],\r\n[data-toggle=\"buttons\"] > .btn-group > .btn input[type=\"radio\"],\r\n[data-toggle=\"buttons\"] > .btn input[type=\"checkbox\"],\r\n[data-toggle=\"buttons\"] > .btn-group > .btn input[type=\"checkbox\"] {\r\n    position: absolute;\r\n    clip: rect(0, 0, 0, 0);\r\n    pointer-events: none;\r\n}\r\n\r\n.input-group {\r\n    position: relative;\r\n    display: table;\r\n    border-collapse: separate;\r\n}\r\n\r\n    .input-group[class*=\"col-\"] {\r\n        float: none;\r\n        padding-right: 0;\r\n        padding-left: 0;\r\n    }\r\n\r\n    .input-group .form-control {\r\n        position: relative;\r\n        z-index: 2;\r\n        float: left;\r\n        width: 100%;\r\n        margin-bottom: 0;\r\n    }\r\n\r\n        .input-group .form-control:focus {\r\n            z-index: 3;\r\n        }\r\n\r\n.input-group-lg > .form-control,\r\n.input-group-lg > .input-group-addon,\r\n.input-group-lg > .input-group-btn > .btn {\r\n    height: 46px;\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n    border-radius: 6px;\r\n}\r\n\r\nselect.input-group-lg > .form-control,\r\nselect.input-group-lg > .input-group-addon,\r\nselect.input-group-lg > .input-group-btn > .btn {\r\n    height: 46px;\r\n    line-height: 46px;\r\n}\r\n\r\ntextarea.input-group-lg > .form-control,\r\ntextarea.input-group-lg > .input-group-addon,\r\ntextarea.input-group-lg > .input-group-btn > .btn,\r\nselect[multiple].input-group-lg > .form-control,\r\nselect[multiple].input-group-lg > .input-group-addon,\r\nselect[multiple].input-group-lg > .input-group-btn > .btn {\r\n    height: auto;\r\n}\r\n\r\n.input-group-sm > .form-control,\r\n.input-group-sm > .input-group-addon,\r\n.input-group-sm > .input-group-btn > .btn {\r\n    height: 30px;\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\nselect.input-group-sm > .form-control,\r\nselect.input-group-sm > .input-group-addon,\r\nselect.input-group-sm > .input-group-btn > .btn {\r\n    height: 30px;\r\n    line-height: 30px;\r\n}\r\n\r\ntextarea.input-group-sm > .form-control,\r\ntextarea.input-group-sm > .input-group-addon,\r\ntextarea.input-group-sm > .input-group-btn > .btn,\r\nselect[multiple].input-group-sm > .form-control,\r\nselect[multiple].input-group-sm > .input-group-addon,\r\nselect[multiple].input-group-sm > .input-group-btn > .btn {\r\n    height: auto;\r\n}\r\n\r\n.input-group-addon,\r\n.input-group-btn,\r\n.input-group .form-control {\r\n    display: table-cell;\r\n}\r\n\r\n    .input-group-addon:not(:first-child):not(:last-child),\r\n    .input-group-btn:not(:first-child):not(:last-child),\r\n    .input-group .form-control:not(:first-child):not(:last-child) {\r\n        border-radius: 0;\r\n    }\r\n\r\n.input-group-addon,\r\n.input-group-btn {\r\n    width: 1%;\r\n    white-space: nowrap;\r\n    vertical-align: middle;\r\n}\r\n\r\n.input-group-addon {\r\n    padding: 6px 12px;\r\n    font-size: 14px;\r\n    font-weight: normal;\r\n    line-height: 1;\r\n    color: #555;\r\n    text-align: center;\r\n    background-color: #eee;\r\n    border: 1px solid #ccc;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .input-group-addon.input-sm {\r\n        padding: 5px 10px;\r\n        font-size: 12px;\r\n        border-radius: 3px;\r\n    }\r\n\r\n    .input-group-addon.input-lg {\r\n        padding: 10px 16px;\r\n        font-size: 18px;\r\n        border-radius: 6px;\r\n    }\r\n\r\n    .input-group-addon input[type=\"radio\"],\r\n    .input-group-addon input[type=\"checkbox\"] {\r\n        margin-top: 0;\r\n    }\r\n\r\n    .input-group .form-control:first-child,\r\n    .input-group-addon:first-child,\r\n    .input-group-btn:first-child > .btn,\r\n    .input-group-btn:first-child > .btn-group > .btn,\r\n    .input-group-btn:first-child > .dropdown-toggle,\r\n    .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),\r\n    .input-group-btn:last-child > .btn-group:not(:last-child) > .btn {\r\n        border-top-right-radius: 0;\r\n        border-bottom-right-radius: 0;\r\n    }\r\n\r\n    .input-group-addon:first-child {\r\n        border-right: 0;\r\n    }\r\n\r\n    .input-group .form-control:last-child,\r\n    .input-group-addon:last-child,\r\n    .input-group-btn:last-child > .btn,\r\n    .input-group-btn:last-child > .btn-group > .btn,\r\n    .input-group-btn:last-child > .dropdown-toggle,\r\n    .input-group-btn:first-child > .btn:not(:first-child),\r\n    .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {\r\n        border-top-left-radius: 0;\r\n        border-bottom-left-radius: 0;\r\n    }\r\n\r\n    .input-group-addon:last-child {\r\n        border-left: 0;\r\n    }\r\n\r\n.input-group-btn {\r\n    position: relative;\r\n    font-size: 0;\r\n    white-space: nowrap;\r\n}\r\n\r\n    .input-group-btn > .btn {\r\n        position: relative;\r\n    }\r\n\r\n        .input-group-btn > .btn + .btn {\r\n            margin-left: -1px;\r\n        }\r\n\r\n        .input-group-btn > .btn:hover,\r\n        .input-group-btn > .btn:focus,\r\n        .input-group-btn > .btn:active {\r\n            z-index: 2;\r\n        }\r\n\r\n    .input-group-btn:first-child > .btn,\r\n    .input-group-btn:first-child > .btn-group {\r\n        margin-right: -1px;\r\n    }\r\n\r\n    .input-group-btn:last-child > .btn,\r\n    .input-group-btn:last-child > .btn-group {\r\n        z-index: 2;\r\n        margin-left: -1px;\r\n    }\r\n\r\n.nav {\r\n    padding-left: 0;\r\n    margin-bottom: 0;\r\n    list-style: none;\r\n}\r\n\r\n    .nav > li {\r\n        position: relative;\r\n        display: block;\r\n    }\r\n\r\n        .nav > li > a {\r\n            position: relative;\r\n            display: block;\r\n            padding: 10px 15px;\r\n        }\r\n\r\n            .nav > li > a:hover,\r\n            .nav > li > a:focus {\r\n                text-decoration: none;\r\n                background-color: #eee;\r\n            }\r\n\r\n        .nav > li.disabled > a {\r\n            color: #777;\r\n        }\r\n\r\n            .nav > li.disabled > a:hover,\r\n            .nav > li.disabled > a:focus {\r\n                color: #777;\r\n                text-decoration: none;\r\n                cursor: not-allowed;\r\n                background-color: transparent;\r\n            }\r\n\r\n    .nav .open > a,\r\n    .nav .open > a:hover,\r\n    .nav .open > a:focus {\r\n        background-color: #eee;\r\n        border-color: #337ab7;\r\n    }\r\n\r\n    .nav .nav-divider {\r\n        height: 1px;\r\n        margin: 9px 0;\r\n        overflow: hidden;\r\n        background-color: #e5e5e5;\r\n    }\r\n\r\n    .nav > li > a > img {\r\n        max-width: none;\r\n    }\r\n\r\n.nav-tabs {\r\n    border-bottom: 1px solid #ddd;\r\n}\r\n\r\n    .nav-tabs > li {\r\n        float: left;\r\n        margin-bottom: -1px;\r\n    }\r\n\r\n        .nav-tabs > li > a {\r\n            margin-right: 2px;\r\n            line-height: 1.42857143;\r\n            border: 1px solid transparent;\r\n            border-radius: 4px 4px 0 0;\r\n        }\r\n\r\n            .nav-tabs > li > a:hover {\r\n                border-color: #eee #eee #ddd;\r\n            }\r\n\r\n        .nav-tabs > li.active > a,\r\n        .nav-tabs > li.active > a:hover,\r\n        .nav-tabs > li.active > a:focus {\r\n            color: #555;\r\n            cursor: default;\r\n            background-color: #fff;\r\n            border: 1px solid #ddd;\r\n            border-bottom-color: transparent;\r\n        }\r\n\r\n    .nav-tabs.nav-justified {\r\n        width: 100%;\r\n        border-bottom: 0;\r\n    }\r\n\r\n        .nav-tabs.nav-justified > li {\r\n            float: none;\r\n        }\r\n\r\n            .nav-tabs.nav-justified > li > a {\r\n                margin-bottom: 5px;\r\n                text-align: center;\r\n            }\r\n\r\n        .nav-tabs.nav-justified > .dropdown .dropdown-menu {\r\n            top: auto;\r\n            left: auto;\r\n        }\r\n\r\n@media (min-width: 768px) {\r\n    .nav-tabs.nav-justified > li {\r\n        display: table-cell;\r\n        width: 1%;\r\n    }\r\n\r\n        .nav-tabs.nav-justified > li > a {\r\n            margin-bottom: 0;\r\n        }\r\n}\r\n\r\n.nav-tabs.nav-justified > li > a {\r\n    margin-right: 0;\r\n    border-radius: 4px;\r\n}\r\n\r\n.nav-tabs.nav-justified > .active > a,\r\n.nav-tabs.nav-justified > .active > a:hover,\r\n.nav-tabs.nav-justified > .active > a:focus {\r\n    border: 1px solid #ddd;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .nav-tabs.nav-justified > li > a {\r\n        border-bottom: 1px solid #ddd;\r\n        border-radius: 4px 4px 0 0;\r\n    }\r\n\r\n    .nav-tabs.nav-justified > .active > a,\r\n    .nav-tabs.nav-justified > .active > a:hover,\r\n    .nav-tabs.nav-justified > .active > a:focus {\r\n        border-bottom-color: #fff;\r\n    }\r\n}\r\n\r\n.nav-pills > li {\r\n    float: left;\r\n}\r\n\r\n    .nav-pills > li > a {\r\n        border-radius: 4px;\r\n    }\r\n\r\n    .nav-pills > li + li {\r\n        margin-left: 2px;\r\n    }\r\n\r\n    .nav-pills > li.active > a,\r\n    .nav-pills > li.active > a:hover,\r\n    .nav-pills > li.active > a:focus {\r\n        color: #fff;\r\n        background-color: #337ab7;\r\n    }\r\n\r\n.nav-stacked > li {\r\n    float: none;\r\n}\r\n\r\n    .nav-stacked > li + li {\r\n        margin-top: 2px;\r\n        margin-left: 0;\r\n    }\r\n\r\n.nav-justified {\r\n    width: 100%;\r\n}\r\n\r\n    .nav-justified > li {\r\n        float: none;\r\n    }\r\n\r\n        .nav-justified > li > a {\r\n            margin-bottom: 5px;\r\n            text-align: center;\r\n        }\r\n\r\n    .nav-justified > .dropdown .dropdown-menu {\r\n        top: auto;\r\n        left: auto;\r\n    }\r\n\r\n@media (min-width: 768px) {\r\n    .nav-justified > li {\r\n        display: table-cell;\r\n        width: 1%;\r\n    }\r\n\r\n        .nav-justified > li > a {\r\n            margin-bottom: 0;\r\n        }\r\n}\r\n\r\n.nav-tabs-justified {\r\n    border-bottom: 0;\r\n}\r\n\r\n    .nav-tabs-justified > li > a {\r\n        margin-right: 0;\r\n        border-radius: 4px;\r\n    }\r\n\r\n    .nav-tabs-justified > .active > a,\r\n    .nav-tabs-justified > .active > a:hover,\r\n    .nav-tabs-justified > .active > a:focus {\r\n        border: 1px solid #ddd;\r\n    }\r\n\r\n@media (min-width: 768px) {\r\n    .nav-tabs-justified > li > a {\r\n        border-bottom: 1px solid #ddd;\r\n        border-radius: 4px 4px 0 0;\r\n    }\r\n\r\n    .nav-tabs-justified > .active > a,\r\n    .nav-tabs-justified > .active > a:hover,\r\n    .nav-tabs-justified > .active > a:focus {\r\n        border-bottom-color: #fff;\r\n    }\r\n}\r\n\r\n.tab-content > .tab-pane {\r\n    display: none;\r\n}\r\n\r\n.tab-content > .active {\r\n    display: block;\r\n}\r\n\r\n.nav-tabs .dropdown-menu {\r\n    margin-top: -1px;\r\n    border-top-left-radius: 0;\r\n    border-top-right-radius: 0;\r\n}\r\n\r\n.navbar {\r\n    position: relative;\r\n    min-height: 50px;\r\n    margin-bottom: 20px;\r\n    border: 1px solid transparent;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar {\r\n        border-radius: 4px;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-header {\r\n        float: left;\r\n    }\r\n}\r\n\r\n.navbar-collapse {\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n    overflow-x: visible;\r\n    -webkit-overflow-scrolling: touch;\r\n    border-top: 1px solid transparent;\r\n    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);\r\n    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);\r\n}\r\n\r\n    .navbar-collapse.in {\r\n        overflow-y: auto;\r\n    }\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-collapse {\r\n        width: auto;\r\n        border-top: 0;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\n        .navbar-collapse.collapse {\r\n            display: block !important;\r\n            height: auto !important;\r\n            padding-bottom: 0;\r\n            overflow: visible !important;\r\n        }\r\n\r\n        .navbar-collapse.in {\r\n            overflow-y: visible;\r\n        }\r\n\r\n    .navbar-fixed-top .navbar-collapse,\r\n    .navbar-static-top .navbar-collapse,\r\n    .navbar-fixed-bottom .navbar-collapse {\r\n        padding-right: 0;\r\n        padding-left: 0;\r\n    }\r\n}\r\n\r\n.navbar-fixed-top .navbar-collapse,\r\n.navbar-fixed-bottom .navbar-collapse {\r\n    max-height: 340px;\r\n}\r\n\r\n@media (max-device-width: 480px) and (orientation: landscape) {\r\n    .navbar-fixed-top .navbar-collapse,\r\n    .navbar-fixed-bottom .navbar-collapse {\r\n        max-height: 200px;\r\n    }\r\n}\r\n\r\n.container > .navbar-header,\r\n.container-fluid > .navbar-header,\r\n.container > .navbar-collapse,\r\n.container-fluid > .navbar-collapse {\r\n    margin-right: -15px;\r\n    margin-left: -15px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .container > .navbar-header,\r\n    .container-fluid > .navbar-header,\r\n    .container > .navbar-collapse,\r\n    .container-fluid > .navbar-collapse {\r\n        margin-right: 0;\r\n        margin-left: 0;\r\n    }\r\n}\r\n\r\n.navbar-static-top {\r\n    z-index: 1000;\r\n    border-width: 0 0 1px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-static-top {\r\n        border-radius: 0;\r\n    }\r\n}\r\n\r\n.navbar-fixed-top,\r\n.navbar-fixed-bottom {\r\n    position: fixed;\r\n    right: 0;\r\n    left: 0;\r\n    z-index: 1030;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-fixed-top,\r\n    .navbar-fixed-bottom {\r\n        border-radius: 0;\r\n    }\r\n}\r\n\r\n.navbar-fixed-top {\r\n    top: 0;\r\n    border-width: 0 0 1px;\r\n}\r\n\r\n.navbar-fixed-bottom {\r\n    bottom: 0;\r\n    margin-bottom: 0;\r\n    border-width: 1px 0 0;\r\n}\r\n\r\n.navbar-brand {\r\n    float: left;\r\n    height: 50px;\r\n    padding: 15px 15px;\r\n    font-size: 18px;\r\n    line-height: 20px;\r\n}\r\n\r\n    .navbar-brand:hover,\r\n    .navbar-brand:focus {\r\n        text-decoration: none;\r\n    }\r\n\r\n    .navbar-brand > img {\r\n        display: block;\r\n    }\r\n\r\n@media (min-width: 768px) {\r\n    .navbar > .container .navbar-brand,\r\n    .navbar > .container-fluid .navbar-brand {\r\n        margin-left: -15px;\r\n    }\r\n}\r\n\r\n.navbar-toggle {\r\n    position: relative;\r\n    float: right;\r\n    padding: 9px 10px;\r\n    margin-top: 8px;\r\n    margin-right: 15px;\r\n    margin-bottom: 8px;\r\n    background-color: transparent;\r\n    background-image: none;\r\n    border: 1px solid transparent;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .navbar-toggle:focus {\r\n        outline: 0;\r\n    }\r\n\r\n    .navbar-toggle .icon-bar {\r\n        display: block;\r\n        width: 22px;\r\n        height: 2px;\r\n        border-radius: 1px;\r\n    }\r\n\r\n        .navbar-toggle .icon-bar + .icon-bar {\r\n            margin-top: 4px;\r\n        }\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-toggle {\r\n        display: none;\r\n    }\r\n}\r\n\r\n.navbar-nav {\r\n    margin: 7.5px -15px;\r\n}\r\n\r\n    .navbar-nav > li > a {\r\n        padding-top: 10px;\r\n        padding-bottom: 10px;\r\n        line-height: 20px;\r\n    }\r\n\r\n@media (max-width: 767px) {\r\n    .navbar-nav .open .dropdown-menu {\r\n        position: static;\r\n        float: none;\r\n        width: auto;\r\n        margin-top: 0;\r\n        background-color: transparent;\r\n        border: 0;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\n        .navbar-nav .open .dropdown-menu > li > a,\r\n        .navbar-nav .open .dropdown-menu .dropdown-header {\r\n            padding: 5px 15px 5px 25px;\r\n        }\r\n\r\n        .navbar-nav .open .dropdown-menu > li > a {\r\n            line-height: 20px;\r\n        }\r\n\r\n            .navbar-nav .open .dropdown-menu > li > a:hover,\r\n            .navbar-nav .open .dropdown-menu > li > a:focus {\r\n                background-image: none;\r\n            }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-nav {\r\n        float: left;\r\n        margin: 0;\r\n    }\r\n\r\n        .navbar-nav > li {\r\n            float: left;\r\n        }\r\n\r\n            .navbar-nav > li > a {\r\n                padding-top: 15px;\r\n                padding-bottom: 15px;\r\n            }\r\n}\r\n\r\n.navbar-form {\r\n    padding: 10px 15px;\r\n    margin-top: 8px;\r\n    margin-right: -15px;\r\n    margin-bottom: 8px;\r\n    margin-left: -15px;\r\n    border-top: 1px solid transparent;\r\n    border-bottom: 1px solid transparent;\r\n    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1);\r\n    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1);\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-form .form-group {\r\n        display: inline-block;\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .navbar-form .form-control {\r\n        display: inline-block;\r\n        width: auto;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .navbar-form .form-control-static {\r\n        display: inline-block;\r\n    }\r\n\r\n    .navbar-form .input-group {\r\n        display: inline-table;\r\n        vertical-align: middle;\r\n    }\r\n\r\n        .navbar-form .input-group .input-group-addon,\r\n        .navbar-form .input-group .input-group-btn,\r\n        .navbar-form .input-group .form-control {\r\n            width: auto;\r\n        }\r\n\r\n        .navbar-form .input-group > .form-control {\r\n            width: 100%;\r\n        }\r\n\r\n    .navbar-form .control-label {\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .navbar-form .radio,\r\n    .navbar-form .checkbox {\r\n        display: inline-block;\r\n        margin-top: 0;\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n        .navbar-form .radio label,\r\n        .navbar-form .checkbox label {\r\n            padding-left: 0;\r\n        }\r\n\r\n        .navbar-form .radio input[type=\"radio\"],\r\n        .navbar-form .checkbox input[type=\"checkbox\"] {\r\n            position: relative;\r\n            margin-left: 0;\r\n        }\r\n\r\n    .navbar-form .has-feedback .form-control-feedback {\r\n        top: 0;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .navbar-form .form-group {\r\n        margin-bottom: 5px;\r\n    }\r\n\r\n        .navbar-form .form-group:last-child {\r\n            margin-bottom: 0;\r\n        }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-form {\r\n        width: auto;\r\n        padding-top: 0;\r\n        padding-bottom: 0;\r\n        margin-right: 0;\r\n        margin-left: 0;\r\n        border: 0;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n}\r\n\r\n.navbar-nav > li > .dropdown-menu {\r\n    margin-top: 0;\r\n    border-top-left-radius: 0;\r\n    border-top-right-radius: 0;\r\n}\r\n\r\n.navbar-fixed-bottom .navbar-nav > li > .dropdown-menu {\r\n    margin-bottom: 0;\r\n    border-top-left-radius: 4px;\r\n    border-top-right-radius: 4px;\r\n    border-bottom-right-radius: 0;\r\n    border-bottom-left-radius: 0;\r\n}\r\n\r\n.navbar-btn {\r\n    margin-top: 8px;\r\n    margin-bottom: 8px;\r\n}\r\n\r\n    .navbar-btn.btn-sm {\r\n        margin-top: 10px;\r\n        margin-bottom: 10px;\r\n    }\r\n\r\n    .navbar-btn.btn-xs {\r\n        margin-top: 14px;\r\n        margin-bottom: 14px;\r\n    }\r\n\r\n.navbar-text {\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-text {\r\n        float: left;\r\n        margin-right: 15px;\r\n        margin-left: 15px;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-left {\r\n        float: left !important;\r\n    }\r\n\r\n    .navbar-right {\r\n        float: right !important;\r\n        margin-right: -15px;\r\n    }\r\n\r\n        .navbar-right ~ .navbar-right {\r\n            margin-right: 0;\r\n        }\r\n}\r\n\r\n.navbar-default {\r\n    background-color: #f8f8f8;\r\n    border-color: #e7e7e7;\r\n}\r\n\r\n    .navbar-default .navbar-brand {\r\n        color: #777;\r\n    }\r\n\r\n        .navbar-default .navbar-brand:hover,\r\n        .navbar-default .navbar-brand:focus {\r\n            color: #5e5e5e;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-default .navbar-text {\r\n        color: #777;\r\n    }\r\n\r\n    .navbar-default .navbar-nav > li > a {\r\n        color: #777;\r\n    }\r\n\r\n        .navbar-default .navbar-nav > li > a:hover,\r\n        .navbar-default .navbar-nav > li > a:focus {\r\n            color: #333;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-default .navbar-nav > .active > a,\r\n    .navbar-default .navbar-nav > .active > a:hover,\r\n    .navbar-default .navbar-nav > .active > a:focus {\r\n        color: #555;\r\n        background-color: #e7e7e7;\r\n    }\r\n\r\n    .navbar-default .navbar-nav > .disabled > a,\r\n    .navbar-default .navbar-nav > .disabled > a:hover,\r\n    .navbar-default .navbar-nav > .disabled > a:focus {\r\n        color: #ccc;\r\n        background-color: transparent;\r\n    }\r\n\r\n    .navbar-default .navbar-toggle {\r\n        border-color: #ddd;\r\n    }\r\n\r\n        .navbar-default .navbar-toggle:hover,\r\n        .navbar-default .navbar-toggle:focus {\r\n            background-color: #ddd;\r\n        }\r\n\r\n        .navbar-default .navbar-toggle .icon-bar {\r\n            background-color: #888;\r\n        }\r\n\r\n    .navbar-default .navbar-collapse,\r\n    .navbar-default .navbar-form {\r\n        border-color: #e7e7e7;\r\n    }\r\n\r\n    .navbar-default .navbar-nav > .open > a,\r\n    .navbar-default .navbar-nav > .open > a:hover,\r\n    .navbar-default .navbar-nav > .open > a:focus {\r\n        color: #555;\r\n        background-color: #e7e7e7;\r\n    }\r\n\r\n@media (max-width: 767px) {\r\n    .navbar-default .navbar-nav .open .dropdown-menu > li > a {\r\n        color: #777;\r\n    }\r\n\r\n        .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,\r\n        .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {\r\n            color: #333;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .active > a,\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {\r\n        color: #555;\r\n        background-color: #e7e7e7;\r\n    }\r\n\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {\r\n        color: #ccc;\r\n        background-color: transparent;\r\n    }\r\n}\r\n\r\n.navbar-default .navbar-link {\r\n    color: #777;\r\n}\r\n\r\n    .navbar-default .navbar-link:hover {\r\n        color: #333;\r\n    }\r\n\r\n.navbar-default .btn-link {\r\n    color: #777;\r\n}\r\n\r\n    .navbar-default .btn-link:hover,\r\n    .navbar-default .btn-link:focus {\r\n        color: #333;\r\n    }\r\n\r\n    .navbar-default .btn-link[disabled]:hover,\r\n    fieldset[disabled] .navbar-default .btn-link:hover,\r\n    .navbar-default .btn-link[disabled]:focus,\r\n    fieldset[disabled] .navbar-default .btn-link:focus {\r\n        color: #ccc;\r\n    }\r\n\r\n.navbar-inverse {\r\n    background-color: #222;\r\n    border-color: #080808;\r\n}\r\n\r\n    .navbar-inverse .navbar-brand {\r\n        color: #9d9d9d;\r\n    }\r\n\r\n        .navbar-inverse .navbar-brand:hover,\r\n        .navbar-inverse .navbar-brand:focus {\r\n            color: #fff;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-inverse .navbar-text {\r\n        color: #9d9d9d;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav > li > a {\r\n        color: #9d9d9d;\r\n    }\r\n\r\n        .navbar-inverse .navbar-nav > li > a:hover,\r\n        .navbar-inverse .navbar-nav > li > a:focus {\r\n            color: #fff;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-inverse .navbar-nav > .active > a,\r\n    .navbar-inverse .navbar-nav > .active > a:hover,\r\n    .navbar-inverse .navbar-nav > .active > a:focus {\r\n        color: #fff;\r\n        background-color: #080808;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav > .disabled > a,\r\n    .navbar-inverse .navbar-nav > .disabled > a:hover,\r\n    .navbar-inverse .navbar-nav > .disabled > a:focus {\r\n        color: #444;\r\n        background-color: transparent;\r\n    }\r\n\r\n    .navbar-inverse .navbar-toggle {\r\n        border-color: #333;\r\n    }\r\n\r\n        .navbar-inverse .navbar-toggle:hover,\r\n        .navbar-inverse .navbar-toggle:focus {\r\n            background-color: #333;\r\n        }\r\n\r\n        .navbar-inverse .navbar-toggle .icon-bar {\r\n            background-color: #fff;\r\n        }\r\n\r\n    .navbar-inverse .navbar-collapse,\r\n    .navbar-inverse .navbar-form {\r\n        border-color: #101010;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav > .open > a,\r\n    .navbar-inverse .navbar-nav > .open > a:hover,\r\n    .navbar-inverse .navbar-nav > .open > a:focus {\r\n        color: #fff;\r\n        background-color: #080808;\r\n    }\r\n\r\n@media (max-width: 767px) {\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {\r\n        border-color: #080808;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu .divider {\r\n        background-color: #080808;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {\r\n        color: #9d9d9d;\r\n    }\r\n\r\n        .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,\r\n        .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {\r\n            color: #fff;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a,\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {\r\n        color: #fff;\r\n        background-color: #080808;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover,\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus {\r\n        color: #444;\r\n        background-color: transparent;\r\n    }\r\n}\r\n\r\n.navbar-inverse .navbar-link {\r\n    color: #9d9d9d;\r\n}\r\n\r\n    .navbar-inverse .navbar-link:hover {\r\n        color: #fff;\r\n    }\r\n\r\n.navbar-inverse .btn-link {\r\n    color: #9d9d9d;\r\n}\r\n\r\n    .navbar-inverse .btn-link:hover,\r\n    .navbar-inverse .btn-link:focus {\r\n        color: #fff;\r\n    }\r\n\r\n    .navbar-inverse .btn-link[disabled]:hover,\r\n    fieldset[disabled] .navbar-inverse .btn-link:hover,\r\n    .navbar-inverse .btn-link[disabled]:focus,\r\n    fieldset[disabled] .navbar-inverse .btn-link:focus {\r\n        color: #444;\r\n    }\r\n\r\n.breadcrumb {\r\n    padding: 8px 15px;\r\n    margin-bottom: 20px;\r\n    list-style: none;\r\n    background-color: #f5f5f5;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .breadcrumb > li {\r\n        display: inline-block;\r\n    }\r\n\r\n        .breadcrumb > li + li:before {\r\n            padding: 0 5px;\r\n            color: #ccc;\r\n            content: \"/\\A0\";\r\n        }\r\n\r\n    .breadcrumb > .active {\r\n        color: #777;\r\n    }\r\n\r\n.pagination {\r\n    display: inline-block;\r\n    padding-left: 0;\r\n    margin: 20px 0;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .pagination > li {\r\n        display: inline;\r\n    }\r\n\r\n        .pagination > li > a,\r\n        .pagination > li > span {\r\n            position: relative;\r\n            float: left;\r\n            padding: 6px 12px;\r\n            margin-left: -1px;\r\n            line-height: 1.42857143;\r\n            color: #337ab7;\r\n            text-decoration: none;\r\n            background-color: #fff;\r\n            border: 1px solid #ddd;\r\n        }\r\n\r\n        .pagination > li:first-child > a,\r\n        .pagination > li:first-child > span {\r\n            margin-left: 0;\r\n            border-top-left-radius: 4px;\r\n            border-bottom-left-radius: 4px;\r\n        }\r\n\r\n        .pagination > li:last-child > a,\r\n        .pagination > li:last-child > span {\r\n            border-top-right-radius: 4px;\r\n            border-bottom-right-radius: 4px;\r\n        }\r\n\r\n        .pagination > li > a:hover,\r\n        .pagination > li > span:hover,\r\n        .pagination > li > a:focus,\r\n        .pagination > li > span:focus {\r\n            z-index: 2;\r\n            color: #23527c;\r\n            background-color: #eee;\r\n            border-color: #ddd;\r\n        }\r\n\r\n    .pagination > .active > a,\r\n    .pagination > .active > span,\r\n    .pagination > .active > a:hover,\r\n    .pagination > .active > span:hover,\r\n    .pagination > .active > a:focus,\r\n    .pagination > .active > span:focus {\r\n        z-index: 3;\r\n        color: #fff;\r\n        cursor: default;\r\n        background-color: #337ab7;\r\n        border-color: #337ab7;\r\n    }\r\n\r\n    .pagination > .disabled > span,\r\n    .pagination > .disabled > span:hover,\r\n    .pagination > .disabled > span:focus,\r\n    .pagination > .disabled > a,\r\n    .pagination > .disabled > a:hover,\r\n    .pagination > .disabled > a:focus {\r\n        color: #777;\r\n        cursor: not-allowed;\r\n        background-color: #fff;\r\n        border-color: #ddd;\r\n    }\r\n\r\n.pagination-lg > li > a,\r\n.pagination-lg > li > span {\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n}\r\n\r\n.pagination-lg > li:first-child > a,\r\n.pagination-lg > li:first-child > span {\r\n    border-top-left-radius: 6px;\r\n    border-bottom-left-radius: 6px;\r\n}\r\n\r\n.pagination-lg > li:last-child > a,\r\n.pagination-lg > li:last-child > span {\r\n    border-top-right-radius: 6px;\r\n    border-bottom-right-radius: 6px;\r\n}\r\n\r\n.pagination-sm > li > a,\r\n.pagination-sm > li > span {\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n}\r\n\r\n.pagination-sm > li:first-child > a,\r\n.pagination-sm > li:first-child > span {\r\n    border-top-left-radius: 3px;\r\n    border-bottom-left-radius: 3px;\r\n}\r\n\r\n.pagination-sm > li:last-child > a,\r\n.pagination-sm > li:last-child > span {\r\n    border-top-right-radius: 3px;\r\n    border-bottom-right-radius: 3px;\r\n}\r\n\r\n.pager {\r\n    padding-left: 0;\r\n    margin: 20px 0;\r\n    text-align: center;\r\n    list-style: none;\r\n}\r\n\r\n    .pager li {\r\n        display: inline;\r\n    }\r\n\r\n        .pager li > a,\r\n        .pager li > span {\r\n            display: inline-block;\r\n            padding: 5px 14px;\r\n            background-color: #fff;\r\n            border: 1px solid #ddd;\r\n            border-radius: 15px;\r\n        }\r\n\r\n            .pager li > a:hover,\r\n            .pager li > a:focus {\r\n                text-decoration: none;\r\n                background-color: #eee;\r\n            }\r\n\r\n    .pager .next > a,\r\n    .pager .next > span {\r\n        float: right;\r\n    }\r\n\r\n    .pager .previous > a,\r\n    .pager .previous > span {\r\n        float: left;\r\n    }\r\n\r\n    .pager .disabled > a,\r\n    .pager .disabled > a:hover,\r\n    .pager .disabled > a:focus,\r\n    .pager .disabled > span {\r\n        color: #777;\r\n        cursor: not-allowed;\r\n        background-color: #fff;\r\n    }\r\n\r\n.label {\r\n    display: inline;\r\n    padding: .2em .6em .3em;\r\n    font-size: 75%;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    color: #fff;\r\n    text-align: center;\r\n    white-space: nowrap;\r\n    vertical-align: baseline;\r\n    border-radius: .25em;\r\n}\r\n\r\na.label:hover,\r\na.label:focus {\r\n    color: #fff;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\n.label:empty {\r\n    display: none;\r\n}\r\n\r\n.btn .label {\r\n    position: relative;\r\n    top: -1px;\r\n}\r\n\r\n.label-default {\r\n    background-color: #777;\r\n}\r\n\r\n    .label-default[href]:hover,\r\n    .label-default[href]:focus {\r\n        background-color: #5e5e5e;\r\n    }\r\n\r\n.label-primary {\r\n    background-color: #337ab7;\r\n}\r\n\r\n    .label-primary[href]:hover,\r\n    .label-primary[href]:focus {\r\n        background-color: #286090;\r\n    }\r\n\r\n.label-success {\r\n    background-color: #5cb85c;\r\n}\r\n\r\n    .label-success[href]:hover,\r\n    .label-success[href]:focus {\r\n        background-color: #449d44;\r\n    }\r\n\r\n.label-info {\r\n    background-color: #5bc0de;\r\n}\r\n\r\n    .label-info[href]:hover,\r\n    .label-info[href]:focus {\r\n        background-color: #31b0d5;\r\n    }\r\n\r\n.label-warning {\r\n    background-color: #f0ad4e;\r\n}\r\n\r\n    .label-warning[href]:hover,\r\n    .label-warning[href]:focus {\r\n        background-color: #ec971f;\r\n    }\r\n\r\n.label-danger {\r\n    background-color: #d9534f;\r\n}\r\n\r\n    .label-danger[href]:hover,\r\n    .label-danger[href]:focus {\r\n        background-color: #c9302c;\r\n    }\r\n\r\n.badge {\r\n    display: inline-block;\r\n    min-width: 10px;\r\n    padding: 3px 7px;\r\n    font-size: 12px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    color: #fff;\r\n    text-align: center;\r\n    white-space: nowrap;\r\n    vertical-align: middle;\r\n    background-color: #777;\r\n    border-radius: 10px;\r\n}\r\n\r\n    .badge:empty {\r\n        display: none;\r\n    }\r\n\r\n.btn .badge {\r\n    position: relative;\r\n    top: -1px;\r\n}\r\n\r\n.btn-xs .badge,\r\n.btn-group-xs > .btn .badge {\r\n    top: 0;\r\n    padding: 1px 5px;\r\n}\r\n\r\na.badge:hover,\r\na.badge:focus {\r\n    color: #fff;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\n.list-group-item.active > .badge,\r\n.nav-pills > .active > a > .badge {\r\n    color: #337ab7;\r\n    background-color: #fff;\r\n}\r\n\r\n.list-group-item > .badge {\r\n    float: right;\r\n}\r\n\r\n    .list-group-item > .badge + .badge {\r\n        margin-right: 5px;\r\n    }\r\n\r\n.nav-pills > li > a > .badge {\r\n    margin-left: 3px;\r\n}\r\n\r\n.jumbotron {\r\n    padding-top: 30px;\r\n    padding-bottom: 30px;\r\n    margin-bottom: 30px;\r\n    color: inherit;\r\n    background-color: #eee;\r\n}\r\n\r\n    .jumbotron h1,\r\n    .jumbotron .h1 {\r\n        color: inherit;\r\n    }\r\n\r\n    .jumbotron p {\r\n        margin-bottom: 15px;\r\n        font-size: 21px;\r\n        font-weight: 200;\r\n    }\r\n\r\n    .jumbotron > hr {\r\n        border-top-color: #d5d5d5;\r\n    }\r\n\r\n.container .jumbotron,\r\n.container-fluid .jumbotron {\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n    border-radius: 6px;\r\n}\r\n\r\n.jumbotron .container {\r\n    max-width: 100%;\r\n}\r\n\r\n@media screen and (min-width: 768px) {\r\n    .jumbotron {\r\n        padding-top: 48px;\r\n        padding-bottom: 48px;\r\n    }\r\n\r\n    .container .jumbotron,\r\n    .container-fluid .jumbotron {\r\n        padding-right: 60px;\r\n        padding-left: 60px;\r\n    }\r\n\r\n    .jumbotron h1,\r\n    .jumbotron .h1 {\r\n        font-size: 63px;\r\n    }\r\n}\r\n\r\n.thumbnail {\r\n    display: block;\r\n    padding: 4px;\r\n    margin-bottom: 20px;\r\n    line-height: 1.42857143;\r\n    background-color: #fff;\r\n    border: 1px solid #ddd;\r\n    border-radius: 4px;\r\n    -webkit-transition: border .2s ease-in-out;\r\n    -o-transition: border .2s ease-in-out;\r\n    transition: border .2s ease-in-out;\r\n}\r\n\r\n    .thumbnail > img,\r\n    .thumbnail a > img {\r\n        margin-right: auto;\r\n        margin-left: auto;\r\n    }\r\n\r\na.thumbnail:hover,\r\na.thumbnail:focus,\r\na.thumbnail.active {\r\n    border-color: #337ab7;\r\n}\r\n\r\n.thumbnail .caption {\r\n    padding: 9px;\r\n    color: #333;\r\n}\r\n\r\n.alert {\r\n    padding: 15px;\r\n    margin-bottom: 20px;\r\n    border: 1px solid transparent;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .alert h4 {\r\n        margin-top: 0;\r\n        color: inherit;\r\n    }\r\n\r\n    .alert .alert-link {\r\n        font-weight: bold;\r\n    }\r\n\r\n    .alert > p,\r\n    .alert > ul {\r\n        margin-bottom: 0;\r\n    }\r\n\r\n        .alert > p + p {\r\n            margin-top: 5px;\r\n        }\r\n\r\n.alert-dismissable,\r\n.alert-dismissible {\r\n    padding-right: 35px;\r\n}\r\n\r\n    .alert-dismissable .close,\r\n    .alert-dismissible .close {\r\n        position: relative;\r\n        top: -2px;\r\n        right: -21px;\r\n        color: inherit;\r\n    }\r\n\r\n.alert-success {\r\n    color: #3c763d;\r\n    background-color: #dff0d8;\r\n    border-color: #d6e9c6;\r\n}\r\n\r\n    .alert-success hr {\r\n        border-top-color: #c9e2b3;\r\n    }\r\n\r\n    .alert-success .alert-link {\r\n        color: #2b542c;\r\n    }\r\n\r\n.alert-info {\r\n    color: #31708f;\r\n    background-color: #d9edf7;\r\n    border-color: #bce8f1;\r\n}\r\n\r\n    .alert-info hr {\r\n        border-top-color: #a6e1ec;\r\n    }\r\n\r\n    .alert-info .alert-link {\r\n        color: #245269;\r\n    }\r\n\r\n.alert-warning {\r\n    color: #8a6d3b;\r\n    background-color: #fcf8e3;\r\n    border-color: #faebcc;\r\n}\r\n\r\n    .alert-warning hr {\r\n        border-top-color: #f7e1b5;\r\n    }\r\n\r\n    .alert-warning .alert-link {\r\n        color: #66512c;\r\n    }\r\n\r\n.alert-danger {\r\n    color: #a94442;\r\n    background-color: #f2dede;\r\n    border-color: #ebccd1;\r\n}\r\n\r\n    .alert-danger hr {\r\n        border-top-color: #e4b9c0;\r\n    }\r\n\r\n    .alert-danger .alert-link {\r\n        color: #843534;\r\n    }\r\n\r\n@-webkit-keyframes progress-bar-stripes {\r\n    from {\r\n        background-position: 40px 0;\r\n    }\r\n\r\n    to {\r\n        background-position: 0 0;\r\n    }\r\n}\r\n\r\n@-o-keyframes progress-bar-stripes {\r\n    from {\r\n        background-position: 40px 0;\r\n    }\r\n\r\n    to {\r\n        background-position: 0 0;\r\n    }\r\n}\r\n\r\n@keyframes progress-bar-stripes {\r\n    from {\r\n        background-position: 40px 0;\r\n    }\r\n\r\n    to {\r\n        background-position: 0 0;\r\n    }\r\n}\r\n\r\n.progress {\r\n    height: 20px;\r\n    margin-bottom: 20px;\r\n    overflow: hidden;\r\n    background-color: #f5f5f5;\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);\r\n    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);\r\n}\r\n\r\n.progress-bar {\r\n    float: left;\r\n    width: 0;\r\n    height: 100%;\r\n    font-size: 12px;\r\n    line-height: 20px;\r\n    color: #fff;\r\n    text-align: center;\r\n    background-color: #337ab7;\r\n    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);\r\n    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);\r\n    -webkit-transition: width .6s ease;\r\n    -o-transition: width .6s ease;\r\n    transition: width .6s ease;\r\n}\r\n\r\n.progress-striped .progress-bar,\r\n.progress-bar-striped {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    -webkit-background-size: 40px 40px;\r\n    background-size: 40px 40px;\r\n}\r\n\r\n.progress.active .progress-bar,\r\n.progress-bar.active {\r\n    -webkit-animation: progress-bar-stripes 2s linear infinite;\r\n    -o-animation: progress-bar-stripes 2s linear infinite;\r\n    animation: progress-bar-stripes 2s linear infinite;\r\n}\r\n\r\n.progress-bar-success {\r\n    background-color: #5cb85c;\r\n}\r\n\r\n.progress-striped .progress-bar-success {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n}\r\n\r\n.progress-bar-info {\r\n    background-color: #5bc0de;\r\n}\r\n\r\n.progress-striped .progress-bar-info {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n}\r\n\r\n.progress-bar-warning {\r\n    background-color: #f0ad4e;\r\n}\r\n\r\n.progress-striped .progress-bar-warning {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n}\r\n\r\n.progress-bar-danger {\r\n    background-color: #d9534f;\r\n}\r\n\r\n.progress-striped .progress-bar-danger {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n}\r\n\r\n.media {\r\n    margin-top: 15px;\r\n}\r\n\r\n    .media:first-child {\r\n        margin-top: 0;\r\n    }\r\n\r\n.media,\r\n.media-body {\r\n    overflow: hidden;\r\n    zoom: 1;\r\n}\r\n\r\n.media-body {\r\n    width: 10000px;\r\n}\r\n\r\n.media-object {\r\n    display: block;\r\n}\r\n\r\n    .media-object.img-thumbnail {\r\n        max-width: none;\r\n    }\r\n\r\n.media-right,\r\n.media > .pull-right {\r\n    padding-left: 10px;\r\n}\r\n\r\n.media-left,\r\n.media > .pull-left {\r\n    padding-right: 10px;\r\n}\r\n\r\n.media-left,\r\n.media-right,\r\n.media-body {\r\n    display: table-cell;\r\n    vertical-align: top;\r\n}\r\n\r\n.media-middle {\r\n    vertical-align: middle;\r\n}\r\n\r\n.media-bottom {\r\n    vertical-align: bottom;\r\n}\r\n\r\n.media-heading {\r\n    margin-top: 0;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.media-list {\r\n    padding-left: 0;\r\n    list-style: none;\r\n}\r\n\r\n.list-group {\r\n    padding-left: 0;\r\n    margin-bottom: 20px;\r\n}\r\n\r\n.list-group-item {\r\n    position: relative;\r\n    display: block;\r\n    padding: 10px 15px;\r\n    margin-bottom: -1px;\r\n    background-color: #fff;\r\n    border: 1px solid #ddd;\r\n}\r\n\r\n    .list-group-item:first-child {\r\n        border-top-left-radius: 4px;\r\n        border-top-right-radius: 4px;\r\n    }\r\n\r\n    .list-group-item:last-child {\r\n        margin-bottom: 0;\r\n        border-bottom-right-radius: 4px;\r\n        border-bottom-left-radius: 4px;\r\n    }\r\n\r\na.list-group-item,\r\nbutton.list-group-item {\r\n    color: #555;\r\n}\r\n\r\n    a.list-group-item .list-group-item-heading,\r\n    button.list-group-item .list-group-item-heading {\r\n        color: #333;\r\n    }\r\n\r\n    a.list-group-item:hover,\r\n    button.list-group-item:hover,\r\n    a.list-group-item:focus,\r\n    button.list-group-item:focus {\r\n        color: #555;\r\n        text-decoration: none;\r\n        background-color: #f5f5f5;\r\n    }\r\n\r\nbutton.list-group-item {\r\n    width: 100%;\r\n    text-align: left;\r\n}\r\n\r\n.list-group-item.disabled,\r\n.list-group-item.disabled:hover,\r\n.list-group-item.disabled:focus {\r\n    color: #777;\r\n    cursor: not-allowed;\r\n    background-color: #eee;\r\n}\r\n\r\n    .list-group-item.disabled .list-group-item-heading,\r\n    .list-group-item.disabled:hover .list-group-item-heading,\r\n    .list-group-item.disabled:focus .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    .list-group-item.disabled .list-group-item-text,\r\n    .list-group-item.disabled:hover .list-group-item-text,\r\n    .list-group-item.disabled:focus .list-group-item-text {\r\n        color: #777;\r\n    }\r\n\r\n.list-group-item.active,\r\n.list-group-item.active:hover,\r\n.list-group-item.active:focus {\r\n    z-index: 2;\r\n    color: #fff;\r\n    background-color: #337ab7;\r\n    border-color: #337ab7;\r\n}\r\n\r\n    .list-group-item.active .list-group-item-heading,\r\n    .list-group-item.active:hover .list-group-item-heading,\r\n    .list-group-item.active:focus .list-group-item-heading,\r\n    .list-group-item.active .list-group-item-heading > small,\r\n    .list-group-item.active:hover .list-group-item-heading > small,\r\n    .list-group-item.active:focus .list-group-item-heading > small,\r\n    .list-group-item.active .list-group-item-heading > .small,\r\n    .list-group-item.active:hover .list-group-item-heading > .small,\r\n    .list-group-item.active:focus .list-group-item-heading > .small {\r\n        color: inherit;\r\n    }\r\n\r\n    .list-group-item.active .list-group-item-text,\r\n    .list-group-item.active:hover .list-group-item-text,\r\n    .list-group-item.active:focus .list-group-item-text {\r\n        color: #c7ddef;\r\n    }\r\n\r\n.list-group-item-success {\r\n    color: #3c763d;\r\n    background-color: #dff0d8;\r\n}\r\n\r\na.list-group-item-success,\r\nbutton.list-group-item-success {\r\n    color: #3c763d;\r\n}\r\n\r\n    a.list-group-item-success .list-group-item-heading,\r\n    button.list-group-item-success .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    a.list-group-item-success:hover,\r\n    button.list-group-item-success:hover,\r\n    a.list-group-item-success:focus,\r\n    button.list-group-item-success:focus {\r\n        color: #3c763d;\r\n        background-color: #d0e9c6;\r\n    }\r\n\r\n    a.list-group-item-success.active,\r\n    button.list-group-item-success.active,\r\n    a.list-group-item-success.active:hover,\r\n    button.list-group-item-success.active:hover,\r\n    a.list-group-item-success.active:focus,\r\n    button.list-group-item-success.active:focus {\r\n        color: #fff;\r\n        background-color: #3c763d;\r\n        border-color: #3c763d;\r\n    }\r\n\r\n.list-group-item-info {\r\n    color: #31708f;\r\n    background-color: #d9edf7;\r\n}\r\n\r\na.list-group-item-info,\r\nbutton.list-group-item-info {\r\n    color: #31708f;\r\n}\r\n\r\n    a.list-group-item-info .list-group-item-heading,\r\n    button.list-group-item-info .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    a.list-group-item-info:hover,\r\n    button.list-group-item-info:hover,\r\n    a.list-group-item-info:focus,\r\n    button.list-group-item-info:focus {\r\n        color: #31708f;\r\n        background-color: #c4e3f3;\r\n    }\r\n\r\n    a.list-group-item-info.active,\r\n    button.list-group-item-info.active,\r\n    a.list-group-item-info.active:hover,\r\n    button.list-group-item-info.active:hover,\r\n    a.list-group-item-info.active:focus,\r\n    button.list-group-item-info.active:focus {\r\n        color: #fff;\r\n        background-color: #31708f;\r\n        border-color: #31708f;\r\n    }\r\n\r\n.list-group-item-warning {\r\n    color: #8a6d3b;\r\n    background-color: #fcf8e3;\r\n}\r\n\r\na.list-group-item-warning,\r\nbutton.list-group-item-warning {\r\n    color: #8a6d3b;\r\n}\r\n\r\n    a.list-group-item-warning .list-group-item-heading,\r\n    button.list-group-item-warning .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    a.list-group-item-warning:hover,\r\n    button.list-group-item-warning:hover,\r\n    a.list-group-item-warning:focus,\r\n    button.list-group-item-warning:focus {\r\n        color: #8a6d3b;\r\n        background-color: #faf2cc;\r\n    }\r\n\r\n    a.list-group-item-warning.active,\r\n    button.list-group-item-warning.active,\r\n    a.list-group-item-warning.active:hover,\r\n    button.list-group-item-warning.active:hover,\r\n    a.list-group-item-warning.active:focus,\r\n    button.list-group-item-warning.active:focus {\r\n        color: #fff;\r\n        background-color: #8a6d3b;\r\n        border-color: #8a6d3b;\r\n    }\r\n\r\n.list-group-item-danger {\r\n    color: #a94442;\r\n    background-color: #f2dede;\r\n}\r\n\r\na.list-group-item-danger,\r\nbutton.list-group-item-danger {\r\n    color: #a94442;\r\n}\r\n\r\n    a.list-group-item-danger .list-group-item-heading,\r\n    button.list-group-item-danger .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    a.list-group-item-danger:hover,\r\n    button.list-group-item-danger:hover,\r\n    a.list-group-item-danger:focus,\r\n    button.list-group-item-danger:focus {\r\n        color: #a94442;\r\n        background-color: #ebcccc;\r\n    }\r\n\r\n    a.list-group-item-danger.active,\r\n    button.list-group-item-danger.active,\r\n    a.list-group-item-danger.active:hover,\r\n    button.list-group-item-danger.active:hover,\r\n    a.list-group-item-danger.active:focus,\r\n    button.list-group-item-danger.active:focus {\r\n        color: #fff;\r\n        background-color: #a94442;\r\n        border-color: #a94442;\r\n    }\r\n\r\n.list-group-item-heading {\r\n    margin-top: 0;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.list-group-item-text {\r\n    margin-bottom: 0;\r\n    line-height: 1.3;\r\n}\r\n\r\n.panel {\r\n    margin-bottom: 20px;\r\n    background-color: #fff;\r\n    border: 1px solid transparent;\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);\r\n    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);\r\n}\r\n\r\n.panel-body {\r\n    padding: 15px;\r\n}\r\n\r\n.panel-heading {\r\n    padding: 10px 15px;\r\n    border-bottom: 1px solid transparent;\r\n    border-top-left-radius: 3px;\r\n    border-top-right-radius: 3px;\r\n}\r\n\r\n    .panel-heading > .dropdown .dropdown-toggle {\r\n        color: inherit;\r\n    }\r\n\r\n.panel-title {\r\n    text-align: center;\r\n    margin-top: 0;\r\n    margin-bottom: 0;\r\n    font-size: 16px;\r\n    color: inherit;\r\n}\r\n\r\n    .panel-title > a,\r\n    .panel-title > small,\r\n    .panel-title > .small,\r\n    .panel-title > small > a,\r\n    .panel-title > .small > a {\r\n        color: inherit;\r\n    }\r\n\r\n.panel-footer {\r\n    padding: 10px 15px;\r\n    background-color: #f5f5f5;\r\n    border-top: 1px solid #ddd;\r\n    border-bottom-right-radius: 3px;\r\n    border-bottom-left-radius: 3px;\r\n}\r\n\r\n.panel > .list-group,\r\n.panel > .panel-collapse > .list-group {\r\n    margin-bottom: 0;\r\n}\r\n\r\n    .panel > .list-group .list-group-item,\r\n    .panel > .panel-collapse > .list-group .list-group-item {\r\n        border-width: 1px 0;\r\n        border-radius: 0;\r\n    }\r\n\r\n    .panel > .list-group:first-child .list-group-item:first-child,\r\n    .panel > .panel-collapse > .list-group:first-child .list-group-item:first-child {\r\n        border-top: 0;\r\n        border-top-left-radius: 3px;\r\n        border-top-right-radius: 3px;\r\n    }\r\n\r\n    .panel > .list-group:last-child .list-group-item:last-child,\r\n    .panel > .panel-collapse > .list-group:last-child .list-group-item:last-child {\r\n        border-bottom: 0;\r\n        border-bottom-right-radius: 3px;\r\n        border-bottom-left-radius: 3px;\r\n    }\r\n\r\n.panel > .panel-heading + .panel-collapse > .list-group .list-group-item:first-child {\r\n    border-top-left-radius: 0;\r\n    border-top-right-radius: 0;\r\n}\r\n\r\n.panel-heading + .list-group .list-group-item:first-child {\r\n    border-top-width: 0;\r\n}\r\n\r\n.list-group + .panel-footer {\r\n    border-top-width: 0;\r\n}\r\n\r\n.panel > .table,\r\n.panel > .table-responsive > .table,\r\n.panel > .panel-collapse > .table {\r\n    margin-bottom: 0;\r\n}\r\n\r\n    .panel > .table caption,\r\n    .panel > .table-responsive > .table caption,\r\n    .panel > .panel-collapse > .table caption {\r\n        padding-right: 15px;\r\n        padding-left: 15px;\r\n    }\r\n\r\n    .panel > .table:first-child,\r\n    .panel > .table-responsive:first-child > .table:first-child {\r\n        border-top-left-radius: 3px;\r\n        border-top-right-radius: 3px;\r\n    }\r\n\r\n        .panel > .table:first-child > thead:first-child > tr:first-child,\r\n        .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child,\r\n        .panel > .table:first-child > tbody:first-child > tr:first-child,\r\n        .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child {\r\n            border-top-left-radius: 3px;\r\n            border-top-right-radius: 3px;\r\n        }\r\n\r\n            .panel > .table:first-child > thead:first-child > tr:first-child td:first-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:first-child,\r\n            .panel > .table:first-child > tbody:first-child > tr:first-child td:first-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:first-child,\r\n            .panel > .table:first-child > thead:first-child > tr:first-child th:first-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:first-child,\r\n            .panel > .table:first-child > tbody:first-child > tr:first-child th:first-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child {\r\n                border-top-left-radius: 3px;\r\n            }\r\n\r\n            .panel > .table:first-child > thead:first-child > tr:first-child td:last-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:last-child,\r\n            .panel > .table:first-child > tbody:first-child > tr:first-child td:last-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:last-child,\r\n            .panel > .table:first-child > thead:first-child > tr:first-child th:last-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:last-child,\r\n            .panel > .table:first-child > tbody:first-child > tr:first-child th:last-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child {\r\n                border-top-right-radius: 3px;\r\n            }\r\n\r\n    .panel > .table:last-child,\r\n    .panel > .table-responsive:last-child > .table:last-child {\r\n        border-bottom-right-radius: 3px;\r\n        border-bottom-left-radius: 3px;\r\n    }\r\n\r\n        .panel > .table:last-child > tbody:last-child > tr:last-child,\r\n        .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child,\r\n        .panel > .table:last-child > tfoot:last-child > tr:last-child,\r\n        .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child {\r\n            border-bottom-right-radius: 3px;\r\n            border-bottom-left-radius: 3px;\r\n        }\r\n\r\n            .panel > .table:last-child > tbody:last-child > tr:last-child td:first-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:first-child,\r\n            .panel > .table:last-child > tfoot:last-child > tr:last-child td:first-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:first-child,\r\n            .panel > .table:last-child > tbody:last-child > tr:last-child th:first-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:first-child,\r\n            .panel > .table:last-child > tfoot:last-child > tr:last-child th:first-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child {\r\n                border-bottom-left-radius: 3px;\r\n            }\r\n\r\n            .panel > .table:last-child > tbody:last-child > tr:last-child td:last-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:last-child,\r\n            .panel > .table:last-child > tfoot:last-child > tr:last-child td:last-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:last-child,\r\n            .panel > .table:last-child > tbody:last-child > tr:last-child th:last-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:last-child,\r\n            .panel > .table:last-child > tfoot:last-child > tr:last-child th:last-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child {\r\n                border-bottom-right-radius: 3px;\r\n            }\r\n\r\n    .panel > .panel-body + .table,\r\n    .panel > .panel-body + .table-responsive,\r\n    .panel > .table + .panel-body,\r\n    .panel > .table-responsive + .panel-body {\r\n        border-top: 1px solid #ddd;\r\n    }\r\n\r\n    .panel > .table > tbody:first-child > tr:first-child th,\r\n    .panel > .table > tbody:first-child > tr:first-child td {\r\n        border-top: 0;\r\n    }\r\n\r\n.panel > .table-bordered,\r\n.panel > .table-responsive > .table-bordered {\r\n    border: 0;\r\n}\r\n\r\n    .panel > .table-bordered > thead > tr > th:first-child,\r\n    .panel > .table-responsive > .table-bordered > thead > tr > th:first-child,\r\n    .panel > .table-bordered > tbody > tr > th:first-child,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr > th:first-child,\r\n    .panel > .table-bordered > tfoot > tr > th:first-child,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr > th:first-child,\r\n    .panel > .table-bordered > thead > tr > td:first-child,\r\n    .panel > .table-responsive > .table-bordered > thead > tr > td:first-child,\r\n    .panel > .table-bordered > tbody > tr > td:first-child,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr > td:first-child,\r\n    .panel > .table-bordered > tfoot > tr > td:first-child,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr > td:first-child {\r\n        border-left: 0;\r\n    }\r\n\r\n    .panel > .table-bordered > thead > tr > th:last-child,\r\n    .panel > .table-responsive > .table-bordered > thead > tr > th:last-child,\r\n    .panel > .table-bordered > tbody > tr > th:last-child,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr > th:last-child,\r\n    .panel > .table-bordered > tfoot > tr > th:last-child,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr > th:last-child,\r\n    .panel > .table-bordered > thead > tr > td:last-child,\r\n    .panel > .table-responsive > .table-bordered > thead > tr > td:last-child,\r\n    .panel > .table-bordered > tbody > tr > td:last-child,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr > td:last-child,\r\n    .panel > .table-bordered > tfoot > tr > td:last-child,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr > td:last-child {\r\n        border-right: 0;\r\n    }\r\n\r\n    .panel > .table-bordered > thead > tr:first-child > td,\r\n    .panel > .table-responsive > .table-bordered > thead > tr:first-child > td,\r\n    .panel > .table-bordered > tbody > tr:first-child > td,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr:first-child > td,\r\n    .panel > .table-bordered > thead > tr:first-child > th,\r\n    .panel > .table-responsive > .table-bordered > thead > tr:first-child > th,\r\n    .panel > .table-bordered > tbody > tr:first-child > th,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr:first-child > th {\r\n        border-bottom: 0;\r\n    }\r\n\r\n    .panel > .table-bordered > tbody > tr:last-child > td,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr:last-child > td,\r\n    .panel > .table-bordered > tfoot > tr:last-child > td,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > td,\r\n    .panel > .table-bordered > tbody > tr:last-child > th,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr:last-child > th,\r\n    .panel > .table-bordered > tfoot > tr:last-child > th,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > th {\r\n        border-bottom: 0;\r\n    }\r\n\r\n.panel > .table-responsive {\r\n    margin-bottom: 0;\r\n    border: 0;\r\n}\r\n\r\n.panel-group {\r\n    margin-bottom: 20px;\r\n}\r\n\r\n    .panel-group .panel {\r\n        margin-bottom: 0;\r\n        border-radius: 4px;\r\n    }\r\n\r\n        .panel-group .panel + .panel {\r\n            margin-top: 5px;\r\n        }\r\n\r\n    .panel-group .panel-heading {\r\n        border-bottom: 0;\r\n    }\r\n\r\n        .panel-group .panel-heading + .panel-collapse > .panel-body,\r\n        .panel-group .panel-heading + .panel-collapse > .list-group {\r\n            border-top: 1px solid #ddd;\r\n        }\r\n\r\n    .panel-group .panel-footer {\r\n        border-top: 0;\r\n    }\r\n\r\n        .panel-group .panel-footer + .panel-collapse .panel-body {\r\n            border-bottom: 1px solid #ddd;\r\n        }\r\n\r\n.panel-default {\r\n    border-color: #ddd;\r\n}\r\n\r\n    .panel-default > .panel-heading {\r\n        color: #333;\r\n        background-color: #f5f5f5;\r\n        border-color: #ddd;\r\n    }\r\n\r\n        .panel-default > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #ddd;\r\n        }\r\n\r\n        .panel-default > .panel-heading .badge {\r\n            color: #f5f5f5;\r\n            background-color: #333;\r\n        }\r\n\r\n    .panel-default > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #ddd;\r\n    }\r\n\r\n.panel-primary {\r\n    border-color: #337ab7;\r\n}\r\n\r\n    .panel-primary > .panel-heading {\r\n        color: #fff;\r\n        background-color: #337ab7;\r\n        border-color: #337ab7;\r\n    }\r\n\r\n        .panel-primary > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #337ab7;\r\n        }\r\n\r\n        .panel-primary > .panel-heading .badge {\r\n            color: #337ab7;\r\n            background-color: #fff;\r\n        }\r\n\r\n    .panel-primary > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #337ab7;\r\n    }\r\n\r\n.panel-success {\r\n    border-color: #d6e9c6;\r\n}\r\n\r\n    .panel-success > .panel-heading {\r\n        color: #3c763d;\r\n        background-color: #dff0d8;\r\n        border-color: #d6e9c6;\r\n    }\r\n\r\n        .panel-success > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #d6e9c6;\r\n        }\r\n\r\n        .panel-success > .panel-heading .badge {\r\n            color: #dff0d8;\r\n            background-color: #3c763d;\r\n        }\r\n\r\n    .panel-success > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #d6e9c6;\r\n    }\r\n\r\n.panel-info {\r\n    border-color: #bce8f1;\r\n}\r\n\r\n    .panel-info > .panel-heading {\r\n        color: #31708f;\r\n        background-color: #d9edf7;\r\n        border-color: #bce8f1;\r\n    }\r\n\r\n        .panel-info > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #bce8f1;\r\n        }\r\n\r\n        .panel-info > .panel-heading .badge {\r\n            color: #d9edf7;\r\n            background-color: #31708f;\r\n        }\r\n\r\n    .panel-info > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #bce8f1;\r\n    }\r\n\r\n.panel-warning {\r\n    border-color: #faebcc;\r\n}\r\n\r\n    .panel-warning > .panel-heading {\r\n        color: #8a6d3b;\r\n        background-color: #fcf8e3;\r\n        border-color: #faebcc;\r\n    }\r\n\r\n        .panel-warning > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #faebcc;\r\n        }\r\n\r\n        .panel-warning > .panel-heading .badge {\r\n            color: #fcf8e3;\r\n            background-color: #8a6d3b;\r\n        }\r\n\r\n    .panel-warning > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #faebcc;\r\n    }\r\n\r\n.panel-danger {\r\n    border-color: #ebccd1;\r\n}\r\n\r\n    .panel-danger > .panel-heading {\r\n        color: #a94442;\r\n        background-color: #f2dede;\r\n        border-color: #ebccd1;\r\n    }\r\n\r\n        .panel-danger > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #ebccd1;\r\n        }\r\n\r\n        .panel-danger > .panel-heading .badge {\r\n            color: #f2dede;\r\n            background-color: #a94442;\r\n        }\r\n\r\n    .panel-danger > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #ebccd1;\r\n    }\r\n\r\n.embed-responsive {\r\n    position: relative;\r\n    display: block;\r\n    height: 0;\r\n    padding: 0;\r\n    overflow: hidden;\r\n}\r\n\r\n    .embed-responsive .embed-responsive-item,\r\n    .embed-responsive iframe,\r\n    .embed-responsive embed,\r\n    .embed-responsive object,\r\n    .embed-responsive video {\r\n        position: absolute;\r\n        top: 0;\r\n        bottom: 0;\r\n        left: 0;\r\n        width: 100%;\r\n        height: 100%;\r\n        border: 0;\r\n    }\r\n\r\n.embed-responsive-16by9 {\r\n    padding-bottom: 56.25%;\r\n}\r\n\r\n.embed-responsive-4by3 {\r\n    padding-bottom: 75%;\r\n}\r\n\r\n.well {\r\n    min-height: 20px;\r\n    padding: 19px;\r\n    margin-bottom: 20px;\r\n    background-color: #f5f5f5;\r\n    border: 1px solid #e3e3e3;\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);\r\n}\r\n\r\n    .well blockquote {\r\n        border-color: #ddd;\r\n        border-color: rgba(0, 0, 0, .15);\r\n    }\r\n\r\n.well-lg {\r\n    padding: 24px;\r\n    border-radius: 6px;\r\n}\r\n\r\n.well-sm {\r\n    padding: 9px;\r\n    border-radius: 3px;\r\n}\r\n\r\n.close {\r\n    float: right;\r\n    font-size: 21px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    color: #000;\r\n    text-shadow: 0 1px 0 #fff;\r\n    filter: alpha(opacity=20);\r\n    opacity: .2;\r\n}\r\n\r\n    .close:hover,\r\n    .close:focus {\r\n        color: #000;\r\n        text-decoration: none;\r\n        cursor: pointer;\r\n        filter: alpha(opacity=50);\r\n        opacity: .5;\r\n    }\r\n\r\nbutton.close {\r\n    -webkit-appearance: none;\r\n    padding: 0;\r\n    cursor: pointer;\r\n    background: transparent;\r\n    border: 0;\r\n}\r\n\r\n.modal-open {\r\n    overflow: hidden;\r\n}\r\n\r\n.modal {\r\n    position: fixed;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    z-index: 1050;\r\n    display: none;\r\n    overflow: hidden;\r\n    -webkit-overflow-scrolling: touch;\r\n    outline: 0;\r\n}\r\n\r\n    .modal.fade .modal-dialog {\r\n        -webkit-transition: -webkit-transform .3s ease-out;\r\n        -o-transition: -o-transform .3s ease-out;\r\n        transition: transform .3s ease-out;\r\n        -webkit-transform: translate(0, -25%);\r\n        -ms-transform: translate(0, -25%);\r\n        -o-transform: translate(0, -25%);\r\n        transform: translate(0, -25%);\r\n    }\r\n\r\n    .modal.in .modal-dialog {\r\n        -webkit-transform: translate(0, 0);\r\n        -ms-transform: translate(0, 0);\r\n        -o-transform: translate(0, 0);\r\n        transform: translate(0, 0);\r\n    }\r\n\r\n.modal-open .modal {\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n}\r\n\r\n.modal-dialog {\r\n    position: relative;\r\n    width: auto;\r\n    margin: 10px;\r\n}\r\n\r\n.modal-content {\r\n    position: relative;\r\n    background-color: #fff;\r\n    -webkit-background-clip: padding-box;\r\n    background-clip: padding-box;\r\n    border: 1px solid #999;\r\n    border: 1px solid rgba(0, 0, 0, .2);\r\n    border-radius: 6px;\r\n    outline: 0;\r\n    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);\r\n    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);\r\n}\r\n\r\n.modal-backdrop {\r\n    position: fixed;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    z-index: 1040;\r\n    background-color: #000;\r\n}\r\n\r\n    .modal-backdrop.fade {\r\n        filter: alpha(opacity=0);\r\n        opacity: 0;\r\n    }\r\n\r\n    .modal-backdrop.in {\r\n        filter: alpha(opacity=50);\r\n        opacity: .5;\r\n    }\r\n\r\n.modal-header {\r\n    padding: 15px;\r\n    border-bottom: 1px solid #e5e5e5;\r\n}\r\n\r\n    .modal-header .close {\r\n        margin-top: -2px;\r\n    }\r\n\r\n.modal-title {\r\n    margin: 0;\r\n    line-height: 1.42857143;\r\n}\r\n\r\n.modal-body {\r\n    position: relative;\r\n    padding: 15px;\r\n}\r\n\r\n.modal-footer {\r\n    padding: 15px;\r\n    text-align: right;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n    .modal-footer .btn + .btn {\r\n        margin-bottom: 0;\r\n        margin-left: 5px;\r\n    }\r\n\r\n    .modal-footer .btn-group .btn + .btn {\r\n        margin-left: -1px;\r\n    }\r\n\r\n    .modal-footer .btn-block + .btn-block {\r\n        margin-left: 0;\r\n    }\r\n\r\n.modal-scrollbar-measure {\r\n    position: absolute;\r\n    top: -9999px;\r\n    width: 50px;\r\n    height: 50px;\r\n    overflow: scroll;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .modal-dialog {\r\n        width: 600px;\r\n        margin: 30px auto;\r\n    }\r\n\r\n    .modal-content {\r\n        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);\r\n        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);\r\n    }\r\n\r\n    .modal-sm {\r\n        width: 300px;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) {\r\n    .modal-lg {\r\n        width: 900px;\r\n    }\r\n}\r\n\r\n.tooltip {\r\n    position: absolute;\r\n    z-index: 1070;\r\n    display: block;\r\n    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n    font-size: 12px;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    line-height: 1.42857143;\r\n    text-align: left;\r\n    text-align: start;\r\n    text-decoration: none;\r\n    text-shadow: none;\r\n    text-transform: none;\r\n    letter-spacing: normal;\r\n    word-break: normal;\r\n    word-spacing: normal;\r\n    word-wrap: normal;\r\n    white-space: normal;\r\n    filter: alpha(opacity=0);\r\n    opacity: 0;\r\n    line-break: auto;\r\n}\r\n\r\n    .tooltip.in {\r\n        filter: alpha(opacity=90);\r\n        opacity: .9;\r\n    }\r\n\r\n    .tooltip.top {\r\n        padding: 5px 0;\r\n        margin-top: -3px;\r\n    }\r\n\r\n    .tooltip.right {\r\n        padding: 0 5px;\r\n        margin-left: 3px;\r\n    }\r\n\r\n    .tooltip.bottom {\r\n        padding: 5px 0;\r\n        margin-top: 3px;\r\n    }\r\n\r\n    .tooltip.left {\r\n        padding: 0 5px;\r\n        margin-left: -3px;\r\n    }\r\n\r\n.tooltip-inner {\r\n    max-width: 200px;\r\n    padding: 3px 8px;\r\n    color: #fff;\r\n    text-align: center;\r\n    background-color: #000;\r\n    border-radius: 4px;\r\n}\r\n\r\n.tooltip-arrow {\r\n    position: absolute;\r\n    width: 0;\r\n    height: 0;\r\n    border-color: transparent;\r\n    border-style: solid;\r\n}\r\n\r\n.tooltip.top .tooltip-arrow {\r\n    bottom: 0;\r\n    left: 50%;\r\n    margin-left: -5px;\r\n    border-width: 5px 5px 0;\r\n    border-top-color: #000;\r\n}\r\n\r\n.tooltip.top-left .tooltip-arrow {\r\n    right: 5px;\r\n    bottom: 0;\r\n    margin-bottom: -5px;\r\n    border-width: 5px 5px 0;\r\n    border-top-color: #000;\r\n}\r\n\r\n.tooltip.top-right .tooltip-arrow {\r\n    bottom: 0;\r\n    left: 5px;\r\n    margin-bottom: -5px;\r\n    border-width: 5px 5px 0;\r\n    border-top-color: #000;\r\n}\r\n\r\n.tooltip.right .tooltip-arrow {\r\n    top: 50%;\r\n    left: 0;\r\n    margin-top: -5px;\r\n    border-width: 5px 5px 5px 0;\r\n    border-right-color: #000;\r\n}\r\n\r\n.tooltip.left .tooltip-arrow {\r\n    top: 50%;\r\n    right: 0;\r\n    margin-top: -5px;\r\n    border-width: 5px 0 5px 5px;\r\n    border-left-color: #000;\r\n}\r\n\r\n.tooltip.bottom .tooltip-arrow {\r\n    top: 0;\r\n    left: 50%;\r\n    margin-left: -5px;\r\n    border-width: 0 5px 5px;\r\n    border-bottom-color: #000;\r\n}\r\n\r\n.tooltip.bottom-left .tooltip-arrow {\r\n    top: 0;\r\n    right: 5px;\r\n    margin-top: -5px;\r\n    border-width: 0 5px 5px;\r\n    border-bottom-color: #000;\r\n}\r\n\r\n.tooltip.bottom-right .tooltip-arrow {\r\n    top: 0;\r\n    left: 5px;\r\n    margin-top: -5px;\r\n    border-width: 0 5px 5px;\r\n    border-bottom-color: #000;\r\n}\r\n\r\n.popover {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 1060;\r\n    display: none;\r\n    max-width: 276px;\r\n    padding: 1px;\r\n    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n    font-size: 14px;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    line-height: 1.42857143;\r\n    text-align: left;\r\n    text-align: start;\r\n    text-decoration: none;\r\n    text-shadow: none;\r\n    text-transform: none;\r\n    letter-spacing: normal;\r\n    word-break: normal;\r\n    word-spacing: normal;\r\n    word-wrap: normal;\r\n    white-space: normal;\r\n    background-color: #fff;\r\n    -webkit-background-clip: padding-box;\r\n    background-clip: padding-box;\r\n    border: 1px solid #ccc;\r\n    border: 1px solid rgba(0, 0, 0, .2);\r\n    border-radius: 6px;\r\n    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);\r\n    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);\r\n    line-break: auto;\r\n}\r\n\r\n    .popover.top {\r\n        margin-top: -10px;\r\n    }\r\n\r\n    .popover.right {\r\n        margin-left: 10px;\r\n    }\r\n\r\n    .popover.bottom {\r\n        margin-top: 10px;\r\n    }\r\n\r\n    .popover.left {\r\n        margin-left: -10px;\r\n    }\r\n\r\n.popover-title {\r\n    padding: 8px 14px;\r\n    margin: 0;\r\n    font-size: 14px;\r\n    background-color: #f7f7f7;\r\n    border-bottom: 1px solid #ebebeb;\r\n    border-radius: 5px 5px 0 0;\r\n}\r\n\r\n.popover-content {\r\n    padding: 9px 14px;\r\n}\r\n\r\n.popover > .arrow,\r\n.popover > .arrow:after {\r\n    position: absolute;\r\n    display: block;\r\n    width: 0;\r\n    height: 0;\r\n    border-color: transparent;\r\n    border-style: solid;\r\n}\r\n\r\n.popover > .arrow {\r\n    border-width: 11px;\r\n}\r\n\r\n    .popover > .arrow:after {\r\n        content: \"\";\r\n        border-width: 10px;\r\n    }\r\n\r\n.popover.top > .arrow {\r\n    bottom: -11px;\r\n    left: 50%;\r\n    margin-left: -11px;\r\n    border-top-color: #999;\r\n    border-top-color: rgba(0, 0, 0, .25);\r\n    border-bottom-width: 0;\r\n}\r\n\r\n    .popover.top > .arrow:after {\r\n        bottom: 1px;\r\n        margin-left: -10px;\r\n        content: \" \";\r\n        border-top-color: #fff;\r\n        border-bottom-width: 0;\r\n    }\r\n\r\n.popover.right > .arrow {\r\n    top: 50%;\r\n    left: -11px;\r\n    margin-top: -11px;\r\n    border-right-color: #999;\r\n    border-right-color: rgba(0, 0, 0, .25);\r\n    border-left-width: 0;\r\n}\r\n\r\n    .popover.right > .arrow:after {\r\n        bottom: -10px;\r\n        left: 1px;\r\n        content: \" \";\r\n        border-right-color: #fff;\r\n        border-left-width: 0;\r\n    }\r\n\r\n.popover.bottom > .arrow {\r\n    top: -11px;\r\n    left: 50%;\r\n    margin-left: -11px;\r\n    border-top-width: 0;\r\n    border-bottom-color: #999;\r\n    border-bottom-color: rgba(0, 0, 0, .25);\r\n}\r\n\r\n    .popover.bottom > .arrow:after {\r\n        top: 1px;\r\n        margin-left: -10px;\r\n        content: \" \";\r\n        border-top-width: 0;\r\n        border-bottom-color: #fff;\r\n    }\r\n\r\n.popover.left > .arrow {\r\n    top: 50%;\r\n    right: -11px;\r\n    margin-top: -11px;\r\n    border-right-width: 0;\r\n    border-left-color: #999;\r\n    border-left-color: rgba(0, 0, 0, .25);\r\n}\r\n\r\n    .popover.left > .arrow:after {\r\n        right: 1px;\r\n        bottom: -10px;\r\n        content: \" \";\r\n        border-right-width: 0;\r\n        border-left-color: #fff;\r\n    }\r\n\r\n.carousel {\r\n    position: relative;\r\n}\r\n\r\n.carousel-inner {\r\n    position: relative;\r\n    width: 100%;\r\n    overflow: hidden;\r\n}\r\n\r\n    .carousel-inner > .item {\r\n        position: relative;\r\n        display: none;\r\n        -webkit-transition: .6s ease-in-out left;\r\n        -o-transition: .6s ease-in-out left;\r\n        transition: .6s ease-in-out left;\r\n    }\r\n\r\n        .carousel-inner > .item > img,\r\n        .carousel-inner > .item > a > img {\r\n            line-height: 1;\r\n        }\r\n\r\n@media all and (transform-3d), (-webkit-transform-3d) {\r\n    .carousel-inner > .item {\r\n        -webkit-transition: -webkit-transform .6s ease-in-out;\r\n        -o-transition: -o-transform .6s ease-in-out;\r\n        transition: transform .6s ease-in-out;\r\n        -webkit-backface-visibility: hidden;\r\n        backface-visibility: hidden;\r\n        -webkit-perspective: 1000px;\r\n        perspective: 1000px;\r\n    }\r\n\r\n        .carousel-inner > .item.next,\r\n        .carousel-inner > .item.active.right {\r\n            left: 0;\r\n            -webkit-transform: translate3d(100%, 0, 0);\r\n            transform: translate3d(100%, 0, 0);\r\n        }\r\n\r\n        .carousel-inner > .item.prev,\r\n        .carousel-inner > .item.active.left {\r\n            left: 0;\r\n            -webkit-transform: translate3d(-100%, 0, 0);\r\n            transform: translate3d(-100%, 0, 0);\r\n        }\r\n\r\n            .carousel-inner > .item.next.left,\r\n            .carousel-inner > .item.prev.right,\r\n            .carousel-inner > .item.active {\r\n                left: 0;\r\n                -webkit-transform: translate3d(0, 0, 0);\r\n                transform: translate3d(0, 0, 0);\r\n            }\r\n}\r\n\r\n.carousel-inner > .active,\r\n.carousel-inner > .next,\r\n.carousel-inner > .prev {\r\n    display: block;\r\n}\r\n\r\n.carousel-inner > .active {\r\n    left: 0;\r\n}\r\n\r\n.carousel-inner > .next,\r\n.carousel-inner > .prev {\r\n    position: absolute;\r\n    top: 0;\r\n    width: 100%;\r\n}\r\n\r\n.carousel-inner > .next {\r\n    left: 100%;\r\n}\r\n\r\n.carousel-inner > .prev {\r\n    left: -100%;\r\n}\r\n\r\n    .carousel-inner > .next.left,\r\n    .carousel-inner > .prev.right {\r\n        left: 0;\r\n    }\r\n\r\n.carousel-inner > .active.left {\r\n    left: -100%;\r\n}\r\n\r\n.carousel-inner > .active.right {\r\n    left: 100%;\r\n}\r\n\r\n.carousel-control {\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    width: 15%;\r\n    font-size: 20px;\r\n    color: #fff;\r\n    text-align: center;\r\n    text-shadow: 0 1px 2px rgba(0, 0, 0, .6);\r\n    background-color: rgba(0, 0, 0, 0);\r\n    filter: alpha(opacity=50);\r\n    opacity: .5;\r\n}\r\n\r\n    .carousel-control.left {\r\n        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);\r\n        background-image: -o-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);\r\n        background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, .0001)));\r\n        background-image: linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);\r\n        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);\r\n        background-repeat: repeat-x;\r\n    }\r\n\r\n    .carousel-control.right {\r\n        right: 0;\r\n        left: auto;\r\n        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);\r\n        background-image: -o-linear-gradient(left, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);\r\n        background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, .0001)), to(rgba(0, 0, 0, .5)));\r\n        background-image: linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);\r\n        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);\r\n        background-repeat: repeat-x;\r\n    }\r\n\r\n    .carousel-control:hover,\r\n    .carousel-control:focus {\r\n        color: #fff;\r\n        text-decoration: none;\r\n        filter: alpha(opacity=90);\r\n        outline: 0;\r\n        opacity: .9;\r\n    }\r\n\r\n    .carousel-control .icon-prev,\r\n    .carousel-control .icon-next,\r\n    .carousel-control .glyphicon-chevron-left,\r\n    .carousel-control .glyphicon-chevron-right {\r\n        position: absolute;\r\n        top: 50%;\r\n        z-index: 5;\r\n        display: inline-block;\r\n        margin-top: -10px;\r\n    }\r\n\r\n    .carousel-control .icon-prev,\r\n    .carousel-control .glyphicon-chevron-left {\r\n        left: 50%;\r\n        margin-left: -10px;\r\n    }\r\n\r\n    .carousel-control .icon-next,\r\n    .carousel-control .glyphicon-chevron-right {\r\n        right: 50%;\r\n        margin-right: -10px;\r\n    }\r\n\r\n    .carousel-control .icon-prev,\r\n    .carousel-control .icon-next {\r\n        width: 20px;\r\n        height: 20px;\r\n        font-family: serif;\r\n        line-height: 1;\r\n    }\r\n\r\n        .carousel-control .icon-prev:before {\r\n            content: '\\2039';\r\n        }\r\n\r\n        .carousel-control .icon-next:before {\r\n            content: '\\203A';\r\n        }\r\n\r\n.carousel-indicators {\r\n    position: absolute;\r\n    bottom: 10px;\r\n    left: 50%;\r\n    z-index: 15;\r\n    width: 60%;\r\n    padding-left: 0;\r\n    margin-left: -30%;\r\n    text-align: center;\r\n    list-style: none;\r\n}\r\n\r\n    .carousel-indicators li {\r\n        display: inline-block;\r\n        width: 10px;\r\n        height: 10px;\r\n        margin: 1px;\r\n        text-indent: -999px;\r\n        cursor: pointer;\r\n        background-color: #000 \\9;\r\n        background-color: rgba(0, 0, 0, 0);\r\n        border: 1px solid #fff;\r\n        border-radius: 10px;\r\n    }\r\n\r\n    .carousel-indicators .active {\r\n        width: 12px;\r\n        height: 12px;\r\n        margin: 0;\r\n        background-color: #fff;\r\n    }\r\n\r\n.carousel-caption {\r\n    position: absolute;\r\n    right: 15%;\r\n    bottom: 20px;\r\n    left: 15%;\r\n    z-index: 10;\r\n    padding-top: 20px;\r\n    padding-bottom: 20px;\r\n    color: #fff;\r\n    text-align: center;\r\n    text-shadow: 0 1px 2px rgba(0, 0, 0, .6);\r\n}\r\n\r\n    .carousel-caption .btn {\r\n        text-shadow: none;\r\n    }\r\n\r\n@media screen and (min-width: 768px) {\r\n    .carousel-control .glyphicon-chevron-left,\r\n    .carousel-control .glyphicon-chevron-right,\r\n    .carousel-control .icon-prev,\r\n    .carousel-control .icon-next {\r\n        width: 30px;\r\n        height: 30px;\r\n        margin-top: -10px;\r\n        font-size: 30px;\r\n    }\r\n\r\n    .carousel-control .glyphicon-chevron-left,\r\n    .carousel-control .icon-prev {\r\n        margin-left: -10px;\r\n    }\r\n\r\n    .carousel-control .glyphicon-chevron-right,\r\n    .carousel-control .icon-next {\r\n        margin-right: -10px;\r\n    }\r\n\r\n    .carousel-caption {\r\n        right: 20%;\r\n        left: 20%;\r\n        padding-bottom: 30px;\r\n    }\r\n\r\n    .carousel-indicators {\r\n        bottom: 20px;\r\n    }\r\n}\r\n\r\n.clearfix:before,\r\n.clearfix:after,\r\n.dl-horizontal dd:before,\r\n.dl-horizontal dd:after,\r\n.container:before,\r\n.container:after,\r\n.container-fluid:before,\r\n.container-fluid:after,\r\n.row:before,\r\n.row:after,\r\n.form-horizontal .form-group:before,\r\n.form-horizontal .form-group:after,\r\n.btn-toolbar:before,\r\n.btn-toolbar:after,\r\n.btn-group-vertical > .btn-group:before,\r\n.btn-group-vertical > .btn-group:after,\r\n.nav:before,\r\n.nav:after,\r\n.navbar:before,\r\n.navbar:after,\r\n.navbar-header:before,\r\n.navbar-header:after,\r\n.navbar-collapse:before,\r\n.navbar-collapse:after,\r\n.pager:before,\r\n.pager:after,\r\n.panel-body:before,\r\n.panel-body:after,\r\n.modal-header:before,\r\n.modal-header:after,\r\n.modal-footer:before,\r\n.modal-footer:after {\r\n    display: table;\r\n    content: \" \";\r\n}\r\n\r\n.clearfix:after,\r\n.dl-horizontal dd:after,\r\n.container:after,\r\n.container-fluid:after,\r\n.row:after,\r\n.form-horizontal .form-group:after,\r\n.btn-toolbar:after,\r\n.btn-group-vertical > .btn-group:after,\r\n.nav:after,\r\n.navbar:after,\r\n.navbar-header:after,\r\n.navbar-collapse:after,\r\n.pager:after,\r\n.panel-body:after,\r\n.modal-header:after,\r\n.modal-footer:after {\r\n    clear: both;\r\n}\r\n\r\n.center-block {\r\n    display: block;\r\n    margin-right: auto;\r\n    margin-left: auto;\r\n}\r\n\r\n.pull-right {\r\n    float: right !important;\r\n}\r\n\r\n.pull-left {\r\n    float: left !important;\r\n}\r\n\r\n.hide {\r\n    display: none !important;\r\n}\r\n\r\n.show {\r\n    display: block !important;\r\n}\r\n\r\n.invisible {\r\n    visibility: hidden;\r\n}\r\n\r\n.text-hide {\r\n    font: 0/0 a;\r\n    color: transparent;\r\n    text-shadow: none;\r\n    background-color: transparent;\r\n    border: 0;\r\n}\r\n\r\n.hidden {\r\n    display: none !important;\r\n}\r\n\r\n.affix {\r\n    position: fixed;\r\n}\r\n\r\n@-ms-viewport {\r\n    width: device-width;\r\n}\r\n\r\n.visible-xs,\r\n.visible-sm,\r\n.visible-md,\r\n.visible-lg {\r\n    display: none !important;\r\n}\r\n\r\n.visible-xs-block,\r\n.visible-xs-inline,\r\n.visible-xs-inline-block,\r\n.visible-sm-block,\r\n.visible-sm-inline,\r\n.visible-sm-inline-block,\r\n.visible-md-block,\r\n.visible-md-inline,\r\n.visible-md-inline-block,\r\n.visible-lg-block,\r\n.visible-lg-inline,\r\n.visible-lg-inline-block {\r\n    display: none !important;\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .visible-xs {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-xs {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-xs {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-xs,\r\n    td.visible-xs {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .visible-xs-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .visible-xs-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .visible-xs-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .visible-sm {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-sm {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-sm {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-sm,\r\n    td.visible-sm {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .visible-sm-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .visible-sm-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .visible-sm-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .visible-md {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-md {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-md {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-md,\r\n    td.visible-md {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .visible-md-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .visible-md-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .visible-md-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .visible-lg {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-lg {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-lg {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-lg,\r\n    td.visible-lg {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .visible-lg-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .visible-lg-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .visible-lg-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .hidden-xs {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .hidden-sm {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .hidden-md {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .hidden-lg {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n.visible-print {\r\n    display: none !important;\r\n}\r\n\r\n@media print {\r\n    .visible-print {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-print {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-print {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-print,\r\n    td.visible-print {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n.visible-print-block {\r\n    display: none !important;\r\n}\r\n\r\n@media print {\r\n    .visible-print-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n.visible-print-inline {\r\n    display: none !important;\r\n}\r\n\r\n@media print {\r\n    .visible-print-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n.visible-print-inline-block {\r\n    display: none !important;\r\n}\r\n\r\n@media print {\r\n    .visible-print-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media print {\r\n    .hidden-print {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n\r\n/*# sourceMappingURL=bootstrap.css.map */\r\n", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 432 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(433);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./auction.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./auction.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
 /* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38824,7 +38950,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n\r\n\r\n\r\n\r\nimg {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    /*z-index: 1;*/\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n/*\r\n.down-arrow {\r\n    float: right;\r\n    z-index: 5;\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n    \r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        \r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        margin-right: 20px;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n    */\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n/*\r\n#UpperLogo {\r\n    height: 74.05px;\r\n}\r\n\r\n#TaramtiLogo {\r\n    float: left;\r\n    margin-left: -2%;\r\n    width: 95%;\r\n}*/", ""]);
+	exports.push([module.id, "/*!\r\n * Bootstrap v3.3.7 (http://getbootstrap.com)\r\n * Copyright 2011-2016 Twitter, Inc.\r\n * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)\r\n */\r\n/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */\r\nhtml {\r\n    font-family: Calibri;\r\n    -webkit-text-size-adjust: 100%;\r\n    -ms-text-size-adjust: 100%;\r\n}\r\n\r\nbody {\r\n    margin: 0;\r\n\r\n}\r\n\r\narticle,\r\naside,\r\ndetails,\r\nfigcaption,\r\nfigure,\r\nfooter,\r\nheader,\r\nhgroup,\r\nmain,\r\nmenu,\r\nnav,\r\nsection,\r\nsummary {\r\n    display: block;\r\n}\r\n\r\naudio,\r\ncanvas,\r\nprogress,\r\nvideo {\r\n    display: inline-block;\r\n    vertical-align: baseline;\r\n}\r\n\r\n#NavbarWrapper{\r\n    padding-right:0;\r\n\r\n}\r\n\r\n    audio:not([controls]) {\r\n        display: none;\r\n        height: 0;\r\n    }\r\n\r\n[hidden],\r\ntemplate {\r\n    display: none;\r\n}\r\n\r\na {\r\n    background-color: transparent;\r\n}\r\n\r\n    a:active,\r\n    a:hover {\r\n        outline: 0;\r\n    }\r\n\r\nabbr[title] {\r\n    border-bottom: 1px dotted;\r\n}\r\n\r\nb,\r\nstrong {\r\n    font-weight: bold;\r\n}\r\n\r\ndfn {\r\n    font-style: italic;\r\n}\r\n\r\nh1 {\r\n    margin: .67em 0;\r\n    font-size: 2em;\r\n}\r\n\r\nmark {\r\n    color: #000;\r\n    background: #ff0;\r\n}\r\n\r\nsmall {\r\n    font-size: 80%;\r\n}\r\n\r\nsub,\r\nsup {\r\n    position: relative;\r\n    font-size: 75%;\r\n    line-height: 0;\r\n    vertical-align: baseline;\r\n}\r\n\r\nsup {\r\n    top: -.5em;\r\n}\r\n\r\nsub {\r\n    bottom: -.25em;\r\n}\r\n\r\nimg {\r\n    border: 0;\r\n}\r\n\r\nsvg:not(:root) {\r\n    overflow: hidden;\r\n}\r\n\r\nfigure {\r\n    margin: 1em 40px;\r\n}\r\n\r\nhr {\r\n    height: 0;\r\n    -webkit-box-sizing: content-box;\r\n    -moz-box-sizing: content-box;\r\n    box-sizing: content-box;\r\n}\r\n\r\npre {\r\n    overflow: auto;\r\n}\r\n\r\ncode,\r\nkbd,\r\npre,\r\nsamp {\r\n    font-family: monospace, monospace;\r\n    font-size: 1em;\r\n}\r\n\r\nbutton,\r\ninput,\r\noptgroup,\r\nselect,\r\ntextarea {\r\n    margin: 0;\r\n    font: inherit;\r\n    color: inherit;\r\n}\r\n\r\nbutton {\r\n    overflow: visible;\r\n}\r\n\r\nbutton,\r\nselect {\r\n    text-transform: none;\r\n}\r\n\r\nbutton,\r\nhtml input[type=\"button\"],\r\ninput[type=\"reset\"],\r\ninput[type=\"submit\"] {\r\n    -webkit-appearance: button;\r\n    cursor: pointer;\r\n}\r\n\r\n    button[disabled],\r\n    html input[disabled] {\r\n        cursor: default;\r\n    }\r\n\r\n    button::-moz-focus-inner,\r\n    input::-moz-focus-inner {\r\n        padding: 0;\r\n        border: 0;\r\n    }\r\n\r\ninput {\r\n    line-height: normal;\r\n}\r\n\r\n    input[type=\"checkbox\"],\r\n    input[type=\"radio\"] {\r\n        -webkit-box-sizing: border-box;\r\n        -moz-box-sizing: border-box;\r\n        box-sizing: border-box;\r\n        padding: 0;\r\n    }\r\n\r\n    input[type=\"number\"]::-webkit-inner-spin-button,\r\n    input[type=\"number\"]::-webkit-outer-spin-button {\r\n        height: auto;\r\n    }\r\n\r\n    input[type=\"search\"] {\r\n        -webkit-box-sizing: content-box;\r\n        -moz-box-sizing: content-box;\r\n        box-sizing: content-box;\r\n        -webkit-appearance: textfield;\r\n    }\r\n\r\n        input[type=\"search\"]::-webkit-search-cancel-button,\r\n        input[type=\"search\"]::-webkit-search-decoration {\r\n            -webkit-appearance: none;\r\n        }\r\n\r\nfieldset {\r\n    padding: .35em .625em .75em;\r\n    margin: 0 2px;\r\n    border: 1px solid #c0c0c0;\r\n}\r\n\r\nlegend {\r\n    padding: 0;\r\n    border: 0;\r\n}\r\n\r\ntextarea {\r\n    overflow: auto;\r\n}\r\n\r\noptgroup {\r\n    font-weight: bold;\r\n}\r\n\r\ntable {\r\n    border-spacing: 0;\r\n    border-collapse: collapse;\r\n}\r\n\r\ntd,\r\nth {\r\n    padding: 0;\r\n}\r\n/*! Source: https://github.com/h5bp/html5-boilerplate/blob/master/src/css/main.css */\r\n@media print {\r\n    *,\r\n    *:before,\r\n    *:after {\r\n        color: #000 !important;\r\n        text-shadow: none !important;\r\n        background: transparent !important;\r\n        -webkit-box-shadow: none !important;\r\n        box-shadow: none !important;\r\n    }\r\n\r\n    a,\r\n    a:visited {\r\n        text-decoration: underline;\r\n    }\r\n\r\n        a[href]:after {\r\n            content: \" (\" attr(href) \")\";\r\n        }\r\n\r\n    abbr[title]:after {\r\n        content: \" (\" attr(title) \")\";\r\n    }\r\n\r\n    a[href^=\"#\"]:after,\r\n    a[href^=\"javascript:\"]:after {\r\n        content: \"\";\r\n    }\r\n\r\n    pre,\r\n    blockquote {\r\n        border: 1px solid #999;\r\n        page-break-inside: avoid;\r\n    }\r\n\r\n    thead {\r\n        display: table-header-group;\r\n    }\r\n\r\n    tr,\r\n    img {\r\n        page-break-inside: avoid;\r\n    }\r\n\r\n    img {\r\n        max-width: 100% !important;\r\n    }\r\n\r\n    p,\r\n    h2,\r\n    h3 {\r\n        orphans: 3;\r\n        widows: 3;\r\n    }\r\n\r\n    h2,\r\n    h3 {\r\n        page-break-after: avoid;\r\n    }\r\n\r\n    .navbar {\r\n        display: none;\r\n    }\r\n\r\n    .btn > .caret,\r\n    .dropup > .btn > .caret {\r\n        border-top-color: #000 !important;\r\n    }\r\n\r\n    .label {\r\n        border: 1px solid #000;\r\n    }\r\n\r\n    .table {\r\n        border-collapse: collapse !important;\r\n    }\r\n\r\n        .table td,\r\n        .table th {\r\n            background-color: #fff !important;\r\n        }\r\n\r\n    .table-bordered th,\r\n    .table-bordered td {\r\n        border: 1px solid #ddd !important;\r\n    }\r\n}\r\n\r\n@font-face {\r\n    font-family: 'Glyphicons Halflings';\r\n    src: url('../fonts/glyphicons-halflings-regular.eot');\r\n    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');\r\n}\r\n\r\n.glyphicon {\r\n    position: relative;\r\n    top: 1px;\r\n    display: inline-block;\r\n    font-family: 'Glyphicons Halflings';\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    line-height: 1;\r\n    -webkit-font-smoothing: antialiased;\r\n    -moz-osx-font-smoothing: grayscale;\r\n}\r\n\r\n.glyphicon-asterisk:before {\r\n    content: \"*\";\r\n}\r\n\r\n.glyphicon-plus:before {\r\n    content: \"+\";\r\n}\r\n\r\n.glyphicon-euro:before,\r\n.glyphicon-eur:before {\r\n    content: \"\\20AC\";\r\n}\r\n\r\n.glyphicon-minus:before {\r\n    content: \"\\2212\";\r\n}\r\n\r\n.glyphicon-cloud:before {\r\n    content: \"\\2601\";\r\n}\r\n\r\n.glyphicon-envelope:before {\r\n    content: \"\\2709\";\r\n}\r\n\r\n.glyphicon-pencil:before {\r\n    content: \"\\270F\";\r\n}\r\n\r\n.glyphicon-glass:before {\r\n    content: \"\\E001\";\r\n}\r\n\r\n.glyphicon-music:before {\r\n    content: \"\\E002\";\r\n}\r\n\r\n.glyphicon-search:before {\r\n    content: \"\\E003\";\r\n}\r\n\r\n.glyphicon-heart:before {\r\n    content: \"\\E005\";\r\n}\r\n\r\n.glyphicon-star:before {\r\n    content: \"\\E006\";\r\n}\r\n\r\n.glyphicon-star-empty:before {\r\n    content: \"\\E007\";\r\n}\r\n\r\n.glyphicon-user:before {\r\n    content: \"\\E008\";\r\n}\r\n\r\n.glyphicon-film:before {\r\n    content: \"\\E009\";\r\n}\r\n\r\n.glyphicon-th-large:before {\r\n    content: \"\\E010\";\r\n}\r\n\r\n.glyphicon-th:before {\r\n    content: \"\\E011\";\r\n}\r\n\r\n.glyphicon-th-list:before {\r\n    content: \"\\E012\";\r\n}\r\n\r\n.glyphicon-ok:before {\r\n    content: \"\\E013\";\r\n}\r\n\r\n.glyphicon-remove:before {\r\n    content: \"\\E014\";\r\n}\r\n\r\n.glyphicon-zoom-in:before {\r\n    content: \"\\E015\";\r\n}\r\n\r\n.glyphicon-zoom-out:before {\r\n    content: \"\\E016\";\r\n}\r\n\r\n.glyphicon-off:before {\r\n    content: \"\\E017\";\r\n}\r\n\r\n.glyphicon-signal:before {\r\n    content: \"\\E018\";\r\n}\r\n\r\n.glyphicon-cog:before {\r\n    content: \"\\E019\";\r\n}\r\n\r\n.glyphicon-trash:before {\r\n    content: \"\\E020\";\r\n}\r\n\r\n.glyphicon-home:before {\r\n    content: \"\\E021\";\r\n}\r\n\r\n.glyphicon-file:before {\r\n    content: \"\\E022\";\r\n}\r\n\r\n.glyphicon-time:before {\r\n    content: \"\\E023\";\r\n}\r\n\r\n.glyphicon-road:before {\r\n    content: \"\\E024\";\r\n}\r\n\r\n.glyphicon-download-alt:before {\r\n    content: \"\\E025\";\r\n}\r\n\r\n.glyphicon-download:before {\r\n    content: \"\\E026\";\r\n}\r\n\r\n.glyphicon-upload:before {\r\n    content: \"\\E027\";\r\n}\r\n\r\n.glyphicon-inbox:before {\r\n    content: \"\\E028\";\r\n}\r\n\r\n.glyphicon-play-circle:before {\r\n    content: \"\\E029\";\r\n}\r\n\r\n.glyphicon-repeat:before {\r\n    content: \"\\E030\";\r\n}\r\n\r\n.glyphicon-refresh:before {\r\n    content: \"\\E031\";\r\n}\r\n\r\n.glyphicon-list-alt:before {\r\n    content: \"\\E032\";\r\n}\r\n\r\n.glyphicon-lock:before {\r\n    content: \"\\E033\";\r\n}\r\n\r\n.glyphicon-flag:before {\r\n    content: \"\\E034\";\r\n}\r\n\r\n.glyphicon-headphones:before {\r\n    content: \"\\E035\";\r\n}\r\n\r\n.glyphicon-volume-off:before {\r\n    content: \"\\E036\";\r\n}\r\n\r\n.glyphicon-volume-down:before {\r\n    content: \"\\E037\";\r\n}\r\n\r\n.glyphicon-volume-up:before {\r\n    content: \"\\E038\";\r\n}\r\n\r\n.glyphicon-qrcode:before {\r\n    content: \"\\E039\";\r\n}\r\n\r\n.glyphicon-barcode:before {\r\n    content: \"\\E040\";\r\n}\r\n\r\n.glyphicon-tag:before {\r\n    content: \"\\E041\";\r\n}\r\n\r\n.glyphicon-tags:before {\r\n    content: \"\\E042\";\r\n}\r\n\r\n.glyphicon-book:before {\r\n    content: \"\\E043\";\r\n}\r\n\r\n.glyphicon-bookmark:before {\r\n    content: \"\\E044\";\r\n}\r\n\r\n.glyphicon-print:before {\r\n    content: \"\\E045\";\r\n}\r\n\r\n.glyphicon-camera:before {\r\n    content: \"\\E046\";\r\n}\r\n\r\n.glyphicon-font:before {\r\n    content: \"\\E047\";\r\n}\r\n\r\n.glyphicon-bold:before {\r\n    content: \"\\E048\";\r\n}\r\n\r\n.glyphicon-italic:before {\r\n    content: \"\\E049\";\r\n}\r\n\r\n.glyphicon-text-height:before {\r\n    content: \"\\E050\";\r\n}\r\n\r\n.glyphicon-text-width:before {\r\n    content: \"\\E051\";\r\n}\r\n\r\n.glyphicon-align-left:before {\r\n    content: \"\\E052\";\r\n}\r\n\r\n.glyphicon-align-center:before {\r\n    content: \"\\E053\";\r\n}\r\n\r\n.glyphicon-align-right:before {\r\n    content: \"\\E054\";\r\n}\r\n\r\n.glyphicon-align-justify:before {\r\n    content: \"\\E055\";\r\n}\r\n\r\n.glyphicon-list:before {\r\n    content: \"\\E056\";\r\n}\r\n\r\n.glyphicon-indent-left:before {\r\n    content: \"\\E057\";\r\n}\r\n\r\n.glyphicon-indent-right:before {\r\n    content: \"\\E058\";\r\n}\r\n\r\n.glyphicon-facetime-video:before {\r\n    content: \"\\E059\";\r\n}\r\n\r\n.glyphicon-picture:before {\r\n    content: \"\\E060\";\r\n}\r\n\r\n.glyphicon-map-marker:before {\r\n    content: \"\\E062\";\r\n}\r\n\r\n.glyphicon-adjust:before {\r\n    content: \"\\E063\";\r\n}\r\n\r\n.glyphicon-tint:before {\r\n    content: \"\\E064\";\r\n}\r\n\r\n.glyphicon-edit:before {\r\n    content: \"\\E065\";\r\n}\r\n\r\n.glyphicon-share:before {\r\n    content: \"\\E066\";\r\n}\r\n\r\n.glyphicon-check:before {\r\n    content: \"\\E067\";\r\n}\r\n\r\n.glyphicon-move:before {\r\n    content: \"\\E068\";\r\n}\r\n\r\n.glyphicon-step-backward:before {\r\n    content: \"\\E069\";\r\n}\r\n\r\n.glyphicon-fast-backward:before {\r\n    content: \"\\E070\";\r\n}\r\n\r\n.glyphicon-backward:before {\r\n    content: \"\\E071\";\r\n}\r\n\r\n.glyphicon-play:before {\r\n    content: \"\\E072\";\r\n}\r\n\r\n.glyphicon-pause:before {\r\n    content: \"\\E073\";\r\n}\r\n\r\n.glyphicon-stop:before {\r\n    content: \"\\E074\";\r\n}\r\n\r\n.glyphicon-forward:before {\r\n    content: \"\\E075\";\r\n}\r\n\r\n.glyphicon-fast-forward:before {\r\n    content: \"\\E076\";\r\n}\r\n\r\n.glyphicon-step-forward:before {\r\n    content: \"\\E077\";\r\n}\r\n\r\n.glyphicon-eject:before {\r\n    content: \"\\E078\";\r\n}\r\n\r\n.glyphicon-chevron-left:before {\r\n    content: \"\\E079\";\r\n}\r\n\r\n.glyphicon-chevron-right:before {\r\n    content: \"\\E080\";\r\n}\r\n\r\n.glyphicon-plus-sign:before {\r\n    content: \"\\E081\";\r\n}\r\n\r\n.glyphicon-minus-sign:before {\r\n    content: \"\\E082\";\r\n}\r\n\r\n.glyphicon-remove-sign:before {\r\n    content: \"\\E083\";\r\n}\r\n\r\n.glyphicon-ok-sign:before {\r\n    content: \"\\E084\";\r\n}\r\n\r\n.glyphicon-question-sign:before {\r\n    content: \"\\E085\";\r\n}\r\n\r\n.glyphicon-info-sign:before {\r\n    content: \"\\E086\";\r\n}\r\n\r\n.glyphicon-screenshot:before {\r\n    content: \"\\E087\";\r\n}\r\n\r\n.glyphicon-remove-circle:before {\r\n    content: \"\\E088\";\r\n}\r\n\r\n.glyphicon-ok-circle:before {\r\n    content: \"\\E089\";\r\n}\r\n\r\n.glyphicon-ban-circle:before {\r\n    content: \"\\E090\";\r\n}\r\n\r\n.glyphicon-arrow-left:before {\r\n    content: \"\\E091\";\r\n}\r\n\r\n.glyphicon-arrow-right:before {\r\n    content: \"\\E092\";\r\n}\r\n\r\n.glyphicon-arrow-up:before {\r\n    content: \"\\E093\";\r\n}\r\n\r\n.glyphicon-arrow-down:before {\r\n    content: \"\\E094\";\r\n}\r\n\r\n.glyphicon-share-alt:before {\r\n    content: \"\\E095\";\r\n}\r\n\r\n.glyphicon-resize-full:before {\r\n    content: \"\\E096\";\r\n}\r\n\r\n.glyphicon-resize-small:before {\r\n    content: \"\\E097\";\r\n}\r\n\r\n.glyphicon-exclamation-sign:before {\r\n    content: \"\\E101\";\r\n}\r\n\r\n.glyphicon-gift:before {\r\n    content: \"\\E102\";\r\n}\r\n\r\n.glyphicon-leaf:before {\r\n    content: \"\\E103\";\r\n}\r\n\r\n.glyphicon-fire:before {\r\n    content: \"\\E104\";\r\n}\r\n\r\n.glyphicon-eye-open:before {\r\n    content: \"\\E105\";\r\n}\r\n\r\n.glyphicon-eye-close:before {\r\n    content: \"\\E106\";\r\n}\r\n\r\n.glyphicon-warning-sign:before {\r\n    content: \"\\E107\";\r\n}\r\n\r\n.glyphicon-plane:before {\r\n    content: \"\\E108\";\r\n}\r\n\r\n.glyphicon-calendar:before {\r\n    content: \"\\E109\";\r\n}\r\n\r\n.glyphicon-random:before {\r\n    content: \"\\E110\";\r\n}\r\n\r\n.glyphicon-comment:before {\r\n    content: \"\\E111\";\r\n}\r\n\r\n.glyphicon-magnet:before {\r\n    content: \"\\E112\";\r\n}\r\n\r\n.glyphicon-chevron-up:before {\r\n    content: \"\\E113\";\r\n}\r\n\r\n.glyphicon-chevron-down:before {\r\n    content: \"\\E114\";\r\n}\r\n\r\n.glyphicon-retweet:before {\r\n    content: \"\\E115\";\r\n}\r\n\r\n.glyphicon-shopping-cart:before {\r\n    content: \"\\E116\";\r\n}\r\n\r\n.glyphicon-folder-close:before {\r\n    content: \"\\E117\";\r\n}\r\n\r\n.glyphicon-folder-open:before {\r\n    content: \"\\E118\";\r\n}\r\n\r\n.glyphicon-resize-vertical:before {\r\n    content: \"\\E119\";\r\n}\r\n\r\n.glyphicon-resize-horizontal:before {\r\n    content: \"\\E120\";\r\n}\r\n\r\n.glyphicon-hdd:before {\r\n    content: \"\\E121\";\r\n}\r\n\r\n.glyphicon-bullhorn:before {\r\n    content: \"\\E122\";\r\n}\r\n\r\n.glyphicon-bell:before {\r\n    content: \"\\E123\";\r\n}\r\n\r\n.glyphicon-certificate:before {\r\n    content: \"\\E124\";\r\n}\r\n\r\n.glyphicon-thumbs-up:before {\r\n    content: \"\\E125\";\r\n}\r\n\r\n.glyphicon-thumbs-down:before {\r\n    content: \"\\E126\";\r\n}\r\n\r\n.glyphicon-hand-right:before {\r\n    content: \"\\E127\";\r\n}\r\n\r\n.glyphicon-hand-left:before {\r\n    content: \"\\E128\";\r\n}\r\n\r\n.glyphicon-hand-up:before {\r\n    content: \"\\E129\";\r\n}\r\n\r\n.glyphicon-hand-down:before {\r\n    content: \"\\E130\";\r\n}\r\n\r\n.glyphicon-circle-arrow-right:before {\r\n    content: \"\\E131\";\r\n}\r\n\r\n.glyphicon-circle-arrow-left:before {\r\n    content: \"\\E132\";\r\n}\r\n\r\n.glyphicon-circle-arrow-up:before {\r\n    content: \"\\E133\";\r\n}\r\n\r\n.glyphicon-circle-arrow-down:before {\r\n    content: \"\\E134\";\r\n}\r\n\r\n.glyphicon-globe:before {\r\n    content: \"\\E135\";\r\n}\r\n\r\n.glyphicon-wrench:before {\r\n    content: \"\\E136\";\r\n}\r\n\r\n.glyphicon-tasks:before {\r\n    content: \"\\E137\";\r\n}\r\n\r\n.glyphicon-filter:before {\r\n    content: \"\\E138\";\r\n}\r\n\r\n.glyphicon-briefcase:before {\r\n    content: \"\\E139\";\r\n}\r\n\r\n.glyphicon-fullscreen:before {\r\n    content: \"\\E140\";\r\n}\r\n\r\n.glyphicon-dashboard:before {\r\n    content: \"\\E141\";\r\n}\r\n\r\n.glyphicon-paperclip:before {\r\n    content: \"\\E142\";\r\n}\r\n\r\n.glyphicon-heart-empty:before {\r\n    content: \"\\E143\";\r\n}\r\n\r\n.glyphicon-link:before {\r\n    content: \"\\E144\";\r\n}\r\n\r\n.glyphicon-phone:before {\r\n    content: \"\\E145\";\r\n}\r\n\r\n.glyphicon-pushpin:before {\r\n    content: \"\\E146\";\r\n}\r\n\r\n.glyphicon-usd:before {\r\n    content: \"\\E148\";\r\n}\r\n\r\n.glyphicon-gbp:before {\r\n    content: \"\\E149\";\r\n}\r\n\r\n.glyphicon-sort:before {\r\n    content: \"\\E150\";\r\n}\r\n\r\n.glyphicon-sort-by-alphabet:before {\r\n    content: \"\\E151\";\r\n}\r\n\r\n.glyphicon-sort-by-alphabet-alt:before {\r\n    content: \"\\E152\";\r\n}\r\n\r\n.glyphicon-sort-by-order:before {\r\n    content: \"\\E153\";\r\n}\r\n\r\n.glyphicon-sort-by-order-alt:before {\r\n    content: \"\\E154\";\r\n}\r\n\r\n.glyphicon-sort-by-attributes:before {\r\n    content: \"\\E155\";\r\n}\r\n\r\n.glyphicon-sort-by-attributes-alt:before {\r\n    content: \"\\E156\";\r\n}\r\n\r\n.glyphicon-unchecked:before {\r\n    content: \"\\E157\";\r\n}\r\n\r\n.glyphicon-expand:before {\r\n    content: \"\\E158\";\r\n}\r\n\r\n.glyphicon-collapse-down:before {\r\n    content: \"\\E159\";\r\n}\r\n\r\n.glyphicon-collapse-up:before {\r\n    content: \"\\E160\";\r\n}\r\n\r\n.glyphicon-log-in:before {\r\n    content: \"\\E161\";\r\n}\r\n\r\n.glyphicon-flash:before {\r\n    content: \"\\E162\";\r\n}\r\n\r\n.glyphicon-log-out:before {\r\n    content: \"\\E163\";\r\n}\r\n\r\n.glyphicon-new-window:before {\r\n    content: \"\\E164\";\r\n}\r\n\r\n.glyphicon-record:before {\r\n    content: \"\\E165\";\r\n}\r\n\r\n.glyphicon-save:before {\r\n    content: \"\\E166\";\r\n}\r\n\r\n.glyphicon-open:before {\r\n    content: \"\\E167\";\r\n}\r\n\r\n.glyphicon-saved:before {\r\n    content: \"\\E168\";\r\n}\r\n\r\n.glyphicon-import:before {\r\n    content: \"\\E169\";\r\n}\r\n\r\n.glyphicon-export:before {\r\n    content: \"\\E170\";\r\n}\r\n\r\n.glyphicon-send:before {\r\n    content: \"\\E171\";\r\n}\r\n\r\n.glyphicon-floppy-disk:before {\r\n    content: \"\\E172\";\r\n}\r\n\r\n.glyphicon-floppy-saved:before {\r\n    content: \"\\E173\";\r\n}\r\n\r\n.glyphicon-floppy-remove:before {\r\n    content: \"\\E174\";\r\n}\r\n\r\n.glyphicon-floppy-save:before {\r\n    content: \"\\E175\";\r\n}\r\n\r\n.glyphicon-floppy-open:before {\r\n    content: \"\\E176\";\r\n}\r\n\r\n.glyphicon-credit-card:before {\r\n    content: \"\\E177\";\r\n}\r\n\r\n.glyphicon-transfer:before {\r\n    content: \"\\E178\";\r\n}\r\n\r\n.glyphicon-cutlery:before {\r\n    content: \"\\E179\";\r\n}\r\n\r\n.glyphicon-header:before {\r\n    content: \"\\E180\";\r\n}\r\n\r\n.glyphicon-compressed:before {\r\n    content: \"\\E181\";\r\n}\r\n\r\n.glyphicon-earphone:before {\r\n    content: \"\\E182\";\r\n}\r\n\r\n.glyphicon-phone-alt:before {\r\n    content: \"\\E183\";\r\n}\r\n\r\n.glyphicon-tower:before {\r\n    content: \"\\E184\";\r\n}\r\n\r\n.glyphicon-stats:before {\r\n    content: \"\\E185\";\r\n}\r\n\r\n.glyphicon-sd-video:before {\r\n    content: \"\\E186\";\r\n}\r\n\r\n.glyphicon-hd-video:before {\r\n    content: \"\\E187\";\r\n}\r\n\r\n.glyphicon-subtitles:before {\r\n    content: \"\\E188\";\r\n}\r\n\r\n.glyphicon-sound-stereo:before {\r\n    content: \"\\E189\";\r\n}\r\n\r\n.glyphicon-sound-dolby:before {\r\n    content: \"\\E190\";\r\n}\r\n\r\n.glyphicon-sound-5-1:before {\r\n    content: \"\\E191\";\r\n}\r\n\r\n.glyphicon-sound-6-1:before {\r\n    content: \"\\E192\";\r\n}\r\n\r\n.glyphicon-sound-7-1:before {\r\n    content: \"\\E193\";\r\n}\r\n\r\n.glyphicon-copyright-mark:before {\r\n    content: \"\\E194\";\r\n}\r\n\r\n.glyphicon-registration-mark:before {\r\n    content: \"\\E195\";\r\n}\r\n\r\n.glyphicon-cloud-download:before {\r\n    content: \"\\E197\";\r\n}\r\n\r\n.glyphicon-cloud-upload:before {\r\n    content: \"\\E198\";\r\n}\r\n\r\n.glyphicon-tree-conifer:before {\r\n    content: \"\\E199\";\r\n}\r\n\r\n.glyphicon-tree-deciduous:before {\r\n    content: \"\\E200\";\r\n}\r\n\r\n.glyphicon-cd:before {\r\n    content: \"\\E201\";\r\n}\r\n\r\n.glyphicon-save-file:before {\r\n    content: \"\\E202\";\r\n}\r\n\r\n.glyphicon-open-file:before {\r\n    content: \"\\E203\";\r\n}\r\n\r\n.glyphicon-level-up:before {\r\n    content: \"\\E204\";\r\n}\r\n\r\n.glyphicon-copy:before {\r\n    content: \"\\E205\";\r\n}\r\n\r\n.glyphicon-paste:before {\r\n    content: \"\\E206\";\r\n}\r\n\r\n.glyphicon-alert:before {\r\n    content: \"\\E209\";\r\n}\r\n\r\n.glyphicon-equalizer:before {\r\n    content: \"\\E210\";\r\n}\r\n\r\n.glyphicon-king:before {\r\n    content: \"\\E211\";\r\n}\r\n\r\n.glyphicon-queen:before {\r\n    content: \"\\E212\";\r\n}\r\n\r\n.glyphicon-pawn:before {\r\n    content: \"\\E213\";\r\n}\r\n\r\n.glyphicon-bishop:before {\r\n    content: \"\\E214\";\r\n}\r\n\r\n.glyphicon-knight:before {\r\n    content: \"\\E215\";\r\n}\r\n\r\n.glyphicon-baby-formula:before {\r\n    content: \"\\E216\";\r\n}\r\n\r\n.glyphicon-tent:before {\r\n    content: \"\\26FA\";\r\n}\r\n\r\n.glyphicon-blackboard:before {\r\n    content: \"\\E218\";\r\n}\r\n\r\n.glyphicon-bed:before {\r\n    content: \"\\E219\";\r\n}\r\n\r\n.glyphicon-apple:before {\r\n    content: \"\\F8FF\";\r\n}\r\n\r\n.glyphicon-erase:before {\r\n    content: \"\\E221\";\r\n}\r\n\r\n.glyphicon-hourglass:before {\r\n    content: \"\\231B\";\r\n}\r\n\r\n.glyphicon-lamp:before {\r\n    content: \"\\E223\";\r\n}\r\n\r\n.glyphicon-duplicate:before {\r\n    content: \"\\E224\";\r\n}\r\n\r\n.glyphicon-piggy-bank:before {\r\n    content: \"\\E225\";\r\n}\r\n\r\n.glyphicon-scissors:before {\r\n    content: \"\\E226\";\r\n}\r\n\r\n.glyphicon-bitcoin:before {\r\n    content: \"\\E227\";\r\n}\r\n\r\n.glyphicon-btc:before {\r\n    content: \"\\E227\";\r\n}\r\n\r\n.glyphicon-xbt:before {\r\n    content: \"\\E227\";\r\n}\r\n\r\n.glyphicon-yen:before {\r\n    content: \"\\A5\";\r\n}\r\n\r\n.glyphicon-jpy:before {\r\n    content: \"\\A5\";\r\n}\r\n\r\n.glyphicon-ruble:before {\r\n    content: \"\\20BD\";\r\n}\r\n\r\n.glyphicon-rub:before {\r\n    content: \"\\20BD\";\r\n}\r\n\r\n.glyphicon-scale:before {\r\n    content: \"\\E230\";\r\n}\r\n\r\n.glyphicon-ice-lolly:before {\r\n    content: \"\\E231\";\r\n}\r\n\r\n.glyphicon-ice-lolly-tasted:before {\r\n    content: \"\\E232\";\r\n}\r\n\r\n.glyphicon-education:before {\r\n    content: \"\\E233\";\r\n}\r\n\r\n.glyphicon-option-horizontal:before {\r\n    content: \"\\E234\";\r\n}\r\n\r\n.glyphicon-option-vertical:before {\r\n    content: \"\\E235\";\r\n}\r\n\r\n.glyphicon-menu-hamburger:before {\r\n    content: \"\\E236\";\r\n}\r\n\r\n.glyphicon-modal-window:before {\r\n    content: \"\\E237\";\r\n}\r\n\r\n.glyphicon-oil:before {\r\n    content: \"\\E238\";\r\n}\r\n\r\n.glyphicon-grain:before {\r\n    content: \"\\E239\";\r\n}\r\n\r\n.glyphicon-sunglasses:before {\r\n    content: \"\\E240\";\r\n}\r\n\r\n.glyphicon-text-size:before {\r\n    content: \"\\E241\";\r\n}\r\n\r\n.glyphicon-text-color:before {\r\n    content: \"\\E242\";\r\n}\r\n\r\n.glyphicon-text-background:before {\r\n    content: \"\\E243\";\r\n}\r\n\r\n.glyphicon-object-align-top:before {\r\n    content: \"\\E244\";\r\n}\r\n\r\n.glyphicon-object-align-bottom:before {\r\n    content: \"\\E245\";\r\n}\r\n\r\n.glyphicon-object-align-horizontal:before {\r\n    content: \"\\E246\";\r\n}\r\n\r\n.glyphicon-object-align-left:before {\r\n    content: \"\\E247\";\r\n}\r\n\r\n.glyphicon-object-align-vertical:before {\r\n    content: \"\\E248\";\r\n}\r\n\r\n.glyphicon-object-align-right:before {\r\n    content: \"\\E249\";\r\n}\r\n\r\n.glyphicon-triangle-right:before {\r\n    content: \"\\E250\";\r\n}\r\n\r\n.glyphicon-triangle-left:before {\r\n    content: \"\\E251\";\r\n}\r\n\r\n.glyphicon-triangle-bottom:before {\r\n    content: \"\\E252\";\r\n}\r\n\r\n.glyphicon-triangle-top:before {\r\n    content: \"\\E253\";\r\n}\r\n\r\n.glyphicon-console:before {\r\n    content: \"\\E254\";\r\n}\r\n\r\n.glyphicon-superscript:before {\r\n    content: \"\\E255\";\r\n}\r\n\r\n.glyphicon-subscript:before {\r\n    content: \"\\E256\";\r\n}\r\n\r\n.glyphicon-menu-left:before {\r\n    content: \"\\E257\";\r\n}\r\n\r\n.glyphicon-menu-right:before {\r\n    content: \"\\E258\";\r\n}\r\n\r\n.glyphicon-menu-down:before {\r\n    content: \"\\E259\";\r\n}\r\n\r\n.glyphicon-menu-up:before {\r\n    content: \"\\E260\";\r\n}\r\n\r\n* {\r\n    -webkit-box-sizing: border-box;\r\n    -moz-box-sizing: border-box;\r\n    box-sizing: border-box;\r\n}\r\n\r\n    *:before,\r\n    *:after {\r\n        -webkit-box-sizing: border-box;\r\n        -moz-box-sizing: border-box;\r\n        box-sizing: border-box;\r\n    }\r\n\r\nhtml {\r\n    font-size: 10px;\r\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\r\n}\r\n\r\nbody {\r\n    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n    font-size: 14px;\r\n    line-height: 1.42857143;\r\n    color: #333;\r\n    background-color: #fff;\r\n}\r\n\r\ninput,\r\nbutton,\r\nselect,\r\ntextarea {\r\n    font-family: inherit;\r\n    font-size: inherit;\r\n    line-height: inherit;\r\n}\r\n\r\na {\r\n    color: #337ab7;\r\n    text-decoration: none;\r\n}\r\n\r\n    a:hover,\r\n    a:focus {\r\n        color: #23527c;\r\n        text-decoration: underline;\r\n    }\r\n\r\n    a:focus {\r\n        outline: 5px auto -webkit-focus-ring-color;\r\n        outline-offset: -2px;\r\n    }\r\n\r\nfigure {\r\n    margin: 0;\r\n}\r\n\r\nimg {\r\n    vertical-align: middle;\r\n}\r\n\r\n.img-responsive,\r\n.thumbnail > img,\r\n.thumbnail a > img,\r\n.carousel-inner > .item > img,\r\n.carousel-inner > .item > a > img {\r\n    display: block;\r\n    max-width: 100%;\r\n    height: auto;\r\n}\r\n\r\n.img-rounded {\r\n    border-radius: 6px;\r\n}\r\n\r\n.img-thumbnail {\r\n    display: inline-block;\r\n    max-width: 100%;\r\n    height: auto;\r\n    padding: 4px;\r\n    line-height: 1.42857143;\r\n    background-color: #fff;\r\n    border: 1px solid #ddd;\r\n    border-radius: 4px;\r\n    -webkit-transition: all .2s ease-in-out;\r\n    -o-transition: all .2s ease-in-out;\r\n    transition: all .2s ease-in-out;\r\n}\r\n\r\n.img-circle {\r\n    border-radius: 50%;\r\n}\r\n\r\nhr {\r\n    margin-top: 20px;\r\n    margin-bottom: 20px;\r\n    border: 0;\r\n    border-top: 1px solid #eee;\r\n}\r\n\r\n.sr-only {\r\n    position: absolute;\r\n    width: 1px;\r\n    height: 1px;\r\n    padding: 0;\r\n    margin: -1px;\r\n    overflow: hidden;\r\n    clip: rect(0, 0, 0, 0);\r\n    border: 0;\r\n}\r\n\r\n.sr-only-focusable:active,\r\n.sr-only-focusable:focus {\r\n    position: static;\r\n    width: auto;\r\n    height: auto;\r\n    margin: 0;\r\n    overflow: visible;\r\n    clip: auto;\r\n}\r\n\r\n[role=\"button\"] {\r\n    cursor: pointer;\r\n}\r\n\r\nh1,\r\nh2,\r\nh3,\r\nh4,\r\nh5,\r\nh6,\r\n.h1,\r\n.h2,\r\n.h3,\r\n.h4,\r\n.h5,\r\n.h6 {\r\n    font-family: inherit;\r\n    font-weight: 500;\r\n    line-height: 1.1;\r\n    color: inherit;\r\n}\r\n\r\n    h1 small,\r\n    h2 small,\r\n    h3 small,\r\n    h4 small,\r\n    h5 small,\r\n    h6 small,\r\n    .h1 small,\r\n    .h2 small,\r\n    .h3 small,\r\n    .h4 small,\r\n    .h5 small,\r\n    .h6 small,\r\n    h1 .small,\r\n    h2 .small,\r\n    h3 .small,\r\n    h4 .small,\r\n    h5 .small,\r\n    h6 .small,\r\n    .h1 .small,\r\n    .h2 .small,\r\n    .h3 .small,\r\n    .h4 .small,\r\n    .h5 .small,\r\n    .h6 .small {\r\n        font-weight: normal;\r\n        line-height: 1;\r\n        color: #777;\r\n    }\r\n\r\nh1,\r\n.h1,\r\nh2,\r\n.h2,\r\nh3,\r\n.h3 {\r\n    margin-top: 20px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n    h1 small,\r\n    .h1 small,\r\n    h2 small,\r\n    .h2 small,\r\n    h3 small,\r\n    .h3 small,\r\n    h1 .small,\r\n    .h1 .small,\r\n    h2 .small,\r\n    .h2 .small,\r\n    h3 .small,\r\n    .h3 .small {\r\n        font-size: 65%;\r\n    }\r\n\r\nh4,\r\n.h4,\r\nh5,\r\n.h5,\r\nh6,\r\n.h6 {\r\n    margin-top: 10px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n    h4 small,\r\n    .h4 small,\r\n    h5 small,\r\n    .h5 small,\r\n    h6 small,\r\n    .h6 small,\r\n    h4 .small,\r\n    .h4 .small,\r\n    h5 .small,\r\n    .h5 .small,\r\n    h6 .small,\r\n    .h6 .small {\r\n        font-size: 75%;\r\n    }\r\n\r\nh1,\r\n.h1 {\r\n    font-size: 36px;\r\n}\r\n\r\nh2,\r\n.h2 {\r\n    font-size: 30px;\r\n}\r\n\r\nh3,\r\n.h3 {\r\n    font-size: 24px;\r\n}\r\n\r\nh4,\r\n.h4 {\r\n    font-size: 18px;\r\n}\r\n\r\nh5,\r\n.h5 {\r\n    font-size: 14px;\r\n}\r\n\r\nh6,\r\n.h6 {\r\n    font-size: 12px;\r\n}\r\n\r\np {\r\n    margin: 0 0 10px;\r\n}\r\n\r\n.lead {\r\n    margin-bottom: 20px;\r\n    font-size: 16px;\r\n    font-weight: 300;\r\n    line-height: 1.4;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .lead {\r\n        font-size: 21px;\r\n    }\r\n}\r\n\r\nsmall,\r\n.small {\r\n    font-size: 85%;\r\n}\r\n\r\nmark,\r\n.mark {\r\n    padding: .2em;\r\n    background-color: #fcf8e3;\r\n}\r\n\r\n.text-left {\r\n    text-align: left;\r\n}\r\n\r\n.text-right {\r\n    text-align: right;\r\n}\r\n\r\n.text-center {\r\n    text-align: center;\r\n}\r\n\r\n.text-justify {\r\n    text-align: justify;\r\n}\r\n\r\n.text-nowrap {\r\n    white-space: nowrap;\r\n}\r\n\r\n.text-lowercase {\r\n    text-transform: lowercase;\r\n}\r\n\r\n.text-uppercase {\r\n    text-transform: uppercase;\r\n}\r\n\r\n.text-capitalize {\r\n    text-transform: capitalize;\r\n}\r\n\r\n.text-muted {\r\n    color: #777;\r\n}\r\n\r\n.text-primary {\r\n    color: #337ab7;\r\n}\r\n\r\na.text-primary:hover,\r\na.text-primary:focus {\r\n    color: #286090;\r\n}\r\n\r\n.text-success {\r\n    color: #3c763d;\r\n}\r\n\r\na.text-success:hover,\r\na.text-success:focus {\r\n    color: #2b542c;\r\n}\r\n\r\n.text-info {\r\n    color: #31708f;\r\n}\r\n\r\na.text-info:hover,\r\na.text-info:focus {\r\n    color: #245269;\r\n}\r\n\r\n.text-warning {\r\n    color: #8a6d3b;\r\n}\r\n\r\na.text-warning:hover,\r\na.text-warning:focus {\r\n    color: #66512c;\r\n}\r\n\r\n.text-danger {\r\n    color: #a94442;\r\n}\r\n\r\na.text-danger:hover,\r\na.text-danger:focus {\r\n    color: #843534;\r\n}\r\n\r\n.bg-primary {\r\n    color: #fff;\r\n    background-color: #337ab7;\r\n}\r\n\r\na.bg-primary:hover,\r\na.bg-primary:focus {\r\n    background-color: #286090;\r\n}\r\n\r\n.bg-success {\r\n    background-color: #dff0d8;\r\n}\r\n\r\na.bg-success:hover,\r\na.bg-success:focus {\r\n    background-color: #c1e2b3;\r\n}\r\n\r\n.bg-info {\r\n    background-color: #d9edf7;\r\n}\r\n\r\na.bg-info:hover,\r\na.bg-info:focus {\r\n    background-color: #afd9ee;\r\n}\r\n\r\n.bg-warning {\r\n    background-color: #fcf8e3;\r\n}\r\n\r\na.bg-warning:hover,\r\na.bg-warning:focus {\r\n    background-color: #f7ecb5;\r\n}\r\n\r\n.bg-danger {\r\n    background-color: #f2dede;\r\n}\r\n\r\na.bg-danger:hover,\r\na.bg-danger:focus {\r\n    background-color: #e4b9b9;\r\n}\r\n\r\n.page-header {\r\n    padding-bottom: 9px;\r\n    margin: 40px 0 20px;\r\n    border-bottom: 1px solid #eee;\r\n}\r\n\r\nul,\r\nol {\r\n    margin-top: 0;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n    ul ul,\r\n    ol ul,\r\n    ul ol,\r\n    ol ol {\r\n        margin-bottom: 0;\r\n    }\r\n\r\n.list-unstyled {\r\n    padding-left: 0;\r\n    list-style: none;\r\n}\r\n\r\n.list-inline {\r\n    padding-left: 0;\r\n    margin-left: -5px;\r\n    list-style: none;\r\n}\r\n\r\n    .list-inline > li {\r\n        display: inline-block;\r\n        padding-right: 5px;\r\n        padding-left: 5px;\r\n    }\r\n\r\ndl {\r\n    margin-top: 0;\r\n    margin-bottom: 20px;\r\n}\r\n\r\ndt,\r\ndd {\r\n    line-height: 1.42857143;\r\n}\r\n\r\ndt {\r\n    font-weight: bold;\r\n}\r\n\r\ndd {\r\n    margin-left: 0;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .dl-horizontal dt {\r\n        float: left;\r\n        width: 160px;\r\n        overflow: hidden;\r\n        clear: left;\r\n        text-align: right;\r\n        text-overflow: ellipsis;\r\n        white-space: nowrap;\r\n    }\r\n\r\n    .dl-horizontal dd {\r\n        margin-left: 180px;\r\n    }\r\n}\r\n\r\nabbr[title],\r\nabbr[data-original-title] {\r\n    cursor: help;\r\n    border-bottom: 1px dotted #777;\r\n}\r\n\r\n.initialism {\r\n    font-size: 90%;\r\n    text-transform: uppercase;\r\n}\r\n\r\nblockquote {\r\n    padding: 10px 20px;\r\n    margin: 0 0 20px;\r\n    font-size: 17.5px;\r\n    border-left: 5px solid #eee;\r\n}\r\n\r\n    blockquote p:last-child,\r\n    blockquote ul:last-child,\r\n    blockquote ol:last-child {\r\n        margin-bottom: 0;\r\n    }\r\n\r\n    blockquote footer,\r\n    blockquote small,\r\n    blockquote .small {\r\n        display: block;\r\n        font-size: 80%;\r\n        line-height: 1.42857143;\r\n        color: #777;\r\n    }\r\n\r\n        blockquote footer:before,\r\n        blockquote small:before,\r\n        blockquote .small:before {\r\n            content: '\\2014   \\A0';\r\n        }\r\n\r\n    .blockquote-reverse,\r\n    blockquote.pull-right {\r\n        padding-right: 15px;\r\n        padding-left: 0;\r\n        text-align: right;\r\n        border-right: 5px solid #eee;\r\n        border-left: 0;\r\n    }\r\n\r\n        .blockquote-reverse footer:before,\r\n        blockquote.pull-right footer:before,\r\n        .blockquote-reverse small:before,\r\n        blockquote.pull-right small:before,\r\n        .blockquote-reverse .small:before,\r\n        blockquote.pull-right .small:before {\r\n            content: '';\r\n        }\r\n\r\n        .blockquote-reverse footer:after,\r\n        blockquote.pull-right footer:after,\r\n        .blockquote-reverse small:after,\r\n        blockquote.pull-right small:after,\r\n        .blockquote-reverse .small:after,\r\n        blockquote.pull-right .small:after {\r\n            content: '\\A0   \\2014';\r\n        }\r\n\r\naddress {\r\n    margin-bottom: 20px;\r\n    font-style: normal;\r\n    line-height: 1.42857143;\r\n}\r\n\r\ncode,\r\nkbd,\r\npre,\r\nsamp {\r\n    font-family: Menlo, Monaco, Consolas, \"Courier New\", monospace;\r\n}\r\n\r\ncode {\r\n    padding: 2px 4px;\r\n    font-size: 90%;\r\n    color: #c7254e;\r\n    background-color: #f9f2f4;\r\n    border-radius: 4px;\r\n}\r\n\r\nkbd {\r\n    padding: 2px 4px;\r\n    font-size: 90%;\r\n    color: #fff;\r\n    background-color: #333;\r\n    border-radius: 3px;\r\n    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);\r\n    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25);\r\n}\r\n\r\n    kbd kbd {\r\n        padding: 0;\r\n        font-size: 100%;\r\n        font-weight: bold;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\npre {\r\n    display: block;\r\n    padding: 9.5px;\r\n    margin: 0 0 10px;\r\n    font-size: 13px;\r\n    line-height: 1.42857143;\r\n    color: #333;\r\n    word-break: break-all;\r\n    word-wrap: break-word;\r\n    background-color: #f5f5f5;\r\n    border: 1px solid #ccc;\r\n    border-radius: 4px;\r\n}\r\n\r\n    pre code {\r\n        padding: 0;\r\n        font-size: inherit;\r\n        color: inherit;\r\n        white-space: pre-wrap;\r\n        background-color: transparent;\r\n        border-radius: 0;\r\n    }\r\n\r\n.pre-scrollable {\r\n    max-height: 340px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.container {\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n    margin-right: auto;\r\n    margin-left: auto;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .container {\r\n        width: 750px;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) {\r\n    .container {\r\n        width: 970px;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .container {\r\n        width: 1170px;\r\n    }\r\n}\r\n\r\n.container-fluid {\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n    margin-right: auto;\r\n    margin-left: auto;\r\n}\r\n\r\n.row {\r\n    margin-right: -15px;\r\n    margin-left: -15px;\r\n}\r\n\r\n.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {\r\n    position: relative;\r\n    min-height: 1px;\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n}\r\n\r\n.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {\r\n    float: left;\r\n}\r\n\r\n.col-xs-12 {\r\n    width: 100%;\r\n}\r\n\r\n.col-xs-11 {\r\n    width: 91.66666667%;\r\n}\r\n\r\n.col-xs-10 {\r\n    width: 83.33333333%;\r\n}\r\n\r\n.col-xs-9 {\r\n    width: 75%;\r\n}\r\n\r\n.col-xs-8 {\r\n    width: 66.66666667%;\r\n}\r\n\r\n.col-xs-7 {\r\n    width: 58.33333333%;\r\n}\r\n\r\n.col-xs-6 {\r\n    width: 50%;\r\n}\r\n\r\n.col-xs-5 {\r\n    width: 41.66666667%;\r\n}\r\n\r\n.col-xs-4 {\r\n    width: 33.33333333%;\r\n}\r\n\r\n.col-xs-3 {\r\n    width: 25%;\r\n}\r\n\r\n.col-xs-2 {\r\n    width: 16.66666667%;\r\n}\r\n\r\n.col-xs-1 {\r\n    width: 8.33333333%;\r\n}\r\n\r\n.col-xs-pull-12 {\r\n    right: 100%;\r\n}\r\n\r\n.col-xs-pull-11 {\r\n    right: 91.66666667%;\r\n}\r\n\r\n.col-xs-pull-10 {\r\n    right: 83.33333333%;\r\n}\r\n\r\n.col-xs-pull-9 {\r\n    right: 75%;\r\n}\r\n\r\n.col-xs-pull-8 {\r\n    right: 66.66666667%;\r\n}\r\n\r\n.col-xs-pull-7 {\r\n    right: 58.33333333%;\r\n}\r\n\r\n.col-xs-pull-6 {\r\n    right: 50%;\r\n}\r\n\r\n.col-xs-pull-5 {\r\n    right: 41.66666667%;\r\n}\r\n\r\n.col-xs-pull-4 {\r\n    right: 33.33333333%;\r\n}\r\n\r\n.col-xs-pull-3 {\r\n    right: 25%;\r\n}\r\n\r\n.col-xs-pull-2 {\r\n    right: 16.66666667%;\r\n}\r\n\r\n.col-xs-pull-1 {\r\n    right: 8.33333333%;\r\n}\r\n\r\n.col-xs-pull-0 {\r\n    right: auto;\r\n}\r\n\r\n.col-xs-push-12 {\r\n    left: 100%;\r\n}\r\n\r\n.col-xs-push-11 {\r\n    left: 91.66666667%;\r\n}\r\n\r\n.col-xs-push-10 {\r\n    left: 83.33333333%;\r\n}\r\n\r\n.col-xs-push-9 {\r\n    left: 75%;\r\n}\r\n\r\n.col-xs-push-8 {\r\n    left: 66.66666667%;\r\n}\r\n\r\n.col-xs-push-7 {\r\n    left: 58.33333333%;\r\n}\r\n\r\n.col-xs-push-6 {\r\n    left: 50%;\r\n}\r\n\r\n.col-xs-push-5 {\r\n    left: 41.66666667%;\r\n}\r\n\r\n.col-xs-push-4 {\r\n    left: 33.33333333%;\r\n}\r\n\r\n.col-xs-push-3 {\r\n    left: 25%;\r\n}\r\n\r\n.col-xs-push-2 {\r\n    left: 16.66666667%;\r\n}\r\n\r\n.col-xs-push-1 {\r\n    left: 8.33333333%;\r\n}\r\n\r\n.col-xs-push-0 {\r\n    left: auto;\r\n}\r\n\r\n.col-xs-offset-12 {\r\n    margin-left: 100%;\r\n}\r\n\r\n.col-xs-offset-11 {\r\n    margin-left: 91.66666667%;\r\n}\r\n\r\n.col-xs-offset-10 {\r\n    margin-left: 83.33333333%;\r\n}\r\n\r\n.col-xs-offset-9 {\r\n    margin-left: 75%;\r\n}\r\n\r\n.col-xs-offset-8 {\r\n    margin-left: 66.66666667%;\r\n}\r\n\r\n.col-xs-offset-7 {\r\n    margin-left: 58.33333333%;\r\n}\r\n\r\n.col-xs-offset-6 {\r\n    margin-left: 50%;\r\n}\r\n\r\n.col-xs-offset-5 {\r\n    margin-left: 41.66666667%;\r\n}\r\n\r\n.col-xs-offset-4 {\r\n    margin-left: 33.33333333%;\r\n}\r\n\r\n.col-xs-offset-3 {\r\n    margin-left: 25%;\r\n}\r\n\r\n.col-xs-offset-2 {\r\n    margin-left: 16.66666667%;\r\n}\r\n\r\n.col-xs-offset-1 {\r\n    margin-left: 8.33333333%;\r\n}\r\n\r\n.col-xs-offset-0 {\r\n    margin-left: 0;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {\r\n        float: left;\r\n    }\r\n\r\n    .col-sm-12 {\r\n        width: 100%;\r\n    }\r\n\r\n    .col-sm-11 {\r\n        width: 91.66666667%;\r\n    }\r\n\r\n    .col-sm-10 {\r\n        width: 83.33333333%;\r\n    }\r\n\r\n    .col-sm-9 {\r\n        width: 75%;\r\n    }\r\n\r\n    .col-sm-8 {\r\n        width: 66.66666667%;\r\n    }\r\n\r\n    .col-sm-7 {\r\n        width: 58.33333333%;\r\n    }\r\n\r\n    .col-sm-6 {\r\n        width: 50%;\r\n    }\r\n\r\n    .col-sm-5 {\r\n        width: 41.66666667%;\r\n    }\r\n\r\n    .col-sm-4 {\r\n        width: 33.33333333%;\r\n    }\r\n\r\n    .col-sm-3 {\r\n        width: 25%;\r\n    }\r\n\r\n    .col-sm-2 {\r\n        width: 16.66666667%;\r\n    }\r\n\r\n    .col-sm-1 {\r\n        width: 8.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-12 {\r\n        right: 100%;\r\n    }\r\n\r\n    .col-sm-pull-11 {\r\n        right: 91.66666667%;\r\n    }\r\n\r\n    .col-sm-pull-10 {\r\n        right: 83.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-9 {\r\n        right: 75%;\r\n    }\r\n\r\n    .col-sm-pull-8 {\r\n        right: 66.66666667%;\r\n    }\r\n\r\n    .col-sm-pull-7 {\r\n        right: 58.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-6 {\r\n        right: 50%;\r\n    }\r\n\r\n    .col-sm-pull-5 {\r\n        right: 41.66666667%;\r\n    }\r\n\r\n    .col-sm-pull-4 {\r\n        right: 33.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-3 {\r\n        right: 25%;\r\n    }\r\n\r\n    .col-sm-pull-2 {\r\n        right: 16.66666667%;\r\n    }\r\n\r\n    .col-sm-pull-1 {\r\n        right: 8.33333333%;\r\n    }\r\n\r\n    .col-sm-pull-0 {\r\n        right: auto;\r\n    }\r\n\r\n    .col-sm-push-12 {\r\n        left: 100%;\r\n    }\r\n\r\n    .col-sm-push-11 {\r\n        left: 91.66666667%;\r\n    }\r\n\r\n    .col-sm-push-10 {\r\n        left: 83.33333333%;\r\n    }\r\n\r\n    .col-sm-push-9 {\r\n        left: 75%;\r\n    }\r\n\r\n    .col-sm-push-8 {\r\n        left: 66.66666667%;\r\n    }\r\n\r\n    .col-sm-push-7 {\r\n        left: 58.33333333%;\r\n    }\r\n\r\n    .col-sm-push-6 {\r\n        left: 50%;\r\n    }\r\n\r\n    .col-sm-push-5 {\r\n        left: 41.66666667%;\r\n    }\r\n\r\n    .col-sm-push-4 {\r\n        left: 33.33333333%;\r\n    }\r\n\r\n    .col-sm-push-3 {\r\n        left: 25%;\r\n    }\r\n\r\n    .col-sm-push-2 {\r\n        left: 16.66666667%;\r\n    }\r\n\r\n    .col-sm-push-1 {\r\n        left: 8.33333333%;\r\n    }\r\n\r\n    .col-sm-push-0 {\r\n        left: auto;\r\n    }\r\n\r\n    .col-sm-offset-12 {\r\n        margin-left: 100%;\r\n    }\r\n\r\n    .col-sm-offset-11 {\r\n        margin-left: 91.66666667%;\r\n    }\r\n\r\n    .col-sm-offset-10 {\r\n        margin-left: 83.33333333%;\r\n    }\r\n\r\n    .col-sm-offset-9 {\r\n        margin-left: 75%;\r\n    }\r\n\r\n    .col-sm-offset-8 {\r\n        margin-left: 66.66666667%;\r\n    }\r\n\r\n    .col-sm-offset-7 {\r\n        margin-left: 58.33333333%;\r\n    }\r\n\r\n    .col-sm-offset-6 {\r\n        margin-left: 50%;\r\n    }\r\n\r\n    .col-sm-offset-5 {\r\n        margin-left: 41.66666667%;\r\n    }\r\n\r\n    .col-sm-offset-4 {\r\n        margin-left: 33.33333333%;\r\n    }\r\n\r\n    .col-sm-offset-3 {\r\n        margin-left: 25%;\r\n    }\r\n\r\n    .col-sm-offset-2 {\r\n        margin-left: 16.66666667%;\r\n    }\r\n\r\n    .col-sm-offset-1 {\r\n        margin-left: 8.33333333%;\r\n    }\r\n\r\n    .col-sm-offset-0 {\r\n        margin-left: 0;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) {\r\n    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {\r\n        float: left;\r\n    }\r\n\r\n    .col-md-12 {\r\n        width: 100%;\r\n    }\r\n\r\n    .col-md-11 {\r\n        width: 91.66666667%;\r\n    }\r\n\r\n    .col-md-10 {\r\n        width: 83.33333333%;\r\n    }\r\n\r\n    .col-md-9 {\r\n        width: 75%;\r\n    }\r\n\r\n    .col-md-8 {\r\n        width: 66.66666667%;\r\n    }\r\n\r\n    .col-md-7 {\r\n        width: 58.33333333%;\r\n    }\r\n\r\n    .col-md-6 {\r\n        width: 50%;\r\n    }\r\n\r\n    .col-md-5 {\r\n        width: 41.66666667%;\r\n    }\r\n\r\n    .col-md-4 {\r\n        width: 33.33333333%;\r\n    }\r\n\r\n    .col-md-3 {\r\n        width: 25%;\r\n    }\r\n\r\n    .col-md-2 {\r\n        width: 16.66666667%;\r\n    }\r\n\r\n    .col-md-1 {\r\n        width: 8.33333333%;\r\n    }\r\n\r\n    .col-md-pull-12 {\r\n        right: 100%;\r\n    }\r\n\r\n    .col-md-pull-11 {\r\n        right: 91.66666667%;\r\n    }\r\n\r\n    .col-md-pull-10 {\r\n        right: 83.33333333%;\r\n    }\r\n\r\n    .col-md-pull-9 {\r\n        right: 75%;\r\n    }\r\n\r\n    .col-md-pull-8 {\r\n        right: 66.66666667%;\r\n    }\r\n\r\n    .col-md-pull-7 {\r\n        right: 58.33333333%;\r\n    }\r\n\r\n    .col-md-pull-6 {\r\n        right: 50%;\r\n    }\r\n\r\n    .col-md-pull-5 {\r\n        right: 41.66666667%;\r\n    }\r\n\r\n    .col-md-pull-4 {\r\n        right: 33.33333333%;\r\n    }\r\n\r\n    .col-md-pull-3 {\r\n        right: 25%;\r\n    }\r\n\r\n    .col-md-pull-2 {\r\n        right: 16.66666667%;\r\n    }\r\n\r\n    .col-md-pull-1 {\r\n        right: 8.33333333%;\r\n    }\r\n\r\n    .col-md-pull-0 {\r\n        right: auto;\r\n    }\r\n\r\n    .col-md-push-12 {\r\n        left: 100%;\r\n    }\r\n\r\n    .col-md-push-11 {\r\n        left: 91.66666667%;\r\n    }\r\n\r\n    .col-md-push-10 {\r\n        left: 83.33333333%;\r\n    }\r\n\r\n    .col-md-push-9 {\r\n        left: 75%;\r\n    }\r\n\r\n    .col-md-push-8 {\r\n        left: 66.66666667%;\r\n    }\r\n\r\n    .col-md-push-7 {\r\n        left: 58.33333333%;\r\n    }\r\n\r\n    .col-md-push-6 {\r\n        left: 50%;\r\n    }\r\n\r\n    .col-md-push-5 {\r\n        left: 41.66666667%;\r\n    }\r\n\r\n    .col-md-push-4 {\r\n        left: 33.33333333%;\r\n    }\r\n\r\n    .col-md-push-3 {\r\n        left: 25%;\r\n    }\r\n\r\n    .col-md-push-2 {\r\n        left: 16.66666667%;\r\n    }\r\n\r\n    .col-md-push-1 {\r\n        left: 8.33333333%;\r\n    }\r\n\r\n    .col-md-push-0 {\r\n        left: auto;\r\n    }\r\n\r\n    .col-md-offset-12 {\r\n        margin-left: 100%;\r\n    }\r\n\r\n    .col-md-offset-11 {\r\n        margin-left: 91.66666667%;\r\n    }\r\n\r\n    .col-md-offset-10 {\r\n        margin-left: 83.33333333%;\r\n    }\r\n\r\n    .col-md-offset-9 {\r\n        margin-left: 75%;\r\n    }\r\n\r\n    .col-md-offset-8 {\r\n        margin-left: 66.66666667%;\r\n    }\r\n\r\n    .col-md-offset-7 {\r\n        margin-left: 58.33333333%;\r\n    }\r\n\r\n    .col-md-offset-6 {\r\n        margin-left: 50%;\r\n    }\r\n\r\n    .col-md-offset-5 {\r\n        margin-left: 41.66666667%;\r\n    }\r\n\r\n    .col-md-offset-4 {\r\n        margin-left: 33.33333333%;\r\n    }\r\n\r\n    .col-md-offset-3 {\r\n        margin-left: 25%;\r\n    }\r\n\r\n    .col-md-offset-2 {\r\n        margin-left: 16.66666667%;\r\n    }\r\n\r\n    .col-md-offset-1 {\r\n        margin-left: 8.33333333%;\r\n    }\r\n\r\n    .col-md-offset-0 {\r\n        margin-left: 0;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {\r\n        float: left;\r\n    }\r\n\r\n    .col-lg-12 {\r\n        width: 100%;\r\n    }\r\n\r\n    .col-lg-11 {\r\n        width: 91.66666667%;\r\n    }\r\n\r\n    .col-lg-10 {\r\n        width: 83.33333333%;\r\n    }\r\n\r\n    .col-lg-9 {\r\n        width: 75%;\r\n    }\r\n\r\n    .col-lg-8 {\r\n        width: 66.66666667%;\r\n    }\r\n\r\n    .col-lg-7 {\r\n        width: 58.33333333%;\r\n    }\r\n\r\n    .col-lg-6 {\r\n        width: 50%;\r\n    }\r\n\r\n    .col-lg-5 {\r\n        width: 41.66666667%;\r\n    }\r\n\r\n    .col-lg-4 {\r\n        width: 33.33333333%;\r\n    }\r\n\r\n    .col-lg-3 {\r\n        width: 25%;\r\n    }\r\n\r\n    .col-lg-2 {\r\n        width: 16.66666667%;\r\n    }\r\n\r\n    .col-lg-1 {\r\n        width: 8.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-12 {\r\n        right: 100%;\r\n    }\r\n\r\n    .col-lg-pull-11 {\r\n        right: 91.66666667%;\r\n    }\r\n\r\n    .col-lg-pull-10 {\r\n        right: 83.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-9 {\r\n        right: 75%;\r\n    }\r\n\r\n    .col-lg-pull-8 {\r\n        right: 66.66666667%;\r\n    }\r\n\r\n    .col-lg-pull-7 {\r\n        right: 58.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-6 {\r\n        right: 50%;\r\n    }\r\n\r\n    .col-lg-pull-5 {\r\n        right: 41.66666667%;\r\n    }\r\n\r\n    .col-lg-pull-4 {\r\n        right: 33.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-3 {\r\n        right: 25%;\r\n    }\r\n\r\n    .col-lg-pull-2 {\r\n        right: 16.66666667%;\r\n    }\r\n\r\n    .col-lg-pull-1 {\r\n        right: 8.33333333%;\r\n    }\r\n\r\n    .col-lg-pull-0 {\r\n        right: auto;\r\n    }\r\n\r\n    .col-lg-push-12 {\r\n        left: 100%;\r\n    }\r\n\r\n    .col-lg-push-11 {\r\n        left: 91.66666667%;\r\n    }\r\n\r\n    .col-lg-push-10 {\r\n        left: 83.33333333%;\r\n    }\r\n\r\n    .col-lg-push-9 {\r\n        left: 75%;\r\n    }\r\n\r\n    .col-lg-push-8 {\r\n        left: 66.66666667%;\r\n    }\r\n\r\n    .col-lg-push-7 {\r\n        left: 58.33333333%;\r\n    }\r\n\r\n    .col-lg-push-6 {\r\n        left: 50%;\r\n    }\r\n\r\n    .col-lg-push-5 {\r\n        left: 41.66666667%;\r\n    }\r\n\r\n    .col-lg-push-4 {\r\n        left: 33.33333333%;\r\n    }\r\n\r\n    .col-lg-push-3 {\r\n        left: 25%;\r\n    }\r\n\r\n    .col-lg-push-2 {\r\n        left: 16.66666667%;\r\n    }\r\n\r\n    .col-lg-push-1 {\r\n        left: 8.33333333%;\r\n    }\r\n\r\n    .col-lg-push-0 {\r\n        left: auto;\r\n    }\r\n\r\n    .col-lg-offset-12 {\r\n        margin-left: 100%;\r\n    }\r\n\r\n    .col-lg-offset-11 {\r\n        margin-left: 91.66666667%;\r\n    }\r\n\r\n    .col-lg-offset-10 {\r\n        margin-left: 83.33333333%;\r\n    }\r\n\r\n    .col-lg-offset-9 {\r\n        margin-left: 75%;\r\n    }\r\n\r\n    .col-lg-offset-8 {\r\n        margin-left: 66.66666667%;\r\n    }\r\n\r\n    .col-lg-offset-7 {\r\n        margin-left: 58.33333333%;\r\n    }\r\n\r\n    .col-lg-offset-6 {\r\n        margin-left: 50%;\r\n    }\r\n\r\n    .col-lg-offset-5 {\r\n        margin-left: 41.66666667%;\r\n    }\r\n\r\n    .col-lg-offset-4 {\r\n        margin-left: 33.33333333%;\r\n    }\r\n\r\n    .col-lg-offset-3 {\r\n        margin-left: 25%;\r\n    }\r\n\r\n    .col-lg-offset-2 {\r\n        margin-left: 16.66666667%;\r\n    }\r\n\r\n    .col-lg-offset-1 {\r\n        margin-left: 8.33333333%;\r\n    }\r\n\r\n    .col-lg-offset-0 {\r\n        margin-left: 0;\r\n    }\r\n}\r\n\r\ntable {\r\n    background-color: transparent;\r\n}\r\n\r\ncaption {\r\n    padding-top: 8px;\r\n    padding-bottom: 8px;\r\n    color: #777;\r\n    text-align: left;\r\n}\r\n\r\nth {\r\n    text-align: left;\r\n}\r\n\r\n.table {\r\n    width: 100%;\r\n    max-width: 100%;\r\n    margin-bottom: 20px;\r\n}\r\n\r\n    .table > thead > tr > th,\r\n    .table > tbody > tr > th,\r\n    .table > tfoot > tr > th,\r\n    .table > thead > tr > td,\r\n    .table > tbody > tr > td,\r\n    .table > tfoot > tr > td {\r\n        padding: 8px;\r\n        line-height: 1.42857143;\r\n        vertical-align: top;\r\n        border-top: 1px solid #ddd;\r\n    }\r\n\r\n    .table > thead > tr > th {\r\n        vertical-align: bottom;\r\n        border-bottom: 2px solid #ddd;\r\n    }\r\n\r\n    .table > caption + thead > tr:first-child > th,\r\n    .table > colgroup + thead > tr:first-child > th,\r\n    .table > thead:first-child > tr:first-child > th,\r\n    .table > caption + thead > tr:first-child > td,\r\n    .table > colgroup + thead > tr:first-child > td,\r\n    .table > thead:first-child > tr:first-child > td {\r\n        border-top: 0;\r\n    }\r\n\r\n    .table > tbody + tbody {\r\n        border-top: 2px solid #ddd;\r\n    }\r\n\r\n    .table .table {\r\n        background-color: #fff;\r\n    }\r\n\r\n.table-condensed > thead > tr > th,\r\n.table-condensed > tbody > tr > th,\r\n.table-condensed > tfoot > tr > th,\r\n.table-condensed > thead > tr > td,\r\n.table-condensed > tbody > tr > td,\r\n.table-condensed > tfoot > tr > td {\r\n    padding: 5px;\r\n}\r\n\r\n.table-bordered {\r\n    border: 1px solid #ddd;\r\n}\r\n\r\n    .table-bordered > thead > tr > th,\r\n    .table-bordered > tbody > tr > th,\r\n    .table-bordered > tfoot > tr > th,\r\n    .table-bordered > thead > tr > td,\r\n    .table-bordered > tbody > tr > td,\r\n    .table-bordered > tfoot > tr > td {\r\n        border: 1px solid #ddd;\r\n    }\r\n\r\n    .table-bordered > thead > tr > th,\r\n    .table-bordered > thead > tr > td {\r\n        border-bottom-width: 2px;\r\n    }\r\n\r\n.table-striped > tbody > tr:nth-of-type(odd) {\r\n    background-color: #f9f9f9;\r\n}\r\n\r\n.table-hover > tbody > tr:hover {\r\n    background-color: #f5f5f5;\r\n}\r\n\r\ntable col[class*=\"col-\"] {\r\n    position: static;\r\n    display: table-column;\r\n    float: none;\r\n}\r\n\r\ntable td[class*=\"col-\"],\r\ntable th[class*=\"col-\"] {\r\n    position: static;\r\n    display: table-cell;\r\n    float: none;\r\n}\r\n\r\n.table > thead > tr > td.active,\r\n.table > tbody > tr > td.active,\r\n.table > tfoot > tr > td.active,\r\n.table > thead > tr > th.active,\r\n.table > tbody > tr > th.active,\r\n.table > tfoot > tr > th.active,\r\n.table > thead > tr.active > td,\r\n.table > tbody > tr.active > td,\r\n.table > tfoot > tr.active > td,\r\n.table > thead > tr.active > th,\r\n.table > tbody > tr.active > th,\r\n.table > tfoot > tr.active > th {\r\n    background-color: #f5f5f5;\r\n}\r\n\r\n.table-hover > tbody > tr > td.active:hover,\r\n.table-hover > tbody > tr > th.active:hover,\r\n.table-hover > tbody > tr.active:hover > td,\r\n.table-hover > tbody > tr:hover > .active,\r\n.table-hover > tbody > tr.active:hover > th {\r\n    background-color: #e8e8e8;\r\n}\r\n\r\n.table > thead > tr > td.success,\r\n.table > tbody > tr > td.success,\r\n.table > tfoot > tr > td.success,\r\n.table > thead > tr > th.success,\r\n.table > tbody > tr > th.success,\r\n.table > tfoot > tr > th.success,\r\n.table > thead > tr.success > td,\r\n.table > tbody > tr.success > td,\r\n.table > tfoot > tr.success > td,\r\n.table > thead > tr.success > th,\r\n.table > tbody > tr.success > th,\r\n.table > tfoot > tr.success > th {\r\n    background-color: #dff0d8;\r\n}\r\n\r\n.table-hover > tbody > tr > td.success:hover,\r\n.table-hover > tbody > tr > th.success:hover,\r\n.table-hover > tbody > tr.success:hover > td,\r\n.table-hover > tbody > tr:hover > .success,\r\n.table-hover > tbody > tr.success:hover > th {\r\n    background-color: #d0e9c6;\r\n}\r\n\r\n.table > thead > tr > td.info,\r\n.table > tbody > tr > td.info,\r\n.table > tfoot > tr > td.info,\r\n.table > thead > tr > th.info,\r\n.table > tbody > tr > th.info,\r\n.table > tfoot > tr > th.info,\r\n.table > thead > tr.info > td,\r\n.table > tbody > tr.info > td,\r\n.table > tfoot > tr.info > td,\r\n.table > thead > tr.info > th,\r\n.table > tbody > tr.info > th,\r\n.table > tfoot > tr.info > th {\r\n    background-color: #d9edf7;\r\n}\r\n\r\n.table-hover > tbody > tr > td.info:hover,\r\n.table-hover > tbody > tr > th.info:hover,\r\n.table-hover > tbody > tr.info:hover > td,\r\n.table-hover > tbody > tr:hover > .info,\r\n.table-hover > tbody > tr.info:hover > th {\r\n    background-color: #c4e3f3;\r\n}\r\n\r\n.table > thead > tr > td.warning,\r\n.table > tbody > tr > td.warning,\r\n.table > tfoot > tr > td.warning,\r\n.table > thead > tr > th.warning,\r\n.table > tbody > tr > th.warning,\r\n.table > tfoot > tr > th.warning,\r\n.table > thead > tr.warning > td,\r\n.table > tbody > tr.warning > td,\r\n.table > tfoot > tr.warning > td,\r\n.table > thead > tr.warning > th,\r\n.table > tbody > tr.warning > th,\r\n.table > tfoot > tr.warning > th {\r\n    background-color: #fcf8e3;\r\n}\r\n\r\n.table-hover > tbody > tr > td.warning:hover,\r\n.table-hover > tbody > tr > th.warning:hover,\r\n.table-hover > tbody > tr.warning:hover > td,\r\n.table-hover > tbody > tr:hover > .warning,\r\n.table-hover > tbody > tr.warning:hover > th {\r\n    background-color: #faf2cc;\r\n}\r\n\r\n.table > thead > tr > td.danger,\r\n.table > tbody > tr > td.danger,\r\n.table > tfoot > tr > td.danger,\r\n.table > thead > tr > th.danger,\r\n.table > tbody > tr > th.danger,\r\n.table > tfoot > tr > th.danger,\r\n.table > thead > tr.danger > td,\r\n.table > tbody > tr.danger > td,\r\n.table > tfoot > tr.danger > td,\r\n.table > thead > tr.danger > th,\r\n.table > tbody > tr.danger > th,\r\n.table > tfoot > tr.danger > th {\r\n    background-color: #f2dede;\r\n}\r\n\r\n.table-hover > tbody > tr > td.danger:hover,\r\n.table-hover > tbody > tr > th.danger:hover,\r\n.table-hover > tbody > tr.danger:hover > td,\r\n.table-hover > tbody > tr:hover > .danger,\r\n.table-hover > tbody > tr.danger:hover > th {\r\n    background-color: #ebcccc;\r\n}\r\n\r\n.table-responsive {\r\n    min-height: .01%;\r\n    overflow-x: auto;\r\n}\r\n\r\n@media screen and (max-width: 767px) {\r\n    .table-responsive {\r\n        width: 100%;\r\n        margin-bottom: 15px;\r\n        overflow-y: hidden;\r\n        -ms-overflow-style: -ms-autohiding-scrollbar;\r\n        border: 1px solid #ddd;\r\n    }\r\n\r\n        .table-responsive > .table {\r\n            margin-bottom: 0;\r\n        }\r\n\r\n            .table-responsive > .table > thead > tr > th,\r\n            .table-responsive > .table > tbody > tr > th,\r\n            .table-responsive > .table > tfoot > tr > th,\r\n            .table-responsive > .table > thead > tr > td,\r\n            .table-responsive > .table > tbody > tr > td,\r\n            .table-responsive > .table > tfoot > tr > td {\r\n                white-space: nowrap;\r\n            }\r\n\r\n        .table-responsive > .table-bordered {\r\n            border: 0;\r\n        }\r\n\r\n            .table-responsive > .table-bordered > thead > tr > th:first-child,\r\n            .table-responsive > .table-bordered > tbody > tr > th:first-child,\r\n            .table-responsive > .table-bordered > tfoot > tr > th:first-child,\r\n            .table-responsive > .table-bordered > thead > tr > td:first-child,\r\n            .table-responsive > .table-bordered > tbody > tr > td:first-child,\r\n            .table-responsive > .table-bordered > tfoot > tr > td:first-child {\r\n                border-left: 0;\r\n            }\r\n\r\n            .table-responsive > .table-bordered > thead > tr > th:last-child,\r\n            .table-responsive > .table-bordered > tbody > tr > th:last-child,\r\n            .table-responsive > .table-bordered > tfoot > tr > th:last-child,\r\n            .table-responsive > .table-bordered > thead > tr > td:last-child,\r\n            .table-responsive > .table-bordered > tbody > tr > td:last-child,\r\n            .table-responsive > .table-bordered > tfoot > tr > td:last-child {\r\n                border-right: 0;\r\n            }\r\n\r\n            .table-responsive > .table-bordered > tbody > tr:last-child > th,\r\n            .table-responsive > .table-bordered > tfoot > tr:last-child > th,\r\n            .table-responsive > .table-bordered > tbody > tr:last-child > td,\r\n            .table-responsive > .table-bordered > tfoot > tr:last-child > td {\r\n                border-bottom: 0;\r\n            }\r\n}\r\n\r\nfieldset {\r\n    min-width: 0;\r\n    padding: 0;\r\n    margin: 0;\r\n    border: 0;\r\n}\r\n\r\nlegend {\r\n    display: block;\r\n    width: 100%;\r\n    padding: 0;\r\n    margin-bottom: 20px;\r\n    font-size: 21px;\r\n    line-height: inherit;\r\n    color: #333;\r\n    border: 0;\r\n    border-bottom: 1px solid #e5e5e5;\r\n}\r\n\r\nlabel {\r\n    display: inline-block;\r\n    max-width: 100%;\r\n    margin-bottom: 5px;\r\n    font-weight: bold;\r\n}\r\n\r\ninput[type=\"search\"] {\r\n    -webkit-box-sizing: border-box;\r\n    -moz-box-sizing: border-box;\r\n    box-sizing: border-box;\r\n}\r\n\r\ninput[type=\"radio\"],\r\ninput[type=\"checkbox\"] {\r\n    margin: 4px 0 0;\r\n    margin-top: 1px \\9;\r\n    line-height: normal;\r\n}\r\n\r\ninput[type=\"file\"] {\r\n    display: block;\r\n}\r\n\r\ninput[type=\"range\"] {\r\n    display: block;\r\n    width: 100%;\r\n}\r\n\r\nselect[multiple],\r\nselect[size] {\r\n    height: auto;\r\n}\r\n\r\ninput[type=\"file\"]:focus,\r\ninput[type=\"radio\"]:focus,\r\ninput[type=\"checkbox\"]:focus {\r\n    outline: 5px auto -webkit-focus-ring-color;\r\n    outline-offset: -2px;\r\n}\r\n\r\noutput {\r\n    display: block;\r\n    padding-top: 7px;\r\n    font-size: 14px;\r\n    line-height: 1.42857143;\r\n    color: #555;\r\n}\r\n\r\n.form-control {\r\n    display: block;\r\n    width: 100%;\r\n    height: 34px;\r\n    padding: 6px 12px;\r\n    font-size: 14px;\r\n    line-height: 1.42857143;\r\n    color: #555;\r\n    background-color: #fff;\r\n    background-image: none;\r\n    border: 1px solid #ccc;\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;\r\n    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;\r\n    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;\r\n}\r\n\r\n    .form-control:focus {\r\n        border-color: #66afe9;\r\n        outline: 0;\r\n        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);\r\n        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);\r\n    }\r\n\r\n    .form-control::-moz-placeholder {\r\n        color: #999;\r\n        opacity: 1;\r\n    }\r\n\r\n    .form-control:-ms-input-placeholder {\r\n        color: #999;\r\n    }\r\n\r\n    .form-control::-webkit-input-placeholder {\r\n        color: #999;\r\n    }\r\n\r\n    .form-control::-ms-expand {\r\n        background-color: transparent;\r\n        border: 0;\r\n    }\r\n\r\n    .form-control[disabled],\r\n    .form-control[readonly],\r\n    fieldset[disabled] .form-control {\r\n        background-color: #eee;\r\n        opacity: 1;\r\n    }\r\n\r\n    .form-control[disabled],\r\n    fieldset[disabled] .form-control {\r\n        cursor: not-allowed;\r\n    }\r\n\r\ntextarea.form-control {\r\n    height: auto;\r\n}\r\n\r\ninput[type=\"search\"] {\r\n    -webkit-appearance: none;\r\n}\r\n\r\n@media screen and (-webkit-min-device-pixel-ratio: 0) {\r\n    input[type=\"date\"].form-control,\r\n    input[type=\"time\"].form-control,\r\n    input[type=\"datetime-local\"].form-control,\r\n    input[type=\"month\"].form-control {\r\n        line-height: 34px;\r\n    }\r\n\r\n    input[type=\"date\"].input-sm,\r\n    input[type=\"time\"].input-sm,\r\n    input[type=\"datetime-local\"].input-sm,\r\n    input[type=\"month\"].input-sm,\r\n    .input-group-sm input[type=\"date\"],\r\n    .input-group-sm input[type=\"time\"],\r\n    .input-group-sm input[type=\"datetime-local\"],\r\n    .input-group-sm input[type=\"month\"] {\r\n        line-height: 30px;\r\n    }\r\n\r\n    input[type=\"date\"].input-lg,\r\n    input[type=\"time\"].input-lg,\r\n    input[type=\"datetime-local\"].input-lg,\r\n    input[type=\"month\"].input-lg,\r\n    .input-group-lg input[type=\"date\"],\r\n    .input-group-lg input[type=\"time\"],\r\n    .input-group-lg input[type=\"datetime-local\"],\r\n    .input-group-lg input[type=\"month\"] {\r\n        line-height: 46px;\r\n    }\r\n}\r\n\r\n.form-group {\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.radio,\r\n.checkbox {\r\n    position: relative;\r\n    display: block;\r\n    margin-top: 10px;\r\n    margin-bottom: 10px;\r\n}\r\n\r\n    .radio label,\r\n    .checkbox label {\r\n        min-height: 20px;\r\n        padding-right: 20px;\r\n        margin-bottom: 0;\r\n        font-weight: normal;\r\n        cursor: pointer;\r\n    }\r\n\r\n    .radio input[type=\"radio\"],\r\n    .radio-inline input[type=\"radio\"],\r\n    .checkbox input[type=\"checkbox\"],\r\n    .checkbox-inline input[type=\"checkbox\"] {\r\n        position: absolute;\r\n        margin-top: 4px \\9;\r\n        margin-right: -20px;\r\n    }\r\n\r\n    .radio + .radio,\r\n    .checkbox + .checkbox {\r\n        margin-top: -5px;\r\n    }\r\n\r\n.radio-inline,\r\n.checkbox-inline {\r\n    position: relative;\r\n    display: inline-block;\r\n    padding-left: 20px;\r\n    margin-bottom: 0;\r\n    font-weight: normal;\r\n    vertical-align: middle;\r\n    cursor: pointer;\r\n}\r\n\r\n    .radio-inline + .radio-inline,\r\n    .checkbox-inline + .checkbox-inline {\r\n        margin-top: 0;\r\n        margin-left: 10px;\r\n    }\r\n\r\ninput[type=\"radio\"][disabled],\r\ninput[type=\"checkbox\"][disabled],\r\ninput[type=\"radio\"].disabled,\r\ninput[type=\"checkbox\"].disabled,\r\nfieldset[disabled] input[type=\"radio\"],\r\nfieldset[disabled] input[type=\"checkbox\"] {\r\n    cursor: not-allowed;\r\n}\r\n\r\n.radio-inline.disabled,\r\n.checkbox-inline.disabled,\r\nfieldset[disabled] .radio-inline,\r\nfieldset[disabled] .checkbox-inline {\r\n    cursor: not-allowed;\r\n}\r\n\r\n.radio.disabled label,\r\n.checkbox.disabled label,\r\nfieldset[disabled] .radio label,\r\nfieldset[disabled] .checkbox label {\r\n    cursor: not-allowed;\r\n}\r\n\r\n.form-control-static {\r\n    min-height: 34px;\r\n    padding-top: 7px;\r\n    padding-bottom: 7px;\r\n    margin-bottom: 0;\r\n}\r\n\r\n    .form-control-static.input-lg,\r\n    .form-control-static.input-sm {\r\n        padding-right: 0;\r\n        padding-left: 0;\r\n    }\r\n\r\n.input-sm {\r\n    height: 30px;\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\nselect.input-sm {\r\n    height: 30px;\r\n    line-height: 30px;\r\n}\r\n\r\ntextarea.input-sm,\r\nselect[multiple].input-sm {\r\n    height: auto;\r\n}\r\n\r\n.form-group-sm .form-control {\r\n    height: 30px;\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\n.form-group-sm select.form-control {\r\n    height: 30px;\r\n    line-height: 30px;\r\n}\r\n\r\n.form-group-sm textarea.form-control,\r\n.form-group-sm select[multiple].form-control {\r\n    height: auto;\r\n}\r\n\r\n.form-group-sm .form-control-static {\r\n    height: 30px;\r\n    min-height: 32px;\r\n    padding: 6px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n}\r\n\r\n.input-lg {\r\n    height: 46px;\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n    border-radius: 6px;\r\n}\r\n\r\nselect.input-lg {\r\n    height: 46px;\r\n    line-height: 46px;\r\n}\r\n\r\ntextarea.input-lg,\r\nselect[multiple].input-lg {\r\n    height: auto;\r\n}\r\n\r\n.form-group-lg .form-control {\r\n    height: 46px;\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n    border-radius: 6px;\r\n}\r\n\r\n.form-group-lg select.form-control {\r\n    height: 46px;\r\n    line-height: 46px;\r\n}\r\n\r\n.form-group-lg textarea.form-control,\r\n.form-group-lg select[multiple].form-control {\r\n    height: auto;\r\n}\r\n\r\n.form-group-lg .form-control-static {\r\n    height: 46px;\r\n    min-height: 38px;\r\n    padding: 11px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n}\r\n\r\n.has-feedback {\r\n    position: relative;\r\n}\r\n\r\n    .has-feedback .form-control {\r\n        padding-right: 12px;\r\n    }\r\n\r\n.form-control-feedback {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 2;\r\n    display: block;\r\n    width: 34px;\r\n    height: 34px;\r\n    line-height: 34px;\r\n    text-align: center;\r\n    pointer-events: none;\r\n}\r\n\r\n.input-lg + .form-control-feedback,\r\n.input-group-lg + .form-control-feedback,\r\n.form-group-lg .form-control + .form-control-feedback {\r\n    width: 46px;\r\n    height: 46px;\r\n    line-height: 46px;\r\n}\r\n\r\n.input-sm + .form-control-feedback,\r\n.input-group-sm + .form-control-feedback,\r\n.form-group-sm .form-control + .form-control-feedback {\r\n    width: 30px;\r\n    height: 30px;\r\n    line-height: 30px;\r\n}\r\n\r\n.has-success .help-block,\r\n.has-success .control-label,\r\n.has-success .radio,\r\n.has-success .checkbox,\r\n.has-success .radio-inline,\r\n.has-success .checkbox-inline,\r\n.has-success.radio label,\r\n.has-success.checkbox label,\r\n.has-success.radio-inline label,\r\n.has-success.checkbox-inline label {\r\n    color: #3c763d;\r\n}\r\n\r\n.has-success .form-control {\r\n    border-color: #3c763d;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n}\r\n\r\n    .has-success .form-control:focus {\r\n        border-color: #2b542c;\r\n        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;\r\n        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;\r\n    }\r\n\r\n.has-success .input-group-addon {\r\n    color: #3c763d;\r\n    background-color: #dff0d8;\r\n    border-color: #3c763d;\r\n}\r\n\r\n.has-success .form-control-feedback {\r\n    color: #3c763d;\r\n}\r\n\r\n.has-warning .help-block,\r\n.has-warning .control-label,\r\n.has-warning .radio,\r\n.has-warning .checkbox,\r\n.has-warning .radio-inline,\r\n.has-warning .checkbox-inline,\r\n.has-warning.radio label,\r\n.has-warning.checkbox label,\r\n.has-warning.radio-inline label,\r\n.has-warning.checkbox-inline label {\r\n    color: #8a6d3b;\r\n}\r\n\r\n.has-warning .form-control {\r\n    border-color: #8a6d3b;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n}\r\n\r\n    .has-warning .form-control:focus {\r\n        border-color: #66512c;\r\n        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;\r\n        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;\r\n    }\r\n\r\n.has-warning .input-group-addon {\r\n    color: #8a6d3b;\r\n    background-color: #fcf8e3;\r\n    border-color: #8a6d3b;\r\n}\r\n\r\n.has-warning .form-control-feedback {\r\n    color: #8a6d3b;\r\n}\r\n\r\n.has-error .help-block,\r\n.has-error .control-label,\r\n.has-error .radio,\r\n.has-error .checkbox,\r\n.has-error .radio-inline,\r\n.has-error .checkbox-inline,\r\n.has-error.radio label,\r\n.has-error.checkbox label,\r\n.has-error.radio-inline label,\r\n.has-error.checkbox-inline label {\r\n    color: #a94442;\r\n}\r\n\r\n.has-error .form-control {\r\n    border-color: #a94442;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);\r\n}\r\n\r\n    .has-error .form-control:focus {\r\n        border-color: #843534;\r\n        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;\r\n        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;\r\n    }\r\n\r\n.has-error .input-group-addon {\r\n    color: #a94442;\r\n    background-color: #f2dede;\r\n    border-color: #a94442;\r\n}\r\n\r\n.has-error .form-control-feedback {\r\n    color: #a94442;\r\n}\r\n\r\n.has-feedback label ~ .form-control-feedback {\r\n    top: 25px;\r\n}\r\n\r\n.has-feedback label.sr-only ~ .form-control-feedback {\r\n    top: 0;\r\n}\r\n\r\n.help-block {\r\n    display: block;\r\n    margin-top: 5px;\r\n    margin-bottom: 10px;\r\n    color: #737373;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .form-inline .form-group {\r\n        display: inline-block;\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .form-inline .form-control {\r\n        display: inline-block;\r\n        width: auto;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .form-inline .form-control-static {\r\n        display: inline-block;\r\n    }\r\n\r\n    .form-inline .input-group {\r\n        display: inline-table;\r\n        vertical-align: middle;\r\n    }\r\n\r\n        .form-inline .input-group .input-group-addon,\r\n        .form-inline .input-group .input-group-btn,\r\n        .form-inline .input-group .form-control {\r\n            width: auto;\r\n        }\r\n\r\n        .form-inline .input-group > .form-control {\r\n            width: 100%;\r\n        }\r\n\r\n    .form-inline .control-label {\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .form-inline .radio,\r\n    .form-inline .checkbox {\r\n        display: inline-block;\r\n        margin-top: 0;\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n        .form-inline .radio label,\r\n        .form-inline .checkbox label {\r\n            padding-left: 0;\r\n        }\r\n\r\n        .form-inline .radio input[type=\"radio\"],\r\n        .form-inline .checkbox input[type=\"checkbox\"] {\r\n            position: relative;\r\n            margin-left: 0;\r\n        }\r\n\r\n    .form-inline .has-feedback .form-control-feedback {\r\n        top: 0;\r\n    }\r\n}\r\n\r\n.form-horizontal .radio,\r\n.form-horizontal .checkbox,\r\n.form-horizontal .radio-inline,\r\n.form-horizontal .checkbox-inline {\r\n    padding-top: 7px;\r\n    margin-top: 0;\r\n    margin-bottom: 0;\r\n}\r\n\r\n.form-horizontal .radio,\r\n.form-horizontal .checkbox {\r\n    min-height: 27px;\r\n}\r\n\r\n.form-horizontal .form-group {\r\n    margin-right: -15px;\r\n    margin-left: -15px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .form-horizontal .control-label {\r\n        padding-top: 7px;\r\n        margin-bottom: 0;\r\n        text-align: right;\r\n    }\r\n}\r\n\r\n.form-horizontal .has-feedback .form-control-feedback {\r\n    right: 15px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .form-horizontal .form-group-lg .control-label {\r\n        padding-top: 11px;\r\n        font-size: 18px;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .form-horizontal .form-group-sm .control-label {\r\n        padding-top: 6px;\r\n        font-size: 12px;\r\n    }\r\n}\r\n\r\n.btn {\r\n    display: inline-block;\r\n    padding: 6px 12px;\r\n    margin-bottom: 0;\r\n    font-size: 14px;\r\n    font-weight: normal;\r\n    line-height: 1.42857143;\r\n    text-align: center;\r\n    white-space: nowrap;\r\n    vertical-align: middle;\r\n    -ms-touch-action: manipulation;\r\n    touch-action: manipulation;\r\n    cursor: pointer;\r\n    -webkit-user-select: none;\r\n    -moz-user-select: none;\r\n    -ms-user-select: none;\r\n    user-select: none;\r\n    background-image: none;\r\n    border: 1px solid transparent;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .btn:focus,\r\n    .btn:active:focus,\r\n    .btn.active:focus,\r\n    .btn.focus,\r\n    .btn:active.focus,\r\n    .btn.active.focus {\r\n        outline: 5px auto -webkit-focus-ring-color;\r\n        outline-offset: -2px;\r\n    }\r\n\r\n    .btn:hover,\r\n    .btn:focus,\r\n    .btn.focus {\r\n        color: #333;\r\n        text-decoration: none;\r\n    }\r\n\r\n    .btn:active,\r\n    .btn.active {\r\n        background-image: none;\r\n        outline: 0;\r\n        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);\r\n        box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);\r\n    }\r\n\r\n    .btn.disabled,\r\n    .btn[disabled],\r\n    fieldset[disabled] .btn {\r\n        cursor: not-allowed;\r\n        filter: alpha(opacity=65);\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n        opacity: .65;\r\n    }\r\n\r\na.btn.disabled,\r\nfieldset[disabled] a.btn {\r\n    pointer-events: none;\r\n}\r\n\r\n.btn-default {\r\n    color: #333;\r\n    background-color: #fff;\r\n    border-color: #ccc;\r\n}\r\n\r\n    .btn-default:focus,\r\n    .btn-default.focus {\r\n        color: #333;\r\n        background-color: #e6e6e6;\r\n        border-color: #8c8c8c;\r\n    }\r\n\r\n    .btn-default:hover {\r\n        color: #333;\r\n        background-color: #e6e6e6;\r\n        border-color: #adadad;\r\n    }\r\n\r\n    .btn-default:active,\r\n    .btn-default.active,\r\n    .open > .dropdown-toggle.btn-default {\r\n        color: #333;\r\n        background-color: #e6e6e6;\r\n        border-color: #adadad;\r\n    }\r\n\r\n        .btn-default:active:hover,\r\n        .btn-default.active:hover,\r\n        .open > .dropdown-toggle.btn-default:hover,\r\n        .btn-default:active:focus,\r\n        .btn-default.active:focus,\r\n        .open > .dropdown-toggle.btn-default:focus,\r\n        .btn-default:active.focus,\r\n        .btn-default.active.focus,\r\n        .open > .dropdown-toggle.btn-default.focus {\r\n            color: #333;\r\n            background-color: #d4d4d4;\r\n            border-color: #8c8c8c;\r\n        }\r\n\r\n    .btn-default:active,\r\n    .btn-default.active,\r\n    .open > .dropdown-toggle.btn-default {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-default.disabled:hover,\r\n    .btn-default[disabled]:hover,\r\n    fieldset[disabled] .btn-default:hover,\r\n    .btn-default.disabled:focus,\r\n    .btn-default[disabled]:focus,\r\n    fieldset[disabled] .btn-default:focus,\r\n    .btn-default.disabled.focus,\r\n    .btn-default[disabled].focus,\r\n    fieldset[disabled] .btn-default.focus {\r\n        background-color: #fff;\r\n        border-color: #ccc;\r\n    }\r\n\r\n    .btn-default .badge {\r\n        color: #fff;\r\n        background-color: #333;\r\n    }\r\n\r\n.btn-primary {\r\n    color: #fff;\r\n    background-color: #337ab7;\r\n    border-color: #2e6da4;\r\n}\r\n\r\n    .btn-primary:focus,\r\n    .btn-primary.focus {\r\n        color: #fff;\r\n        background-color: #286090;\r\n        border-color: #122b40;\r\n    }\r\n\r\n    .btn-primary:hover {\r\n        color: #fff;\r\n        background-color: #286090;\r\n        border-color: #204d74;\r\n    }\r\n\r\n    .btn-primary:active,\r\n    .btn-primary.active,\r\n    .open > .dropdown-toggle.btn-primary {\r\n        color: #fff;\r\n        background-color: #286090;\r\n        border-color: #204d74;\r\n    }\r\n\r\n        .btn-primary:active:hover,\r\n        .btn-primary.active:hover,\r\n        .open > .dropdown-toggle.btn-primary:hover,\r\n        .btn-primary:active:focus,\r\n        .btn-primary.active:focus,\r\n        .open > .dropdown-toggle.btn-primary:focus,\r\n        .btn-primary:active.focus,\r\n        .btn-primary.active.focus,\r\n        .open > .dropdown-toggle.btn-primary.focus {\r\n            color: #fff;\r\n            background-color: #204d74;\r\n            border-color: #122b40;\r\n        }\r\n\r\n    .btn-primary:active,\r\n    .btn-primary.active,\r\n    .open > .dropdown-toggle.btn-primary {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-primary.disabled:hover,\r\n    .btn-primary[disabled]:hover,\r\n    fieldset[disabled] .btn-primary:hover,\r\n    .btn-primary.disabled:focus,\r\n    .btn-primary[disabled]:focus,\r\n    fieldset[disabled] .btn-primary:focus,\r\n    .btn-primary.disabled.focus,\r\n    .btn-primary[disabled].focus,\r\n    fieldset[disabled] .btn-primary.focus {\r\n        background-color: #337ab7;\r\n        border-color: #2e6da4;\r\n    }\r\n\r\n    .btn-primary .badge {\r\n        color: #337ab7;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-success {\r\n    color: #fff;\r\n    background-color: #5cb85c;\r\n    border-color: #4cae4c;\r\n}\r\n\r\n    .btn-success:focus,\r\n    .btn-success.focus {\r\n        color: #fff;\r\n        background-color: #449d44;\r\n        border-color: #255625;\r\n    }\r\n\r\n    .btn-success:hover {\r\n        color: #fff;\r\n        background-color: #449d44;\r\n        border-color: #398439;\r\n    }\r\n\r\n    .btn-success:active,\r\n    .btn-success.active,\r\n    .open > .dropdown-toggle.btn-success {\r\n        color: #fff;\r\n        background-color: #449d44;\r\n        border-color: #398439;\r\n    }\r\n\r\n        .btn-success:active:hover,\r\n        .btn-success.active:hover,\r\n        .open > .dropdown-toggle.btn-success:hover,\r\n        .btn-success:active:focus,\r\n        .btn-success.active:focus,\r\n        .open > .dropdown-toggle.btn-success:focus,\r\n        .btn-success:active.focus,\r\n        .btn-success.active.focus,\r\n        .open > .dropdown-toggle.btn-success.focus {\r\n            color: #fff;\r\n            background-color: #398439;\r\n            border-color: #255625;\r\n        }\r\n\r\n    .btn-success:active,\r\n    .btn-success.active,\r\n    .open > .dropdown-toggle.btn-success {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-success.disabled:hover,\r\n    .btn-success[disabled]:hover,\r\n    fieldset[disabled] .btn-success:hover,\r\n    .btn-success.disabled:focus,\r\n    .btn-success[disabled]:focus,\r\n    fieldset[disabled] .btn-success:focus,\r\n    .btn-success.disabled.focus,\r\n    .btn-success[disabled].focus,\r\n    fieldset[disabled] .btn-success.focus {\r\n        background-color: #5cb85c;\r\n        border-color: #4cae4c;\r\n    }\r\n\r\n    .btn-success .badge {\r\n        color: #5cb85c;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-info {\r\n    color: #fff;\r\n    background-color: #5bc0de;\r\n    border-color: #46b8da;\r\n}\r\n\r\n    .btn-info:focus,\r\n    .btn-info.focus {\r\n        color: #fff;\r\n        background-color: #31b0d5;\r\n        border-color: #1b6d85;\r\n    }\r\n\r\n    .btn-info:hover {\r\n        color: #fff;\r\n        background-color: #31b0d5;\r\n        border-color: #269abc;\r\n    }\r\n\r\n    .btn-info:active,\r\n    .btn-info.active,\r\n    .open > .dropdown-toggle.btn-info {\r\n        color: #fff;\r\n        background-color: #31b0d5;\r\n        border-color: #269abc;\r\n    }\r\n\r\n        .btn-info:active:hover,\r\n        .btn-info.active:hover,\r\n        .open > .dropdown-toggle.btn-info:hover,\r\n        .btn-info:active:focus,\r\n        .btn-info.active:focus,\r\n        .open > .dropdown-toggle.btn-info:focus,\r\n        .btn-info:active.focus,\r\n        .btn-info.active.focus,\r\n        .open > .dropdown-toggle.btn-info.focus {\r\n            color: #fff;\r\n            background-color: #269abc;\r\n            border-color: #1b6d85;\r\n        }\r\n\r\n    .btn-info:active,\r\n    .btn-info.active,\r\n    .open > .dropdown-toggle.btn-info {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-info.disabled:hover,\r\n    .btn-info[disabled]:hover,\r\n    fieldset[disabled] .btn-info:hover,\r\n    .btn-info.disabled:focus,\r\n    .btn-info[disabled]:focus,\r\n    fieldset[disabled] .btn-info:focus,\r\n    .btn-info.disabled.focus,\r\n    .btn-info[disabled].focus,\r\n    fieldset[disabled] .btn-info.focus {\r\n        background-color: #5bc0de;\r\n        border-color: #46b8da;\r\n    }\r\n\r\n    .btn-info .badge {\r\n        color: #5bc0de;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-warning {\r\n    color: #fff;\r\n    background-color: #f0ad4e;\r\n    border-color: #eea236;\r\n}\r\n\r\n    .btn-warning:focus,\r\n    .btn-warning.focus {\r\n        color: #fff;\r\n        background-color: #ec971f;\r\n        border-color: #985f0d;\r\n    }\r\n\r\n    .btn-warning:hover {\r\n        color: #fff;\r\n        background-color: #ec971f;\r\n        border-color: #d58512;\r\n    }\r\n\r\n    .btn-warning:active,\r\n    .btn-warning.active,\r\n    .open > .dropdown-toggle.btn-warning {\r\n        color: #fff;\r\n        background-color: #ec971f;\r\n        border-color: #d58512;\r\n    }\r\n\r\n        .btn-warning:active:hover,\r\n        .btn-warning.active:hover,\r\n        .open > .dropdown-toggle.btn-warning:hover,\r\n        .btn-warning:active:focus,\r\n        .btn-warning.active:focus,\r\n        .open > .dropdown-toggle.btn-warning:focus,\r\n        .btn-warning:active.focus,\r\n        .btn-warning.active.focus,\r\n        .open > .dropdown-toggle.btn-warning.focus {\r\n            color: #fff;\r\n            background-color: #d58512;\r\n            border-color: #985f0d;\r\n        }\r\n\r\n    .btn-warning:active,\r\n    .btn-warning.active,\r\n    .open > .dropdown-toggle.btn-warning {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-warning.disabled:hover,\r\n    .btn-warning[disabled]:hover,\r\n    fieldset[disabled] .btn-warning:hover,\r\n    .btn-warning.disabled:focus,\r\n    .btn-warning[disabled]:focus,\r\n    fieldset[disabled] .btn-warning:focus,\r\n    .btn-warning.disabled.focus,\r\n    .btn-warning[disabled].focus,\r\n    fieldset[disabled] .btn-warning.focus {\r\n        background-color: #f0ad4e;\r\n        border-color: #eea236;\r\n    }\r\n\r\n    .btn-warning .badge {\r\n        color: #f0ad4e;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-danger {\r\n    color: #fff;\r\n    background-color: #d9534f;\r\n    border-color: #d43f3a;\r\n}\r\n\r\n    .btn-danger:focus,\r\n    .btn-danger.focus {\r\n        color: #fff;\r\n        background-color: #c9302c;\r\n        border-color: #761c19;\r\n    }\r\n\r\n    .btn-danger:hover {\r\n        color: #fff;\r\n        background-color: #c9302c;\r\n        border-color: #ac2925;\r\n    }\r\n\r\n    .btn-danger:active,\r\n    .btn-danger.active,\r\n    .open > .dropdown-toggle.btn-danger {\r\n        color: #fff;\r\n        background-color: #c9302c;\r\n        border-color: #ac2925;\r\n    }\r\n\r\n        .btn-danger:active:hover,\r\n        .btn-danger.active:hover,\r\n        .open > .dropdown-toggle.btn-danger:hover,\r\n        .btn-danger:active:focus,\r\n        .btn-danger.active:focus,\r\n        .open > .dropdown-toggle.btn-danger:focus,\r\n        .btn-danger:active.focus,\r\n        .btn-danger.active.focus,\r\n        .open > .dropdown-toggle.btn-danger.focus {\r\n            color: #fff;\r\n            background-color: #ac2925;\r\n            border-color: #761c19;\r\n        }\r\n\r\n    .btn-danger:active,\r\n    .btn-danger.active,\r\n    .open > .dropdown-toggle.btn-danger {\r\n        background-image: none;\r\n    }\r\n\r\n    .btn-danger.disabled:hover,\r\n    .btn-danger[disabled]:hover,\r\n    fieldset[disabled] .btn-danger:hover,\r\n    .btn-danger.disabled:focus,\r\n    .btn-danger[disabled]:focus,\r\n    fieldset[disabled] .btn-danger:focus,\r\n    .btn-danger.disabled.focus,\r\n    .btn-danger[disabled].focus,\r\n    fieldset[disabled] .btn-danger.focus {\r\n        background-color: #d9534f;\r\n        border-color: #d43f3a;\r\n    }\r\n\r\n    .btn-danger .badge {\r\n        color: #d9534f;\r\n        background-color: #fff;\r\n    }\r\n\r\n.btn-link {\r\n    font-weight: normal;\r\n    color: #337ab7;\r\n    border-radius: 0;\r\n}\r\n\r\n    .btn-link,\r\n    .btn-link:active,\r\n    .btn-link.active,\r\n    .btn-link[disabled],\r\n    fieldset[disabled] .btn-link {\r\n        background-color: transparent;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\n        .btn-link,\r\n        .btn-link:hover,\r\n        .btn-link:focus,\r\n        .btn-link:active {\r\n            border-color: transparent;\r\n        }\r\n\r\n            .btn-link:hover,\r\n            .btn-link:focus {\r\n                color: #23527c;\r\n                text-decoration: underline;\r\n                background-color: transparent;\r\n            }\r\n\r\n            .btn-link[disabled]:hover,\r\n            fieldset[disabled] .btn-link:hover,\r\n            .btn-link[disabled]:focus,\r\n            fieldset[disabled] .btn-link:focus {\r\n                color: #777;\r\n                text-decoration: none;\r\n            }\r\n\r\n.btn-lg,\r\n.btn-group-lg > .btn {\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n    border-radius: 6px;\r\n}\r\n\r\n.btn-sm,\r\n.btn-group-sm > .btn {\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\n.btn-xs,\r\n.btn-group-xs > .btn {\r\n    padding: 1px 5px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\n.btn-block {\r\n    display: block;\r\n    width: 100%;\r\n}\r\n\r\n    .btn-block + .btn-block {\r\n        margin-top: 5px;\r\n    }\r\n\r\ninput[type=\"submit\"].btn-block,\r\ninput[type=\"reset\"].btn-block,\r\ninput[type=\"button\"].btn-block {\r\n    width: 100%;\r\n}\r\n\r\n.fade {\r\n    opacity: 0;\r\n    -webkit-transition: opacity .15s linear;\r\n    -o-transition: opacity .15s linear;\r\n    transition: opacity .15s linear;\r\n}\r\n\r\n    .fade.in {\r\n        opacity: 1;\r\n    }\r\n\r\n.collapse {\r\n    display: none;\r\n}\r\n\r\n    .collapse.in {\r\n        display: block;\r\n    }\r\n\r\ntr.collapse.in {\r\n    display: table-row;\r\n}\r\n\r\ntbody.collapse.in {\r\n    display: table-row-group;\r\n}\r\n\r\n.collapsing {\r\n    position: relative;\r\n    height: 0;\r\n    overflow: hidden;\r\n    -webkit-transition-timing-function: ease;\r\n    -o-transition-timing-function: ease;\r\n    transition-timing-function: ease;\r\n    -webkit-transition-duration: .35s;\r\n    -o-transition-duration: .35s;\r\n    transition-duration: .35s;\r\n    -webkit-transition-property: height, visibility;\r\n    -o-transition-property: height, visibility;\r\n    transition-property: height, visibility;\r\n}\r\n\r\n.caret {\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    margin-left: 2px;\r\n    vertical-align: middle;\r\n    border-top: 4px dashed;\r\n    border-top: 4px solid \\9;\r\n    border-right: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n}\r\n\r\n.dropup,\r\n.dropdown {\r\n    position: relative;\r\n}\r\n\r\n.dropdown-toggle:focus {\r\n    outline: 0;\r\n}\r\n\r\n.dropdown-\r\n {\r\n    position: absolute;\r\n    top: 100%;\r\n    left: 0;\r\n    z-index: 1000;\r\n    display: none;\r\n    float: left;\r\n    min-width: 160px;\r\n    padding: 5px 0;\r\n    margin: 2px 0 0;\r\n    font-size: 14px;\r\n    text-align: left;\r\n    list-style: none;\r\n    background-color: #fff;\r\n    -webkit-background-clip: padding-box;\r\n    background-clip: padding-box;\r\n    border: 1px solid #ccc;\r\n    border: 1px solid rgba(0, 0, 0, .15);\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);\r\n    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);\r\n}\r\n\r\n    .dropdown-menu.pull-right {\r\n        right: 0;\r\n        left: auto;\r\n    }\r\n\r\n    .dropdown-menu .divider {\r\n        height: 1px;\r\n        margin: 9px 0;\r\n        overflow: hidden;\r\n        background-color: #e5e5e5;\r\n    }\r\n\r\n    .dropdown-menu > li > a {\r\n        display: block;\r\n        padding: 3px 20px;\r\n        clear: both;\r\n        font-weight: normal;\r\n        line-height: 1.42857143;\r\n        color: #333;\r\n        white-space: nowrap;\r\n    }\r\n\r\n        .dropdown-menu > li > a:hover,\r\n        .dropdown-menu > li > a:focus {\r\n            color: #262626;\r\n            text-decoration: none;\r\n            background-color: #f5f5f5;\r\n        }\r\n\r\n    .dropdown-menu > .active > a,\r\n    .dropdown-menu > .active > a:hover,\r\n    .dropdown-menu > .active > a:focus {\r\n        color: #fff;\r\n        text-decoration: none;\r\n        background-color: #337ab7;\r\n        outline: 0;\r\n    }\r\n\r\n    .dropdown-menu > .disabled > a,\r\n    .dropdown-menu > .disabled > a:hover,\r\n    .dropdown-menu > .disabled > a:focus {\r\n        color: #777;\r\n    }\r\n\r\n        .dropdown-menu > .disabled > a:hover,\r\n        .dropdown-menu > .disabled > a:focus {\r\n            text-decoration: none;\r\n            cursor: not-allowed;\r\n            background-color: transparent;\r\n            background-image: none;\r\n            filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);\r\n        }\r\n\r\n.open > .dropdown-menu {\r\n    display: block;\r\n}\r\n\r\n.open > a {\r\n    outline: 0;\r\n}\r\n\r\n.dropdown-menu-right {\r\n    right: 0;\r\n    left: auto;\r\n}\r\n\r\n.dropdown-menu-left {\r\n    right: auto;\r\n    left: 0;\r\n}\r\n\r\n.dropdown-header {\r\n    display: block;\r\n    padding: 3px 20px;\r\n    font-size: 12px;\r\n    line-height: 1.42857143;\r\n    color: #777;\r\n    white-space: nowrap;\r\n}\r\n\r\n.dropdown-backdrop {\r\n    position: fixed;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    z-index: 990;\r\n}\r\n\r\n.pull-right > .dropdown-menu {\r\n    right: 0;\r\n    left: auto;\r\n}\r\n\r\n.dropup .caret,\r\n.navbar-fixed-bottom .dropdown .caret {\r\n    content: \"\";\r\n    border-top: 0;\r\n    border-bottom: 4px dashed;\r\n    border-bottom: 4px solid \\9;\r\n}\r\n\r\n.dropup .dropdown-menu,\r\n.navbar-fixed-bottom .dropdown .dropdown-menu {\r\n    top: auto;\r\n    bottom: 100%;\r\n    margin-bottom: 2px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-right .dropdown-menu {\r\n        right: 0;\r\n        left: auto;\r\n    }\r\n\r\n    .navbar-right .dropdown-menu-left {\r\n        right: auto;\r\n        left: 0;\r\n    }\r\n}\r\n\r\n.btn-group,\r\n.btn-group-vertical {\r\n    position: relative;\r\n    display: inline-block;\r\n    vertical-align: middle;\r\n}\r\n\r\n    .btn-group > .btn,\r\n    .btn-group-vertical > .btn {\r\n        position: relative;\r\n        float: left;\r\n    }\r\n\r\n        .btn-group > .btn:hover,\r\n        .btn-group-vertical > .btn:hover,\r\n        .btn-group > .btn:focus,\r\n        .btn-group-vertical > .btn:focus,\r\n        .btn-group > .btn:active,\r\n        .btn-group-vertical > .btn:active,\r\n        .btn-group > .btn.active,\r\n        .btn-group-vertical > .btn.active {\r\n            z-index: 2;\r\n        }\r\n\r\n    .btn-group .btn + .btn,\r\n    .btn-group .btn + .btn-group,\r\n    .btn-group .btn-group + .btn,\r\n    .btn-group .btn-group + .btn-group {\r\n        margin-left: -1px;\r\n    }\r\n\r\n.btn-toolbar {\r\n    margin-left: -5px;\r\n}\r\n\r\n    .btn-toolbar .btn,\r\n    .btn-toolbar .btn-group,\r\n    .btn-toolbar .input-group {\r\n        float: left;\r\n    }\r\n\r\n    .btn-toolbar > .btn,\r\n    .btn-toolbar > .btn-group,\r\n    .btn-toolbar > .input-group {\r\n        margin-left: 5px;\r\n    }\r\n\r\n.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {\r\n    border-radius: 0;\r\n}\r\n\r\n.btn-group > .btn:first-child {\r\n    margin-left: 0;\r\n}\r\n\r\n    .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {\r\n        border-top-right-radius: 0;\r\n        border-bottom-right-radius: 0;\r\n    }\r\n\r\n.btn-group > .btn:last-child:not(:first-child),\r\n.btn-group > .dropdown-toggle:not(:first-child) {\r\n    border-top-left-radius: 0;\r\n    border-bottom-left-radius: 0;\r\n}\r\n\r\n.btn-group > .btn-group {\r\n    float: left;\r\n}\r\n\r\n    .btn-group > .btn-group:not(:first-child):not(:last-child) > .btn {\r\n        border-radius: 0;\r\n    }\r\n\r\n    .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,\r\n    .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle {\r\n        border-top-right-radius: 0;\r\n        border-bottom-right-radius: 0;\r\n    }\r\n\r\n    .btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {\r\n        border-top-left-radius: 0;\r\n        border-bottom-left-radius: 0;\r\n    }\r\n\r\n.btn-group .dropdown-toggle:active,\r\n.btn-group.open .dropdown-toggle {\r\n    outline: 0;\r\n}\r\n\r\n.btn-group > .btn + .dropdown-toggle {\r\n    padding-right: 8px;\r\n    padding-left: 8px;\r\n}\r\n\r\n.btn-group > .btn-lg + .dropdown-toggle {\r\n    padding-right: 12px;\r\n    padding-left: 12px;\r\n}\r\n\r\n.btn-group.open .dropdown-toggle {\r\n    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);\r\n    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);\r\n}\r\n\r\n    .btn-group.open .dropdown-toggle.btn-link {\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\n.btn .caret {\r\n    margin-left: 0;\r\n}\r\n\r\n.btn-lg .caret {\r\n    border-width: 5px 5px 0;\r\n    border-bottom-width: 0;\r\n}\r\n\r\n.dropup .btn-lg .caret {\r\n    border-width: 0 5px 5px;\r\n}\r\n\r\n.btn-group-vertical > .btn,\r\n.btn-group-vertical > .btn-group,\r\n.btn-group-vertical > .btn-group > .btn {\r\n    display: block;\r\n    float: none;\r\n    width: 100%;\r\n    max-width: 100%;\r\n}\r\n\r\n    .btn-group-vertical > .btn-group > .btn {\r\n        float: none;\r\n    }\r\n\r\n    .btn-group-vertical > .btn + .btn,\r\n    .btn-group-vertical > .btn + .btn-group,\r\n    .btn-group-vertical > .btn-group + .btn,\r\n    .btn-group-vertical > .btn-group + .btn-group {\r\n        margin-top: -1px;\r\n        margin-left: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn:not(:first-child):not(:last-child) {\r\n        border-radius: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn:first-child:not(:last-child) {\r\n        border-top-left-radius: 4px;\r\n        border-top-right-radius: 4px;\r\n        border-bottom-right-radius: 0;\r\n        border-bottom-left-radius: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn:last-child:not(:first-child) {\r\n        border-top-left-radius: 0;\r\n        border-top-right-radius: 0;\r\n        border-bottom-right-radius: 4px;\r\n        border-bottom-left-radius: 4px;\r\n    }\r\n\r\n    .btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {\r\n        border-radius: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn-group:first-child:not(:last-child) > .btn:last-child,\r\n    .btn-group-vertical > .btn-group:first-child:not(:last-child) > .dropdown-toggle {\r\n        border-bottom-right-radius: 0;\r\n        border-bottom-left-radius: 0;\r\n    }\r\n\r\n    .btn-group-vertical > .btn-group:last-child:not(:first-child) > .btn:first-child {\r\n        border-top-left-radius: 0;\r\n        border-top-right-radius: 0;\r\n    }\r\n\r\n.btn-group-justified {\r\n    display: table;\r\n    width: 100%;\r\n    table-layout: fixed;\r\n    border-collapse: separate;\r\n}\r\n\r\n    .btn-group-justified > .btn,\r\n    .btn-group-justified > .btn-group {\r\n        display: table-cell;\r\n        float: none;\r\n        width: 1%;\r\n    }\r\n\r\n        .btn-group-justified > .btn-group .btn {\r\n            width: 100%;\r\n        }\r\n\r\n        .btn-group-justified > .btn-group .dropdown-menu {\r\n            left: auto;\r\n        }\r\n\r\n[data-toggle=\"buttons\"] > .btn input[type=\"radio\"],\r\n[data-toggle=\"buttons\"] > .btn-group > .btn input[type=\"radio\"],\r\n[data-toggle=\"buttons\"] > .btn input[type=\"checkbox\"],\r\n[data-toggle=\"buttons\"] > .btn-group > .btn input[type=\"checkbox\"] {\r\n    position: absolute;\r\n    clip: rect(0, 0, 0, 0);\r\n    pointer-events: none;\r\n}\r\n\r\n.input-group {\r\n    position: relative;\r\n    display: table;\r\n    border-collapse: separate;\r\n}\r\n\r\n    .input-group[class*=\"col-\"] {\r\n        float: none;\r\n        padding-right: 0;\r\n        padding-left: 0;\r\n    }\r\n\r\n    .input-group .form-control {\r\n        position: relative;\r\n        z-index: 2;\r\n        float: left;\r\n        width: 100%;\r\n        margin-bottom: 0;\r\n    }\r\n\r\n        .input-group .form-control:focus {\r\n            z-index: 3;\r\n        }\r\n\r\n.input-group-lg > .form-control,\r\n.input-group-lg > .input-group-addon,\r\n.input-group-lg > .input-group-btn > .btn {\r\n    height: 46px;\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n    border-radius: 6px;\r\n}\r\n\r\nselect.input-group-lg > .form-control,\r\nselect.input-group-lg > .input-group-addon,\r\nselect.input-group-lg > .input-group-btn > .btn {\r\n    height: 46px;\r\n    line-height: 46px;\r\n}\r\n\r\ntextarea.input-group-lg > .form-control,\r\ntextarea.input-group-lg > .input-group-addon,\r\ntextarea.input-group-lg > .input-group-btn > .btn,\r\nselect[multiple].input-group-lg > .form-control,\r\nselect[multiple].input-group-lg > .input-group-addon,\r\nselect[multiple].input-group-lg > .input-group-btn > .btn {\r\n    height: auto;\r\n}\r\n\r\n.input-group-sm > .form-control,\r\n.input-group-sm > .input-group-addon,\r\n.input-group-sm > .input-group-btn > .btn {\r\n    height: 30px;\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n    border-radius: 3px;\r\n}\r\n\r\nselect.input-group-sm > .form-control,\r\nselect.input-group-sm > .input-group-addon,\r\nselect.input-group-sm > .input-group-btn > .btn {\r\n    height: 30px;\r\n    line-height: 30px;\r\n}\r\n\r\ntextarea.input-group-sm > .form-control,\r\ntextarea.input-group-sm > .input-group-addon,\r\ntextarea.input-group-sm > .input-group-btn > .btn,\r\nselect[multiple].input-group-sm > .form-control,\r\nselect[multiple].input-group-sm > .input-group-addon,\r\nselect[multiple].input-group-sm > .input-group-btn > .btn {\r\n    height: auto;\r\n}\r\n\r\n.input-group-addon,\r\n.input-group-btn,\r\n.input-group .form-control {\r\n    display: table-cell;\r\n}\r\n\r\n    .input-group-addon:not(:first-child):not(:last-child),\r\n    .input-group-btn:not(:first-child):not(:last-child),\r\n    .input-group .form-control:not(:first-child):not(:last-child) {\r\n        border-radius: 0;\r\n    }\r\n\r\n.input-group-addon,\r\n.input-group-btn {\r\n    width: 1%;\r\n    white-space: nowrap;\r\n    vertical-align: middle;\r\n}\r\n\r\n.input-group-addon {\r\n    padding: 6px 12px;\r\n    font-size: 14px;\r\n    font-weight: normal;\r\n    line-height: 1;\r\n    color: #555;\r\n    text-align: center;\r\n    background-color: #eee;\r\n    border: 1px solid #ccc;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .input-group-addon.input-sm {\r\n        padding: 5px 10px;\r\n        font-size: 12px;\r\n        border-radius: 3px;\r\n    }\r\n\r\n    .input-group-addon.input-lg {\r\n        padding: 10px 16px;\r\n        font-size: 18px;\r\n        border-radius: 6px;\r\n    }\r\n\r\n    .input-group-addon input[type=\"radio\"],\r\n    .input-group-addon input[type=\"checkbox\"] {\r\n        margin-top: 0;\r\n    }\r\n\r\n    .input-group .form-control:first-child,\r\n    .input-group-addon:first-child,\r\n    .input-group-btn:first-child > .btn,\r\n    .input-group-btn:first-child > .btn-group > .btn,\r\n    .input-group-btn:first-child > .dropdown-toggle,\r\n    .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),\r\n    .input-group-btn:last-child > .btn-group:not(:last-child) > .btn {\r\n        border-top-right-radius: 0;\r\n        border-bottom-right-radius: 0;\r\n    }\r\n\r\n    .input-group-addon:first-child {\r\n        border-right: 0;\r\n    }\r\n\r\n    .input-group .form-control:last-child,\r\n    .input-group-addon:last-child,\r\n    .input-group-btn:last-child > .btn,\r\n    .input-group-btn:last-child > .btn-group > .btn,\r\n    .input-group-btn:last-child > .dropdown-toggle,\r\n    .input-group-btn:first-child > .btn:not(:first-child),\r\n    .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {\r\n        border-top-left-radius: 0;\r\n        border-bottom-left-radius: 0;\r\n    }\r\n\r\n    .input-group-addon:last-child {\r\n        border-left: 0;\r\n    }\r\n\r\n.input-group-btn {\r\n    position: relative;\r\n    font-size: 0;\r\n    white-space: nowrap;\r\n}\r\n\r\n    .input-group-btn > .btn {\r\n        position: relative;\r\n    }\r\n\r\n        .input-group-btn > .btn + .btn {\r\n            margin-left: -1px;\r\n        }\r\n\r\n        .input-group-btn > .btn:hover,\r\n        .input-group-btn > .btn:focus,\r\n        .input-group-btn > .btn:active {\r\n            z-index: 2;\r\n        }\r\n\r\n    .input-group-btn:first-child > .btn,\r\n    .input-group-btn:first-child > .btn-group {\r\n        margin-right: -1px;\r\n    }\r\n\r\n    .input-group-btn:last-child > .btn,\r\n    .input-group-btn:last-child > .btn-group {\r\n        z-index: 2;\r\n        margin-left: -1px;\r\n    }\r\n\r\n.nav {\r\n    padding-left: 0;\r\n    margin-bottom: 0;\r\n    list-style: none;\r\n}\r\n\r\n    .nav > li {\r\n        position: relative;\r\n        display: block;\r\n    }\r\n\r\n        .nav > li > a {\r\n            position: relative;\r\n            display: block;\r\n            padding: 10px 15px;\r\n        }\r\n\r\n            .nav > li > a:hover,\r\n            .nav > li > a:focus {\r\n                text-decoration: none;\r\n                background-color: #eee;\r\n            }\r\n\r\n        .nav > li.disabled > a {\r\n            color: #777;\r\n        }\r\n\r\n            .nav > li.disabled > a:hover,\r\n            .nav > li.disabled > a:focus {\r\n                color: #777;\r\n                text-decoration: none;\r\n                cursor: not-allowed;\r\n                background-color: transparent;\r\n            }\r\n\r\n    .nav .open > a,\r\n    .nav .open > a:hover,\r\n    .nav .open > a:focus {\r\n        background-color: #eee;\r\n        border-color: #337ab7;\r\n    }\r\n\r\n    .nav .nav-divider {\r\n        height: 1px;\r\n        margin: 9px 0;\r\n        overflow: hidden;\r\n        background-color: #e5e5e5;\r\n    }\r\n\r\n    .nav > li > a > img {\r\n        max-width: none;\r\n    }\r\n\r\n.nav-tabs {\r\n    border-bottom: 1px solid #ddd;\r\n}\r\n\r\n    .nav-tabs > li {\r\n        float: left;\r\n        margin-bottom: -1px;\r\n    }\r\n\r\n        .nav-tabs > li > a {\r\n            margin-right: 2px;\r\n            line-height: 1.42857143;\r\n            border: 1px solid transparent;\r\n            border-radius: 4px 4px 0 0;\r\n        }\r\n\r\n            .nav-tabs > li > a:hover {\r\n                border-color: #eee #eee #ddd;\r\n            }\r\n\r\n        .nav-tabs > li.active > a,\r\n        .nav-tabs > li.active > a:hover,\r\n        .nav-tabs > li.active > a:focus {\r\n            color: #555;\r\n            cursor: default;\r\n            background-color: #fff;\r\n            border: 1px solid #ddd;\r\n            border-bottom-color: transparent;\r\n        }\r\n\r\n    .nav-tabs.nav-justified {\r\n        width: 100%;\r\n        border-bottom: 0;\r\n    }\r\n\r\n        .nav-tabs.nav-justified > li {\r\n            float: none;\r\n        }\r\n\r\n            .nav-tabs.nav-justified > li > a {\r\n                margin-bottom: 5px;\r\n                text-align: center;\r\n            }\r\n\r\n        .nav-tabs.nav-justified > .dropdown .dropdown-menu {\r\n            top: auto;\r\n            left: auto;\r\n        }\r\n\r\n@media (min-width: 768px) {\r\n    .nav-tabs.nav-justified > li {\r\n        display: table-cell;\r\n        width: 1%;\r\n    }\r\n\r\n        .nav-tabs.nav-justified > li > a {\r\n            margin-bottom: 0;\r\n        }\r\n}\r\n\r\n.nav-tabs.nav-justified > li > a {\r\n    margin-right: 0;\r\n    border-radius: 4px;\r\n}\r\n\r\n.nav-tabs.nav-justified > .active > a,\r\n.nav-tabs.nav-justified > .active > a:hover,\r\n.nav-tabs.nav-justified > .active > a:focus {\r\n    border: 1px solid #ddd;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .nav-tabs.nav-justified > li > a {\r\n        border-bottom: 1px solid #ddd;\r\n        border-radius: 4px 4px 0 0;\r\n    }\r\n\r\n    .nav-tabs.nav-justified > .active > a,\r\n    .nav-tabs.nav-justified > .active > a:hover,\r\n    .nav-tabs.nav-justified > .active > a:focus {\r\n        border-bottom-color: #fff;\r\n    }\r\n}\r\n\r\n.nav-pills > li {\r\n    float: left;\r\n}\r\n\r\n    .nav-pills > li > a {\r\n        border-radius: 4px;\r\n    }\r\n\r\n    .nav-pills > li + li {\r\n        margin-left: 2px;\r\n    }\r\n\r\n    .nav-pills > li.active > a,\r\n    .nav-pills > li.active > a:hover,\r\n    .nav-pills > li.active > a:focus {\r\n        color: #fff;\r\n        background-color: #337ab7;\r\n    }\r\n\r\n.nav-stacked > li {\r\n    float: none;\r\n}\r\n\r\n    .nav-stacked > li + li {\r\n        margin-top: 2px;\r\n        margin-left: 0;\r\n    }\r\n\r\n.nav-justified {\r\n    width: 100%;\r\n}\r\n\r\n    .nav-justified > li {\r\n        float: none;\r\n    }\r\n\r\n        .nav-justified > li > a {\r\n            margin-bottom: 5px;\r\n            text-align: center;\r\n        }\r\n\r\n    .nav-justified > .dropdown .dropdown-menu {\r\n        top: auto;\r\n        left: auto;\r\n    }\r\n\r\n@media (min-width: 768px) {\r\n    .nav-justified > li {\r\n        display: table-cell;\r\n        width: 1%;\r\n    }\r\n\r\n        .nav-justified > li > a {\r\n            margin-bottom: 0;\r\n        }\r\n}\r\n\r\n.nav-tabs-justified {\r\n    border-bottom: 0;\r\n}\r\n\r\n    .nav-tabs-justified > li > a {\r\n        margin-right: 0;\r\n        border-radius: 4px;\r\n    }\r\n\r\n    .nav-tabs-justified > .active > a,\r\n    .nav-tabs-justified > .active > a:hover,\r\n    .nav-tabs-justified > .active > a:focus {\r\n        border: 1px solid #ddd;\r\n    }\r\n\r\n@media (min-width: 768px) {\r\n    .nav-tabs-justified > li > a {\r\n        border-bottom: 1px solid #ddd;\r\n        border-radius: 4px 4px 0 0;\r\n    }\r\n\r\n    .nav-tabs-justified > .active > a,\r\n    .nav-tabs-justified > .active > a:hover,\r\n    .nav-tabs-justified > .active > a:focus {\r\n        border-bottom-color: #fff;\r\n    }\r\n}\r\n\r\n.tab-content > .tab-pane {\r\n    display: none;\r\n}\r\n\r\n.tab-content > .active {\r\n    display: block;\r\n}\r\n\r\n.nav-tabs .dropdown-menu {\r\n    margin-top: -1px;\r\n    border-top-left-radius: 0;\r\n    border-top-right-radius: 0;\r\n}\r\n\r\n.navbar {\r\n    position: relative;\r\n    min-height: 50px;\r\n    margin-bottom: 20px;\r\n    border: 1px solid transparent;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar {\r\n        border-radius: 4px;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-header {\r\n        float: left;\r\n    }\r\n}\r\n\r\n.navbar-collapse {\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n    overflow-x: visible;\r\n    -webkit-overflow-scrolling: touch;\r\n    border-top: 1px solid transparent;\r\n    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);\r\n    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);\r\n}\r\n\r\n    .navbar-collapse.in {\r\n        overflow-y: auto;\r\n    }\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-collapse {\r\n        width: auto;\r\n        border-top: 0;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\n        .navbar-collapse.collapse {\r\n            display: block !important;\r\n            height: auto !important;\r\n            padding-bottom: 0;\r\n            overflow: visible !important;\r\n        }\r\n\r\n        .navbar-collapse.in {\r\n            overflow-y: visible;\r\n        }\r\n\r\n    .navbar-fixed-top .navbar-collapse,\r\n    .navbar-static-top .navbar-collapse,\r\n    .navbar-fixed-bottom .navbar-collapse {\r\n        padding-right: 0;\r\n        padding-left: 0;\r\n    }\r\n}\r\n\r\n.navbar-fixed-top .navbar-collapse,\r\n.navbar-fixed-bottom .navbar-collapse {\r\n    max-height: 340px;\r\n}\r\n\r\n@media (max-device-width: 480px) and (orientation: landscape) {\r\n    .navbar-fixed-top .navbar-collapse,\r\n    .navbar-fixed-bottom .navbar-collapse {\r\n        max-height: 200px;\r\n    }\r\n}\r\n\r\n.container > .navbar-header,\r\n.container-fluid > .navbar-header,\r\n.container > .navbar-collapse,\r\n.container-fluid > .navbar-collapse {\r\n    margin-right: -15px;\r\n    margin-left: -15px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .container > .navbar-header,\r\n    .container-fluid > .navbar-header,\r\n    .container > .navbar-collapse,\r\n    .container-fluid > .navbar-collapse {\r\n        margin-right: 0;\r\n        margin-left: 0;\r\n    }\r\n}\r\n\r\n.navbar-static-top {\r\n    z-index: 1000;\r\n    border-width: 0 0 1px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-static-top {\r\n        border-radius: 0;\r\n    }\r\n}\r\n\r\n.navbar-fixed-top,\r\n.navbar-fixed-bottom {\r\n    position: fixed;\r\n    right: 0;\r\n    left: 0;\r\n    z-index: 1030;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-fixed-top,\r\n    .navbar-fixed-bottom {\r\n        border-radius: 0;\r\n    }\r\n}\r\n\r\n.navbar-fixed-top {\r\n    top: 0;\r\n    border-width: 0 0 1px;\r\n}\r\n\r\n.navbar-fixed-bottom {\r\n    bottom: 0;\r\n    margin-bottom: 0;\r\n    border-width: 1px 0 0;\r\n}\r\n\r\n.navbar-brand {\r\n    float: left;\r\n    height: 50px;\r\n    padding: 15px 15px;\r\n    font-size: 18px;\r\n    line-height: 20px;\r\n}\r\n\r\n    .navbar-brand:hover,\r\n    .navbar-brand:focus {\r\n        text-decoration: none;\r\n    }\r\n\r\n    .navbar-brand > img {\r\n        display: block;\r\n    }\r\n\r\n@media (min-width: 768px) {\r\n    .navbar > .container .navbar-brand,\r\n    .navbar > .container-fluid .navbar-brand {\r\n        margin-left: -15px;\r\n    }\r\n}\r\n\r\n.navbar-toggle {\r\n    position: relative;\r\n    float: right;\r\n    padding: 9px 10px;\r\n    margin-top: 8px;\r\n    margin-right: 15px;\r\n    margin-bottom: 8px;\r\n    background-color: transparent;\r\n    background-image: none;\r\n    border: 1px solid transparent;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .navbar-toggle:focus {\r\n        outline: 0;\r\n    }\r\n\r\n    .navbar-toggle .icon-bar {\r\n        display: block;\r\n        width: 22px;\r\n        height: 2px;\r\n        border-radius: 1px;\r\n    }\r\n\r\n        .navbar-toggle .icon-bar + .icon-bar {\r\n            margin-top: 4px;\r\n        }\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-toggle {\r\n        display: none;\r\n    }\r\n}\r\n\r\n.navbar-nav {\r\n    margin: 7.5px -15px;\r\n}\r\n\r\n    .navbar-nav > li > a {\r\n        padding-top: 10px;\r\n        padding-bottom: 10px;\r\n        line-height: 20px;\r\n    }\r\n\r\n@media (max-width: 767px) {\r\n    .navbar-nav .open .dropdown-menu {\r\n        position: static;\r\n        float: none;\r\n        width: auto;\r\n        margin-top: 0;\r\n        background-color: transparent;\r\n        border: 0;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n\r\n        .navbar-nav .open .dropdown-menu > li > a,\r\n        .navbar-nav .open .dropdown-menu .dropdown-header {\r\n            padding: 5px 15px 5px 25px;\r\n        }\r\n\r\n        .navbar-nav .open .dropdown-menu > li > a {\r\n            line-height: 20px;\r\n        }\r\n\r\n            .navbar-nav .open .dropdown-menu > li > a:hover,\r\n            .navbar-nav .open .dropdown-menu > li > a:focus {\r\n                background-image: none;\r\n            }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-nav {\r\n        float: left;\r\n        margin: 0;\r\n    }\r\n\r\n        .navbar-nav > li {\r\n            float: left;\r\n        }\r\n\r\n            .navbar-nav > li > a {\r\n                padding-top: 15px;\r\n                padding-bottom: 15px;\r\n            }\r\n}\r\n\r\n.navbar-form {\r\n    padding: 10px 15px;\r\n    margin-top: 8px;\r\n    margin-right: -15px;\r\n    margin-bottom: 8px;\r\n    margin-left: -15px;\r\n    border-top: 1px solid transparent;\r\n    border-bottom: 1px solid transparent;\r\n    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1);\r\n    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 1px 0 rgba(255, 255, 255, .1);\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-form .form-group {\r\n        display: inline-block;\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .navbar-form .form-control {\r\n        display: inline-block;\r\n        width: auto;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .navbar-form .form-control-static {\r\n        display: inline-block;\r\n    }\r\n\r\n    .navbar-form .input-group {\r\n        display: inline-table;\r\n        vertical-align: middle;\r\n    }\r\n\r\n        .navbar-form .input-group .input-group-addon,\r\n        .navbar-form .input-group .input-group-btn,\r\n        .navbar-form .input-group .form-control {\r\n            width: auto;\r\n        }\r\n\r\n        .navbar-form .input-group > .form-control {\r\n            width: 100%;\r\n        }\r\n\r\n    .navbar-form .control-label {\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n    .navbar-form .radio,\r\n    .navbar-form .checkbox {\r\n        display: inline-block;\r\n        margin-top: 0;\r\n        margin-bottom: 0;\r\n        vertical-align: middle;\r\n    }\r\n\r\n        .navbar-form .radio label,\r\n        .navbar-form .checkbox label {\r\n            padding-left: 0;\r\n        }\r\n\r\n        .navbar-form .radio input[type=\"radio\"],\r\n        .navbar-form .checkbox input[type=\"checkbox\"] {\r\n            position: relative;\r\n            margin-left: 0;\r\n        }\r\n\r\n    .navbar-form .has-feedback .form-control-feedback {\r\n        top: 0;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .navbar-form .form-group {\r\n        margin-bottom: 5px;\r\n    }\r\n\r\n        .navbar-form .form-group:last-child {\r\n            margin-bottom: 0;\r\n        }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-form {\r\n        width: auto;\r\n        padding-top: 0;\r\n        padding-bottom: 0;\r\n        margin-right: 0;\r\n        margin-left: 0;\r\n        border: 0;\r\n        -webkit-box-shadow: none;\r\n        box-shadow: none;\r\n    }\r\n}\r\n\r\n.navbar-nav > li > .dropdown-menu {\r\n    margin-top: 0;\r\n    border-top-left-radius: 0;\r\n    border-top-right-radius: 0;\r\n}\r\n\r\n.navbar-fixed-bottom .navbar-nav > li > .dropdown-menu {\r\n    margin-bottom: 0;\r\n    border-top-left-radius: 4px;\r\n    border-top-right-radius: 4px;\r\n    border-bottom-right-radius: 0;\r\n    border-bottom-left-radius: 0;\r\n}\r\n\r\n.navbar-btn {\r\n    margin-top: 8px;\r\n    margin-bottom: 8px;\r\n}\r\n\r\n    .navbar-btn.btn-sm {\r\n        margin-top: 10px;\r\n        margin-bottom: 10px;\r\n    }\r\n\r\n    .navbar-btn.btn-xs {\r\n        margin-top: 14px;\r\n        margin-bottom: 14px;\r\n    }\r\n\r\n.navbar-text {\r\n    margin-top: 15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-text {\r\n        float: left;\r\n        margin-right: 15px;\r\n        margin-left: 15px;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .navbar-left {\r\n        float: left !important;\r\n    }\r\n\r\n    .navbar-right {\r\n        float: right !important;\r\n        margin-right: -15px;\r\n    }\r\n\r\n        .navbar-right ~ .navbar-right {\r\n            margin-right: 0;\r\n        }\r\n}\r\n\r\n.navbar-default {\r\n    background-color: #f8f8f8;\r\n    border-color: #e7e7e7;\r\n}\r\n\r\n    .navbar-default .navbar-brand {\r\n        color: #777;\r\n    }\r\n\r\n        .navbar-default .navbar-brand:hover,\r\n        .navbar-default .navbar-brand:focus {\r\n            color: #5e5e5e;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-default .navbar-text {\r\n        color: #777;\r\n    }\r\n\r\n    .navbar-default .navbar-nav > li > a {\r\n        color: #777;\r\n    }\r\n\r\n        .navbar-default .navbar-nav > li > a:hover,\r\n        .navbar-default .navbar-nav > li > a:focus {\r\n            color: #333;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-default .navbar-nav > .active > a,\r\n    .navbar-default .navbar-nav > .active > a:hover,\r\n    .navbar-default .navbar-nav > .active > a:focus {\r\n        color: #555;\r\n        background-color: #e7e7e7;\r\n    }\r\n\r\n    .navbar-default .navbar-nav > .disabled > a,\r\n    .navbar-default .navbar-nav > .disabled > a:hover,\r\n    .navbar-default .navbar-nav > .disabled > a:focus {\r\n        color: #ccc;\r\n        background-color: transparent;\r\n    }\r\n\r\n    .navbar-default .navbar-toggle {\r\n        border-color: #ddd;\r\n    }\r\n\r\n        .navbar-default .navbar-toggle:hover,\r\n        .navbar-default .navbar-toggle:focus {\r\n            background-color: #ddd;\r\n        }\r\n\r\n        .navbar-default .navbar-toggle .icon-bar {\r\n            background-color: #888;\r\n        }\r\n\r\n    .navbar-default .navbar-collapse,\r\n    .navbar-default .navbar-form {\r\n        border-color: #e7e7e7;\r\n    }\r\n\r\n    .navbar-default .navbar-nav > .open > a,\r\n    .navbar-default .navbar-nav > .open > a:hover,\r\n    .navbar-default .navbar-nav > .open > a:focus {\r\n        color: #555;\r\n        background-color: #e7e7e7;\r\n    }\r\n\r\n@media (max-width: 767px) {\r\n    .navbar-default .navbar-nav .open .dropdown-menu > li > a {\r\n        color: #777;\r\n    }\r\n\r\n        .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,\r\n        .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {\r\n            color: #333;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .active > a,\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {\r\n        color: #555;\r\n        background-color: #e7e7e7;\r\n    }\r\n\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,\r\n    .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {\r\n        color: #ccc;\r\n        background-color: transparent;\r\n    }\r\n}\r\n\r\n.navbar-default .navbar-link {\r\n    color: #777;\r\n}\r\n\r\n    .navbar-default .navbar-link:hover {\r\n        color: #333;\r\n    }\r\n\r\n.navbar-default .btn-link {\r\n    color: #777;\r\n}\r\n\r\n    .navbar-default .btn-link:hover,\r\n    .navbar-default .btn-link:focus {\r\n        color: #333;\r\n    }\r\n\r\n    .navbar-default .btn-link[disabled]:hover,\r\n    fieldset[disabled] .navbar-default .btn-link:hover,\r\n    .navbar-default .btn-link[disabled]:focus,\r\n    fieldset[disabled] .navbar-default .btn-link:focus {\r\n        color: #ccc;\r\n    }\r\n\r\n.navbar-inverse {\r\n    background-color: #222;\r\n    border-color: #080808;\r\n}\r\n\r\n    .navbar-inverse .navbar-brand {\r\n        color: #9d9d9d;\r\n    }\r\n\r\n        .navbar-inverse .navbar-brand:hover,\r\n        .navbar-inverse .navbar-brand:focus {\r\n            color: #fff;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-inverse .navbar-text {\r\n        color: #9d9d9d;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav > li > a {\r\n        color: #9d9d9d;\r\n    }\r\n\r\n        .navbar-inverse .navbar-nav > li > a:hover,\r\n        .navbar-inverse .navbar-nav > li > a:focus {\r\n            color: #fff;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-inverse .navbar-nav > .active > a,\r\n    .navbar-inverse .navbar-nav > .active > a:hover,\r\n    .navbar-inverse .navbar-nav > .active > a:focus {\r\n        color: #fff;\r\n        background-color: #080808;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav > .disabled > a,\r\n    .navbar-inverse .navbar-nav > .disabled > a:hover,\r\n    .navbar-inverse .navbar-nav > .disabled > a:focus {\r\n        color: #444;\r\n        background-color: transparent;\r\n    }\r\n\r\n    .navbar-inverse .navbar-toggle {\r\n        border-color: #333;\r\n    }\r\n\r\n        .navbar-inverse .navbar-toggle:hover,\r\n        .navbar-inverse .navbar-toggle:focus {\r\n            background-color: #333;\r\n        }\r\n\r\n        .navbar-inverse .navbar-toggle .icon-bar {\r\n            background-color: #fff;\r\n        }\r\n\r\n    .navbar-inverse .navbar-collapse,\r\n    .navbar-inverse .navbar-form {\r\n        border-color: #101010;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav > .open > a,\r\n    .navbar-inverse .navbar-nav > .open > a:hover,\r\n    .navbar-inverse .navbar-nav > .open > a:focus {\r\n        color: #fff;\r\n        background-color: #080808;\r\n    }\r\n\r\n@media (max-width: 767px) {\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {\r\n        border-color: #080808;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu .divider {\r\n        background-color: #080808;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {\r\n        color: #9d9d9d;\r\n    }\r\n\r\n        .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,\r\n        .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {\r\n            color: #fff;\r\n            background-color: transparent;\r\n        }\r\n\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a,\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {\r\n        color: #fff;\r\n        background-color: #080808;\r\n    }\r\n\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover,\r\n    .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus {\r\n        color: #444;\r\n        background-color: transparent;\r\n    }\r\n}\r\n\r\n.navbar-inverse .navbar-link {\r\n    color: #9d9d9d;\r\n}\r\n\r\n    .navbar-inverse .navbar-link:hover {\r\n        color: #fff;\r\n    }\r\n\r\n.navbar-inverse .btn-link {\r\n    color: #9d9d9d;\r\n}\r\n\r\n    .navbar-inverse .btn-link:hover,\r\n    .navbar-inverse .btn-link:focus {\r\n        color: #fff;\r\n    }\r\n\r\n    .navbar-inverse .btn-link[disabled]:hover,\r\n    fieldset[disabled] .navbar-inverse .btn-link:hover,\r\n    .navbar-inverse .btn-link[disabled]:focus,\r\n    fieldset[disabled] .navbar-inverse .btn-link:focus {\r\n        color: #444;\r\n    }\r\n\r\n.breadcrumb {\r\n    padding: 8px 15px;\r\n    margin-bottom: 20px;\r\n    list-style: none;\r\n    background-color: #f5f5f5;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .breadcrumb > li {\r\n        display: inline-block;\r\n    }\r\n\r\n        .breadcrumb > li + li:before {\r\n            padding: 0 5px;\r\n            color: #ccc;\r\n            content: \"/\\A0\";\r\n        }\r\n\r\n    .breadcrumb > .active {\r\n        color: #777;\r\n    }\r\n\r\n.pagination {\r\n    display: inline-block;\r\n    padding-left: 0;\r\n    margin: 20px 0;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .pagination > li {\r\n        display: inline;\r\n    }\r\n\r\n        .pagination > li > a,\r\n        .pagination > li > span {\r\n            position: relative;\r\n            float: left;\r\n            padding: 6px 12px;\r\n            margin-left: -1px;\r\n            line-height: 1.42857143;\r\n            color: #337ab7;\r\n            text-decoration: none;\r\n            background-color: #fff;\r\n            border: 1px solid #ddd;\r\n        }\r\n\r\n        .pagination > li:first-child > a,\r\n        .pagination > li:first-child > span {\r\n            margin-left: 0;\r\n            border-top-left-radius: 4px;\r\n            border-bottom-left-radius: 4px;\r\n        }\r\n\r\n        .pagination > li:last-child > a,\r\n        .pagination > li:last-child > span {\r\n            border-top-right-radius: 4px;\r\n            border-bottom-right-radius: 4px;\r\n        }\r\n\r\n        .pagination > li > a:hover,\r\n        .pagination > li > span:hover,\r\n        .pagination > li > a:focus,\r\n        .pagination > li > span:focus {\r\n            z-index: 2;\r\n            color: #23527c;\r\n            background-color: #eee;\r\n            border-color: #ddd;\r\n        }\r\n\r\n    .pagination > .active > a,\r\n    .pagination > .active > span,\r\n    .pagination > .active > a:hover,\r\n    .pagination > .active > span:hover,\r\n    .pagination > .active > a:focus,\r\n    .pagination > .active > span:focus {\r\n        z-index: 3;\r\n        color: #fff;\r\n        cursor: default;\r\n        background-color: #337ab7;\r\n        border-color: #337ab7;\r\n    }\r\n\r\n    .pagination > .disabled > span,\r\n    .pagination > .disabled > span:hover,\r\n    .pagination > .disabled > span:focus,\r\n    .pagination > .disabled > a,\r\n    .pagination > .disabled > a:hover,\r\n    .pagination > .disabled > a:focus {\r\n        color: #777;\r\n        cursor: not-allowed;\r\n        background-color: #fff;\r\n        border-color: #ddd;\r\n    }\r\n\r\n.pagination-lg > li > a,\r\n.pagination-lg > li > span {\r\n    padding: 10px 16px;\r\n    font-size: 18px;\r\n    line-height: 1.3333333;\r\n}\r\n\r\n.pagination-lg > li:first-child > a,\r\n.pagination-lg > li:first-child > span {\r\n    border-top-left-radius: 6px;\r\n    border-bottom-left-radius: 6px;\r\n}\r\n\r\n.pagination-lg > li:last-child > a,\r\n.pagination-lg > li:last-child > span {\r\n    border-top-right-radius: 6px;\r\n    border-bottom-right-radius: 6px;\r\n}\r\n\r\n.pagination-sm > li > a,\r\n.pagination-sm > li > span {\r\n    padding: 5px 10px;\r\n    font-size: 12px;\r\n    line-height: 1.5;\r\n}\r\n\r\n.pagination-sm > li:first-child > a,\r\n.pagination-sm > li:first-child > span {\r\n    border-top-left-radius: 3px;\r\n    border-bottom-left-radius: 3px;\r\n}\r\n\r\n.pagination-sm > li:last-child > a,\r\n.pagination-sm > li:last-child > span {\r\n    border-top-right-radius: 3px;\r\n    border-bottom-right-radius: 3px;\r\n}\r\n\r\n.pager {\r\n    padding-left: 0;\r\n    margin: 20px 0;\r\n    text-align: center;\r\n    list-style: none;\r\n}\r\n\r\n    .pager li {\r\n        display: inline;\r\n    }\r\n\r\n        .pager li > a,\r\n        .pager li > span {\r\n            display: inline-block;\r\n            padding: 5px 14px;\r\n            background-color: #fff;\r\n            border: 1px solid #ddd;\r\n            border-radius: 15px;\r\n        }\r\n\r\n            .pager li > a:hover,\r\n            .pager li > a:focus {\r\n                text-decoration: none;\r\n                background-color: #eee;\r\n            }\r\n\r\n    .pager .next > a,\r\n    .pager .next > span {\r\n        float: right;\r\n    }\r\n\r\n    .pager .previous > a,\r\n    .pager .previous > span {\r\n        float: left;\r\n    }\r\n\r\n    .pager .disabled > a,\r\n    .pager .disabled > a:hover,\r\n    .pager .disabled > a:focus,\r\n    .pager .disabled > span {\r\n        color: #777;\r\n        cursor: not-allowed;\r\n        background-color: #fff;\r\n    }\r\n\r\n.label {\r\n    display: inline;\r\n    padding: .2em .6em .3em;\r\n    font-size: 75%;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    color: #fff;\r\n    text-align: center;\r\n    white-space: nowrap;\r\n    vertical-align: baseline;\r\n    border-radius: .25em;\r\n}\r\n\r\na.label:hover,\r\na.label:focus {\r\n    color: #fff;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\n.label:empty {\r\n    display: none;\r\n}\r\n\r\n.btn .label {\r\n    position: relative;\r\n    top: -1px;\r\n}\r\n\r\n.label-default {\r\n    background-color: #777;\r\n}\r\n\r\n    .label-default[href]:hover,\r\n    .label-default[href]:focus {\r\n        background-color: #5e5e5e;\r\n    }\r\n\r\n.label-primary {\r\n    background-color: #337ab7;\r\n}\r\n\r\n    .label-primary[href]:hover,\r\n    .label-primary[href]:focus {\r\n        background-color: #286090;\r\n    }\r\n\r\n.label-success {\r\n    background-color: #5cb85c;\r\n}\r\n\r\n    .label-success[href]:hover,\r\n    .label-success[href]:focus {\r\n        background-color: #449d44;\r\n    }\r\n\r\n.label-info {\r\n    background-color: #5bc0de;\r\n}\r\n\r\n    .label-info[href]:hover,\r\n    .label-info[href]:focus {\r\n        background-color: #31b0d5;\r\n    }\r\n\r\n.label-warning {\r\n    background-color: #f0ad4e;\r\n}\r\n\r\n    .label-warning[href]:hover,\r\n    .label-warning[href]:focus {\r\n        background-color: #ec971f;\r\n    }\r\n\r\n.label-danger {\r\n    background-color: #d9534f;\r\n}\r\n\r\n    .label-danger[href]:hover,\r\n    .label-danger[href]:focus {\r\n        background-color: #c9302c;\r\n    }\r\n\r\n.badge {\r\n    display: inline-block;\r\n    min-width: 10px;\r\n    padding: 3px 7px;\r\n    font-size: 12px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    color: #fff;\r\n    text-align: center;\r\n    white-space: nowrap;\r\n    vertical-align: middle;\r\n    background-color: #777;\r\n    border-radius: 10px;\r\n}\r\n\r\n    .badge:empty {\r\n        display: none;\r\n    }\r\n\r\n.btn .badge {\r\n    position: relative;\r\n    top: -1px;\r\n}\r\n\r\n.btn-xs .badge,\r\n.btn-group-xs > .btn .badge {\r\n    top: 0;\r\n    padding: 1px 5px;\r\n}\r\n\r\na.badge:hover,\r\na.badge:focus {\r\n    color: #fff;\r\n    text-decoration: none;\r\n    cursor: pointer;\r\n}\r\n\r\n.list-group-item.active > .badge,\r\n.nav-pills > .active > a > .badge {\r\n    color: #337ab7;\r\n    background-color: #fff;\r\n}\r\n\r\n.list-group-item > .badge {\r\n    float: right;\r\n}\r\n\r\n    .list-group-item > .badge + .badge {\r\n        margin-right: 5px;\r\n    }\r\n\r\n.nav-pills > li > a > .badge {\r\n    margin-left: 3px;\r\n}\r\n\r\n.jumbotron {\r\n    padding-top: 30px;\r\n    padding-bottom: 30px;\r\n    margin-bottom: 30px;\r\n    color: inherit;\r\n    background-color: #eee;\r\n}\r\n\r\n    .jumbotron h1,\r\n    .jumbotron .h1 {\r\n        color: inherit;\r\n    }\r\n\r\n    .jumbotron p {\r\n        margin-bottom: 15px;\r\n        font-size: 21px;\r\n        font-weight: 200;\r\n    }\r\n\r\n    .jumbotron > hr {\r\n        border-top-color: #d5d5d5;\r\n    }\r\n\r\n.container .jumbotron,\r\n.container-fluid .jumbotron {\r\n    padding-right: 15px;\r\n    padding-left: 15px;\r\n    border-radius: 6px;\r\n}\r\n\r\n.jumbotron .container {\r\n    max-width: 100%;\r\n}\r\n\r\n@media screen and (min-width: 768px) {\r\n    .jumbotron {\r\n        padding-top: 48px;\r\n        padding-bottom: 48px;\r\n    }\r\n\r\n    .container .jumbotron,\r\n    .container-fluid .jumbotron {\r\n        padding-right: 60px;\r\n        padding-left: 60px;\r\n    }\r\n\r\n    .jumbotron h1,\r\n    .jumbotron .h1 {\r\n        font-size: 63px;\r\n    }\r\n}\r\n\r\n.thumbnail {\r\n    display: block;\r\n    padding: 4px;\r\n    margin-bottom: 20px;\r\n    line-height: 1.42857143;\r\n    background-color: #fff;\r\n    border: 1px solid #ddd;\r\n    border-radius: 4px;\r\n    -webkit-transition: border .2s ease-in-out;\r\n    -o-transition: border .2s ease-in-out;\r\n    transition: border .2s ease-in-out;\r\n}\r\n\r\n    .thumbnail > img,\r\n    .thumbnail a > img {\r\n        margin-right: auto;\r\n        margin-left: auto;\r\n    }\r\n\r\na.thumbnail:hover,\r\na.thumbnail:focus,\r\na.thumbnail.active {\r\n    border-color: #337ab7;\r\n}\r\n\r\n.thumbnail .caption {\r\n    padding: 9px;\r\n    color: #333;\r\n}\r\n\r\n.alert {\r\n    padding: 15px;\r\n    margin-bottom: 20px;\r\n    border: 1px solid transparent;\r\n    border-radius: 4px;\r\n}\r\n\r\n    .alert h4 {\r\n        margin-top: 0;\r\n        color: inherit;\r\n    }\r\n\r\n    .alert .alert-link {\r\n        font-weight: bold;\r\n    }\r\n\r\n    .alert > p,\r\n    .alert > ul {\r\n        margin-bottom: 0;\r\n    }\r\n\r\n        .alert > p + p {\r\n            margin-top: 5px;\r\n        }\r\n\r\n.alert-dismissable,\r\n.alert-dismissible {\r\n    padding-right: 35px;\r\n}\r\n\r\n    .alert-dismissable .close,\r\n    .alert-dismissible .close {\r\n        position: relative;\r\n        top: -2px;\r\n        right: -21px;\r\n        color: inherit;\r\n    }\r\n\r\n.alert-success {\r\n    color: #3c763d;\r\n    background-color: #dff0d8;\r\n    border-color: #d6e9c6;\r\n}\r\n\r\n    .alert-success hr {\r\n        border-top-color: #c9e2b3;\r\n    }\r\n\r\n    .alert-success .alert-link {\r\n        color: #2b542c;\r\n    }\r\n\r\n.alert-info {\r\n    color: #31708f;\r\n    background-color: #d9edf7;\r\n    border-color: #bce8f1;\r\n}\r\n\r\n    .alert-info hr {\r\n        border-top-color: #a6e1ec;\r\n    }\r\n\r\n    .alert-info .alert-link {\r\n        color: #245269;\r\n    }\r\n\r\n.alert-warning {\r\n    color: #8a6d3b;\r\n    background-color: #fcf8e3;\r\n    border-color: #faebcc;\r\n}\r\n\r\n    .alert-warning hr {\r\n        border-top-color: #f7e1b5;\r\n    }\r\n\r\n    .alert-warning .alert-link {\r\n        color: #66512c;\r\n    }\r\n\r\n.alert-danger {\r\n    color: #a94442;\r\n    background-color: #f2dede;\r\n    border-color: #ebccd1;\r\n}\r\n\r\n    .alert-danger hr {\r\n        border-top-color: #e4b9c0;\r\n    }\r\n\r\n    .alert-danger .alert-link {\r\n        color: #843534;\r\n    }\r\n\r\n@-webkit-keyframes progress-bar-stripes {\r\n    from {\r\n        background-position: 40px 0;\r\n    }\r\n\r\n    to {\r\n        background-position: 0 0;\r\n    }\r\n}\r\n\r\n@-o-keyframes progress-bar-stripes {\r\n    from {\r\n        background-position: 40px 0;\r\n    }\r\n\r\n    to {\r\n        background-position: 0 0;\r\n    }\r\n}\r\n\r\n@keyframes progress-bar-stripes {\r\n    from {\r\n        background-position: 40px 0;\r\n    }\r\n\r\n    to {\r\n        background-position: 0 0;\r\n    }\r\n}\r\n\r\n.progress {\r\n    height: 20px;\r\n    margin-bottom: 20px;\r\n    overflow: hidden;\r\n    background-color: #f5f5f5;\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);\r\n    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);\r\n}\r\n\r\n.progress-bar {\r\n    float: left;\r\n    width: 0;\r\n    height: 100%;\r\n    font-size: 12px;\r\n    line-height: 20px;\r\n    color: #fff;\r\n    text-align: center;\r\n    background-color: #337ab7;\r\n    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);\r\n    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);\r\n    -webkit-transition: width .6s ease;\r\n    -o-transition: width .6s ease;\r\n    transition: width .6s ease;\r\n}\r\n\r\n.progress-striped .progress-bar,\r\n.progress-bar-striped {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    -webkit-background-size: 40px 40px;\r\n    background-size: 40px 40px;\r\n}\r\n\r\n.progress.active .progress-bar,\r\n.progress-bar.active {\r\n    -webkit-animation: progress-bar-stripes 2s linear infinite;\r\n    -o-animation: progress-bar-stripes 2s linear infinite;\r\n    animation: progress-bar-stripes 2s linear infinite;\r\n}\r\n\r\n.progress-bar-success {\r\n    background-color: #5cb85c;\r\n}\r\n\r\n.progress-striped .progress-bar-success {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n}\r\n\r\n.progress-bar-info {\r\n    background-color: #5bc0de;\r\n}\r\n\r\n.progress-striped .progress-bar-info {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n}\r\n\r\n.progress-bar-warning {\r\n    background-color: #f0ad4e;\r\n}\r\n\r\n.progress-striped .progress-bar-warning {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n}\r\n\r\n.progress-bar-danger {\r\n    background-color: #d9534f;\r\n}\r\n\r\n.progress-striped .progress-bar-danger {\r\n    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);\r\n}\r\n\r\n.media {\r\n    margin-top: 15px;\r\n}\r\n\r\n    .media:first-child {\r\n        margin-top: 0;\r\n    }\r\n\r\n.media,\r\n.media-body {\r\n    overflow: hidden;\r\n    zoom: 1;\r\n}\r\n\r\n.media-body {\r\n    width: 10000px;\r\n}\r\n\r\n.media-object {\r\n    display: block;\r\n}\r\n\r\n    .media-object.img-thumbnail {\r\n        max-width: none;\r\n    }\r\n\r\n.media-right,\r\n.media > .pull-right {\r\n    padding-left: 10px;\r\n}\r\n\r\n.media-left,\r\n.media > .pull-left {\r\n    padding-right: 10px;\r\n}\r\n\r\n.media-left,\r\n.media-right,\r\n.media-body {\r\n    display: table-cell;\r\n    vertical-align: top;\r\n}\r\n\r\n.media-middle {\r\n    vertical-align: middle;\r\n}\r\n\r\n.media-bottom {\r\n    vertical-align: bottom;\r\n}\r\n\r\n.media-heading {\r\n    margin-top: 0;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.media-list {\r\n    padding-left: 0;\r\n    list-style: none;\r\n}\r\n\r\n.list-group {\r\n    padding-left: 0;\r\n    margin-bottom: 20px;\r\n}\r\n\r\n.list-group-item {\r\n    position: relative;\r\n    display: block;\r\n    padding: 10px 15px;\r\n    margin-bottom: -1px;\r\n    background-color: #fff;\r\n    border: 1px solid #ddd;\r\n}\r\n\r\n    .list-group-item:first-child {\r\n        border-top-left-radius: 4px;\r\n        border-top-right-radius: 4px;\r\n    }\r\n\r\n    .list-group-item:last-child {\r\n        margin-bottom: 0;\r\n        border-bottom-right-radius: 4px;\r\n        border-bottom-left-radius: 4px;\r\n    }\r\n\r\na.list-group-item,\r\nbutton.list-group-item {\r\n    color: #555;\r\n}\r\n\r\n    a.list-group-item .list-group-item-heading,\r\n    button.list-group-item .list-group-item-heading {\r\n        color: #333;\r\n    }\r\n\r\n    a.list-group-item:hover,\r\n    button.list-group-item:hover,\r\n    a.list-group-item:focus,\r\n    button.list-group-item:focus {\r\n        color: #555;\r\n        text-decoration: none;\r\n        background-color: #f5f5f5;\r\n    }\r\n\r\nbutton.list-group-item {\r\n    width: 100%;\r\n    text-align: left;\r\n}\r\n\r\n.list-group-item.disabled,\r\n.list-group-item.disabled:hover,\r\n.list-group-item.disabled:focus {\r\n    color: #777;\r\n    cursor: not-allowed;\r\n    background-color: #eee;\r\n}\r\n\r\n    .list-group-item.disabled .list-group-item-heading,\r\n    .list-group-item.disabled:hover .list-group-item-heading,\r\n    .list-group-item.disabled:focus .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    .list-group-item.disabled .list-group-item-text,\r\n    .list-group-item.disabled:hover .list-group-item-text,\r\n    .list-group-item.disabled:focus .list-group-item-text {\r\n        color: #777;\r\n    }\r\n\r\n.list-group-item.active,\r\n.list-group-item.active:hover,\r\n.list-group-item.active:focus {\r\n    z-index: 2;\r\n    color: #fff;\r\n    background-color: #337ab7;\r\n    border-color: #337ab7;\r\n}\r\n\r\n    .list-group-item.active .list-group-item-heading,\r\n    .list-group-item.active:hover .list-group-item-heading,\r\n    .list-group-item.active:focus .list-group-item-heading,\r\n    .list-group-item.active .list-group-item-heading > small,\r\n    .list-group-item.active:hover .list-group-item-heading > small,\r\n    .list-group-item.active:focus .list-group-item-heading > small,\r\n    .list-group-item.active .list-group-item-heading > .small,\r\n    .list-group-item.active:hover .list-group-item-heading > .small,\r\n    .list-group-item.active:focus .list-group-item-heading > .small {\r\n        color: inherit;\r\n    }\r\n\r\n    .list-group-item.active .list-group-item-text,\r\n    .list-group-item.active:hover .list-group-item-text,\r\n    .list-group-item.active:focus .list-group-item-text {\r\n        color: #c7ddef;\r\n    }\r\n\r\n.list-group-item-success {\r\n    color: #3c763d;\r\n    background-color: #dff0d8;\r\n}\r\n\r\na.list-group-item-success,\r\nbutton.list-group-item-success {\r\n    color: #3c763d;\r\n}\r\n\r\n    a.list-group-item-success .list-group-item-heading,\r\n    button.list-group-item-success .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    a.list-group-item-success:hover,\r\n    button.list-group-item-success:hover,\r\n    a.list-group-item-success:focus,\r\n    button.list-group-item-success:focus {\r\n        color: #3c763d;\r\n        background-color: #d0e9c6;\r\n    }\r\n\r\n    a.list-group-item-success.active,\r\n    button.list-group-item-success.active,\r\n    a.list-group-item-success.active:hover,\r\n    button.list-group-item-success.active:hover,\r\n    a.list-group-item-success.active:focus,\r\n    button.list-group-item-success.active:focus {\r\n        color: #fff;\r\n        background-color: #3c763d;\r\n        border-color: #3c763d;\r\n    }\r\n\r\n.list-group-item-info {\r\n    color: #31708f;\r\n    background-color: #d9edf7;\r\n}\r\n\r\na.list-group-item-info,\r\nbutton.list-group-item-info {\r\n    color: #31708f;\r\n}\r\n\r\n    a.list-group-item-info .list-group-item-heading,\r\n    button.list-group-item-info .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    a.list-group-item-info:hover,\r\n    button.list-group-item-info:hover,\r\n    a.list-group-item-info:focus,\r\n    button.list-group-item-info:focus {\r\n        color: #31708f;\r\n        background-color: #c4e3f3;\r\n    }\r\n\r\n    a.list-group-item-info.active,\r\n    button.list-group-item-info.active,\r\n    a.list-group-item-info.active:hover,\r\n    button.list-group-item-info.active:hover,\r\n    a.list-group-item-info.active:focus,\r\n    button.list-group-item-info.active:focus {\r\n        color: #fff;\r\n        background-color: #31708f;\r\n        border-color: #31708f;\r\n    }\r\n\r\n.list-group-item-warning {\r\n    color: #8a6d3b;\r\n    background-color: #fcf8e3;\r\n}\r\n\r\na.list-group-item-warning,\r\nbutton.list-group-item-warning {\r\n    color: #8a6d3b;\r\n}\r\n\r\n    a.list-group-item-warning .list-group-item-heading,\r\n    button.list-group-item-warning .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    a.list-group-item-warning:hover,\r\n    button.list-group-item-warning:hover,\r\n    a.list-group-item-warning:focus,\r\n    button.list-group-item-warning:focus {\r\n        color: #8a6d3b;\r\n        background-color: #faf2cc;\r\n    }\r\n\r\n    a.list-group-item-warning.active,\r\n    button.list-group-item-warning.active,\r\n    a.list-group-item-warning.active:hover,\r\n    button.list-group-item-warning.active:hover,\r\n    a.list-group-item-warning.active:focus,\r\n    button.list-group-item-warning.active:focus {\r\n        color: #fff;\r\n        background-color: #8a6d3b;\r\n        border-color: #8a6d3b;\r\n    }\r\n\r\n.list-group-item-danger {\r\n    color: #a94442;\r\n    background-color: #f2dede;\r\n}\r\n\r\na.list-group-item-danger,\r\nbutton.list-group-item-danger {\r\n    color: #a94442;\r\n}\r\n\r\n    a.list-group-item-danger .list-group-item-heading,\r\n    button.list-group-item-danger .list-group-item-heading {\r\n        color: inherit;\r\n    }\r\n\r\n    a.list-group-item-danger:hover,\r\n    button.list-group-item-danger:hover,\r\n    a.list-group-item-danger:focus,\r\n    button.list-group-item-danger:focus {\r\n        color: #a94442;\r\n        background-color: #ebcccc;\r\n    }\r\n\r\n    a.list-group-item-danger.active,\r\n    button.list-group-item-danger.active,\r\n    a.list-group-item-danger.active:hover,\r\n    button.list-group-item-danger.active:hover,\r\n    a.list-group-item-danger.active:focus,\r\n    button.list-group-item-danger.active:focus {\r\n        color: #fff;\r\n        background-color: #a94442;\r\n        border-color: #a94442;\r\n    }\r\n\r\n.list-group-item-heading {\r\n    margin-top: 0;\r\n    margin-bottom: 5px;\r\n}\r\n\r\n.list-group-item-text {\r\n    margin-bottom: 0;\r\n    line-height: 1.3;\r\n}\r\n\r\n.panel {\r\n    margin-bottom: 20px;\r\n    background-color: #fff;\r\n    border: 1px solid transparent;\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);\r\n    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);\r\n}\r\n\r\n.panel-body {\r\n    padding: 15px;\r\n}\r\n\r\n.panel-heading {\r\n    padding: 10px 15px;\r\n    border-bottom: 1px solid transparent;\r\n    border-top-left-radius: 3px;\r\n    border-top-right-radius: 3px;\r\n}\r\n\r\n    .panel-heading > .dropdown .dropdown-toggle {\r\n        color: inherit;\r\n    }\r\n\r\n.panel-title {\r\n    text-align: center;\r\n    margin-top: 0;\r\n    margin-bottom: 0;\r\n    font-size: 16px;\r\n    color: inherit;\r\n}\r\n\r\n    .panel-title > a,\r\n    .panel-title > small,\r\n    .panel-title > .small,\r\n    .panel-title > small > a,\r\n    .panel-title > .small > a {\r\n        color: inherit;\r\n    }\r\n\r\n.panel-footer {\r\n    padding: 10px 15px;\r\n    background-color: #f5f5f5;\r\n    border-top: 1px solid #ddd;\r\n    border-bottom-right-radius: 3px;\r\n    border-bottom-left-radius: 3px;\r\n}\r\n\r\n.panel > .list-group,\r\n.panel > .panel-collapse > .list-group {\r\n    margin-bottom: 0;\r\n}\r\n\r\n    .panel > .list-group .list-group-item,\r\n    .panel > .panel-collapse > .list-group .list-group-item {\r\n        border-width: 1px 0;\r\n        border-radius: 0;\r\n    }\r\n\r\n    .panel > .list-group:first-child .list-group-item:first-child,\r\n    .panel > .panel-collapse > .list-group:first-child .list-group-item:first-child {\r\n        border-top: 0;\r\n        border-top-left-radius: 3px;\r\n        border-top-right-radius: 3px;\r\n    }\r\n\r\n    .panel > .list-group:last-child .list-group-item:last-child,\r\n    .panel > .panel-collapse > .list-group:last-child .list-group-item:last-child {\r\n        border-bottom: 0;\r\n        border-bottom-right-radius: 3px;\r\n        border-bottom-left-radius: 3px;\r\n    }\r\n\r\n.panel > .panel-heading + .panel-collapse > .list-group .list-group-item:first-child {\r\n    border-top-left-radius: 0;\r\n    border-top-right-radius: 0;\r\n}\r\n\r\n.panel-heading + .list-group .list-group-item:first-child {\r\n    border-top-width: 0;\r\n}\r\n\r\n.list-group + .panel-footer {\r\n    border-top-width: 0;\r\n}\r\n\r\n.panel > .table,\r\n.panel > .table-responsive > .table,\r\n.panel > .panel-collapse > .table {\r\n    margin-bottom: 0;\r\n}\r\n\r\n    .panel > .table caption,\r\n    .panel > .table-responsive > .table caption,\r\n    .panel > .panel-collapse > .table caption {\r\n        padding-right: 15px;\r\n        padding-left: 15px;\r\n    }\r\n\r\n    .panel > .table:first-child,\r\n    .panel > .table-responsive:first-child > .table:first-child {\r\n        border-top-left-radius: 3px;\r\n        border-top-right-radius: 3px;\r\n    }\r\n\r\n        .panel > .table:first-child > thead:first-child > tr:first-child,\r\n        .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child,\r\n        .panel > .table:first-child > tbody:first-child > tr:first-child,\r\n        .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child {\r\n            border-top-left-radius: 3px;\r\n            border-top-right-radius: 3px;\r\n        }\r\n\r\n            .panel > .table:first-child > thead:first-child > tr:first-child td:first-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:first-child,\r\n            .panel > .table:first-child > tbody:first-child > tr:first-child td:first-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:first-child,\r\n            .panel > .table:first-child > thead:first-child > tr:first-child th:first-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:first-child,\r\n            .panel > .table:first-child > tbody:first-child > tr:first-child th:first-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:first-child {\r\n                border-top-left-radius: 3px;\r\n            }\r\n\r\n            .panel > .table:first-child > thead:first-child > tr:first-child td:last-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child td:last-child,\r\n            .panel > .table:first-child > tbody:first-child > tr:first-child td:last-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child td:last-child,\r\n            .panel > .table:first-child > thead:first-child > tr:first-child th:last-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > thead:first-child > tr:first-child th:last-child,\r\n            .panel > .table:first-child > tbody:first-child > tr:first-child th:last-child,\r\n            .panel > .table-responsive:first-child > .table:first-child > tbody:first-child > tr:first-child th:last-child {\r\n                border-top-right-radius: 3px;\r\n            }\r\n\r\n    .panel > .table:last-child,\r\n    .panel > .table-responsive:last-child > .table:last-child {\r\n        border-bottom-right-radius: 3px;\r\n        border-bottom-left-radius: 3px;\r\n    }\r\n\r\n        .panel > .table:last-child > tbody:last-child > tr:last-child,\r\n        .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child,\r\n        .panel > .table:last-child > tfoot:last-child > tr:last-child,\r\n        .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child {\r\n            border-bottom-right-radius: 3px;\r\n            border-bottom-left-radius: 3px;\r\n        }\r\n\r\n            .panel > .table:last-child > tbody:last-child > tr:last-child td:first-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:first-child,\r\n            .panel > .table:last-child > tfoot:last-child > tr:last-child td:first-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:first-child,\r\n            .panel > .table:last-child > tbody:last-child > tr:last-child th:first-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:first-child,\r\n            .panel > .table:last-child > tfoot:last-child > tr:last-child th:first-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:first-child {\r\n                border-bottom-left-radius: 3px;\r\n            }\r\n\r\n            .panel > .table:last-child > tbody:last-child > tr:last-child td:last-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child td:last-child,\r\n            .panel > .table:last-child > tfoot:last-child > tr:last-child td:last-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child td:last-child,\r\n            .panel > .table:last-child > tbody:last-child > tr:last-child th:last-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tbody:last-child > tr:last-child th:last-child,\r\n            .panel > .table:last-child > tfoot:last-child > tr:last-child th:last-child,\r\n            .panel > .table-responsive:last-child > .table:last-child > tfoot:last-child > tr:last-child th:last-child {\r\n                border-bottom-right-radius: 3px;\r\n            }\r\n\r\n    .panel > .panel-body + .table,\r\n    .panel > .panel-body + .table-responsive,\r\n    .panel > .table + .panel-body,\r\n    .panel > .table-responsive + .panel-body {\r\n        border-top: 1px solid #ddd;\r\n    }\r\n\r\n    .panel > .table > tbody:first-child > tr:first-child th,\r\n    .panel > .table > tbody:first-child > tr:first-child td {\r\n        border-top: 0;\r\n    }\r\n\r\n.panel > .table-bordered,\r\n.panel > .table-responsive > .table-bordered {\r\n    border: 0;\r\n}\r\n\r\n    .panel > .table-bordered > thead > tr > th:first-child,\r\n    .panel > .table-responsive > .table-bordered > thead > tr > th:first-child,\r\n    .panel > .table-bordered > tbody > tr > th:first-child,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr > th:first-child,\r\n    .panel > .table-bordered > tfoot > tr > th:first-child,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr > th:first-child,\r\n    .panel > .table-bordered > thead > tr > td:first-child,\r\n    .panel > .table-responsive > .table-bordered > thead > tr > td:first-child,\r\n    .panel > .table-bordered > tbody > tr > td:first-child,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr > td:first-child,\r\n    .panel > .table-bordered > tfoot > tr > td:first-child,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr > td:first-child {\r\n        border-left: 0;\r\n    }\r\n\r\n    .panel > .table-bordered > thead > tr > th:last-child,\r\n    .panel > .table-responsive > .table-bordered > thead > tr > th:last-child,\r\n    .panel > .table-bordered > tbody > tr > th:last-child,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr > th:last-child,\r\n    .panel > .table-bordered > tfoot > tr > th:last-child,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr > th:last-child,\r\n    .panel > .table-bordered > thead > tr > td:last-child,\r\n    .panel > .table-responsive > .table-bordered > thead > tr > td:last-child,\r\n    .panel > .table-bordered > tbody > tr > td:last-child,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr > td:last-child,\r\n    .panel > .table-bordered > tfoot > tr > td:last-child,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr > td:last-child {\r\n        border-right: 0;\r\n    }\r\n\r\n    .panel > .table-bordered > thead > tr:first-child > td,\r\n    .panel > .table-responsive > .table-bordered > thead > tr:first-child > td,\r\n    .panel > .table-bordered > tbody > tr:first-child > td,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr:first-child > td,\r\n    .panel > .table-bordered > thead > tr:first-child > th,\r\n    .panel > .table-responsive > .table-bordered > thead > tr:first-child > th,\r\n    .panel > .table-bordered > tbody > tr:first-child > th,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr:first-child > th {\r\n        border-bottom: 0;\r\n    }\r\n\r\n    .panel > .table-bordered > tbody > tr:last-child > td,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr:last-child > td,\r\n    .panel > .table-bordered > tfoot > tr:last-child > td,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > td,\r\n    .panel > .table-bordered > tbody > tr:last-child > th,\r\n    .panel > .table-responsive > .table-bordered > tbody > tr:last-child > th,\r\n    .panel > .table-bordered > tfoot > tr:last-child > th,\r\n    .panel > .table-responsive > .table-bordered > tfoot > tr:last-child > th {\r\n        border-bottom: 0;\r\n    }\r\n\r\n.panel > .table-responsive {\r\n    margin-bottom: 0;\r\n    border: 0;\r\n}\r\n\r\n.panel-group {\r\n    margin-bottom: 20px;\r\n}\r\n\r\n    .panel-group .panel {\r\n        margin-bottom: 0;\r\n        border-radius: 4px;\r\n    }\r\n\r\n        .panel-group .panel + .panel {\r\n            margin-top: 5px;\r\n        }\r\n\r\n    .panel-group .panel-heading {\r\n        border-bottom: 0;\r\n    }\r\n\r\n        .panel-group .panel-heading + .panel-collapse > .panel-body,\r\n        .panel-group .panel-heading + .panel-collapse > .list-group {\r\n            border-top: 1px solid #ddd;\r\n        }\r\n\r\n    .panel-group .panel-footer {\r\n        border-top: 0;\r\n    }\r\n\r\n        .panel-group .panel-footer + .panel-collapse .panel-body {\r\n            border-bottom: 1px solid #ddd;\r\n        }\r\n\r\n.panel-default {\r\n    border-color: #ddd;\r\n}\r\n\r\n    .panel-default > .panel-heading {\r\n        color: #333;\r\n        background-color: #f5f5f5;\r\n        border-color: #ddd;\r\n    }\r\n\r\n        .panel-default > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #ddd;\r\n        }\r\n\r\n        .panel-default > .panel-heading .badge {\r\n            color: #f5f5f5;\r\n            background-color: #333;\r\n        }\r\n\r\n    .panel-default > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #ddd;\r\n    }\r\n\r\n.panel-primary {\r\n    border-color: #337ab7;\r\n}\r\n\r\n    .panel-primary > .panel-heading {\r\n        color: #fff;\r\n        background-color: #337ab7;\r\n        border-color: #337ab7;\r\n    }\r\n\r\n        .panel-primary > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #337ab7;\r\n        }\r\n\r\n        .panel-primary > .panel-heading .badge {\r\n            color: #337ab7;\r\n            background-color: #fff;\r\n        }\r\n\r\n    .panel-primary > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #337ab7;\r\n    }\r\n\r\n.panel-success {\r\n    border-color: #d6e9c6;\r\n}\r\n\r\n    .panel-success > .panel-heading {\r\n        color: #3c763d;\r\n        background-color: #dff0d8;\r\n        border-color: #d6e9c6;\r\n    }\r\n\r\n        .panel-success > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #d6e9c6;\r\n        }\r\n\r\n        .panel-success > .panel-heading .badge {\r\n            color: #dff0d8;\r\n            background-color: #3c763d;\r\n        }\r\n\r\n    .panel-success > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #d6e9c6;\r\n    }\r\n\r\n.panel-info {\r\n    border-color: #bce8f1;\r\n}\r\n\r\n    .panel-info > .panel-heading {\r\n        color: #31708f;\r\n        background-color: #d9edf7;\r\n        border-color: #bce8f1;\r\n    }\r\n\r\n        .panel-info > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #bce8f1;\r\n        }\r\n\r\n        .panel-info > .panel-heading .badge {\r\n            color: #d9edf7;\r\n            background-color: #31708f;\r\n        }\r\n\r\n    .panel-info > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #bce8f1;\r\n    }\r\n\r\n.panel-warning {\r\n    border-color: #faebcc;\r\n}\r\n\r\n    .panel-warning > .panel-heading {\r\n        color: #8a6d3b;\r\n        background-color: #fcf8e3;\r\n        border-color: #faebcc;\r\n    }\r\n\r\n        .panel-warning > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #faebcc;\r\n        }\r\n\r\n        .panel-warning > .panel-heading .badge {\r\n            color: #fcf8e3;\r\n            background-color: #8a6d3b;\r\n        }\r\n\r\n    .panel-warning > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #faebcc;\r\n    }\r\n\r\n.panel-danger {\r\n    border-color: #ebccd1;\r\n}\r\n\r\n    .panel-danger > .panel-heading {\r\n        color: #a94442;\r\n        background-color: #f2dede;\r\n        border-color: #ebccd1;\r\n    }\r\n\r\n        .panel-danger > .panel-heading + .panel-collapse > .panel-body {\r\n            border-top-color: #ebccd1;\r\n        }\r\n\r\n        .panel-danger > .panel-heading .badge {\r\n            color: #f2dede;\r\n            background-color: #a94442;\r\n        }\r\n\r\n    .panel-danger > .panel-footer + .panel-collapse > .panel-body {\r\n        border-bottom-color: #ebccd1;\r\n    }\r\n\r\n.embed-responsive {\r\n    position: relative;\r\n    display: block;\r\n    height: 0;\r\n    padding: 0;\r\n    overflow: hidden;\r\n}\r\n\r\n    .embed-responsive .embed-responsive-item,\r\n    .embed-responsive iframe,\r\n    .embed-responsive embed,\r\n    .embed-responsive object,\r\n    .embed-responsive video {\r\n        position: absolute;\r\n        top: 0;\r\n        bottom: 0;\r\n        left: 0;\r\n        width: 100%;\r\n        height: 100%;\r\n        border: 0;\r\n    }\r\n\r\n.embed-responsive-16by9 {\r\n    padding-bottom: 56.25%;\r\n}\r\n\r\n.embed-responsive-4by3 {\r\n    padding-bottom: 75%;\r\n}\r\n\r\n.well {\r\n    min-height: 20px;\r\n    padding: 19px;\r\n    margin-bottom: 20px;\r\n    background-color: #f5f5f5;\r\n    border: 1px solid #e3e3e3;\r\n    border-radius: 4px;\r\n    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);\r\n    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);\r\n}\r\n\r\n    .well blockquote {\r\n        border-color: #ddd;\r\n        border-color: rgba(0, 0, 0, .15);\r\n    }\r\n\r\n.well-lg {\r\n    padding: 24px;\r\n    border-radius: 6px;\r\n}\r\n\r\n.well-sm {\r\n    padding: 9px;\r\n    border-radius: 3px;\r\n}\r\n\r\n.close {\r\n    float: right;\r\n    font-size: 21px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    color: #000;\r\n    text-shadow: 0 1px 0 #fff;\r\n    filter: alpha(opacity=20);\r\n    opacity: .2;\r\n}\r\n\r\n    .close:hover,\r\n    .close:focus {\r\n        color: #000;\r\n        text-decoration: none;\r\n        cursor: pointer;\r\n        filter: alpha(opacity=50);\r\n        opacity: .5;\r\n    }\r\n\r\nbutton.close {\r\n    -webkit-appearance: none;\r\n    padding: 0;\r\n    cursor: pointer;\r\n    background: transparent;\r\n    border: 0;\r\n}\r\n\r\n.modal-open {\r\n    overflow: hidden;\r\n}\r\n\r\n.modal {\r\n    position: fixed;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    z-index: 1050;\r\n    display: none;\r\n    overflow: hidden;\r\n    -webkit-overflow-scrolling: touch;\r\n    outline: 0;\r\n}\r\n\r\n    .modal.fade .modal-dialog {\r\n        -webkit-transition: -webkit-transform .3s ease-out;\r\n        -o-transition: -o-transform .3s ease-out;\r\n        transition: transform .3s ease-out;\r\n        -webkit-transform: translate(0, -25%);\r\n        -ms-transform: translate(0, -25%);\r\n        -o-transform: translate(0, -25%);\r\n        transform: translate(0, -25%);\r\n    }\r\n\r\n    .modal.in .modal-dialog {\r\n        -webkit-transform: translate(0, 0);\r\n        -ms-transform: translate(0, 0);\r\n        -o-transform: translate(0, 0);\r\n        transform: translate(0, 0);\r\n    }\r\n\r\n.modal-open .modal {\r\n    overflow-x: hidden;\r\n    overflow-y: auto;\r\n}\r\n\r\n.modal-dialog {\r\n    position: relative;\r\n    width: auto;\r\n    margin: 10px;\r\n}\r\n\r\n.modal-content {\r\n    position: relative;\r\n    background-color: #fff;\r\n    -webkit-background-clip: padding-box;\r\n    background-clip: padding-box;\r\n    border: 1px solid #999;\r\n    border: 1px solid rgba(0, 0, 0, .2);\r\n    border-radius: 6px;\r\n    outline: 0;\r\n    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);\r\n    box-shadow: 0 3px 9px rgba(0, 0, 0, .5);\r\n}\r\n\r\n.modal-backdrop {\r\n    position: fixed;\r\n    top: 0;\r\n    right: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    z-index: 1040;\r\n    background-color: #000;\r\n}\r\n\r\n    .modal-backdrop.fade {\r\n        filter: alpha(opacity=0);\r\n        opacity: 0;\r\n    }\r\n\r\n    .modal-backdrop.in {\r\n        filter: alpha(opacity=50);\r\n        opacity: .5;\r\n    }\r\n\r\n.modal-header {\r\n    padding: 15px;\r\n    border-bottom: 1px solid #e5e5e5;\r\n}\r\n\r\n    .modal-header .close {\r\n        margin-top: -2px;\r\n    }\r\n\r\n.modal-title {\r\n    margin: 0;\r\n    line-height: 1.42857143;\r\n}\r\n\r\n.modal-body {\r\n    position: relative;\r\n    padding: 15px;\r\n}\r\n\r\n.modal-footer {\r\n    padding: 15px;\r\n    text-align: right;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n    .modal-footer .btn + .btn {\r\n        margin-bottom: 0;\r\n        margin-left: 5px;\r\n    }\r\n\r\n    .modal-footer .btn-group .btn + .btn {\r\n        margin-left: -1px;\r\n    }\r\n\r\n    .modal-footer .btn-block + .btn-block {\r\n        margin-left: 0;\r\n    }\r\n\r\n.modal-scrollbar-measure {\r\n    position: absolute;\r\n    top: -9999px;\r\n    width: 50px;\r\n    height: 50px;\r\n    overflow: scroll;\r\n}\r\n\r\n@media (min-width: 768px) {\r\n    .modal-dialog {\r\n        width: 600px;\r\n        margin: 30px auto;\r\n    }\r\n\r\n    .modal-content {\r\n        -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);\r\n        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);\r\n    }\r\n\r\n    .modal-sm {\r\n        width: 300px;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) {\r\n    .modal-lg {\r\n        width: 900px;\r\n    }\r\n}\r\n\r\n.tooltip {\r\n    position: absolute;\r\n    z-index: 1070;\r\n    display: block;\r\n    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n    font-size: 12px;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    line-height: 1.42857143;\r\n    text-align: left;\r\n    text-align: start;\r\n    text-decoration: none;\r\n    text-shadow: none;\r\n    text-transform: none;\r\n    letter-spacing: normal;\r\n    word-break: normal;\r\n    word-spacing: normal;\r\n    word-wrap: normal;\r\n    white-space: normal;\r\n    filter: alpha(opacity=0);\r\n    opacity: 0;\r\n    line-break: auto;\r\n}\r\n\r\n    .tooltip.in {\r\n        filter: alpha(opacity=90);\r\n        opacity: .9;\r\n    }\r\n\r\n    .tooltip.top {\r\n        padding: 5px 0;\r\n        margin-top: -3px;\r\n    }\r\n\r\n    .tooltip.right {\r\n        padding: 0 5px;\r\n        margin-left: 3px;\r\n    }\r\n\r\n    .tooltip.bottom {\r\n        padding: 5px 0;\r\n        margin-top: 3px;\r\n    }\r\n\r\n    .tooltip.left {\r\n        padding: 0 5px;\r\n        margin-left: -3px;\r\n    }\r\n\r\n.tooltip-inner {\r\n    max-width: 200px;\r\n    padding: 3px 8px;\r\n    color: #fff;\r\n    text-align: center;\r\n    background-color: #000;\r\n    border-radius: 4px;\r\n}\r\n\r\n.tooltip-arrow {\r\n    position: absolute;\r\n    width: 0;\r\n    height: 0;\r\n    border-color: transparent;\r\n    border-style: solid;\r\n}\r\n\r\n.tooltip.top .tooltip-arrow {\r\n    bottom: 0;\r\n    left: 50%;\r\n    margin-left: -5px;\r\n    border-width: 5px 5px 0;\r\n    border-top-color: #000;\r\n}\r\n\r\n.tooltip.top-left .tooltip-arrow {\r\n    right: 5px;\r\n    bottom: 0;\r\n    margin-bottom: -5px;\r\n    border-width: 5px 5px 0;\r\n    border-top-color: #000;\r\n}\r\n\r\n.tooltip.top-right .tooltip-arrow {\r\n    bottom: 0;\r\n    left: 5px;\r\n    margin-bottom: -5px;\r\n    border-width: 5px 5px 0;\r\n    border-top-color: #000;\r\n}\r\n\r\n.tooltip.right .tooltip-arrow {\r\n    top: 50%;\r\n    left: 0;\r\n    margin-top: -5px;\r\n    border-width: 5px 5px 5px 0;\r\n    border-right-color: #000;\r\n}\r\n\r\n.tooltip.left .tooltip-arrow {\r\n    top: 50%;\r\n    right: 0;\r\n    margin-top: -5px;\r\n    border-width: 5px 0 5px 5px;\r\n    border-left-color: #000;\r\n}\r\n\r\n.tooltip.bottom .tooltip-arrow {\r\n    top: 0;\r\n    left: 50%;\r\n    margin-left: -5px;\r\n    border-width: 0 5px 5px;\r\n    border-bottom-color: #000;\r\n}\r\n\r\n.tooltip.bottom-left .tooltip-arrow {\r\n    top: 0;\r\n    right: 5px;\r\n    margin-top: -5px;\r\n    border-width: 0 5px 5px;\r\n    border-bottom-color: #000;\r\n}\r\n\r\n.tooltip.bottom-right .tooltip-arrow {\r\n    top: 0;\r\n    left: 5px;\r\n    margin-top: -5px;\r\n    border-width: 0 5px 5px;\r\n    border-bottom-color: #000;\r\n}\r\n\r\n.popover {\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 1060;\r\n    display: none;\r\n    max-width: 276px;\r\n    padding: 1px;\r\n    font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n    font-size: 14px;\r\n    font-style: normal;\r\n    font-weight: normal;\r\n    line-height: 1.42857143;\r\n    text-align: left;\r\n    text-align: start;\r\n    text-decoration: none;\r\n    text-shadow: none;\r\n    text-transform: none;\r\n    letter-spacing: normal;\r\n    word-break: normal;\r\n    word-spacing: normal;\r\n    word-wrap: normal;\r\n    white-space: normal;\r\n    background-color: #fff;\r\n    -webkit-background-clip: padding-box;\r\n    background-clip: padding-box;\r\n    border: 1px solid #ccc;\r\n    border: 1px solid rgba(0, 0, 0, .2);\r\n    border-radius: 6px;\r\n    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);\r\n    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);\r\n    line-break: auto;\r\n}\r\n\r\n    .popover.top {\r\n        margin-top: -10px;\r\n    }\r\n\r\n    .popover.right {\r\n        margin-left: 10px;\r\n    }\r\n\r\n    .popover.bottom {\r\n        margin-top: 10px;\r\n    }\r\n\r\n    .popover.left {\r\n        margin-left: -10px;\r\n    }\r\n\r\n.popover-title {\r\n    padding: 8px 14px;\r\n    margin: 0;\r\n    font-size: 14px;\r\n    background-color: #f7f7f7;\r\n    border-bottom: 1px solid #ebebeb;\r\n    border-radius: 5px 5px 0 0;\r\n}\r\n\r\n.popover-content {\r\n    padding: 9px 14px;\r\n}\r\n\r\n.popover > .arrow,\r\n.popover > .arrow:after {\r\n    position: absolute;\r\n    display: block;\r\n    width: 0;\r\n    height: 0;\r\n    border-color: transparent;\r\n    border-style: solid;\r\n}\r\n\r\n.popover > .arrow {\r\n    border-width: 11px;\r\n}\r\n\r\n    .popover > .arrow:after {\r\n        content: \"\";\r\n        border-width: 10px;\r\n    }\r\n\r\n.popover.top > .arrow {\r\n    bottom: -11px;\r\n    left: 50%;\r\n    margin-left: -11px;\r\n    border-top-color: #999;\r\n    border-top-color: rgba(0, 0, 0, .25);\r\n    border-bottom-width: 0;\r\n}\r\n\r\n    .popover.top > .arrow:after {\r\n        bottom: 1px;\r\n        margin-left: -10px;\r\n        content: \" \";\r\n        border-top-color: #fff;\r\n        border-bottom-width: 0;\r\n    }\r\n\r\n.popover.right > .arrow {\r\n    top: 50%;\r\n    left: -11px;\r\n    margin-top: -11px;\r\n    border-right-color: #999;\r\n    border-right-color: rgba(0, 0, 0, .25);\r\n    border-left-width: 0;\r\n}\r\n\r\n    .popover.right > .arrow:after {\r\n        bottom: -10px;\r\n        left: 1px;\r\n        content: \" \";\r\n        border-right-color: #fff;\r\n        border-left-width: 0;\r\n    }\r\n\r\n.popover.bottom > .arrow {\r\n    top: -11px;\r\n    left: 50%;\r\n    margin-left: -11px;\r\n    border-top-width: 0;\r\n    border-bottom-color: #999;\r\n    border-bottom-color: rgba(0, 0, 0, .25);\r\n}\r\n\r\n    .popover.bottom > .arrow:after {\r\n        top: 1px;\r\n        margin-left: -10px;\r\n        content: \" \";\r\n        border-top-width: 0;\r\n        border-bottom-color: #fff;\r\n    }\r\n\r\n.popover.left > .arrow {\r\n    top: 50%;\r\n    right: -11px;\r\n    margin-top: -11px;\r\n    border-right-width: 0;\r\n    border-left-color: #999;\r\n    border-left-color: rgba(0, 0, 0, .25);\r\n}\r\n\r\n    .popover.left > .arrow:after {\r\n        right: 1px;\r\n        bottom: -10px;\r\n        content: \" \";\r\n        border-right-width: 0;\r\n        border-left-color: #fff;\r\n    }\r\n\r\n.carousel {\r\n    position: relative;\r\n}\r\n\r\n.carousel-inner {\r\n    position: relative;\r\n    width: 100%;\r\n    overflow: hidden;\r\n}\r\n\r\n    .carousel-inner > .item {\r\n        position: relative;\r\n        display: none;\r\n        -webkit-transition: .6s ease-in-out left;\r\n        -o-transition: .6s ease-in-out left;\r\n        transition: .6s ease-in-out left;\r\n    }\r\n\r\n        .carousel-inner > .item > img,\r\n        .carousel-inner > .item > a > img {\r\n            line-height: 1;\r\n        }\r\n\r\n@media all and (transform-3d), (-webkit-transform-3d) {\r\n    .carousel-inner > .item {\r\n        -webkit-transition: -webkit-transform .6s ease-in-out;\r\n        -o-transition: -o-transform .6s ease-in-out;\r\n        transition: transform .6s ease-in-out;\r\n        -webkit-backface-visibility: hidden;\r\n        backface-visibility: hidden;\r\n        -webkit-perspective: 1000px;\r\n        perspective: 1000px;\r\n    }\r\n\r\n        .carousel-inner > .item.next,\r\n        .carousel-inner > .item.active.right {\r\n            left: 0;\r\n            -webkit-transform: translate3d(100%, 0, 0);\r\n            transform: translate3d(100%, 0, 0);\r\n        }\r\n\r\n        .carousel-inner > .item.prev,\r\n        .carousel-inner > .item.active.left {\r\n            left: 0;\r\n            -webkit-transform: translate3d(-100%, 0, 0);\r\n            transform: translate3d(-100%, 0, 0);\r\n        }\r\n\r\n            .carousel-inner > .item.next.left,\r\n            .carousel-inner > .item.prev.right,\r\n            .carousel-inner > .item.active {\r\n                left: 0;\r\n                -webkit-transform: translate3d(0, 0, 0);\r\n                transform: translate3d(0, 0, 0);\r\n            }\r\n}\r\n\r\n.carousel-inner > .active,\r\n.carousel-inner > .next,\r\n.carousel-inner > .prev {\r\n    display: block;\r\n}\r\n\r\n.carousel-inner > .active {\r\n    left: 0;\r\n}\r\n\r\n.carousel-inner > .next,\r\n.carousel-inner > .prev {\r\n    position: absolute;\r\n    top: 0;\r\n    width: 100%;\r\n}\r\n\r\n.carousel-inner > .next {\r\n    left: 100%;\r\n}\r\n\r\n.carousel-inner > .prev {\r\n    left: -100%;\r\n}\r\n\r\n    .carousel-inner > .next.left,\r\n    .carousel-inner > .prev.right {\r\n        left: 0;\r\n    }\r\n\r\n.carousel-inner > .active.left {\r\n    left: -100%;\r\n}\r\n\r\n.carousel-inner > .active.right {\r\n    left: 100%;\r\n}\r\n\r\n.carousel-control {\r\n    position: absolute;\r\n    top: 0;\r\n    bottom: 0;\r\n    left: 0;\r\n    width: 15%;\r\n    font-size: 20px;\r\n    color: #fff;\r\n    text-align: center;\r\n    text-shadow: 0 1px 2px rgba(0, 0, 0, .6);\r\n    background-color: rgba(0, 0, 0, 0);\r\n    filter: alpha(opacity=50);\r\n    opacity: .5;\r\n}\r\n\r\n    .carousel-control.left {\r\n        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);\r\n        background-image: -o-linear-gradient(left, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);\r\n        background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, .0001)));\r\n        background-image: linear-gradient(to right, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .0001) 100%);\r\n        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);\r\n        background-repeat: repeat-x;\r\n    }\r\n\r\n    .carousel-control.right {\r\n        right: 0;\r\n        left: auto;\r\n        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);\r\n        background-image: -o-linear-gradient(left, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);\r\n        background-image: -webkit-gradient(linear, left top, right top, from(rgba(0, 0, 0, .0001)), to(rgba(0, 0, 0, .5)));\r\n        background-image: linear-gradient(to right, rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, .5) 100%);\r\n        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1);\r\n        background-repeat: repeat-x;\r\n    }\r\n\r\n    .carousel-control:hover,\r\n    .carousel-control:focus {\r\n        color: #fff;\r\n        text-decoration: none;\r\n        filter: alpha(opacity=90);\r\n        outline: 0;\r\n        opacity: .9;\r\n    }\r\n\r\n    .carousel-control .icon-prev,\r\n    .carousel-control .icon-next,\r\n    .carousel-control .glyphicon-chevron-left,\r\n    .carousel-control .glyphicon-chevron-right {\r\n        position: absolute;\r\n        top: 50%;\r\n        z-index: 5;\r\n        display: inline-block;\r\n        margin-top: -10px;\r\n    }\r\n\r\n    .carousel-control .icon-prev,\r\n    .carousel-control .glyphicon-chevron-left {\r\n        left: 50%;\r\n        margin-left: -10px;\r\n    }\r\n\r\n    .carousel-control .icon-next,\r\n    .carousel-control .glyphicon-chevron-right {\r\n        right: 50%;\r\n        margin-right: -10px;\r\n    }\r\n\r\n    .carousel-control .icon-prev,\r\n    .carousel-control .icon-next {\r\n        width: 20px;\r\n        height: 20px;\r\n        font-family: serif;\r\n        line-height: 1;\r\n    }\r\n\r\n        .carousel-control .icon-prev:before {\r\n            content: '\\2039';\r\n        }\r\n\r\n        .carousel-control .icon-next:before {\r\n            content: '\\203A';\r\n        }\r\n\r\n.carousel-indicators {\r\n    position: absolute;\r\n    bottom: 10px;\r\n    left: 50%;\r\n    z-index: 15;\r\n    width: 60%;\r\n    padding-left: 0;\r\n    margin-left: -30%;\r\n    text-align: center;\r\n    list-style: none;\r\n}\r\n\r\n    .carousel-indicators li {\r\n        display: inline-block;\r\n        width: 10px;\r\n        height: 10px;\r\n        margin: 1px;\r\n        text-indent: -999px;\r\n        cursor: pointer;\r\n        background-color: #000 \\9;\r\n        background-color: rgba(0, 0, 0, 0);\r\n        border: 1px solid #fff;\r\n        border-radius: 10px;\r\n    }\r\n\r\n    .carousel-indicators .active {\r\n        width: 12px;\r\n        height: 12px;\r\n        margin: 0;\r\n        background-color: #fff;\r\n    }\r\n\r\n.carousel-caption {\r\n    position: absolute;\r\n    right: 15%;\r\n    bottom: 20px;\r\n    left: 15%;\r\n    z-index: 10;\r\n    padding-top: 20px;\r\n    padding-bottom: 20px;\r\n    color: #fff;\r\n    text-align: center;\r\n    text-shadow: 0 1px 2px rgba(0, 0, 0, .6);\r\n}\r\n\r\n    .carousel-caption .btn {\r\n        text-shadow: none;\r\n    }\r\n\r\n@media screen and (min-width: 768px) {\r\n    .carousel-control .glyphicon-chevron-left,\r\n    .carousel-control .glyphicon-chevron-right,\r\n    .carousel-control .icon-prev,\r\n    .carousel-control .icon-next {\r\n        width: 30px;\r\n        height: 30px;\r\n        margin-top: -10px;\r\n        font-size: 30px;\r\n    }\r\n\r\n    .carousel-control .glyphicon-chevron-left,\r\n    .carousel-control .icon-prev {\r\n        margin-left: -10px;\r\n    }\r\n\r\n    .carousel-control .glyphicon-chevron-right,\r\n    .carousel-control .icon-next {\r\n        margin-right: -10px;\r\n    }\r\n\r\n    .carousel-caption {\r\n        right: 20%;\r\n        left: 20%;\r\n        padding-bottom: 30px;\r\n    }\r\n\r\n    .carousel-indicators {\r\n        bottom: 20px;\r\n    }\r\n}\r\n\r\n.clearfix:before,\r\n.clearfix:after,\r\n.dl-horizontal dd:before,\r\n.dl-horizontal dd:after,\r\n.container:before,\r\n.container:after,\r\n.container-fluid:before,\r\n.container-fluid:after,\r\n.row:before,\r\n.row:after,\r\n.form-horizontal .form-group:before,\r\n.form-horizontal .form-group:after,\r\n.btn-toolbar:before,\r\n.btn-toolbar:after,\r\n.btn-group-vertical > .btn-group:before,\r\n.btn-group-vertical > .btn-group:after,\r\n.nav:before,\r\n.nav:after,\r\n.navbar:before,\r\n.navbar:after,\r\n.navbar-header:before,\r\n.navbar-header:after,\r\n.navbar-collapse:before,\r\n.navbar-collapse:after,\r\n.pager:before,\r\n.pager:after,\r\n.panel-body:before,\r\n.panel-body:after,\r\n.modal-header:before,\r\n.modal-header:after,\r\n.modal-footer:before,\r\n.modal-footer:after {\r\n    display: table;\r\n    content: \" \";\r\n}\r\n\r\n.clearfix:after,\r\n.dl-horizontal dd:after,\r\n.container:after,\r\n.container-fluid:after,\r\n.row:after,\r\n.form-horizontal .form-group:after,\r\n.btn-toolbar:after,\r\n.btn-group-vertical > .btn-group:after,\r\n.nav:after,\r\n.navbar:after,\r\n.navbar-header:after,\r\n.navbar-collapse:after,\r\n.pager:after,\r\n.panel-body:after,\r\n.modal-header:after,\r\n.modal-footer:after {\r\n    clear: both;\r\n}\r\n\r\n.center-block {\r\n    display: block;\r\n    margin-right: auto;\r\n    margin-left: auto;\r\n}\r\n\r\n.pull-right {\r\n    float: right !important;\r\n}\r\n\r\n.pull-left {\r\n    float: left !important;\r\n}\r\n\r\n.hide {\r\n    display: none !important;\r\n}\r\n\r\n.show {\r\n    display: block !important;\r\n}\r\n\r\n.invisible {\r\n    visibility: hidden;\r\n}\r\n\r\n.text-hide {\r\n    font: 0/0 a;\r\n    color: transparent;\r\n    text-shadow: none;\r\n    background-color: transparent;\r\n    border: 0;\r\n}\r\n\r\n.hidden {\r\n    display: none !important;\r\n}\r\n\r\n.affix {\r\n    position: fixed;\r\n}\r\n\r\n@-ms-viewport {\r\n    width: device-width;\r\n}\r\n\r\n.visible-xs,\r\n.visible-sm,\r\n.visible-md,\r\n.visible-lg {\r\n    display: none !important;\r\n}\r\n\r\n.visible-xs-block,\r\n.visible-xs-inline,\r\n.visible-xs-inline-block,\r\n.visible-sm-block,\r\n.visible-sm-inline,\r\n.visible-sm-inline-block,\r\n.visible-md-block,\r\n.visible-md-inline,\r\n.visible-md-inline-block,\r\n.visible-lg-block,\r\n.visible-lg-inline,\r\n.visible-lg-inline-block {\r\n    display: none !important;\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .visible-xs {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-xs {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-xs {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-xs,\r\n    td.visible-xs {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .visible-xs-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .visible-xs-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .visible-xs-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .visible-sm {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-sm {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-sm {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-sm,\r\n    td.visible-sm {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .visible-sm-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .visible-sm-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .visible-sm-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .visible-md {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-md {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-md {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-md,\r\n    td.visible-md {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .visible-md-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .visible-md-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .visible-md-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .visible-lg {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-lg {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-lg {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-lg,\r\n    td.visible-lg {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .visible-lg-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .visible-lg-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .visible-lg-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media (max-width: 767px) {\r\n    .hidden-xs {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 768px) and (max-width: 991px) {\r\n    .hidden-sm {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 992px) and (max-width: 1199px) {\r\n    .hidden-md {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n@media (min-width: 1200px) {\r\n    .hidden-lg {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n.visible-print {\r\n    display: none !important;\r\n}\r\n\r\n@media print {\r\n    .visible-print {\r\n        display: block !important;\r\n    }\r\n\r\n    table.visible-print {\r\n        display: table !important;\r\n    }\r\n\r\n    tr.visible-print {\r\n        display: table-row !important;\r\n    }\r\n\r\n    th.visible-print,\r\n    td.visible-print {\r\n        display: table-cell !important;\r\n    }\r\n}\r\n\r\n.visible-print-block {\r\n    display: none !important;\r\n}\r\n\r\n@media print {\r\n    .visible-print-block {\r\n        display: block !important;\r\n    }\r\n}\r\n\r\n.visible-print-inline {\r\n    display: none !important;\r\n}\r\n\r\n@media print {\r\n    .visible-print-inline {\r\n        display: inline !important;\r\n    }\r\n}\r\n\r\n.visible-print-inline-block {\r\n    display: none !important;\r\n}\r\n\r\n@media print {\r\n    .visible-print-inline-block {\r\n        display: inline-block !important;\r\n    }\r\n}\r\n\r\n@media print {\r\n    .hidden-print {\r\n        display: none !important;\r\n    }\r\n}\r\n\r\n\r\n/*# sourceMappingURL=bootstrap.css.map */\r\n", ""]);
 
 	// exports
 
@@ -38845,8 +38971,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./transition.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./transition.css");
+			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./auction.css", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./auction.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -38864,7 +38990,7 @@
 
 
 	// module
-	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   loading\r\n*******************\r\n*******************\r\n*/\r\n\r\n.loading{\r\n  position: relative;\r\n  width: 35%;\r\n  display: block;\r\n  margin: auto;\r\n   -webkit-animation:spin 4s linear infinite;\r\n    -moz-animation:spin 4s linear infinite;\r\n    animation:spin 4s linear infinite;\r\n}\r\n\r\n@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }\r\n@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }\r\n@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }", ""]);
+	exports.push([module.id, "img {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n/*\r\n.down-arrow {\r\n    float: right;\r\n    z-index: 5;\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n    \r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        \r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        margin-right: 20px;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n    */\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n.myAuction{\r\n    margin: 100px 7px 0px 7px;\r\n    padding: 5px;\r\n    border: 2px solid black;\r\n    overflow: auto;\r\n    height: 300px;\r\n}\r\n\r\n.stamp{\r\n    /*display: none;*/\r\n    border: solid .2em #c00;\r\n    color: #c00;\r\n    content: '\\5E0\\5DE\\5DB\\5E8';\r\n    font-size: 40px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    opacity: 0;\r\n    position: absolute;\r\n    width: 200px;\r\n    text-align: center;\r\n    padding: 7px 10px;\r\n    margin: 0 auto;\r\n    margin-top: 15%;\r\n    margin-left: 25%;\r\n    text-transform: uppercase;\r\n    transform-origin: 50% 50%;\r\n    transform: rotate(-5deg) scale(5);\r\n    transition: all .7s cubic-bezier(0.6, 0.04, 0.98, 0.335);\r\n}\r\n\r\n.sold.stamp{\r\n    /*display: block;*/\r\n    opacity: .65;\r\n    transform: rotate(-25deg) scale(1);\r\n}", ""]);
 
 	// exports
 
@@ -38897,9 +39023,9 @@
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
-	var _general = __webpack_require__(422);
+	var _general = __webpack_require__(424);
 
-	__webpack_require__(313);
+	__webpack_require__(315);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38957,13 +39083,11 @@
 	    }, {
 	        key: 'onSelectedCat',
 	        value: function onSelectedCat(opt) {
-	            console.log('category: ' + opt);
 	            this.setState({ categroy: opt });
 	        }
 	    }, {
 	        key: 'onSelectedGPS',
 	        value: function onSelectedGPS(opt) {
-	            console.log('gps---- ' + opt);
 	            this.setState({ gps: opt });
 	        }
 
@@ -39167,8 +39291,8 @@
 	            } else {
 	                return _react2.default.createElement(
 	                    "div",
-	                    null,
-	                    _react2.default.createElement("img", { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png", className: "loading" }),
+	                    { style: { marginTop: "15%" } },
+	                    _react2.default.createElement("img", { src: __webpack_require__(439), className: "loading" }),
 	                    _react2.default.createElement(
 	                        "h3",
 	                        { style: { textAlign: "center" } },
@@ -39191,6 +39315,12 @@
 
 /***/ }),
 /* 439 */
+/***/ (function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQcAAAESCAMAAADHbuC9AAAA81BMVEX///+/3bn3+/au1Ke22LD8+PPx+Pz79vf1+/zf7tzX6dPv9u1+unKOw4TP5cqWx4yGvnvn8uXH4cGey5Wm0J7z5dDp0a3s2LnQnU/NlkPmy6HTo1v58ujWqmbasHLdt37gvYrjxJX269zv3sTI5fLj8vmCxOI9o9Ihlswvnc90vd9mt9xLqta63u+s2OxZsNnV6/X47O6e0eneq7PEaXjw2t3IcoDWmKKQy+bt0NXPhZHitLz04+bTj5raoavlvcTpx8zLfInr9/i54+eH0NVpxMtfwMdzyM6b2NzD5+qv4ON9zNLh8/XX7/HN6+6R1Nml3OCmzzP2AAAACXRSTlMAAAAAAAAAAABzZJuhAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAASAAAAEgARslrPgAADstJREFUeNrtnGlD4jwQx8GLRUBRFwXxWhdUPPCqqLB4IiL76Pr9P80Dhba5m6RtUmj/75QjzY+ZycwkbSIRK1asWLFixYoVK1b4lE4mF3VfQwiUyQ6US+u+DO1KZ00t6b4O3cqMOGQjbxHLIw75Fd0XollL2RjEUDP5GISp1awFIqP7UvQqZ4FYntF9KVq1mI1BmFqLQZjKZGMQppIOiFnd16JVy5EDsZImZdAr2YiBmB3OdG0VS5lWowVizpprbg5B8RMAsar7MoNWGpjsAMUisDjM5ICXpr0KB3/00TK5lkwupVew16YcRJaq5WX476kGkc7ya5r7MiIcproKz8cgTCUFOEw1iFkhEFPcl0nPCvjGdBefM+ml5FoMYqz03HIMYqTMXM4dhJpLKaxvFHSiSLsGThXF50axNFBxc14jicxcXjeIQmms8pZGEImZZF4viG2LQ2lTJwdXEgGDmLcxlHb0chiQWGWFzGCLz0KIOAy0tKYJRMg4DBaPn1pAhI7DYPGYlQKxVS4VdzdkV72t8HFghExW8bllrv+lPclUyOHwS/f0QRJLxISbWYXvj0CUtje8cdC8biJayoqDsHKAsgSJkHKYoSyhTBDzuyVpEg6H37rnDmKg1qE55uc2ijYJwTjhcNBaa8HKMMpxdn9qy8mPd4QmFEYOi4wM2zWJ2HRmtCewioaPw8wcnQJP27ZQtqdU5I55BRqHjXKprKUUZxkDX/faCZf8YYLCYfRV6+opZFhNS+4mvhMuS6Vdrl9znchhv6xpJV3N+4EBSCWGzsHzcwJRxZm1lZmp5pBhd7BF6qz5PWdipZ191/fvEDjYVqU4o1jM+4YhAVk6xy9aBqhZGGyDUothjklBvCFVAIJEadvFJEoYBxtDSapekdWMy65OUvwrgZzKzSQK4DsRDErr8BX2LsYsmEXOpFeTyTTHvie4gLJNYhPlsG8bU1Fl/5oZGnJJcM52RQ7/mywwWrLyAAhYAcSgNHlYokPIz0I38qVBu8m7O8sGBGKHlksUYQ7zQJWiEAN9P+snskigZyfctz5hEEVyerkPvWkPMA+FXjEzS4WAzhJ/pygIctcNeQ+XK/mOgVxjL6/iMyS5z5rrAMgkSb7xi4ZBnVcQMeTmSCEwQwym7uduERBFfN3YpmBQ5xWk9fIn5RZnsv/k3U9HoGaPJUbavWIF+4nz1NUwkyWL4yA2CmIPfrlAwaDMKzAMOUYRsUrhwHNKZBOZIVyMr5MxKPMKFMMa855/6oYfz1B7yBy35xkvKvYKBMOayyliaubNdfp4mwGCHCZVeQWMIef6/IesJw7zRToIrV4BYchzBDtvHJCcEQRBDpOKvALCMMtzMjDvjQMeDS0QxDCpyCtADMt8E6E2KHiPV+5iIEYZFSlMKvIKEANvh4XWr8pxfj4xX8Zma4IghUk1XgFg4H8qzAqFwxz3sAXyfLV5BbCZzRUZxqIsnAIH8jfxGW9vEMKDGq9wSqu8UA96kYhBqH9LK6i0eIWNYVnwJhNSRslRZgHa58KgxivssvGn6Dl6Uo0ueCvbJgcGNV5hh32JTjwGIi/8FDIOz1DiFUvSMzBBwD0IUcdK8HiGEq+wFr+c7P1naSedykkdLP3lgkGJV1jPR/Jyi01mdXZtoKQkSTyb0uAVy+JZg+8qMDEo8Yo5iSXff+0yMCjxipA8VhBrRSj2inE6rRsDtR+pyivMTblQ3Ki8Q8Ggbq2QXi991VZRn1eYffew3JK6rs8rhlWS1vUS0o4urxjYw1qIHklM8gwNx0X1q6DJK0KnDT1eET4VyrFXjLRRjrxXjLVejLpXjGWdw46SV8xv/NoZ6Bd8s6sZJiLkFVvO9l0RumFpYBKavaJSqSyoGmsdSpyK0BGpgkYM1YPDo6FqxxUVw2F7uXv6pg5SODlydBo8CcKWdhhu4z6rHUE6CHg84nlZ/fft1o9QHQc6HrkRV9T5ZKChKke4ArUIymae5pxhoUbgcBRkjKB0n8p6ORyQMBwdBjcgdcPC/Ta+ALVwRNZZYCNS97iV3oCGqk7hcBLYiNQdTcX3p56dHJ06f51QONQCG38nDByqBzU4DB5SOBxVp5hD/RxbF2kYglsxNjVzuDiuEaxePQfq3VcqMsqF+ik0y7o+Dls0DsEnlKApIPnBKY1DcCU45UzULvq+S3+HXbg6ZPzcxxQMASZSFMdA7+W8Nm58HLRCmej5+HVa/hBkqUU0CLQXl2oYt34NWL2jLou2QdTYLwehfUKFgZWb94bR8Ge4s5MjhizDv2OaSzD6jWPAiotrwzBS3odimQK8ZJAiZe0iUA7wQzGIGBLNAQfPAcJOmBiyIsAFwTPqnkbn0BaUVRIeIpQyPHMY585usk0fBxE4hoEKe2ObKO6RCu4bjxwWeExhJPszF7Br1FRgMFH83tz8Tek6tDxxwBMmHg6JhTvgY8eBVVgiupXngObO/ByGnz0ZxtXa+VUoKCQSDVkOtISJj0PYdGlIcSDnzhPM4V6Gw5mwKYSew7XJ4Y/AJxZcE6ZJ5NA2OQh84EJggYAVXAfSBxmCHLgxHGLFRrAlhDfdiHLgTZpqVawzHWYOZhZltPk/gM739KBCqjKHdVN1gji0RTmAbnF+cDZsphE6K4cXw/eeTg6HkVs88H+genA+0MndVcXOA/Hl43TUa7yaGA7j8NDy8h11GgbUMYI+7eFBo/BgPHr5jkMaBrQFd6d7tnQ1Dbm0GtAVHQOyYoSXQ2qEQSidRISd6gAwIK3I8HJ4MkTTB0x3CIYTcDumMiEcbkcYPLSrUXOAdyGqE8KhYYimD6juWBiQrCu0HO4N4fQB0QWM4Qp9/XwiODwYXtMHyp62rYNJ4JAau4X8snnggiFxNgkcrNVCetmsu2GAD8eFlUPb8LZswq0I8h7Eafg5XFoYmnKfXzh0xwB5Tkg5tCwOkrv+pzw2fxZ+DlaUlFwuoJY1/RBHjedNOmVHSbnlAiqvTulnm4BSK5z9h2ebg8zhByiBqjG25uoh5+CYg1R1ASWKrCPiwMp5yv3tCuWYg0x1AZkD+4Q44Bi650yQYw5SYRIsqGvsg4/1UHNwzEEqTIIFtctyCDiGkjsUhQSYg9wZMcfaXc9/HoeXQwowB7lsslrjntwZr+WoVwswB8nmg1VccBxtspGFLZG6bAAcniS/pDpcOg957qqya4ywLZy3AAZD/pB5tcLn8M4iq3visG5ADM8KBrQrsgvdUwcFBkkvvUl+2SnElffv8k9gkJQPDyKym/thCpR/IAx+nDB3l5VCBHivCa6bgRgvNyEMkr0oQdmRUtWZ0cvWeJrNR8oPDXuFt51uflnlqZqD1Clwkg1i/YR4hYdVU0h17gDx8tp563a7772PH7KD/YFN3mgSJom+RQ0G+5CE29HBl17X1ltfEkMD+a2NBrYxgXiFKrdw9kEvmO/6eOuC+vufxEgpDMPg50aCBOoValaLoazqm1lqfXQRvUmAuDUIuoZRPSMvuyZRqcf2c/PBwzERW8fuJQaGQQbEjUEUtIJeM18lUGiNbKzhw/2dVdeV878uQX9Fx2mTOYC/OIbKpbZ4ss2n4YP/nLil1h0Sh+6r2CiXBkXODDCvYEbJy1aD852cqrg4xicRQ/ddbJQnGgfHpDGvoCcPqSck2ng4MWPrnO0YPTKH7pfQIC0aBzubwgMIJXm4fMRDrh/VeYXtGG8UDj2hQW5dOTSxl67xr7l5fHgmfo0PHMYGQXGMFwqGbkdojLYbB4Lj3INfkLpv3TZpX+JPt6bCcoxPGoeu0BgPbhwIP7MdOm4eb58Npvx5IMA5wzF84kCND+NIT4qjQw5/nq6bhqua/pRjFYZj+MThnjaFcS5Ispf2Y7thcKjR8iv9PqfXGP/RMAhmUpQZWZvZbZ4Jk13iyScICSupJN9/QOMgtl7QAoQVHiQ53D75W4kd07tz/ygcPsRGICeUdkIsA6HtM4SE1bElbv58kDG8ibZjiJHSzofFKTwE0qq6onel3okcxJsxBNO3q6yUKIXboBp259Su1Jcv5jCYa5OKgVaV0/Ts54OUYJkb5eT9wG8Ch0+ZMZBKCsib70UoNALt1tXpXSm81BIMkpZuAN9og79pSwDDQ8DNugP6yTnEIt7Eak1Qf66HuVGj3YJ7abfcFJrBuYSluxr1ZNknGCx7L74PzZU3mlLWuaXoqzcqwN+//aeA96kZXuFHU9abfnx+SoVHd6X47WHgVA/33kcMq/48tfiKqjEK/VYRoFI3rQeOKtvUs/9JdcjEaxr+ldshFpdpRILEUK6m0ZjikImKbRpPyq/nx+frd6fT+f6SPgDhRTTT8OlRpTz66vcHAMCW3GsAuRSPCKahkAOp7u7IH4vxrKFpWH38xpNeDgP9k6+2fFDq5vGh/fCocsGgdu7fegHl2eFUl6H3b5kzQpOpTrcbo3DnMETR07OYho2DuYL0pz1Y9Lg4mCy+v6bYR/rcHEYw/vU/qA2bYS9nUu1GkIMTNTqg/gKvCJ+2C4VeJTkwTEb3lKT06X3isHqTubj4yyGQhvekcei8TvB68sMfBL1JZmDKM4H+dKQVhKmhKyEpEHQ6/f7EJgskoSdBvu14//nV7/egNKHX7w/TqKn4/VGhBYbkrv/EC+UgcRhmKoQVnJJ3qk26sAIjogaBF1rRNAicQzQNgnByMJIGQSgwImkQpEIrigZBuvcgkgbRjQ2CyiGKBtGNDcIUcSfnTfdVhYRDBMtOMgfBW7ynQJSdvWnqNXGJsqM1mdsx/nOInEHQdvYmc59SXtSdnIgtGVQO79FKKm0Oby/Iba3RSirtnb0Odn/vVG5UUAWulDCIaIVKKGP4iK5nvIMcEBBR8gyrwBg/9AECEaU1o4M4wUdEQwTKAc4wBR8NMsGyCgynoOhFEgTO4Qd0KCIqi4bFAfgX3MyPyKIx3tmDOlBQMf5P9xWq0SdhtrBn6L5CpRz6pH9GicMLGiZNAY8JiUoTf/QQDCRzBDzjW/cFKlKfGAztNeNvVHJr86fH27Lj/PpfVDAMIkSHaPtf791OVO7XixUrVqxYsWJNpf4HPfxvbjC+JJsAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDctMDZUMDY6MDc6NTItMDQ6MDDCciyDAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA3LTA2VDA2OjA3OjUyLTA0OjAwsy+UPwAAAABJRU5ErkJggg=="
+
+/***/ }),
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39211,7 +39341,7 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(440);
+	var _reactTabs = __webpack_require__(441);
 
 	var _reactSlick = __webpack_require__(291);
 
@@ -39221,9 +39351,9 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	__webpack_require__(434);
+	__webpack_require__(311);
 
-	__webpack_require__(450);
+	__webpack_require__(451);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39491,7 +39621,7 @@
 	//                 </div>
 
 /***/ }),
-/* 440 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39499,23 +39629,23 @@
 	exports.__esModule = true;
 	exports.resetIdCounter = exports.Tabs = exports.TabPanel = exports.TabList = exports.Tab = undefined;
 
-	var _Tabs = __webpack_require__(441);
+	var _Tabs = __webpack_require__(442);
 
 	var _Tabs2 = _interopRequireDefault(_Tabs);
 
-	var _TabList = __webpack_require__(445);
+	var _TabList = __webpack_require__(446);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _uuid = __webpack_require__(448);
+	var _uuid = __webpack_require__(449);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39526,7 +39656,7 @@
 	exports.resetIdCounter = _uuid.reset;
 
 /***/ }),
-/* 441 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39541,13 +39671,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _propTypes3 = __webpack_require__(442);
+	var _propTypes3 = __webpack_require__(443);
 
-	var _UncontrolledTabs = __webpack_require__(447);
+	var _UncontrolledTabs = __webpack_require__(448);
 
 	var _UncontrolledTabs2 = _interopRequireDefault(_UncontrolledTabs);
 
-	var _count = __webpack_require__(449);
+	var _count = __webpack_require__(450);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39677,7 +39807,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 442 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39690,17 +39820,17 @@
 	exports.onSelectPropType = onSelectPropType;
 	exports.selectedIndexPropType = selectedIndexPropType;
 
-	var _childrenDeepMap = __webpack_require__(443);
+	var _childrenDeepMap = __webpack_require__(444);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(445);
+	var _TabList = __webpack_require__(446);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -39773,7 +39903,7 @@
 	}
 
 /***/ }),
-/* 443 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39789,15 +39919,15 @@
 
 	var _react = __webpack_require__(5);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(445);
+	var _TabList = __webpack_require__(446);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -39844,7 +39974,7 @@
 	}
 
 /***/ }),
-/* 444 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39964,7 +40094,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 445 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40031,7 +40161,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 446 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40120,7 +40250,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 447 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40141,27 +40271,27 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _uuid = __webpack_require__(448);
+	var _uuid = __webpack_require__(449);
 
 	var _uuid2 = _interopRequireDefault(_uuid);
 
-	var _propTypes3 = __webpack_require__(442);
+	var _propTypes3 = __webpack_require__(443);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(445);
+	var _TabList = __webpack_require__(446);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _count = __webpack_require__(449);
+	var _count = __webpack_require__(450);
 
-	var _childrenDeepMap = __webpack_require__(443);
+	var _childrenDeepMap = __webpack_require__(444);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40464,7 +40594,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 448 */
+/* 449 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -40483,7 +40613,7 @@
 	}
 
 /***/ }),
-/* 449 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40492,13 +40622,13 @@
 	exports.getTabsCount = getTabsCount;
 	exports.getPanelsCount = getPanelsCount;
 
-	var _childrenDeepMap = __webpack_require__(443);
+	var _childrenDeepMap = __webpack_require__(444);
 
-	var _Tab = __webpack_require__(444);
+	var _Tab = __webpack_require__(445);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(446);
+	var _TabPanel = __webpack_require__(447);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -40523,13 +40653,13 @@
 	}
 
 /***/ }),
-/* 450 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(451);
+	var content = __webpack_require__(452);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -40549,7 +40679,7 @@
 	}
 
 /***/ }),
-/* 451 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -40563,7 +40693,381 @@
 
 
 /***/ }),
-/* 452 */
+/* 453 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouterDom = __webpack_require__(188);
+
+	var _reactSwipeable = __webpack_require__(228);
+
+	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
+
+	var _reactFontawesome = __webpack_require__(229);
+
+	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
+
+	var _reactModal = __webpack_require__(231);
+
+	var _reactModal2 = _interopRequireDefault(_reactModal);
+
+	var _axios = __webpack_require__(257);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _Timer = __webpack_require__(287);
+
+	var _Timer2 = _interopRequireDefault(_Timer);
+
+	var _Pic = __webpack_require__(290);
+
+	var _Pic2 = _interopRequireDefault(_Pic);
+
+	var _ChatMsg = __webpack_require__(318);
+
+	var _ChatMsg2 = _interopRequireDefault(_ChatMsg);
+
+	var _PriceTag = __webpack_require__(286);
+
+	var _PriceTag2 = _interopRequireDefault(_PriceTag);
+
+	var _AuctionInfo = __webpack_require__(314);
+
+	var _AuctionInfo2 = _interopRequireDefault(_AuctionInfo);
+
+	var _AuctionFAQ = __webpack_require__(317);
+
+	var _AuctionFAQ2 = _interopRequireDefault(_AuctionFAQ);
+
+	__webpack_require__(426);
+
+	var _messages = __webpack_require__(431);
+
+	var _general = __webpack_require__(424);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// taramti babait components
+
+
+	//constants 
+
+
+	var MyAuction = function (_Component) {
+	    _inherits(MyAuction, _Component);
+
+	    function MyAuction(props) {
+	        _classCallCheck(this, MyAuction);
+
+	        var _this = _possibleConstructorReturn(this, (MyAuction.__proto__ || Object.getPrototypeOf(MyAuction)).call(this, props));
+
+	        var par = JSON.parse(localStorage.getItem("aucData"));
+	        _this.state = {
+	            infoModalIsOpen: false,
+	            fAQModalIsOpen: false,
+	            FAQs: [],
+	            tempDonation: "",
+	            width: null,
+
+	            // auc data
+	            auc: {
+	                code: par.props.auc.code,
+	                price: par.price,
+	                endDate: par.props.auc.endDate,
+	                percentage: par.props.auc.percentage,
+	                prodCode: par.props.auc.prodCode,
+	                prodName: par.props.auc.prodName,
+	                prodDesc: par.props.auc.prodDesc,
+	                imgArr: par.props.auc.imgArr
+	            }
+	        };
+	        _this.timerFinishedAuc = _this.timerFinishedAuc.bind(_this);
+	        _this.calcDonation = _this.calcDonation.bind(_this);
+	        _this.getCurPrice = _this.getCurPrice.bind(_this);
+	        _this.addQuestion = _this.addQuestion.bind(_this);
+
+	        _this.infoModalChanged = _this.infoModalChanged.bind(_this);
+	        _this.FAQModalChanged = _this.FAQModalChanged.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(MyAuction, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //set correct width
+	            var width = this.refs.infoDiv.clientWidth;
+	            this.setState({ width: width });
+
+	            //calculate amount to donation
+	            this.calcDonation();
+
+	            //get current price every 5 sec
+	            this.loadInterval = setInterval(this.getCurPrice, 5000);
+
+	            //get questions from db
+	            var product = { ItemId: this.state.auc.prodCode };
+	            var self = this;
+	            _axios2.default.post(_general.auctionWS + 'GetAllQuestions', {
+	                prod: product
+	            }).then(function (response) {
+	                var res = JSON.parse(response.data.d);
+	                res.map(self.addQuestion);
+	                //self.setState({ FAQs: res })
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            //clear interval!!!
+	            this.loadInterval && clearInterval(this.loadInterval);
+	            this.loadInterval = false;
+	        }
+	    }, {
+	        key: 'addQuestion',
+	        value: function addQuestion(faq) {
+	            if (faq.Answer == "") {
+	                var tempFAQS = this.state.FAQs;
+	                tempFAQS.push(faq);
+	                this.setState({ FAQs: tempFAQS });
+	            }
+	        }
+
+	        //INFO MODAL
+
+	    }, {
+	        key: 'infoModalChanged',
+	        value: function infoModalChanged() {
+	            var newStatus = !this.state.infoModalIsOpen;
+	            this.setState({ infoModalIsOpen: newStatus });
+	        }
+
+	        //FAQ MODAL
+
+	    }, {
+	        key: 'FAQModalChanged',
+	        value: function FAQModalChanged() {
+	            var newStatus = !this.state.fAQModalIsOpen;
+	            this.setState({ fAQModalIsOpen: newStatus });
+	        }
+	    }, {
+	        key: 'getCurPrice',
+	        value: function getCurPrice() {
+	            var self = this;
+	            _axios2.default.post(_general.auctionWS + 'GetAuctionPrice', {
+	                auctionCode: self.state.auc.code
+	            }).then(function (response) {
+	                var ans = response.data.d;
+	                if (ans !== "-1") {
+	                    var tempObj = self.state.auc;
+	                    tempObj["price"] = ans;
+	                    self.setState({ auc: tempObj });
+	                    self.calcDonation();
+	                }
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+
+	        //disable input and button
+
+	    }, {
+	        key: 'timerFinishedAuc',
+	        value: function timerFinishedAuc() {
+	            var tempObj = this.state.auc;
+	            tempObj["finished"] = true;
+	            this.setState({ auc: tempObj });
+	            var self = this;
+	            _axios2.default.post(_general.auctionWS + 'GetAuctionPrice', {
+	                auctionCode: self.props.params.code
+	            }).then(function (response) {
+	                var ans = response.this.d;
+	                if (ans !== "-1") {
+	                    // self.congratulateSeller();
+	                    self.openMSGModal();
+	                }
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
+	        }
+
+	        //calculate donation amount to insert to circle
+
+	    }, {
+	        key: 'calcDonation',
+	        value: function calcDonation() {
+	            var tempPrice = parseInt(this.state.auc.price);
+	            var i = this.state.curIndex;
+
+	            if (this.refs.newPrice !== undefined) {
+	                this.setState({
+	                    borderColor: "red"
+	                });
+
+	                var val = parseInt(this.refs.newPrice.value);
+	                //console.log(`price: ${tempPrice},  new price: ${val}`)
+	                if (val > tempPrice) {
+	                    tempPrice = val;
+	                    this.setState({
+	                        curIndex: 3,
+	                        formerIndex: i,
+	                        borderColor: "green"
+	                    });
+	                } else {
+	                    if (val >= tempPrice * 0.6) {
+	                        this.setState({
+	                            curIndex: 2,
+	                            formerIndex: i
+	                        });
+	                    } else if (val >= tempPrice * 0.15) {
+	                        this.setState({
+	                            curIndex: 1,
+	                            formerIndex: i
+	                        });
+	                    } else {
+	                        this.setState({
+	                            curIndex: 0,
+	                            formerIndex: i
+	                        });
+	                    }
+	                }
+	            }
+	            this.setState({
+	                tempDonation: '\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.state.auc.percentage / 100) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+
+	            // const customStyles = {
+	            //     content: {
+	            //         webkitAnimation: "zoomInRight 1s both",
+	            //         animation: "zoomInRight 1s both"
+
+	            //     }
+	            // };
+
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    _reactRouterDom.Link,
+	                    { to: '/' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { id: 'fixedCircle' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                _react2.default.createElement('i', { className: 'fa fa-circle-o fa-5x', 'aria-hidden': 'true' })
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { id: 'fixedHome' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                _react2.default.createElement(_reactFontawesome2.default, { name: 'home', className: 'fa-3x', tag: 'i' })
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'basicInfo', ref: 'infoDiv' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'time' },
+	                        _react2.default.createElement(_Timer2.default, { endDate: this.state.auc.endDate, timerFinished: this.timerFinishedAuc })
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { style: { position: "absolute", width: "20%", margin: "80px 40%" } },
+	                        _react2.default.createElement(_PriceTag2.default, { price: this.state.auc.price, modalIsOpen: this.state.fAQModalIsOpen || this.state.infoModalIsOpen })
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'circle', style: { top: "5px", position: "absolute", left: this.state.width - 105 + 'px' } },
+	                        _react2.default.createElement(
+	                            'h4',
+	                            null,
+	                            this.state.tempDonation
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'myAuction', style: { width: "35%", float: "left" }, onClick: this.FAQModalChanged },
+	                        _react2.default.createElement(
+	                            'h4',
+	                            { style: { textAlign: "center" } },
+	                            '\u05E9\u05D0\u05DC\u05D5\u05EA \u05D7\u05D3\u05E9\u05D5\u05EA'
+	                        ),
+	                        _react2.default.createElement(_ChatMsg2.default, { FAQs: this.state.FAQs, disabled: true })
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'myAuction', style: { width: "50%", float: "right" }, onClick: this.infoModalChanged },
+	                        _react2.default.createElement(_AuctionInfo2.default, { modal: false, auc: this.state.auc })
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactModal2.default,
+	                    {
+	                        isOpen: this.state.infoModalIsOpen,
+	                        contentLabel: 'open info',
+	                        className: 'zoomInRight' },
+	                    _react2.default.createElement(_AuctionInfo2.default, { modal: true, closeModal: this.infoModalChanged, auc: this.state.auc })
+	                ),
+	                _react2.default.createElement(
+	                    _reactModal2.default,
+	                    {
+	                        isOpen: this.state.fAQModalIsOpen,
+	                        contentLabel: 'open FAQ',
+	                        className: 'zoomInLeft' },
+	                    _react2.default.createElement(_AuctionFAQ2.default, { closeModal: this.FAQModalChanged, prodCode: this.state.auc.prodCode, chat: false })
+	                )
+	            );
+	        }
+	    }]);
+
+	    return MyAuction;
+	}(_react.Component);
+
+	exports.default = MyAuction;
+
+/***/ }),
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40582,19 +41086,23 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(440);
+	var _reactTabs = __webpack_require__(441);
 
 	var _Auction = __webpack_require__(285);
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _ActiveAuctions = __webpack_require__(439);
+	var _ActiveAuctions = __webpack_require__(440);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	__webpack_require__(450);
+	var _MyAuction = __webpack_require__(453);
 
-	__webpack_require__(434);
+	var _MyAuction2 = _interopRequireDefault(_MyAuction);
+
+	__webpack_require__(451);
+
+	__webpack_require__(311);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40739,7 +41247,7 @@
 	exports.default = Profile;
 
 /***/ }),
-/* 453 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40758,10 +41266,6 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _reactLoader = __webpack_require__(454);
-
-	var _reactLoader2 = _interopRequireDefault(_reactLoader);
-
 	var _Payment = __webpack_require__(456);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
@@ -40770,9 +41274,9 @@
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	__webpack_require__(424);
+	__webpack_require__(426);
 
-	__webpack_require__(434);
+	__webpack_require__(311);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40814,7 +41318,7 @@
 	            window.addEventListener('resize', this.updateWindowDimensions);
 	            setTimeout(function () {
 	                return _this2.setState({ loading: true });
-	            }, 3000);
+	            }, 500);
 	        }
 	    }, {
 	        key: 'updateWindowDimensions',
@@ -40892,8 +41396,7 @@
 	                        className: 'FAQbox' },
 	                    _react2.default.createElement(_Payment2.default, { closeModal: this.changeModalOpen, auc: auc })
 	                ),
-	                _react2.default.createElement('img', { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png", className: 'loading' }),
-	                _react2.default.createElement('img', { src: "../../../www/img/just_logo.png", className: 'loading' })
+	                _react2.default.createElement('div', { className: this.state.loading ? "sold" : "stamp" })
 	            );
 	        }
 	    }]);
@@ -40902,522 +41405,6 @@
 	}(_react.Component);
 
 	exports.default = Bdika;
-
-/***/ }),
-/* 454 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory) {
-
-	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(41), __webpack_require__(455), __webpack_require__(190), __webpack_require__(240)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	  } else if (typeof module === 'object' && typeof module.exports === 'object') {
-	    module.exports = factory(require('react'), require('react-dom'), require('spin.js'), require('prop-types'), require('create-react-class'));
-	  } else {
-	    root.Loader = factory(root.React, root.ReactDOM, root.Spinner, root.PropTypes, root.createReactClass);
-	  }
-
-	}(this, function (React, ReactDOM, Spinner, PropTypes, createReactClass) {
-
-	  var Loader = createReactClass({
-	    propTypes: {
-	      className:       PropTypes.string,
-	      color:           PropTypes.string,
-	      component:       PropTypes.any,
-	      corners:         PropTypes.number,
-	      direction:       PropTypes.oneOf([1, -1]),
-	      fps:             PropTypes.number,
-	      hwaccell:        PropTypes.bool,
-	      left:            PropTypes.string,
-	      length:          PropTypes.number,
-	      lines:           PropTypes.number,
-	      loaded:          PropTypes.bool,
-	      loadedClassName: PropTypes.string,
-	      opacity:         PropTypes.number,
-	      options:         PropTypes.object,
-	      parentClassName: PropTypes.string,
-	      position:        PropTypes.string,
-	      radius:          PropTypes.number,
-	      rotate:          PropTypes.number,
-	      scale:           PropTypes.number,
-	      shadow:          PropTypes.bool,
-	      speed:           PropTypes.number,
-	      top:             PropTypes.string,
-	      trail:           PropTypes.number,
-	      width:           PropTypes.number,
-	      zIndex:          PropTypes.number
-	    },
-
-	    getDefaultProps: function () {
-	      return {
-	        component: 'div',
-	        loadedClassName: 'loadedContent',
-	        parentClassName: 'loader'
-	      };
-	    },
-
-	    getInitialState: function () {
-	      return { loaded: false, options: {} };
-	    },
-
-	    componentDidMount: function () {
-	      this.updateState(this.props);
-	    },
-
-	    componentWillReceiveProps: function (nextProps) {
-	      this.updateState(nextProps);
-	    },
-
-	    componentWillUnmount: function () {
-	      this.setState({ loaded: false });
-	    },
-
-	    updateState: function (props) {
-	      props || (props = {});
-
-	      var loaded = this.state.loaded;
-	      var options = this.state.options;
-
-	      // update loaded state, if supplied
-	      if ('loaded' in props) {
-	        loaded = !!props.loaded;
-	      }
-
-	      // update spinner options, if supplied
-	      var allowedOptions = Object.keys(this.constructor.propTypes);
-	      allowedOptions.splice(allowedOptions.indexOf('loaded'), 1);
-	      allowedOptions.splice(allowedOptions.indexOf('options'), 1);
-
-	      // allows passing options as either props or as an option object
-	      var propsOrObjectOptions = 'options' in props ? props.options : props;
-
-	      allowedOptions.forEach(function (key) {
-	        if (key in propsOrObjectOptions) {
-	          options[key] = propsOrObjectOptions[key];
-	        }
-	      });
-
-	      this.setState({ loaded: loaded, options: options }, this.spin);
-	    },
-
-	    spin: function () {
-	      var canUseDOM = !!(
-	        typeof window !== 'undefined' &&
-	        window.document &&
-	        window.document.createElement
-	      );
-
-	      if (canUseDOM && !this.state.loaded) {
-	        var spinner = new Spinner(this.state.options);
-	        var target =  ReactDOM.findDOMNode(this.refs.loader);
-
-	        // clear out any other spinners from previous renders
-	        target.innerHTML = '';
-	        spinner.spin(target);
-	      }
-	    },
-
-	    render: function () {
-	      var props, children;
-
-	      if (this.state.loaded) {
-	        props = { key: 'content', className: this.props.loadedClassName };
-	        children = this.props.children;
-	      } else {
-	        props = { key: 'loader', ref: 'loader', className: this.props.parentClassName };
-	      }
-
-	      return React.createElement(this.props.component, props, children);
-	    }
-	  });
-
-	  return Loader;
-
-	}));
-
-
-/***/ }),
-/* 455 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
-	 * Copyright (c) 2011-2014 Felix Gnass
-	 * Licensed under the MIT license
-	 * http://spin.js.org/
-	 *
-	 * Example:
-	    var opts = {
-	      lines: 12             // The number of lines to draw
-	    , length: 7             // The length of each line
-	    , width: 5              // The line thickness
-	    , radius: 10            // The radius of the inner circle
-	    , scale: 1.0            // Scales overall size of the spinner
-	    , corners: 1            // Roundness (0..1)
-	    , color: '#000'         // #rgb or #rrggbb
-	    , opacity: 1/4          // Opacity of the lines
-	    , rotate: 0             // Rotation offset
-	    , direction: 1          // 1: clockwise, -1: counterclockwise
-	    , speed: 1              // Rounds per second
-	    , trail: 100            // Afterglow percentage
-	    , fps: 20               // Frames per second when using setTimeout()
-	    , zIndex: 2e9           // Use a high z-index by default
-	    , className: 'spinner'  // CSS class to assign to the element
-	    , top: '50%'            // center vertically
-	    , left: '50%'           // center horizontally
-	    , shadow: false         // Whether to render a shadow
-	    , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
-	    , position: 'absolute'  // Element positioning
-	    }
-	    var target = document.getElementById('foo')
-	    var spinner = new Spinner(opts).spin(target)
-	 */
-	;(function (root, factory) {
-
-	  /* CommonJS */
-	  if (typeof module == 'object' && module.exports) module.exports = factory()
-
-	  /* AMD module */
-	  else if (true) !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
-
-	  /* Browser global */
-	  else root.Spinner = factory()
-	}(this, function () {
-	  "use strict"
-
-	  var prefixes = ['webkit', 'Moz', 'ms', 'O'] /* Vendor prefixes */
-	    , animations = {} /* Animation rules keyed by their name */
-	    , useCssAnimations /* Whether to use CSS animations or setTimeout */
-	    , sheet /* A stylesheet to hold the @keyframe or VML rules. */
-
-	  /**
-	   * Utility function to create elements. If no tag name is given,
-	   * a DIV is created. Optionally properties can be passed.
-	   */
-	  function createEl (tag, prop) {
-	    var el = document.createElement(tag || 'div')
-	      , n
-
-	    for (n in prop) el[n] = prop[n]
-	    return el
-	  }
-
-	  /**
-	   * Appends children and returns the parent.
-	   */
-	  function ins (parent /* child1, child2, ...*/) {
-	    for (var i = 1, n = arguments.length; i < n; i++) {
-	      parent.appendChild(arguments[i])
-	    }
-
-	    return parent
-	  }
-
-	  /**
-	   * Creates an opacity keyframe animation rule and returns its name.
-	   * Since most mobile Webkits have timing issues with animation-delay,
-	   * we create separate rules for each line/segment.
-	   */
-	  function addAnimation (alpha, trail, i, lines) {
-	    var name = ['opacity', trail, ~~(alpha * 100), i, lines].join('-')
-	      , start = 0.01 + i/lines * 100
-	      , z = Math.max(1 - (1-alpha) / trail * (100-start), alpha)
-	      , prefix = useCssAnimations.substring(0, useCssAnimations.indexOf('Animation')).toLowerCase()
-	      , pre = prefix && '-' + prefix + '-' || ''
-
-	    if (!animations[name]) {
-	      sheet.insertRule(
-	        '@' + pre + 'keyframes ' + name + '{' +
-	        '0%{opacity:' + z + '}' +
-	        start + '%{opacity:' + alpha + '}' +
-	        (start+0.01) + '%{opacity:1}' +
-	        (start+trail) % 100 + '%{opacity:' + alpha + '}' +
-	        '100%{opacity:' + z + '}' +
-	        '}', sheet.cssRules.length)
-
-	      animations[name] = 1
-	    }
-
-	    return name
-	  }
-
-	  /**
-	   * Tries various vendor prefixes and returns the first supported property.
-	   */
-	  function vendor (el, prop) {
-	    var s = el.style
-	      , pp
-	      , i
-
-	    prop = prop.charAt(0).toUpperCase() + prop.slice(1)
-	    if (s[prop] !== undefined) return prop
-	    for (i = 0; i < prefixes.length; i++) {
-	      pp = prefixes[i]+prop
-	      if (s[pp] !== undefined) return pp
-	    }
-	  }
-
-	  /**
-	   * Sets multiple style properties at once.
-	   */
-	  function css (el, prop) {
-	    for (var n in prop) {
-	      el.style[vendor(el, n) || n] = prop[n]
-	    }
-
-	    return el
-	  }
-
-	  /**
-	   * Fills in default values.
-	   */
-	  function merge (obj) {
-	    for (var i = 1; i < arguments.length; i++) {
-	      var def = arguments[i]
-	      for (var n in def) {
-	        if (obj[n] === undefined) obj[n] = def[n]
-	      }
-	    }
-	    return obj
-	  }
-
-	  /**
-	   * Returns the line color from the given string or array.
-	   */
-	  function getColor (color, idx) {
-	    return typeof color == 'string' ? color : color[idx % color.length]
-	  }
-
-	  // Built-in defaults
-
-	  var defaults = {
-	    lines: 12             // The number of lines to draw
-	  , length: 7             // The length of each line
-	  , width: 5              // The line thickness
-	  , radius: 10            // The radius of the inner circle
-	  , scale: 1.0            // Scales overall size of the spinner
-	  , corners: 1            // Roundness (0..1)
-	  , color: '#000'         // #rgb or #rrggbb
-	  , opacity: 1/4          // Opacity of the lines
-	  , rotate: 0             // Rotation offset
-	  , direction: 1          // 1: clockwise, -1: counterclockwise
-	  , speed: 1              // Rounds per second
-	  , trail: 100            // Afterglow percentage
-	  , fps: 20               // Frames per second when using setTimeout()
-	  , zIndex: 2e9           // Use a high z-index by default
-	  , className: 'spinner'  // CSS class to assign to the element
-	  , top: '50%'            // center vertically
-	  , left: '50%'           // center horizontally
-	  , shadow: false         // Whether to render a shadow
-	  , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
-	  , position: 'absolute'  // Element positioning
-	  }
-
-	  /** The constructor */
-	  function Spinner (o) {
-	    this.opts = merge(o || {}, Spinner.defaults, defaults)
-	  }
-
-	  // Global defaults that override the built-ins:
-	  Spinner.defaults = {}
-
-	  merge(Spinner.prototype, {
-	    /**
-	     * Adds the spinner to the given target element. If this instance is already
-	     * spinning, it is automatically removed from its previous target b calling
-	     * stop() internally.
-	     */
-	    spin: function (target) {
-	      this.stop()
-
-	      var self = this
-	        , o = self.opts
-	        , el = self.el = createEl(null, {className: o.className})
-
-	      css(el, {
-	        position: o.position
-	      , width: 0
-	      , zIndex: o.zIndex
-	      , left: o.left
-	      , top: o.top
-	      })
-
-	      if (target) {
-	        target.insertBefore(el, target.firstChild || null)
-	      }
-
-	      el.setAttribute('role', 'progressbar')
-	      self.lines(el, self.opts)
-
-	      if (!useCssAnimations) {
-	        // No CSS animation support, use setTimeout() instead
-	        var i = 0
-	          , start = (o.lines - 1) * (1 - o.direction) / 2
-	          , alpha
-	          , fps = o.fps
-	          , f = fps / o.speed
-	          , ostep = (1 - o.opacity) / (f * o.trail / 100)
-	          , astep = f / o.lines
-
-	        ;(function anim () {
-	          i++
-	          for (var j = 0; j < o.lines; j++) {
-	            alpha = Math.max(1 - (i + (o.lines - j) * astep) % f * ostep, o.opacity)
-
-	            self.opacity(el, j * o.direction + start, alpha, o)
-	          }
-	          self.timeout = self.el && setTimeout(anim, ~~(1000 / fps))
-	        })()
-	      }
-	      return self
-	    }
-
-	    /**
-	     * Stops and removes the Spinner.
-	     */
-	  , stop: function () {
-	      var el = this.el
-	      if (el) {
-	        clearTimeout(this.timeout)
-	        if (el.parentNode) el.parentNode.removeChild(el)
-	        this.el = undefined
-	      }
-	      return this
-	    }
-
-	    /**
-	     * Internal method that draws the individual lines. Will be overwritten
-	     * in VML fallback mode below.
-	     */
-	  , lines: function (el, o) {
-	      var i = 0
-	        , start = (o.lines - 1) * (1 - o.direction) / 2
-	        , seg
-
-	      function fill (color, shadow) {
-	        return css(createEl(), {
-	          position: 'absolute'
-	        , width: o.scale * (o.length + o.width) + 'px'
-	        , height: o.scale * o.width + 'px'
-	        , background: color
-	        , boxShadow: shadow
-	        , transformOrigin: 'left'
-	        , transform: 'rotate(' + ~~(360/o.lines*i + o.rotate) + 'deg) translate(' + o.scale*o.radius + 'px' + ',0)'
-	        , borderRadius: (o.corners * o.scale * o.width >> 1) + 'px'
-	        })
-	      }
-
-	      for (; i < o.lines; i++) {
-	        seg = css(createEl(), {
-	          position: 'absolute'
-	        , top: 1 + ~(o.scale * o.width / 2) + 'px'
-	        , transform: o.hwaccel ? 'translate3d(0,0,0)' : ''
-	        , opacity: o.opacity
-	        , animation: useCssAnimations && addAnimation(o.opacity, o.trail, start + i * o.direction, o.lines) + ' ' + 1 / o.speed + 's linear infinite'
-	        })
-
-	        if (o.shadow) ins(seg, css(fill('#000', '0 0 4px #000'), {top: '2px'}))
-	        ins(el, ins(seg, fill(getColor(o.color, i), '0 0 1px rgba(0,0,0,.1)')))
-	      }
-	      return el
-	    }
-
-	    /**
-	     * Internal method that adjusts the opacity of a single line.
-	     * Will be overwritten in VML fallback mode below.
-	     */
-	  , opacity: function (el, i, val) {
-	      if (i < el.childNodes.length) el.childNodes[i].style.opacity = val
-	    }
-
-	  })
-
-
-	  function initVML () {
-
-	    /* Utility function to create a VML tag */
-	    function vml (tag, attr) {
-	      return createEl('<' + tag + ' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">', attr)
-	    }
-
-	    // No CSS transforms but VML support, add a CSS rule for VML elements:
-	    sheet.addRule('.spin-vml', 'behavior:url(#default#VML)')
-
-	    Spinner.prototype.lines = function (el, o) {
-	      var r = o.scale * (o.length + o.width)
-	        , s = o.scale * 2 * r
-
-	      function grp () {
-	        return css(
-	          vml('group', {
-	            coordsize: s + ' ' + s
-	          , coordorigin: -r + ' ' + -r
-	          })
-	        , { width: s, height: s }
-	        )
-	      }
-
-	      var margin = -(o.width + o.length) * o.scale * 2 + 'px'
-	        , g = css(grp(), {position: 'absolute', top: margin, left: margin})
-	        , i
-
-	      function seg (i, dx, filter) {
-	        ins(
-	          g
-	        , ins(
-	            css(grp(), {rotation: 360 / o.lines * i + 'deg', left: ~~dx})
-	          , ins(
-	              css(
-	                vml('roundrect', {arcsize: o.corners})
-	              , { width: r
-	                , height: o.scale * o.width
-	                , left: o.scale * o.radius
-	                , top: -o.scale * o.width >> 1
-	                , filter: filter
-	                }
-	              )
-	            , vml('fill', {color: getColor(o.color, i), opacity: o.opacity})
-	            , vml('stroke', {opacity: 0}) // transparent stroke to fix color bleeding upon opacity change
-	            )
-	          )
-	        )
-	      }
-
-	      if (o.shadow)
-	        for (i = 1; i <= o.lines; i++) {
-	          seg(i, -2, 'progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)')
-	        }
-
-	      for (i = 1; i <= o.lines; i++) seg(i)
-	      return ins(el, g)
-	    }
-
-	    Spinner.prototype.opacity = function (el, i, val, o) {
-	      var c = el.firstChild
-	      o = o.shadow && o.lines || 0
-	      if (c && i + o < c.childNodes.length) {
-	        c = c.childNodes[i + o]; c = c && c.firstChild; c = c && c.firstChild
-	        if (c) c.opacity = val
-	      }
-	    }
-	  }
-
-	  if (typeof document !== 'undefined') {
-	    sheet = (function () {
-	      var el = createEl('style', {type : 'text/css'})
-	      ins(document.getElementsByTagName('head')[0], el)
-	      return el.sheet || el.styleSheet
-	    }())
-
-	    var probe = css(createEl('group'), {behavior: 'url(#default#VML)'})
-
-	    if (!vendor(probe, 'transform') && probe.adj) initVML()
-	    else useCssAnimations = vendor(probe, 'animation')
-	  }
-
-	  return Spinner
-
-	}));
-
 
 /***/ }),
 /* 456 */
@@ -41529,16 +41516,13 @@
 
 	    USER: {
 	        userID: function () {
-
 	            return localStorage.UserID;
 	        },
 	    },
 
 	    GOOGLE: {
-	        SENDER_ID: function () {
-	            return "336880743356";
-	        },
-	    }
+	        SENDER_ID: "336880743356",
+	    },
 	}
 
 

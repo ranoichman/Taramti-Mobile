@@ -199,9 +199,7 @@ public class Item
             }
         }
     }
-
-   
-
+ 
     public bool AddPictures()
     {
         for (int i = 0; i < Pictures.Length; i++)
@@ -251,7 +249,6 @@ public class Item
         }
         return true;
     }
-
 
     // פונקציה להבאת נתוני פריט.  לא נוסתה!!
     public Item GetItemDetails()

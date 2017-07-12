@@ -40,15 +40,15 @@ class ParticipateAuction extends Component {
 
             // auc data
             auc: {
-                code: par.props.code,
+                code: par.props.auc.code,
                 price: par.price,
-                endDate: par.props.endDate,
-                percentage: par.props.percentage,
-                prodCode: par.props.prodCode,
-                prodName: par.props.prodName,
-                prodDesc: par.props.prodDesc,
+                endDate: par.props.auc.endDate,
+                percentage: par.props.auc.percentage,
+                prodCode: par.props.auc.prodCode,
+                prodName: par.props.auc.prodName,
+                prodDesc: par.props.auc.prodDesc,
                 finished: false,
-                imgArr: par.props.imgArr
+                imgArr: par.props.auc.imgArr
             }
         }
         this.openMSGModal = this.openMSGModal.bind(this);
@@ -67,6 +67,9 @@ class ParticipateAuction extends Component {
     componentDidMount() {
         this.calcDonation();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
+
+        //this.enter = Date.now()
+
     }
 
     componentWillUnmount() {
@@ -237,7 +240,7 @@ class ParticipateAuction extends Component {
                         })
 
                         //stop fireworks and bring baloon back
-                        setTimeout(() => self.setState({ anim: "0" }), 3300)
+                        setTimeout(() => self.setState({ anim: "0" }), 4500)
                     }
                     else {
                         self.setState({
@@ -319,8 +322,8 @@ class ParticipateAuction extends Component {
                             isOpen={this.state.infoModalIsOpen}
 
                             contentLabel="open info"
-                            className="box">
-                            <AuctionInfo closeModal={this.closeInfoModal} auc={this.state.auc} />
+                            className="zoomInRight">
+                            <AuctionInfo modal= {true} closeModal={this.closeInfoModal} auc={this.state.auc} />
                         </Modal>
                     </Swipeable>
 
@@ -331,8 +334,8 @@ class ParticipateAuction extends Component {
                             isOpen={this.state.fAQModalIsOpen}
 
                             contentLabel="open FAQ"
-                            className="FAQbox">
-                            <AuctionFAQ closeModal={this.closeFAQModal} prodCode={this.state.auc.prodCode} />
+                            className="zoomInRight">
+                            <AuctionFAQ closeModal={this.closeFAQModal} prodCode={this.state.auc.prodCode} chat={true} />
                         </Modal>
                     </Swipeable>
                 </div>

@@ -23,12 +23,13 @@ class Home extends Component {
         super(props)
         this.state = {
             searchModalIsOpen: false,
+            modalIsOpen: false,
             auctionsArr: [],
             loaded: false,
             loadingCounter: 0
         }
-        this.openSearchModal = this.openSearchModal.bind(this);
-        this.closeSearchModal = this.closeSearchModal.bind(this);
+        this.SearchModalChanged = this.SearchModalChanged.bind(this);
+        this.picModalChanged = this.picModalChanged.bind(this);
         this.searchTriggered = this.searchTriggered.bind(this);
         this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
         this.addAuction = this.addAuction.bind(this);
@@ -43,38 +44,58 @@ class Home extends Component {
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
         this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
+
+        // this.startTO = setTimeout(()=> sst )
     }
 
-    openSearchModal() {
-        this.setState({ searchModalIsOpen: true })
+    SearchModalChanged() {
+        let newStatus = !this.state.searchModalIsOpen;
+        this.setState({ searchModalIsOpen: newStatus })
     }
 
-    closeSearchModal() {
-        this.setState({ searchModalIsOpen: false })
+    picModalChanged() {
+        let newStatus = !this.state.modalIsOpen;
+        this.setState({ modalIsOpen: newStatus });
+
     }
 
     searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
         //console.log(`entered search on ----- ${Date.now()}`)
-        this.setState({ auctionsArr: [] });
+        this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
         this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
     }
 
     //call function to get auctions from serveer
     getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
+        //define "this" for inner functions
         const self = this;
-        console.log(`buyerrrrrr ------- ${buyerID}`)
+        
+        //stop db access after 8s
+        if (this.startTO == undefined) {
+            this.startTO = setTimeout(() => {
+                self.setState({ loaded: true })
+                self.startTO = undefined;
+            }, 8000)
+        }
         const id = parseInt(buyerID);
-        this.setState({ searchModalIsOpen: false });
         axios.post(auctionWS + 'GetAuctionByParam', {
             lowPrice: lowPrice,
             highPrice: highPrice,
             catCode: catCode,
-            id: id,
             lat: lat,
             lng: lng,
-            radius: radius
+            radius: radius,
+            user_Id: id
         }).then(function (response) {
+            //clear TO when success
+            clearTimeout(self.startTO);
+
             let res = JSON.parse(response.data.d);
+
+            if (res.length == 0) {
+                setTimeout(() => self.setState({ loaded: true }), 300)
+            }
+
             //if no radius selected >>> add auction
             if (radius === 0) {
                 res.map(self.addAuction);
@@ -109,8 +130,13 @@ class Home extends Component {
 
         })
             .catch(function (error) {
-                console.log('shgiaaaaaaa')
                 console.log(error);
+                
+                //access db again untill results arrive or TO expires
+                if (self.startTO != undefined) {
+                    self.getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius)
+                }
+
             });
     }
 
@@ -149,6 +175,8 @@ class Home extends Component {
             prodName: item.ProdName,
             prodDesc: item.ProdDesc,
             imgArr: item.Images,
+            city: item.Location,
+            buyer: item.Buyer
         }
         arr.push(newAuction);
         this.setState({ auctionsArr: arr });
@@ -157,10 +185,8 @@ class Home extends Component {
 
     //function that returns a render of 1 auction
     eachAuction(item, i) {
-        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad}
-            home="true" imgArr={item.imgArr} prodName={item.prodName} prodDesc={item.prodDesc}
-            price={item.price} endDate={item.endDate} code={item.code}
-            percentage={item.percentage} prodCode={item.prodCode} />
+        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
+            home="true" auc={item} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
     }
 
     //remove finished auction from displayed array
@@ -181,11 +207,10 @@ class Home extends Component {
     }
 
     handleLoad() {
-        console.log(`entered`)
         let couner = this.state.loadingCounter;
         couner++;
         if (couner == this.state.auctionsArr.length) {
-            this.setState({ loaded: true, loadingCounter: 0 });
+            setTimeout(() => this.setState({ loaded: true }), 1000) // display loader 1 more sec 
         }
         else {
             this.setState({ loadingCounter: couner });
@@ -208,19 +233,20 @@ class Home extends Component {
                 {/*</div>*/}
 
                 {/*search icon*/}
-                <Swipeable onTap={this.openSearchModal} className="search">
+                <Swipeable onTap={this.SearchModalChanged} className="search">
                     <FontAwesome name='search' border={false} className="fa-2x" tag="div" />
                     <Modal
                         isOpen={this.state.searchModalIsOpen}
-                        onRequestClose={this.closeSearchModal}
+                        onRequestClose={this.SearchModalChanged}
                         contentLabel="open search``"
                         className="box" >
-                        <Search closeModal={this.closeSearchModal} startSearch={this.searchTriggered} />
+                        <Search closeModal={this.SearchModalChanged} startSearch={this.searchTriggered} />
                     </Modal>
                 </Swipeable>
 
                 {/*auctions display*/}
                 <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
+                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center" }}>אין מכרזים לתצוגה</h1> : ""}
                     <div className="container-fluid">
                         <CSSTransitionGroup
                             transitionName="auction"

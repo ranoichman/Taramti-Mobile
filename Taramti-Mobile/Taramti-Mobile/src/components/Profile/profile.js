@@ -4,6 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Auction from '../Home/Auction';
 import ActiveAuctions from './ActiveAuctions';
+import MyAuction from './MyAuction';
 
 import '../../css/react-tabs.css';
 import '../../css/transition.css';

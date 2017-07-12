@@ -125,7 +125,7 @@ public class Reg_Auction : Auction
         return GetRelevantAuctions(DS, high);
     }
 
-    public static List<Reg_Auction> GetRelevantAuctions(DataSet DS, int high)
+    private static List<Reg_Auction> GetRelevantAuctions(DataSet DS, int high)
     {
         DbService db = new DbService();
         DataSet DSprice = new DataSet();
@@ -155,7 +155,7 @@ public class Reg_Auction : Auction
                     }
                     else
                     {
-                        auction.Price = int.Parse(DSprice.Tables[0].Rows[0][0].ToString());
+                        auction.Price = int.Parse(DSprice.Tables[0].Rows[0][1].ToString());
                     }
 
                 }
