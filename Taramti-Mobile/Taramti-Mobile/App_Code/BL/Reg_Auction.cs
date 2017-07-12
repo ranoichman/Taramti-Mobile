@@ -197,7 +197,6 @@ public class Reg_Auction : Auction
         return relevantAuctions;
     }
 
-
     public static void AddNewSearch(int id,double lat, double lng, int radius, int lowPrice, int highPrice, int catCode)
     {
         DbService db = new DbService();

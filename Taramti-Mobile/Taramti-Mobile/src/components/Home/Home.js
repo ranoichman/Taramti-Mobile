@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 
 // taramti babait components
-import Auction from './Auction';
+import Auction from '../Generic/Auction';
 import Search from './Search';
 import Loader from '../Generic/Loader';
 //import TaramtiMenu from './TaramtiMenu'

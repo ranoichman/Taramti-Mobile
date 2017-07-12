@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import Auction from '../Home/Auction';
+import Auction from '../Generic/Auction';
 import ActiveAuctions from './ActiveAuctions';
 import MyAuction from './MyAuction';
 

@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 
 // taramti babait components
-import Auction from '../Home/Auction';
+// import Auction from '../Home/Auction';
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
 import Balloon from './Balloon';
@@ -62,17 +62,18 @@ class ParticipateAuction extends Component {
         this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
         this.calcDonation = this.calcDonation.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
+        this.addToWatch = this.addToWatch.bind(this);
+        this.updateWatch = this.updateWatch.bind(this);
     }
 
     componentDidMount() {
+        this.addToWatch()
         this.calcDonation();
         this.loadInterval = setInterval(this.getCurPrice, 5000);
-
-        //this.enter = Date.now()
-
     }
 
     componentWillUnmount() {
+        this.updateWatch()
         //clear interval!!!
         this.loadInterval && clearInterval(this.loadInterval);
         this.loadInterval = false;
@@ -135,7 +136,6 @@ class ParticipateAuction extends Component {
     closeMSGModal() {
         this.setState({ msg_ModalIsOpen: false })
     }
-    //#endregion modal methods
 
     //disable input and button
     timerFinishedAuc() {
@@ -220,8 +220,8 @@ class ParticipateAuction extends Component {
 
             let val = parseInt(this.refs.newPrice.value);
 
-            let buyer = {UserId:buyerID}
-            let auc = {AuctionID : currentAuc.code, Buyer: buyer, ProdName:currentAuc.prodName}
+            let buyer = { UserId: buyerID }
+            let auc = { AuctionID: currentAuc.code, Buyer: buyer, ProdName: currentAuc.prodName }
 
             self = this;
 
@@ -274,6 +274,53 @@ class ParticipateAuction extends Component {
     }
 
 
+    addToWatch() {
+        let user = { UserId: buyerID };
+        let auc = {
+            AuctionID: this.state.auc.code,
+            Buyer: user
+        };
+        this.enter = Date.now();
+
+        axios.post(auctionWS + 'AddToWatch_Log', {
+            auc: auc, enter: parseInt(this.enter)
+        })
+            .then(function (response) {
+                let ans = response.data.d;
+                console.log(`add to watch - ${ans}`)
+                if (ans != 1) {
+                    //add to local storage
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                //add to local storage
+            });
+    }
+    updateWatch() {
+        let user = { UserId: buyerID };
+        let auc = {
+            AuctionID: this.state.auc.code,
+            Buyer: user
+        };
+        this.leave = Date.now();
+
+        axios.post(auctionWS + 'UpdateWatch_Log', {
+            auc: auc, enter: parseInt(this.enter), leave: parseInt(this.leave)
+        })
+            .then(function (response) {
+                let ans = response.data.d;
+                console.log(`add to watch - ${ans}`)
+                if (ans != 1) {
+                    //add to local storage
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                //add to local storage
+            });
+    }
+
     render() {
         return (
             <div>
@@ -323,7 +370,7 @@ class ParticipateAuction extends Component {
 
                             contentLabel="open info"
                             className="zoomInRight">
-                            <AuctionInfo modal= {true} closeModal={this.closeInfoModal} auc={this.state.auc} />
+                            <AuctionInfo modal={true} closeModal={this.closeInfoModal} auc={this.state.auc} />
                         </Modal>
                     </Swipeable>
 

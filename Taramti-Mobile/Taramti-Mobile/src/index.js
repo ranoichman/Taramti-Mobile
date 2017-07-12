@@ -16,6 +16,7 @@ import ParticipateAuction from './components/ParticipateAuction/ParticipateAucti
 import ActiveAuctions from './components/Profile/ActiveAuctions';
 import MyAuction from './components/Profile/MyAuction';
 import Profile from './components/Profile/Profile';
+import Leading from './components/Profile/Leading';
 import Bdika from './components/Generic/Bdika';
 
 
@@ -160,7 +161,7 @@ ReactDOM.render(<HashRouter>
         <Route path="/participate" component={ParticipateAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={MyAuction}/>
+        <Route path="/bdika" component={Leading}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 
