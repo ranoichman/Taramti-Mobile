@@ -105,12 +105,13 @@ public class Reg_Auction : Auction
         else
             code = "=" + catCode;
 
-        string StrSql = "SELECT dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, " +
-                         "dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price, dbo.product.product_code,dbo.product.city_code " +
-                         "FROM  dbo.auction INNER JOIN dbo.product ON dbo.auction.product_code = dbo.product.product_code " +
-                         "INNER JOIN dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code " +
-                         "GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, " +
-                         "dbo.auction.auction_code, dbo.product.price,dbo.product.product_code,dbo.product.product_Name,dbo.product.city_code, dbo.auction.seller_id ";
+        string StrSql = @"SELECT        dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
+                         dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price as NewPrice, dbo.product.product_code as product_code, dbo.product.city_code, dbo.auction.buyer_id
+                         FROM            dbo.auction INNER JOIN
+                         dbo.product ON dbo.auction.product_code = dbo.product.product_code INNER JOIN
+                         dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code
+                         GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
+                         dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id ";
 
         StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) " +
                   "AND (dbo.auction.seller_id <> N'" + user_Id + "') ";
@@ -138,9 +139,9 @@ public class Reg_Auction : Auction
             foreach (DataRow row in DS.Tables[0].Rows)
             {
                 bool b = true; // כדי לדעת מה המצב עם מחיר הבידים - אם הם גבוהים מהמחיר בטווח 
-                Reg_Auction auction = new Reg_Auction(int.Parse(row[0].ToString()));
-                List<string> images = new List<string>();
-                string StrSql = @"SELECT dbo.auction.auction_code, MAX(dbo.bid.price) AS Expr1
+                Reg_Auction auction = new Reg_Auction(int.Parse(row["auction_code"].ToString()));
+                List <string> images = new List<string>();
+                string StrSql = @"SELECT dbo.auction.auction_code, MAX(dbo.bid.price) AS price
                          FROM dbo.bid INNER JOIN
                          dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code
                          GROUP BY dbo.auction.auction_code
@@ -149,42 +150,46 @@ public class Reg_Auction : Auction
 
                 if (DSprice.Tables[0].Rows.Count > 0)
                 {
-                    if (int.Parse(DSprice.Tables[0].Rows[0][1].ToString()) > high)
+                    if (int.Parse(DSprice.Tables[0].Rows[0]["price"].ToString()) > high)
                     {
                         b = false;
                     }
                     else
                     {
-                        auction.Price = int.Parse(DSprice.Tables[0].Rows[0][1].ToString());
+                        auction.Price = int.Parse(DSprice.Tables[0].Rows[0]["price"].ToString());
                     }
 
                 }
                 else
                 {
-                    auction.Price = int.Parse(row[8].ToString());
+                    auction.Price = int.Parse(row["NewPrice"].ToString());
                 }
 
                 StrSql = "SELECT dbo.product_pictures.path " +
                          "FROM dbo.product_pictures INNER JOIN " +
                          "dbo.product ON dbo.product_pictures.product_code = dbo.product.product_code " +
-                         "WHERE(dbo.product_pictures.product_code = " + row[9].ToString() + ") ";
+                         "WHERE(dbo.product_pictures.product_code = " + row["product_code"].ToString() + ") ";
                 DSpic = db.GetDataSetByQuery(StrSql);
                 if (DSpic.Tables.Count > 0)
                 {
                     foreach (DataRow img in DSpic.Tables[0].Rows)
                     {
-                        images.Add(img[0].ToString());
+                        images.Add(img["path"].ToString());
                     }
                 }
-                auction.CatDesc = row[2].ToString();
+                auction.CatDesc = row["category_name"].ToString();
                 //DateTime G = DateTime.Parse(row[3].ToString());
                 //string ng = G.ToString("MM/dd/yyyy HH:mm:ss");
                 //auction.End_Date = DateTime.Parse(ng);
-                auction.Location = new City(int.Parse(row[8].ToString()));
-                auction.End_Date = row[3].ToString();
-                auction.Percentage = int.Parse(row[4].ToString());
-                auction.ProdDesc = row[5].ToString();
-                auction.ProdName = row[6].ToString();
+                auction.Location = new City(int.Parse(row["city_code"].ToString()));
+                auction.End_Date = row["end_date"].ToString();
+                auction.Percentage = int.Parse(row["donation_percentage"].ToString());
+                auction.ProdDesc = row["product_description"].ToString();
+                auction.ProdName = row["product_Name"].ToString();
+                if (row["buyer_id"].ToString() != "")
+                {
+                    auction.Buyer = new UserT(row["buyer_id"].ToString());
+                }
                 auction.ItemCode = int.Parse(row["product_code"].ToString());
                 auction.Images = images.Count > 0 ? images.ToArray() : null;
 
@@ -375,7 +380,26 @@ public class Reg_Auction : Auction
                         "GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
                         "HAVING(dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
         DS = db.GetDataSetByQuery(StrSql);
-        return relevantAuctions;
+        return GetRelevantAuctions(DS, 1000000);
+    }
+
+    public List<Reg_Auction> CurrentlyLeading(string UserId)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        string StrSql = "";
+        List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
+
+        StrSql = @"SELECT   dbo.auction.auction_code, MAX(dbo.bid.price) AS price, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
+                            FROM            dbo.bid LEFT OUTER JOIN
+                            dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code LEFT OUTER JOIN
+                            dbo.product ON dbo.bid.product_code = dbo.product.product_code AND dbo.auction.product_code = dbo.product.product_code
+                            GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
+                            HAVING        (dbo.bid.buyer_id = @userId) ";
+        SqlParameter parId = new SqlParameter("@userId", UserId);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
+        return GetRelevantAuctions(DS, 1000000);
+        
     }
 
     public void GetItemDetails()
