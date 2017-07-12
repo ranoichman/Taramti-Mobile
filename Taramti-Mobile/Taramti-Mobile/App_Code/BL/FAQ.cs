@@ -106,8 +106,8 @@ public class FAQ
     public int AddQuestion()
     {
         string strSql = @"INSERT INTO [dbo].[product_FAQ]
-                          ([product_code], [question], [questioner])
-     VALUES (@code ,@question ,@questioner)";
+                        ([product_code], [question], [questioner])
+                        VALUES (@code ,@question ,@questioner)";
         SqlParameter parCode = new SqlParameter("@Code", ProdCode);
         SqlParameter parQuestion = new SqlParameter("@question", Question);
         SqlParameter parQuestioner = new SqlParameter("@questioner", Questioner.UserId);

@@ -184,6 +184,39 @@ public class AuctionWebService : System.Web.Services.WebService
 
 
 
+
+
+    [WebMethod(Description = "add enter details of watched auction to watch log")]
+    public string AddToWatch_Log(Reg_Auction auc, long enter)
+        //public string AddToWatch_Log(Auction auc, int enter)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+
+        //double ticks = double.Parse(enter.ToString());
+        //TimeSpan time = TimeSpan.FromMilliseconds(ticks);
+        //DateTime enterTime = new DateTime(1970, 1, 1) + time;
+        //enterTime = enterTime.ToLocalTime();
+
+        //translate time in ms to localized sql dateTime
+        DateTime enterTime = (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(enter.ToString())).ToLocalTime();
+        return j.Serialize(auc.AddToWatch_Log(enterTime));
+    }
+
+    [WebMethod(Description = "update leave time of watched auction to watch log")]
+    public string UpdateWatch_Log(Reg_Auction auc, long enter,long leave)
+    //public string AddToWatch_Log(Auction auc, int enter)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        
+        //translate time in ms to localized sql dateTime
+        DateTime enterTime = (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(enter.ToString())).ToLocalTime();
+        DateTime leaveTime = (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(leave.ToString())).ToLocalTime();
+
+        return j.Serialize(auc.UpdateWatch_Log(enterTime,leaveTime));
+        
+    }
+
+
     //[WebMethod]
     //public void testsearch()
     //{

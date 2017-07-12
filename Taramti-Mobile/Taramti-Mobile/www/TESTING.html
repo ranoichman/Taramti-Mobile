@@ -29,6 +29,8 @@
     </script>
 
     <script>
+        let enter;
+
         function test() {
             var x = [];
             var low = -1;
@@ -205,7 +207,7 @@
                 error: function (err) { }
             });
         }
-        
+
         function addToPush() {
                     $.ajax({
                         dataType: "json",
@@ -243,7 +245,58 @@
             location.href = "Login-Taramti.html";
         }
 
+        function addToWatch() {
+            let user = { UserId: 300294485 };
+            let auc = {
+                AuctionID: 38,
+                Buyer: user
+            };
 
+            enter = Date.now();
+
+            console.log(`date- ${enter}`);
+            console.log(`auc===== ${auc}`);
+            $.ajax({
+                dataType: "json",
+                url: generic + "AddToWatch_Log",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ auc: auc, enter: enter }),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    console.log("result-----" + data.d)
+                },
+                error: function (err) { }
+            });
+
+        }
+        function updateWatch() {
+            let user = { UserId: 300294485 };
+            let auc = {
+                AuctionID: 38,
+                Buyer: user
+            };
+
+            leave = Date.now();
+
+            console.log(`date- ${enter}`);
+            console.log(`auc===== ${auc}`);
+            $.ajax({
+                dataType: "json",
+                url: generic + "UpdateWatch_Log",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ auc: auc, enter: enter, leave : leave }),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    console.log("result-----" + data.d)
+                },
+                error: function (err) { }
+            });
+
+        }
     </script>
 
 </head>
@@ -260,6 +313,8 @@
         <input type="button" onclick="addQuestion()" value="add Question" />
         <input type="button" onclick="addToPush()" value="add Bush" />
         <input type="button" onclick="SendPush()" value="Send Bush" />
+        <input type="button" onclick="addToWatch()" value="LOGGGGG" />
+        <input type="button" onclick="updateWatch()" value="update log" />
         <!--<input type="button" onclick="LogOut()" value="LogOut" />-->
         <a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">התנתק</a>
 
@@ -272,24 +327,24 @@
             <input type="hidden" name="amount" value="10.00" />
             <input type="submit" value="Buy!" />
         </form>
-        </div>
+    </div>
 
-        <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog">
-            <div data-role="header">
-                <h2>תרמתי בבית</h2>
-            </div>
-            <div class="ui-content" role="main">
-                <h4>אוו, אתה עוזב כל כך מוקדם??</h4>
-                <div class="ui-grid-a">
-                    <div class="ui-block-a">
-                        <a href="#RegisterAssocPage" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
-                    </div>
-                    <div class="ui-block-b">
-                        <a href="#RegisterAssocPage" onclick="LogOut()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
-                    </div>
+    <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog">
+        <div data-role="header">
+            <h2>תרמתי בבית</h2>
+        </div>
+        <div class="ui-content" role="main">
+            <h4>אוו, אתה עוזב כל כך מוקדם??</h4>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#RegisterAssocPage" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#RegisterAssocPage" onclick="LogOut()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
                 </div>
             </div>
         </div>
+    </div>
 
 </body>
 

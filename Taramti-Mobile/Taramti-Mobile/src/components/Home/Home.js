@@ -44,6 +44,8 @@ class Home extends Component {
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
         this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
+
+        // this.startTO = setTimeout(()=> sst )
     }
 
     SearchModalChanged() {
@@ -59,16 +61,23 @@ class Home extends Component {
 
     searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
         //console.log(`entered search on ----- ${Date.now()}`)
-        this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0 });
+        this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
         this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
     }
 
     //call function to get auctions from serveer
     getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
-        const id = parseInt(buyerID);
-        console.log(`buyer---- ${id}`)
-        this.setState({ searchModalIsOpen: false });
+        //define "this" for inner functions
         const self = this;
+        
+        //stop db access after 8s
+        if (this.startTO == undefined) {
+            this.startTO = setTimeout(() => {
+                self.setState({ loaded: true })
+                self.startTO = undefined;
+            }, 8000)
+        }
+        const id = parseInt(buyerID);
         axios.post(auctionWS + 'GetAuctionByParam', {
             lowPrice: lowPrice,
             highPrice: highPrice,
@@ -78,10 +87,13 @@ class Home extends Component {
             radius: radius,
             user_Id: id
         }).then(function (response) {
+            //clear TO when success
+            clearTimeout(self.startTO);
+
             let res = JSON.parse(response.data.d);
 
             if (res.length == 0) {
-                setTimeout(()=> self.setState({loaded:true}),300)
+                setTimeout(() => self.setState({ loaded: true }), 300)
             }
 
             //if no radius selected >>> add auction
@@ -118,8 +130,13 @@ class Home extends Component {
 
         })
             .catch(function (error) {
-                console.log('shgiaaaaaaa')
                 console.log(error);
+                
+                //access db again untill results arrive or TO expires
+                if (self.startTO != undefined) {
+                    self.getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius)
+                }
+
             });
     }
 
@@ -229,7 +246,7 @@ class Home extends Component {
 
                 {/*auctions display*/}
                 <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
-                    {this.state.auctionsArr.length == 0 ? <h1 style={{textAlign:"center"}}>אין מכרזים לתצוגה</h1> : ""}
+                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center" }}>אין מכרזים לתצוגה</h1> : ""}
                     <div className="container-fluid">
                         <CSSTransitionGroup
                             transitionName="auction"
