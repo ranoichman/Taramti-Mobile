@@ -181,6 +181,14 @@ public class AuctionWebService : System.Web.Services.WebService
         return "";
     }
 
+    [WebMethod(Description = "Get all active auctions in which I am currently leading ")]
+    public string GetLeadingAuctions(int user_Id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT U = new UserT(user_Id.ToString());
+        return j.Serialize(U.CurrentlyLeading());
+    }
+
 
 
 
