@@ -313,8 +313,22 @@
                 },
                 error: function (err) { }
             });
-
         }
+            function GetAuctionsByParam() {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "GetAuctionByParam",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ lowPrice : "100", highPrice : "10000", catCode : "2" ,lat : "100",lng : "200",radius : "2",user_Id : "302921481" }),
+                    success: function (data) {
+
+                        var isUser = JSON.parse(data.d);
+                    },
+                    error: function (err) { }
+                });
+            }
+     
     </script>
 
 </head>
@@ -331,6 +345,7 @@
         <input type="button" onclick="addQuestion()" value="add Question" />
         <input type="button" onclick="addToPush()" value="add Bush" />
         <input type="button" onclick="SendPush()" value="Send Bush" />
+        <input type="button" onclick="GetAuctionsByParam()" value="GetAuctionsByParam" />
 
         <input type="button" onclick="GetLeadingAuctions()" value="GetLeadingAuctions" />
 

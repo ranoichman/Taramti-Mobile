@@ -733,32 +733,33 @@ public class UserT
     //    return relevantAuctions;
     //}
 
-    public List<Reg_Auction> CurrentlyLeading()
-    {
-        DbService db = new DbService();
-        DataSet DS = new DataSet();
-        string StrSql = "";
-        List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
+    //public static List<Reg_Auction> CurrentlyLeading()
+    //{
+    //    DbService db = new DbService();
+    //    DataSet DS = new DataSet();
+    //    string StrSql = "";
+    //    List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
 
-        StrSql = @"SELECT   dbo.auction.auction_code, MAX(dbo.bid.price) AS price, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
-                            FROM            dbo.bid LEFT OUTER JOIN
-                            dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code LEFT OUTER JOIN
-                            dbo.product ON dbo.bid.product_code = dbo.product.product_code AND dbo.auction.product_code = dbo.product.product_code
-                            GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
-                            HAVING        (dbo.bid.buyer_id = @userId) ";
-        SqlParameter parId = new SqlParameter("@userId", UserId);
-        DS = db.GetDataSetByQuery(StrSql,CommandType.Text, parId);
+    //    StrSql = @"SELECT   dbo.auction.auction_code, MAX(dbo.bid.price) AS price, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
+    //                        FROM            dbo.bid LEFT OUTER JOIN
+    //                        dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code LEFT OUTER JOIN
+    //                        dbo.product ON dbo.bid.product_code = dbo.product.product_code AND dbo.auction.product_code = dbo.product.product_code
+    //                        GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
+    //                        HAVING        (dbo.bid.buyer_id = @userId) ";
+    //    SqlParameter parId = new SqlParameter("@userId", UserId);
+    //    DS = db.GetDataSetByQuery(StrSql,CommandType.Text, parId);
+    //    Reg_Auction R = new Reg_Auction();
+        
+    //    //foreach (DataRow row in DS.Tables[0].Rows)
+    //    //{
+    //    //    Reg_Auction R = new Reg_Auction();
+    //    //    R.AuctionID = int.Parse(row["auction_code"].ToString());
+    //    //    R.Price = int.Parse(row["price"].ToString());
+    //    //    relevantAuctions.Add(R);
+    //    //}
 
-        foreach (DataRow row in DS.Tables[0].Rows)
-        {
-            Reg_Auction R = new Reg_Auction();
-            R.AuctionID = int.Parse(row["auction_code"].ToString());
-            R.Price = int.Parse(row["price"].ToString());
-            relevantAuctions.Add(R);
-        }
-
-        return relevantAuctions;
-    }
+    //    //return relevantAuctions;
+    //}
 
 
     #endregion
