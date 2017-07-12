@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Auction from '../Generic/Auction';
 import ActiveAuctions from './ActiveAuctions';
 import MyAuction from './MyAuction';
+import ThemeAuctions from './ThemeAuctions';
 
 import '../../css/react-tabs.css';
 import '../../css/transition.css';
@@ -22,14 +23,10 @@ class Profile extends Component {
         this.tabSwipeRight = this.tabSwipeRight.bind(this);
     }
 
-
-
-
-
     tabSwipeLeft() {
         let i = this.state.tabIndex - 1;
         if (i === -1) {
-            this.setState({ tabIndex: 2, animation: "slideInRight" })
+            this.setState({ tabIndex: 3, animation: "slideInRight" })
         }
         else {
             this.setState({ tabIndex: i, animation: "slideInRight" })
@@ -38,34 +35,35 @@ class Profile extends Component {
 
     tabSwipeRight() {
         let i = this.state.tabIndex + 1;
-        if (i === 3) {
+        if (i === 4) {
             this.setState({ tabIndex: 0, animation: "slideInLeft" })
         }
         else { this.setState({ tabIndex: i, animation: "slideInLeft" }) }
     }
 
     render() {
-        const list = ["מישהו עקף אותי", "המוצרים שלי", "הבידים שלי"]
+        const list = ["עקפו אותי", "המוצרים שלי", "הבידים שלי"]
         return (
             <div>
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                         {/*header*/}
                         <TabList>
-                            <Tab>מישהו עקף אותי</Tab>
+                            <Tab>היסטוריית רכישות</Tab>
+                            <Tab>עקפו אותי</Tab>
                             <Tab>ההצעות שלי</Tab>
                             <Tab>הבידים שלי</Tab>
                         </TabList>
 
                         {/*someone beat me to it*/}
                         <TabPanel>
+                            <div className={this.state.tabIndex === 3 ? this.state.animation : ""}>
+                                <ThemeAuctions theme="history"/>
+                            </div>
+                        </TabPanel>
+                        <TabPanel>
                             <div className={this.state.tabIndex === 0 ? this.state.animation : ""}>
                                 <h2>עקפו אותי</h2>
-                                <Auction key={0} index={0}
-                                    // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-                                    home="true" imgArr={this.state.imgArr} prodName={"דמחמחכמה"} prodDesc={" כ יחכ יחכח כיחיחג חיג חי יחגכ חיגכחי יחיג יגכ ג דמהיחהכ"}
-                                    price={500} endDate={"7/7/2017"} code={4}
-                                    percentage={20} prodCode={4} />
                             </div>
                         </TabPanel>
 
@@ -73,21 +71,17 @@ class Profile extends Component {
 
                         <TabPanel>
                             <div className={this.state.tabIndex === 1 ? this.state.animation : ""}>
-                                <h2>ההצעות</h2>
-                                <Auction key={1} index={1}
-                                    // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-                                    home="true" imgArr={this.state.imgArr} prodName={"dnjvnhjsbv h fs "} prodDesc={" djs jh kjs jk hj  ah hgdaj jk kjsk kjdjk djk hj hjad jd ahjad hj "}
-                                    price={500} endDate={"7/7/2017"} code={4}
-                                    percentage={20} prodCode={4} />
+                                המכרזים שלי
                             </div>
                         </TabPanel>
 
                         {/*bids*/}
                         <TabPanel>
                             <div className={this.state.tabIndex === 2 ? this.state.animation : ""}>
-                                <h2>בידים</h2>
+                                <ThemeAuctions theme="current"/>
                             </div>
                         </TabPanel>
+                        
 
                     </Tabs>
                     </Swipeable>

@@ -198,7 +198,7 @@
                 url: generic + "AddQuestion",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({quest : quest}),
+                data: JSON.stringify({ quest: quest }),
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -209,25 +209,24 @@
         }
 
         function addToPush() {
-                    $.ajax({
-                        dataType: "json",
-                        url: gen + "SavePushInfo",
-                        contentType: "application/json; charset=utf-8",
-                        type: "POST",
-                        data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
-                        success: function (data) {
-
-                            var isUser = JSON.parse(data.d);
-                        },
-                        error: function (err) { }
-                    });
-        }
-
-        function SendPush()
-        {
             $.ajax({
                 dataType: "json",
-                url: gen  + "SendPush",
+                url: gen + "SavePushInfo",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function SendPush() {
+            $.ajax({
+                dataType: "json",
+                url: gen + "SendPush",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ user: "300294485", head: "סתכל למעלה", msg: "מפיל עלייך תיק" }),
@@ -239,21 +238,19 @@
             });
         }
 
-        function LogOut()
-        {
+        function LogOut() {
             localStorage.removeItem("UserID");
             location.href = "Login-Taramti.html";
         }
 
 
-        function GetLeadingAuctions()
-        {
+        function GetLeadingAuctions() {
             $.ajax({
                 dataType: "json",
-                url: generic + "GetLeadingAuctions",
+                url: generic + "Get_Current_LeadingAuctions",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ user_Id: "300294485"}),
+                data: JSON.stringify({ user_Id: "300294485" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
@@ -305,7 +302,7 @@
                 url: generic + "UpdateWatch_Log",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ auc: auc, enter: enter, leave : leave }),
+                data: JSON.stringify({ auc: auc, enter: enter, leave: leave }),
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -314,21 +311,22 @@
                 error: function (err) { }
             });
         }
-            function GetAuctionsByParam() {
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "GetAuctionByParam",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ lowPrice : "100", highPrice : "10000", catCode : "2" ,lat : "100",lng : "200",radius : "2",user_Id : "302921481" }),
-                    success: function (data) {
 
-                        var isUser = JSON.parse(data.d);
-                    },
-                    error: function (err) { }
-                });
-            }
-     
+        function GetAuctionsByParam() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAuctionByParam",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: "2", lat: "100", lng: "200", radius: "2", user_Id: "302921481" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
     </script>
 
 </head>

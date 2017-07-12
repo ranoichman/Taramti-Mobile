@@ -41,7 +41,7 @@ class Auction extends Component {
     componentDidMount() {
         //if product is sold display sold stamp and dont show participate button
         if (this.props.auc.buyer != null) {
-            setTimeout(() => this.setState({ sold: true }), 500)
+            setTimeout(() => this.setState({ sold: true }), 250)
         }
         //signal home component that finished rendering
         this.props.handleLoad();
@@ -105,7 +105,8 @@ class Auction extends Component {
                         <Timer endDate={this.props.auc.endDate} timerFinished={this.timerFinishedHome} />
                         <h4 className="text-center">{this.props.auc.prodName}</h4>
                         <p className="descPar">{this.props.auc.prodDesc}</p>
-                        <h5><span style={{ fontWeight: "bold" }}>מיקום: </span>{this.props.auc.city.CityName}</h5>
+                        <br/>
+                        <h5 style={{float:"right", display:"inline"}}><span style={{ fontWeight: "bold" }}>מיקום: </span>{this.props.auc.city.CityName}</h5>
 
                         {this.state.sold? "": <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary" onClick={this.toParticipate}> השתתף במכרז!  </button>}
                     </div>

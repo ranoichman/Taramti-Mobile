@@ -16,7 +16,7 @@ import ParticipateAuction from './components/ParticipateAuction/ParticipateAucti
 import ActiveAuctions from './components/Profile/ActiveAuctions';
 import MyAuction from './components/Profile/MyAuction';
 import Profile from './components/Profile/Profile';
-import Leading from './components/Profile/Leading';
+import ThemeAuctions from './components/Profile/ThemeAuctions';
 import Bdika from './components/Generic/Bdika';
 
 
@@ -157,11 +157,12 @@ class App extends Component {
 ReactDOM.render(<HashRouter>
     <App>
         <Route exact path="/" component={Home} />
+        <Route exact path="/profile" component={Profile} />
         {/* Parameter route*/}
         <Route path="/participate" component={ParticipateAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={Leading}/>
+        <Route path="/bdika" component={ThemeAuctions}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 

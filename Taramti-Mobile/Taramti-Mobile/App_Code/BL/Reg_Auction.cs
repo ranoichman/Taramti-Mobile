@@ -118,11 +118,13 @@ public class Reg_Auction : Auction
 
         DS = db.GetDataSetByQuery(StrSql);
 
-        // הפונקציה תקבל את כל המכרזים ומחיר תקרה
+        
         if (!(lat == 0 & lng == 0 & radius == 0 & lowPrice == -1 & highPrice == -1 & catCode == 0))
         {
             AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode);
-        } 
+        }
+        
+        // הפונקציה תקבל את כל המכרזים ומחיר תקרה
         return GetRelevantAuctions(DS, high);
     }
 
@@ -383,22 +385,52 @@ public class Reg_Auction : Auction
         return GetRelevantAuctions(DS, 1000000);
     }
 
-    public List<Reg_Auction> CurrentlyLeading(string UserId)
+    /// <summary>
+    /// get all auctions (active or history) on a user by id
+    /// </summary>
+    /// <param name="UserId">buyer id</param>
+    /// <param name="caller">the caller function to determine if active or history </param>
+    /// <returns></returns>
+    public static List<Reg_Auction> Leading(string UserId, string caller)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
-        string StrSql = "";
         List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
 
-        StrSql = @"SELECT   dbo.auction.auction_code, MAX(dbo.bid.price) AS price, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
-                            FROM            dbo.bid LEFT OUTER JOIN
-                            dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code LEFT OUTER JOIN
-                            dbo.product ON dbo.bid.product_code = dbo.product.product_code AND dbo.auction.product_code = dbo.product.product_code
-                            GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
-                            HAVING        (dbo.bid.buyer_id = @userId) ";
+        string mark = "=";
+
+        if (caller == "current")
+        {
+            mark = ">";
+        }
+        else if (caller == "history")
+        {
+            mark = "<";
+        }
+
+        string strSql = @"SELECT dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_Name, 
+                         dbo.product.product_category_code, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id, MAX(dbo.bid.price) AS NewPrice
+                        FROM dbo.auction INNER JOIN  dbo.product
+                        ON dbo.auction.product_code = dbo.product.product_code INNER JOIN dbo.product_category
+                        ON dbo.product.product_category_code = dbo.product_category.category_code INNER JOIN dbo.bid
+                        ON dbo.auction.auction_code = dbo.bid.auction_code
+                        GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
+                        dbo.auction.auction_code, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id, dbo.bid.buyer_id
+                        HAVING (dbo.bid.buyer_id = @userId) AND (dbo.auction.end_date " + mark + "CONVERT(DATETIME, @date, 102))";
+
         SqlParameter parId = new SqlParameter("@userId", UserId);
-        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
-        return GetRelevantAuctions(DS, 1000000);
+        SqlParameter parDate = new SqlParameter("@date",DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
+
+        try
+        {
+            DS = db.GetDataSetByQuery(strSql, CommandType.Text, parId, parDate);
+            return GetRelevantAuctions(DS, 1000000);
+        }
+        catch (Exception ex)
+        {
+            return new List<Reg_Auction>();
+        }
+        
         
     }
 

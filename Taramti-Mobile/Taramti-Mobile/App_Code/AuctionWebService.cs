@@ -176,37 +176,34 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod (Description = "Get all active auctions in which I was outbidded ")]
-    public string GetOutBiddedAuctions(int user_Id)
+    public string GetOutBiddedAuctions(string user_Id)
     {
         return "";
     }
 
     [WebMethod(Description = "Get all active auctions in which I am currently leading ")]
-    public string GetLeadingAuctions(int user_Id)
+    public string Get_Current_LeadingAuctions(string user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        Reg_Auction R = new Reg_Auction();
-        return j.Serialize(R.CurrentlyLeading(user_Id.ToString()));
+        return j.Serialize(Reg_Auction.Leading(user_Id, "current"));
     }
 
-
-
-
-
+    [WebMethod(Description = "Get all history auctions in which I am won")]
+    public string Get_History_LeadingAuctions(string user_Id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(Reg_Auction.Leading(user_Id, "history"));
+    }
 
     [WebMethod(Description = "add enter details of watched auction to watch log")]
     public string AddToWatch_Log(Reg_Auction auc, long enter)
         //public string AddToWatch_Log(Auction auc, int enter)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-
-        //double ticks = double.Parse(enter.ToString());
-        //TimeSpan time = TimeSpan.FromMilliseconds(ticks);
-        //DateTime enterTime = new DateTime(1970, 1, 1) + time;
-        //enterTime = enterTime.ToLocalTime();
-
+        
         //translate time in ms to localized sql dateTime
         DateTime enterTime = (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(enter.ToString())).ToLocalTime();
+
         return j.Serialize(auc.AddToWatch_Log(enterTime));
     }
 

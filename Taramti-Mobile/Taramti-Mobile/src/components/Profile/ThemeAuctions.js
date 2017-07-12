@@ -18,7 +18,7 @@ import '../../css/transition.css';
 
 import { auctionWS, buyerID } from '../../constants/general';
 
-class Leading extends Component {
+class ThemeAuctions extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -51,6 +51,21 @@ class Leading extends Component {
         //define "this" for inner functions
         const self = this;
 
+        let funcName = ""
+        switch (this.props.theme) {
+            case "current":
+                funcName = "Get_Current_LeadingAuctions"
+                break;
+            case "history":
+                funcName = "Get_History_LeadingAuctions"
+                break;
+            case "":
+                funcName = "Get_Current_LeadingAuctions"
+                break;
+            default:
+                break;
+        }
+            console.log(funcName)
         //stop db access after 8s
         if (this.startTO == undefined) {
             this.startTO = setTimeout(() => {
@@ -59,7 +74,7 @@ class Leading extends Component {
             }, 8000)
         }
         const id = parseInt(buyerID);
-        axios.post(auctionWS + 'GetLeadingAuctions', {
+        axios.post(auctionWS + funcName, {
             user_Id: id
         }).then(function (response) {
             //clear TO when success
@@ -107,16 +122,16 @@ class Leading extends Component {
     //function that returns a render of 1 auction
     eachAuction(item, i) {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
-             auc={item} modalIsOpen={this.state.modalIsOpen} />
+            auc={item} modalIsOpen={this.state.modalIsOpen} />
     }
 
     //remove finished auction from displayed array
     deleteAuction(i) {
-        // console.log(`delete: ${i} --- ${this.state.auctionsArr[i]} `)
-        var arr = this.state.auctionsArr;
-        arr.splice(i, 1);
-        this.setState({ auctionsArr: arr });
-        this.state.auctionsArr.map(function (item, i) { console.log(i + "____" + item.endDate + ":::::::" + item.price) })
+        
+        // var arr = this.state.auctionsArr;
+        // arr.splice(i, 1);
+        // this.setState({ auctionsArr: arr });
+        // this.state.auctionsArr.map(function (item, i) { console.log(i + "____" + item.endDate + ":::::::" + item.price) })
     }
 
     handleLoad() {
@@ -153,4 +168,4 @@ class Leading extends Component {
     }
 }
 
-export default Leading;
+export default ThemeAuctions;

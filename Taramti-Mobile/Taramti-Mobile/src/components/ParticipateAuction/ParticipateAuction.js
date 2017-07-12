@@ -12,7 +12,6 @@ import AuctionFAQ from './AuctionFAQ';
 import Balloon from './Balloon';
 import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
-import Tetris from '../Tetris';
 
 import '../../css/balloon.css';
 
