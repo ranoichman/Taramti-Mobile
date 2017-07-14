@@ -164,7 +164,7 @@ public class Reg_Auction : Auction
                 }
                 else
                 {
-                    auction.Price = int.Parse(row["NewPrice"].ToString());
+                    auction.Price = int.Parse(row["price"].ToString());
                 }
 
                 StrSql = "SELECT dbo.product_pictures.path " +
@@ -432,6 +432,47 @@ public class Reg_Auction : Auction
         }
         
         
+    }
+
+    // פונקציה המחזירה את כל המכרזים שאני יצרתי
+    public static List<Reg_Auction> GetAllMySells(int user_id)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
+
+        string StrSql = @"SELECT        TOP (100) PERCENT a.auction_code, dbo.product_category.category_name, dbo.product.product_description, dbo.product.city_code, a.end_date, a.donation_percentage, dbo.product.product_Name, a.buyer_id, 
+                         dbo.product.product_code, a.seller_id, dbo.product.price
+                         FROM            dbo.auction AS a LEFT OUTER JOIN
+                         dbo.product ON a.product_code = dbo.product.product_code LEFT OUTER JOIN
+                         dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code
+                         WHERE        (a.seller_id = @userId)
+                         ORDER BY a.product_code, a.end_date";
+        SqlParameter parId = new SqlParameter("@userId", user_id);
+
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
+        try
+        {
+            int code = 0;
+            //   ריצה על כל התוצאות ומחיקת מכרזים ישנים של אותו מוצר - השארת המכרז האחרון למוצר 
+            for (int i = DS.Tables[0].Rows.Count - 1; i >= 0; i--)
+            {
+                DataRow dr = DS.Tables[0].Rows[i];
+                if (code == int.Parse(DS.Tables[0].Rows[i]["product_code"].ToString()))
+                {
+                    dr.Delete();
+                }
+                else
+                {
+                    code = int.Parse(DS.Tables[0].Rows[i]["product_code"].ToString());
+                }
+            }
+            return GetRelevantAuctions(DS, 1000000);
+        }
+        catch (Exception ex)
+        {
+            return new List<Reg_Auction>();
+        }
     }
 
     public void GetItemDetails()

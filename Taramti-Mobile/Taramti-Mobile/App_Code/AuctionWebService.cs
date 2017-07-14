@@ -221,6 +221,13 @@ public class AuctionWebService : System.Web.Services.WebService
         
     }
 
+    [WebMethod(Description = "Get all the auctions that I posted ")]
+    public string GetAllMySells(int user_Id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(Reg_Auction.GetAllMySells(user_Id));
+    }
+
 
     //[WebMethod]
     //public void testsearch()

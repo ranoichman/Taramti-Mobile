@@ -327,6 +327,21 @@
             });
         }
 
+        function GetAllMySells() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAllMySells",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_Id: "302921481" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
     </script>
 
 </head>
@@ -346,6 +361,8 @@
         <input type="button" onclick="GetAuctionsByParam()" value="GetAuctionsByParam" />
 
         <input type="button" onclick="GetLeadingAuctions()" value="GetLeadingAuctions" />
+
+        <input type="button" onclick="GetAllMySells()" value="GetAllMySells" />
 
         <input type="button" onclick="addToWatch()" value="LOGGGGG" />
         <input type="button" onclick="updateWatch()" value="update log" />
