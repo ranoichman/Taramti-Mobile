@@ -50,13 +50,18 @@ class ParticipateAuction extends Component {
                 imgArr: par.props.auc.imgArr
             }
         }
-        this.openMSGModal = this.openMSGModal.bind(this);
-        this.closeMSGModal = this.closeMSGModal.bind(this);
+        // this.openMSGModal = this.openMSGModal.bind(this);
+        // this.closeMSGModal = this.closeMSGModal.bind(this);
+
+        this.infoModalChanged = this.infoModalChanged.bind(this);
+        this.FAQModalChannged = this.FAQModalChannged.bind(this);
+        this.MSGModalChanged = this.MSGModalChanged.bind(this);
+
         this.congratulateSeller = this.congratulateSeller.bind(this);
-        this.openInfoModal = this.openInfoModal.bind(this);
-        this.closeInfoModal = this.closeInfoModal.bind(this);
-        this.openFAQModal = this.openFAQModal.bind(this);
-        this.closeFAQModal = this.closeFAQModal.bind(this);
+        // this.openInfoModal = this.openInfoModal.bind(this);
+        // this.closeInfoModal = this.closeInfoModal.bind(this);
+        // this.openFAQModal = this.openFAQModal.bind(this);
+        // this.closeFAQModal = this.closeFAQModal.bind(this);
         this.makeBid = this.makeBid.bind(this);
         this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
         this.calcDonation = this.calcDonation.bind(this);
@@ -103,38 +108,41 @@ class ParticipateAuction extends Component {
       INFO MODAL
    ***************
    */
-    openInfoModal() {
-        this.setState({ infoModalIsOpen: true })
+    infoModalChanged() {
+        let newstatus = !this.state.infoModalIsOpen
+        this.setState({ infoModalIsOpen: newstatus });
     }
 
-    closeInfoModal() {
-        this.setState({ infoModalIsOpen: false })
-    }
+    // closeInfoModal() {
+    //     this.setState({ infoModalIsOpen: false })
+    // }
 
     /*
        ***************
           FAQ MODAL
        ***************
        */
-    openFAQModal() {
-        this.setState({ fAQModalIsOpen: true })
+    FAQModalChannged() {
+        let newstatus = !this.state.fAQModalIsOpen
+        this.setState({ fAQModalIsOpen: newstatus });
     }
 
-    closeFAQModal() {
-        this.setState({ fAQModalIsOpen: false })
-    }
+    // closeFAQModal() {
+    //     this.setState({ fAQModalIsOpen: false })
+    // }
     /*
        ***************
           MSG MODAL
        ***************
        */
-    openMSGModal() {
-        this.setState({ msg_ModalIsOpen: true })
+    MSGModalChanged() {
+        let newstatus = !this.state.msg_ModalIsOpen
+        this.setState({ msg_ModalIsOpen: newstatus });
     }
 
-    closeMSGModal() {
-        this.setState({ msg_ModalIsOpen: false })
-    }
+    // closeMSGModal() {
+    //     this.setState({ msg_ModalIsOpen: false })
+    // }
 
     //disable input and button
     timerFinishedAuc() {
@@ -272,7 +280,6 @@ class ParticipateAuction extends Component {
 
     }
 
-
     addToWatch() {
         let user = { UserId: buyerID };
         let auc = {
@@ -296,6 +303,7 @@ class ParticipateAuction extends Component {
                 //add to local storage
             });
     }
+
     updateWatch() {
         let user = { UserId: buyerID };
         let auc = {
@@ -348,7 +356,7 @@ class ParticipateAuction extends Component {
 
                     contentLabel="open info"
                     className={this.state.msgClass}>
-                    <Swipeable onTap={this.closeMSGModal}>
+                    <Swipeable onTap={this.MSGModalChanged}>
                         <a className="boxclose"></a>
                     </Swipeable>
                     <h3>{this.state.shownMessage}</h3>
@@ -362,26 +370,24 @@ class ParticipateAuction extends Component {
                     </div>
 
                     {/*info modal*/}
-                    <Swipeable onTap={this.openInfoModal}>
+                    <Swipeable onTap={this.infoModalChanged}>
                         <FontAwesome name='info-circle' border={true} className="fa-3x" tag="i" />
                         <Modal
                             isOpen={this.state.infoModalIsOpen}
-
                             contentLabel="open info"
                             className="zoomInRight">
-                            <AuctionInfo modal={true} closeModal={this.closeInfoModal} auc={this.state.auc} />
+                            <AuctionInfo modal={true} closeModal={this.infoModalChanged} auc={this.state.auc} />
                         </Modal>
                     </Swipeable>
 
                     {/*FAQ modal*/}
-                    <Swipeable onTap={this.openFAQModal}>
+                    <Swipeable onTap={this.FAQModalChannged}>
                         <FontAwesome name='question-circle' border={true} className="fa-3x" tag="i" />
                         <Modal
                             isOpen={this.state.fAQModalIsOpen}
-
                             contentLabel="open FAQ"
                             className="zoomInRight">
-                            <AuctionFAQ closeModal={this.closeFAQModal} prodCode={this.state.auc.prodCode} chat={true} />
+                            <AuctionFAQ closeModal={this.FAQModalChannged} prodCode={this.state.auc.prodCode} chat={true} />
                         </Modal>
                     </Swipeable>
                 </div>

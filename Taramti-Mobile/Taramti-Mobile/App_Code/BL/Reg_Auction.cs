@@ -408,15 +408,15 @@ public class Reg_Auction : Auction
             mark = "<";
         }
 
-        string strSql = @"SELECT dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_Name, 
-                         dbo.product.product_category_code, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id, MAX(dbo.bid.price) AS NewPrice
-                        FROM dbo.auction INNER JOIN  dbo.product
-                        ON dbo.auction.product_code = dbo.product.product_code INNER JOIN dbo.product_category
-                        ON dbo.product.product_category_code = dbo.product_category.category_code INNER JOIN dbo.bid
-                        ON dbo.auction.auction_code = dbo.bid.auction_code
+        string strSql = @"SELECT dbo.v_leading.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_Name, 
+                        dbo.product.product_category_code, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id, dbo.v_leading.price
+                        FROM dbo.auction INNER JOIN
+                        dbo.product ON dbo.auction.product_code = dbo.product.product_code INNER JOIN
+                        dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code INNER JOIN
+                        dbo.v_leading ON dbo.auction.auction_code = dbo.v_leading.auction_code
                         GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
-                        dbo.auction.auction_code, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id, dbo.bid.buyer_id
-                        HAVING (dbo.bid.buyer_id = @userId) AND (dbo.auction.end_date " + mark + "CONVERT(DATETIME, @date, 102))";
+                        dbo.v_leading.auction_code, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id, dbo.v_leading.price, dbo.v_leading.buyer_id
+                        HAVING (dbo.v_leading.buyer_id = @userId) AND (dbo.auction.end_date " + mark + "CONVERT(DATETIME, @date, 102))";
 
         SqlParameter parId = new SqlParameter("@userId", UserId);
         SqlParameter parDate = new SqlParameter("@date",DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
