@@ -43,25 +43,77 @@
   width: 100%;
   margin-top: 5px;
   font-size: 1.2em;
-  cursor: pointer;
   background: rgba(246, 246, 246, 1);
   color: #8B0000;
-  z-index: 2;
+  /*z-index: 2;*/
   box-shadow: 0 0 10px rgba(0,0,0,.1);
   border-radius: 3px;
+  opacity: 1;
+  -webkit-animation: fadeIn fadeIn 1.5s both;
+  animation: fadeIn 1s both;
 }
+.newQuestion{
+  position: relative;
+  float:right;
+  text-align: right;
+  display: block;
+  padding: 10px 10px;
+  width: 100%;
+  margin-top: 5px;
+  font-size: 1.2em;
+  background: rgba(246, 246, 246, 1);
+  color: #8B0000;
+  /*z-index: 2;*/
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  border-radius: 3px;
+  opacity: 1;
+  -webkit-animation: fadeIn fadeIn 1.5s both;
+  animation: fadeIn 1s both;
+}
+
+.newQuestion:after{
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 20px;
+    top: 0px;
+    left: 0px;
+    background-image: radial-gradient(circle at center, red 7px, transparent 5px);
+    background-size: 20px 20px;
+    background-position: top center, bottom center;
+    background-repeat: no-repeat;
+}
+
+
+@-webkit-keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+  }
+  @keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+  } 
 
 .response{
   position: relative;
-  float:right;
+  float: right;
   color: #2E8B57;
-  padding: 10px 20px;
+  padding: 10px 5px;
   z-index: 10;
   box-shadow: 0 0 10px rgba(0,0,0,.1);
   border-radius: 3px;
   display: inline;
+  max-height: 300px;
+  transition: max-height 4s ease-in;
 }
 
 .responseInActive{
+  max-height: 0;
+  transition: max-height 4s ease-out;
   display: none;
 }
+
+textarea{
+  border-radius: 30px;
+}
+

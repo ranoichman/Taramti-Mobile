@@ -44,9 +44,10 @@
 }
 
 .picBox{
-    background-color: transparent;
+    /*background-color: transparent;*/
     z-index: 500;
 }
+
 .btn{
     background: #3498db;
     -webkit-border-radius: 28;
@@ -134,6 +135,10 @@ font-size: 14px;
     
 }
 
+.slick-track{
+  height: 0;
+}
+
 /*remove menu*/
 /*
 h1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {
@@ -168,3 +173,42 @@ a.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
     background-color: #98b8dc;
     border-color: black;
 }*/
+
+
+
+
+  /*
+*******************
+*******************
+   modal zoom in
+*******************
+*******************
+*/
+.zoomIn {
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  }
+  @-webkit-keyframes zoomIn {
+  0% {
+  opacity: 0;
+  -webkit-transform: scale3d(.3, .3, .3);
+  transform: scale3d(.3, .3, .3);
+  }
+  50% {
+  opacity: 1;
+  }
+  }
+  @keyframes zoomIn {
+  0% {
+  opacity: 0;
+  -webkit-transform: scale3d(.3, .3, .3);
+  transform: scale3d(.3, .3, .3);
+  }
+  50% {
+  opacity: 1;
+  }
+  } 

@@ -318,14 +318,58 @@ public abstract class Auction
 
     }
 
+    public int AddToWatch_Log(DateTime enter)
+    {
+        string strSql = @"INSERT INTO [dbo].[watch_auc_log]
+                       ([user_id], [auction_code], [enter_time])
+                        VALUES (@user,@aucCode,@startDate)";
+        SqlParameter parUser = new SqlParameter("@user", Buyer.UserId);
+        SqlParameter parAuction = new SqlParameter("@aucCode", AuctionID);
+        SqlParameter parStart = new SqlParameter("@startDate", enter);
+
+        DbService db = new DbService();
+        try
+        {
+            return db.ExecuteQuery(strSql, CommandType.Text, parUser, parAuction, parStart);
+        }
+        catch (Exception e)
+        {
+            return -1;
+        }
+        
+    }
+
+    public int UpdateWatch_Log(DateTime enter, DateTime leave)
+    {
+        string strSql = @"UPDATE [dbo].[watch_auc_log]
+                        SET [leave_time] = @leaveDate
+                        WHERE [user_id] =@user and [auction_code] = @aucCode and [enter_time] = @startDate";
+        SqlParameter parUser = new SqlParameter("@user", Buyer.UserId);
+        SqlParameter parAuction = new SqlParameter("@aucCode", AuctionID);
+        SqlParameter parStart = new SqlParameter("@startDate", enter);
+        SqlParameter parLeave = new SqlParameter("@leaveDate", leave);
+
+        DbService db = new DbService();
+        try
+        {
+            return db.ExecuteQuery(strSql, CommandType.Text, parUser, parAuction, parStart,parLeave);
+        }
+        catch (Exception e)
+        {
+            return -1;
+        }
+
+    }
+
+
 
     //public static List<string[]> GetAssocNameTotalSumDonationSumByDates(DateTime start, DateTime end)
     //{
     //    string sql = @"SELECT association_name, sum(final_price) AS total_sum ,SUM(final_price * donation_percentage / 100)  AS donation_sum
     //                    FROM  dbo.auction, association
-				//		where auction.association_code = association.association_code and (end_date >= CONVERT(DATETIME, @startDate, 102)) AND (final_price * donation_percentage / 100 > 0) and
+    //		where auction.association_code = association.association_code and (end_date >= CONVERT(DATETIME, @startDate, 102)) AND (final_price * donation_percentage / 100 > 0) and
     //                    (end_date <= CONVERT(DATETIME, @endDate, 102))
-				//		group by association_name ";
+    //		group by association_name ";
     //    SqlParameter parStart = new SqlParameter("@startDate", start);
     //    SqlParameter parEnd = new SqlParameter("@endDate", end);
     //    DbService db = new DbService();

@@ -1,5 +1,3 @@
-
-
 img {
     max-width: 100%;
     margin-top: 10px; 
@@ -44,7 +42,6 @@ img {
     background: rgb(103, 158, 41);
     box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);
     transform: rotate(-20deg);
-    /*z-index: 1;*/
     top:10px;
     right:-10%;
     position: absolute;
@@ -136,7 +133,7 @@ input{
 }
 
 .icon_circle{
-      background: #008a7c;
+background: #008a7c;
   border-radius: 50%;
   color: #fff;
   position: relative;
@@ -146,6 +143,8 @@ input{
   align-items: center;
   justify-content: center;
   float: left;
+  margin-top: 10px;
+  margin-right: 2px;
 }
 
 .icon_circle i{
@@ -223,13 +222,38 @@ span.info{
     content: none !important;
 }
 
-/*
-#UpperLogo {
-    height: 74.05px;
+.myAuction{
+    margin: 100px 7px 0px 7px;
+    padding: 5px;
+    border: 2px solid black;
+    overflow: auto;
+    height: 300px;
 }
 
-#TaramtiLogo {
-    float: left;
-    margin-left: -2%;
-    width: 95%;
-}*/
+.stamp{
+    /*display: none;*/
+    border: solid .2em #c00;
+    color: #c00;
+    content: 'נמכר';
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0;
+    position: absolute;
+    width: 200px;
+    text-align: center;
+    padding: 7px 10px;
+    margin: 0 auto;
+    margin-top: 15%;
+    margin-left: 25%;
+    text-transform: uppercase;
+    transform-origin: 50% 50%;
+    transform: rotate(-5deg) scale(5);
+    transition: all .7s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+
+.sold.stamp{
+    /*display: block;*/
+    opacity: .65;
+    transform: rotate(-25deg) scale(1);
+}

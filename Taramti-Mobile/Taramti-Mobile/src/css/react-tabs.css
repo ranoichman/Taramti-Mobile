@@ -9,19 +9,19 @@
   background-color: darkcyan;
   margin: 0 0 10px;
   padding: 0;
-  font: bold 20px;
+  font: bold 30px;
 }
 
 .react-tabs__tab {
   display: inline-block;
   margin: 0 3%;
-  
   border: 1px solid transparent;
   border-bottom: none;
   bottom: -1px;
   position: relative;
   list-style: none;
-  padding: 6px 12px;
+  font-size: 12px;
+  /* padding: 6px 12px; */
 
 }
 

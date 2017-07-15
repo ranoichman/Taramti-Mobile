@@ -395,6 +395,10 @@
         var notification_id;
         var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
 
+        if (localStorage.UserID != null) {
+            location.href = "app.html";
+        }
+
         $(document).ready(function () {
             $("#Loginbtn").on("tap", function () {
                 var mail = $("#UserMail").val();
