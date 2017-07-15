@@ -288,34 +288,43 @@ a.closeBox {
 }
 
 #fixedCircle {
-    bottom: -17.5%;
+    /*bottom: -17.5%;*/
+    bottom: 11px;
+    left: 10px;
     height: 200px;
     width: 90px;
-    left: 1%;
-    position: fixed;
+    /*left: 1%;*/
+    position: relative;
 }
 
 
 #fixedHome {
-    bottom: -21%;
+    bottom: 188px;
     height: 200px;
     width: 40px;
-    left: 8%;
-    position: fixed;
+    left: -15px;
+    position: relative;
 }
 
 .RoundDivfixed {
-    bottom: 1%;
+    /*bottom: 1%;*/
     height: 70px;
     width: 70px;
-    left: 4%;
-    position: fixed;
+    /*left: 4%;*/
+    position: relative;
     z-index: 10;
     background-color: white;
     opacity: 0.9;
     border-radius: 60PX;
 }
 
+.FixedButton {
+    display: block;
+    bottom: 8px;
+    left: 10px;
+    position: fixed;
+    z-index: 10;
+}
 
 .styleLink {
     text-decoration: none;
@@ -341,7 +350,7 @@ div.button-1 {
     margin: 0 0 0 0;
 }
 
-.LoginForm .input-field .button-1 .btn-10, .Form .input-field .button-1 .btn-10 {
+.LoginForm .input-field .button-1 .btn-10, .Form .input-field .button-1 .btn-10, #AddingProductAuctionbtn {
     margin: 0 0 0 0;
     width: 100%;
     font-size: 1.4em;
@@ -470,6 +479,6 @@ div .page-top-mid1 {
 #AddAssocProcess {
 }
 
-#tabs{
+#tabs {
     margin-top: 83px;
 }

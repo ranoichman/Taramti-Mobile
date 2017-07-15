@@ -61,6 +61,14 @@
                     $("#fixedHome").css("display", "block");
                 }
             });
+
+
+            $("span.nav-list-it5").on("tap", function () {
+                $("ul.nav-top-list1").slideToggle("slow", function () {
+                    // Animation complete.
+                });
+            });
+
         });
 
         $(document).ready(function () {
@@ -238,13 +246,7 @@
                 <span class="nav-list-it5">
                     <i class="fa fa-bars"></i>
                 </span>
-                <script>
-                    $("span.nav-list-it5").click(function () {
-                        $("ul.nav-top-list1").slideToggle("slow", function () {
-                            // Animation complete.
-                        });
-                    });
-                </script>
+
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
@@ -290,13 +292,7 @@
                     <span class="nav-list-it5">
                         <i class="fa fa-bars"></i>
                     </span>
-                    <script>
-                        $("span.nav-list-it5").click(function () {
-                            $("ul.nav-top-list1").slideToggle("slow", function () {
-                                // Animation complete.
-                            });
-                        });
-                    </script>
+
                     <ul class="nav-top-list nav-top-list1">
                         <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                         <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
@@ -376,13 +372,7 @@
                     <span class="nav-list-it5">
                         <i class="fa fa-bars"></i>
                     </span>
-                    <script>
-                        $("span.nav-list-it5").ontap(function () {
-                            $("ul.nav-top-list1").slideToggle("slow", function () {
-                                // Animation complete.
-                            });
-                        });
-                    </script>
+
                     <ul class="nav-top-list nav-top-list1">
                         <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                         <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
