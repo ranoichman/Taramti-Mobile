@@ -128,13 +128,13 @@
             $(window).resize(function () {
                 if ($(window).width() + $(window).height() != _originalSize) { 
                     $("#FixedButton").css("display", "none");
-                    $("#RoundDivfixed").css("display", "none");
+                    $("#RoundDivfixed").css("background-color", "transparent");
                     $("#fixedCircle").css("display", "none");
                     $("#fixedHome").css("display", "none");
                 }
                 else {
                     $("#FixedButton").css("display", "block");
-                    $("#RoundDivfixed").css("display", "block");
+                    $("#RoundDivfixed").css("background-color", "white");
                     $("#fixedCircle").css("display", "block");
                     $("#fixedHome").css("display", "block");
                 }
