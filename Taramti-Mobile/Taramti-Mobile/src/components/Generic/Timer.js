@@ -78,7 +78,7 @@ class Timer extends Component {
 
     render() {
         // if (this.state.secondsRemaining >= 20870000) {
-        if (this.state.secondsRemaining >= 60) {
+        if (this.state.secondsRemaining >= 120) {
             return (
                 this.renderReg()
             )

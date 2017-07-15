@@ -43,7 +43,10 @@
     overflow-y: scroll;
 }
 
-
+.picBox{
+    background-color: transparent;
+    z-index: 500;
+}
 .btn{
     background: #3498db;
     -webkit-border-radius: 28;
@@ -104,7 +107,6 @@ input[type=text]{
 
 .priceSelect{
 width: 100%;
-
 }
 
 .gpsCont{
