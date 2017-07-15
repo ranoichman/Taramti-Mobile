@@ -31,39 +31,7 @@
     <script>
         let enter;
 
-        function test() {
-            var x = [];
-            var low = -1;
-            var high = -1;
-            var code = 0;
-            // alert("NANA");
-            $.ajax({
-                dataType: "json",
-                url: generic + "GetAuctionByParam",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({
-                    lowPrice: -1,
-                    highPrice: -1,
-                    catCode: 0,
-                    user_Id: 300294485,
-                    lat: 14.123,
-                    lng: 32.851,
-                    radius: 0
-                }),
-                success: function (data) {
-                    console.log("Ran - test");
-                    var isUser = JSON.parse(data.d);
-                    //console.log(isUser[0].Price );
-                    isUser.map(function (item, i) {
-                        console.log(item);
 
-                    });
-
-                },
-                error: function (err) { }
-            });
-        }
 
         function GetAuctionPrice() {
             var x = 2;
@@ -377,7 +345,7 @@
 
 <body>
     <div data-role="page" id="RegisterAssocPage">
-        <input type="button" onclick="test()" value="GetAuctionByParam" />
+        <!--<input type="button" onclick="test()" value="GetAuctionByParam" />-->
         <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
         <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
         <input type="button" onclick="OfferBid()" value="OfferBid" />
@@ -387,6 +355,7 @@
         <input type="button" onclick="addQuestion()" value="add Question" />
         <input type="button" onclick="addToPush()" value="add Bush" />
         <input type="button" onclick="SendPush()" value="Send Bush" />
+        <input type="button" onclick="GetAuctionsByParam()" value="GetAuctionsByParam" />
         <input type="button" onclick="GetAuctionsByParam()" value="GetAuctionsByParam" />
 
         <input type="button" onclick="GetLeadingAuctions()" value="GetLeadingAuctions" />
