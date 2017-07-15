@@ -28,7 +28,7 @@ class ThemeAuctions extends Component {
             loaded: false,
             loadingCounter: 0
         }
-        this.picModalChanged = this.picModalChanged.bind(this);
+        this.modalOpenedChanged = this.modalOpenedChanged.bind(this);
         this.getLeadingAuctions = this.getLeadingAuctions.bind(this);
         this.addAuction = this.addAuction.bind(this);
         this.eachAuction = this.eachAuction.bind(this);
@@ -41,7 +41,7 @@ class ThemeAuctions extends Component {
         this.getLeadingAuctions()
     }
 
-    picModalChanged() {
+    modalOpenedChanged() {
         let newStatus = !this.state.modalIsOpen;
         this.setState({ modalIsOpen: newStatus });
     }
@@ -61,6 +61,9 @@ class ThemeAuctions extends Component {
                 break;
             case "myProducts":
                 funcName = "GetAllMySells"
+                break;
+            case "outBID":
+                funcName = "GetOutBiddedAuctions"
                 break;
             case "":
                 funcName = "Get_Current_LeadingAuctions"
@@ -125,8 +128,8 @@ class ThemeAuctions extends Component {
 
     //function that returns a render of 1 auction
     eachAuction(item, i) {
-        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
-            auc={item} mine={this.props.theme === "myProducts"? true : false} modalIsOpen={this.state.modalIsOpen} />
+        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} modalChanged={this.modalOpenedChanged}
+            auc={item} mine={this.props.theme === "myProducts" ? true : false} modalIsOpen={this.state.modalIsOpen} />
     }
 
     //remove finished auction from displayed array
@@ -154,7 +157,7 @@ class ThemeAuctions extends Component {
             <div>
                 {/*auctions display*/}
                 <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
-                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center" }}>אין מכרזים לתצוגה</h1> : ""}
+                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center", marginTop: "40px", marginBottom: "200px" }}>אין מכרזים לתצוגה</h1> : ""}
                     <div className="container-fluid">
                         <CSSTransitionGroup
                             transitionName="auction"

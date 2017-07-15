@@ -246,7 +246,7 @@ class Home extends Component {
 
                 {/*auctions display*/}
                 <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
-                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center" }}>אין מכרזים לתצוגה</h1> : ""}
+                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center", marginTop:"40px" }}>אין מכרזים לתצוגה</h1> : ""}
                     <div className="container-fluid">
                         <CSSTransitionGroup
                             transitionName="auction"

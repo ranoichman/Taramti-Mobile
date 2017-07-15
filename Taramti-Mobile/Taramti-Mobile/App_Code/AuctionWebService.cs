@@ -178,7 +178,8 @@ public class AuctionWebService : System.Web.Services.WebService
     [WebMethod (Description = "Get all active auctions in which I was outbidded ")]
     public string GetOutBiddedAuctions(string user_Id)
     {
-        return "";
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(Reg_Auction.GetOutBiddedAuctions(user_Id));
     }
 
     [WebMethod(Description = "Get all active auctions in which I am currently leading ")]

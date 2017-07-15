@@ -369,20 +369,34 @@ public class Reg_Auction : Auction
         }
     }
 
-    public List<Reg_Auction> GetOutBiddedAuctions(int user_Id)
+    public static List<Reg_Auction> GetOutBiddedAuctions(string user_Id)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
 
         List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
-        string StrSql = "SELECT        dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
-                        "FROM dbo.bid INNER JOIN " +
-                        "dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code " +
-                        "WHERE(dbo.bid.buyer_id = N'" + user_Id + "') " +
-                        "GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
-                        "HAVING(dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
-        DS = db.GetDataSetByQuery(StrSql);
-        return GetRelevantAuctions(DS, 1000000);
+        string strSql = @"SELECT DISTINCT 
+                         dbo.auction.auction_code, dbo.auction.end_date, dbo.auction.buyer_id, dbo.auction.donation_percentage, dbo.product.product_code, dbo.product.product_description, dbo.product.city_code, dbo.product.product_Name, 
+                         dbo.product_category.category_name, dbo.v_leading.price
+                         FROM dbo.bid INNER JOIN
+                         dbo.v_leading ON dbo.bid.auction_code = dbo.v_leading.auction_code AND dbo.bid.buyer_id <> dbo.v_leading.buyer_id INNER JOIN
+                         dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code INNER JOIN
+                         dbo.product ON dbo.auction.product_code = dbo.product.product_code INNER JOIN
+                         dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code
+                        where (dbo.bid.buyer_id = @userId) AND (dbo.auction.end_date > CONVERT(DATETIME, @date, 102))";
+
+        SqlParameter parId = new SqlParameter("@userId", user_Id);
+        SqlParameter parDate = new SqlParameter("@date",DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
+        
+        try
+        {
+            DS = db.GetDataSetByQuery(strSql, CommandType.Text, parId, parDate);
+            return GetRelevantAuctions(DS, 1000000);
+        }
+        catch (Exception ex)
+        {
+            return new List<Reg_Auction>();
+        }
     }
 
     /// <summary>
@@ -391,7 +405,7 @@ public class Reg_Auction : Auction
     /// <param name="UserId">buyer id</param>
     /// <param name="caller">the caller function to determine if active or history </param>
     /// <returns></returns>
-    public static List<Reg_Auction> Leading(string UserId, string caller)
+    public static List<Reg_Auction> Leading(string user_Id, string caller)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -418,7 +432,7 @@ public class Reg_Auction : Auction
                         dbo.v_leading.auction_code, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id, dbo.v_leading.price, dbo.v_leading.buyer_id
                         HAVING (dbo.v_leading.buyer_id = @userId) AND (dbo.auction.end_date " + mark + "CONVERT(DATETIME, @date, 102))";
 
-        SqlParameter parId = new SqlParameter("@userId", UserId);
+        SqlParameter parId = new SqlParameter("@userId", user_Id);
         SqlParameter parDate = new SqlParameter("@date",DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
 
         try

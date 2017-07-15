@@ -32,12 +32,14 @@ class Auction extends Component {
             reDirect: false,
             sold: false,
             finished: false,
-            price: this.props.auc.price
+            price: this.props.auc.price,
+            rePublishModalIsOpen: false
 
         };
         this.timerFinishedHome = this.timerFinishedHome.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
         this.buttonClicked = this.buttonClicked.bind(this);
+        this.rePublishModalChanged = this.rePublishModalChanged.bind(this);
     }
 
     componentDidMount() {
@@ -73,6 +75,12 @@ class Auction extends Component {
             });
     }
 
+    rePublishModalChanged() {
+        let newStatus = !this.state.rePublishModalIsOpen;
+        this.setState({ rePublishModalIsOpen: newStatus })
+        this.props.modalChanged();
+    }
+
     timerFinishedHome() {
         this.setState({ finished: true });
         if (this.props.auctionfinished !== 'undefined') {
@@ -84,8 +92,13 @@ class Auction extends Component {
     buttonClicked() {
         //let aucData = Object.assign({},)
         // aucData.price = this.state.price;
+        if (this.state.finished) {
+            this.rePublishModalChanged();
+        } else {
         localStorage.setItem("aucData", JSON.stringify({ props: this.props, price: this.state.price }));
-        this.setState({ reDirect: true });
+        this.setState({ reDirect: true });    
+        }
+        
 
     }
 
@@ -111,13 +124,15 @@ class Auction extends Component {
         return (
             <div className="row">
                 {/*sold stamp*/}
-                {this.props.auc.buyer != null ? <div className={this.state.sold ? "sold stamp" : "stamp"} style={{ zIndex: !this.state.sold ? -5 : (this.props.modalIsOpen ? 0 : 1) }}>נמכר</div> : null}
+                {this.props.auc.buyer != null ?
+                    <div className={this.state.sold ? "sold stamp" : "stamp"} style={{ zIndex: !this.state.sold ? -5 : (this.props.modalIsOpen ? 0 : 1) }}>
+                        !נמכר</div> : null}
 
                 <div className="col-xs-6 imgContainer">
 
-                    <PriceTag key={`.$${this.props.index}`} index={this.props.index} price={this.state.price} modalIsOpen={this.props.modalIsOpen} />
+                    <PriceTag key={`.$${this.props.index}`} index={this.props.index} price={this.state.price} modalIsOpen={this.props.modalIsOpen || this.state.rePublishModalIsOpen} />
 
-                    <Pic key={this.key} imagesArr={this.props.auc.imgArr} picModalChanged={this.props.picModalChanged} />
+                    <Pic key={this.key} imagesArr={this.props.auc.imgArr} picModalChanged={this.props.modalChanged} />
 
                 </div>
                 <div className="col-xs-6" dir="rtl">
@@ -131,6 +146,17 @@ class Auction extends Component {
                         {this.state.sold ? "" : <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary" onClick={this.buttonClicked}> {buttonText}  </button>}
                     </div>
                 </div>
+
+                 <Modal
+                    isOpen={this.state.rePublishModalIsOpen}
+                    contentLabel="open info"
+                    className="box">
+                    <Swipeable onTap={this.rePublishModalChanged}>
+                        <a className="boxclose"></a>
+                    </Swipeable>
+                    <h3>פרסום מחדש</h3>
+                </Modal> 
+
             </div>
 
         )

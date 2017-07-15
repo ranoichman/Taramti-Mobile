@@ -88,6 +88,7 @@ class App extends Component {
         // Lifecycle function that is triggered just before a component unmounts
     }
     render() {
+        console.log(`children======== ${this.props.children}`)
         return (
             <div>
                 {this.props.children}

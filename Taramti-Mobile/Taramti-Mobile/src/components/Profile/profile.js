@@ -63,7 +63,7 @@ class Profile extends Component {
                         </TabPanel>
                         <TabPanel>
                             <div className={this.state.tabIndex === 0 ? this.state.animation : ""}>
-                                <h2>עקפו אותי</h2>
+                                <ThemeAuctions theme="outBID" />
                             </div>
                         </TabPanel>
 
@@ -71,7 +71,8 @@ class Profile extends Component {
 
                         <TabPanel>
                             <div className={this.state.tabIndex === 1 ? this.state.animation : ""}>
-                                <ThemeAuctions theme="myProducts" />                            </div>
+                                <ThemeAuctions theme="myProducts" />
+                            </div>
                         </TabPanel>
 
                         {/*bids*/}
