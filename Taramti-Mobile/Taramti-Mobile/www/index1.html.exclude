@@ -398,7 +398,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
             <!--<input class="w3-margin-right" id="StayCB" type="checkbox" checked />-->
             <!--<h6 id="ImHereToStay">אני כאן כדי להשאר</h6>-->
 
-            <input type="button" id="Loginbtn" value="התחבר" />
+            <!--<input type="button" id="Loginbtn" value="התחבר" />-->
 
             <!--<div class="button-1">
                 <button type="button" id="Loginbtn" class=" btn-l btn-10" value="התחבר">התחבר</button>
