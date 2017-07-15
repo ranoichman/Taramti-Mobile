@@ -81,7 +81,7 @@ public class Reg_Auction : Auction
         return 0;
     }
 
-    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int catCode, double lat, double lng, int radius, int user_Id)
+    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int catCode, int aucCatCode, double lat, double lng, int radius, int user_Id)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -92,6 +92,7 @@ public class Reg_Auction : Auction
         int low = 0;
         int high = 0;
         string code = "";
+        string aucCode = "";
         if (lowPrice == -1)
             low = 0;
         else
@@ -104,26 +105,39 @@ public class Reg_Auction : Auction
             code = "> 0";
         else
             code = "=" + catCode;
+        if (aucCatCode == 0)
+            aucCode = "> 0";
+        else
+            aucCode = "=" + aucCatCode;
 
-        string StrSql = @"SELECT        dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
-                         dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price as NewPrice, dbo.product.product_code as product_code, dbo.product.city_code, dbo.auction.buyer_id
-                         FROM            dbo.auction INNER JOIN
-                         dbo.product ON dbo.auction.product_code = dbo.product.product_code INNER JOIN
-                         dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code
+        //string StrSql = @"SELECT        dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
+        //                 dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price as NewPrice, dbo.product.product_code as product_code, dbo.product.city_code, dbo.auction.buyer_id
+        //                 FROM            dbo.auction INNER JOIN
+        //                 dbo.product ON dbo.auction.product_code = dbo.product.product_code INNER JOIN
+        //                 dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code LEFT OUTTER JOIN
+        //                 dbo.tag_of_association ON dbo.auction.association_code = dbo.tag_of_association.association_code
+        //                 GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
+        //                 dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id ";
+        string StrSql = @"SELECT   DISTINCT      dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
+                         dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price AS NewPrice, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id
+                         FROM            dbo.auction LEFT OUTER JOIN
+                         dbo.product ON dbo.auction.product_code = dbo.product.product_code LEFT OUTER JOIN
+                         dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code LEFT OUTER JOIN
+                         dbo.tag_of_association ON dbo.auction.association_code = dbo.tag_of_association.association_code
                          GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
-                         dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id ";
+                         dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id,dbo.tag_of_association.tag_code ";
 
-        StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) " +
+        StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and tag_code " + aucCode + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) " +
                   "AND (dbo.auction.seller_id <> N'" + user_Id + "') ";
 
         DS = db.GetDataSetByQuery(StrSql);
 
-        
+
         if (!(lat == 0 & lng == 0 & radius == 0 & lowPrice == -1 & highPrice == -1 & catCode == 0))
         {
-            AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode);
+            AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode, aucCatCode);
         }
-        
+
         // הפונקציה תקבל את כל המכרזים ומחיר תקרה
         return GetRelevantAuctions(DS, high);
     }
@@ -142,7 +156,7 @@ public class Reg_Auction : Auction
             {
                 bool b = true; // כדי לדעת מה המצב עם מחיר הבידים - אם הם גבוהים מהמחיר בטווח 
                 Reg_Auction auction = new Reg_Auction(int.Parse(row["auction_code"].ToString()));
-                List <string> images = new List<string>();
+                List<string> images = new List<string>();
                 string StrSql = @"SELECT dbo.auction.auction_code, MAX(dbo.bid.price) AS price
                          FROM dbo.bid INNER JOIN
                          dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code
@@ -204,13 +218,13 @@ public class Reg_Auction : Auction
         return relevantAuctions;
     }
 
-    public static void AddNewSearch(int id,double lat, double lng, int radius, int lowPrice, int highPrice, int catCode)
+    public static void AddNewSearch(int id, double lat, double lng, int radius, int lowPrice, int highPrice, int catCode, int aucCatCode)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
 
-        string StrSql = @"INSERT INTO [dbo].[search_log] ([search_time] ,[user_id] ,[user_lat] ,[user_lng] ,[radius] ,[low_price],[high_price],[cat_code])
-            VALUES (@time, @id,@lat,@lng,@radius,@lowprice, @highprice,@cat) ";
+        string StrSql = @"INSERT INTO [dbo].[search_log] ([search_time] ,[user_id] ,[user_lat] ,[user_lng] ,[radius] ,[low_price],[high_price],[cat_code],[Assoc_Cat_Code])
+            VALUES (@time, @id,@lat,@lng,@radius,@lowprice, @highprice,@cat,@auccat) ";
 
         SqlParameter partime = new SqlParameter("@time", DateTime.Now);
         SqlParameter parid = new SqlParameter("@id", id);
@@ -220,9 +234,10 @@ public class Reg_Auction : Auction
         SqlParameter parlow = new SqlParameter("@lowprice", lowPrice);
         SqlParameter parhigh = new SqlParameter("@highprice", highPrice);
         SqlParameter parcat = new SqlParameter("@cat", catCode);
-        if (db.ExecuteQuery(StrSql, CommandType.Text, partime, parid, parlat, parlng, parradius, parlow, parhigh, parcat) == 0)
+        SqlParameter parauccat = new SqlParameter("@auccat", aucCatCode);
+        if (db.ExecuteQuery(StrSql, CommandType.Text, partime, parid, parlat, parlng, parradius, parlow, parhigh, parcat, parauccat) == 0)
         {
-            
+
         }
     }
 
@@ -267,6 +282,7 @@ public class Reg_Auction : Auction
         }
         return allCat;
     }
+
 
     public bool OfferBid(int bid, int buyer)
     {
@@ -324,9 +340,9 @@ public class Reg_Auction : Auction
         SqlParameter parCode = new SqlParameter("@Code", AuctionID);
         DbService db = new DbService();
         DataTable dt = new DataTable();
-        dt = db.GetDataSetByQuery(strSql,CommandType.Text,parCode).Tables[0];
+        dt = db.GetDataSetByQuery(strSql, CommandType.Text, parCode).Tables[0];
         DataRow row = dt.Rows[0];
-        
+
         if (row != null)
         {
             CatDesc = row["category_name"] != null ? row["category_name"].ToString() : "";
@@ -338,11 +354,11 @@ public class Reg_Auction : Auction
             Price = row["price"] != null ? int.Parse(row["price"].ToString()) : -1;
             //get the most updated price
             int tempPrice = GetLatestBid();
-            if (tempPrice !=-1)
+            if (tempPrice != -1)
             {
                 Price = tempPrice;
             }
-            Location = row["city_code"] != null ? new City(int.Parse(row["city_code"].ToString())) : new City( -1);
+            Location = row["city_code"] != null ? new City(int.Parse(row["city_code"].ToString())) : new City(-1);
             Seller.Rank = UserT.GetUserRank(Seller.UserId);
 
 
@@ -364,8 +380,8 @@ public class Reg_Auction : Auction
                     pics.Add(picRow["path"].ToString());
                 }
             }
-                //    ItemCode
-                   Images = pics.Count > 0 ? pics.ToArray() : null;
+            //    ItemCode
+            Images = pics.Count > 0 ? pics.ToArray() : null;
         }
     }
 
@@ -386,8 +402,8 @@ public class Reg_Auction : Auction
                         where (dbo.bid.buyer_id = @userId) AND (dbo.auction.end_date > CONVERT(DATETIME, @date, 102))";
 
         SqlParameter parId = new SqlParameter("@userId", user_Id);
-        SqlParameter parDate = new SqlParameter("@date",DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
-        
+        SqlParameter parDate = new SqlParameter("@date", DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
+
         try
         {
             DS = db.GetDataSetByQuery(strSql, CommandType.Text, parId, parDate);
@@ -433,7 +449,7 @@ public class Reg_Auction : Auction
                         HAVING (dbo.v_leading.buyer_id = @userId) AND (dbo.auction.end_date " + mark + "CONVERT(DATETIME, @date, 102))";
 
         SqlParameter parId = new SqlParameter("@userId", user_Id);
-        SqlParameter parDate = new SqlParameter("@date",DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
+        SqlParameter parDate = new SqlParameter("@date", DateTime.Now.ToString("yyyy-MM-dd 00:00:00"));
 
         try
         {
@@ -444,8 +460,8 @@ public class Reg_Auction : Auction
         {
             return new List<Reg_Auction>();
         }
-        
-        
+
+
     }
 
     // פונקציה המחזירה את כל המכרזים שאני יצרתי
@@ -488,6 +504,8 @@ public class Reg_Auction : Auction
             return new List<Reg_Auction>();
         }
     }
+
+
 
     public void GetItemDetails()
     {
