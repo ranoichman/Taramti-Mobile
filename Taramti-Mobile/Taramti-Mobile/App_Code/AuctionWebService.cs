@@ -31,10 +31,10 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "מתודה להבאת מכרזים על פי פרמטרים")]
-    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode, double lat, double lng, int radius, int user_Id)
+    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode,int aucCatCode, double lat, double lng, int radius, int user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, lat, lng, radius, user_Id));
+        return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, aucCatCode, lat, lng, radius, user_Id));
     }
 
     [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר מכרז")]
