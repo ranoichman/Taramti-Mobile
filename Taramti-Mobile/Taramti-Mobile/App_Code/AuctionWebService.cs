@@ -188,7 +188,7 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(Reg_Auction.Leading(user_Id, "current"));
     }
 
-    [WebMethod(Description = "Get all history auctions in which I am won")]
+    [WebMethod(Description = "Get all history auctions in which I won")]
     public string Get_History_LeadingAuctions(string user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -197,7 +197,6 @@ public class AuctionWebService : System.Web.Services.WebService
 
     [WebMethod(Description = "add enter details of watched auction to watch log")]
     public string AddToWatch_Log(Reg_Auction auc, long enter)
-        //public string AddToWatch_Log(Auction auc, int enter)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         
@@ -209,7 +208,6 @@ public class AuctionWebService : System.Web.Services.WebService
 
     [WebMethod(Description = "update leave time of watched auction to watch log")]
     public string UpdateWatch_Log(Reg_Auction auc, long enter,long leave)
-    //public string AddToWatch_Log(Auction auc, int enter)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         
@@ -222,7 +220,7 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "Get all the auctions that I posted ")]
-    public string GetAllMySells(int user_Id)
+    public string GetAllMySells(string user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         return j.Serialize(Reg_Auction.GetAllMySells(user_Id));

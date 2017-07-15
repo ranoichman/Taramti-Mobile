@@ -31,11 +31,13 @@ class Auction extends Component {
         this.state = {
             reDirect: false,
             sold: false,
+            finished: false,
             price: this.props.auc.price
+
         };
         this.timerFinishedHome = this.timerFinishedHome.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
-        this.toParticipate = this.toParticipate.bind(this);
+        this.buttonClicked = this.buttonClicked.bind(this);
     }
 
     componentDidMount() {
@@ -72,10 +74,14 @@ class Auction extends Component {
     }
 
     timerFinishedHome() {
-        this.props.auctionfinished(this.props.index);
+        this.setState({ finished: true });
+        if (this.props.auctionfinished !== 'undefined') {
+            this.props.auctionfinished(this.props.index);
+        }
+
     }
 
-    toParticipate() {
+    buttonClicked() {
         //let aucData = Object.assign({},)
         // aucData.price = this.state.price;
         localStorage.setItem("aucData", JSON.stringify({ props: this.props, price: this.state.price }));
@@ -85,30 +91,44 @@ class Auction extends Component {
 
     render() {
         if (this.state.reDirect) {
-            return <Redirect push to="/participate" />
+            if (this.props.mine) {
+                return <Redirect push to="/myAuction" />
+            } else {
+                return <Redirect push to="/participate" />
+            }
+
         }
+        // handle displayed button text
+        let buttonText = "השתתפות במכרז";
+        if (this.props.mine) {
+            if (this.state.finished) {
+                buttonText = "פרסום מחדש";
+            } else {
+                buttonText = "צפייה במכרז";
+            }
+        }
+
         return (
-// zIndex: this.props.modalIsOpen && !this.state.sold ? 0 : 1
             <div className="row">
                 {/*sold stamp*/}
-                {this.props.auc.buyer != null? <div className={this.state.sold ? "sold stamp" : "stamp"} style={{zIndex: !this.state.sold? -5 : (this.props.modalIsOpen? 0:1)  }}>נמכר</div> : null }
-                
+                {this.props.auc.buyer != null ? <div className={this.state.sold ? "sold stamp" : "stamp"} style={{ zIndex: !this.state.sold ? -5 : (this.props.modalIsOpen ? 0 : 1) }}>נמכר</div> : null}
+
                 <div className="col-xs-6 imgContainer">
 
                     <PriceTag key={`.$${this.props.index}`} index={this.props.index} price={this.state.price} modalIsOpen={this.props.modalIsOpen} />
 
                     <Pic key={this.key} imagesArr={this.props.auc.imgArr} picModalChanged={this.props.picModalChanged} />
-                    
+
                 </div>
                 <div className="col-xs-6" dir="rtl">
                     <div>
                         <Timer endDate={this.props.auc.endDate} timerFinished={this.timerFinishedHome} />
                         <h4 className="text-center">{this.props.auc.prodName}</h4>
                         <p className="descPar">{this.props.auc.prodDesc}</p>
-                        <br/>
-                        <h5 style={{float:"right", display:"inline"}}><span style={{ fontWeight: "bold" }}>מיקום: </span>{this.props.auc.city.CityName}</h5>
+                        <br />
+                        <h5 style={{ float: "right", display: "inline" }}><span style={{ fontWeight: "bold" }}>מיקום: </span>{this.props.auc.city.CityName}</h5>
 
-                        {this.state.sold? "": <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary" onClick={this.toParticipate}> השתתף במכרז!  </button>}
+                        {this.state.sold ? "" : <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary" onClick={this.buttonClicked}> {buttonText}  </button>}
                     </div>
                 </div>
             </div>

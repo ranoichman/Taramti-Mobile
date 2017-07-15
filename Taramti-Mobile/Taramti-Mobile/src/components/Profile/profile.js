@@ -51,14 +51,14 @@ class Profile extends Component {
                         <TabList>
                             <Tab>היסטוריית רכישות</Tab>
                             <Tab>עקפו אותי</Tab>
-                            <Tab>ההצעות שלי</Tab>
+                            <Tab>המוצרים שלי</Tab>
                             <Tab>הבידים שלי</Tab>
                         </TabList>
 
                         {/*someone beat me to it*/}
                         <TabPanel>
                             <div className={this.state.tabIndex === 3 ? this.state.animation : ""}>
-                                <ThemeAuctions theme="history"/>
+                                <ThemeAuctions theme="history" />
                             </div>
                         </TabPanel>
                         <TabPanel>
@@ -71,22 +71,21 @@ class Profile extends Component {
 
                         <TabPanel>
                             <div className={this.state.tabIndex === 1 ? this.state.animation : ""}>
-                                המכרזים שלי
-                            </div>
+                                <ThemeAuctions theme="myProducts" />                            </div>
                         </TabPanel>
 
                         {/*bids*/}
                         <TabPanel>
                             <div className={this.state.tabIndex === 2 ? this.state.animation : ""}>
-                                <ThemeAuctions theme="current"/>
+                                <ThemeAuctions theme="current" />
                             </div>
                         </TabPanel>
-                        
+
 
                     </Tabs>
-                    </Swipeable>
+                </Swipeable>
             </div>
-                );
+        );
     }
 }
 

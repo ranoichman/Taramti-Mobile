@@ -243,7 +243,6 @@
             location.href = "Login-Taramti.html";
         }
 
-
         function GetLeadingAuctions() {
             $.ajax({
                 dataType: "json",
@@ -285,6 +284,7 @@
             });
 
         }
+        
         function updateWatch() {
             let user = { UserId: 300294485 };
             let auc = {
@@ -333,7 +333,7 @@
                 url: generic + "GetAllMySells",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ user_Id: "302921481" }),
+                data: JSON.stringify({ user_Id: "123468865" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);

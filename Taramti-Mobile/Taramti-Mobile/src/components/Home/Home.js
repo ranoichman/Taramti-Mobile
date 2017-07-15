@@ -186,7 +186,7 @@ class Home extends Component {
     //function that returns a render of 1 auction
     eachAuction(item, i) {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
-            home="true" auc={item} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
+             auc={item} mine={false} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
     }
 
     //remove finished auction from displayed array

@@ -44,7 +44,7 @@ class MyAuction extends Component {
                 imgArr: par.props.auc.imgArr
             }
         }
-        this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
+        // this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
         this.calcDonation = this.calcDonation.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
         this.addQuestion = this.addQuestion.bind(this);
@@ -126,25 +126,25 @@ class MyAuction extends Component {
     }
 
     //disable input and button
-    timerFinishedAuc() {
-        let tempObj = this.state.auc;
-        tempObj["finished"] = true;
-        this.setState({ auc: tempObj });
-        const self = this;
-        axios.post(auctionWS + 'GetAuctionPrice', {
-            auctionCode: self.props.params.code
-        })
-            .then(function (response) {
-                let ans = response.this.d;
-                if (ans !== "-1") {
-                    // self.congratulateSeller();
-                    self.openMSGModal();
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
+    // timerFinishedAuc() {
+    //     let tempObj = this.state.auc;
+    //     tempObj["finished"] = true;
+    //     this.setState({ auc: tempObj });
+    //     const self = this;
+    //     axios.post(auctionWS + 'GetAuctionPrice', {
+    //         auctionCode: self.props.params.code
+    //     })
+    //         .then(function (response) {
+    //             let ans = response.this.d;
+    //             if (ans !== "-1") {
+    //                 // self.congratulateSeller();
+    //                 self.openMSGModal();
+    //             }
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         });
+    // }
 
     //calculate donation amount to insert to circle
     calcDonation() {
@@ -228,7 +228,7 @@ class MyAuction extends Component {
                 <div className="basicInfo" ref="infoDiv">
                     {/*timer Component*/}
                     <div className="time">
-                        <Timer endDate={this.state.auc.endDate} timerFinished={this.timerFinishedAuc} />
+                        <Timer endDate={this.state.auc.endDate}/>
                     </div>
                     {/*price manipulation*/}
                     <div style={{ position: "absolute", width: "20%", margin: "80px 40%" }}>

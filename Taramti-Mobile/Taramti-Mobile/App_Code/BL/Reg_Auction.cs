@@ -435,7 +435,7 @@ public class Reg_Auction : Auction
     }
 
     // פונקציה המחזירה את כל המכרזים שאני יצרתי
-    public static List<Reg_Auction> GetAllMySells(int user_id)
+    public static List<Reg_Auction> GetAllMySells(string user_id)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -458,13 +458,13 @@ public class Reg_Auction : Auction
             for (int i = DS.Tables[0].Rows.Count - 1; i >= 0; i--)
             {
                 DataRow dr = DS.Tables[0].Rows[i];
-                if (code == int.Parse(DS.Tables[0].Rows[i]["product_code"].ToString()))
+                if (code == int.Parse(dr["product_code"].ToString()))
                 {
-                    dr.Delete();
+                    DS.Tables[0].Rows.Remove(dr);
                 }
                 else
                 {
-                    code = int.Parse(DS.Tables[0].Rows[i]["product_code"].ToString());
+                    code = int.Parse(dr["product_code"].ToString());
                 }
             }
             return GetRelevantAuctions(DS, 1000000);

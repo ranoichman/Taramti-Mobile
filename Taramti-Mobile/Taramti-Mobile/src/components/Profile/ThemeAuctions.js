@@ -59,21 +59,25 @@ class ThemeAuctions extends Component {
             case "history":
                 funcName = "Get_History_LeadingAuctions"
                 break;
+            case "myProducts":
+                funcName = "GetAllMySells"
+                break;
             case "":
                 funcName = "Get_Current_LeadingAuctions"
                 break;
             default:
                 break;
         }
-            console.log(funcName)
-        //stop db access after 8s
+        console.log(funcName)
+        //stop db access after 7s
         if (this.startTO == undefined) {
             this.startTO = setTimeout(() => {
                 self.setState({ loaded: true })
                 self.startTO = undefined;
-            }, 8000)
+            }, 7000)
         }
-        const id = parseInt(buyerID);
+        const id = buyerID;
+        // const id = parseInt(buyerID);
         axios.post(auctionWS + funcName, {
             user_Id: id
         }).then(function (response) {
@@ -122,12 +126,12 @@ class ThemeAuctions extends Component {
     //function that returns a render of 1 auction
     eachAuction(item, i) {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
-            auc={item} modalIsOpen={this.state.modalIsOpen} />
+            auc={item} mine={this.props.theme === "myProducts"? true : false} modalIsOpen={this.state.modalIsOpen} />
     }
 
     //remove finished auction from displayed array
     deleteAuction(i) {
-        
+
         // var arr = this.state.auctionsArr;
         // arr.splice(i, 1);
         // this.setState({ auctionsArr: arr });
