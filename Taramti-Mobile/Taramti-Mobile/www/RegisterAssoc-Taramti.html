@@ -2,31 +2,227 @@
 <html>
 
 <head>
-
-    <title></title>
-    <meta charset="utf-8" />
     <title>רישום עמותה</title>
+    <meta charset="utf-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">-->
-    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; gap: ws: https://ssl.gstatic.com;img-src 'self' data: content:;style-src 'self' 'unsafe-inline' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
-
-
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Fidele Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="./cordova.js"></script>
 
-    <!--מאסטר-->
-    <script src="js/master.js"></script>
-
-
-    <script src="js/jquery.js"></script>
-
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
 
     <script src="js/jquery.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
+
+    <script src="js/master.js"></script>
+    <!--font-Awesome-->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!--//font-Awesome-->
+</head>
+
+<body>
+    <!--דף זה מכיל הוספת עמותה -->
+
+    <div class="pageBC" data-role="page" id="RegisterAssocPage">
+        <img id="BkgroundImg" src="images/LoginBackground.jpg" />
+        <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
+
+            <img id="LogoBidIt" src="images/LogoBidIt.png" />
+            <div class="nav-left">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
+            </div>
+            <div class="nav-right">
+                <span class="nav-list-it5">
+                    <i class="fa fa-bars"></i>
+                </span>
+                <script>
+                    $("span.nav-list-it5").click(function () {
+                        $("ul.nav-top-list1").slideToggle("slow", function () {
+                            // Animation complete.
+                        });
+                    });
+                </script>
+                <ul class="nav-top-list nav-top-list1">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+
+                    <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="Form" id="RegisterAssocForm">
+            <div class="input-field">
+                <div class="input-top">
+                    <h2 class="header">רישום עמותה חדשה</h2>
+                    <div class="input-top-top">
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-sort-numeric-asc"></i>
+                            <input type="text" id="AssocNum" value="" placeholder="מספר עמותה">
+                            <div class="clearfix"> </div>
+                        </div>
+                        <!--כאן תהיה ולידציה של מספר חברה - בעצם עם הווב סרוויס-->
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-user"></i>
+                            <input type="text" id="AssocName" value="" placeholder="שם עמותה">
+                            <div class="clearfix"> </div>
+                        </div>
+
+                        <h4>תיאור העמותה</h4>
+                        <textarea style="resize:none" class="form-control" id="AssocDesc" rows="15"></textarea>
+                        <div class="clearfix"> </div>
+
+                    </div>
+
+                    <div class="page-top-mid">
+                        <div class="page-top-mid1">
+                            <ul class="page-mid1" id="AddAssocProcess">
+
+                                <li><a class="next-top1" onclick="location.href = 'app.html'"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
+                                <li class="Num"><span>1</span></li>
+                                <li class="Num"><a href="#RegisterAssocPage2">2</a></li>
+                                <li><a class="pre1" href="#RegisterAssocPage2"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="RoundDivfixed">
+                    <div id="fixedCircle">
+
+                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
+                    </div>
+                    <div id="fixedHome">
+                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="pageBC" data-role="page" id="RegisterAssocPage2">
+        <img id="BkgroundImg" src="images/LoginBackground.jpg" />
+        <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
+
+            <img id="LogoBidIt" src="images/LogoBidIt.png" />
+            <div class="nav-left">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
+            </div>
+            <div class="nav-right">
+                <span class="nav-list-it5">
+                    <i class="fa fa-bars"></i>
+                </span>
+                <script>
+                    $("span.nav-list-it5").click(function () {
+                        $("ul.nav-top-list1").slideToggle("slow", function () {
+                            // Animation complete.
+                        });
+                    });
+                </script>
+                <ul class="nav-top-list nav-top-list1">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+
+                    <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="Form" id="RegisterAssocForm">
+            <div class="input-field">
+                <div class="input-top">
+                    <h2 class="header">רישום עמותה חדשה</h2>
+                    <div class="input-top-top">
+
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-credit-card"></i>
+                            <input type="email" id="AssocAccount" value="" placeholder="חשבון עמותה">
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-globe"></i>
+                            <input type="email" id="AssocWebsite" value="" placeholder="אתר העמותה">
+                            <div class="clearfix"> </div>
+                        </div>
+                        <div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-calendar"></i>
+                            <input type="email" id="AssocYear" value="" placeholder="שנת היווסדות">
+                            <div class="clearfix"> </div>
+                        </div>
+
+                        <p class="loginText">בלחיצה על 'רשום עמותה' אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
+
+                        <!--<a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">רשום עמותה</a>-->
+                        <div class="button-1">
+                            <button type="button" id="RegisterAssocbtn" onclick="location.href = 'RegisterAssoc-Taramti.html#ImSureDialog'" data-transition="flip" class="btn-l btn-10">רשום עמותה</button>
+                        </div>
+                        
+
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="page-top-mid">
+                        <div class="page-top-mid1">
+                            <ul class="page-mid1" id="AddAssocProcess">
+                                <li><a href="#RegisterAssocPage" class="next-top1"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
+                                <li class="Num"><a href="#RegisterAssocPage">1</a></li>
+                                <li class="Num"><span>2</span></li>
+                                <li><a class="pre1" href="#ImSureDialog" data-transition="flip"><img class=" pre12" src="images/forrwardArrowIcon.png" /></a></li>
+                            </ul>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="RoundDivfixed">
+                    <div id="fixedCircle">
+
+                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
+                    </div>
+                    <div id="fixedHome">
+                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pageBC" data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog">
+        <div data-role="header">
+            <h2>תרמתי בבית</h2>
+        </div>
+        <div class="ui-content" role="main">
+            <h4>פרטי העמותה שהזנת נשלחים אל רשם העמותות לבדיקה, האם את/ה בטוח/ה שהפרטים שהזנת נכונים?</h4>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#RegisterAssocPage2" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#RegisterAssocPage" onclick="RegisterAssoc()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script>
@@ -113,85 +309,6 @@
         }
     </script>
 
-</head>
-
-<body>
-
-    <!--דף זה מכיל הוספת עמותה -->
-
-    <div data-role="page" id="RegisterAssocPage">
-        <div id="MenuBarDiv">
-            <div data-role="collapsible">
-                <h1>
-                    <span id="TaramtiMenuIconDiv">
-                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
-                    </span>
-                </h1>
-                <ul id="MenuBarUL" data-role="listview" data-inset="false">
-                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
-                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
-                                        <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
-                </ul>
-            </div>
-
-            <div id="UpperLogo">
-                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
-            </div>
-        </div>
-
-        <!-- להוריד פלייס הולדרים מיותרים -->
-        <div class="Form" id="RegisterAssocForm">
-            <h2> רישום עמותה חדשה </h2>
-            <h4><b>מספר עמותה</b></h4>
-            <input type="text" placeholder="מספר עמותה" id="AssocNum" required>
-            <!--כאן תהיה ולידציה של מספר חברה - בעצם עם הווב סרוויס-->
-            <h4><b>שם עמותה</b></h4>
-            <input type="text" placeholder="הזן שם עמותה" id="AssocName" required>
-            <h4>תיאור עמותה</h4>
-            <textarea class="form-control" id="AssocDesc" rows="15"></textarea>
-            <h4>חשבון עמותה</h4>
-            <input type="email" placeholder="אימייל פייפל" id="AssocAccount" name="account">
-            <h4>אתר העמותה</h4>
-            <input class="form-control" placeholder="www.amuta.com" id="AssocWebsite" name="web">
-            <h4>שנת היווסדות</h4>
-            <input class="form-control" id="AssocYear" placeholder="1980">
-
-            <p>בלחיצה על 'רשום עמותה' אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
-
-            <a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">רשום עמותה</a>
-
-            <!--<div id="fixedPlus">
-                <div> <a href="#"><i class="fa fa-plus-circle fa-4x" aria-hidden="true"></i></a></div>
-            </div>-->
-
-            <div id="fixedCircle">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
-            </div>
-            <div id="fixedHome">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
-            </div>
-        </div>
-    </div>
-
-    <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog">
-        <div data-role="header">
-            <h2>תרמתי בבית</h2>
-        </div>
-        <div class="ui-content" role="main">
-            <h4>פרטי העמותה שהזנת נשלחים אל רשם העמותות לבדיקה, האם את/ה בטוח/ה שהפרטים שהזנת נכונים?</h4>
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <a href="#RegisterAssocPage" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
-                </div>
-                <div class="ui-block-b">
-                    <a href="#RegisterAssocPage" onclick="RegisterAssoc()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>

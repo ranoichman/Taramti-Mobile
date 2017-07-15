@@ -44,15 +44,34 @@ footer {
     margin-right: 5%;
 }*/
 
-.Form {
+.LoginForm {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
     z-index: 10;
-    margin-top: 35%;
+    margin-top: 40%;
     background-color: white;
     opacity: 0.9;
     border-radius: 20PX;
+}
+
+.Form {
+    padding: 0 5% 5% 5%;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    z-index: 10;
+    margin-top: 30%;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 20PX;
+    margin-bottom: 5%;
+}
+
+
+.pageBC {
+    background-image: url('../images/LONGLoginBackground.jpg');
+    background-size: 100%;
 }
 
 .FirstForm {
@@ -66,13 +85,13 @@ footer {
     border-radius: 20PX;
 }
 
-    .Form .input-field, .FirstForm .input-field {
+    .LoginForm .input-field, .FirstForm .input-field {
         padding: 0 5% 5% 5%;
     }
 
-    #FirstRegister_input-field{
-         padding: 0 5% 0% 5%;
-    }
+#FirstRegister_input-field {
+    padding: 0 5% 0% 5%;
+}
 
 
 .fa fa-user {
@@ -87,22 +106,71 @@ footer {
 }
 
 #TaramtiMenuIcon {
-    margin: 0 auto;
+    /*margin: 0 auto;*/
+    margin-top: 0;
+    display: block;
+    z-index: 12;
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    /*height:85px;*/
 }
 
-/*#TaramtiLogo {
+#TaramtiLogo {
     float: left;
-    margin-left: -2%;
-    width: 95%;
+    /*margin-top: -8%;
+    margin-left: -8%;*/
+    width: 40%;
+    height: inherit;
+    z-index: 12;
+}
+
+/*#MenuBarDiv {
+    margin-top: 0;
+    z-index: 15;
 }*/
+
+#MenuBarDiv {
+    width: 100%;
+    margin-top: 0;
+    display: block;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    background-color: white;
+    opacity: 0.9;
+    /*overflow: auto;*/
+    height: 85px;
+}
+
+#LogoBidIt {
+    margin-top: 0;
+    display: block;
+    z-index: 10;
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    width: 40%;
+    /*height:85px;*/
+}
 
 #TaramtiLogoLogin {
     width: 100%;
 }
 
+div .nav-left {
+    width: 55%;
+    padding: 0 0 0 0;
+}
+
+.nav-right span {
+    margin-top: 50%;
+}
+
 #avatar {
     /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
-    background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');
+    /*background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');*/
+    background-image: url('../images/ta.jpg');
     /* make a square container */
     width: 150px;
     height: 150px;
@@ -222,19 +290,32 @@ a.closeBox {
 #fixedCircle {
     bottom: -17.5%;
     height: 200px;
-    width: 60px;
-    left: 4%;
+    width: 90px;
+    left: 1%;
     position: fixed;
 }
 
 
 #fixedHome {
-    bottom: -20%;
+    bottom: -21%;
     height: 200px;
-    width: 60px;
-    left: 1%;
+    width: 40px;
+    left: 8%;
     position: fixed;
 }
+
+.RoundDivfixed {
+    bottom: 1%;
+    height: 70px;
+    width: 70px;
+    left: 4%;
+    position: fixed;
+    z-index: 10;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 60PX;
+}
+
 
 .styleLink {
     text-decoration: none;
@@ -260,7 +341,7 @@ div.button-1 {
     margin: 0 0 0 0;
 }
 
-.Form .input-field .button-1 .btn-10 {
+.LoginForm .input-field .button-1 .btn-10, .Form .input-field .button-1 .btn-10 {
     margin: 0 0 0 0;
     width: 100%;
     font-size: 1.4em;
@@ -313,7 +394,7 @@ div.button-1 {
     /*margin-right: 9%;*/
     margin-left: 12%;
     z-index: 10;
-    margin-top: 5%;
+    margin-top: 8%;
     background-color: white;
     opacity: 0.9;
     border-radius: 40PX;
@@ -338,28 +419,53 @@ div.button-1 {
 .loginText {
     text-align: center;
     margin-bottom: 3%;
-    margin-top:-2%;
+    margin-top: -2%;
     font-size: 1em;
     font-weight: 500;
 }
 
-.pre12{
-    width:150%;
+.pre12 {
+    width: 150%;
 }
 
 
-.page-mid1 li a.next-top1, .page-mid1 li span.pre1 {
-    width: 50px;
-    height: 50px;
+.page-mid1 li a.next-top1, .page-mid1 li a.pre1 {
+    width: 60px;
+    height: 60px;
     line-height: 2.4em;
+    margin-top: 30%;
 }
 
 .page-mid1 li a, .page-mid1 li span {
     font-size: 1.2em;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     line-height: 2.05em;
 }
-AddUserProcess{
-    margin:0 auto;
+
+.page-mid1 li .Num {
+    /*height: 60px;*/
+    margin-top: -40%;
+    /*position:relative;
+    top:100px;*/
+}
+
+.page-mid li.Num, .page-mid1 li.Num, .page-mid2 li.Num {
+    /*margin-top:-50%;*/
+    /*margin-bottom: -50%;*/
+    position: relative;
+    top: -23px;
+}
+
+div .page-top-mid1 {
+    height: 80px;
+    margin: 0 auto;
+    margin-top: -10%;
+}
+
+#AddUserProcess {
+    /*height: 60px*/;
+}
+
+#AddAssocProcess {
 }
