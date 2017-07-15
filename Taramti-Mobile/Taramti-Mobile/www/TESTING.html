@@ -356,6 +356,21 @@
                 error: function (err) { }
             });
         }
+
+        function GetAllAuctionsCategories() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAllAuctionsCategories",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({  }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
     </script>
 
 </head>
@@ -375,8 +390,9 @@
         <input type="button" onclick="GetAuctionsByParam()" value="GetAuctionsByParam" />
 
         <input type="button" onclick="GetLeadingAuctions()" value="GetLeadingAuctions" />
-
+        
         <input type="button" onclick="GetAllMySells()" value="GetAllMySells" />
+        <input type="button" onclick="GetAllAuctionsCategories()" value="GetAllAuctionsCategories" />
         <input type="button" onclick="outbid()" value="outbid" />
 
         <input type="button" onclick="addToWatch()" value="LOGGGGG" />

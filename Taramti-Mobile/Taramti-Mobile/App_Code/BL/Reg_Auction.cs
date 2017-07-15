@@ -267,6 +267,7 @@ public class Reg_Auction : Auction
         }
         return allCat;
     }
+   
 
     public bool OfferBid(int bid, int buyer)
     {
@@ -488,6 +489,8 @@ public class Reg_Auction : Auction
             return new List<Reg_Auction>();
         }
     }
+
+    
 
     public void GetItemDetails()
     {
