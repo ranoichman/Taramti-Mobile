@@ -707,7 +707,6 @@ public class UserT
                            ([user_id])
                             VALUES 
                             (@id)";
-
         DbService db = new DbService();
         SqlParameter parId = new SqlParameter("@id", UserId);
         if (db.ExecuteQuery(sqlInsert, CommandType.Text, parId) == 0)
@@ -716,6 +715,51 @@ public class UserT
         }
         return true;
     }
+
+    //REG_Auction נבדק האם להיות פה או ב 
+    //public List<Reg_Auction> GetOutBiddedAuctions()
+    //{
+    //    DbService db = new DbService();
+    //    DataSet DS = new DataSet();
+
+    //    List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
+    //    string StrSql = "SELECT        dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
+    //                    "FROM dbo.bid INNER JOIN " +
+    //                    "dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code " +
+    //                    "WHERE(dbo.bid.buyer_id = N'" + UserId + "') " +
+    //                    "GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
+    //                    "HAVING(dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
+    //    DS = db.GetDataSetByQuery(StrSql);
+    //    return relevantAuctions;
+    //}
+
+    //public static List<Reg_Auction> CurrentlyLeading()
+    //{
+    //    DbService db = new DbService();
+    //    DataSet DS = new DataSet();
+    //    string StrSql = "";
+    //    List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
+
+    //    StrSql = @"SELECT   dbo.auction.auction_code, MAX(dbo.bid.price) AS price, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
+    //                        FROM            dbo.bid LEFT OUTER JOIN
+    //                        dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code LEFT OUTER JOIN
+    //                        dbo.product ON dbo.bid.product_code = dbo.product.product_code AND dbo.auction.product_code = dbo.product.product_code
+    //                        GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
+    //                        HAVING        (dbo.bid.buyer_id = @userId) ";
+    //    SqlParameter parId = new SqlParameter("@userId", UserId);
+    //    DS = db.GetDataSetByQuery(StrSql,CommandType.Text, parId);
+    //    Reg_Auction R = new Reg_Auction();
+        
+    //    //foreach (DataRow row in DS.Tables[0].Rows)
+    //    //{
+    //    //    Reg_Auction R = new Reg_Auction();
+    //    //    R.AuctionID = int.Parse(row["auction_code"].ToString());
+    //    //    R.Price = int.Parse(row["price"].ToString());
+    //    //    relevantAuctions.Add(R);
+    //    //}
+
+    //    //return relevantAuctions;
+    //}
 
 
     #endregion

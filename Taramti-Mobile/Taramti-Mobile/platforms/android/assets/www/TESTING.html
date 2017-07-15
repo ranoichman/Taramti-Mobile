@@ -131,7 +131,6 @@
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ auc: auc1, bid: bid1, buyer: buy1 }),
-
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -142,50 +141,6 @@
                 error: function (err) { }
             });
         }
-
-        function getLocation(city, lat, lng) {
-
-            var mygc = new google.maps.Geocoder();
-            var locationOrigem;
-            var locationDestino;
-            var latOrigem = 0;
-            var longOrigem = 0;
-            var latDestino = 0;
-            var longDestino = 0;
-
-            mygc.geocode({ 'address': city }, function (results, status) {
-                locationOrigem = results[0].geometry.location;
-                latOrigem = results[0].geometry.location.lat();
-                longOrigem = results[0].geometry.location.lng();
-                mygc.geocode({}, function (results, status) {
-                    locationDestino = new google.maps.LatLng(lat, lng);
-                    // alert(latDestino + " " + longDestino);
-                    console.log(locationOrigem);
-                    console.log(locationDestino);
-                    return (google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
-                });
-            });
-        }
-
-        function insertsearch() {
-            $.ajax({
-                dataType: "json",
-                url: generic + "testsearch",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({}),
-
-                success: function (data) {
-
-                    console.log("נכנסתי");
-                    var isUser = JSON.parse(data.d);
-
-                    console.log(isUser);
-                },
-                error: function (err) { }
-            });
-        }
-
 
         function getLocation(city, lat, lng) {
 
@@ -250,8 +205,6 @@
                 error: function (err) { }
             });
         }
-
-
         
         function addToPush() {
                     $.ajax({
@@ -259,7 +212,6 @@
                         url: gen + "SavePushInfo",
                         contentType: "application/json; charset=utf-8",
                         type: "POST",
-                        //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
                         data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
                         success: function (data) {
 
@@ -267,9 +219,29 @@
                         },
                         error: function (err) { }
                     });
-
         }
 
+        function SendPush()
+        {
+            $.ajax({
+                dataType: "json",
+                url: gen  + "SendPush",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user: "300294485", head: "סתכל למעלה", msg: "מפיל עלייך תיק" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function LogOut()
+        {
+            localStorage.removeItem("UserID");
+            location.href = "Login-Taramti.html";
+        }
 
 
     </script>
@@ -277,28 +249,48 @@
 </head>
 
 <body>
-    <input type="button" onclick="test()" value="GetAuctionByParam" />
-    <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
-    <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
-    <input type="button" onclick="OfferBid()" value="OfferBid" />
-    <input type="button" onclick="GetAuctionByCode()" value="GetAuctionByCode" />
-    <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
-    <input type="button" onclick="insertsearch()" value="insertsearch" />
-    <input type="button" onclick="addQuestion()" value="add Question" />
+    <div data-role="page" id="RegisterAssocPage">
+        <input type="button" onclick="test()" value="GetAuctionByParam" />
+        <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
+        <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
+        <input type="button" onclick="OfferBid()" value="OfferBid" />
+        <input type="button" onclick="GetAuctionByCode()" value="GetAuctionByCode" />
+        <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
+        <input type="button" onclick="insertsearch()" value="insertsearch" />
+        <input type="button" onclick="addQuestion()" value="add Question" />
+        <input type="button" onclick="addToPush()" value="add Bush" />
+        <input type="button" onclick="SendPush()" value="Send Bush" />
+        <!--<input type="button" onclick="LogOut()" value="LogOut" />-->
+        <a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">התנתק</a>
 
-    <input type="button" onclick="addToPush()" value="add Bush" />
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="heregteam@gmail.com" />
 
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="item_name" value="My painting" />
+            <input type="hidden" name="amount" value="10.00" />
+            <input type="submit" value="Buy!" />
+        </form>
+        </div>
 
-        <input type="hidden" name="cmd" value="_xclick" />
-        <input type="hidden" name="business" value="heregteam@gmail.com" />
+        <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog">
+            <div data-role="header">
+                <h2>תרמתי בבית</h2>
+            </div>
+            <div class="ui-content" role="main">
+                <h4>אוו, אתה עוזב כל כך מוקדם??</h4>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <a href="#RegisterAssocPage" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a href="#RegisterAssocPage" onclick="LogOut()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <input type="hidden" name="item_name" value="My painting" />
-        <input type="hidden" name="amount" value="10.00" />
-        <input type="submit" value="Buy!" />
-
-    </form>
 </body>
 
 </html>

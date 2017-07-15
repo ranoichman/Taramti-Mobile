@@ -29,6 +29,8 @@
     </script>
 
     <script>
+        let enter;
+
         function test() {
             var x = [];
             var low = -1;
@@ -44,7 +46,7 @@
                     lowPrice: -1,
                     highPrice: -1,
                     catCode: 0,
-                    id: 300294485,
+                    user_Id: 300294485,
                     lat: 14.123,
                     lng: 32.851,
                     radius: 0
@@ -196,7 +198,7 @@
                 url: generic + "AddQuestion",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({quest : quest}),
+                data: JSON.stringify({ quest: quest }),
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -205,27 +207,26 @@
                 error: function (err) { }
             });
         }
-        
+
         function addToPush() {
-                    $.ajax({
-                        dataType: "json",
-                        url: gen + "SavePushInfo",
-                        contentType: "application/json; charset=utf-8",
-                        type: "POST",
-                        data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
-                        success: function (data) {
-
-                            var isUser = JSON.parse(data.d);
-                        },
-                        error: function (err) { }
-                    });
-        }
-
-        function SendPush()
-        {
             $.ajax({
                 dataType: "json",
-                url: gen  + "SendPush",
+                url: gen + "SavePushInfo",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function SendPush() {
+            $.ajax({
+                dataType: "json",
+                url: gen + "SendPush",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ user: "300294485", head: "סתכל למעלה", msg: "מפיל עלייך תיק" }),
@@ -237,33 +238,181 @@
             });
         }
 
+        function LogOut() {
+            localStorage.removeItem("UserID");
+            location.href = "Login-Taramti.html";
+        }
 
+        function GetLeadingAuctions() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "Get_Current_LeadingAuctions",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_Id: "300294485" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function addToWatch() {
+            let user = { UserId: 300294485 };
+            let auc = {
+                AuctionID: 38,
+                Buyer: user
+            };
+
+            enter = Date.now();
+
+            console.log(`date- ${enter}`);
+            console.log(`auc===== ${auc}`);
+            $.ajax({
+                dataType: "json",
+                url: generic + "AddToWatch_Log",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ auc: auc, enter: enter }),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    console.log("result-----" + data.d)
+                },
+                error: function (err) { }
+            });
+
+        }
+        
+        function updateWatch() {
+            let user = { UserId: 300294485 };
+            let auc = {
+                AuctionID: 38,
+                Buyer: user
+            };
+
+
+            leave = Date.now();
+
+            console.log(`date- ${enter}`);
+            console.log(`auc===== ${auc}`);
+            $.ajax({
+                dataType: "json",
+                url: generic + "UpdateWatch_Log",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ auc: auc, enter: enter, leave: leave }),
+                success: function (data) {
+
+                    console.log("נכנסתי");
+                    console.log("result-----" + data.d)
+                },
+                error: function (err) { }
+            });
+        }
+
+        function GetAuctionsByParam() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAuctionByParam",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: "2", lat: "100", lng: "200", radius: "2", user_Id: "302921481" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function GetAllMySells() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAllMySells",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_Id: "123468865" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function outbid() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetOutBiddedAuctions",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_Id: "302921481" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
     </script>
 
 </head>
 
 <body>
-    <input type="button" onclick="test()" value="GetAuctionByParam" />
-    <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
-    <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
-    <input type="button" onclick="OfferBid()" value="OfferBid" />
-    <input type="button" onclick="GetAuctionByCode()" value="GetAuctionByCode" />
-    <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
-    <input type="button" onclick="insertsearch()" value="insertsearch" />
-    <input type="button" onclick="addQuestion()" value="add Question" />
-    <input type="button" onclick="addToPush()" value="add Bush" />
-    <input type="button" onclick="SendPush()" value="Send Bush" />
+    <div data-role="page" id="RegisterAssocPage">
+        <input type="button" onclick="test()" value="GetAuctionByParam" />
+        <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
+        <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
+        <input type="button" onclick="OfferBid()" value="OfferBid" />
+        <input type="button" onclick="GetAuctionByCode()" value="GetAuctionByCode" />
+        <input type="button" onclick="getLocation('נתניה', 32.4340458, 34.9196518)" value="GetLocation" />
+        <input type="button" onclick="insertsearch()" value="insertsearch" />
+        <input type="button" onclick="addQuestion()" value="add Question" />
+        <input type="button" onclick="addToPush()" value="add Bush" />
+        <input type="button" onclick="SendPush()" value="Send Bush" />
+        <input type="button" onclick="GetAuctionsByParam()" value="GetAuctionsByParam" />
 
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="button" onclick="GetLeadingAuctions()" value="GetLeadingAuctions" />
 
-        <input type="hidden" name="cmd" value="_xclick" />
-        <input type="hidden" name="business" value="heregteam@gmail.com" />
+        <input type="button" onclick="GetAllMySells()" value="GetAllMySells" />
+        <input type="button" onclick="outbid()" value="outbid" />
 
-        <input type="hidden" name="item_name" value="My painting" />
-        <input type="hidden" name="amount" value="10.00" />
-        <input type="submit" value="Buy!" />
+        <input type="button" onclick="addToWatch()" value="LOGGGGG" />
+        <input type="button" onclick="updateWatch()" value="update log" />
 
-    </form>
+        <!--<input type="button" onclick="LogOut()" value="LogOut" />-->
+        <a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">התנתק</a>
+
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="heregteam@gmail.com" />
+
+            <input type="hidden" name="item_name" value="My painting" />
+            <input type="hidden" name="amount" value="10.00" />
+            <input type="submit" value="Buy!" />
+        </form>
+    </div>
+
+    <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog">
+        <div data-role="header">
+            <h2>תרמתי בבית</h2>
+        </div>
+        <div class="ui-content" role="main">
+            <h4>אוו, אתה עוזב כל כך מוקדם??</h4>
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <a href="#RegisterAssocPage" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
+                </div>
+                <div class="ui-block-b">
+                    <a href="#RegisterAssocPage" onclick="LogOut()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

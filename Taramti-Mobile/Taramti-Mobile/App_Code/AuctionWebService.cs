@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.Services;
+using System.Threading.Tasks;
 
 /// <summary>
 /// Summary description for AuctionWebService
@@ -30,10 +31,10 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "מתודה להבאת מכרזים על פי פרמטרים")]
-    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode, int id, double lat, double lng, int radius)
+    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode, double lat, double lng, int radius, int user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
-        return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, id, lat, lng, radius));
+        return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, lat, lng, radius, user_Id));
     }
 
     [WebMethod(Description = "מתודה להבאת ביד אחרון בהינתן מספר מכרז")]
@@ -54,31 +55,31 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "הצעת ביד")]
-    public bool OfferBid(int auc, int bid, int buyer)
+    public bool OfferBid(Reg_Auction auc, int bid)
     {
-        //JavaScriptSerializer j = new JavaScriptSerializer();
-        Reg_Auction auction = new Reg_Auction();
+        //Reg_Auction auction = new Reg_Auction();
         bool SendPush = false;
         string PrevBuyerID = "";
-        auction.AuctionID = auc;
-        int lastBid = auction.GetLatestBid();
+        //auction.AuctionID = int.Parse(auc.Buyer.UserId);
+        int lastBid = auc.GetLatestBid();
+        // אם אין בידים קודמים - לא נשלח פוש לאף אחד
         if (lastBid != -1)
         {
-            Money_Bid LastBid = new Money_Bid(auction, lastBid);
-            LastBid = LastBid.GetBidDetails(auc);
+            Money_Bid LastBid = new Money_Bid(auc, lastBid);
+            LastBid = LastBid.GetBidDetails(auc.AuctionID);
             PrevBuyerID = LastBid.Buyer.UserId;
             SendPush = true;
         }
 
-
         if (lastBid < bid)
         {
-            auction.OfferBid(bid, buyer);
+            auc.OfferBid(bid, int.Parse(auc.Buyer.UserId.ToString()));
             WebService Push = new WebService();
-
+            // אם יש בידים קודמים, נשלח הודעת פוש למשתמש שנעקף
             if (SendPush)
             {
-                Push.SendPush(PrevBuyerID, "אטהפאלי", "איך עקפו אותך ככה יא-אלללה");
+                //Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה " + auction.ProdName + " הצע הצעה חדשה עכשיו!");
+                new Task(() => { Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה" + auc.ProdName + " הצע הצעה חדשה עכשיו!"); }).Start();   
             }
 
             return true;
@@ -174,8 +175,57 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(quest.AddAnswer().ToString());
     }
 
+    [WebMethod (Description = "Get all active auctions in which I was outbidded ")]
+    public string GetOutBiddedAuctions(string user_Id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(Reg_Auction.GetOutBiddedAuctions(user_Id));
+    }
 
+    [WebMethod(Description = "Get all active auctions in which I am currently leading ")]
+    public string Get_Current_LeadingAuctions(string user_Id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(Reg_Auction.Leading(user_Id, "current"));
+    }
 
+    [WebMethod(Description = "Get all history auctions in which I won")]
+    public string Get_History_LeadingAuctions(string user_Id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(Reg_Auction.Leading(user_Id, "history"));
+    }
+
+    [WebMethod(Description = "add enter details of watched auction to watch log")]
+    public string AddToWatch_Log(Reg_Auction auc, long enter)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        
+        //translate time in ms to localized sql dateTime
+        DateTime enterTime = (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(enter.ToString())).ToLocalTime();
+
+        return j.Serialize(auc.AddToWatch_Log(enterTime));
+    }
+
+    [WebMethod(Description = "update leave time of watched auction to watch log")]
+    public string UpdateWatch_Log(Reg_Auction auc, long enter,long leave)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        
+        //translate time in ms to localized sql dateTime
+        DateTime enterTime = (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(enter.ToString())).ToLocalTime();
+        DateTime leaveTime = (new DateTime(1970, 1, 1)).AddMilliseconds(double.Parse(leave.ToString())).ToLocalTime();
+
+        return j.Serialize(auc.UpdateWatch_Log(enterTime,leaveTime));
+        
+    }
+
+    [WebMethod(Description = "Get all the auctions that I posted ")]
+    public string GetAllMySells(string user_Id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(Reg_Auction.GetAllMySells(user_Id));
+    }
 
 
     //[WebMethod]

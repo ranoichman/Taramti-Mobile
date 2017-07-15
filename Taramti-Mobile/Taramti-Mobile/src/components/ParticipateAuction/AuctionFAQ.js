@@ -12,13 +12,18 @@ class AuctionFAQ extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            FAQs: []
+            FAQs: [],
+            width: null,
+            open: true
         }
         this.addQuestion = this.addQuestion.bind(this);
+        this.close = this.close.bind(this);
     }
 
     componentDidMount() {
-
+        const width = this.refs.questions.clientWidth;
+        console.log(`faq ---- ${width}`)
+        this.setState({ width });
         let product = { ItemId: this.props.prodCode }
         const self = this;
 
@@ -44,7 +49,7 @@ class AuctionFAQ extends Component {
         };
         let newFAQ = this.state.FAQs;
         newFAQ.push({ Question: val, Answer: "" })
-        this.setState({FAQs:newFAQ});
+        this.setState({ FAQs: newFAQ });
 
         axios.post(auctionWS + 'AddQuestion', {
             quest: quest
@@ -66,17 +71,28 @@ class AuctionFAQ extends Component {
 
     }
 
+    close() {
+        this.setState({ open: false });
+        setTimeout(() => this.props.closeModal(), 600)
+    }
+
+    renderQuestionInput() {
+        return ("")
+    }
+
     render() {
         return (
-            <div>
-                {/*close button*/}
-                <Swipeable onTap={this.props.closeModal}>
-                    <a className="boxclose" ></a>
-                </Swipeable>
-                {/*all FAQ's*/}
-                <ChatMsg FAQs={this.state.FAQs} chat="true" />
+            <div  className={this.state.open ? "FAQbox" : "FAQbox zoomOut"}>
+                <div ref="questions">
+                    {/*close button*/}
+                    <Swipeable onTap={this.close}>
+                        <a className="boxclose" ></a>
+                    </Swipeable>
+                    {/*all FAQ's*/}
+                    <ChatMsg FAQs={this.state.FAQs} chat={this.props.chat} />
 
-                <TextInput send={this.addQuestion} />
+                    {this.props.chat ? <TextInput send={this.addQuestion} width={this.state.width} /> : <span></span>}
+                </div>
             </div>
         )
     }
