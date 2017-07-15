@@ -33,7 +33,7 @@
     <!--דף זה מכיל הוספת עמותה -->
 
     <div class="pageBC" data-role="page" id="RegisterAssocPage">
-        <img id="BkgroundImg" src="images/LoginBackground.jpg" />
+        <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
 
             <img id="LogoBidIt" src="images/LogoBidIt.png" />
@@ -118,7 +118,7 @@
 
 
     <div class="pageBC" data-role="page" id="RegisterAssocPage2">
-        <img id="BkgroundImg" src="images/LoginBackground.jpg" />
+        <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
 
             <img id="LogoBidIt" src="images/LogoBidIt.png" />
@@ -130,7 +130,7 @@
                     <i class="fa fa-bars"></i>
                 </span>
                 <script>
-                    $("span.nav-list-it5").click(function () {
+                    $("span.nav-list-it5").ontap(function () {
                         $("ul.nav-top-list1").slideToggle("slow", function () {
                             // Animation complete.
                         });
