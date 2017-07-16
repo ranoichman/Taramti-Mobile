@@ -2,25 +2,31 @@
 <html>
 
 <head>
-    <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--בשביל פונגאפ יש להוריד את השורה שמתחת מהערה-->
-    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <title>הגדרות אפליקציה</title>
+    <meta charset="utf-8" />
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data:; font-src data: *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src 'self' 'unsafe-inline' *; img-src * data: 'unsafe-inline'">
+    <!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Fidele Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./cordova.js"></script>
+
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
 
     <script src="js/jquery.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
-    <script src="js/appFuncs.js"></script>
 
-    <script src="./cordova.js"></script>
-
-    <!--מאסטר-->
     <script src="js/master.js"></script>
-
+    <!--font-Awesome-->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!--//font-Awesome-->
     <style>
         .assocName {
             font-size: 16px;
@@ -215,34 +221,42 @@
             location.href = `appSettings.html#${lastPage}`;
         }
     </script>
-
 </head>
 
 <body>
 
     <!--דף חיפוש עמותות-->
-    <div data-role="page" id="SearchAssoc">
+    <div class="pageBC" data-role="page" id="SearchAssoc">
+        <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
+        <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
 
-        <div id="MenuBarDiv">
-            <div data-role="collapsible">
-                <h1>
-                    <span id="TaramtiMenuIconDiv">
-                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
-                    </span>
-                </h1>
-                <ul id="MenuBarUL" data-role="listview" data-inset="false">
-                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
-                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
+            <img id="LogoBidIt" src="images/LogoBidIt.png" />
+            <div class="nav-left">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
+            </div>
+            <div class="nav-right">
+                <span class="nav-list-it5">
+                    <i class="fa fa-bars"></i>
+                </span>
+                <script>
+                    $("span.nav-list-it5").click(function () {
+                        $("ul.nav-top-list1").slideToggle("slow", function () {
+                            // Animation complete.
+                        });
+                    });
+                </script>
+                <ul class="nav-top-list nav-top-list1">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+
+                    <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
                 </ul>
             </div>
-
-            <div id="UpperLogo">
-                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
-            </div>
+            <div class="clearfix"> </div>
         </div>
 
         <div class="Form">
@@ -250,146 +264,170 @@
 
             <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
 
-            </div>
-            <div id="fixedCircle">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
-            </div>
-            <div id="fixedHome">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
+                <div class="RoundDivfixed">
+                    <div id="fixedCircle">
+
+                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
+                    </div>
+                    <div id="fixedHome">
+                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+        <!--דף הגדרות אפליקציה-->
+        <div class="pageBC" data-role="page" id="Settings">
 
-    <!--דף הגדרות אפליקציה-->
-    <div data-role="page" id="Settings">
+            <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
+            <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
 
-        <div id="MenuBarDiv">
-            <div data-role="collapsible">
-                <h1>
-                    <span id="TaramtiMenuIconDiv">
-                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                <img id="LogoBidIt" src="images/LogoBidIt.png" />
+                <div class="nav-left">
+                    <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
+                </div>
+                <div class="nav-right">
+                    <span class="nav-list-it5">
+                        <i class="fa fa-bars"></i>
                     </span>
-                </h1>
-                <ul id="MenuBarUL" data-role="listview" data-inset="false">
-                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
-                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href = 'appSettings.html'">הגדרות אפליקציה</a></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
-                </ul>
+                    <script>
+                        $("span.nav-list-it5").click(function () {
+                            $("ul.nav-top-list1").slideToggle("slow", function () {
+                                // Animation complete.
+                            });
+                        });
+                    </script>
+                    <ul class="nav-top-list nav-top-list1">
+                        <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
+                        <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                        <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
+                        <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
+                        <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
+                        <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+
+                        <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
             </div>
 
-            <div id="UpperLogo">
-                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            <div class="Form">
+                <h1> הגדרות אפליקציה </h1>
+
+                <div id="avatar" style="margin: 0 auto"></div>
+                <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
+                <div id="SettingsForm">
+                    <br />
+                    <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
+                    <div style="direction:ltr; display:inline; float:left">
+                        <select name="flip-1" id="flip-1" data-role="slider">
+                            <option value=false>Off</option>
+                            <option value=true>On</option>
+                        </select>
+                    </div>
+                    <br /><br />
+
+                    <h4 style="display:inline-block"><b>התראות שמע</b></h4>
+                    <div style="direction:ltr; display:inline; float:left">
+                        <select id="soundOpt" name="soundOpt" form="settingsForm">
+                            <option value="3">שמע + רטט</option>
+                            <option value="2">שמע בלבד</option>
+                            <option value="1">רטט בלבד</option>
+                            <option value="0">ללא</option>
+                        </select>
+                    </div>
+                    <br /><br />
+                    <h4><b> העמותות המועדפות שלי: </b></h4>
+                    <h6> (גלול שמאלה לפרטים נוספים) </h6>
+                    <div data-role="controlgroup" id="FavAssocGroup">
+
+                    </div>
+
+                    <!--<input type="button" value="רטט" onclick="vibrate()" />-->
+
+                    <br /><br />
+
+                    <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
+
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+
+                            <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
+                        </div>
+                        <div id="fixedHome">
+                            <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
 
-        <div class="Form">
-            <h1> הגדרות אפליקציה </h1>
+        <!--דף פרטי עמותה -->
+        <div class="pageBC" data-role="page" id="AssocInfoPage">
+            <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
+            <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
 
-            <div id="avatar" style="margin: 0 auto"></div>
-            <!--#avatar   שלנו צריך לברר איך לשלוף את התמונה של היוזר באמת.  CSS בדף-->
-            <div id="SettingsForm">
-                <br />
-                <h4 style="display:inline-block"><b>אפשר הודעות פוש</b></h4>
-                <div style="direction:ltr; display:inline; float:left">
-                    <select name="flip-1" id="flip-1" data-role="slider">
-                        <option value=false>Off</option>
-                        <option value=true>On</option>
-                    </select>
+                <img id="LogoBidIt" src="images/LogoBidIt.png" />
+                <div class="nav-left">
+                    <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
                 </div>
-                <br /><br />
-
-                <h4 style="display:inline-block"><b>התראות שמע</b></h4>
-                <div style="direction:ltr; display:inline; float:left">
-                    <select id="soundOpt" name="soundOpt" form="settingsForm">
-                        <option value="3">שמע + רטט</option>
-                        <option value="2">שמע בלבד</option>
-                        <option value="1">רטט בלבד</option>
-                        <option value="0">ללא</option>
-                    </select>
-                </div>
-                <br /><br />
-                <h4><b> העמותות המועדפות שלי: </b></h4>
-                <h6> (גלול שמאלה לפרטים נוספים) </h6>
-                <div data-role="controlgroup" id="FavAssocGroup">
-
-                </div>
-
-                <!--<input type="button" value="רטט" onclick="vibrate()" />-->
-
-                <br /><br />
-
-                <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
-
-            </div>
-            <div id="fixedCircle">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
-            </div>
-            <div id="fixedHome">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!--דף פרטי עמותה -->
-    <div data-role="page" id="AssocInfoPage">
-        <div id="MenuBarDiv">
-            <div data-role="collapsible">
-                <h1>
-                    <span id="TaramtiMenuIconDiv">
-                        <i id="TaramtiMenuIcon" class="fa fa-ellipsis-v fa-4x"></i>
+                <div class="nav-right">
+                    <span class="nav-list-it5">
+                        <i class="fa fa-bars"></i>
                     </span>
-                </h1>
-                <ul id="MenuBarUL" data-role="listview" data-inset="false">
-                    <li><a onclick="location.href = 'app.html'">דף הבית</a></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a></li>
-                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a></li>
-                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
-                </ul>
+                    <script>
+                        $("span.nav-list-it5").ontap(function () {
+                            $("ul.nav-top-list1").slideToggle("slow", function () {
+                                // Animation complete.
+                            });
+                        });
+                    </script>
+                    <ul class="nav-top-list nav-top-list1">
+                        <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
+                        <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                        <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
+                        <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
+                        <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
+                        <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+
+                        <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
             </div>
 
-            <div id="UpperLogo">
-                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="img/Taramti-LOGO.JPG" />
+            <div id="SearchAssoc">
+                <h2>פרטי העמותה</h2>
+
+            </div>
+
+            <div class="Form" id="AssocInfo" style="visibility:hidden">
+
+                <h4>שם עמותה: </h4>
+                <input type="text" id="AssocName" />
+                <h4>קוד עמותה: </h4>
+                <input type="text" id="AssocCode" />
+                <h4>פרטי חשבון העמותה: </h4>
+                <input type="text" id="AssocAccount" />
+                <h4>אתר עמותה: </h4>
+                <input type="text" id="AssocSite" />
+                <h4>שנת ייסוד: </h4>
+                <input type="text" id="AssocYear" />
+
+
+                <a onclick="goBack()">חזור</a>
+
+                <div class="RoundDivfixed">
+                    <div id="fixedCircle">
+                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
+                    </div>
+                    <div id="fixedHome">
+                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div id="SearchAssoc">
-            <h2>פרטי העמותה</h2>
-
-        </div>
-
-        <div class="Form" id="AssocInfo" style="visibility:hidden">
-
-            <h4>שם עמותה: </h4>
-            <input type="text" id="AssocName" />
-            <h4>קוד עמותה: </h4>
-            <input type="text" id="AssocCode" />
-            <h4>פרטי חשבון העמותה: </h4>
-            <input type="text" id="AssocAccount" />
-            <h4>אתר עמותה: </h4>
-            <input type="text" id="AssocSite" />
-            <h4>שנת ייסוד: </h4>
-            <input type="text" id="AssocYear" />
-
-
-            <a onclick="goBack()">חזור</a>
-
-            <div id="fixedCircle">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-circle-o fa-5x" aria-hidden="true"></i></a></div>
-            </div>
-            <div id="fixedHome">
-                <div> <a onclick="location.href = 'app.html'"><i class="fa fa-home fa-3x" aria-hidden="true"></i></a></div>
-            </div>
-        </div>
-    </div>
-
-
 
 </body>
 

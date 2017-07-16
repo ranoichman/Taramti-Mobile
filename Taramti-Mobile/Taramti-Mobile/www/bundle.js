@@ -100,11 +100,19 @@
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _Bdika = __webpack_require__(455);
+	var _ThemeAuctions = __webpack_require__(455);
+
+	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
+
+	var _Bdika = __webpack_require__(456);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
-	var _master = __webpack_require__(457);
+	var _Menu = __webpack_require__(437);
+
+	var _Menu2 = _interopRequireDefault(_Menu);
+
+	var _master = __webpack_require__(458);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -190,70 +198,13 @@
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {}
-	        // Lifecycle function that is triggered just before a component unmounts
-
-	        //#region removed methods
-	        //change states to show specific auction page
-	        // offerBid(i, arr) {
-	        //     this.setState({ auctionsArr: arr,displayedAuction: i, home: false });
-	        // }
-
-	        // //call function to get auctions from serveer
-	        // getAuctionsByParams(cities, lowPrice, highPrice, catCode) {
-	        //     const self = this;
-	        //     axios.post(auctionWS + 'GetAuctionByParam', {
-	        //         cities: cities,
-	        //         lowPrice: lowPrice,
-	        //         highPrice: highPrice,
-	        //         catCode: catCode
-	        //     }).then(function (response) {
-	        //         let res = JSON.parse(response.data.d);
-	        //         res.map(self.addAuction);
-	        //     })
-	        //         .catch(function (error) {
-	        //             console.log(error);
-	        //         });
-	        // }
-
-	        // //add auction to state array
-	        // addAuction(item, i) {
-	        //     let arr = this.state.auctionsArr;
-	        //     let newAuction = {
-	        //         code: item.AuctionID,
-	        //         endDate: item.End_Date,
-	        //         price: item.Price,
-	        //         percentage: item.Percentage,
-	        //         prodName: item.ProdName,
-	        //         prodDesc: item.ProdDesc,
-	        //         imgArr: item.Images,
-	        //     }
-	        //     arr.push(newAuction);
-	        //     this.setState({ auctionsArr: arr });
-
-	        // }
-	        /*
-	            renderHome() {
-	                return (
-	                    <Home offerBid={this.offerBid} auctionsArr={this.state.auctionsArr}  />
-	                );
-	            }
-	        
-	            renderAucPage() {
-	                let curAuction = this.state.auctionsArr[this.state.displayedAuction];
-	                return (
-	                    <div className="container-fluid">
-	                        <Auction index={this.state.displayedAuction} auctionfinished={this.deleteAuction}
-	                            home={this.state.home} price={curAuction.price} endDate={curAuction.endDate} code={curAuction.code}
-	                            imgArr={curAuction.imgArr} prodName={curAuction.prodName} prodDesc={curAuction.prodDesc} percentage={curAuction.percentage} />
-	                    </div>
-	                )
-	            }*/
-	        //#region removed methods
-
+	        value: function componentWillUnmount() {
+	            // Lifecycle function that is triggered just before a component unmounts
+	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            console.log('children======== ' + this.props.children);
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -272,8 +223,10 @@
 	        App,
 	        null,
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
+	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/profile', component: _Profile2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/participate', component: _ParticipateAuction2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _MyAuction2.default })
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/myAuction', component: _MyAuction2.default }),
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Menu2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -30865,13 +30818,17 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _Search = __webpack_require__(436);
+	var _Search = __webpack_require__(433);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
-	var _Loader = __webpack_require__(438);
+	var _Loader = __webpack_require__(435);
 
 	var _Loader2 = _interopRequireDefault(_Loader);
+
+	var _Menu = __webpack_require__(437);
+
+	var _Menu2 = _interopRequireDefault(_Menu);
 
 	__webpack_require__(311);
 
@@ -30928,6 +30885,8 @@
 	        value: function componentDidMount() {
 	            // Lifecycle function that is triggered just before a component mounts
 	            this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
+
+	            // this.startTO = setTimeout(()=> sst )
 	        }
 	    }, {
 	        key: 'SearchModalChanged',
@@ -30945,7 +30904,7 @@
 	        key: 'searchTriggered',
 	        value: function searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
 	            //console.log(`entered search on ----- ${Date.now()}`)
-	            this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0 });
+	            this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
 	            this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
 	        }
 
@@ -30954,19 +30913,30 @@
 	    }, {
 	        key: 'getAuctionsByParams',
 	        value: function getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
-	            var id = parseInt(_general.buyerID);
-	            console.log('buyer---- ' + id);
-	            this.setState({ searchModalIsOpen: false });
+	            //define "this" for inner functions
 	            var self = this;
+
+	            //stop db access after 8s
+	            if (this.startTO == undefined) {
+	                this.startTO = setTimeout(function () {
+	                    self.setState({ loaded: true });
+	                    self.startTO = undefined;
+	                }, 8000);
+	            }
+	            var id = parseInt(_general.buyerID);
 	            _axios2.default.post(_general.auctionWS + 'GetAuctionByParam', {
 	                lowPrice: lowPrice,
 	                highPrice: highPrice,
 	                catCode: catCode,
+	                aucCatCode: "0",
 	                lat: lat,
 	                lng: lng,
 	                radius: radius,
 	                user_Id: id
 	            }).then(function (response) {
+	                //clear TO when success
+	                clearTimeout(self.startTO);
+
 	                var res = JSON.parse(response.data.d);
 
 	                if (res.length == 0) {
@@ -31012,8 +30982,12 @@
 	                    }
 	                }
 	            }).catch(function (error) {
-	                console.log('shgiaaaaaaa');
 	                console.log(error);
+
+	                //access db again untill results arrive or TO expires
+	                if (self.startTO != undefined) {
+	                    self.getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius);
+	                }
 	            });
 	        }
 	    }, {
@@ -31068,8 +31042,8 @@
 	    }, {
 	        key: 'eachAuction',
 	        value: function eachAuction(item, i) {
-	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid, handleLoad: this.handleLoad, picModalChanged: this.picModalChanged,
-	                home: 'true', auc: item, modalIsOpen: this.state.modalIsOpen || this.state.searchModalIsOpen });
+	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid, handleLoad: this.handleLoad, modalChanged: this.picModalChanged,
+	                auc: item, mine: false, modalIsOpen: this.state.modalIsOpen || this.state.searchModalIsOpen });
 	        }
 
 	        //remove finished auction from displayed array
@@ -31115,14 +31089,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                _react2.default.createElement('div', { style: { height: "74px", width: "100%" } }),
-	                _react2.default.createElement(
-	                    'span',
-	                    { id: "TaramtiMenuIconDiv", style: { position: "absolute", top: "7px", right: "9px" } },
-	                    _react2.default.createElement('i', { id: "TaramtiMenuIcon", className: 'fa fa-ellipsis-v fa-4x' })
-	                ),
-	                _react2.default.createElement('img', { src: "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/smaller_logo.jpg", style: { float: "left", marginLeft: "-2%", width: "80%", position: "absolute", top: "0", marginTop: "0", right: "30px" } }),
+	                { className: 'pageBC', style: { minHeight: "640px" } },
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.SearchModalChanged, className: 'search' },
@@ -31137,12 +31104,13 @@
 	                        _react2.default.createElement(_Search2.default, { closeModal: this.SearchModalChanged, startSearch: this.searchTriggered })
 	                    )
 	                ),
+	                _react2.default.createElement(_Menu2.default, { home: true }),
 	                _react2.default.createElement(
 	                    _Loader2.default,
 	                    { loaded: this.state.loaded, loadingText: "...מחפש" },
 	                    this.state.auctionsArr.length == 0 ? _react2.default.createElement(
 	                        'h1',
-	                        { style: { textAlign: "center" } },
+	                        { style: { textAlign: "center", marginTop: "140px" } },
 	                        '\u05D0\u05D9\u05DF \u05DE\u05DB\u05E8\u05D6\u05D9\u05DD \u05DC\u05EA\u05E6\u05D5\u05D2\u05D4'
 	                    ) : "",
 	                    _react2.default.createElement(
@@ -31253,9 +31221,9 @@
 
 	var _general = __webpack_require__(424);
 
-	__webpack_require__(432);
+	__webpack_require__(429);
 
-	__webpack_require__(434);
+	__webpack_require__(431);
 
 	__webpack_require__(315);
 
@@ -31293,11 +31261,15 @@
 	        _this.state = {
 	            reDirect: false,
 	            sold: false,
-	            price: _this.props.auc.price
+	            finished: false,
+	            price: _this.props.auc.price,
+	            rePublishModalIsOpen: false
+
 	        };
 	        _this.timerFinishedHome = _this.timerFinishedHome.bind(_this);
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
-	        _this.toParticipate = _this.toParticipate.bind(_this);
+	        _this.buttonClicked = _this.buttonClicked.bind(_this);
+	        _this.rePublishModalChanged = _this.rePublishModalChanged.bind(_this);
 	        return _this;
 	    }
 
@@ -31310,7 +31282,7 @@
 	            if (this.props.auc.buyer != null) {
 	                setTimeout(function () {
 	                    return _this2.setState({ sold: true });
-	                }, 500);
+	                }, 250);
 	            }
 	            //signal home component that finished rendering
 	            this.props.handleLoad();
@@ -31340,73 +31312,118 @@
 	            });
 	        }
 	    }, {
-	        key: 'timerFinishedHome',
-	        value: function timerFinishedHome() {
-	            this.props.auctionfinished(this.props.index);
+	        key: 'rePublishModalChanged',
+	        value: function rePublishModalChanged() {
+	            var newStatus = !this.state.rePublishModalIsOpen;
+	            this.setState({ rePublishModalIsOpen: newStatus });
+	            this.props.modalChanged();
 	        }
 	    }, {
-	        key: 'toParticipate',
-	        value: function toParticipate() {
+	        key: 'timerFinishedHome',
+	        value: function timerFinishedHome() {
+	            this.setState({ finished: true });
+	            if (this.props.auctionfinished !== 'undefined') {
+	                this.props.auctionfinished(this.props.index);
+	            }
+	        }
+	    }, {
+	        key: 'buttonClicked',
+	        value: function buttonClicked() {
 	            //let aucData = Object.assign({},)
 	            // aucData.price = this.state.price;
-	            localStorage.setItem("aucData", JSON.stringify({ props: this.props, price: this.state.price }));
-	            this.setState({ reDirect: true });
+	            if (this.state.finished) {
+	                this.rePublishModalChanged();
+	            } else {
+	                localStorage.setItem("aucData", JSON.stringify({ props: this.props, price: this.state.price }));
+	                this.setState({ reDirect: true });
+	            }
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            if (this.state.reDirect) {
-	                return _react2.default.createElement(_reactRouterDom.Redirect, { push: true, to: '/participate' });
+	                if (this.props.mine) {
+	                    return _react2.default.createElement(_reactRouterDom.Redirect, { push: true, to: '/myAuction' });
+	                } else {
+	                    return _react2.default.createElement(_reactRouterDom.Redirect, { push: true, to: '/participate' });
+	                }
 	            }
-	            return (
-	                // zIndex: this.props.modalIsOpen && !this.state.sold ? 0 : 1
+	            // handle displayed button text
+	            var buttonText = "השתתפות במכרז";
+	            if (this.props.mine) {
+	                if (this.state.finished) {
+	                    buttonText = "פרסום מחדש";
+	                } else {
+	                    buttonText = "צפייה במכרז";
+	                }
+	            }
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                this.props.auc.buyer != null ? _react2.default.createElement(
+	                    'div',
+	                    { className: this.state.sold ? "sold stamp" : "stamp", style: { zIndex: !this.state.sold ? -5 : this.props.modalIsOpen ? 0 : 1 } },
+	                    '!\u05E0\u05DE\u05DB\u05E8'
+	                ) : null,
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'row' },
-	                    this.props.auc.buyer != null ? _react2.default.createElement(
-	                        'div',
-	                        { className: this.state.sold ? "sold stamp" : "stamp", style: { zIndex: !this.state.sold ? -5 : this.props.modalIsOpen ? 0 : 1 } },
-	                        '\u05E0\u05DE\u05DB\u05E8'
-	                    ) : null,
+	                    { className: 'col-xs-6 imgContainer' },
+	                    _react2.default.createElement(_PriceTag2.default, { key: '.$' + this.props.index, index: this.props.index, price: this.state.price, modalIsOpen: this.props.modalIsOpen || this.state.rePublishModalIsOpen }),
+	                    _react2.default.createElement(_Pic2.default, { key: this.key, imagesArr: this.props.auc.imgArr, picModalChanged: this.props.modalChanged })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-xs-6', dir: 'rtl' },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'col-xs-6 imgContainer' },
-	                        _react2.default.createElement(_PriceTag2.default, { key: '.$' + this.props.index, index: this.props.index, price: this.state.price, modalIsOpen: this.props.modalIsOpen }),
-	                        _react2.default.createElement(_Pic2.default, { key: this.key, imagesArr: this.props.auc.imgArr, picModalChanged: this.props.picModalChanged })
+	                        null,
+	                        _react2.default.createElement(_Timer2.default, { endDate: this.props.auc.endDate, timerFinished: this.timerFinishedHome }),
+	                        _react2.default.createElement(
+	                            'h4',
+	                            { className: 'text-center' },
+	                            this.props.auc.prodName
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            { className: 'descPar' },
+	                            this.props.auc.prodDesc
+	                        ),
+	                        _react2.default.createElement('br', null),
+	                        _react2.default.createElement(
+	                            'h5',
+	                            { style: { float: "right", display: "inline" } },
+	                            _react2.default.createElement(
+	                                'span',
+	                                { style: { fontWeight: "bold" } },
+	                                '\u05DE\u05D9\u05E7\u05D5\u05DD: '
+	                            ),
+	                            this.props.auc.city.CityName
+	                        ),
+	                        this.state.sold ? "" : _react2.default.createElement(
+	                            'button',
+	                            { ref: 'bidBTN', className: 'btn-l btn-10 ui-btn ui-shadow ui-corner-all', onClick: this.buttonClicked, style: { width: "inherit" } },
+	                            ' ',
+	                            buttonText,
+	                            '  '
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactModal2.default,
+	                    {
+	                        isOpen: this.state.rePublishModalIsOpen,
+	                        contentLabel: 'open info',
+	                        className: 'box' },
+	                    _react2.default.createElement(
+	                        _reactSwipeable2.default,
+	                        { onTap: this.rePublishModalChanged },
+	                        _react2.default.createElement('a', { className: 'boxclose' })
 	                    ),
 	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'col-xs-6', dir: 'rtl' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            _react2.default.createElement(_Timer2.default, { endDate: this.props.auc.endDate, timerFinished: this.timerFinishedHome }),
-	                            _react2.default.createElement(
-	                                'h4',
-	                                { className: 'text-center' },
-	                                this.props.auc.prodName
-	                            ),
-	                            _react2.default.createElement(
-	                                'p',
-	                                { className: 'descPar' },
-	                                this.props.auc.prodDesc
-	                            ),
-	                            _react2.default.createElement(
-	                                'h5',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'span',
-	                                    { style: { fontWeight: "bold" } },
-	                                    '\u05DE\u05D9\u05E7\u05D5\u05DD: '
-	                                ),
-	                                this.props.auc.city.CityName
-	                            ),
-	                            this.state.sold ? "" : _react2.default.createElement(
-	                                'button',
-	                                { ref: 'bidBTN', className: 'ui-btn ui-btn-corner-all btn-primary', onClick: this.toParticipate },
-	                                ' \u05D4\u05E9\u05EA\u05EA\u05E3 \u05D1\u05DE\u05DB\u05E8\u05D6!  '
-	                            )
-	                        )
+	                        'h3',
+	                        null,
+	                        '\u05E4\u05E8\u05E1\u05D5\u05DD \u05DE\u05D7\u05D3\u05E9'
 	                    )
 	                )
 	            );
@@ -31559,11 +31576,11 @@
 	                this.state.secondsRemaining = this.state.secondsRemaining - 1000;
 	                this.setState({ elapsed: this.calculateElapsed() });
 	                if (this.state.secondsRemaining <= 0) {
+	                    clearInterval(this.loadInterval);
 	                    this.setState({ elapsed: "המכרז הסתיים" });
-	                    if (this.props.timerFinished !== 'undefined') {
+	                    if (this.props.timerFinished != 'undefined') {
 	                        this.props.timerFinished();
 	                    }
-	                    clearInterval(this.loadInterval);
 	                }
 	            }
 	        }
@@ -31684,7 +31701,7 @@
 
 
 	// module
-	exports.push([module.id, ".rect {\r\n  max-width: 150px;\r\n  max-height: 75px;\r\n  padding-right: 10px;\r\n  padding-left: 10px;\r\n  margin: 0 auto;\r\n}\r\n\r\n.regBorder {\r\n  border: 2px solid green;\r\n      color: antiquewhite;\r\n    background-color: springgreen;\r\n}\r\n\r\n\r\n.blinkBorder {\r\n  border: 2px solid red;\r\n   color: antiquewhite;\r\n    background-color: rgb(255, 98, 98);\r\n}\r\n/*.blinkBorder h3 {\r\n  color: red;\r\n}*/\r\n\r\n\r\n/*@keyframes blink {\r\n            25% {\r\n                border: 2px solid red;\r\n            }\r\n        }*/\r\n        /*.blinkBorder {\r\n            animation-name: blink;\r\n            animation-duration: .08s;\r\n            animation-timing-function: step-end;\r\n            animation-iteration-count: infinite;\r\n            animation-direction: alternate;\r\n        }*/", ""]);
+	exports.push([module.id, ".rect {\r\n  max-width: 150px;\r\n  max-height: 75px;\r\n  padding-right: 10px;\r\n  padding-left: 10px;\r\n  margin: 0 auto;\r\n  border-radius: .4em;\r\n}\r\n\r\n.regBorder {\r\n  border: 2px solid green;\r\n  \r\n      color: antiquewhite;\r\n    background-color: #0f9b0f;\r\n}\r\n\r\n\r\n.blinkBorder {\r\n  border: 2px solid red;\r\n   color: antiquewhite;\r\n    background-color: rgb(255, 98, 98);\r\n}\r\n/*.blinkBorder h3 {\r\n  color: red;\r\n}*/\r\n\r\n\r\n/*@keyframes blink {\r\n            25% {\r\n                border: 2px solid red;\r\n            }\r\n        }*/\r\n        /*.blinkBorder {\r\n            animation-name: blink;\r\n            animation-duration: .08s;\r\n            animation-timing-function: step-end;\r\n            animation-iteration-count: infinite;\r\n            animation-direction: alternate;\r\n        }*/", ""]);
 
 	// exports
 
@@ -31789,6 +31806,7 @@
 	                infinite: false,
 	                arrows: false,
 	                slidesToShow: 1
+	                // rtl: true
 	            };
 
 	            return _react2.default.createElement(
@@ -31805,7 +31823,7 @@
 	                        _reactSlick2.default,
 	                        _extends({}, settings, { style: { height: 0 } }),
 	                        this.props.imagesArr.map(function (imageUrl, i) {
-	                            return _react2.default.createElement('img', { key: i, src: imageUrl });
+	                            return _react2.default.createElement('img', { key: i, src: imageUrl, style: { display: "inline" } });
 	                        })
 	                    )
 	                ),
@@ -34229,10 +34247,6 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _Auction = __webpack_require__(285);
-
-	var _Auction2 = _interopRequireDefault(_Auction);
-
 	var _AuctionInfo = __webpack_require__(314);
 
 	var _AuctionInfo2 = _interopRequireDefault(_AuctionInfo);
@@ -34253,13 +34267,9 @@
 
 	var _Pic2 = _interopRequireDefault(_Pic);
 
-	var _Tetris = __webpack_require__(428);
-
-	var _Tetris2 = _interopRequireDefault(_Tetris);
-
 	__webpack_require__(426);
 
-	var _messages = __webpack_require__(431);
+	var _messages = __webpack_require__(428);
 
 	var _general = __webpack_require__(424);
 
@@ -34272,6 +34282,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	// taramti babait components
+	// import Auction from '../Home/Auction';
 
 
 	//constants 
@@ -34310,30 +34321,38 @@
 	                finished: false,
 	                imgArr: par.props.auc.imgArr
 	            }
-	        };
-	        _this.openMSGModal = _this.openMSGModal.bind(_this);
-	        _this.closeMSGModal = _this.closeMSGModal.bind(_this);
+	            // this.openMSGModal = this.openMSGModal.bind(this);
+	            // this.closeMSGModal = this.closeMSGModal.bind(this);
+
+	        };_this.infoModalChanged = _this.infoModalChanged.bind(_this);
+	        _this.FAQModalChannged = _this.FAQModalChannged.bind(_this);
+	        _this.MSGModalChanged = _this.MSGModalChanged.bind(_this);
+
 	        _this.congratulateSeller = _this.congratulateSeller.bind(_this);
-	        _this.openInfoModal = _this.openInfoModal.bind(_this);
-	        _this.closeInfoModal = _this.closeInfoModal.bind(_this);
-	        _this.openFAQModal = _this.openFAQModal.bind(_this);
-	        _this.closeFAQModal = _this.closeFAQModal.bind(_this);
+	        // this.openInfoModal = this.openInfoModal.bind(this);
+	        // this.closeInfoModal = this.closeInfoModal.bind(this);
+	        // this.openFAQModal = this.openFAQModal.bind(this);
+	        // this.closeFAQModal = this.closeFAQModal.bind(this);
 	        _this.makeBid = _this.makeBid.bind(_this);
 	        _this.timerFinishedAuc = _this.timerFinishedAuc.bind(_this);
 	        _this.calcDonation = _this.calcDonation.bind(_this);
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
+	        _this.addToWatch = _this.addToWatch.bind(_this);
+	        _this.updateWatch = _this.updateWatch.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(ParticipateAuction, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            this.addToWatch();
 	            this.calcDonation();
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
+	            this.updateWatch();
 	            //clear interval!!!
 	            this.loadInterval && clearInterval(this.loadInterval);
 	            this.loadInterval = false;
@@ -34365,15 +34384,15 @@
 	        */
 
 	    }, {
-	        key: 'openInfoModal',
-	        value: function openInfoModal() {
-	            this.setState({ infoModalIsOpen: true });
+	        key: 'infoModalChanged',
+	        value: function infoModalChanged() {
+	            var newstatus = !this.state.infoModalIsOpen;
+	            this.setState({ infoModalIsOpen: newstatus });
 	        }
-	    }, {
-	        key: 'closeInfoModal',
-	        value: function closeInfoModal() {
-	            this.setState({ infoModalIsOpen: false });
-	        }
+
+	        // closeInfoModal() {
+	        //     this.setState({ infoModalIsOpen: false })
+	        // }
 
 	        /*
 	           ***************
@@ -34382,15 +34401,15 @@
 	           */
 
 	    }, {
-	        key: 'openFAQModal',
-	        value: function openFAQModal() {
-	            this.setState({ fAQModalIsOpen: true });
+	        key: 'FAQModalChannged',
+	        value: function FAQModalChannged() {
+	            var newstatus = !this.state.fAQModalIsOpen;
+	            this.setState({ fAQModalIsOpen: newstatus });
 	        }
-	    }, {
-	        key: 'closeFAQModal',
-	        value: function closeFAQModal() {
-	            this.setState({ fAQModalIsOpen: false });
-	        }
+
+	        // closeFAQModal() {
+	        //     this.setState({ fAQModalIsOpen: false })
+	        // }
 	        /*
 	           ***************
 	              MSG MODAL
@@ -34398,16 +34417,15 @@
 	           */
 
 	    }, {
-	        key: 'openMSGModal',
-	        value: function openMSGModal() {
-	            this.setState({ msg_ModalIsOpen: true });
+	        key: 'MSGModalChanged',
+	        value: function MSGModalChanged() {
+	            var newstatus = !this.state.msg_ModalIsOpen;
+	            this.setState({ msg_ModalIsOpen: newstatus });
 	        }
-	    }, {
-	        key: 'closeMSGModal',
-	        value: function closeMSGModal() {
-	            this.setState({ msg_ModalIsOpen: false });
-	        }
-	        //#endregion modal methods
+
+	        // closeMSGModal() {
+	        //     this.setState({ msg_ModalIsOpen: false })
+	        // }
 
 	        //disable input and button
 
@@ -34548,6 +34566,52 @@
 	            //console.log(`make bid price: ${val}`)
 	        }
 	    }, {
+	        key: 'addToWatch',
+	        value: function addToWatch() {
+	            var user = { UserId: _general.buyerID };
+	            var auc = {
+	                AuctionID: this.state.auc.code,
+	                Buyer: user
+	            };
+	            this.enter = Date.now();
+
+	            _axios2.default.post(_general.auctionWS + 'AddToWatch_Log', {
+	                auc: auc, enter: parseInt(this.enter)
+	            }).then(function (response) {
+	                var ans = response.data.d;
+	                console.log('add to watch - ' + ans);
+	                if (ans != 1) {
+	                    //add to local storage
+	                }
+	            }).catch(function (error) {
+	                console.log(error);
+	                //add to local storage
+	            });
+	        }
+	    }, {
+	        key: 'updateWatch',
+	        value: function updateWatch() {
+	            var user = { UserId: _general.buyerID };
+	            var auc = {
+	                AuctionID: this.state.auc.code,
+	                Buyer: user
+	            };
+	            this.leave = Date.now();
+
+	            _axios2.default.post(_general.auctionWS + 'UpdateWatch_Log', {
+	                auc: auc, enter: parseInt(this.enter), leave: parseInt(this.leave)
+	            }).then(function (response) {
+	                var ans = response.data.d;
+	                console.log('add to watch - ' + ans);
+	                if (ans != 1) {
+	                    //add to local storage
+	                }
+	            }).catch(function (error) {
+	                console.log(error);
+	                //add to local storage
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -34592,7 +34656,7 @@
 	                        className: this.state.msgClass },
 	                    _react2.default.createElement(
 	                        _reactSwipeable2.default,
-	                        { onTap: this.closeMSGModal },
+	                        { onTap: this.MSGModalChanged },
 	                        _react2.default.createElement('a', { className: 'boxclose' })
 	                    ),
 	                    _react2.default.createElement(
@@ -34611,30 +34675,28 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactSwipeable2.default,
-	                        { onTap: this.openInfoModal },
+	                        { onTap: this.infoModalChanged },
 	                        _react2.default.createElement(_reactFontawesome2.default, { name: 'info-circle', border: true, className: 'fa-3x', tag: 'i' }),
 	                        _react2.default.createElement(
 	                            _reactModal2.default,
 	                            {
 	                                isOpen: this.state.infoModalIsOpen,
-
 	                                contentLabel: 'open info',
 	                                className: 'zoomInRight' },
-	                            _react2.default.createElement(_AuctionInfo2.default, { modal: true, closeModal: this.closeInfoModal, auc: this.state.auc })
+	                            _react2.default.createElement(_AuctionInfo2.default, { modal: true, closeModal: this.infoModalChanged, auc: this.state.auc })
 	                        )
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactSwipeable2.default,
-	                        { onTap: this.openFAQModal },
+	                        { onTap: this.FAQModalChannged },
 	                        _react2.default.createElement(_reactFontawesome2.default, { name: 'question-circle', border: true, className: 'fa-3x', tag: 'i' }),
 	                        _react2.default.createElement(
 	                            _reactModal2.default,
 	                            {
 	                                isOpen: this.state.fAQModalIsOpen,
-
 	                                contentLabel: 'open FAQ',
 	                                className: 'zoomInRight' },
-	                            _react2.default.createElement(_AuctionFAQ2.default, { closeModal: this.closeFAQModal, prodCode: this.state.auc.prodCode, chat: true })
+	                            _react2.default.createElement(_AuctionFAQ2.default, { closeModal: this.FAQModalChannged, prodCode: this.state.auc.prodCode, chat: true })
 	                        )
 	                    )
 	                ),
@@ -34856,7 +34918,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    \r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\n/*remove menu*/\r\n/*\r\nh1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {\r\n    width: 30px;\r\n    height: 74PX;\r\n    padding: 0 0 0 0;\r\n    border: 0 0 0 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\ndiv.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {\r\n    position: fixed;\r\n    top: 0PX;\r\n    margin: 0 0 0 0;\r\n    z-index: 100;\r\n    border-top-width: 0px;\r\n    width: 60%;\r\n    border-color: black;\r\n    border-width: 2px;\r\n}\r\n\r\n.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\na.ui-btn.ui-btn-icon-right.ui-icon-carat-r {\r\n    background-color: #98b8dc;\r\n    border-color: black;\r\n}*/\r\n\r\n\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 30px;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\n/*remove menu*/\r\n/*\r\nh1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {\r\n    width: 30px;\r\n    height: 74PX;\r\n    padding: 0 0 0 0;\r\n    border: 0 0 0 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\ndiv.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {\r\n    position: fixed;\r\n    top: 0PX;\r\n    margin: 0 0 0 0;\r\n    z-index: 100;\r\n    border-top-width: 0px;\r\n    width: 60%;\r\n    border-color: black;\r\n    border-width: 2px;\r\n}\r\n\r\n.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\na.ui-btn.ui-btn-icon-right.ui-icon-carat-r {\r\n    background-color: #98b8dc;\r\n    border-color: black;\r\n}*/\r\n\r\n\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n", ""]);
 
 	// exports
 
@@ -38807,102 +38869,6 @@
 
 /***/ }),
 /* 428 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactSwipeable = __webpack_require__(228);
-
-	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
-
-	__webpack_require__(429);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //import $ from 'jquery';
-
-
-	var Tetris = function (_Component) {
-	    _inherits(Tetris, _Component);
-
-	    function Tetris() {
-	        _classCallCheck(this, Tetris);
-
-	        return _possibleConstructorReturn(this, (Tetris.__proto__ || Object.getPrototypeOf(Tetris)).call(this));
-	    }
-
-	    _createClass(Tetris, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'gameBlock' },
-	                _react2.default.createElement('img', { src: 'https://cdn-cloudflare.pelfusion.com/wp-content/uploads/2011/06/flash-tetris-game.jpg', style: { marginTop: "0px" } })
-	            );
-	        }
-	    }]);
-
-	    return Tetris;
-	}(_react.Component);
-
-	exports.default = Tetris;
-
-/***/ }),
-/* 429 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(430);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./tetris.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./tetris.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 430 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".gameBlock{\r\n    width:90%;\r\n    margin: 0 auto;\r\n    border:2px solid black;\r\n    min-height:300px;\r\n    max-height:550px;\r\n}\r\n", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 431 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -38916,13 +38882,13 @@
 	var errorMSG = exports.errorMSG = "משהו לא הלך כשורה, נא נסה שוב";
 
 /***/ }),
-/* 432 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(433);
+	var content = __webpack_require__(430);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38942,7 +38908,7 @@
 	}
 
 /***/ }),
-/* 433 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38956,13 +38922,13 @@
 
 
 /***/ }),
-/* 434 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(435);
+	var content = __webpack_require__(432);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38982,7 +38948,7 @@
 	}
 
 /***/ }),
-/* 435 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38996,7 +38962,7 @@
 
 
 /***/ }),
-/* 436 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39019,7 +38985,7 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _Ddl = __webpack_require__(437);
+	var _Ddl = __webpack_require__(434);
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
@@ -39180,7 +39146,7 @@
 	exports.default = Search;
 
 /***/ }),
-/* 437 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -39247,7 +39213,7 @@
 	exports.default = Ddl;
 
 /***/ }),
-/* 438 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -39292,7 +39258,7 @@
 	                return _react2.default.createElement(
 	                    "div",
 	                    { style: { marginTop: "15%" } },
-	                    _react2.default.createElement("img", { src: __webpack_require__(439), className: "loading" }),
+	                    _react2.default.createElement("img", { src: __webpack_require__(436), className: "loading" }),
 	                    _react2.default.createElement(
 	                        "h3",
 	                        { style: { textAlign: "center" } },
@@ -39314,10 +39280,232 @@
 	exports.default = Loader;
 
 /***/ }),
-/* 439 */
+/* 436 */
 /***/ (function(module, exports) {
 
 	module.exports = "data:image/png;base64,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"
+
+/***/ }),
+/* 437 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	__webpack_require__(438);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//style
+
+
+	var Menu = function (_Component) {
+	    _inherits(Menu, _Component);
+
+	    function Menu(props) {
+	        _classCallCheck(this, Menu);
+
+	        var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+
+	        _this.state = {
+	            visible: 'menuB'
+	        };
+	        _this.handleClick = _this.handleClick.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(Menu, [{
+	        key: 'handleClick',
+	        value: function handleClick() {
+	            this.setState({ visible: this.state.visible == 'menuB' ? 'menuB visible' : 'menuB' });
+	        }
+
+	        //  $("span.nav-list-it5").click(function () {
+	        //                     $("ul.nav-top-list1").slideToggle("slow", function () {
+	        //                         // Animation complete.
+	        //                     });
+	        //                 });
+
+	    }, {
+	        key: 'render',
+	        value: function render() {
+
+	            var menuLabel = {
+	                display: "block",
+	                margin: "0 0 .4em",
+	                fontSize: "16px",
+	                fontWeight: 400,
+	                color: "#636363"
+	            };
+	            return _react2.default.createElement(
+	                'div',
+	                { id: 'MenuBarDiv', style: { zIndex: 150, position: "relative" }, className: 'navigation-1 navigation-5' },
+	                _react2.default.createElement('img', { id: 'LogoBidIt', src: 'images/LogoBidIt.png', style: { left: this.props.home ? "40%" : "" } }),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'nav-left' },
+	                    _react2.default.createElement('img', { style: { zIndex: 150, marginTop: 0, marginLeft: this.props.home ? "25%" : "" }, id: 'TaramtiLogo', src: 'images/LogoCircle.png' })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'nav-right', onClick: this.handleClick, style: { marginTop: "13.7188px" } },
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'nav-list-it5' },
+	                        _react2.default.createElement('i', { className: 'fa fa-bars' })
+	                    ),
+	                    _react2.default.createElement(
+	                        'ul',
+	                        { className: '' + this.state.visible },
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                '\u05D3\u05E3 \u05D4\u05D1\u05D9\u05EA'
+	                            ),
+	                            _react2.default.createElement(
+	                                'label',
+	                                null,
+	                                '|'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                '\u05D4\u05D5\u05E1\u05E4\u05EA \u05DE\u05DB\u05E8\u05D6'
+	                            ),
+	                            _react2.default.createElement(
+	                                'label',
+	                                null,
+	                                '|'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                '\u05E4\u05E8\u05D5\u05E4\u05D9\u05DC \u05DE\u05E9\u05EA\u05DE\u05E9'
+	                            ),
+	                            _react2.default.createElement(
+	                                'label',
+	                                null,
+	                                '|'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                '\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4'
+	                            ),
+	                            _react2.default.createElement(
+	                                'label',
+	                                null,
+	                                '|'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                '\u05E4\u05E8\u05D8\u05D9 \u05E2\u05DE\u05D5\u05EA\u05D5\u05EA'
+	                            ),
+	                            _react2.default.createElement(
+	                                'label',
+	                                null,
+	                                '|'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                null,
+	                                '\u05D4\u05D5\u05E1\u05E4\u05EA \u05E2\u05DE\u05D5\u05EA\u05D4'
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'clearfix' },
+	                    ' '
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Menu;
+	}(_react.Component);
+
+	exports.default = Menu;
+
+/***/ }),
+/* 438 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(439);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./menu.css", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./menu.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 439 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".menuB{\r\n    width: 200px;\r\n    max-height: 0px;\r\n    overflow: hidden;\r\n    transition: max-height 1.5s ease;\r\n    background-color: white;\r\n    text-align: center;\r\n    width: 100%;\r\n    margin: 45px 0 0;\r\n    position: absolute;\r\n    left: 0em;\r\n    padding: 0em;\r\n    z-index: 9;\r\n}\r\n\r\n.menuB.visible{\r\n    max-height: 500px;\r\n}\r\nul li a{\r\n    color: #000;\r\n    font-size: 16px;\r\n    margin: 0.5em 0;\r\n    display: block;\r\n    font-weight: 700;\r\n    font-family: \"Segoe UI\", Arial, sans-serif;\r\n}\r\nul li a label{\r\n    display: block;\r\n    margin: 0 0 .4em;\r\n    font-size: 16px;\r\n    font-weight: 400;\r\n    color: #636363;\r\n}\r\n", ""]);
+
+	// exports
+
 
 /***/ }),
 /* 440 */
@@ -40687,7 +40875,7 @@
 
 
 	// module
-	exports.push([module.id, ".sliderDiv{\r\n  display: inline-block;\r\n  /*margin-top: 40px;*/\r\n}\r\n\r\n.react-tabs__tab-list {\r\n  /*border-bottom: 1px solid #aaa;*/\r\n  width: 100%;\r\n  background-color: darkcyan;\r\n  margin: 0 0 10px;\r\n  padding: 0;\r\n  font: bold 20px;\r\n}\r\n\r\n.react-tabs__tab {\r\n  display: inline-block;\r\n  margin: 0 3%;\r\n  \r\n  border: 1px solid transparent;\r\n  border-bottom: none;\r\n  bottom: -1px;\r\n  position: relative;\r\n  list-style: none;\r\n  padding: 6px 12px;\r\n\r\n}\r\n\r\n.react-tabs__tab--selected {\r\n  border-bottom: 4px solid cyan ;\r\n  color: black;\r\n\r\n}\r\n\r\n.react-tabs__tab-panel {\r\n  margin-top: 10px;\r\n  display: none;\r\n}\r\n\r\n.react-tabs__tab-panel--selected {\r\n  display: block;\r\n  /*-webkit-animation: slide 0.5s forwards;*/\r\n  animation: slide 1s forwards;\r\n}\r\n\r\n/*@-webkit-keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }*/\r\n\r\n@keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }\r\n\r\n.react-tabs__tab--disabled {\r\n  color: GrayText;\r\n  cursor: default;\r\n  \r\n\r\n  /*auction-leave*/\r\n  /*transform: translate(0%);*/\r\n}\r\n\r\n.react-tabs__tab:focus {\r\n  box-shadow: 0 0 5px hsl(208, 99%, 50%);\r\n  border-color: hsl(208, 99%, 50%);\r\n  outline: none;\r\n}\r\n\r\n.react-tabs__tab:focus:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  height: 5px;\r\n  left: -4px;\r\n  right: -4px;\r\n  bottom: -5px;\r\n  background: #fff;\r\n}\r\n\r\n.tab-animate-left{\r\n  position:relative;\r\n  animation:animateleft 0.4s\r\n  }\r\n  \r\n  @keyframes animateleft{\r\n    from{\r\n      left:-300px;\r\n    opacity:0}\r\n    to{\r\n      left:0;\r\n    opacity:1}\r\n    }\r\n\r\n.tab-animate-right{\r\n  position:relative;\r\n  animation:animateright 0.4s\r\n  }\r\n\r\n  @keyframes animateright{\r\n    from{\r\n    right:-300px;\r\n    opacity:0\r\n    }\r\n  to{\r\n    right:0;\r\n    opacity:1\r\n  }\r\n  }", ""]);
+	exports.push([module.id, ".sliderDiv{\r\n  display: inline-block;\r\n  /*margin-top: 40px;*/\r\n}\r\n\r\n.react-tabs__tab-list {\r\n  /*border-bottom: 1px solid #aaa;*/\r\n  width: 100%;\r\n  background-color: darkcyan;\r\n  margin: 0 0 10px;\r\n  padding: 0;\r\n  font: bold 30px;\r\n}\r\n\r\n.react-tabs__tab {\r\n  display: inline-block;\r\n  margin: 0 3%;\r\n  border: 1px solid transparent;\r\n  border-bottom: none;\r\n  bottom: -1px;\r\n  position: relative;\r\n  list-style: none;\r\n  font-size: 12px;\r\n  /* padding: 6px 12px; */\r\n\r\n}\r\n\r\n.react-tabs__tab--selected {\r\n  border-bottom: 4px solid cyan ;\r\n  color: black;\r\n\r\n}\r\n\r\n.react-tabs__tab-panel {\r\n  margin-top: 10px;\r\n  display: none;\r\n}\r\n\r\n.react-tabs__tab-panel--selected {\r\n  display: block;\r\n  /*-webkit-animation: slide 0.5s forwards;*/\r\n  animation: slide 1s forwards;\r\n}\r\n\r\n/*@-webkit-keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }*/\r\n\r\n@keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }\r\n\r\n.react-tabs__tab--disabled {\r\n  color: GrayText;\r\n  cursor: default;\r\n  \r\n\r\n  /*auction-leave*/\r\n  /*transform: translate(0%);*/\r\n}\r\n\r\n.react-tabs__tab:focus {\r\n  box-shadow: 0 0 5px hsl(208, 99%, 50%);\r\n  border-color: hsl(208, 99%, 50%);\r\n  outline: none;\r\n}\r\n\r\n.react-tabs__tab:focus:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  height: 5px;\r\n  left: -4px;\r\n  right: -4px;\r\n  bottom: -5px;\r\n  background: #fff;\r\n}\r\n\r\n.tab-animate-left{\r\n  position:relative;\r\n  animation:animateleft 0.4s\r\n  }\r\n  \r\n  @keyframes animateleft{\r\n    from{\r\n      left:-300px;\r\n    opacity:0}\r\n    to{\r\n      left:0;\r\n    opacity:1}\r\n    }\r\n\r\n.tab-animate-right{\r\n  position:relative;\r\n  animation:animateright 0.4s\r\n  }\r\n\r\n  @keyframes animateright{\r\n    from{\r\n    right:-300px;\r\n    opacity:0\r\n    }\r\n  to{\r\n    right:0;\r\n    opacity:1\r\n  }\r\n  }", ""]);
 
 	// exports
 
@@ -40752,7 +40940,7 @@
 
 	__webpack_require__(426);
 
-	var _messages = __webpack_require__(431);
+	var _messages = __webpack_require__(428);
 
 	var _general = __webpack_require__(424);
 
@@ -40797,9 +40985,8 @@
 	                prodDesc: par.props.auc.prodDesc,
 	                imgArr: par.props.auc.imgArr
 	            }
-	        };
-	        _this.timerFinishedAuc = _this.timerFinishedAuc.bind(_this);
-	        _this.calcDonation = _this.calcDonation.bind(_this);
+	            // this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
+	        };_this.calcDonation = _this.calcDonation.bind(_this);
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
 	        _this.addQuestion = _this.addQuestion.bind(_this);
 
@@ -40888,26 +41075,25 @@
 	        }
 
 	        //disable input and button
-
-	    }, {
-	        key: 'timerFinishedAuc',
-	        value: function timerFinishedAuc() {
-	            var tempObj = this.state.auc;
-	            tempObj["finished"] = true;
-	            this.setState({ auc: tempObj });
-	            var self = this;
-	            _axios2.default.post(_general.auctionWS + 'GetAuctionPrice', {
-	                auctionCode: self.props.params.code
-	            }).then(function (response) {
-	                var ans = response.this.d;
-	                if (ans !== "-1") {
-	                    // self.congratulateSeller();
-	                    self.openMSGModal();
-	                }
-	            }).catch(function (error) {
-	                console.log(error);
-	            });
-	        }
+	        // timerFinishedAuc() {
+	        //     let tempObj = this.state.auc;
+	        //     tempObj["finished"] = true;
+	        //     this.setState({ auc: tempObj });
+	        //     const self = this;
+	        //     axios.post(auctionWS + 'GetAuctionPrice', {
+	        //         auctionCode: self.props.params.code
+	        //     })
+	        //         .then(function (response) {
+	        //             let ans = response.this.d;
+	        //             if (ans !== "-1") {
+	        //                 // self.congratulateSeller();
+	        //                 self.openMSGModal();
+	        //             }
+	        //         })
+	        //         .catch(function (error) {
+	        //             console.log(error);
+	        //         });
+	        // }
 
 	        //calculate donation amount to insert to circle
 
@@ -41005,7 +41191,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'time' },
-	                        _react2.default.createElement(_Timer2.default, { endDate: this.state.auc.endDate, timerFinished: this.timerFinishedAuc })
+	                        _react2.default.createElement(_Timer2.default, { endDate: this.state.auc.endDate })
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
@@ -41100,6 +41286,10 @@
 
 	var _MyAuction2 = _interopRequireDefault(_MyAuction);
 
+	var _ThemeAuctions = __webpack_require__(455);
+
+	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
+
 	__webpack_require__(451);
 
 	__webpack_require__(311);
@@ -41135,7 +41325,7 @@
 	        value: function tabSwipeLeft() {
 	            var i = this.state.tabIndex - 1;
 	            if (i === -1) {
-	                this.setState({ tabIndex: 2, animation: "slideInRight" });
+	                this.setState({ tabIndex: 3, animation: "slideInRight" });
 	            } else {
 	                this.setState({ tabIndex: i, animation: "slideInRight" });
 	            }
@@ -41144,7 +41334,7 @@
 	        key: 'tabSwipeRight',
 	        value: function tabSwipeRight() {
 	            var i = this.state.tabIndex + 1;
-	            if (i === 3) {
+	            if (i === 4) {
 	                this.setState({ tabIndex: 0, animation: "slideInLeft" });
 	            } else {
 	                this.setState({ tabIndex: i, animation: "slideInLeft" });
@@ -41155,10 +41345,10 @@
 	        value: function render() {
 	            var _this2 = this;
 
-	            var list = ["מישהו עקף אותי", "המוצרים שלי", "הבידים שלי"];
+	            var list = ["עקפו אותי", "המוצרים שלי", "הבידים שלי"];
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'pageReact', style: { minHeight: "640px" } },
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onSwipedLeft: this.tabSwipeLeft, onSwipedRight: this.tabSwipeRight },
@@ -41173,12 +41363,17 @@
 	                            _react2.default.createElement(
 	                                _reactTabs.Tab,
 	                                null,
-	                                '\u05DE\u05D9\u05E9\u05D4\u05D5 \u05E2\u05E7\u05E3 \u05D0\u05D5\u05EA\u05D9'
+	                                '\u05D4\u05D9\u05E1\u05D8\u05D5\u05E8\u05D9\u05D9\u05EA \u05E8\u05DB\u05D9\u05E9\u05D5\u05EA'
 	                            ),
 	                            _react2.default.createElement(
 	                                _reactTabs.Tab,
 	                                null,
-	                                '\u05D4\u05D4\u05E6\u05E2\u05D5\u05EA \u05E9\u05DC\u05D9'
+	                                '\u05E2\u05E7\u05E4\u05D5 \u05D0\u05D5\u05EA\u05D9'
+	                            ),
+	                            _react2.default.createElement(
+	                                _reactTabs.Tab,
+	                                null,
+	                                '\u05D4\u05DE\u05D5\u05E6\u05E8\u05D9\u05DD \u05E9\u05DC\u05D9'
 	                            ),
 	                            _react2.default.createElement(
 	                                _reactTabs.Tab,
@@ -41191,17 +41386,17 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'div',
+	                                { className: this.state.tabIndex === 3 ? this.state.animation : "" },
+	                                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'history' })
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactTabs.TabPanel,
+	                            null,
+	                            _react2.default.createElement(
+	                                'div',
 	                                { className: this.state.tabIndex === 0 ? this.state.animation : "" },
-	                                _react2.default.createElement(
-	                                    'h2',
-	                                    null,
-	                                    '\u05E2\u05E7\u05E4\u05D5 \u05D0\u05D5\u05EA\u05D9'
-	                                ),
-	                                _react2.default.createElement(_Auction2.default, { key: 0, index: 0
-	                                    // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	                                    , home: 'true', imgArr: this.state.imgArr, prodName: "דמחמחכמה", prodDesc: " כ יחכ יחכח כיחיחג חיג חי יחגכ חיגכחי יחיג יגכ ג דמהיחהכ",
-	                                    price: 500, endDate: "7/7/2017", code: 4,
-	                                    percentage: 20, prodCode: 4 })
+	                                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'outBID' })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -41210,16 +41405,7 @@
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: this.state.tabIndex === 1 ? this.state.animation : "" },
-	                                _react2.default.createElement(
-	                                    'h2',
-	                                    null,
-	                                    '\u05D4\u05D4\u05E6\u05E2\u05D5\u05EA'
-	                                ),
-	                                _react2.default.createElement(_Auction2.default, { key: 1, index: 1
-	                                    // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	                                    , home: 'true', imgArr: this.state.imgArr, prodName: "dnjvnhjsbv h fs ", prodDesc: " djs jh kjs jk hj  ah hgdaj jk kjsk kjdjk djk hj hjad jd ahjad hj ",
-	                                    price: 500, endDate: "7/7/2017", code: 4,
-	                                    percentage: 20, prodCode: 4 })
+	                                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'myProducts' })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -41228,11 +41414,7 @@
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: this.state.tabIndex === 2 ? this.state.animation : "" },
-	                                _react2.default.createElement(
-	                                    'h2',
-	                                    null,
-	                                    '\u05D1\u05D9\u05D3\u05D9\u05DD'
-	                                )
+	                                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'current' })
 	                            )
 	                        )
 	                    )
@@ -41262,11 +41444,271 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactTransitionGroup = __webpack_require__(284);
+
+	var _reactSwipeable = __webpack_require__(228);
+
+	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
+
+	var _reactFontawesome = __webpack_require__(229);
+
+	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
+
 	var _reactModal = __webpack_require__(231);
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _Payment = __webpack_require__(456);
+	var _axios = __webpack_require__(257);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _Auction = __webpack_require__(285);
+
+	var _Auction2 = _interopRequireDefault(_Auction);
+
+	var _Loader = __webpack_require__(435);
+
+	var _Loader2 = _interopRequireDefault(_Loader);
+
+	__webpack_require__(311);
+
+	var _general = __webpack_require__(424);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// taramti babait components
+
+	// import Search from './Search';
+
+	//import TaramtiMenu from './TaramtiMenu'
+
+
+	//import '../css/jqmCss.css';
+	//import '../../www/css/StyleSheet.css';
+
+
+	var ThemeAuctions = function (_Component) {
+	    _inherits(ThemeAuctions, _Component);
+
+	    function ThemeAuctions(props) {
+	        _classCallCheck(this, ThemeAuctions);
+
+	        var _this = _possibleConstructorReturn(this, (ThemeAuctions.__proto__ || Object.getPrototypeOf(ThemeAuctions)).call(this, props));
+
+	        _this.state = {
+	            searchModalIsOpen: false,
+	            modalIsOpen: false,
+	            auctionsArr: [],
+	            loaded: false,
+	            loadingCounter: 0
+	        };
+	        _this.modalOpenedChanged = _this.modalOpenedChanged.bind(_this);
+	        _this.getLeadingAuctions = _this.getLeadingAuctions.bind(_this);
+	        _this.addAuction = _this.addAuction.bind(_this);
+	        _this.eachAuction = _this.eachAuction.bind(_this);
+	        _this.deleteAuction = _this.deleteAuction.bind(_this);
+	        _this.handleLoad = _this.handleLoad.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(ThemeAuctions, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            // Lifecycle function that is triggered just before a component mounts
+	            this.getLeadingAuctions();
+	        }
+	    }, {
+	        key: 'modalOpenedChanged',
+	        value: function modalOpenedChanged() {
+	            var newStatus = !this.state.modalIsOpen;
+	            this.setState({ modalIsOpen: newStatus });
+	        }
+
+	        //call function to get auctions from serveer
+
+	    }, {
+	        key: 'getLeadingAuctions',
+	        value: function getLeadingAuctions() {
+	            //define "this" for inner functions
+	            var self = this;
+
+	            var funcName = "";
+	            switch (this.props.theme) {
+	                case "current":
+	                    funcName = "Get_Current_LeadingAuctions";
+	                    break;
+	                case "history":
+	                    funcName = "Get_History_LeadingAuctions";
+	                    break;
+	                case "myProducts":
+	                    funcName = "GetAllMySells";
+	                    break;
+	                case "outBID":
+	                    funcName = "GetOutBiddedAuctions";
+	                    break;
+	                case "":
+	                    funcName = "Get_Current_LeadingAuctions";
+	                    break;
+	                default:
+	                    break;
+	            }
+	            console.log(funcName);
+	            //stop db access after 7s
+	            if (this.startTO == undefined) {
+	                this.startTO = setTimeout(function () {
+	                    self.setState({ loaded: true });
+	                    self.startTO = undefined;
+	                }, 7000);
+	            }
+	            var id = _general.buyerID;
+	            // const id = parseInt(buyerID);
+	            _axios2.default.post(_general.auctionWS + funcName, {
+	                user_Id: id
+	            }).then(function (response) {
+	                //clear TO when success
+	                clearTimeout(self.startTO);
+
+	                var res = JSON.parse(response.data.d);
+
+	                if (res.length == 0) {
+	                    setTimeout(function () {
+	                        return self.setState({ loaded: true });
+	                    }, 300);
+	                }
+
+	                res.map(self.addAuction);
+	            }).catch(function (error) {
+	                console.log(error);
+
+	                //access db again untill results arrive or TO expires
+	                if (self.startTO != undefined) {
+	                    self.getLeadingAuctions();
+	                }
+	            });
+	        }
+
+	        //add auction from server to array
+
+	    }, {
+	        key: 'addAuction',
+	        value: function addAuction(item) {
+	            var arr = this.state.auctionsArr;
+	            var newAuction = {
+	                code: item.AuctionID,
+	                endDate: item.End_Date,
+	                price: item.Price,
+	                percentage: item.Percentage,
+	                prodCode: item.ItemCode,
+	                prodName: item.ProdName,
+	                prodDesc: item.ProdDesc,
+	                imgArr: item.Images,
+	                city: item.Location,
+	                buyer: item.Buyer
+	            };
+	            arr.push(newAuction);
+	            this.setState({ auctionsArr: arr });
+	        }
+
+	        //function that returns a render of 1 auction
+
+	    }, {
+	        key: 'eachAuction',
+	        value: function eachAuction(item, i) {
+	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid, handleLoad: this.handleLoad, modalChanged: this.modalOpenedChanged,
+	                auc: item, mine: this.props.theme === "myProducts" ? true : false, modalIsOpen: this.state.modalIsOpen });
+	        }
+
+	        //remove finished auction from displayed array
+
+	    }, {
+	        key: 'deleteAuction',
+	        value: function deleteAuction(i) {
+
+	            // var arr = this.state.auctionsArr;
+	            // arr.splice(i, 1);
+	            // this.setState({ auctionsArr: arr });
+	            // this.state.auctionsArr.map(function (item, i) { console.log(i + "____" + item.endDate + ":::::::" + item.price) })
+	        }
+	    }, {
+	        key: 'handleLoad',
+	        value: function handleLoad() {
+	            var _this2 = this;
+
+	            var couner = this.state.loadingCounter;
+	            couner++;
+	            if (couner == this.state.auctionsArr.length) {
+	                setTimeout(function () {
+	                    return _this2.setState({ loaded: true });
+	                }, 1000); // display loader 1 more sec 
+	            } else {
+	                this.setState({ loadingCounter: couner });
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    _Loader2.default,
+	                    { loaded: this.state.loaded, loadingText: "...מחפש" },
+	                    this.state.auctionsArr.length == 0 ? _react2.default.createElement(
+	                        'h1',
+	                        { style: { textAlign: "center", marginTop: "40px", marginBottom: "200px" } },
+	                        '\u05D0\u05D9\u05DF \u05DE\u05DB\u05E8\u05D6\u05D9\u05DD \u05DC\u05EA\u05E6\u05D5\u05D2\u05D4'
+	                    ) : "",
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'container-fluid' },
+	                        _react2.default.createElement(
+	                            _reactTransitionGroup.CSSTransitionGroup,
+	                            {
+	                                transitionName: 'auction',
+	                                transitionAppear: true,
+	                                transitionAppearTimeout: 700,
+	                                transitionEnterTimeout: 700,
+	                                transitionLeave: false },
+	                            this.state.auctionsArr.map(this.eachAuction)
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return ThemeAuctions;
+	}(_react.Component);
+
+	exports.default = ThemeAuctions;
+
+/***/ }),
+/* 456 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactModal = __webpack_require__(231);
+
+	var _reactModal2 = _interopRequireDefault(_reactModal);
+
+	var _Payment = __webpack_require__(457);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
 
@@ -41407,7 +41849,7 @@
 	exports.default = Bdika;
 
 /***/ }),
-/* 456 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41498,7 +41940,7 @@
 	exports.default = Payment;
 
 /***/ }),
-/* 457 */
+/* 458 */
 /***/ (function(module, exports) {
 
 	
