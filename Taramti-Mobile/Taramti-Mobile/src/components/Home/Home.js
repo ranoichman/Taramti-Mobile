@@ -9,6 +9,7 @@ import axios from 'axios';
 import Auction from '../Generic/Auction';
 import Search from './Search';
 import Loader from '../Generic/Loader';
+import Menu from '../Generic/Menu';
 //import TaramtiMenu from './TaramtiMenu'
 
 
@@ -69,7 +70,7 @@ class Home extends Component {
     getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
         //define "this" for inner functions
         const self = this;
-        
+
         //stop db access after 8s
         if (this.startTO == undefined) {
             this.startTO = setTimeout(() => {
@@ -82,6 +83,7 @@ class Home extends Component {
             lowPrice: lowPrice,
             highPrice: highPrice,
             catCode: catCode,
+            aucCatCode: "0",
             lat: lat,
             lng: lng,
             radius: radius,
@@ -131,7 +133,7 @@ class Home extends Component {
         })
             .catch(function (error) {
                 console.log(error);
-                
+
                 //access db again untill results arrive or TO expires
                 if (self.startTO != undefined) {
                     self.getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius)
@@ -185,8 +187,8 @@ class Home extends Component {
 
     //function that returns a render of 1 auction
     eachAuction(item, i) {
-        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
-             auc={item} mine={false} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
+        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} modalChanged={this.picModalChanged}
+            auc={item} mine={false} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
     }
 
     //remove finished auction from displayed array
@@ -219,19 +221,8 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
-                <div style={{ height: "74px", width: "100%" }} >
-                </div>
-                {/*menu*/}
-
-                <span id={"TaramtiMenuIconDiv"} style={{ position: "absolute", top: "7px", right: "9px" }}>
-                    <i id={"TaramtiMenuIcon"} className="fa fa-ellipsis-v fa-4x"></i>
-                </span>
-
-                {/*<div style={{ height: "74px", width: "100%" }} >*/}
-                <img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/smaller_logo.jpg"} style={{ float: "left", marginLeft: "-2%", width: "80%", position: "absolute", top: "0", marginTop: "0", right: "30px" }} />
-                {/*</div>*/}
-
+            <div className="pageBC" style={{minHeight:"640px"}}>
+            
                 {/*search icon*/}
                 <Swipeable onTap={this.SearchModalChanged} className="search">
                     <FontAwesome name='search' border={false} className="fa-2x" tag="div" />
@@ -244,9 +235,11 @@ class Home extends Component {
                     </Modal>
                 </Swipeable>
 
+                <Menu home={true}/>
+
                 {/*auctions display*/}
                 <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
-                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center", marginTop:"40px" }}>אין מכרזים לתצוגה</h1> : ""}
+                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center", marginTop: "140px" }}>אין מכרזים לתצוגה</h1> : ""}
                     <div className="container-fluid">
                         <CSSTransitionGroup
                             transitionName="auction"

@@ -95,10 +95,10 @@ class Auction extends Component {
         if (this.state.finished) {
             this.rePublishModalChanged();
         } else {
-        localStorage.setItem("aucData", JSON.stringify({ props: this.props, price: this.state.price }));
-        this.setState({ reDirect: true });    
+            localStorage.setItem("aucData", JSON.stringify({ props: this.props, price: this.state.price }));
+            this.setState({ reDirect: true });
         }
-        
+
 
     }
 
@@ -143,11 +143,12 @@ class Auction extends Component {
                         <br />
                         <h5 style={{ float: "right", display: "inline" }}><span style={{ fontWeight: "bold" }}>מיקום: </span>{this.props.auc.city.CityName}</h5>
 
-                        {this.state.sold ? "" : <button ref="bidBTN" className="ui-btn ui-btn-corner-all btn-primary" onClick={this.buttonClicked}> {buttonText}  </button>}
+                        {this.state.sold ? "" : <button ref="bidBTN" className="btn-l btn-10 ui-btn ui-shadow ui-corner-all" onClick={this.buttonClicked} style={{width:"inherit"}}> {buttonText}  </button>}
                     </div>
+
                 </div>
 
-                 <Modal
+                <Modal
                     isOpen={this.state.rePublishModalIsOpen}
                     contentLabel="open info"
                     className="box">
@@ -155,7 +156,7 @@ class Auction extends Component {
                         <a className="boxclose"></a>
                     </Swipeable>
                     <h3>פרסום מחדש</h3>
-                </Modal> 
+                </Modal>
 
             </div>
 

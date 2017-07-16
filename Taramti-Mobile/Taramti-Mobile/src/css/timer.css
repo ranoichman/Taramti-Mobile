@@ -4,12 +4,14 @@
   padding-right: 10px;
   padding-left: 10px;
   margin: 0 auto;
+  border-radius: .4em;
 }
 
 .regBorder {
   border: 2px solid green;
+  
       color: antiquewhite;
-    background-color: springgreen;
+    background-color: #0f9b0f;
 }
 
 

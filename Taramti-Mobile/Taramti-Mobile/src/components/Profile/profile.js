@@ -44,7 +44,7 @@ class Profile extends Component {
     render() {
         const list = ["עקפו אותי", "המוצרים שלי", "הבידים שלי"]
         return (
-            <div>
+            <div className="pageReact" style={{minHeight:"640px"}}>
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                         {/*header*/}

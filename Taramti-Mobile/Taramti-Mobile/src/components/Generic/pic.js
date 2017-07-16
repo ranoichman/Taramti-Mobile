@@ -49,6 +49,7 @@ class Pic extends Component {
             infinite: false,
             arrows: false,
             slidesToShow: 1,
+            // rtl: true
         }
 
         return (
@@ -59,7 +60,7 @@ class Pic extends Component {
                         contentLabel="open carousel"
                         className="picBox">
                         <Slider {...settings} style={{ height: 0 }}>
-                            {this.props.imagesArr.map((imageUrl, i) => {return <img key={i} src={imageUrl} />})}
+                            {this.props.imagesArr.map((imageUrl, i) => {return <img key={i} src={imageUrl} style={{display: "inline"}}/>})}
                         </Slider>
                     </Modal>
                 <Swipeable onTap={this.changeCarouselModalOpen}>
