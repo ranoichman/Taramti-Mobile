@@ -10,11 +10,8 @@ import Auction from '../Generic/Auction';
 import Search from './Search';
 import Loader from '../Generic/Loader';
 import Menu from '../Generic/Menu';
-//import TaramtiMenu from './TaramtiMenu'
 
 
-//import '../css/jqmCss.css';
-//import '../../www/css/StyleSheet.css';
 import '../../css/transition.css';
 
 import { auctionWS, buyerID } from '../../constants/general';

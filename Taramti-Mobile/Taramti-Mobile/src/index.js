@@ -16,7 +16,8 @@ import ParticipateAuction from './components/ParticipateAuction/ParticipateAucti
 import ActiveAuctions from './components/Profile/ActiveAuctions';
 import MyAuction from './components/Profile/MyAuction';
 import Profile from './components/Profile/Profile';
-import ThemeAuctions from './components/Profile/ThemeAuctions';
+import MyProducts from './components/MyProducts/MyProducts';
+// import ThemeAuctions from './components/Profile/ThemeAuctions';
 import Bdika from './components/Generic/Bdika';
 import Menu from './components/Generic/Menu';
 
@@ -108,7 +109,7 @@ ReactDOM.render(<HashRouter>
         <Route path="/myAuction" component={MyAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={Menu}/>
+        <Route path="/bdika" component={MyProducts}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 

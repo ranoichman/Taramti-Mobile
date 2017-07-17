@@ -3,9 +3,10 @@ import Swipeable from 'react-swipeable';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Auction from '../Generic/Auction';
+import ThemeAuctions from '../Generic/ThemeAuctions';
 import ActiveAuctions from './ActiveAuctions';
 import MyAuction from './MyAuction';
-import ThemeAuctions from './ThemeAuctions';
+// import ThemeAuctions from './ThemeAuctions';
 
 import '../../css/react-tabs.css';
 import '../../css/transition.css';
@@ -51,7 +52,6 @@ class Profile extends Component {
                         <TabList>
                             <Tab>היסטוריית רכישות</Tab>
                             <Tab>עקפו אותי</Tab>
-                            <Tab>המוצרים שלי</Tab>
                             <Tab>הבידים שלי</Tab>
                         </TabList>
 
