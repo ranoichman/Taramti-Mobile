@@ -9,6 +9,7 @@ img {
     float: right;
     overflow: hidden;
     display: -webkit-box;
+    font-weight: 500;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     }

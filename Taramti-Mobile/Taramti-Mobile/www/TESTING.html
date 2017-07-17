@@ -252,7 +252,7 @@
             });
 
         }
-        
+
         function updateWatch() {
             let user = { UserId: 300294485 };
             let auc = {
@@ -286,7 +286,7 @@
                 url: generic + "GetAuctionByParam",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: "0", aucCatCode: "0", lat: "100", lng: "200", radius: "20", user_Id: "302921481" }),
+                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: "0", aucCatCode: "0", lat: "100", lng: "200", radius: "20", user_Id: "300294485" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);

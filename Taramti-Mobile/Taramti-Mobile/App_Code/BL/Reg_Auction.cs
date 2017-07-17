@@ -81,7 +81,7 @@ public class Reg_Auction : Auction
         return 0;
     }
 
-    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int catCode, int aucCatCode, double lat, double lng, int radius, int user_Id)
+    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int catCode, int assocTagCode, double lat, double lng, int radius, int user_Id)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -92,7 +92,7 @@ public class Reg_Auction : Auction
         int low = 0;
         int high = 0;
         string code = "";
-        string aucCode = "";
+        string tagCode = "";
         if (lowPrice == -1)
             low = 0;
         else
@@ -105,10 +105,10 @@ public class Reg_Auction : Auction
             code = "> 0";
         else
             code = "=" + catCode;
-        if (aucCatCode == 0)
-            aucCode = "> 0";
+        if (assocTagCode == 0)
+            tagCode = "> 0";
         else
-            aucCode = "=" + aucCatCode;
+            tagCode = "=" + assocTagCode;
 
         //string StrSql = @"SELECT        dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
         //                 dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price as NewPrice, dbo.product.product_code as product_code, dbo.product.city_code, dbo.auction.buyer_id
@@ -127,7 +127,7 @@ public class Reg_Auction : Auction
                          GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
                          dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id,dbo.tag_of_association.tag_code ";
 
-        StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and tag_code " + aucCode + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) " +
+        StrSql += "HAVING (dbo.product.price BETWEEN " + low + " AND " + high + " and dbo.product.product_category_code " + code + " and tag_code " + tagCode + " and dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) " +
                   "AND (dbo.auction.seller_id <> N'" + user_Id + "') ";
 
         DS = db.GetDataSetByQuery(StrSql);
@@ -135,7 +135,7 @@ public class Reg_Auction : Auction
 
         if (!(lat == 0 & lng == 0 & radius == 0 & lowPrice == -1 & highPrice == -1 & catCode == 0))
         {
-            AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode, aucCatCode);
+            AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode, assocTagCode);
         }
 
         // הפונקציה תקבל את כל המכרזים ומחיר תקרה
@@ -218,24 +218,24 @@ public class Reg_Auction : Auction
         return relevantAuctions;
     }
 
-    public static void AddNewSearch(int id, double lat, double lng, int radius, int lowPrice, int highPrice, int catCode, int aucCatCode)
+    public static void AddNewSearch(int id, double lat, double lng, int radius, int lowPrice, int highPrice, int catCode, int assocTagCode)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
 
         string StrSql = @"INSERT INTO [dbo].[search_log] ([search_time] ,[user_id] ,[user_lat] ,[user_lng] ,[radius] ,[low_price],[high_price],[cat_code],[Assoc_Cat_Code])
-            VALUES (@time, @id,@lat,@lng,@radius,@lowprice, @highprice,@cat,@auccat) ";
+            VALUES (@time, @id,@lat,@lng,@radius,@lowprice, @highprice,@cat,@tag) ";
 
-        SqlParameter partime = new SqlParameter("@time", DateTime.Now);
-        SqlParameter parid = new SqlParameter("@id", id);
-        SqlParameter parlat = new SqlParameter("@lat", lat);
-        SqlParameter parlng = new SqlParameter("@lng", lng);
-        SqlParameter parradius = new SqlParameter("@radius", radius);
-        SqlParameter parlow = new SqlParameter("@lowprice", lowPrice);
-        SqlParameter parhigh = new SqlParameter("@highprice", highPrice);
-        SqlParameter parcat = new SqlParameter("@cat", catCode);
-        SqlParameter parauccat = new SqlParameter("@auccat", aucCatCode);
-        if (db.ExecuteQuery(StrSql, CommandType.Text, partime, parid, parlat, parlng, parradius, parlow, parhigh, parcat, parauccat) == 0)
+        SqlParameter parTime = new SqlParameter("@time", DateTime.Now);
+        SqlParameter parId = new SqlParameter("@id", id);
+        SqlParameter parLat = new SqlParameter("@lat", lat);
+        SqlParameter parLng = new SqlParameter("@lng", lng);
+        SqlParameter parRadius = new SqlParameter("@radius", radius);
+        SqlParameter parLow = new SqlParameter("@lowprice", lowPrice);
+        SqlParameter parHigh = new SqlParameter("@highprice", highPrice);
+        SqlParameter parCat = new SqlParameter("@cat", catCode);
+        SqlParameter parTag = new SqlParameter("@tag", assocTagCode);
+        if (db.ExecuteQuery(StrSql, CommandType.Text, parTime, parId, parLat, parLng, parRadius, parLow, parHigh, parCat, parTag) == 0)
         {
 
         }

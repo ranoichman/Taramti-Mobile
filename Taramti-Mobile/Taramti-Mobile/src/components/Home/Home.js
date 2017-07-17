@@ -44,7 +44,7 @@ class Home extends Component {
 
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
+        this.getAuctionsByParams(-1, -1, 0, 0,0, 0, 0); //initial data will come from 
 
         // this.startTO = setTimeout(()=> sst )
     }
@@ -60,14 +60,14 @@ class Home extends Component {
 
     }
 
-    searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
+    searchTriggered(lowPrice, highPrice, catCode, assocTagCode, coords, radius) {
         //console.log(`entered search on ----- ${Date.now()}`)
         this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
-        this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
+        this.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
     }
 
     //call function to get auctions from serveer
-    getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
+    getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
         //define "this" for inner functions
         const self = this;
 
@@ -83,7 +83,7 @@ class Home extends Component {
             lowPrice: lowPrice,
             highPrice: highPrice,
             catCode: catCode,
-            aucCatCode: "0",
+            assocTagCode: assocTagCode,
             lat: lat,
             lng: lng,
             radius: radius,
@@ -221,21 +221,21 @@ class Home extends Component {
 
     render() {
         return (
-            <div className="pageBC" style={{minHeight:"640px"}}>
-            
+            <div className="pageReact" style={{ minHeight: window.innerHeight }}>
+
                 {/*search icon*/}
                 <Swipeable onTap={this.SearchModalChanged} className="search">
                     <FontAwesome name='search' border={false} className="fa-2x" tag="div" />
                     <Modal
                         isOpen={this.state.searchModalIsOpen}
                         onRequestClose={this.SearchModalChanged}
-                        contentLabel="open search``"
-                        className="box" >
+                        contentLabel="open search"
+                        className="zoomInLeft">
                         <Search closeModal={this.SearchModalChanged} startSearch={this.searchTriggered} />
                     </Modal>
                 </Swipeable>
 
-                <Menu home={true}/>
+                <Menu home={true} />
 
                 {/*auctions display*/}
                 <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>Bid it התחברות</title>
     <meta charset="utf-8" />
@@ -25,6 +26,13 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--//font-Awesome-->
 </head>
+
+<script>
+    if (localStorage.UserID != null) {
+        location.href = "app.html";
+    }
+</script>
+
 <body>
 
     <!--דף לוגין-->
@@ -190,12 +198,12 @@
                 <div class="page-top-mid">
                     <div class="page-top-mid1">
                         <ul class="page-mid1" id="AddUserProcess">
-                            
+
                             <li><a class="next-top1" href="#LoginPage"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
                             <li class="Num"><span>1</span></li>
                             <li class="Num"><a href="#FirstRegisterPage2">2</a></li>
                             <li class="Num"><a href="#">3</a></li>
-                            <li><a class="pre1" href="#FirstRegisterPage2" ><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                            <li><a class="pre1" href="#FirstRegisterPage2"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                         </ul>
                     </div>
                     <div class="clearfix"> </div>
@@ -394,10 +402,6 @@
         var user_platform = "";
         var notification_id = "";
         var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
-
-        if (localStorage.UserID != null) {
-            location.href = "app.html";
-        }
 
         $(document).ready(function () {
             $("#Loginbtn").on("tap", function () {
@@ -851,4 +855,5 @@
     </script>
 
 </body>
+
 </html>

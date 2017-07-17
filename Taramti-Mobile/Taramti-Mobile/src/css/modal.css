@@ -8,16 +8,23 @@
     top: 80px;
     left: 40px;
     right: 40px;
-    /*bottom: 30px;*/
-    background-color: #fff;
+    background-color: rgba(255,255,255,0.9);
     color: #7F7F7F;
     padding: 20px;
-    border: 2px solid blue;
-    /*-moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -khtml-border-radius: 20px;
-    -moz-box-shadow: 0 1px 5px #333;
-    -webkit-box-shadow: 0 1px 5px #333;*/
+    border-radius: 8%;  
+    z-index: 101;
+    direction:rtl;
+}
+.searchBox {
+    position: fixed;
+    top: 110px;
+    left: 40px;
+    right: 40px;
+    /*bottom: 30px;*/
+    background-color: rgba(255,255,255,0.9);
+    color: #7F7F7F;
+    padding: 30px;
+    border-radius: 8%;
     z-index: 101;
     direction:rtl;
 }
@@ -133,6 +140,7 @@ font-size: 14px;
     top: 22px;
     left: 5px;
     width: 30px;
+    background: transparent;
 }
 
 .slick-track{

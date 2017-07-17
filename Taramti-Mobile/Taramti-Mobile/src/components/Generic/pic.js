@@ -64,7 +64,7 @@ class Pic extends Component {
                         </Slider>
                     </Modal>
                 <Swipeable onTap={this.changeCarouselModalOpen}>
-                    <img className={this.state.animationDirection} src={this.props.imagesArr[this.state.index]} />
+                    <img style={{borderRadius:"18%"}} src={this.props.imagesArr[this.state.index]} />
                 </Swipeable>
             </div>
         );
