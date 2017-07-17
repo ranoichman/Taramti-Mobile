@@ -18,16 +18,16 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
+    
 
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.min.js"></script>
 
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-
-
-    <script src="js/jquery.js"></script>
-    <!--<script src="js/jquery.min.js"></script>-->
     <script src="js/jqm.js"></script>
 
     <script src="js/master.js"></script>
@@ -47,10 +47,10 @@
 
 
     <!--<script type="text/javascript">
-    $(document).ready(function() {
-        $(".js-example-basic-single").select2();
-    });
-        </script>-->
+$(document).ready(function() {
+    $(".js-example-basic-single").select2();
+});
+    </script>-->
 
     <script>
         var LocalPicArr = new Array(); //שמירת הנתיב של התמונות במכשיר
@@ -61,7 +61,7 @@
 
         $(document).ready(function () {
             // אג'קס למילוי כל הקטגוריות
-
+      
             $.ajax({
                 dataType: "json",
                 url: aucwebservice + "GetAllProductsCategories",
@@ -173,7 +173,7 @@
             var $img = $("<img>").attr("src", imageURI);
             $imgDiv.append($imgA).append($img);
             $("#image_holder").append($imgDiv);
-
+            
 
             $imgA.on("tap", function () {
                 $(this).parent().remove();
@@ -249,7 +249,7 @@
                 }
             }
             else {
-                alert("לא ניתן להוסיף מכרז ללא תמונות- יש להוסיף לפחות תמונה אחת")
+                    alert("לא ניתן להוסיף מכרז ללא תמונות- יש להוסיף לפחות תמונה אחת")
             }
         }
 
@@ -300,28 +300,28 @@
 
 
     <!--<script>
-    function myFunction() {
-        // Declare variables
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("SearchBox");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("ProdLocation");
-        a = ul.getElementsByTagName('option');
+function myFunction() {
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("SearchBox");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("ProdLocation");
+    a = ul.getElementsByTagName('option');
 
-        // Loop through all list items, and hide those who don't match the search query
-        for (i = 0; i < a.length; i++) {
-            //a = li[i].getElementsByTagName("li")[0];
-            if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                //a[i].style.display = "";
-                a[i].selected = true;
-                //$('#ProdLocation').val(i);
-                $('#ProdLocation').change();
-            } else {
-                a[i].style.display = "none";
-            }
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < a.length; i++) {
+        //a = li[i].getElementsByTagName("li")[0];
+        if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            //a[i].style.display = "";
+            a[i].selected = true;
+            //$('#ProdLocation').val(i);
+            $('#ProdLocation').change();
+        } else {
+            a[i].style.display = "none";
         }
     }
-        </script>-->
+}
+    </script>-->
 </head>
 
 <body>
@@ -377,62 +377,77 @@
                     <h4>תיאור המוצר</h4>
                     <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
-                    <h4>מיקום</h4>
-
-                    <select id="ProdLocation1" class="js-example-basic-single" style="widows:200px" ></select>
-                    <!-- שימוש בג'יפיאס -->
-                </div>
-                <div style="display: none;">
-                    <select id="CustomerSelectHidden"></select>
-                </div>
-
-
-                <h4>בחר קטגוריה</h4>
-                <select id="AuctionCategories">
-                    <option value="-1"> בחר</option>
-                </select>
-
-                <h4>משך המכרז (בימים)</h4>
-                <select id="AuctionLast">
-                    <option value="-1"> בחר</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                </select>
-                <h4>בחר עמותה</h4>
-                <select id="AuctionAssoc">
-                    <option value="-1"> בחר</option>
-
-                </select>
-                <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
-                <input type="text" id="AuctionMinPrice" />
-                <h4>תמונות המוצר</h4>
-                <!--מצלמה-->
-                <div>
-                    <a class="ui-shadow ui-btn ui-corner-all ui-btn-block" id="CameraBtn" onclick="OpenCameraORChooseFile(true);"><i class="fa fa-camera w3-large w3-text-black"></i> </a>
-                    <div style="height:0px; overflow:hidden">
-                        <input type="file" id="fileInput" name="fileInput" />
+                    <h4>מיקום</h4> 
+                    <br />
+                    <input type="search" id="SearchBox" />
+                    <br />
+                    <!--<input type="text" id="ProdLocation" required>-->
+                    <!--<div class="scrollable" id="CustomerSelectDiv">-->
+                        <!--<select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">-->
+                    <select id="ProdLocation1"  class="js-example-basic-multiple" multiple="multiple">
+                            <!--<option value="-1"> בחר</option>-->
+                        <!--<option value="AL">Alabama</option>
+                        ...
+                        <option value="WY">Wyoming</option>-->
+                        </select> 
+                    <select  class="js-example-basic-multiple" multiple="multiple">
+                        <!--<option value="AL">Alabama</option>
+                        ...
+                        <option value="WY">Wyoming</option>-->
+                    </select>
+                        <!-- שימוש בג'יפיאס -->
+                        </div>
+                    <div style="display: none;">
+                        <select id="CustomerSelectHidden"></select>
                     </div>
-                    <button id="UploadFileBtn" type="button" onclick="OpenCameraORChooseFile(false);">בחר תמונה מגלריה</button>
-                </div>
 
-                <div id="image_holder">
-                </div>
 
-                <div class="RoundDivfixed">
-                    <div id="fixedCircle">
+                        <h4>בחר קטגוריה</h4>
+                        <select id="AuctionCategories">
+                            <option value="-1"> בחר</option>
+                        </select>
 
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
+                        <h4>משך המכרז (בימים)</h4>
+                        <select id="AuctionLast">
+                            <option value="-1"> בחר</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                        </select>
+                        <h4>בחר עמותה</h4>
+                        <select id="AuctionAssoc">
+                            <option value="-1"> בחר</option>
+
+                        </select>
+                        <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
+                        <input type="text" id="AuctionMinPrice" />
+                        <h4>תמונות המוצר</h4>
+                        <!--מצלמה-->
+                        <div>
+                            <a class="ui-shadow ui-btn ui-corner-all ui-btn-block" id="CameraBtn" onclick="OpenCameraORChooseFile(true);"><i class="fa fa-camera w3-large w3-text-black"></i> </a>
+                            <div style="height:0px; overflow:hidden">
+                                <input type="file" id="fileInput" name="fileInput" />
+                            </div>
+                            <button id="UploadFileBtn" type="button" onclick="OpenCameraORChooseFile(false);">בחר תמונה מגלריה</button>
+                        </div>
+
+                        <div id="image_holder">
+                        </div>
+
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+
+                            <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
+                        </div>
+                        <div id="fixedHome">
+                            <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
+
+                        </div>
                     </div>
-                    <div id="fixedHome">
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
-
-                    </div>
-                </div>
             </div>
 
             <div id="AddingMoneyAuctionTab">
