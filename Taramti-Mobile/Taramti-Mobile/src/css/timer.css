@@ -18,22 +18,5 @@
 .blinkBorder {
   border: 2px solid red;
    color: antiquewhite;
-    background-color: rgb(255, 98, 98);
+    background-color: #db1e15;
 }
-/*.blinkBorder h3 {
-  color: red;
-}*/
-
-
-/*@keyframes blink {
-            25% {
-                border: 2px solid red;
-            }
-        }*/
-        /*.blinkBorder {
-            animation-name: blink;
-            animation-duration: .08s;
-            animation-timing-function: step-end;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-        }*/

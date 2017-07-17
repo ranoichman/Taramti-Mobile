@@ -104,12 +104,13 @@ ReactDOM.render(<HashRouter>
     <App>
         <Route exact path="/" component={Home} />
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/products" component={MyProducts} />
         {/* Parameter routes*/}
         <Route path="/participate" component={ParticipateAuction} />
         <Route path="/myAuction" component={MyAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={MyProducts}/>
+        <Route path="/bdika" component={Bdika}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 
