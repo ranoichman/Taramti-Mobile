@@ -18,16 +18,22 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
+    
 
 
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     <script src="js/jqm.js"></script>
 
     <script src="js/master.js"></script>
+
+    <link href="dist/css/select2.min.css" rel="stylesheet" />
+    <script src="dist/js/select2.min.js"></script>
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--//font-Awesome-->
@@ -37,6 +43,14 @@
         const assoc = GENERAL.assocWebServerAddress;
         const user = GENERAL.USER;
     </script>
+
+
+
+    <!--<script type="text/javascript">
+$(document).ready(function() {
+    $(".js-example-basic-single").select2();
+});
+    </script>-->
 
     <script>
         var LocalPicArr = new Array(); //שמירת הנתיב של התמונות במכשיר
@@ -107,12 +121,14 @@
                         for (var i = 0; i < Cities.length; i++) {
                             var opt = '';
                             opt += '<option value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
-                            $("#ProdLocation").append(opt);
+                            $("#ProdLocation1").append(opt);
                         }
                     }
                 },
                 error: function (err) { }
             });
+
+            $(".js-example-basic-single").select2();
         });
 
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
@@ -179,7 +195,7 @@
             if (!Local_i == 0) {
                 var itemName = $("#ProdNum").val();
                 var itemDesc = $("#ProdDesc").val();
-                var city = $("#ProdLocation").val();
+                var city = $("#ProdLocation1").val();
                 var cat = $("#AuctionCategories").val();
                 var days = $("#AuctionLast").val();
                 var assoc = $("#AuctionAssoc").val();
@@ -282,6 +298,7 @@
         //}
     </script>
 
+
     <!--<script>
 function myFunction() {
     // Declare variables
@@ -366,9 +383,18 @@ function myFunction() {
                     <br />
                     <!--<input type="text" id="ProdLocation" required>-->
                     <!--<div class="scrollable" id="CustomerSelectDiv">-->
-                        <select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">
+                        <!--<select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">-->
+                    <select id="ProdLocation1"  class="js-example-basic-multiple" multiple="multiple">
                             <!--<option value="-1"> בחר</option>-->
+                        <!--<option value="AL">Alabama</option>
+                        ...
+                        <option value="WY">Wyoming</option>-->
                         </select> 
+                    <select  class="js-example-basic-multiple" multiple="multiple">
+                        <!--<option value="AL">Alabama</option>
+                        ...
+                        <option value="WY">Wyoming</option>-->
+                    </select>
                         <!-- שימוש בג'יפיאס -->
                         </div>
                     <div style="display: none;">
