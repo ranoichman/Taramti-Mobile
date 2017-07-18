@@ -22,7 +22,7 @@
 
 
     <script src="js/jquery.js"></script>
-    <script src="js/jquery.min.js"></script>
+    <!--<script src="js/jquery.min.js"></script>-->
 
 
 
@@ -32,8 +32,12 @@
 
     <script src="js/master.js"></script>
 
+    <link href="chosen_v1.7.0/docsupport/prism.css" rel="stylesheet" />
+    <link href="chosen_v1.7.0/docsupport/style.css" rel="stylesheet" />
     <link href="chosen_v1.7.0/chosen.css" rel="stylesheet" />
-    <script src="chosen_v1.7.0/chosen.jquery.min.js"></script>
+    <script src="chosen_v1.7.0/chosen.jquery.js"></script>
+
+
     <!--<link href="dist/css/select2.min.css" rel="stylesheet" />
     <script src="dist/js/select2.min.js"></script>-->
     <!--font-Awesome-->
@@ -130,8 +134,16 @@ $(document).ready(function() {
                 error: function (err) { }
             });
 
-            $(".js-example-basic-single").chosen();
+
+
+           // $("chosen").chosen();
         });
+
+        jQuery(document).ready(function () {
+            jQuery(".chosen").chosen({ disable_search: false });
+        });
+
+        //$(".js-example-basic-single").chosen({disable_search : false});
 
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
 
@@ -386,7 +398,7 @@ function myFunction() {
                     <!--<input type="text" id="ProdLocation" required>-->
                     <!--<div class="scrollable" id="CustomerSelectDiv">-->
                         <!--<select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">-->
-                    <select id="ProdLocation1"  class=".js-example-basic-single"    >
+                    <select id="ProdLocation1" class="chosen" >
                             <!--<option value="-1"> בחר</option>-->
                         <!--<option value="AL">Alabama</option>
                         ...
@@ -406,7 +418,7 @@ function myFunction() {
                         </select>
 
                         <h4>משך המכרז (בימים)</h4>
-                        <select id="AuctionLast">
+                        <select id="AuctionLast" class="js-example-basic-single">
                             <option value="-1"> בחר</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
