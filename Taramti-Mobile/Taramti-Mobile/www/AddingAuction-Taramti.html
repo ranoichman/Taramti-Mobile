@@ -32,8 +32,10 @@
 
     <script src="js/master.js"></script>
 
-    <link href="dist/css/select2.min.css" rel="stylesheet" />
-    <script src="dist/js/select2.min.js"></script>
+    <link href="chosen_v1.7.0/chosen.css" rel="stylesheet" />
+    <script src="chosen_v1.7.0/chosen.jquery.min.js"></script>
+    <!--<link href="dist/css/select2.min.css" rel="stylesheet" />
+    <script src="dist/js/select2.min.js"></script>-->
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--//font-Awesome-->
@@ -128,7 +130,7 @@ $(document).ready(function() {
                 error: function (err) { }
             });
 
-            $(".js-example-basic-single").select2();
+            $(".js-example-basic-single").chosen();
         });
 
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
@@ -384,17 +386,13 @@ function myFunction() {
                     <!--<input type="text" id="ProdLocation" required>-->
                     <!--<div class="scrollable" id="CustomerSelectDiv">-->
                         <!--<select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">-->
-                    <select id="ProdLocation1"  class="js-example-basic-multiple" multiple="multiple">
+                    <select id="ProdLocation1"  class=".js-example-basic-single"    >
                             <!--<option value="-1"> בחר</option>-->
                         <!--<option value="AL">Alabama</option>
                         ...
                         <option value="WY">Wyoming</option>-->
                         </select> 
-                    <select  class="js-example-basic-multiple" multiple="multiple">
-                        <!--<option value="AL">Alabama</option>
-                        ...
-                        <option value="WY">Wyoming</option>-->
-                    </select>
+                
                         <!-- שימוש בג'יפיאס -->
                         </div>
                     <div style="display: none;">
