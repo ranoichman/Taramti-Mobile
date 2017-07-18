@@ -10,6 +10,7 @@ class Balloon extends Component {
             height: window.innerHeight
         }
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.calcDonation = this.calcDonation.bind(this);
 
     }
 
@@ -18,11 +19,24 @@ class Balloon extends Component {
         //        window.addEventListener('resize', this.updateWindowDimensions);
     }
 
+    componentWillReceiveProps(nextProps) {
+
+        {/*animating price upadate*/ }
+        if ((nextProps.anim == "2" && this.props.anim != "2")) {
+            this.refs.newPrice.value="";
+            this.calcDonation();
+        }
+
+    }
+
     updateWindowDimensions() {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
-
+    calcDonation() {
+        let val = this.refs.newPrice !== undefined? parseInt(this.refs.newPrice.value) : -5;
+        this.props.calc(val);
+    }
     render() {
         const balloonDim = [
             {
@@ -53,7 +67,6 @@ class Balloon extends Component {
             100% {${balloonDim[this.props.curIndex]}}
         }`;
 
-
         let style = {
             width: balloonDim[this.props.curIndex]["width"],
             height: balloonDim[this.props.curIndex]["height"],
@@ -68,6 +81,7 @@ class Balloon extends Component {
         }
         return (
             <div className="balloon" style={this.props.anim === "0" ? style : float}>
+                <input type="number" ref="newPrice" className="priceInput" placeholder={this.props.price} onChange={this.calcDonation} />
             </div>
         );
     }

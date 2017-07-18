@@ -10,6 +10,7 @@ import Auction from '../Generic/Auction';
 import Search from './Search';
 import Loader from '../Generic/Loader';
 import Menu from '../Generic/Menu';
+import CircleButton from '../Generic/CircleButton';
 
 
 import '../../css/transition.css';
@@ -222,7 +223,8 @@ class Home extends Component {
 
                 {/*search icon*/}
                 <Swipeable onTap={this.SearchModalChanged} className="search">
-                    <FontAwesome name='search' border={false} className="fa-2x" tag="div" />
+                    {/* <FontAwesome name='search' border={false} className="fa-2x" tag="div" /> */}
+                    <img src="images/icons8-Search-64.png" />
                     <Modal
                         isOpen={this.state.searchModalIsOpen}
                         onRequestClose={this.SearchModalChanged}
@@ -251,9 +253,7 @@ class Home extends Component {
                 {/*</CSSTransitionGroup>*/}
 
                 {/*move to add auction*/}
-                <div id="fixedPlus">
-                    <a onClick={this.moveToAddAuction}><i className="fa fa-plus-circle fa-4x" aria-hidden="true"></i></a>
-                </div>
+                 <CircleButton home={false}/> 
 
             </div>
         );

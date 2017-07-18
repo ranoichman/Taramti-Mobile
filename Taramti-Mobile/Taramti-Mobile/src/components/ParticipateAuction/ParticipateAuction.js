@@ -12,6 +12,7 @@ import AuctionFAQ from './AuctionFAQ';
 import Balloon from './Balloon';
 import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
+import CircleButton from '../Generic/CircleButton';
 
 import '../../css/balloon.css';
 
@@ -33,6 +34,7 @@ class ParticipateAuction extends Component {
             msgClass: "box notEnough",
             shownMessage: "",
             tempDonation: "",
+            offered: 0,
             curIndex: 0,
             formerIndex: 0,
             anim: "0", // determine anim: 0-reg, 1-float to top 2-blow down the balloon 
@@ -69,7 +71,7 @@ class ParticipateAuction extends Component {
 
     componentDidMount() {
         this.addToWatch()
-        this.calcDonation();
+        this.calcDonation(-1);
         this.loadInterval = setInterval(this.getCurPrice, 5000);
     }
 
@@ -91,7 +93,7 @@ class ParticipateAuction extends Component {
                     let tempObj = self.state.auc;
                     tempObj["price"] = ans;
                     self.setState({ auc: tempObj });
-                    self.calcDonation();
+                    self.calcDonation(-1);
                 }
             })
             .catch(function (error) {
@@ -161,16 +163,21 @@ class ParticipateAuction extends Component {
     }
 
     //calculate donation amount to insert to circle
-    calcDonation() {
+    calcDonation(newP) {
         let tempPrice = parseInt(this.state.auc.price);
         let i = this.state.curIndex;
-
-        if (this.refs.newPrice !== undefined) {
+        let val = newP;
+        if (newP != -1) {
             this.setState({
                 borderColor: "red"
             });
 
-            let val = parseInt(this.refs.newPrice.value);
+            if (newP != -5) {
+                this.setState({ offered: newP });
+            }
+
+            let val = newP != -1 ? newP : 0;
+            // let val = parseInt(this.refs.newPrice.value);
             //console.log(`price: ${tempPrice},  new price: ${val}`)
             if (val > tempPrice) {
                 tempPrice = val;
@@ -314,9 +321,9 @@ class ParticipateAuction extends Component {
             });
     }
 
-    deleteOffer(){
-        this.setState({anim:"2"});
-        setTimeout(()=> this.setState({anim:"0"}),1500)
+    deleteOffer() {
+        this.setState({ anim: "2" });
+        setTimeout(() => this.setState({ anim: "0" }), 1500)
     }
 
     render() {
@@ -324,7 +331,7 @@ class ParticipateAuction extends Component {
             <div className="pageBC" style={{ minHeight: window.innerHeight, paddingTop: "10px" }}>
 
                 {/*home page fixed circle*/}
-                <Link to="/">
+                {/* <Link to="/">
                     <div id="fixedCircle">
                         <div>
                             <a>
@@ -339,7 +346,9 @@ class ParticipateAuction extends Component {
                             </a>
                         </div>
                     </div>
-                </Link>
+                </Link> */}
+
+                
 
                 {/*shown messegae*/}
                 <Modal
@@ -384,7 +393,7 @@ class ParticipateAuction extends Component {
                 </div>
 
                 {/*price manipulation*/}
-                <input type="number" ref="newPrice" placeholder={this.state.auc.price} onChange={this.calcDonation} style={{ borderColor: this.state.borderColor }} />
+                {/* <input type="number" ref="newPrice" placeholder={this.state.auc.price} onChange={this.calcDonation} style={{ borderColor: this.state.borderColor }} /> */}
                 <div className="circle">
                     <h4>
                         {this.state.tempDonation}
@@ -396,7 +405,7 @@ class ParticipateAuction extends Component {
                 </Swipeable> */}
 
                 <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer}>
-                    <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim}>
+                    <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation}>
 
                     </Balloon>
                 </Swipeable>
@@ -407,6 +416,9 @@ class ParticipateAuction extends Component {
                     <div className="before"></div>
                     <div className="after"></div>
                 </div>
+
+                <CircleButton home={true} />
+                
             </div>
         );
     }

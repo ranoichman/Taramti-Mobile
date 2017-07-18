@@ -60,11 +60,11 @@ class Pic extends Component {
                         contentLabel="open carousel"
                         className="picBox">
                         <Slider {...settings} style={{ height: 0 }}>
-                            {this.props.imagesArr.map((imageUrl, i) => {return <img key={i} src={imageUrl} style={{display: "inline"}}/>})}
+                            {this.props.imagesArr.map((imageUrl, i) => {return <img key={i} src={imageUrl} className="pic" style={{display: "inline"}}/>})}
                         </Slider>
                     </Modal>
                 <Swipeable onTap={this.changeCarouselModalOpen}>
-                    <img style={{borderRadius:"18%"}} src={this.props.imagesArr[this.state.index]} />
+                    <img className="pic" style={{borderRadius:"18%"}} src={this.props.imagesArr[this.state.index]} />
                 </Swipeable>
             </div>
         );
