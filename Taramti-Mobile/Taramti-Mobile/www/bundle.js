@@ -88,31 +88,31 @@
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
-	var _ActiveAuctions = __webpack_require__(440);
+	var _ActiveAuctions = __webpack_require__(441);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	var _MyAuction = __webpack_require__(453);
+	var _MyAuction = __webpack_require__(454);
 
 	var _MyAuction2 = _interopRequireDefault(_MyAuction);
 
-	var _Profile = __webpack_require__(454);
+	var _Profile = __webpack_require__(455);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _ThemeAuctions = __webpack_require__(455);
+	var _MyProducts = __webpack_require__(457);
 
-	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
+	var _MyProducts2 = _interopRequireDefault(_MyProducts);
 
-	var _Bdika = __webpack_require__(456);
+	var _Bdika = __webpack_require__(458);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
-	var _Menu = __webpack_require__(437);
+	var _Menu = __webpack_require__(438);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _master = __webpack_require__(458);
+	var _master = __webpack_require__(460);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -127,6 +127,8 @@
 
 
 	// taramti babait components
+
+	// import ThemeAuctions from './components/Profile/ThemeAuctions';
 
 
 	//const auctionWS = GENERAL.auctionWebServerAddress;
@@ -224,9 +226,10 @@
 	        null,
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/profile', component: _Profile2.default }),
+	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/products', component: _MyProducts2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/participate', component: _ParticipateAuction2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/myAuction', component: _MyAuction2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Menu2.default })
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Bdika2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -265,7 +268,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\r\n  -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */\r\n}\r\n\r\nbody {\r\n  -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */\r\n  -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */\r\n  -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */\r\n  background: #ffffff;\r\n  font-family: 'HelveticaNeue-Light', 'HelveticaNeue', 'Roboto', Helvetica, Arial, sans-serif;\r\n  font-size: 100%;\r\n  height: 100%;\r\n  margin: 0px;\r\n  padding: 0px;\r\n  width: 100%;\r\n}\r\n\r\n", ""]);
+	exports.push([module.id, "* {\r\n  -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */\r\n}\r\n\r\nbody {\r\n  -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */\r\n  -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */\r\n  -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */\r\n  background: #ffffff;\r\n  /* font-family: 'HelveticaNeue-Light', 'HelveticaNeue', 'Roboto', Helvetica, Arial, sans-serif; */\r\n  font-size: 100%;\r\n  height: 100%;\r\n  margin: 0px;\r\n  padding: 0px;\r\n  width: 100%;\r\n}\r\n\r\n", ""]);
 
 	// exports
 
@@ -30818,17 +30821,21 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _Search = __webpack_require__(433);
+	var _Search = __webpack_require__(434);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
-	var _Loader = __webpack_require__(435);
+	var _Loader = __webpack_require__(436);
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
-	var _Menu = __webpack_require__(437);
+	var _Menu = __webpack_require__(438);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
+
+	var _CircleButton = __webpack_require__(428);
+
+	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
 	__webpack_require__(311);
 
@@ -30843,12 +30850,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	// taramti babait components
-
-	//import TaramtiMenu from './TaramtiMenu'
-
-
-	//import '../css/jqmCss.css';
-	//import '../../www/css/StyleSheet.css';
 
 
 	var Home = function (_Component) {
@@ -30884,7 +30885,7 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            // Lifecycle function that is triggered just before a component mounts
-	            this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
+	            this.getAuctionsByParams(-1, -1, 0, 0, 0, 0, 0); //initial data will come from 
 
 	            // this.startTO = setTimeout(()=> sst )
 	        }
@@ -30902,17 +30903,17 @@
 	        }
 	    }, {
 	        key: 'searchTriggered',
-	        value: function searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
+	        value: function searchTriggered(lowPrice, highPrice, catCode, assocTagCode, coords, radius) {
 	            //console.log(`entered search on ----- ${Date.now()}`)
 	            this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
-	            this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
+	            this.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
 	        }
 
 	        //call function to get auctions from serveer
 
 	    }, {
 	        key: 'getAuctionsByParams',
-	        value: function getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
+	        value: function getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
 	            //define "this" for inner functions
 	            var self = this;
 
@@ -30928,7 +30929,7 @@
 	                lowPrice: lowPrice,
 	                highPrice: highPrice,
 	                catCode: catCode,
-	                aucCatCode: "0",
+	                assocTagCode: assocTagCode,
 	                lat: lat,
 	                lng: lng,
 	                radius: radius,
@@ -31089,18 +31090,18 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'pageBC', style: { minHeight: "640px" } },
+	                { className: 'pageReact', style: { minHeight: window.innerHeight } },
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.SearchModalChanged, className: 'search' },
-	                    _react2.default.createElement(_reactFontawesome2.default, { name: 'search', border: false, className: 'fa-2x', tag: 'div' }),
+	                    _react2.default.createElement('img', { src: 'images/icons8-Search-64.png' }),
 	                    _react2.default.createElement(
 	                        _reactModal2.default,
 	                        {
 	                            isOpen: this.state.searchModalIsOpen,
 	                            onRequestClose: this.SearchModalChanged,
-	                            contentLabel: 'open search``',
-	                            className: 'box' },
+	                            contentLabel: 'open search',
+	                            className: 'zoomInLeft' },
 	                        _react2.default.createElement(_Search2.default, { closeModal: this.SearchModalChanged, startSearch: this.searchTriggered })
 	                    )
 	                ),
@@ -31128,15 +31129,7 @@
 	                        )
 	                    )
 	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { id: 'fixedPlus' },
-	                    _react2.default.createElement(
-	                        'a',
-	                        { onClick: this.moveToAddAuction },
-	                        _react2.default.createElement('i', { className: 'fa fa-plus-circle fa-4x', 'aria-hidden': 'true' })
-	                    )
-	                )
+	                _react2.default.createElement(_CircleButton2.default, { home: false })
 	            );
 	        }
 	    }]);
@@ -31221,9 +31214,9 @@
 
 	var _general = __webpack_require__(424);
 
-	__webpack_require__(429);
+	__webpack_require__(430);
 
-	__webpack_require__(431);
+	__webpack_require__(432);
 
 	__webpack_require__(315);
 
@@ -31402,7 +31395,7 @@
 	                        ),
 	                        this.state.sold ? "" : _react2.default.createElement(
 	                            'button',
-	                            { ref: 'bidBTN', className: 'btn-l btn-10 ui-btn ui-shadow ui-corner-all', onClick: this.buttonClicked, style: { width: "inherit" } },
+	                            { ref: 'bidBTN', className: 'btn-l btn-10 ui-btn ui-shadow ui-corner-all', onClick: this.buttonClicked, style: { width: "inherit", padding: ".5em 1em" } },
 	                            ' ',
 	                            buttonText,
 	                            '  '
@@ -31701,7 +31694,7 @@
 
 
 	// module
-	exports.push([module.id, ".rect {\r\n  max-width: 150px;\r\n  max-height: 75px;\r\n  padding-right: 10px;\r\n  padding-left: 10px;\r\n  margin: 0 auto;\r\n  border-radius: .4em;\r\n}\r\n\r\n.regBorder {\r\n  border: 2px solid green;\r\n  \r\n      color: antiquewhite;\r\n    background-color: #0f9b0f;\r\n}\r\n\r\n\r\n.blinkBorder {\r\n  border: 2px solid red;\r\n   color: antiquewhite;\r\n    background-color: rgb(255, 98, 98);\r\n}\r\n/*.blinkBorder h3 {\r\n  color: red;\r\n}*/\r\n\r\n\r\n/*@keyframes blink {\r\n            25% {\r\n                border: 2px solid red;\r\n            }\r\n        }*/\r\n        /*.blinkBorder {\r\n            animation-name: blink;\r\n            animation-duration: .08s;\r\n            animation-timing-function: step-end;\r\n            animation-iteration-count: infinite;\r\n            animation-direction: alternate;\r\n        }*/", ""]);
+	exports.push([module.id, ".rect {\r\n  max-width: 150px;\r\n  max-height: 75px;\r\n  padding-right: 10px;\r\n  padding-left: 10px;\r\n  margin: 0 auto;\r\n  border-radius: .4em;\r\n  display: inline-block;\r\n}\r\n\r\n.regBorder {\r\n  border: 2px solid green; \r\n  color: antiquewhite;\r\n  background-color: #0f9b0f;\r\n}\r\n\r\n\r\n.blinkBorder {\r\n  border: 2px solid red;\r\n  color: antiquewhite;\r\n  background-color: #db1e15;\r\n}\r\n", ""]);
 
 	// exports
 
@@ -31823,14 +31816,14 @@
 	                        _reactSlick2.default,
 	                        _extends({}, settings, { style: { height: 0 } }),
 	                        this.props.imagesArr.map(function (imageUrl, i) {
-	                            return _react2.default.createElement('img', { key: i, src: imageUrl, style: { display: "inline" } });
+	                            return _react2.default.createElement('img', { key: i, src: imageUrl, className: 'pic', style: { display: "inline" } });
 	                        })
 	                    )
 	                ),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.changeCarouselModalOpen },
-	                    _react2.default.createElement('img', { className: this.state.animationDirection, src: this.props.imagesArr[this.state.index] })
+	                    _react2.default.createElement('img', { className: 'pic', style: { borderRadius: "18%" }, src: this.props.imagesArr[this.state.index] })
 	                )
 	            );
 	        }
@@ -34208,7 +34201,7 @@
 
 
 	// module
-	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n\r\n  /*\r\n*******************\r\n*******************\r\n      loading\r\n*******************\r\n*******************\r\n*/\r\n\r\n.loading{\r\n  position: relative;\r\n  width: 50%;\r\n  display: block;\r\n  margin: auto;\r\n   -webkit-animation:spin 4s linear infinite;\r\n    -moz-animation:spin 4s linear infinite;\r\n    animation:spin 4s linear infinite;\r\n}\r\n\r\n@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }\r\n@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }\r\n@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n  /*\r\n*******************\r\n*******************\r\nmodal zoom in RIGHT\r\n*******************\r\n*******************\r\n*/\r\n .zoomInRight {\r\n  -webkit-animation: zoomInRight 1s both;\r\n  animation: zoomInRight 1s both;\r\n  \r\n  }\r\n  @-webkit-keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  } \r\n\r\n /*\r\n*******************\r\n*******************\r\nmodal zoom in LEFT\r\n*******************\r\n*******************\r\n*/\r\n\r\n.zoomInLeft {\r\n  -webkit-animation-name: zoomInLeft;\r\n  animation-name: zoomInLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n\r\n /*\r\n*******************\r\n*******************\r\n   modal zoom out\r\n*******************\r\n*******************\r\n*/\r\n  .zoomOut {\r\n  -webkit-animation-name: zoomOut;\r\n  animation-name: zoomOut;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  \r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  }\r\n  @keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  } ", ""]);
+	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n\r\n  /*\r\n*******************\r\n*******************\r\n      loading\r\n*******************\r\n*******************\r\n*/\r\n\r\n.loading{\r\n  position: relative;\r\n  width: 50%;\r\n  display: block;\r\n  margin: auto;\r\n   -webkit-animation:spin 4s linear infinite;\r\n    -moz-animation:spin 4s linear infinite;\r\n    animation:spin 4s linear infinite;\r\n}\r\n\r\n@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }\r\n@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }\r\n@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n  /*\r\n*******************\r\n*******************\r\nmodal zoom in RIGHT\r\n*******************\r\n*******************\r\n*/\r\n .zoomInRight {\r\n  -webkit-animation: zoomInRight 1s both;\r\n  animation: zoomInRight 1s both;\r\n  \r\n  }\r\n  @-webkit-keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  } \r\n\r\n /*\r\n*******************\r\n*******************\r\nmodal zoom in LEFT\r\n*******************\r\n*******************\r\n*/\r\n\r\n.zoomInLeft {\r\n  -webkit-animation-name: zoomInLeft;\r\n  animation-name: zoomInLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n\r\n /*\r\n*******************\r\n*******************\r\n   modal zoom out\r\n*******************\r\n*******************\r\n*/\r\n  .zoomOut {\r\n  -webkit-animation-name: zoomOut;\r\n  animation-name: zoomOut;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  \r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  }\r\n  @keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  } \r\n\r\n  .zoomInDown {\r\n  -webkit-animation-name: zoomInDown;\r\n  animation-name: zoomInDown;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomInDown {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInDown {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  } ", ""]);
 
 	// exports
 
@@ -34267,9 +34260,13 @@
 
 	var _Pic2 = _interopRequireDefault(_Pic);
 
+	var _CircleButton = __webpack_require__(428);
+
+	var _CircleButton2 = _interopRequireDefault(_CircleButton);
+
 	__webpack_require__(426);
 
-	var _messages = __webpack_require__(428);
+	var _messages = __webpack_require__(429);
 
 	var _general = __webpack_require__(424);
 
@@ -34305,6 +34302,7 @@
 	            msgClass: "box notEnough",
 	            shownMessage: "",
 	            tempDonation: "",
+	            offered: 0,
 	            curIndex: 0,
 	            formerIndex: 0,
 	            anim: "0", // determine anim: 0-reg, 1-float to top 2-blow down the balloon 
@@ -34329,16 +34327,13 @@
 	        _this.MSGModalChanged = _this.MSGModalChanged.bind(_this);
 
 	        _this.congratulateSeller = _this.congratulateSeller.bind(_this);
-	        // this.openInfoModal = this.openInfoModal.bind(this);
-	        // this.closeInfoModal = this.closeInfoModal.bind(this);
-	        // this.openFAQModal = this.openFAQModal.bind(this);
-	        // this.closeFAQModal = this.closeFAQModal.bind(this);
 	        _this.makeBid = _this.makeBid.bind(_this);
 	        _this.timerFinishedAuc = _this.timerFinishedAuc.bind(_this);
 	        _this.calcDonation = _this.calcDonation.bind(_this);
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
 	        _this.addToWatch = _this.addToWatch.bind(_this);
 	        _this.updateWatch = _this.updateWatch.bind(_this);
+	        _this.deleteOffer = _this.deleteOffer.bind(_this);
 	        return _this;
 	    }
 
@@ -34346,7 +34341,7 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.addToWatch();
-	            this.calcDonation();
+	            this.calcDonation(-1);
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
 	        }
 	    }, {
@@ -34369,7 +34364,7 @@
 	                    var tempObj = self.state.auc;
 	                    tempObj["price"] = ans;
 	                    self.setState({ auc: tempObj });
-	                    self.calcDonation();
+	                    self.calcDonation(-1);
 	                }
 	            }).catch(function (error) {
 	                console.log(error);
@@ -34390,10 +34385,6 @@
 	            this.setState({ infoModalIsOpen: newstatus });
 	        }
 
-	        // closeInfoModal() {
-	        //     this.setState({ infoModalIsOpen: false })
-	        // }
-
 	        /*
 	           ***************
 	              FAQ MODAL
@@ -34407,9 +34398,6 @@
 	            this.setState({ fAQModalIsOpen: newstatus });
 	        }
 
-	        // closeFAQModal() {
-	        //     this.setState({ fAQModalIsOpen: false })
-	        // }
 	        /*
 	           ***************
 	              MSG MODAL
@@ -34422,10 +34410,6 @@
 	            var newstatus = !this.state.msg_ModalIsOpen;
 	            this.setState({ msg_ModalIsOpen: newstatus });
 	        }
-
-	        // closeMSGModal() {
-	        //     this.setState({ msg_ModalIsOpen: false })
-	        // }
 
 	        //disable input and button
 
@@ -34462,31 +34446,36 @@
 
 	    }, {
 	        key: 'calcDonation',
-	        value: function calcDonation() {
+	        value: function calcDonation(newP) {
 	            var tempPrice = parseInt(this.state.auc.price);
 	            var i = this.state.curIndex;
-
-	            if (this.refs.newPrice !== undefined) {
+	            var val = newP;
+	            if (newP != -1) {
 	                this.setState({
 	                    borderColor: "red"
 	                });
 
-	                var val = parseInt(this.refs.newPrice.value);
+	                if (newP != -5) {
+	                    this.setState({ offered: newP });
+	                }
+
+	                var _val = newP != -1 ? newP : 0;
+	                // let val = parseInt(this.refs.newPrice.value);
 	                //console.log(`price: ${tempPrice},  new price: ${val}`)
-	                if (val > tempPrice) {
-	                    tempPrice = val;
+	                if (_val > tempPrice) {
+	                    tempPrice = _val;
 	                    this.setState({
 	                        curIndex: 3,
 	                        formerIndex: i,
 	                        borderColor: "green"
 	                    });
 	                } else {
-	                    if (val >= tempPrice * 0.6) {
+	                    if (_val >= tempPrice * 0.6) {
 	                        this.setState({
 	                            curIndex: 2,
 	                            formerIndex: i
 	                        });
-	                    } else if (val >= tempPrice * 0.15) {
+	                    } else if (_val >= tempPrice * 0.15) {
 	                        this.setState({
 	                            curIndex: 1,
 	                            formerIndex: i
@@ -34561,7 +34550,7 @@
 	                    msgClass: "box notEnough",
 	                    shownMessage: _messages.notEnoughtMSG
 	                });
-	                this.openMSGModal();
+	                this.MSGModalChanged();
 	            }
 	            //console.log(`make bid price: ${val}`)
 	        }
@@ -34612,41 +34601,21 @@
 	            });
 	        }
 	    }, {
+	        key: 'deleteOffer',
+	        value: function deleteOffer() {
+	            var _this2 = this;
+
+	            this.setState({ anim: "2" });
+	            setTimeout(function () {
+	                return _this2.setState({ anim: "0" });
+	            }, 1500);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: '/' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { id: 'fixedCircle' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                _react2.default.createElement('i', { className: 'fa fa-circle-o fa-5x', 'aria-hidden': 'true' })
-	                            )
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { id: 'fixedHome' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                _react2.default.createElement(_reactFontawesome2.default, { name: 'home', className: 'fa-3x', tag: 'i' })
-	                            )
-	                        )
-	                    )
-	                ),
+	                { className: 'pageBC', style: { minHeight: window.innerHeight, paddingTop: "10px" } },
 	                _react2.default.createElement(
 	                    _reactModal2.default,
 	                    {
@@ -34700,7 +34669,6 @@
 	                        )
 	                    )
 	                ),
-	                _react2.default.createElement('input', { type: 'number', ref: 'newPrice', placeholder: this.state.auc.price, onChange: this.calcDonation, style: { borderColor: this.state.borderColor } }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'circle' },
@@ -34712,26 +34680,16 @@
 	                ),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
-	                    { onTap: this.makeBid },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { ref: 'makeBidBTN', className: 'base', style: { display: this.state.auc.finished ? "none" : "inline-block" } },
-	                        ' ',
-	                        _react2.default.createElement(
-	                            'span',
-	                            null,
-	                            '\u05D4\u05E6\u05E2 \u05D1\u05D9\u05D3'
-	                        ),
-	                        ' '
-	                    )
+	                    { onSwipedUp: this.makeBid, onSwipedDown: this.deleteOffer },
+	                    _react2.default.createElement(_Balloon2.default, { curIndex: this.state.curIndex, formerIndex: this.state.formerIndex, anim: this.state.anim, price: this.state.auc.price, calc: this.calcDonation })
 	                ),
-	                _react2.default.createElement(_Balloon2.default, { curIndex: this.state.curIndex, formerIndex: this.state.formerIndex, anim: this.state.anim }),
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'pyro', style: this.state.anim === "1" ? { display: "block" } : { display: "none" } },
 	                    _react2.default.createElement('div', { className: 'before' }),
 	                    _react2.default.createElement('div', { className: 'after' })
-	                )
+	                ),
+	                _react2.default.createElement(_CircleButton2.default, { home: true })
 	            );
 	        }
 	    }]);
@@ -34918,7 +34876,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 30px;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\n/*remove menu*/\r\n/*\r\nh1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {\r\n    width: 30px;\r\n    height: 74PX;\r\n    padding: 0 0 0 0;\r\n    border: 0 0 0 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\ndiv.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {\r\n    position: fixed;\r\n    top: 0PX;\r\n    margin: 0 0 0 0;\r\n    z-index: 100;\r\n    border-top-width: 0px;\r\n    width: 60%;\r\n    border-color: black;\r\n    border-width: 2px;\r\n}\r\n\r\n.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\na.ui-btn.ui-btn-icon-right.ui-icon-carat-r {\r\n    background-color: #98b8dc;\r\n    border-color: black;\r\n}*/\r\n\r\n\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 30px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 30px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\n/*remove menu*/\r\n/*\r\nh1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {\r\n    width: 30px;\r\n    height: 74PX;\r\n    padding: 0 0 0 0;\r\n    border: 0 0 0 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\ndiv.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {\r\n    position: fixed;\r\n    top: 0PX;\r\n    margin: 0 0 0 0;\r\n    z-index: 100;\r\n    border-top-width: 0px;\r\n    width: 60%;\r\n    border-color: black;\r\n    border-width: 2px;\r\n}\r\n\r\n.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\na.ui-btn.ui-btn-icon-right.ui-icon-carat-r {\r\n    background-color: #98b8dc;\r\n    border-color: black;\r\n}*/\r\n\r\n\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n", ""]);
 
 	// exports
 
@@ -38725,6 +38683,7 @@
 	});
 	//web services
 	var auctionWS = exports.auctionWS = GENERAL.auctionWebServerAddress;
+	var assocWS = exports.assocWS = GENERAL.assocWebServerAddress;
 
 	//user data
 	var buyerID = exports.buyerID = GENERAL.USER.userID();
@@ -38768,6 +38727,7 @@
 	            height: window.innerHeight
 	        };
 	        _this.updateWindowDimensions = _this.updateWindowDimensions.bind(_this);
+	        _this.calcDonation = _this.calcDonation.bind(_this);
 
 	        return _this;
 	    }
@@ -38779,9 +38739,25 @@
 	            //        window.addEventListener('resize', this.updateWindowDimensions);
 	        }
 	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+
+	            {/*animating price upadate*/}
+	            if (nextProps.anim == "2" && this.props.anim != "2") {
+	                this.refs.newPrice.value = "";
+	                this.calcDonation();
+	            }
+	        }
+	    }, {
 	        key: 'updateWindowDimensions',
 	        value: function updateWindowDimensions() {
 	            this.setState({ width: window.innerWidth, height: window.innerHeight });
+	        }
+	    }, {
+	        key: 'calcDonation',
+	        value: function calcDonation() {
+	            var val = this.refs.newPrice !== undefined ? parseInt(this.refs.newPrice.value) : -5;
+	            this.props.calc(val);
 	        }
 	    }, {
 	        key: 'render',
@@ -38818,7 +38794,11 @@
 	                height: balloonDim[this.props.curIndex]["height"],
 	                animation: '' + (this.props.anim === "1" ? "releaseB 4s" : "blowDown 1.5s")
 	            };
-	            return _react2.default.createElement('div', { className: 'balloon', style: this.props.anim === "0" ? style : float });
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'balloon', style: this.props.anim === "0" ? style : float },
+	                _react2.default.createElement('input', { type: 'number', ref: 'newPrice', className: 'priceInput', placeholder: this.props.price, onChange: this.calcDonation })
+	            );
 	        }
 	    }]);
 
@@ -38862,13 +38842,138 @@
 
 
 	// module
-	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     balloon\r\n*******************\r\n*******************\r\n*/\r\n\r\n.balloon {\r\n  display: block;\r\n  margin: auto;\r\n  border-radius: 80%;\r\n  background: -webkit-radial-gradient(40% 20%, #acd9fc 10%, #0090ff 50%, #002f53 90%);\r\n  color: -webkit-radial-gradient(40% 20%, #acd9fc 10%, #0090ff 50%, #002f53 90%);\r\n  box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.07);\r\n  position: absolute;\r\n  /*top: 50%;*/\r\n  bottom: 20px;\r\n  /*left: 35%;*/\r\n  transform: translate(-50%, -50%);\r\n  transition: all 0.5s;\r\n  transform-origin: center top;\r\n  \r\n}\r\n.balloon::before {\r\n  content: \"\\25B2\";\r\n  display: block;\r\n  width: 100%;\r\n  font-size: 20px;\r\n  color: #0b75c9;\r\n  text-align: center;\r\n  z-index: -100;\r\n  position: absolute;\r\n  bottom: -12px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\nballoon animations\r\n*******************\r\n*******************\r\n*/\r\n@keyframes releaseB{\r\n  0%{\r\n    opacity: 1;\r\n    left: 50%\r\n    }\r\n  100%{\r\n    -webkit-transform: translate(0,-800px) scale(1, 1);\r\n    opacity: 0;\r\n    -webkit-transition: 2s cubic-bezier(.65, 2, .03, .32);\r\n    left: 50%\r\n  }\r\n}\r\n\r\n@keyframes floatingB {\r\n  0%,100%{ transform:translateY(0) translateX(-40px) rotate(-4deg); }\r\n  50%{ transform:translateY(-15px) translateX(-10px) rotate(4deg); }\r\n}\r\n\r\n@keyframes blowDown {\r\n  0% {\r\n    width: 47%;\r\n    height: 33%;\r\n    transform: rotate(-45deg);\r\n  }\r\n  36% {\r\n    width: 30%;\r\n    height: 20%;\r\n    left: 50%;\r\n    transform: rotate(45deg);\r\n  }\r\n  69% {\r\n    width: 23%;\r\n    height: 15%;\r\n    left:   50%;\r\n    transform: rotate(-45deg);\r\n  }\r\n  95% {\r\n    width: 0;\r\n    height: 0;\r\n    left: 65%;\r\n    /*bottom: -10%;*/\r\n    transform: rotate(0);\r\n  }\r\n  100%{\r\n    left: 150%;\r\n    content: none\r\n  }\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     fireworks\r\n*******************\r\n*******************\r\n*/\r\n.pyro > .before, .pyro > .after {\r\n  position: absolute;\r\n  width: 5px;\r\n  height: 5px;\r\n  border-radius: 50%;\r\n  box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;\r\n  -moz-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -webkit-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -o-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -ms-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n}\r\n\r\n.pyro > .after {\r\n  -moz-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -webkit-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -o-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -ms-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -moz-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -webkit-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -o-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -ms-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  animation-duration: 1.25s, 1.25s, 6.25s;\r\n}\r\n\r\n@-webkit-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-moz-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-o-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-ms-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-webkit-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-moz-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-o-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-ms-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-webkit-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-moz-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-o-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-ms-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}", ""]);
+	exports.push([module.id, ".priceInput{\r\n  border: none;\r\n    background-color: transparent;\r\n    z-index: 5;\r\n    margin-top: 45%;\r\n    width: 100%;\r\n}\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     balloon\r\n*******************\r\n*******************\r\n*/\r\n\r\n.balloon {\r\n  display: block;\r\n  margin: auto;\r\n  border-radius: 80%;\r\n  background: -webkit-radial-gradient(40% 20%, #acd9fc 10%, #0090ff 50%, #002f53 90%);\r\n  color: -webkit-radial-gradient(40% 20%, #acd9fc 10%, #0090ff 50%, #002f53 90%);\r\n  box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.07);\r\n  position: absolute;\r\n  /*top: 50%;*/\r\n  bottom: 20px;\r\n  /*left: 35%;*/\r\n  transform: translate(-50%, -50%);\r\n  transition: all 0.5s;\r\n  transform-origin: center top;\r\n  \r\n}\r\n.balloon::before {\r\n  content: \"\\25B2\";\r\n  display: block;\r\n  width: 100%;\r\n  font-size: 20px;\r\n  color: #0b75c9;\r\n  text-align: center;\r\n  z-index: -100;\r\n  position: absolute;\r\n  bottom: -12px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\nballoon animations\r\n*******************\r\n*******************\r\n*/\r\n@keyframes releaseB{\r\n  0%{\r\n    opacity: 1;\r\n    left: 50%\r\n    }\r\n  100%{\r\n    -webkit-transform: translate(0,-800px) scale(1, 1);\r\n    opacity: 0;\r\n    -webkit-transition: 2s cubic-bezier(.65, 2, .03, .32);\r\n    left: 50%\r\n  }\r\n}\r\n\r\n@keyframes floatingB {\r\n  0%,100%{ transform:translateY(0) translateX(-40px) rotate(-4deg); }\r\n  50%{ transform:translateY(-15px) translateX(-10px) rotate(4deg); }\r\n}\r\n\r\n  @keyframes blowDown {\r\n  0% {\r\n    width: 47%;\r\n    height: 33%;\r\n    transform: rotate(-45deg);\r\n  }\r\n  36% {\r\n    width: 30%;\r\n    height: 20%;\r\n    left: 50%;\r\n    transform: rotate(45deg);\r\n  }\r\n  69% {\r\n    width: 23%;\r\n    height: 15%;\r\n    left:   50%;\r\n    transform: rotate(-45deg);\r\n  }\r\n  \r\n  95% {\r\n    width: 0;\r\n    height: 0;\r\n    left: 65%;\r\n    \r\n    transform: rotate(0);\r\n   }\r\n   100%{\r\n     width: 0;\r\n    height: 0;\r\n    left: 300%;\r\n  }  \r\n}  \r\n\r\n/*\r\n*******************\r\n*******************\r\n     fireworks\r\n*******************\r\n*******************\r\n*/\r\n.pyro > .before, .pyro > .after {\r\n  position: absolute;\r\n  width: 5px;\r\n  height: 5px;\r\n  border-radius: 50%;\r\n  box-shadow: 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff, 0 0 #fff;\r\n  -moz-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -webkit-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -o-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  -ms-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n  animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;\r\n}\r\n\r\n.pyro > .after {\r\n  -moz-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -webkit-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -o-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -ms-animation-delay: 1.25s, 1.25s, 1.25s;\r\n  animation-delay: 1.25s, 1.25s, 1.25s;\r\n  -moz-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -webkit-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -o-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  -ms-animation-duration: 1.25s, 1.25s, 6.25s;\r\n  animation-duration: 1.25s, 1.25s, 6.25s;\r\n}\r\n\r\n@-webkit-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-moz-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-o-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-ms-keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@keyframes bang {\r\n  to {\r\n    box-shadow: -244px 81.33333px #aeff00, -89px -196.66667px #a600ff, -146px -311.66667px #5eff00, -191px 20.33333px #00ff40, 66px -190.66667px #ffea00, 234px -198.66667px #0080ff, 196px 83.33333px #ff00e6, 65px -298.66667px #ff00f7, 248px 11.33333px #8c00ff, 171px 28.33333px #00bbff, -39px -342.66667px #59ff00, -172px -0.66667px #a200ff, 244px -381.66667px #ff001e, -159px 4.33333px #001aff, -207px -405.66667px #001aff, 239px -249.66667px #66ff00, -109px -1.66667px #ff0037, -126px -110.66667px #ff00b3, -138px -323.66667px #00fbff, 9px -44.66667px #ff008c, 23px -204.66667px #ff5900, 124px -85.66667px #bfff00, 109px -169.66667px #00ff33, -118px -333.66667px #3300ff, -152px -89.66667px #006fff, 249px -279.66667px #ff00b3, 123px -113.66667px #a200ff, 177px -389.66667px #ffc400, -26px -372.66667px #6f00ff, -55px -47.66667px #ff00bf, 167px -413.66667px #ffbf00, 236px -95.66667px #5500ff, 204px 5.33333px #00ff2f, 188px 72.33333px #00ff95, 241px -236.66667px #6200ff, 181px -71.66667px #09ff00, 184px -134.66667px #ff0900, 141px -83.66667px #0051ff, -148px -9.66667px #2fff00, -86px -273.66667px #ff5900, -137px -42.66667px #00ff8c, 207px -279.66667px #0d00ff, -190px -168.66667px #005eff, 182px -368.66667px #ff00d5, -66px -343.66667px #0084ff, 84px -176.66667px #bfff00, -167px -316.66667px #11ff00, -67px -310.66667px #2bff00, 51px -308.66667px #00fff2, 129px -274.66667px #ff006f, 49px -205.66667px #ffa200;\r\n  }\r\n}\r\n@-webkit-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-moz-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-o-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-ms-keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@keyframes gravity {\r\n  to {\r\n    transform: translateY(200px);\r\n    -moz-transform: translateY(200px);\r\n    -webkit-transform: translateY(200px);\r\n    -o-transform: translateY(200px);\r\n    -ms-transform: translateY(200px);\r\n    opacity: 0;\r\n  }\r\n}\r\n@-webkit-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-moz-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-o-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@-ms-keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}\r\n@keyframes position {\r\n  0%, 19.9% {\r\n    margin-top: 10%;\r\n    margin-left: 40%;\r\n  }\r\n  20%, 39.9% {\r\n    margin-top: 40%;\r\n    margin-left: 30%;\r\n  }\r\n  40%, 59.9% {\r\n    margin-top: 20%;\r\n    margin-left: 70%;\r\n  }\r\n  60%, 79.9% {\r\n    margin-top: 30%;\r\n    margin-left: 20%;\r\n  }\r\n  80%, 99.9% {\r\n    margin-top: 30%;\r\n    margin-left: 80%;\r\n  }\r\n}", ""]);
 
 	// exports
 
 
 /***/ }),
 /* 428 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouterDom = __webpack_require__(188);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CircleButton = function (_Component) {
+	    _inherits(CircleButton, _Component);
+
+	    function CircleButton(props) {
+	        _classCallCheck(this, CircleButton);
+
+	        var _this = _possibleConstructorReturn(this, (CircleButton.__proto__ || Object.getPrototypeOf(CircleButton)).call(this, props));
+
+	        _this.state = {};
+	        _this.renderHome = _this.renderHome.bind(_this);
+	        _this.renderPlus = _this.renderPlus.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(CircleButton, [{
+	        key: 'renderPlus',
+	        value: function renderPlus() {
+	            return (
+	                // <div>
+	                //     <div className="RoundDivfixed">
+	                //          <div id="fixedCircle">
+	                //             <div> <Link to="/"><img src="images/circle-for-home.png" /></Link></div>
+	                //         </div> 
+	                _react2.default.createElement(
+	                    'div',
+	                    { id: 'fixedPlus' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactRouterDom.Link,
+	                            { to: '/' },
+	                            ' ',
+	                            _react2.default.createElement('img', { src: 'images/add_icon.png' })
+	                        )
+	                    )
+	                )
+	                //     </div>
+	                // </div>
+
+	            );
+	        }
+	    }, {
+	        key: 'renderHome',
+	        value: function renderHome() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'RoundDivfixed' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { id: 'fixedCircle' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            ' ',
+	                            _react2.default.createElement(
+	                                _reactRouterDom.Link,
+	                                { to: '/' },
+	                                _react2.default.createElement('img', { src: 'images/circle-for-home.png' })
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { id: 'fixedHome' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            null,
+	                            _react2.default.createElement(
+	                                _reactRouterDom.Link,
+	                                { to: '/' },
+	                                ' ',
+	                                _react2.default.createElement('img', { src: 'images/Home1600.png' })
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            // if (this.state.secondsRemaining >= 20870000) {
+	            if (this.props.home) {
+	                return this.renderHome();
+	            } else {
+	                return this.renderPlus();
+	            }
+	        }
+	    }]);
+
+	    return CircleButton;
+	}(_react.Component);
+
+	exports.default = CircleButton;
+
+/***/ }),
+/* 429 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -38882,13 +38987,13 @@
 	var errorMSG = exports.errorMSG = "משהו לא הלך כשורה, נא נסה שוב";
 
 /***/ }),
-/* 429 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(430);
+	var content = __webpack_require__(431);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38908,7 +39013,7 @@
 	}
 
 /***/ }),
-/* 430 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38922,13 +39027,13 @@
 
 
 /***/ }),
-/* 431 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(432);
+	var content = __webpack_require__(433);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38948,7 +39053,7 @@
 	}
 
 /***/ }),
-/* 432 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38956,13 +39061,13 @@
 
 
 	// module
-	exports.push([module.id, "img {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-top:10px;\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n/*\r\n.down-arrow {\r\n    float: right;\r\n    z-index: 5;\r\n    display: inline-block;\r\n    position: relative;\r\n    background: #286090;\r\n    margin-left: auto;\r\n    margin-right: auto;\r\n    padding: 15px 0;\r\n    width: 50px;\r\n    border: none;\r\n    text-align: center;\r\n    \r\n}\r\n    .down-arrow:after {\r\n        content: '';\r\n        display: block;\r\n        position: absolute;\r\n        \r\n        left: 0;\r\n        top: 100%;\r\n        width: 70px;\r\n        height: 0;\r\n        margin-right: 20px;\r\n        border-top: 20px solid #286090;\r\n        border-right: 40px solid transparent;\r\n        border-bottom: 0 solid transparent;\r\n        border-left: 40px solid transparent;\r\n    }\r\n    */\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n.myAuction{\r\n    margin: 100px 7px 0px 7px;\r\n    padding: 5px;\r\n    border: 2px solid black;\r\n    overflow: auto;\r\n    height: 300px;\r\n}\r\n\r\n.stamp{\r\n    /*display: none;*/\r\n    border: solid .2em #c00;\r\n    color: #c00;\r\n    content: '\\5E0\\5DE\\5DB\\5E8';\r\n    font-size: 40px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    opacity: 0;\r\n    position: absolute;\r\n    width: 200px;\r\n    text-align: center;\r\n    padding: 7px 10px;\r\n    margin: 0 auto;\r\n    margin-top: 15%;\r\n    margin-left: 25%;\r\n    text-transform: uppercase;\r\n    transform-origin: 50% 50%;\r\n    transform: rotate(-5deg) scale(5);\r\n    transition: all .7s cubic-bezier(0.6, 0.04, 0.98, 0.335);\r\n}\r\n\r\n.sold.stamp{\r\n    /*display: block;*/\r\n    opacity: .65;\r\n    transform: rotate(-25deg) scale(1);\r\n}", ""]);
+	exports.push([module.id, ".descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    font-weight: 500;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n\r\n.text-center{\r\n    text-align: center;\r\n    margin-top: 10px;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n    .pic {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    /* margin-top:10px; */\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n.myAuction{\r\n    margin: 100px 7px 0px 7px;\r\n    padding: 5px;\r\n    border: 2px solid black;\r\n    overflow: auto;\r\n    height: 300px;\r\n}\r\n\r\n.stamp{\r\n    /*display: none;*/\r\n    border: solid .2em #c00;\r\n    color: #c00;\r\n    content: '\\5E0\\5DE\\5DB\\5E8';\r\n    font-size: 40px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    opacity: 0;\r\n    position: absolute;\r\n    width: 200px;\r\n    text-align: center;\r\n    padding: 7px 10px;\r\n    margin: 0 auto;\r\n    margin-top: 15%;\r\n    margin-left: 25%;\r\n    text-transform: uppercase;\r\n    transform-origin: 50% 50%;\r\n    transform: rotate(-5deg) scale(5);\r\n    transition: all .7s cubic-bezier(0.6, 0.04, 0.98, 0.335);\r\n}\r\n\r\n.sold.stamp{\r\n    /*display: block;*/\r\n    opacity: .65;\r\n    transform: rotate(-25deg) scale(1);\r\n}", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 433 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38985,7 +39090,7 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _Ddl = __webpack_require__(434);
+	var _Ddl = __webpack_require__(435);
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
@@ -39019,15 +39124,20 @@
 	        var _this = _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
 
 	        _this.state = {
+	            open: true,
 	            categroy: 0,
+	            tag: 0,
 	            gps: 0,
 	            display: "none",
-	            categoriesArr: [{ val: 0, text: "כל הקטגוריות" }]
+	            categoriesArr: [{ val: 0, text: "כל הקטגוריות" }],
+	            tagsArr: [{ val: 0, text: "כל התגיות" }]
 	        };
 	        _this.onSelectedCat = _this.onSelectedCat.bind(_this);
 	        _this.onSelectedGPS = _this.onSelectedGPS.bind(_this);
+	        _this.onSelectedTag = _this.onSelectedTag.bind(_this);
 	        _this.cbChanged = _this.cbChanged.bind(_this);
 	        _this.searchBTN = _this.searchBTN.bind(_this);
+	        _this.close = _this.close.bind(_this);
 	        return _this;
 	    }
 
@@ -39035,6 +39145,8 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            var self = this;
+
+	            // fetch product categories
 	            _axios2.default.post(_general.auctionWS + "GetAllProductsCategories", {}).then(function (response) {
 	                var res = JSON.parse(response.data.d);
 	                res.map(function (cat, i) {
@@ -39045,11 +39157,28 @@
 	            }).catch(function (error) {
 	                console.log(error);
 	            });
+
+	            // fetch assoc Tags
+	            _axios2.default.post(_general.assocWS + "GetAllAssocTags", {}).then(function (response) {
+	                var res = JSON.parse(response.data.d);
+	                var arr = self.state.tagsArr;
+	                res.map(function (tag, i) {
+	                    arr.push({ val: tag.Code, text: tag.Tag_Name });
+	                });
+	                self.setState({ tagsArr: arr });
+	            }).catch(function (error) {
+	                console.log(error);
+	            });
 	        }
 	    }, {
 	        key: 'onSelectedCat',
 	        value: function onSelectedCat(opt) {
 	            this.setState({ categroy: opt });
+	        }
+	    }, {
+	        key: 'onSelectedTag',
+	        value: function onSelectedTag(opt) {
+	            this.setState({ tag: opt });
 	        }
 	    }, {
 	        key: 'onSelectedGPS',
@@ -39069,7 +39198,7 @@
 	            }
 	        }
 
-	        //send search params to index.js
+	        //send search params to home.js
 
 	    }, {
 	        key: 'searchBTN',
@@ -39077,30 +39206,41 @@
 	            var low = this.refs.lowerPrice.value !== "" ? this.refs.lowerPrice.value : -1;
 	            var high = this.refs.higherPrice.value !== "" ? this.refs.higherPrice.value : -1;
 	            var catCode = this.state.categroy;
+	            var tagCode = this.state.tag;
 	            var coords = { lat: 0, lng: 0 };
 	            var radius = 0;
 
 	            if (!this.refs.locationCB.checked) {
-	                this.props.startSearch(low, high, catCode, coords, radius); // start search without location    
+	                this.props.startSearch(low, high, catCode, tagCode, coords, radius); // start search without location    
 	            } else {
 	                var self = this;
 	                navigator.geolocation.getCurrentPosition(function (pos_result) {
 	                    console.log('lat -- ' + pos_result.coords.latitude + ' _____ lat-- ' + pos_result.coords.longitude);
 	                    coords = { lat: pos_result.coords.latitude, lng: pos_result.coords.longitude };
 	                    radius = self.state.gps;
-	                    self.props.startSearch(low, high, catCode, coords, radius); // start search with location after city arr is filled
+	                    self.props.startSearch(low, high, catCode, tagCode, coords, radius); // start search with location after city arr is filled
 	                });
 	            }
+	        }
+	    }, {
+	        key: 'close',
+	        value: function close() {
+	            var _this2 = this;
+
+	            this.setState({ open: false });
+	            setTimeout(function () {
+	                return _this2.props.closeModal();
+	            }, 600);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'box' },
+	                { className: this.state.open ? "searchBox" : "searchBox zoomOut" },
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
-	                    { onTap: this.props.closeModal },
+	                    { onTap: this.close },
 	                    _react2.default.createElement('a', { className: 'boxclose' })
 	                ),
 	                _react2.default.createElement(
@@ -39126,6 +39266,12 @@
 	                    _react2.default.createElement(
 	                        'h3',
 	                        null,
+	                        '\u05EA\u05D2\u05D9\u05EA \u05E2\u05DE\u05D5\u05EA\u05D4'
+	                    ),
+	                    _react2.default.createElement(_Ddl2.default, { key: '3', onChange: this.onSelectedTag, options: this.state.tagsArr, css: 'priceSelect' }),
+	                    _react2.default.createElement(
+	                        'h3',
+	                        null,
 	                        '\u05DE\u05D7\u05D9\u05E8 \u05D1\u05E9"\u05D7'
 	                    ),
 	                    _react2.default.createElement('input', { type: 'text', ref: 'lowerPrice', placeholder: '\u05DE...' }),
@@ -39146,7 +39292,7 @@
 	exports.default = Search;
 
 /***/ }),
-/* 434 */
+/* 435 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -39213,7 +39359,7 @@
 	exports.default = Ddl;
 
 /***/ }),
-/* 435 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -39258,7 +39404,7 @@
 	                return _react2.default.createElement(
 	                    "div",
 	                    { style: { marginTop: "15%" } },
-	                    _react2.default.createElement("img", { src: __webpack_require__(436), className: "loading" }),
+	                    _react2.default.createElement("img", { src: __webpack_require__(437), className: "loading" }),
 	                    _react2.default.createElement(
 	                        "h3",
 	                        { style: { textAlign: "center" } },
@@ -39280,13 +39426,13 @@
 	exports.default = Loader;
 
 /***/ }),
-/* 436 */
+/* 437 */
 /***/ (function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQcAAAESCAMAAADHbuC9AAAA81BMVEX///+/3bn3+/au1Ke22LD8+PPx+Pz79vf1+/zf7tzX6dPv9u1+unKOw4TP5cqWx4yGvnvn8uXH4cGey5Wm0J7z5dDp0a3s2LnQnU/NlkPmy6HTo1v58ujWqmbasHLdt37gvYrjxJX269zv3sTI5fLj8vmCxOI9o9Ihlswvnc90vd9mt9xLqta63u+s2OxZsNnV6/X47O6e0eneq7PEaXjw2t3IcoDWmKKQy+bt0NXPhZHitLz04+bTj5raoavlvcTpx8zLfInr9/i54+eH0NVpxMtfwMdzyM6b2NzD5+qv4ON9zNLh8/XX7/HN6+6R1Nml3OCmzzP2AAAACXRSTlMAAAAAAAAAAABzZJuhAAAAAWJLR0QAiAUdSAAAAAlwSFlzAAAASAAAAEgARslrPgAADstJREFUeNrtnGlD4jwQx8GLRUBRFwXxWhdUPPCqqLB4IiL76Pr9P80Dhba5m6RtUmj/75QjzY+ZycwkbSIRK1asWLFixYoVK1b4lE4mF3VfQwiUyQ6US+u+DO1KZ00t6b4O3cqMOGQjbxHLIw75Fd0XollL2RjEUDP5GISp1awFIqP7UvQqZ4FYntF9KVq1mI1BmFqLQZjKZGMQppIOiFnd16JVy5EDsZImZdAr2YiBmB3OdG0VS5lWowVizpprbg5B8RMAsar7MoNWGpjsAMUisDjM5ICXpr0KB3/00TK5lkwupVew16YcRJaq5WX476kGkc7ya5r7MiIcproKz8cgTCUFOEw1iFkhEFPcl0nPCvjGdBefM+ml5FoMYqz03HIMYqTMXM4dhJpLKaxvFHSiSLsGThXF50axNFBxc14jicxcXjeIQmms8pZGEImZZF4viG2LQ2lTJwdXEgGDmLcxlHb0chiQWGWFzGCLz0KIOAy0tKYJRMg4DBaPn1pAhI7DYPGYlQKxVS4VdzdkV72t8HFghExW8bllrv+lPclUyOHwS/f0QRJLxISbWYXvj0CUtje8cdC8biJayoqDsHKAsgSJkHKYoSyhTBDzuyVpEg6H37rnDmKg1qE55uc2ijYJwTjhcNBaa8HKMMpxdn9qy8mPd4QmFEYOi4wM2zWJ2HRmtCewioaPw8wcnQJP27ZQtqdU5I55BRqHjXKprKUUZxkDX/faCZf8YYLCYfRV6+opZFhNS+4mvhMuS6Vdrl9znchhv6xpJV3N+4EBSCWGzsHzcwJRxZm1lZmp5pBhd7BF6qz5PWdipZ191/fvEDjYVqU4o1jM+4YhAVk6xy9aBqhZGGyDUothjklBvCFVAIJEadvFJEoYBxtDSapekdWMy65OUvwrgZzKzSQK4DsRDErr8BX2LsYsmEXOpFeTyTTHvie4gLJNYhPlsG8bU1Fl/5oZGnJJcM52RQ7/mywwWrLyAAhYAcSgNHlYokPIz0I38qVBu8m7O8sGBGKHlksUYQ7zQJWiEAN9P+snskigZyfctz5hEEVyerkPvWkPMA+FXjEzS4WAzhJ/pygIctcNeQ+XK/mOgVxjL6/iMyS5z5rrAMgkSb7xi4ZBnVcQMeTmSCEwQwym7uduERBFfN3YpmBQ5xWk9fIn5RZnsv/k3U9HoGaPJUbavWIF+4nz1NUwkyWL4yA2CmIPfrlAwaDMKzAMOUYRsUrhwHNKZBOZIVyMr5MxKPMKFMMa855/6oYfz1B7yBy35xkvKvYKBMOayyliaubNdfp4mwGCHCZVeQWMIef6/IesJw7zRToIrV4BYchzBDtvHJCcEQRBDpOKvALCMMtzMjDvjQMeDS0QxDCpyCtADMt8E6E2KHiPV+5iIEYZFSlMKvIKEANvh4XWr8pxfj4xX8Zma4IghUk1XgFg4H8qzAqFwxz3sAXyfLV5BbCZzRUZxqIsnAIH8jfxGW9vEMKDGq9wSqu8UA96kYhBqH9LK6i0eIWNYVnwJhNSRslRZgHa58KgxivssvGn6Dl6Uo0ueCvbJgcGNV5hh32JTjwGIi/8FDIOz1DiFUvSMzBBwD0IUcdK8HiGEq+wFr+c7P1naSedykkdLP3lgkGJV1jPR/Jyi01mdXZtoKQkSTyb0uAVy+JZg+8qMDEo8Yo5iSXff+0yMCjxipA8VhBrRSj2inE6rRsDtR+pyivMTblQ3Ki8Q8Ggbq2QXi991VZRn1eYffew3JK6rs8rhlWS1vUS0o4urxjYw1qIHklM8gwNx0X1q6DJK0KnDT1eET4VyrFXjLRRjrxXjLVejLpXjGWdw46SV8xv/NoZ6Bd8s6sZJiLkFVvO9l0RumFpYBKavaJSqSyoGmsdSpyK0BGpgkYM1YPDo6FqxxUVw2F7uXv6pg5SODlydBo8CcKWdhhu4z6rHUE6CHg84nlZ/fft1o9QHQc6HrkRV9T5ZKChKke4ArUIymae5pxhoUbgcBRkjKB0n8p6ORyQMBwdBjcgdcPC/Ta+ALVwRNZZYCNS97iV3oCGqk7hcBLYiNQdTcX3p56dHJ06f51QONQCG38nDByqBzU4DB5SOBxVp5hD/RxbF2kYglsxNjVzuDiuEaxePQfq3VcqMsqF+ik0y7o+Dls0DsEnlKApIPnBKY1DcCU45UzULvq+S3+HXbg6ZPzcxxQMASZSFMdA7+W8Nm58HLRCmej5+HVa/hBkqUU0CLQXl2oYt34NWL2jLou2QdTYLwehfUKFgZWb94bR8Ge4s5MjhizDv2OaSzD6jWPAiotrwzBS3odimQK8ZJAiZe0iUA7wQzGIGBLNAQfPAcJOmBiyIsAFwTPqnkbn0BaUVRIeIpQyPHMY585usk0fBxE4hoEKe2ObKO6RCu4bjxwWeExhJPszF7Br1FRgMFH83tz8Tek6tDxxwBMmHg6JhTvgY8eBVVgiupXngObO/ByGnz0ZxtXa+VUoKCQSDVkOtISJj0PYdGlIcSDnzhPM4V6Gw5mwKYSew7XJ4Y/AJxZcE6ZJ5NA2OQh84EJggYAVXAfSBxmCHLgxHGLFRrAlhDfdiHLgTZpqVawzHWYOZhZltPk/gM739KBCqjKHdVN1gji0RTmAbnF+cDZsphE6K4cXw/eeTg6HkVs88H+genA+0MndVcXOA/Hl43TUa7yaGA7j8NDy8h11GgbUMYI+7eFBo/BgPHr5jkMaBrQFd6d7tnQ1Dbm0GtAVHQOyYoSXQ2qEQSidRISd6gAwIK3I8HJ4MkTTB0x3CIYTcDumMiEcbkcYPLSrUXOAdyGqE8KhYYimD6juWBiQrCu0HO4N4fQB0QWM4Qp9/XwiODwYXtMHyp62rYNJ4JAau4X8snnggiFxNgkcrNVCetmsu2GAD8eFlUPb8LZswq0I8h7Eafg5XFoYmnKfXzh0xwB5Tkg5tCwOkrv+pzw2fxZ+DlaUlFwuoJY1/RBHjedNOmVHSbnlAiqvTulnm4BSK5z9h2ebg8zhByiBqjG25uoh5+CYg1R1ASWKrCPiwMp5yv3tCuWYg0x1AZkD+4Q44Bi650yQYw5SYRIsqGvsg4/1UHNwzEEqTIIFtctyCDiGkjsUhQSYg9wZMcfaXc9/HoeXQwowB7lsslrjntwZr+WoVwswB8nmg1VccBxtspGFLZG6bAAcniS/pDpcOg957qqya4ywLZy3AAZD/pB5tcLn8M4iq3visG5ADM8KBrQrsgvdUwcFBkkvvUl+2SnElffv8k9gkJQPDyKym/thCpR/IAx+nDB3l5VCBHivCa6bgRgvNyEMkr0oQdmRUtWZ0cvWeJrNR8oPDXuFt51uflnlqZqD1Clwkg1i/YR4hYdVU0h17gDx8tp563a7772PH7KD/YFN3mgSJom+RQ0G+5CE29HBl17X1ltfEkMD+a2NBrYxgXiFKrdw9kEvmO/6eOuC+vufxEgpDMPg50aCBOoValaLoazqm1lqfXQRvUmAuDUIuoZRPSMvuyZRqcf2c/PBwzERW8fuJQaGQQbEjUEUtIJeM18lUGiNbKzhw/2dVdeV878uQX9Fx2mTOYC/OIbKpbZ4ss2n4YP/nLil1h0Sh+6r2CiXBkXODDCvYEbJy1aD852cqrg4xicRQ/ddbJQnGgfHpDGvoCcPqSck2ng4MWPrnO0YPTKH7pfQIC0aBzubwgMIJXm4fMRDrh/VeYXtGG8UDj2hQW5dOTSxl67xr7l5fHgmfo0PHMYGQXGMFwqGbkdojLYbB4Lj3INfkLpv3TZpX+JPt6bCcoxPGoeu0BgPbhwIP7MdOm4eb58Npvx5IMA5wzF84kCND+NIT4qjQw5/nq6bhqua/pRjFYZj+MThnjaFcS5Ispf2Y7thcKjR8iv9PqfXGP/RMAhmUpQZWZvZbZ4Jk13iyScICSupJN9/QOMgtl7QAoQVHiQ53D75W4kd07tz/ygcPsRGICeUdkIsA6HtM4SE1bElbv58kDG8ibZjiJHSzofFKTwE0qq6onel3okcxJsxBNO3q6yUKIXboBp259Su1Jcv5jCYa5OKgVaV0/Ts54OUYJkb5eT9wG8Ch0+ZMZBKCsib70UoNALt1tXpXSm81BIMkpZuAN9og79pSwDDQ8DNugP6yTnEIt7Eak1Qf66HuVGj3YJ7abfcFJrBuYSluxr1ZNknGCx7L74PzZU3mlLWuaXoqzcqwN+//aeA96kZXuFHU9abfnx+SoVHd6X47WHgVA/33kcMq/48tfiKqjEK/VYRoFI3rQeOKtvUs/9JdcjEaxr+ldshFpdpRILEUK6m0ZjikImKbRpPyq/nx+frd6fT+f6SPgDhRTTT8OlRpTz66vcHAMCW3GsAuRSPCKahkAOp7u7IH4vxrKFpWH38xpNeDgP9k6+2fFDq5vGh/fCocsGgdu7fegHl2eFUl6H3b5kzQpOpTrcbo3DnMETR07OYho2DuYL0pz1Y9Lg4mCy+v6bYR/rcHEYw/vU/qA2bYS9nUu1GkIMTNTqg/gKvCJ+2C4VeJTkwTEb3lKT06X3isHqTubj4yyGQhvekcei8TvB68sMfBL1JZmDKM4H+dKQVhKmhKyEpEHQ6/f7EJgskoSdBvu14//nV7/egNKHX7w/TqKn4/VGhBYbkrv/EC+UgcRhmKoQVnJJ3qk26sAIjogaBF1rRNAicQzQNgnByMJIGQSgwImkQpEIrigZBuvcgkgbRjQ2CyiGKBtGNDcIUcSfnTfdVhYRDBMtOMgfBW7ynQJSdvWnqNXGJsqM1mdsx/nOInEHQdvYmc59SXtSdnIgtGVQO79FKKm0Oby/Iba3RSirtnb0Odn/vVG5UUAWulDCIaIVKKGP4iK5nvIMcEBBR8gyrwBg/9AECEaU1o4M4wUdEQwTKAc4wBR8NMsGyCgynoOhFEgTO4Qd0KCIqi4bFAfgX3MyPyKIx3tmDOlBQMf5P9xWq0SdhtrBn6L5CpRz6pH9GicMLGiZNAY8JiUoTf/QQDCRzBDzjW/cFKlKfGAztNeNvVHJr86fH27Lj/PpfVDAMIkSHaPtf791OVO7XixUrVqxYsWJNpf4HPfxvbjC+JJsAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDctMDZUMDY6MDc6NTItMDQ6MDDCciyDAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA3LTA2VDA2OjA3OjUyLTA0OjAwsy+UPwAAAABJRU5ErkJggg=="
 
 /***/ }),
-/* 437 */
+/* 438 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39301,7 +39447,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	__webpack_require__(438);
+	var _reactRouterDom = __webpack_require__(188);
+
+	__webpack_require__(439);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39323,7 +39471,8 @@
 	        var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
 
 	        _this.state = {
-	            visible: 'menuB'
+	            visible: 'menuB',
+	            reDirect: false
 	        };
 	        _this.handleClick = _this.handleClick.bind(_this);
 	        return _this;
@@ -39344,14 +39493,12 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
 
-	            var menuLabel = {
-	                display: "block",
-	                margin: "0 0 .4em",
-	                fontSize: "16px",
-	                fontWeight: 400,
-	                color: "#636363"
-	            };
+	            if (this.state.reDirect && !this.props.home) {
+	                return _react2.default.createElement(_reactRouterDom.Redirect, { push: true, to: '/' });
+	            }
+
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'MenuBarDiv', style: { zIndex: 150, position: "relative" }, className: 'navigation-1 navigation-5' },
@@ -39377,7 +39524,9 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'a',
-	                                null,
+	                                { onClick: function onClick() {
+	                                        return _this2.setState({ reDirect: true });
+	                                    } },
 	                                '\u05D3\u05E3 \u05D4\u05D1\u05D9\u05EA'
 	                            ),
 	                            _react2.default.createElement(
@@ -39391,7 +39540,9 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'a',
-	                                null,
+	                                { onClick: function onClick() {
+	                                        return location.href = 'AddingAuction-Taramti.html';
+	                                    } },
 	                                '\u05D4\u05D5\u05E1\u05E4\u05EA \u05DE\u05DB\u05E8\u05D6'
 	                            ),
 	                            _react2.default.createElement(
@@ -39405,7 +39556,9 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'a',
-	                                null,
+	                                { onClick: function onClick() {
+	                                        return location.href = 'userDetails.html';
+	                                    } },
 	                                '\u05E4\u05E8\u05D5\u05E4\u05D9\u05DC \u05DE\u05E9\u05EA\u05DE\u05E9'
 	                            ),
 	                            _react2.default.createElement(
@@ -39419,7 +39572,9 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'a',
-	                                null,
+	                                { onClick: function onClick() {
+	                                        return location.href = 'appSettings.html#Settings.html';
+	                                    } },
 	                                '\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4'
 	                            ),
 	                            _react2.default.createElement(
@@ -39433,7 +39588,9 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'a',
-	                                null,
+	                                { onClick: function onClick() {
+	                                        return location.href = 'appSettings.html#SearchAssoc';
+	                                    } },
 	                                '\u05E4\u05E8\u05D8\u05D9 \u05E2\u05DE\u05D5\u05EA\u05D5\u05EA'
 	                            ),
 	                            _react2.default.createElement(
@@ -39447,7 +39604,9 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'a',
-	                                null,
+	                                { onClick: function onClick() {
+	                                        return location.href = 'RegisterAssoc-Taramti.html';
+	                                    } },
 	                                '\u05D4\u05D5\u05E1\u05E4\u05EA \u05E2\u05DE\u05D5\u05EA\u05D4'
 	                            )
 	                        )
@@ -39468,13 +39627,13 @@
 	exports.default = Menu;
 
 /***/ }),
-/* 438 */
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(439);
+	var content = __webpack_require__(440);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -39494,7 +39653,7 @@
 	}
 
 /***/ }),
-/* 439 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -39502,13 +39661,13 @@
 
 
 	// module
-	exports.push([module.id, ".menuB{\r\n    width: 200px;\r\n    max-height: 0px;\r\n    overflow: hidden;\r\n    transition: max-height 1.5s ease;\r\n    background-color: white;\r\n    text-align: center;\r\n    width: 100%;\r\n    margin: 45px 0 0;\r\n    position: absolute;\r\n    left: 0em;\r\n    padding: 0em;\r\n    z-index: 9;\r\n}\r\n\r\n.menuB.visible{\r\n    max-height: 500px;\r\n}\r\nul li a{\r\n    color: #000;\r\n    font-size: 16px;\r\n    margin: 0.5em 0;\r\n    display: block;\r\n    font-weight: 700;\r\n    font-family: \"Segoe UI\", Arial, sans-serif;\r\n}\r\nul li a label{\r\n    display: block;\r\n    margin: 0 0 .4em;\r\n    font-size: 16px;\r\n    font-weight: 400;\r\n    color: #636363;\r\n}\r\n", ""]);
+	exports.push([module.id, ".menuB{\r\n    max-height: 0px;\r\n    overflow: hidden;\r\n    transition: max-height 1.5s ease;\r\n    background-color: white;\r\n    text-align: center;\r\n    width: 100%;\r\n    margin: 45px 0 0;\r\n    position: absolute;\r\n    left: 0em;\r\n    padding: 0em;\r\n    z-index: 9;\r\n}\r\n\r\n.menuB.visible{\r\n    max-height: 500px;\r\n}\r\nul li a{\r\n    color: #000;\r\n    font-size: 16px;\r\n    margin: 0.5em 0;\r\n    display: block;\r\n    font-weight: 700;\r\n    font-family: \"Segoe UI\", Arial, sans-serif;\r\n}\r\nul li a label{\r\n    display: block;\r\n    margin: 0 0 .4em;\r\n    font-size: 16px;\r\n    font-weight: 400;\r\n    color: #636363;\r\n}\r\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 440 */
+/* 441 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39529,7 +39688,7 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(441);
+	var _reactTabs = __webpack_require__(442);
 
 	var _reactSlick = __webpack_require__(291);
 
@@ -39541,7 +39700,7 @@
 
 	__webpack_require__(311);
 
-	__webpack_require__(451);
+	__webpack_require__(452);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39809,7 +39968,7 @@
 	//                 </div>
 
 /***/ }),
-/* 441 */
+/* 442 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39817,23 +39976,23 @@
 	exports.__esModule = true;
 	exports.resetIdCounter = exports.Tabs = exports.TabPanel = exports.TabList = exports.Tab = undefined;
 
-	var _Tabs = __webpack_require__(442);
+	var _Tabs = __webpack_require__(443);
 
 	var _Tabs2 = _interopRequireDefault(_Tabs);
 
-	var _TabList = __webpack_require__(446);
+	var _TabList = __webpack_require__(447);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _Tab = __webpack_require__(445);
+	var _Tab = __webpack_require__(446);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(447);
+	var _TabPanel = __webpack_require__(448);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _uuid = __webpack_require__(449);
+	var _uuid = __webpack_require__(450);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39844,7 +40003,7 @@
 	exports.resetIdCounter = _uuid.reset;
 
 /***/ }),
-/* 442 */
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -39859,13 +40018,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _propTypes3 = __webpack_require__(443);
+	var _propTypes3 = __webpack_require__(444);
 
-	var _UncontrolledTabs = __webpack_require__(448);
+	var _UncontrolledTabs = __webpack_require__(449);
 
 	var _UncontrolledTabs2 = _interopRequireDefault(_UncontrolledTabs);
 
-	var _count = __webpack_require__(450);
+	var _count = __webpack_require__(451);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39995,7 +40154,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 443 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40008,17 +40167,17 @@
 	exports.onSelectPropType = onSelectPropType;
 	exports.selectedIndexPropType = selectedIndexPropType;
 
-	var _childrenDeepMap = __webpack_require__(444);
+	var _childrenDeepMap = __webpack_require__(445);
 
-	var _Tab = __webpack_require__(445);
+	var _Tab = __webpack_require__(446);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(446);
+	var _TabList = __webpack_require__(447);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(447);
+	var _TabPanel = __webpack_require__(448);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -40091,7 +40250,7 @@
 	}
 
 /***/ }),
-/* 444 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40107,15 +40266,15 @@
 
 	var _react = __webpack_require__(5);
 
-	var _Tab = __webpack_require__(445);
+	var _Tab = __webpack_require__(446);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(446);
+	var _TabList = __webpack_require__(447);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(447);
+	var _TabPanel = __webpack_require__(448);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -40162,7 +40321,7 @@
 	}
 
 /***/ }),
-/* 445 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40282,7 +40441,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 446 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40349,7 +40508,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 447 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40438,7 +40597,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 448 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40459,27 +40618,27 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
-	var _uuid = __webpack_require__(449);
+	var _uuid = __webpack_require__(450);
 
 	var _uuid2 = _interopRequireDefault(_uuid);
 
-	var _propTypes3 = __webpack_require__(443);
+	var _propTypes3 = __webpack_require__(444);
 
-	var _Tab = __webpack_require__(445);
+	var _Tab = __webpack_require__(446);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabList = __webpack_require__(446);
+	var _TabList = __webpack_require__(447);
 
 	var _TabList2 = _interopRequireDefault(_TabList);
 
-	var _TabPanel = __webpack_require__(447);
+	var _TabPanel = __webpack_require__(448);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
-	var _count = __webpack_require__(450);
+	var _count = __webpack_require__(451);
 
-	var _childrenDeepMap = __webpack_require__(444);
+	var _childrenDeepMap = __webpack_require__(445);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40782,7 +40941,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 449 */
+/* 450 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -40801,7 +40960,7 @@
 	}
 
 /***/ }),
-/* 450 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40810,13 +40969,13 @@
 	exports.getTabsCount = getTabsCount;
 	exports.getPanelsCount = getPanelsCount;
 
-	var _childrenDeepMap = __webpack_require__(444);
+	var _childrenDeepMap = __webpack_require__(445);
 
-	var _Tab = __webpack_require__(445);
+	var _Tab = __webpack_require__(446);
 
 	var _Tab2 = _interopRequireDefault(_Tab);
 
-	var _TabPanel = __webpack_require__(447);
+	var _TabPanel = __webpack_require__(448);
 
 	var _TabPanel2 = _interopRequireDefault(_TabPanel);
 
@@ -40841,13 +41000,13 @@
 	}
 
 /***/ }),
-/* 451 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(452);
+	var content = __webpack_require__(453);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -40867,7 +41026,7 @@
 	}
 
 /***/ }),
-/* 452 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -40875,13 +41034,13 @@
 
 
 	// module
-	exports.push([module.id, ".sliderDiv{\r\n  display: inline-block;\r\n  /*margin-top: 40px;*/\r\n}\r\n\r\n.react-tabs__tab-list {\r\n  /*border-bottom: 1px solid #aaa;*/\r\n  width: 100%;\r\n  background-color: darkcyan;\r\n  margin: 0 0 10px;\r\n  padding: 0;\r\n  font: bold 30px;\r\n}\r\n\r\n.react-tabs__tab {\r\n  display: inline-block;\r\n  margin: 0 3%;\r\n  border: 1px solid transparent;\r\n  border-bottom: none;\r\n  bottom: -1px;\r\n  position: relative;\r\n  list-style: none;\r\n  font-size: 12px;\r\n  /* padding: 6px 12px; */\r\n\r\n}\r\n\r\n.react-tabs__tab--selected {\r\n  border-bottom: 4px solid cyan ;\r\n  color: black;\r\n\r\n}\r\n\r\n.react-tabs__tab-panel {\r\n  margin-top: 10px;\r\n  display: none;\r\n}\r\n\r\n.react-tabs__tab-panel--selected {\r\n  display: block;\r\n  /*-webkit-animation: slide 0.5s forwards;*/\r\n  animation: slide 1s forwards;\r\n}\r\n\r\n/*@-webkit-keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }*/\r\n\r\n@keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }\r\n\r\n.react-tabs__tab--disabled {\r\n  color: GrayText;\r\n  cursor: default;\r\n  \r\n\r\n  /*auction-leave*/\r\n  /*transform: translate(0%);*/\r\n}\r\n\r\n.react-tabs__tab:focus {\r\n  box-shadow: 0 0 5px hsl(208, 99%, 50%);\r\n  border-color: hsl(208, 99%, 50%);\r\n  outline: none;\r\n}\r\n\r\n.react-tabs__tab:focus:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  height: 5px;\r\n  left: -4px;\r\n  right: -4px;\r\n  bottom: -5px;\r\n  background: #fff;\r\n}\r\n\r\n.tab-animate-left{\r\n  position:relative;\r\n  animation:animateleft 0.4s\r\n  }\r\n  \r\n  @keyframes animateleft{\r\n    from{\r\n      left:-300px;\r\n    opacity:0}\r\n    to{\r\n      left:0;\r\n    opacity:1}\r\n    }\r\n\r\n.tab-animate-right{\r\n  position:relative;\r\n  animation:animateright 0.4s\r\n  }\r\n\r\n  @keyframes animateright{\r\n    from{\r\n    right:-300px;\r\n    opacity:0\r\n    }\r\n  to{\r\n    right:0;\r\n    opacity:1\r\n  }\r\n  }", ""]);
+	exports.push([module.id, ".sliderDiv{\r\n  display: inline-block;\r\n  /*margin-top: 40px;*/\r\n}\r\n\r\n.react-tabs__tab-list {\r\n  /*border-bottom: 1px solid #aaa;*/\r\n  width: 100%;\r\n  background-color: rgba(255,255,255,0.9);\r\n  margin: 0 0 10px;\r\n  padding: 0;\r\n  font: bold 30px;\r\n}\r\n\r\n.react-tabs__tab {\r\n  display: inline-block;\r\n  margin: 0 5%;\r\n  border: 1px solid transparent;\r\n  border-bottom: none;\r\n  bottom: -1px;\r\n  position: relative;\r\n  list-style: none;\r\n  font-size: 14px;\r\n  /* padding: 6px 12px; */\r\n\r\n}\r\n\r\n.react-tabs__tab--selected {\r\n  border-bottom: 4px solid rgba(0,0,0,0.4) ;\r\n  color: black;\r\n\r\n}\r\n\r\n.react-tabs__tab-panel {\r\n  margin-top: 10px;\r\n  display: none;\r\n}\r\n\r\n.react-tabs__tab-panel--selected {\r\n  display: block;\r\n  /*-webkit-animation: slide 0.5s forwards;*/\r\n  animation: slide 1s forwards;\r\n}\r\n\r\n/*@-webkit-keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }*/\r\n\r\n@keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }\r\n\r\n.react-tabs__tab--disabled {\r\n  color: GrayText;\r\n  cursor: default;\r\n  \r\n\r\n  /*auction-leave*/\r\n  /*transform: translate(0%);*/\r\n}\r\n\r\n.react-tabs__tab:focus {\r\n  box-shadow: 0 0 5px hsl(208, 99%, 50%);\r\n  border-color: hsl(208, 99%, 50%);\r\n  outline: none;\r\n}\r\n\r\n.react-tabs__tab:focus:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  height: 5px;\r\n  left: -4px;\r\n  right: -4px;\r\n  bottom: -5px;\r\n  background: #fff;\r\n}\r\n\r\n.tab-animate-left{\r\n  position:relative;\r\n  animation:animateleft 0.4s\r\n  }\r\n  \r\n  @keyframes animateleft{\r\n    from{\r\n      left:-300px;\r\n    opacity:0}\r\n    to{\r\n      left:0;\r\n    opacity:1}\r\n    }\r\n\r\n.tab-animate-right{\r\n  position:relative;\r\n  animation:animateright 0.4s\r\n  }\r\n\r\n  @keyframes animateright{\r\n    from{\r\n    right:-300px;\r\n    opacity:0\r\n    }\r\n  to{\r\n    right:0;\r\n    opacity:1\r\n  }\r\n  }", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 453 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40940,7 +41099,7 @@
 
 	__webpack_require__(426);
 
-	var _messages = __webpack_require__(428);
+	var _messages = __webpack_require__(429);
 
 	var _general = __webpack_require__(424);
 
@@ -40971,7 +41130,6 @@
 	            infoModalIsOpen: false,
 	            fAQModalIsOpen: false,
 	            FAQs: [],
-	            tempDonation: "",
 	            width: null,
 
 	            // auc data
@@ -40985,11 +41143,9 @@
 	                prodDesc: par.props.auc.prodDesc,
 	                imgArr: par.props.auc.imgArr
 	            }
-	            // this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
-	        };_this.calcDonation = _this.calcDonation.bind(_this);
+	        };
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
 	        _this.addQuestion = _this.addQuestion.bind(_this);
-
 	        _this.infoModalChanged = _this.infoModalChanged.bind(_this);
 	        _this.FAQModalChanged = _this.FAQModalChanged.bind(_this);
 	        return _this;
@@ -41001,9 +41157,6 @@
 	            //set correct width
 	            var width = this.refs.infoDiv.clientWidth;
 	            this.setState({ width: width });
-
-	            //calculate amount to donation
-	            this.calcDonation();
 
 	            //get current price every 5 sec
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
@@ -41067,91 +41220,14 @@
 	                    var tempObj = self.state.auc;
 	                    tempObj["price"] = ans;
 	                    self.setState({ auc: tempObj });
-	                    self.calcDonation();
 	                }
 	            }).catch(function (error) {
 	                console.log(error);
 	            });
 	        }
-
-	        //disable input and button
-	        // timerFinishedAuc() {
-	        //     let tempObj = this.state.auc;
-	        //     tempObj["finished"] = true;
-	        //     this.setState({ auc: tempObj });
-	        //     const self = this;
-	        //     axios.post(auctionWS + 'GetAuctionPrice', {
-	        //         auctionCode: self.props.params.code
-	        //     })
-	        //         .then(function (response) {
-	        //             let ans = response.this.d;
-	        //             if (ans !== "-1") {
-	        //                 // self.congratulateSeller();
-	        //                 self.openMSGModal();
-	        //             }
-	        //         })
-	        //         .catch(function (error) {
-	        //             console.log(error);
-	        //         });
-	        // }
-
-	        //calculate donation amount to insert to circle
-
-	    }, {
-	        key: 'calcDonation',
-	        value: function calcDonation() {
-	            var tempPrice = parseInt(this.state.auc.price);
-	            var i = this.state.curIndex;
-
-	            if (this.refs.newPrice !== undefined) {
-	                this.setState({
-	                    borderColor: "red"
-	                });
-
-	                var val = parseInt(this.refs.newPrice.value);
-	                //console.log(`price: ${tempPrice},  new price: ${val}`)
-	                if (val > tempPrice) {
-	                    tempPrice = val;
-	                    this.setState({
-	                        curIndex: 3,
-	                        formerIndex: i,
-	                        borderColor: "green"
-	                    });
-	                } else {
-	                    if (val >= tempPrice * 0.6) {
-	                        this.setState({
-	                            curIndex: 2,
-	                            formerIndex: i
-	                        });
-	                    } else if (val >= tempPrice * 0.15) {
-	                        this.setState({
-	                            curIndex: 1,
-	                            formerIndex: i
-	                        });
-	                    } else {
-	                        this.setState({
-	                            curIndex: 0,
-	                            formerIndex: i
-	                        });
-	                    }
-	                }
-	            }
-	            this.setState({
-	                tempDonation: '\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.state.auc.percentage / 100) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
-	            });
-	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-
-	            // const customStyles = {
-	            //     content: {
-	            //         webkitAnimation: "zoomInRight 1s both",
-	            //         animation: "zoomInRight 1s both"
-
-	            //     }
-	            // };
-
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -41253,7 +41329,7 @@
 	exports.default = MyAuction;
 
 /***/ }),
-/* 454 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41272,25 +41348,25 @@
 
 	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
 
-	var _reactTabs = __webpack_require__(441);
+	var _reactTabs = __webpack_require__(442);
 
 	var _Auction = __webpack_require__(285);
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _ActiveAuctions = __webpack_require__(440);
-
-	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
-
-	var _MyAuction = __webpack_require__(453);
-
-	var _MyAuction2 = _interopRequireDefault(_MyAuction);
-
-	var _ThemeAuctions = __webpack_require__(455);
+	var _ThemeAuctions = __webpack_require__(456);
 
 	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
 
-	__webpack_require__(451);
+	var _Menu = __webpack_require__(438);
+
+	var _Menu2 = _interopRequireDefault(_Menu);
+
+	var _ActiveAuctions = __webpack_require__(441);
+
+	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
+
+	__webpack_require__(452);
 
 	__webpack_require__(311);
 
@@ -41301,6 +41377,7 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	// import ThemeAuctions from './ThemeAuctions';
 
 	var Profile = function (_Component) {
 	    _inherits(Profile, _Component);
@@ -41325,7 +41402,7 @@
 	        value: function tabSwipeLeft() {
 	            var i = this.state.tabIndex - 1;
 	            if (i === -1) {
-	                this.setState({ tabIndex: 3, animation: "slideInRight" });
+	                this.setState({ tabIndex: 2, animation: "slideInRight" });
 	            } else {
 	                this.setState({ tabIndex: i, animation: "slideInRight" });
 	            }
@@ -41334,7 +41411,7 @@
 	        key: 'tabSwipeRight',
 	        value: function tabSwipeRight() {
 	            var i = this.state.tabIndex + 1;
-	            if (i === 4) {
+	            if (i === 3) {
 	                this.setState({ tabIndex: 0, animation: "slideInLeft" });
 	            } else {
 	                this.setState({ tabIndex: i, animation: "slideInLeft" });
@@ -41348,7 +41425,8 @@
 	            var list = ["עקפו אותי", "המוצרים שלי", "הבידים שלי"];
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'pageReact', style: { minHeight: "640px" } },
+	                { className: 'pageReact', style: { minHeight: window.innerHeight } },
+	                _react2.default.createElement(_Menu2.default, null),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onSwipedLeft: this.tabSwipeLeft, onSwipedRight: this.tabSwipeRight },
@@ -41373,11 +41451,6 @@
 	                            _react2.default.createElement(
 	                                _reactTabs.Tab,
 	                                null,
-	                                '\u05D4\u05DE\u05D5\u05E6\u05E8\u05D9\u05DD \u05E9\u05DC\u05D9'
-	                            ),
-	                            _react2.default.createElement(
-	                                _reactTabs.Tab,
-	                                null,
 	                                '\u05D4\u05D1\u05D9\u05D3\u05D9\u05DD \u05E9\u05DC\u05D9'
 	                            )
 	                        ),
@@ -41386,7 +41459,7 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'div',
-	                                { className: this.state.tabIndex === 3 ? this.state.animation : "" },
+	                                { className: this.state.tabIndex === 0 ? this.state.animation : "" },
 	                                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'history' })
 	                            )
 	                        ),
@@ -41395,17 +41468,8 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'div',
-	                                { className: this.state.tabIndex === 0 ? this.state.animation : "" },
-	                                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'outBID' })
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(
-	                                'div',
 	                                { className: this.state.tabIndex === 1 ? this.state.animation : "" },
-	                                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'myProducts' })
+	                                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'outBID' })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -41429,7 +41493,7 @@
 	exports.default = Profile;
 
 /***/ }),
-/* 455 */
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41466,7 +41530,7 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _Loader = __webpack_require__(435);
+	var _Loader = __webpack_require__(436);
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
@@ -41689,7 +41753,65 @@
 	exports.default = ThemeAuctions;
 
 /***/ }),
-/* 456 */
+/* 457 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _ThemeAuctions = __webpack_require__(456);
+
+	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
+
+	var _Menu = __webpack_require__(438);
+
+	var _Menu2 = _interopRequireDefault(_Menu);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var MyProducts = function (_Component) {
+	    _inherits(MyProducts, _Component);
+
+	    function MyProducts(props) {
+	        _classCallCheck(this, MyProducts);
+
+	        return _possibleConstructorReturn(this, (MyProducts.__proto__ || Object.getPrototypeOf(MyProducts)).call(this, props));
+	    }
+
+	    _createClass(MyProducts, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'pageReact', style: { minHeight: window.innerHeight } },
+	                _react2.default.createElement(_Menu2.default, null),
+	                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'myProducts' })
+	            );
+	        }
+	    }]);
+
+	    return MyProducts;
+	}(_react.Component);
+
+	exports.default = MyProducts;
+
+/***/ }),
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41708,7 +41830,7 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _Payment = __webpack_require__(457);
+	var _Payment = __webpack_require__(459);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
 
@@ -41849,7 +41971,7 @@
 	exports.default = Bdika;
 
 /***/ }),
-/* 457 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41940,7 +42062,7 @@
 	exports.default = Payment;
 
 /***/ }),
-/* 458 */
+/* 460 */
 /***/ (function(module, exports) {
 
 	
