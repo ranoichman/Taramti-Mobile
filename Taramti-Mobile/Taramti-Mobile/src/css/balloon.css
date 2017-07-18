@@ -1,3 +1,12 @@
+.priceInput{
+  border: none;
+    background-color: transparent;
+    z-index: 5;
+    margin-top: 20px;
+    width: 100%;
+}
+
+
 /*
 *******************
 *******************
@@ -59,7 +68,7 @@ balloon animations
   50%{ transform:translateY(-15px) translateX(-10px) rotate(4deg); }
 }
 
-@keyframes blowDown {
+  @keyframes blowDown {
   0% {
     width: 47%;
     height: 33%;
@@ -77,18 +86,20 @@ balloon animations
     left:   50%;
     transform: rotate(-45deg);
   }
+  
   95% {
     width: 0;
     height: 0;
     left: 65%;
-    /*bottom: -10%;*/
+    
     transform: rotate(0);
-  }
-  100%{
-    left: 150%;
-    content: none
-  }
-}
+   }
+   100%{
+     width: 0;
+    height: 0;
+    left: 300%;
+  }  
+}  
 
 /*
 *******************

@@ -58,16 +58,13 @@ class ParticipateAuction extends Component {
         this.MSGModalChanged = this.MSGModalChanged.bind(this);
 
         this.congratulateSeller = this.congratulateSeller.bind(this);
-        // this.openInfoModal = this.openInfoModal.bind(this);
-        // this.closeInfoModal = this.closeInfoModal.bind(this);
-        // this.openFAQModal = this.openFAQModal.bind(this);
-        // this.closeFAQModal = this.closeFAQModal.bind(this);
         this.makeBid = this.makeBid.bind(this);
         this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
         this.calcDonation = this.calcDonation.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
         this.addToWatch = this.addToWatch.bind(this);
         this.updateWatch = this.updateWatch.bind(this);
+        this.deleteOffer = this.deleteOffer.bind(this);
     }
 
     componentDidMount() {
@@ -113,10 +110,6 @@ class ParticipateAuction extends Component {
         this.setState({ infoModalIsOpen: newstatus });
     }
 
-    // closeInfoModal() {
-    //     this.setState({ infoModalIsOpen: false })
-    // }
-
     /*
        ***************
           FAQ MODAL
@@ -127,9 +120,6 @@ class ParticipateAuction extends Component {
         this.setState({ fAQModalIsOpen: newstatus });
     }
 
-    // closeFAQModal() {
-    //     this.setState({ fAQModalIsOpen: false })
-    // }
     /*
        ***************
           MSG MODAL
@@ -139,10 +129,6 @@ class ParticipateAuction extends Component {
         let newstatus = !this.state.msg_ModalIsOpen
         this.setState({ msg_ModalIsOpen: newstatus });
     }
-
-    // closeMSGModal() {
-    //     this.setState({ msg_ModalIsOpen: false })
-    // }
 
     //disable input and button
     timerFinishedAuc() {
@@ -274,7 +260,7 @@ class ParticipateAuction extends Component {
                 msgClass: "box notEnough",
                 shownMessage: notEnoughtMSG
             });
-            this.openMSGModal();
+            this.MSGModalChanged();
         }
         //console.log(`make bid price: ${val}`)
 
@@ -328,9 +314,14 @@ class ParticipateAuction extends Component {
             });
     }
 
+    deleteOffer(){
+        this.setState({anim:"2"});
+        setTimeout(()=> this.setState({anim:"0"}),1500)
+    }
+
     render() {
         return (
-            <div>
+            <div className="pageBC" style={{ minHeight: window.innerHeight, paddingTop: "10px" }}>
 
                 {/*home page fixed circle*/}
                 <Link to="/">
@@ -400,10 +391,16 @@ class ParticipateAuction extends Component {
                     </h4>
                 </div>
 
-                <Swipeable onTap={this.makeBid}>
+                {/* <Swipeable onTap={this.makeBid}>
                     <div ref="makeBidBTN" className="base" style={{ display: this.state.auc.finished ? "none" : "inline-block" }}> <span>הצע ביד</span> </div>
+                </Swipeable> */}
+
+                <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer}>
+                    <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim}>
+
+                    </Balloon>
                 </Swipeable>
-                <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} />
+
 
                 {/*fireworks*/}
                 <div className="pyro" style={this.state.anim === "1" ? { display: "block" } : { display: "none" }}>

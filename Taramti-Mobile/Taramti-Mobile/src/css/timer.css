@@ -5,18 +5,18 @@
   padding-left: 10px;
   margin: 0 auto;
   border-radius: .4em;
+  display: inline-block;
 }
 
 .regBorder {
-  border: 2px solid green;
-  
-      color: antiquewhite;
-    background-color: #0f9b0f;
+  border: 2px solid green; 
+  color: antiquewhite;
+  background-color: #0f9b0f;
 }
 
 
 .blinkBorder {
   border: 2px solid red;
-   color: antiquewhite;
-    background-color: #db1e15;
+  color: antiquewhite;
+  background-color: #db1e15;
 }
