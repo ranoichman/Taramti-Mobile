@@ -21,27 +21,28 @@
     
 
 
-    <script src="js/jquery.js"></script>
+    <!--<script src="js/jquery.js"></script>-->
     <!--<script src="js/jquery.min.js"></script>-->
 
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"> </script>
 
     <script src="js/jqm.js"></script>
 
     <script src="js/master.js"></script>
 
-    <link href="chosen_v1.7.0/docsupport/prism.css" rel="stylesheet" />
     <link href="chosen_v1.7.0/docsupport/style.css" rel="stylesheet" />
+    <link href="chosen_v1.7.0/docsupport/prism.css" rel="stylesheet" />
     <link href="chosen_v1.7.0/chosen.css" rel="stylesheet" />
-    <script src="chosen_v1.7.0/chosen.jquery.js"></script>
+    <script src="chosen_v1.7.0/chosen.jquery.js" type="text/javascript"></script>
+    <script src="chosen_v1.7.0/chosen.proto.js" type="text/javascript"></script>
+    <script src="chosen_v1.7.0/docsupport/prism.js" type="text/javascript"></script>
 
-
-    <!--<link href="dist/css/select2.min.css" rel="stylesheet" />
-    <script src="dist/js/select2.min.js"></script>-->
+    <!--<link href="dist/css/select2.css" rel="stylesheet" />
+    <script src="dist/js/select2.full.js"></script>-->
     <!--font-Awesome-->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="css/font-awesome.min.css">-->
     <!--//font-Awesome-->
     <script>
         const generic = GENERAL.genericWebServerAddress;
@@ -52,10 +53,10 @@
 
 
 
+
+
     <!--<script type="text/javascript">
-$(document).ready(function() {
-    $(".js-example-basic-single").select2();
-});
+  $('select').select2();
     </script>-->
 
     <script>
@@ -67,7 +68,7 @@ $(document).ready(function() {
 
         $(document).ready(function () {
             // אג'קס למילוי כל הקטגוריות
-      
+
             $.ajax({
                 dataType: "json",
                 url: aucwebservice + "GetAllProductsCategories",
@@ -136,12 +137,10 @@ $(document).ready(function() {
 
 
 
-           // $("chosen").chosen();
+            $(".chosen").chosen();
         });
 
-        jQuery(document).ready(function () {
-            jQuery(".chosen").chosen({ disable_search: false });
-        });
+ 
 
         //$(".js-example-basic-single").chosen({disable_search : false});
 
@@ -398,13 +397,12 @@ function myFunction() {
                     <!--<input type="text" id="ProdLocation" required>-->
                     <!--<div class="scrollable" id="CustomerSelectDiv">-->
                         <!--<select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">-->
-                    <select id="ProdLocation1" class="chosen" >
-                            <!--<option value="-1"> בחר</option>-->
-                        <!--<option value="AL">Alabama</option>
+                    <select  class="chosen" >
+                     <option value="-1"> בחר</option>
+             <option value="AL">Alabama</option>
                         ...
                         <option value="WY">Wyoming</option>-->
                         </select> 
-                
                         <!-- שימוש בג'יפיאס -->
                         </div>
                     <div style="display: none;">
@@ -418,7 +416,7 @@ function myFunction() {
                         </select>
 
                         <h4>משך המכרז (בימים)</h4>
-                        <select id="AuctionLast" class="js-example-basic-single">
+                        <select id="AuctionLast" class="chosen">
                             <option value="-1"> בחר</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
