@@ -15,3 +15,7 @@ body {
   width: 100%;
 }
 
+
+ div, input, textarea{
+    outline: 0;
+} 

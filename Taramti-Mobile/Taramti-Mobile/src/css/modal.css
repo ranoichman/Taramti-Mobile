@@ -103,9 +103,9 @@ a.boxclose {
     z-index: 105;
 }
 
-.boxclose:before {
+/* .boxclose:before {
     content: "×";
-}
+} */
 
 input[type=text]{
     display: inline;
@@ -195,6 +195,6 @@ animation:3s ease-in infinite tipFadein;
 -webkit-animation:3s ease-in infinite fadein;
 }
 
- input, textarea{
+ div, input, textarea{
     outline: 0;
 } 

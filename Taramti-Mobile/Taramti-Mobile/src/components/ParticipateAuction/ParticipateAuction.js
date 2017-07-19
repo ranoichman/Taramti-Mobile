@@ -420,7 +420,6 @@ class ParticipateAuction extends Component {
                 </div>
 
                 {/*price manipulation*/}
-                {/* <input type="number" ref="newPrice" placeholder={this.state.auc.price} onChange={this.calcDonation} style={{ borderColor: this.state.borderColor }} /> */}
                 <div className="circle">
                     <h4>
                         {this.state.tempDonation}

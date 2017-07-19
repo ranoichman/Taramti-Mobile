@@ -18,8 +18,9 @@ class CircleButton extends Component {
             //          <div id="fixedCircle">
             //             <div> <Link to="/"><img src="images/circle-for-home.png" /></Link></div>
             //         </div> 
+                
                     <div id="fixedPlus">
-                        <div><Link to="/"> <img src="images/add_icon.png" /></Link></div>
+                        <div onClick={()=> location.href='AddingAuction-Taramti.html'}><img src="images/add_icon.png" /></div>
                     </div>
             //     </div>
             // </div>
