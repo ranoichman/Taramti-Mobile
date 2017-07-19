@@ -31,6 +31,7 @@
     if (localStorage.UserID != null) {
         location.href = "app.html";
     }
+
 </script>
 
 <body>
@@ -398,11 +399,11 @@
     <script>
         const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
-        var SENDER_ID = "183259485502";
+        var SENDER_ID = "336880743356";
         var user_platform;
         var notification_id;
         var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
-
+        alert(`sender5646 -=-=-=- ${SENDER_ID}`)
         $(document).ready(function () {
             $("#Loginbtn").on("tap", function () {
                 var mail = $("#UserMail").val();
@@ -473,9 +474,10 @@
                     },
                     "windows": {}
                 });
-
+                alert(`sender-- ${SENDER_ID}`)
                 push.on('registration', function (data) {
                     notification_id = data.registrationId;
+                    alert(`not_id::::: ${notification_id}`)
                     if (IsIphone()) {
                         user_platform = "ios";
                     }

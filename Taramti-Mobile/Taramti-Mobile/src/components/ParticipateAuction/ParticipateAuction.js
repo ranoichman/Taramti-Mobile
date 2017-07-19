@@ -74,7 +74,7 @@ class ParticipateAuction extends Component {
 
     componentDidMount() {
         this.addToWatch()
-        this.calcDonation(-1);
+        this.calcDonation(-5);
         this.loadInterval = setInterval(this.getCurPrice, 5000);
         this.tipInterval = setInterval(this.changeTip, 3150);
         setTimeout(this.stopChangeTip, 100000);
@@ -217,11 +217,15 @@ class ParticipateAuction extends Component {
                     });
                 }
             }
+            this.setState({
+                tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
+            });
         }
-        this.setState({
-            tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
-        });
-
+        // else{
+        //     this.setState({
+        //         tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
+        //     });
+        // }
     }
 
     //send bid to db

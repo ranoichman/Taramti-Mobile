@@ -102,6 +102,7 @@ class Balloon extends Component {
             height: balloonDim[this.props.curIndex]["height"],
             animation: `${this.props.anim === "1" ? "releaseB 4s" : "blowDown 1.5s"}`,
         }
+        
         return (
             <div className="balloon" style={this.props.anim === "0" ? style : float}>
                 <input type="number" ref="newPrice" className="priceInput" placeholder={this.props.price} onChange={this.calcDonation} />
