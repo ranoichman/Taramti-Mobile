@@ -531,3 +531,15 @@ div .page-top-mid1 {
     display: inline;
 }
 
+.MenuIconLeft {
+    max-width: 10%;
+    display:inline;
+    margin-left:2%;
+    margin-bottom:-13px;
+    /*float:right;*/
+
+}
+
+/*.nav-top-list nav-top-list1 li a {
+    display: inline;
+}*/
