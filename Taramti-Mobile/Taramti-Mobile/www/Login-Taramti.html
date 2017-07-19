@@ -20,7 +20,7 @@
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
-
+    <script type="text/javascript" src="cordova.js"></script>
     <script src="js/master.js"></script>
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -29,10 +29,9 @@
         // if (localStorage.UserID != null) {
         //     location.href = "app.html";
         // }
-
     </script>
 
-<script>
+    <script>
         const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
         var SENDER_ID = "336880743356";
@@ -43,7 +42,7 @@
         if (localStorage.UserID != null) {
             location.href = "app.html";
         }
-
+alert("bdika")
         $(document).ready(function () {
             $("#Loginbtn").on("tap", function () {
                 var mail = $("#UserMail").val();
