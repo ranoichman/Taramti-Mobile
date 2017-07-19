@@ -97,13 +97,15 @@
                         <div class="clearfix"> </div>
                     </div>
                 </div>
-                <div class="RoundDivfixed">
-                    <div id="fixedCircle">
+                <div class="FixedButton">
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+                            <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                        </div>
+                        <div id="fixedHome">
+                            <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                        </div>
 
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
-                    </div>
-                    <div id="fixedHome">
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
                     </div>
                 </div>
             </div>
@@ -182,13 +184,15 @@
                         <div class="clearfix"> </div>
                     </div>
                 </div>
-                <div class="RoundDivfixed">
-                    <div id="fixedCircle">
+                <div class="FixedButton">
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+                            <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                        </div>
+                        <div id="fixedHome">
+                            <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                        </div>
 
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
-                    </div>
-                    <div id="fixedHome">
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
                     </div>
                 </div>
             </div>
@@ -226,12 +230,16 @@
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
                 if ($(window).width() + $(window).height() != _originalSize) {
-                    $("#fixedCircle").css("display", "none");
-                    $("#fixedHome").css("display", "none");
+                    $(".FixedButton").css("display", "none");
+                    //$(".RoundDivfixed").css("display", "none");
+                    //$("#fixedCircle").css("display", "none");
+                    //$("#fixedHome").css("display", "none");
                 }
                 else {
-                    $("#fixedCircle").css("display", "block");
-                    $("#fixedHome").css("display", "block");
+                    $(".FixedButton").css("display", "block");
+                    //$(".RoundDivfixed").css("display", "block");
+                    //$("#fixedCircle").css("display", "block");
+                    //$("#fixedHome").css("display", "block");
                 }
             });
 
