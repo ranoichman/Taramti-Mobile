@@ -268,7 +268,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\r\n  -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */\r\n}\r\n\r\nbody {\r\n  -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */\r\n  -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */\r\n  -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */\r\n  background: #ffffff;\r\n  /* font-family: 'HelveticaNeue-Light', 'HelveticaNeue', 'Roboto', Helvetica, Arial, sans-serif; */\r\n  font-size: 100%;\r\n  height: 100%;\r\n  margin: 0px;\r\n  padding: 0px;\r\n  width: 100%;\r\n}\r\n\r\n", ""]);
+	exports.push([module.id, "* {\r\n  -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */\r\n}\r\n\r\nbody {\r\n  -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */\r\n  -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */\r\n  -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */\r\n  background: #ffffff;\r\n  /* font-family: 'HelveticaNeue-Light', 'HelveticaNeue', 'Roboto', Helvetica, Arial, sans-serif; */\r\n  font-size: 100%;\r\n  height: 100%;\r\n  margin: 0px;\r\n  padding: 0px;\r\n  width: 100%;\r\n}\r\n\r\n\r\n div, input, textarea{\r\n    outline: 0;\r\n} \r\n", ""]);
 
 	// exports
 
@@ -34938,7 +34938,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 30px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n input, textarea{\r\n    outline: 0;\r\n} \r\n", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 30px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    /*bottom: 30px;*/\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    /*-moz-border-radius: 20px;\r\n    -webkit-border-radius: 20px;\r\n    -khtml-border-radius: 20px;\r\n    -moz-box-shadow: 0 1px 5px #333;\r\n    -webkit-box-shadow: 0 1px 5px #333;*/\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n", ""]);
 
 	// exports
 
@@ -38824,21 +38824,44 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            // const balloonDim = [
+	            //     {
+	            //         width: "17%",
+	            //         height: "11%",
+	            //         left: "50%"
+	            //     },
+	            //     {
+	            //         width: "23%",
+	            //         height: "15%",
+	            //         left: "47%"
+	            //     },
+	            //     {
+	            //         width: "30%",
+	            //         height: "20%",
+	            //         left: "43%"
+	            //     },
+	            //     {
+	            //         width: "47%",
+	            //         height: "33%",
+	            //         left: "35%"
+	            //     }
+	            // ]
+
 	            var balloonDim = [{
-	                width: "17%",
-	                height: "11%",
+	                width: 0.17 * this.state.width + 'px',
+	                height: 0.11 * this.state.height + 'px',
 	                left: "50%"
 	            }, {
-	                width: "23%",
-	                height: "15%",
+	                width: 0.23 * this.state.width + 'px',
+	                height: 0.15 * this.state.height + 'px',
 	                left: "47%"
 	            }, {
-	                width: "30%",
-	                height: "20%",
+	                width: 0.30 * this.state.width + 'px',
+	                height: 0.20 * this.state.height + 'px',
 	                left: "43%"
 	            }, {
-	                width: "47%",
-	                height: "33%",
+	                width: 0.47 * this.state.width + 'px',
+	                height: 0.33 * this.state.height + 'px',
 	                left: "35%"
 	            }];
 
@@ -38943,13 +38966,32 @@
 
 	        var _this = _possibleConstructorReturn(this, (CircleButton.__proto__ || Object.getPrototypeOf(CircleButton)).call(this, props));
 
-	        _this.state = {};
+	        _this.state = {
+	            resize: false
+	        };
 	        _this.renderHome = _this.renderHome.bind(_this);
 	        _this.renderPlus = _this.renderPlus.bind(_this);
+	        _this.updateDimensions = _this.updateDimensions.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(CircleButton, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            window.addEventListener("resize", this.updateDimensions);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            window.removeEventListener("resize", this.updateDimensions);
+	        }
+	    }, {
+	        key: 'updateDimensions',
+	        value: function updateDimensions() {
+	            var newStatus = !this.state.resize;
+	            this.setState({ resize: newStatus });
+	        }
+	    }, {
 	        key: 'renderPlus',
 	        value: function renderPlus() {
 	            return (
@@ -38958,18 +39000,16 @@
 	                //          <div id="fixedCircle">
 	                //             <div> <Link to="/"><img src="images/circle-for-home.png" /></Link></div>
 	                //         </div> 
+
 	                _react2.default.createElement(
 	                    'div',
-	                    { id: 'fixedPlus' },
+	                    { id: 'fixedPlus', style: { display: this.state.resize ? "none" : "block" } },
 	                    _react2.default.createElement(
 	                        'div',
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactRouterDom.Link,
-	                            { to: '/' },
-	                            ' ',
-	                            _react2.default.createElement('img', { src: 'images/add_icon.png' })
-	                        )
+	                        { onClick: function onClick() {
+	                                return location.href = 'AddingAuction-Taramti.html';
+	                            } },
+	                        _react2.default.createElement('img', { src: 'images/add_icon.png' })
 	                    )
 	                )
 	                //     </div>
@@ -38982,7 +39022,7 @@
 	        value: function renderHome() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'FixedButton', style: { display: this.state.resize ? "none" : "block" } },
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'RoundDivfixed' },
@@ -38996,7 +39036,7 @@
 	                            _react2.default.createElement(
 	                                _reactRouterDom.Link,
 	                                { to: '/' },
-	                                _react2.default.createElement('img', { src: 'images/circle-for-home.png' })
+	                                _react2.default.createElement('img', { src: 'images/circle-for-home.png', style: { marginLeft: "-20px" } })
 	                            )
 	                        )
 	                    ),
@@ -39010,7 +39050,7 @@
 	                                _reactRouterDom.Link,
 	                                { to: '/' },
 	                                ' ',
-	                                _react2.default.createElement('img', { src: 'images/Home1600.png' })
+	                                _react2.default.createElement('img', { src: 'images/Home1600.png', style: { marginLeft: "30px" } })
 	                            )
 	                        )
 	                    )
@@ -39568,7 +39608,9 @@
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'nav-left' },
-	                    _react2.default.createElement('img', { style: { zIndex: 150, marginTop: 0, marginLeft: this.props.home ? "25%" : "" }, id: 'TaramtiLogo', src: 'images/LogoCircle.png' })
+	                    _react2.default.createElement('img', { onClick: function onClick() {
+	                            return _this2.setState({ reDirect: true });
+	                        }, style: { zIndex: 150, marginTop: 0, marginLeft: this.props.home ? "25%" : "" }, id: 'TaramtiLogo', src: 'images/LogoCircle.png' })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -41428,6 +41470,10 @@
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
+	var _CircleButton = __webpack_require__(428);
+
+	var _CircleButton2 = _interopRequireDefault(_CircleButton);
+
 	__webpack_require__(452);
 
 	__webpack_require__(311);
@@ -41439,7 +41485,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	// import ThemeAuctions from './ThemeAuctions';
 
 	var Profile = function (_Component) {
 	    _inherits(Profile, _Component);
@@ -41544,7 +41589,8 @@
 	                            )
 	                        )
 	                    )
-	                )
+	                ),
+	                _react2.default.createElement(_CircleButton2.default, { home: true })
 	            );
 	        }
 	    }]);
@@ -41838,6 +41884,10 @@
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
+	var _CircleButton = __webpack_require__(428);
+
+	var _CircleButton2 = _interopRequireDefault(_CircleButton);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41862,7 +41912,8 @@
 	                'div',
 	                { className: 'pageReact', style: { minHeight: window.innerHeight } },
 	                _react2.default.createElement(_Menu2.default, null),
-	                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'myProducts' })
+	                _react2.default.createElement(_ThemeAuctions2.default, { theme: 'myProducts' }),
+	                _react2.default.createElement(_CircleButton2.default, { home: true })
 	            );
 	        }
 	    }]);
