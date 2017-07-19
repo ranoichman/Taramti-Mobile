@@ -103,9 +103,9 @@ a.boxclose {
     z-index: 105;
 }
 
-/* .boxclose:before {
+.boxclose:before {
     content: "×";
-} */
+}
 
 input[type=text]{
     display: inline;
