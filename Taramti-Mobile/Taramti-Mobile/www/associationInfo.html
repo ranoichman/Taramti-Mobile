@@ -84,6 +84,12 @@
                     error: function (err) { }
                 });
             });
+
+            $("span.nav-list-it5").on("tap", function () {
+                $("ul.nav-top-list1").slideToggle("slow", function () {
+                    // Animation complete.
+                });
+            });
         });
     </script>
 
