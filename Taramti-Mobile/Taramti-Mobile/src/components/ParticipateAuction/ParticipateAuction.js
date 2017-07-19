@@ -74,7 +74,7 @@ class ParticipateAuction extends Component {
 
     componentDidMount() {
         this.addToWatch()
-        this.calcDonation(-1);
+        this.calcDonation(-5);
         this.loadInterval = setInterval(this.getCurPrice, 5000);
         this.tipInterval = setInterval(this.changeTip, 3150);
         setTimeout(this.stopChangeTip, 100000);
@@ -217,11 +217,15 @@ class ParticipateAuction extends Component {
                     });
                 }
             }
+            this.setState({
+                tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
+            });
         }
-        this.setState({
-            tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
-        });
-
+        // else{
+        //     this.setState({
+        //         tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
+        //     });
+        // }
     }
 
     //send bid to db
@@ -438,7 +442,6 @@ class ParticipateAuction extends Component {
                 <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer} onTap={this.stopChangeTip}>
                     <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
                 </Swipeable>
-
 
                 {/*fireworks*/}
                 <div className="pyro" style={this.state.anim === "1" ? { display: "block" } : { display: "none" }}>

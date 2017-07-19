@@ -191,10 +191,7 @@ width: 0;
 }
  
  .display{
+     font-weight: 700;
 animation:3s ease-in infinite tipFadein;
 -webkit-animation:3s ease-in infinite fadein;
 }
-
- div, input, textarea{
-    outline: 0;
-} 

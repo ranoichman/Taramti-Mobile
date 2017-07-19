@@ -52,15 +52,27 @@
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
-                if ($(window).width() + $(window).height() != _originalSize) {
-                    $("#fixedCircle").css("display", "none");
-                    $("#fixedHome").css("display", "none");
+                if ($(window).width() + $(window).height() != _originalSize) { 
+                    $(".FixedButton").css("display", "none");
+                    //$(".RoundDivfixed").css("display", "none");
+                    //$("#fixedCircle").css("display", "none");
+                    //$("#fixedHome").css("display", "none");
                 }
                 else {
-                    $("#fixedCircle").css("display", "block");
-                    $("#fixedHome").css("display", "block");
+                    $(".FixedButton").css("display", "block");
+                    //$(".RoundDivfixed").css("display", "block");
+                    //$("#fixedCircle").css("display", "block");
+                    //$("#fixedHome").css("display", "block");
                 }
             });
+
+
+            $("span.nav-list-it5").on("tap", function () {
+                $("ul.nav-top-list1").slideToggle("slow", function () {
+                    // Animation complete.
+                });
+            });
+
         });
 
         $(document).ready(function () {
@@ -238,13 +250,7 @@
                 <span class="nav-list-it5">
                     <i class="fa fa-bars"></i>
                 </span>
-                <script>
-                    $("span.nav-list-it5").click(function () {
-                        $("ul.nav-top-list1").slideToggle("slow", function () {
-                            // Animation complete.
-                        });
-                    });
-                </script>
+
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
@@ -264,13 +270,15 @@
 
             <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
 
-                <div class="RoundDivfixed">
-                    <div id="fixedCircle">
+                <div class="FixedButton">
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+                            <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                        </div>
+                        <div id="fixedHome">
+                            <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                        </div>
 
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
-                    </div>
-                    <div id="fixedHome">
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
                     </div>
                 </div>
             </div>
@@ -290,13 +298,7 @@
                     <span class="nav-list-it5">
                         <i class="fa fa-bars"></i>
                     </span>
-                    <script>
-                        $("span.nav-list-it5").click(function () {
-                            $("ul.nav-top-list1").slideToggle("slow", function () {
-                                // Animation complete.
-                            });
-                        });
-                    </script>
+
                     <ul class="nav-top-list nav-top-list1">
                         <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                         <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
@@ -349,13 +351,15 @@
 
                     <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
 
-                    <div class="RoundDivfixed">
-                        <div id="fixedCircle">
+                    <div class="FixedButton">
+                        <div class="RoundDivfixed">
+                            <div id="fixedCircle">
+                                <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                            </div>
+                            <div id="fixedHome">
+                                <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                            </div>
 
-                            <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
-                        </div>
-                        <div id="fixedHome">
-                            <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
                         </div>
                     </div>
                 </div>
@@ -376,13 +380,7 @@
                     <span class="nav-list-it5">
                         <i class="fa fa-bars"></i>
                     </span>
-                    <script>
-                        $("span.nav-list-it5").ontap(function () {
-                            $("ul.nav-top-list1").slideToggle("slow", function () {
-                                // Animation complete.
-                            });
-                        });
-                    </script>
+
                     <ul class="nav-top-list nav-top-list1">
                         <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                         <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
@@ -418,12 +416,15 @@
 
                 <a onclick="goBack()">חזור</a>
 
-                <div class="RoundDivfixed">
-                    <div id="fixedCircle">
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
-                    </div>
-                    <div id="fixedHome">
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
+                <div class="FixedButton">
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+                            <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                        </div>
+                        <div id="fixedHome">
+                            <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                        </div>
+
                     </div>
                 </div>
             </div>

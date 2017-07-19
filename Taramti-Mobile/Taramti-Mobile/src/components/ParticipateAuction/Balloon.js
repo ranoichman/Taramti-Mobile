@@ -38,25 +38,48 @@ class Balloon extends Component {
         this.props.calc(val);
     }
     render() {
-        const balloonDim = [
+        // const balloonDim = [
+        //     {
+        //         width: "17%",
+        //         height: "11%",
+        //         left: "50%"
+        //     },
+        //     {
+        //         width: "23%",
+        //         height: "15%",
+        //         left: "47%"
+        //     },
+        //     {
+        //         width: "30%",
+        //         height: "20%",
+        //         left: "43%"
+        //     },
+        //     {
+        //         width: "47%",
+        //         height: "33%",
+        //         left: "35%"
+        //     }
+        // ]
+
+         const balloonDim = [
             {
-                width: "17%",
-                height: "11%",
+                width: `${0.17 * this.state.width}px`,
+                height: `${0.11 * this.state.height}px`,
                 left: "50%"
             },
             {
-                width: "23%",
-                height: "15%",
+                width: `${0.23 * this.state.width}px`,
+                height: `${0.15 * this.state.height}px`,
                 left: "47%"
             },
             {
-                width: "30%",
-                height: "20%",
+                width: `${0.30 * this.state.width}px`,
+                height: `${0.20 * this.state.height}px`,
                 left: "43%"
             },
             {
-                width: "47%",
-                height: "33%",
+                width: `${0.47 * this.state.width}px`,
+                height: `${0.33 * this.state.height}px`,
                 left: "35%"
             }
         ]
@@ -79,6 +102,7 @@ class Balloon extends Component {
             height: balloonDim[this.props.curIndex]["height"],
             animation: `${this.props.anim === "1" ? "releaseB 4s" : "blowDown 1.5s"}`,
         }
+        
         return (
             <div className="balloon" style={this.props.anim === "0" ? style : float}>
                 <input type="number" ref="newPrice" className="priceInput" placeholder={this.props.price} onChange={this.calcDonation} />
