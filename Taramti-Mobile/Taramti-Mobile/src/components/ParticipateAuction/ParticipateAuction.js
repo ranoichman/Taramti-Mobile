@@ -10,6 +10,7 @@ import axios from 'axios';
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
 import Balloon from './Balloon';
+import Tip from './Tip';
 import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
 import CircleButton from '../Generic/CircleButton';
@@ -30,6 +31,7 @@ class ParticipateAuction extends Component {
             infoModalIsOpen: false,
             fAQModalIsOpen: false,
             msg_ModalIsOpen: false,
+            tipModalIsOpen: false,
             borderColor: "red",
             msgClass: "box notEnough",
             shownMessage: "",
@@ -59,7 +61,7 @@ class ParticipateAuction extends Component {
         this.infoModalChanged = this.infoModalChanged.bind(this);
         this.FAQModalChannged = this.FAQModalChannged.bind(this);
         this.MSGModalChanged = this.MSGModalChanged.bind(this);
-
+        this.tipModalChanged = this.tipModalChanged.bind(this);
         this.congratulateSeller = this.congratulateSeller.bind(this);
         this.makeBid = this.makeBid.bind(this);
         this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
@@ -77,6 +79,7 @@ class ParticipateAuction extends Component {
         this.calcDonation(-5);
         this.loadInterval = setInterval(this.getCurPrice, 5000);
         this.tipInterval = setInterval(this.changeTip, 3150);
+        setTimeout(this.tipModalChanged, 700);
         setTimeout(this.stopChangeTip, 100000);
     }
 
@@ -138,6 +141,15 @@ class ParticipateAuction extends Component {
     MSGModalChanged() {
         let newstatus = !this.state.msg_ModalIsOpen
         this.setState({ msg_ModalIsOpen: newstatus });
+    }
+    /*
+       ***************
+          MSG MODAL
+       ***************
+    */
+    tipModalChanged() {
+        let newstatus = !this.state.tipModalIsOpen
+        this.setState({ tipModalIsOpen: newstatus });
     }
 
     //disable input and button
@@ -359,15 +371,6 @@ class ParticipateAuction extends Component {
     }
 
     render() {
-        const tips = [
-            "לחץ על הבלון להזנת מחיר",
-            "החלק את הבלון מעלה להצעת ביד במוצר",
-            "החלק את הבלון מטה למחיקת ההצעה"];
-
-        let style = {
-            opacity: 1,
-            transition: "opacity 0.5s ease-in 0.2"
-        }
 
         return (
             <div className="pageBC" style={{ minHeight: window.innerHeight, paddingTop: "10px", paddingRight: "5px" }}>
@@ -408,7 +411,6 @@ class ParticipateAuction extends Component {
 
                     {/*FAQ modal*/}
                     <Swipeable onTap={this.FAQModalChannged}>
-                        {/* <FontAwesome name='question-circle' border={true} className="fa-3x" tag="i" /> */}
                         <div className="icon_container" style={{ right: "80px" }}>
                             <div id="faqIcon">
                                 <img src="images/question_mark1600.png" />
@@ -430,17 +432,10 @@ class ParticipateAuction extends Component {
                     </h4>
                 </div>
 
-                {/* <Swipeable onTap={this.makeBid}>
-                    <div ref="makeBidBTN" className="base" style={{ display: this.state.auc.finished ? "none" : "inline-block" }}> <span>הצע ביד</span> </div>
-                </Swipeable> */}
-
-                {this.state.tip != -1 ? <div className="explain">
-                    <p className="display">{tips[this.state.tip]}
-                    </p>
-                </div>
-                    : null}
                 <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer} onTap={this.stopChangeTip}>
+                    <div style={{height:"250px", width:"50%"}}>
                     <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
+                    </div>
                 </Swipeable>
 
                 {/*fireworks*/}
@@ -451,6 +446,18 @@ class ParticipateAuction extends Component {
 
                 {/*home page fixed circle*/}
                 <CircleButton home={true} />
+
+                {/* tip modal */}
+                <Modal
+                    isOpen={this.state.tipModalIsOpen}
+                    contentLabel="open info"
+                    className="zoomIn">
+                    <Tip closeModal={this.tipModalChanged} height={window.innerHeight} />
+
+                </Modal>
+
+
+
 
             </div>
         );

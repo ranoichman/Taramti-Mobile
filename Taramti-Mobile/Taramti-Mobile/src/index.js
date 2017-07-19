@@ -13,6 +13,7 @@ import axios from 'axios';
 // taramti babait components
 import Home from './components/Home/Home';
 import ParticipateAuction from './components/ParticipateAuction/ParticipateAuction';
+import TapDemo from './components/ParticipateAuction/TapDemo';
 import ActiveAuctions from './components/Profile/ActiveAuctions';
 import MyAuction from './components/Profile/MyAuction';
 import Profile from './components/Profile/Profile';
@@ -110,7 +111,7 @@ ReactDOM.render(<HashRouter>
         <Route path="/myAuction" component={MyAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={Bdika}/>
+        <Route path="/bdika" component={TapDemo}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 
