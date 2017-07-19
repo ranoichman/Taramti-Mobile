@@ -127,16 +127,16 @@
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
                 if ($(window).width() + $(window).height() != _originalSize) { 
-                    $("#FixedButton").css("display", "none");
-                    $("#RoundDivfixed").css("opacity", "0");
-                    $("#fixedCircle").css("display", "none");
-                    $("#fixedHome").css("display", "none");
+                    $(".FixedButton").css("display", "none");
+                    //$(".RoundDivfixed").css("display", "none");
+                    //$("#fixedCircle").css("display", "none");
+                    //$("#fixedHome").css("display", "none");
                 }
                 else {
-                    $("#FixedButton").css("display", "block");
-                    $("#RoundDivfixed").css("backgroundColor", "white");
-                    $("#fixedCircle").css("display", "block");
-                    $("#fixedHome").css("display", "block");
+                    $(".FixedButton").css("display", "block");
+                    //$(".RoundDivfixed").css("display", "block");
+                    //$("#fixedCircle").css("display", "block");
+                    //$("#fixedHome").css("display", "block");
                 }
             });
 
