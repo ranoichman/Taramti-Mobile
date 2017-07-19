@@ -36,7 +36,7 @@ class Menu extends Component {
 
                 <img id="LogoBidIt" src="images/LogoBidIt.png" style={{ left: this.props.home ? "40%" : "" }} />
                 <div className="nav-left">
-                    <img style={{ zIndex: 150, marginTop: 0, marginLeft: this.props.home ? "25%" : "" }} id="TaramtiLogo" src="images/LogoCircle.png" />
+                    <img onClick={()=> this.setState({reDirect:true})} style={{ zIndex: 150, marginTop: 0, marginLeft: this.props.home ? "25%" : "" }} id="TaramtiLogo" src="images/LogoCircle.png" />
                 </div>
                 <div className="nav-right" onClick={this.handleClick} style={{marginTop:"13.7188px"}}>
                     <span className="nav-list-it5">

@@ -439,7 +439,6 @@ class ParticipateAuction extends Component {
                     <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
                 </Swipeable>
 
-
                 {/*fireworks*/}
                 <div className="pyro" style={this.state.anim === "1" ? { display: "block" } : { display: "none" }}>
                     <div className="before"></div>

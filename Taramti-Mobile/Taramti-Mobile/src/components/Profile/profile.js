@@ -6,7 +6,7 @@ import Auction from '../Generic/Auction';
 import ThemeAuctions from '../Generic/ThemeAuctions';
 import Menu from '../Generic/Menu';
 import ActiveAuctions from './ActiveAuctions';
-// import ThemeAuctions from './ThemeAuctions';
+import CircleButton from '../Generic/CircleButton';
 
 import '../../css/react-tabs.css';
 import '../../css/transition.css';
@@ -78,6 +78,9 @@ class Profile extends Component {
 
                     </Tabs>
                 </Swipeable>
+
+                {/*home page fixed circle*/}
+                <CircleButton home={true} />
             </div>
         );
     }
