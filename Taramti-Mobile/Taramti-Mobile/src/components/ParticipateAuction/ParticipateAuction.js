@@ -34,6 +34,7 @@ class ParticipateAuction extends Component {
             msgClass: "box notEnough",
             shownMessage: "",
             tempDonation: "",
+            tip: 0,
             offered: 0,
             curIndex: 0,
             formerIndex: 0,
@@ -67,19 +68,27 @@ class ParticipateAuction extends Component {
         this.addToWatch = this.addToWatch.bind(this);
         this.updateWatch = this.updateWatch.bind(this);
         this.deleteOffer = this.deleteOffer.bind(this);
+        this.changeTip = this.changeTip.bind(this);
+        this.stopChangeTip = this.stopChangeTip.bind(this);
     }
 
     componentDidMount() {
         this.addToWatch()
         this.calcDonation(-1);
         this.loadInterval = setInterval(this.getCurPrice, 5000);
+        this.tipInterval = setInterval(this.changeTip, 3150);
+        setTimeout(this.stopChangeTip, 100000);
     }
 
     componentWillUnmount() {
         this.updateWatch()
+
         //clear interval!!!
         this.loadInterval && clearInterval(this.loadInterval);
         this.loadInterval = false;
+
+        this.tipInterval && clearInterval(this.tipInterval);
+        this.tipInterval = false;
     }
 
     getCurPrice() {
@@ -101,7 +110,6 @@ class ParticipateAuction extends Component {
             });
     }
 
-    //#region modal methods
     /*
    ***************
       INFO MODAL
@@ -116,7 +124,7 @@ class ParticipateAuction extends Component {
        ***************
           FAQ MODAL
        ***************
-       */
+    */
     FAQModalChannged() {
         let newstatus = !this.state.fAQModalIsOpen
         this.setState({ fAQModalIsOpen: newstatus });
@@ -126,7 +134,7 @@ class ParticipateAuction extends Component {
        ***************
           MSG MODAL
        ***************
-       */
+    */
     MSGModalChanged() {
         let newstatus = !this.state.msg_ModalIsOpen
         this.setState({ msg_ModalIsOpen: newstatus });
@@ -163,6 +171,9 @@ class ParticipateAuction extends Component {
     }
 
     //calculate donation amount to insert to circle
+    // newP: -1 if comes from getCurPrice()
+    //       -5 if input is empty
+    //        else offered price from balloon input
     calcDonation(newP) {
         let tempPrice = parseInt(this.state.auc.price);
         let i = this.state.curIndex;
@@ -326,29 +337,36 @@ class ParticipateAuction extends Component {
         setTimeout(() => this.setState({ anim: "0" }), 1500)
     }
 
+    changeTip() {
+        let rnd = Math.floor(Math.random() * 3)
+        if (rnd != this.state.tip) {
+            this.setState({ tip: rnd });
+        } else {
+            this.changeTip();
+        }
+    }
+
+    stopChangeTip() {
+        this.tipInterval && clearInterval(this.tipInterval);
+        this.tipInterval = false;
+        this.setState({
+            tip: -1
+        });
+    }
+
     render() {
+        const tips = [
+            "לחץ על הבלון להזנת מחיר",
+            "החלק את הבלון מעלה להצעת ביד במוצר",
+            "החלק את הבלון מטה למחיקת ההצעה"];
+
+        let style = {
+            opacity: 1,
+            transition: "opacity 0.5s ease-in 0.2"
+        }
+
         return (
-            <div className="pageBC" style={{ minHeight: window.innerHeight, paddingTop: "10px" }}>
-
-                {/*home page fixed circle*/}
-                {/* <Link to="/">
-                    <div id="fixedCircle">
-                        <div>
-                            <a>
-                                <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div id="fixedHome">
-                        <div>
-                            <a>
-                                <FontAwesome name='home' className="fa-3x" tag="i" />
-                            </a>
-                        </div>
-                    </div>
-                </Link> */}
-
-                
+            <div className="pageBC" style={{ minHeight: window.innerHeight, paddingTop: "10px", paddingRight: "5px" }}>
 
                 {/*shown messegae*/}
                 <Modal
@@ -371,7 +389,11 @@ class ParticipateAuction extends Component {
 
                     {/*info modal*/}
                     <Swipeable onTap={this.infoModalChanged}>
-                        <FontAwesome name='info-circle' border={true} className="fa-3x" tag="i" />
+                        <div className="icon_container" style={{ right: "5px" }}>
+                            <div id="faqIcon">
+                                <img src="images/attention1600.png" />
+                            </div>
+                        </div>
                         <Modal
                             isOpen={this.state.infoModalIsOpen}
                             contentLabel="open info"
@@ -382,7 +404,12 @@ class ParticipateAuction extends Component {
 
                     {/*FAQ modal*/}
                     <Swipeable onTap={this.FAQModalChannged}>
-                        <FontAwesome name='question-circle' border={true} className="fa-3x" tag="i" />
+                        {/* <FontAwesome name='question-circle' border={true} className="fa-3x" tag="i" /> */}
+                        <div className="icon_container" style={{ right: "80px" }}>
+                            <div id="faqIcon">
+                                <img src="images/question_mark1600.png" />
+                            </div>
+                        </div>
                         <Modal
                             isOpen={this.state.fAQModalIsOpen}
                             contentLabel="open FAQ"
@@ -404,10 +431,13 @@ class ParticipateAuction extends Component {
                     <div ref="makeBidBTN" className="base" style={{ display: this.state.auc.finished ? "none" : "inline-block" }}> <span>הצע ביד</span> </div>
                 </Swipeable> */}
 
-                <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer}>
-                    <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation}>
-
-                    </Balloon>
+                {this.state.tip != -1 ? <div className="explain">
+                    <p className="display">{tips[this.state.tip]}
+                    </p>
+                </div>
+                    : null}
+                <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer} onTap={this.stopChangeTip}>
+                    <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
                 </Swipeable>
 
 
@@ -417,8 +447,9 @@ class ParticipateAuction extends Component {
                     <div className="after"></div>
                 </div>
 
+                {/*home page fixed circle*/}
                 <CircleButton home={true} />
-                
+
             </div>
         );
     }

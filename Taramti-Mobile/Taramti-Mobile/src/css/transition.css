@@ -224,11 +224,6 @@
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 
-
-
-
-
-
   /*
 *******************
 *******************
@@ -441,3 +436,44 @@ modal zoom in LEFT
   animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
   }
   } 
+
+/*
+*******************
+*******************
+   chat fade in
+*******************
+*******************
+*/
+  
+@keyframes chatFadein{
+    0%{opacity:0}
+    40%{opacity:0.4}
+    80%{opacity:0.8}
+    100%{opacity:1}
+}
+
+@-webkit-keyframes chatFadein{
+    0%{opacity:0}
+    40%{opacity:0.4}
+    80%{opacity:0.8}
+    100%{opacity:1}
+}
+/*
+*******************
+*******************
+   tip fade in
+*******************
+*******************
+*/
+  
+@keyframes tipFadein{
+    0%{opacity:0}
+    20%{opacity:1}
+    100%{opacity:1}
+}
+
+@-webkit-keyframes tipFadein{
+    0%{opacity:0}
+    20%{opacity:1}
+    100%{opacity:1}
+}

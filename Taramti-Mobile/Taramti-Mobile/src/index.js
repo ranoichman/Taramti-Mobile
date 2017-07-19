@@ -17,6 +17,7 @@ import ActiveAuctions from './components/Profile/ActiveAuctions';
 import MyAuction from './components/Profile/MyAuction';
 import Profile from './components/Profile/Profile';
 import MyProducts from './components/MyProducts/MyProducts';
+
 // import ThemeAuctions from './components/Profile/ThemeAuctions';
 import Bdika from './components/Generic/Bdika';
 import Menu from './components/Generic/Menu';
@@ -90,7 +91,6 @@ class App extends Component {
         // Lifecycle function that is triggered just before a component unmounts
     }
     render() {
-        console.log(`children======== ${this.props.children}`)
         return (
             <div>
                 {this.props.children}
