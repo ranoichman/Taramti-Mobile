@@ -6,27 +6,27 @@
 .react-tabs__tab-list {
   /*border-bottom: 1px solid #aaa;*/
   width: 100%;
-  background-color: darkcyan;
+  background-color: rgba(255,255,255,0.9);
   margin: 0 0 10px;
   padding: 0;
-  font: bold 20px;
+  font: bold 30px;
 }
 
 .react-tabs__tab {
   display: inline-block;
-  margin: 0 3%;
-  
+  margin: 0 5%;
   border: 1px solid transparent;
   border-bottom: none;
   bottom: -1px;
   position: relative;
   list-style: none;
-  padding: 6px 12px;
+  font-size: 14px;
+  /* padding: 6px 12px; */
 
 }
 
 .react-tabs__tab--selected {
-  border-bottom: 4px solid cyan ;
+  border-bottom: 4px solid rgba(0,0,0,0.4) ;
   color: black;
 
 }

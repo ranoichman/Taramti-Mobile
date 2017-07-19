@@ -31,39 +31,7 @@
     <script>
         let enter;
 
-        function test() {
-            var x = [];
-            var low = -1;
-            var high = -1;
-            var code = 0;
-            // alert("NANA");
-            $.ajax({
-                dataType: "json",
-                url: generic + "GetAuctionByParam",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({
-                    lowPrice: -1,
-                    highPrice: -1,
-                    catCode: 0,
-                    user_Id: 300294485,
-                    lat: 14.123,
-                    lng: 32.851,
-                    radius: 0
-                }),
-                success: function (data) {
-                    console.log("Ran - test");
-                    var isUser = JSON.parse(data.d);
-                    //console.log(isUser[0].Price );
-                    isUser.map(function (item, i) {
-                        console.log(item);
 
-                    });
-
-                },
-                error: function (err) { }
-            });
-        }
 
         function GetAuctionPrice() {
             var x = 2;
@@ -198,7 +166,7 @@
                 url: generic + "AddQuestion",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({quest : quest}),
+                data: JSON.stringify({ quest: quest }),
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -209,25 +177,24 @@
         }
 
         function addToPush() {
-                    $.ajax({
-                        dataType: "json",
-                        url: gen + "SavePushInfo",
-                        contentType: "application/json; charset=utf-8",
-                        type: "POST",
-                        data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
-                        success: function (data) {
-
-                            var isUser = JSON.parse(data.d);
-                        },
-                        error: function (err) { }
-                    });
-        }
-
-        function SendPush()
-        {
             $.ajax({
                 dataType: "json",
-                url: gen  + "SendPush",
+                url: gen + "SavePushInfo",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ userId: "302921481", deviceString: "notification_id", platform: "user_platform" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function SendPush() {
+            $.ajax({
+                dataType: "json",
+                url: gen + "SendPush",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
                 data: JSON.stringify({ user: "300294485", head: "סתכל למעלה", msg: "מפיל עלייך תיק" }),
@@ -239,21 +206,18 @@
             });
         }
 
-        function LogOut()
-        {
+        function LogOut() {
             localStorage.removeItem("UserID");
             location.href = "Login-Taramti.html";
         }
 
-
-        function GetLeadingAuctions()
-        {
+        function GetLeadingAuctions() {
             $.ajax({
                 dataType: "json",
-                url: generic + "GetLeadingAuctions",
+                url: generic + "Get_Current_LeadingAuctions",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ user_Id: "300294485"}),
+                data: JSON.stringify({ user_Id: "300294485" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
@@ -288,6 +252,7 @@
             });
 
         }
+
         function updateWatch() {
             let user = { UserId: 300294485 };
             let auc = {
@@ -305,7 +270,7 @@
                 url: generic + "UpdateWatch_Log",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ auc: auc, enter: enter, leave : leave }),
+                data: JSON.stringify({ auc: auc, enter: enter, leave: leave }),
                 success: function (data) {
 
                     console.log("נכנסתי");
@@ -313,7 +278,66 @@
                 },
                 error: function (err) { }
             });
+        }
 
+        function GetAuctionsByParam() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAuctionByParam",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: "0", aucCatCode: "0", lat: "100", lng: "200", radius: "20", user_Id: "300294485" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function GetAllMySells() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAllMySells",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_Id: "123468865" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function outbid() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetOutBiddedAuctions",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_Id: "302921481" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
+        function GetAllAuctionsCategories() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAllAuctionsCategories",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({  }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
         }
     </script>
 
@@ -321,7 +345,7 @@
 
 <body>
     <div data-role="page" id="RegisterAssocPage">
-        <input type="button" onclick="test()" value="GetAuctionByParam" />
+        <!--<input type="button" onclick="test()" value="GetAuctionByParam" />-->
         <input type="button" onclick="GetAuctionPrice()" value="GetAuctionPrice" />
         <input type="button" onclick="GetAllProductsCategories()" value="GetAllProductsCategories" />
         <input type="button" onclick="OfferBid()" value="OfferBid" />
@@ -331,8 +355,14 @@
         <input type="button" onclick="addQuestion()" value="add Question" />
         <input type="button" onclick="addToPush()" value="add Bush" />
         <input type="button" onclick="SendPush()" value="Send Bush" />
+        <input type="button" onclick="GetAuctionsByParam()" value="GetAuctionsByParam" />
+        <input type="button" onclick="GetAuctionsByParam()" value="GetAuctionsByParam" />
 
         <input type="button" onclick="GetLeadingAuctions()" value="GetLeadingAuctions" />
+        
+        <input type="button" onclick="GetAllMySells()" value="GetAllMySells" />
+        <input type="button" onclick="GetAllAuctionsCategories()" value="GetAllAuctionsCategories" />
+        <input type="button" onclick="outbid()" value="outbid" />
 
         <input type="button" onclick="addToWatch()" value="LOGGGGG" />
         <input type="button" onclick="updateWatch()" value="update log" />

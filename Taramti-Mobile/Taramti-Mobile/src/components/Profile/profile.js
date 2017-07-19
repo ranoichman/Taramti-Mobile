@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import Auction from '../Home/Auction';
+import Auction from '../Generic/Auction';
+import ThemeAuctions from '../Generic/ThemeAuctions';
+import Menu from '../Generic/Menu';
 import ActiveAuctions from './ActiveAuctions';
-import MyAuction from './MyAuction';
+import CircleButton from '../Generic/CircleButton';
 
 import '../../css/react-tabs.css';
 import '../../css/transition.css';
@@ -21,10 +23,6 @@ class Profile extends Component {
         this.tabSwipeLeft = this.tabSwipeLeft.bind(this);
         this.tabSwipeRight = this.tabSwipeRight.bind(this);
     }
-
-
-
-
 
     tabSwipeLeft() {
         let i = this.state.tabIndex - 1;
@@ -45,54 +43,46 @@ class Profile extends Component {
     }
 
     render() {
-        const list = ["מישהו עקף אותי", "המוצרים שלי", "הבידים שלי"]
+        const list = ["עקפו אותי", "המוצרים שלי", "הבידים שלי"]
         return (
-            <div>
+            <div className="pageReact" style={{ minHeight: window.innerHeight }}>
+                <Menu/>
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                         {/*header*/}
                         <TabList>
-                            <Tab>מישהו עקף אותי</Tab>
-                            <Tab>ההצעות שלי</Tab>
+                            <Tab>היסטוריית רכישות</Tab>
+                            <Tab>עקפו אותי</Tab>
                             <Tab>הבידים שלי</Tab>
                         </TabList>
 
                         {/*someone beat me to it*/}
                         <TabPanel>
                             <div className={this.state.tabIndex === 0 ? this.state.animation : ""}>
-                                <h2>עקפו אותי</h2>
-                                <Auction key={0} index={0}
-                                    // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-                                    home="true" imgArr={this.state.imgArr} prodName={"דמחמחכמה"} prodDesc={" כ יחכ יחכח כיחיחג חיג חי יחגכ חיגכחי יחיג יגכ ג דמהיחהכ"}
-                                    price={500} endDate={"7/7/2017"} code={4}
-                                    percentage={20} prodCode={4} />
+                                <ThemeAuctions theme="history" />
                             </div>
                         </TabPanel>
-
-                        {/*offers*/}
-
                         <TabPanel>
                             <div className={this.state.tabIndex === 1 ? this.state.animation : ""}>
-                                <h2>ההצעות</h2>
-                                <Auction key={1} index={1}
-                                    // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-                                    home="true" imgArr={this.state.imgArr} prodName={"dnjvnhjsbv h fs "} prodDesc={" djs jh kjs jk hj  ah hgdaj jk kjsk kjdjk djk hj hjad jd ahjad hj "}
-                                    price={500} endDate={"7/7/2017"} code={4}
-                                    percentage={20} prodCode={4} />
+                                <ThemeAuctions theme="outBID" />
                             </div>
                         </TabPanel>
 
                         {/*bids*/}
                         <TabPanel>
                             <div className={this.state.tabIndex === 2 ? this.state.animation : ""}>
-                                <h2>בידים</h2>
+                                <ThemeAuctions theme="current" />
                             </div>
                         </TabPanel>
 
+
                     </Tabs>
-                    </Swipeable>
+                </Swipeable>
+
+                {/*home page fixed circle*/}
+                <CircleButton home={true} />
             </div>
-                );
+        );
     }
 }
 

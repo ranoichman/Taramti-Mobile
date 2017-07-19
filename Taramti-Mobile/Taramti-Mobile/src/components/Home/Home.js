@@ -6,14 +6,13 @@ import Modal from 'react-modal';
 import axios from 'axios';
 
 // taramti babait components
-import Auction from './Auction';
+import Auction from '../Generic/Auction';
 import Search from './Search';
 import Loader from '../Generic/Loader';
-//import TaramtiMenu from './TaramtiMenu'
+import Menu from '../Generic/Menu';
+import CircleButton from '../Generic/CircleButton';
 
 
-//import '../css/jqmCss.css';
-//import '../../www/css/StyleSheet.css';
 import '../../css/transition.css';
 
 import { auctionWS, buyerID } from '../../constants/general';
@@ -43,7 +42,7 @@ class Home extends Component {
 
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams(-1, -1, 0, 0, 0, 0); //initial data will come from 
+        this.getAuctionsByParams(-1, -1, 0, 0,0, 0, 0); //initial data will come from 
 
         // this.startTO = setTimeout(()=> sst )
     }
@@ -59,17 +58,17 @@ class Home extends Component {
 
     }
 
-    searchTriggered(lowPrice, highPrice, catCode, coords, radius) {
+    searchTriggered(lowPrice, highPrice, catCode, assocTagCode, coords, radius) {
         //console.log(`entered search on ----- ${Date.now()}`)
         this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
-        this.getAuctionsByParams(lowPrice, highPrice, catCode, coords.lat, coords.lng, radius);
+        this.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
     }
 
     //call function to get auctions from serveer
-    getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius) {
+    getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
         //define "this" for inner functions
         const self = this;
-        
+
         //stop db access after 8s
         if (this.startTO == undefined) {
             this.startTO = setTimeout(() => {
@@ -82,6 +81,7 @@ class Home extends Component {
             lowPrice: lowPrice,
             highPrice: highPrice,
             catCode: catCode,
+            assocTagCode: assocTagCode,
             lat: lat,
             lng: lng,
             radius: radius,
@@ -131,7 +131,7 @@ class Home extends Component {
         })
             .catch(function (error) {
                 console.log(error);
-                
+
                 //access db again untill results arrive or TO expires
                 if (self.startTO != undefined) {
                     self.getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius)
@@ -185,8 +185,8 @@ class Home extends Component {
 
     //function that returns a render of 1 auction
     eachAuction(item, i) {
-        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} picModalChanged={this.picModalChanged}
-            home="true" auc={item} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
+        return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} modalChanged={this.picModalChanged}
+            auc={item} mine={false} modalIsOpen={this.state.modalIsOpen || this.state.searchModalIsOpen} />
     }
 
     //remove finished auction from displayed array
@@ -219,34 +219,26 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
-                <div style={{ height: "74px", width: "100%" }} >
-                </div>
-                {/*menu*/}
-
-                <span id={"TaramtiMenuIconDiv"} style={{ position: "absolute", top: "7px", right: "9px" }}>
-                    <i id={"TaramtiMenuIcon"} className="fa fa-ellipsis-v fa-4x"></i>
-                </span>
-
-                {/*<div style={{ height: "74px", width: "100%" }} >*/}
-                <img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/smaller_logo.jpg"} style={{ float: "left", marginLeft: "-2%", width: "80%", position: "absolute", top: "0", marginTop: "0", right: "30px" }} />
-                {/*</div>*/}
+            <div className="pageReact" style={{ minHeight: window.innerHeight }}>
 
                 {/*search icon*/}
                 <Swipeable onTap={this.SearchModalChanged} className="search">
-                    <FontAwesome name='search' border={false} className="fa-2x" tag="div" />
+                    {/* <FontAwesome name='search' border={false} className="fa-2x" tag="div" /> */}
+                    <img src="images/icons8-Search-64.png" />
                     <Modal
                         isOpen={this.state.searchModalIsOpen}
                         onRequestClose={this.SearchModalChanged}
-                        contentLabel="open search``"
-                        className="box" >
+                        contentLabel="open search"
+                        className="zoomInLeft">
                         <Search closeModal={this.SearchModalChanged} startSearch={this.searchTriggered} />
                     </Modal>
                 </Swipeable>
 
+                <Menu home={true} />
+
                 {/*auctions display*/}
                 <Loader loaded={this.state.loaded} loadingText={"...מחפש"}>
-                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center" }}>אין מכרזים לתצוגה</h1> : ""}
+                    {this.state.auctionsArr.length == 0 ? <h1 style={{ textAlign: "center", marginTop: "140px" }}>אין מכרזים לתצוגה</h1> : ""}
                     <div className="container-fluid">
                         <CSSTransitionGroup
                             transitionName="auction"
@@ -261,9 +253,7 @@ class Home extends Component {
                 {/*</CSSTransitionGroup>*/}
 
                 {/*move to add auction*/}
-                <div id="fixedPlus">
-                    <a onClick={this.moveToAddAuction}><i className="fa fa-plus-circle fa-4x" aria-hidden="true"></i></a>
-                </div>
+                 <CircleButton home={false}/> 
 
             </div>
         );

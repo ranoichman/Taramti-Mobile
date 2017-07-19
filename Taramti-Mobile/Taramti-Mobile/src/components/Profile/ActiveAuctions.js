@@ -4,7 +4,7 @@ import Swipeable from 'react-swipeable';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Slider from 'react-slick';
 
-import Auction from '../Home/Auction';
+import Auction from '../Generic/Auction';
 
 import '../../css/transition.css';
 import '../../css/react-tabs.css';

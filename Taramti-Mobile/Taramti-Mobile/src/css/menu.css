@@ -1,0 +1,32 @@
+.menuB{
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 1.5s ease;
+    background-color: white;
+    text-align: center;
+    width: 100%;
+    margin: 45px 0 0;
+    position: absolute;
+    left: 0em;
+    padding: 0em;
+    z-index: 9;
+}
+
+.menuB.visible{
+    max-height: 500px;
+}
+ul li a{
+    color: #000;
+    font-size: 16px;
+    margin: 0.5em 0;
+    display: block;
+    font-weight: 700;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+ul li a label{
+    display: block;
+    margin: 0 0 .4em;
+    font-size: 16px;
+    font-weight: 400;
+    color: #636363;
+}
