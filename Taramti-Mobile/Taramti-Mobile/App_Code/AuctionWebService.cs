@@ -235,6 +235,12 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(Reg_Auction.GetAllMySells(user_Id));
     }
 
+    [WebMethod(Description = "Get parameters for smart search ")]
+    public string SmartElement(string user_id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return Reg_Auction.SmartElement(user_id);
+    }
 
     //[WebMethod]
     //public void testsearch()
