@@ -433,7 +433,7 @@ class ParticipateAuction extends Component {
                 </div>
 
                 <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer} onTap={this.stopChangeTip}>
-                    <div style={{height:"250px", width:"50%"}}>
+                    <div style={{minHeight:"250px", width:"50%"}}>
                     <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
                     </div>
                 </Swipeable>

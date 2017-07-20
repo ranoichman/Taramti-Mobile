@@ -121,6 +121,10 @@
             $('#DefualtTab').addClass('ui-btn-active');
         });
 
+        function LogOut() {
+            localStorage.removeItem("UserID");
+            location.href = 'Login-Taramti.html'
+        }
 
 
         $(document).ready(function () {
@@ -337,12 +341,12 @@
                 </span>
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
-
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
                 </ul>
             </div>
@@ -423,12 +427,12 @@
 
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
-
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
                 </ul>
             </div>
@@ -513,12 +517,12 @@
 
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
-
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
                 </ul>
             </div>

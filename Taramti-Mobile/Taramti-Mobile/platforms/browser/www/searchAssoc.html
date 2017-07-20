@@ -34,6 +34,11 @@
 
     <script>
         $(document).ready(function () {
+            $("span.nav-list-it5").on("tap", function () {
+                $("ul.nav-top-list1").slideToggle("slow", function () {
+                    // Animation complete.
+                });
+            });
 
             $.ajax({
                 dataType: "json",
@@ -74,13 +79,6 @@
 
                 },
                 error: function (err) { }
-            });
-
-
-            $("span.nav-list-it5").on("tap", function () {
-                $("ul.nav-top-list1").slideToggle("slow", function () {
-                    // Animation complete.
-                });
             });
 
         // $("#AllAssoc").change(function () {

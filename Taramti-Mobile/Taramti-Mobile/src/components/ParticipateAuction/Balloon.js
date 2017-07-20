@@ -23,7 +23,7 @@ class Balloon extends Component {
 
         {/*animating price upadate*/ }
         if ((nextProps.anim == "2" && this.props.anim != "2")) {
-            this.refs.newPrice.value="";
+            this.refs.newPrice.value = "";
             this.calcDonation();
         }
 
@@ -34,52 +34,33 @@ class Balloon extends Component {
     }
 
     calcDonation() {
-        let val = this.refs.newPrice !== undefined? parseInt(this.refs.newPrice.value) : -5;
-        this.props.calc(val);
+        let val = this.refs.newPrice !== undefined ? parseInt(this.refs.newPrice.value) : -5;
+        if (this.props.calc != undefined) {
+            this.props.calc(val);
+        }
+
     }
     render() {
-        // const balloonDim = [
-        //     {
-        //         width: "17%",
-        //         height: "11%",
-        //         left: "50%"
-        //     },
-        //     {
-        //         width: "23%",
-        //         height: "15%",
-        //         left: "47%"
-        //     },
-        //     {
-        //         width: "30%",
-        //         height: "20%",
-        //         left: "43%"
-        //     },
-        //     {
-        //         width: "47%",
-        //         height: "33%",
-        //         left: "35%"
-        //     }
-        // ]
 
-         const balloonDim = [
+        const balloonDim = [
             {
-                width: `${0.17 * this.state.width}px`,
-                height: `${0.11 * this.state.height}px`,
+                width: `${0.17 * this.state.width}px`, //17%
+                height: `${0.11 * this.state.height}px`, //11%
                 left: "50%"
             },
             {
-                width: `${0.23 * this.state.width}px`,
-                height: `${0.15 * this.state.height}px`,
+                width: `${0.23 * this.state.width}px`, //23%
+                height: `${0.15 * this.state.height}px`, //15%
                 left: "47%"
             },
             {
-                width: `${0.30 * this.state.width}px`,
-                height: `${0.20 * this.state.height}px`,
+                width: `${0.30 * this.state.width}px`, //30%
+                height: `${0.20 * this.state.height}px`, //20%
                 left: "43%"
             },
             {
-                width: `${0.47 * this.state.width}px`,
-                height: `${0.33 * this.state.height}px`,
+                width: `${0.47 * this.state.width}px`, //47%
+                height: `${0.33 * this.state.height}px`, //33%
                 left: "35%"
             }
         ]
@@ -102,7 +83,7 @@ class Balloon extends Component {
             height: balloonDim[this.props.curIndex]["height"],
             animation: `${this.props.anim === "1" ? "releaseB 4s" : "blowDown 1.5s"}`,
         }
-        
+
         return (
             <div className="balloon" style={this.props.anim === "0" ? style : float}>
                 <input type="number" ref="newPrice" className="priceInput" placeholder={this.props.price} onChange={this.calcDonation} />

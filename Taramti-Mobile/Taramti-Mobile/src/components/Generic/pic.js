@@ -54,18 +54,18 @@ class Pic extends Component {
 
         return (
             <div>
-                    <Modal
-                        isOpen={this.state.carouselModalIsOpen}
-                        onRequestClose={this.changeCarouselModalOpen}
-                        contentLabel="open carousel"
-                        className="picBox">
-                        <Slider {...settings} style={{ height: 0 }}>
-                            {this.props.imagesArr.map((imageUrl, i) => {return <img key={i} src={imageUrl} className="pic" style={{display: "inline"}}/>})}
-                        </Slider>
-                    </Modal>
-                <Swipeable onTap={this.changeCarouselModalOpen}>
-                    <img className="pic" style={{borderRadius:"18%"}} src={this.props.imagesArr[this.state.index]} />
-                </Swipeable>
+                <Modal
+                    isOpen={this.state.carouselModalIsOpen}
+                    onRequestClose={this.changeCarouselModalOpen}
+                    contentLabel="open carousel"
+                    className="picBox">
+                    <Slider {...settings} style={{ height: 0 }}>
+                        {this.props.imagesArr.map((imageUrl, i) => { return <img key={i} src={imageUrl} className="pic" style={{ display: "inline" }} /> })}
+                    </Slider>
+                </Modal>
+
+                <img className="pic" style={{ borderRadius: "18%" }} onClick={this.changeCarouselModalOpen} src={this.props.imagesArr[this.state.index]} />
+
             </div>
         );
     }

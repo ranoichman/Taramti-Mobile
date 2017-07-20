@@ -59,7 +59,7 @@ class SwipeDownDemo extends Component {
         const func = [this.renderStart(), this.renderSwipe(), this.renderFly()]
 
         return (
-            <div>
+            <div className={this.props.anim}>
                 <h2>החלק את הבלון מטה למחיקת ההצעה</h2>
                 <div className={this.state.mode == 0 ? "arrow_box_down" : "arrow_box_down growDown"} style={{ display: this.state.mode == 2 ? "none" : "block" }} ></div>
                 <img className={this.state.mode == 0 ? "tappingDown" : "tappingDown swipeDown"} style={{ display: this.state.mode == 2 ? "none" : "block" }} src="images/tapping_hand.png" />

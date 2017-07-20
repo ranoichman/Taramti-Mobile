@@ -53,7 +53,7 @@ class TapDemo extends Component {
     renderTap() {
         return (
             <div>
-                <img id="tapping" src="images/tapping_hand.png" />
+                <img className="tappingUp" src="images/tapping_hand.png" />
                 {this.renderStart()}
             </div>
         );
@@ -69,7 +69,7 @@ class TapDemo extends Component {
         const func = [this.renderStart(), this.renderTap(), this.renderInflate()]
 
         return (
-            <div>
+            <div className={this.props.anim}>
                 <h2>
                     לחץ על הבלון להזנת מחיר
             </h2>
