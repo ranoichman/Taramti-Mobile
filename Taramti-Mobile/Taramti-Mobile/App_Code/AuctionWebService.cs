@@ -31,7 +31,7 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "מתודה להבאת מכרזים על פי פרמטרים")]
-    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode,int assocTagCode, double lat, double lng, int radius, int user_Id)
+    public string GetAuctionByParam(int lowPrice, int highPrice, int[] catCode,int[] assocTagCode, double lat, double lng, int radius, int user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius, user_Id));
@@ -227,6 +227,12 @@ public class AuctionWebService : System.Web.Services.WebService
         return j.Serialize(Reg_Auction.GetAllMySells(user_Id));
     }
 
+    [WebMethod(Description = "Get parameters for smart search ")]
+    public string SmartElement(string user_id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return Reg_Auction.SmartElement(user_id);
+    }
 
     //[WebMethod]
     //public void testsearch()

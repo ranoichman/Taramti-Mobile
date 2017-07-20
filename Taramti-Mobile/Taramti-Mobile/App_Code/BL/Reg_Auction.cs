@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 
 /// <summary>
 /// Summary description for Class1
@@ -81,7 +82,7 @@ public class Reg_Auction : Auction
         return 0;
     }
 
-    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int catCode, int assocTagCode, double lat, double lng, int radius, int user_Id)
+    public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int[] catCode, int[] assocTagCode, double lat, double lng, int radius, int user_Id)
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
@@ -91,8 +92,9 @@ public class Reg_Auction : Auction
         List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
         int low = 0;
         int high = 0;
-        string code = "";
-        string tagCode = "";
+        string code = "in(";
+        string tagCode = "in(";
+
         if (lowPrice == -1)
             low = 0;
         else
@@ -101,14 +103,40 @@ public class Reg_Auction : Auction
             high = 1000000;
         else
             high = highPrice;
-        if (catCode == 0)
-            code = "> 0";
-        else
-            code = "=" + catCode;
-        if (assocTagCode == 0)
+
+        ///////////////////////////////////
+
+        if (catCode.Average() == 0)
+        {
             tagCode = "> 0";
+            code = "> 0";
+        }
         else
-            tagCode = "=" + assocTagCode;
+        {
+            for (int i = 0; i < catCode.Length; i++)
+            {
+                if (i != catCode.Length - 1)
+                {
+                    code += catCode[i].ToString() + ",";
+                    tagCode += assocTagCode[i].ToString() + ",";
+                }
+                else
+                {
+                    code += catCode[i].ToString() + ") ";
+                    tagCode += assocTagCode[i].ToString() + ") ";
+                }
+            }
+        }
+
+        
+        //if (catCode == 0)
+        //    code = "> 0";
+        //else
+        //    code = "=" + catCode;
+        //if (assocTagCode == 0)
+        //    tagCode = "> 0";
+        //else
+        //    tagCode = "=" + assocTagCode;
 
         //string StrSql = @"SELECT        dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
         //                 dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price as NewPrice, dbo.product.product_code as product_code, dbo.product.city_code, dbo.auction.buyer_id
@@ -133,9 +161,9 @@ public class Reg_Auction : Auction
         DS = db.GetDataSetByQuery(StrSql);
 
 
-        if (!(lat == 0 & lng == 0 & radius == 0 & lowPrice == -1 & highPrice == -1 & catCode == 0))
+        if (!(lat == 0 & lng == 0 & radius == 0 & lowPrice == -1 & highPrice == -1 & catCode.Average() == 0))
         {
-            AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode, assocTagCode);
+            AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode[0], assocTagCode[0]);
         }
 
         // הפונקציה תקבל את כל המכרזים ומחיר תקרה
@@ -503,6 +531,62 @@ public class Reg_Auction : Auction
         {
             return new List<Reg_Auction>();
         }
+    }
+
+    public static string SmartElement(string user_id)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        JavaScriptSerializer J = new JavaScriptSerializer();
+        string StrSql = "";
+        int quant = 5;
+
+        StrSql = @"SELECT   TOP (@quant) dbo.watch_auc_log.enter_time, dbo.watch_auc_log.leave_time, dbo.watch_auc_log.auction_code, dbo.product.product_code, dbo.watch_auc_log.user_id, DATEDIFF(second, dbo.watch_auc_log.enter_time,
+                          dbo.watch_auc_log.leave_time) AS Time, dbo.association.association_code, dbo.bid.bid_code
+                        FROM            dbo.association INNER JOIN
+                         dbo.auction ON dbo.association.association_code = dbo.auction.association_code INNER JOIN
+                         dbo.bid ON dbo.auction.auction_code = dbo.bid.auction_code RIGHT OUTER JOIN
+                         dbo.product ON dbo.auction.product_code = dbo.product.product_code RIGHT OUTER JOIN
+                         dbo.watch_auc_log ON dbo.auction.auction_code = dbo.watch_auc_log.auction_code
+                        GROUP BY dbo.watch_auc_log.enter_time, dbo.watch_auc_log.leave_time, dbo.watch_auc_log.auction_code, dbo.product.product_code, dbo.watch_auc_log.user_id, DATEDIFF(second, dbo.watch_auc_log.enter_time, 
+                         dbo.watch_auc_log.leave_time), dbo.association.association_code, dbo.bid.bid_code, dbo.auction.auction_code, dbo.bid.bid_time
+                        HAVING        (dbo.watch_auc_log.user_id = '@userId') AND (dbo.watch_auc_log.leave_time IS NOT NULL) AND (dbo.auction.auction_code = 38) AND (MAX(dbo.bid.bid_time) <= CONVERT(VARCHAR(10), 
+                         '2017-07-18 18:25:35.297', 110))
+                        ORDER BY Time DESC, dbo.watch_auc_log.enter_time, dbo.bid.bid_time DESC";
+        SqlParameter parId = new SqlParameter("@userId", user_id);
+        SqlParameter parQuant = new SqlParameter("@quant", quant);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId,parQuant);
+
+        int[] catcode = new int[quant];
+        int[] assocs = new int[quant];
+        int[] price = new int[quant];
+        double avg = 0;
+        double low = 0;
+        double high = 0;
+
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            for (int i = 0; i < quant; i++)
+            {
+                catcode[i] = int.Parse( DS.Tables[0].Rows[i]["product_code"].ToString());
+                assocs[i] = int.Parse( DS.Tables[0].Rows[i]["association_code"].ToString());
+                price[i] = int.Parse(DS.Tables[0].Rows[i]["bid_code"].ToString());
+            }
+            avg = price.Average();
+            low = Math.Round(avg * 0.68, 0);
+            high = Math.Round(avg * 1.32, 0);
+        }
+        else
+        {
+            low = -1;
+            high = -1;
+            catcode = Enumerable.Repeat(0,catcode.Length).ToArray();
+            assocs = Enumerable.Repeat(0, assocs.Length).ToArray();
+        }
+      
+        var v = new {lowprice = low, highprice = high, catCode = catcode,  assoctag = assocs};
+
+        return J.Serialize(v);
     }
 
 
