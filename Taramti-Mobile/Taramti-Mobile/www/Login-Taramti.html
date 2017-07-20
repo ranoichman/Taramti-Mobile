@@ -11,6 +11,8 @@
     <meta name="keywords" content="Fidele Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
     Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./cordova.js"></script>
+
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/fa-fa-icons.min.css" rel="stylesheet" />
     <link href="css/w3.css" rel="stylesheet" />
@@ -25,15 +27,13 @@
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--//font-Awesome-->
-    <script>
-        if (localStorage.UserID != null) {
-            location.href = "app.html";
-        }
-    </script>
 
+<script>
+    if (localStorage.UserID != null) {
+        location.href = "app.html";
+    }
+</script>
 </head>
-
-
 
 <body>
 
@@ -400,9 +400,9 @@
     <script>
         const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
-        var SENDER_ID = "336880743356";
-        var user_platform;
-        var notification_id;
+        var SENDER_ID = "183259485502";
+        var user_platform ="";
+        var notification_id ="";
         var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
         $(document).ready(function () {
             $("#Loginbtn").on("tap", function () {
@@ -456,6 +456,11 @@
 
             )
         });
+
+        function LogOut() {
+            localStorage.removeItem("UserID");
+            location.href = 'Login-Taramti.html'
+        }
 
         // קריאת נתונים לצורך הודעות פוש בהמשך
         document.addEventListener("deviceready", onCordovaReady, false);
