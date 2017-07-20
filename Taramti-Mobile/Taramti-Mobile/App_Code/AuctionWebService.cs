@@ -31,7 +31,7 @@ public class AuctionWebService : System.Web.Services.WebService
     }
 
     [WebMethod(Description = "מתודה להבאת מכרזים על פי פרמטרים")]
-    public string GetAuctionByParam(int lowPrice, int highPrice, int catCode,int assocTagCode, double lat, double lng, int radius, int user_Id)
+    public string GetAuctionByParam(int lowPrice, int highPrice, int[] catCode,int[] assocTagCode, double lat, double lng, int radius, int user_Id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         return j.Serialize(Reg_Auction.GetAuctionsByParam(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius, user_Id));

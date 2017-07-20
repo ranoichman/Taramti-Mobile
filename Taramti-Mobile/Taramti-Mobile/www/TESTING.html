@@ -280,13 +280,15 @@
             });
         }
 
+        var catCode = [0, 0, 0, 0, 0];
+        var assoc = [0, 0, 0, 0, 0];
         function GetAuctionsByParam() {
             $.ajax({
                 dataType: "json",
                 url: generic + "GetAuctionByParam",
                 contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: "0", aucCatCode: "0", lat: "100", lng: "200", radius: "20", user_Id: "300294485" }),
+                type: "POST",            
+                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: catCode, assocTagCode: assoc, lat: "100", lng: "200", radius: "20", user_Id: "300294485" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
@@ -346,7 +348,7 @@
                 url: generic + "SmartElement",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ user_id: "300294485" }),
+                data: JSON.stringify({ user_id: "301926647" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
