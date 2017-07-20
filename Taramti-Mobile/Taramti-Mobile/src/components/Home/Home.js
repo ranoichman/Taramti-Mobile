@@ -30,6 +30,7 @@ class Home extends Component {
         this.SearchModalChanged = this.SearchModalChanged.bind(this);
         this.picModalChanged = this.picModalChanged.bind(this);
         this.searchTriggered = this.searchTriggered.bind(this);
+        this.startSearch = this.startSearch.bind(this);
         this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
         this.addAuction = this.addAuction.bind(this);
         this.eachAuction = this.eachAuction.bind(this);
@@ -40,11 +41,31 @@ class Home extends Component {
         this.handleLoad = this.handleLoad.bind(this);
     }
 
+
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
-        this.getAuctionsByParams(-1, -1, 0, 0,0, 0, 0); //initial data will come from 
+        //initial data will come from 
 
-        // this.startTO = setTimeout(()=> sst )
+        this.showDefault = false // variable to determine whether or not to show default
+
+        let self = this;
+        const id = parseInt(buyerID);
+        axios.post(auctionWS + 'SmartElement', {
+            user_id: id
+        }).then(function (response) {
+            let res = JSON.parse(response.data.d);
+
+            let low = res["lowprice"];
+            let high = res["highprice"];
+            let categories = res["catCode"];
+            let tags = res["assoctag"];
+            self.startSearch(low, high, categories, tags, 0, 0, 0)
+
+            self.showDefault = true;
+        }).catch(function (error) {
+            self.startSearch(-1, -1, [0], [0], 0, 0, 0); //send default values if error
+        })
+
     }
 
     SearchModalChanged() {
@@ -59,23 +80,38 @@ class Home extends Component {
     }
 
     searchTriggered(lowPrice, highPrice, catCode, assocTagCode, coords, radius) {
-        //console.log(`entered search on ----- ${Date.now()}`)
         this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
-        this.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
+        this.startSearch(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
     }
+
+    startSearch(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
+        const self = this;
+        //stop db access after 8s
+        if (this.startTO == undefined) {
+            this.startTO = setTimeout(() => {
+                self.startTO = undefined;
+                if (self.showDefault) {
+                    setTimeout(() => {
+                        self.setState({ loaded: true })
+                        self.showDefault = false;
+                    }, 2000)
+
+                } else {
+                    self.setState({ loaded: true })
+                }
+
+            }, 5000)
+        }
+        this.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius);
+    }
+
 
     //call function to get auctions from serveer
     getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
         //define "this" for inner functions
         const self = this;
 
-        //stop db access after 8s
-        if (this.startTO == undefined) {
-            this.startTO = setTimeout(() => {
-                self.setState({ loaded: true })
-                self.startTO = undefined;
-            }, 8000)
-        }
+
         const id = parseInt(buyerID);
         axios.post(auctionWS + 'GetAuctionByParam', {
             lowPrice: lowPrice,
@@ -135,6 +171,12 @@ class Home extends Component {
                 //access db again untill results arrive or TO expires
                 if (self.startTO != undefined) {
                     self.getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius)
+                }
+                else {
+                    if (self.showDefault) {
+                        self.getAuctionsByParams(-1, -1, [0], [0], 0, 0, 0);
+                    }
+
                 }
 
             });
@@ -253,7 +295,7 @@ class Home extends Component {
                 {/*</CSSTransitionGroup>*/}
 
                 {/*move to add auction*/}
-                 <CircleButton home={false}/> 
+                <CircleButton home={false} />
 
             </div>
         );

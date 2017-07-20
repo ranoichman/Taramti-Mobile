@@ -89,8 +89,8 @@ class Search extends Component {
     searchBTN() {
         let low = this.refs.lowerPrice.value !== "" ? this.refs.lowerPrice.value : -1;
         let high = this.refs.higherPrice.value !== "" ? this.refs.higherPrice.value : -1;
-        let catCode = this.state.categroy;
-        let tagCode = this.state.tag;
+        let catCode = [this.state.categroy];
+        let tagCode = [this.state.tag];
         let coords = { lat: 0, lng: 0 };
         let radius = 0;
 

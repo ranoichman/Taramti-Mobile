@@ -28,17 +28,15 @@ class CircleButton extends Component {
 
     renderPlus() {
         return (
-            // <div>
-            //     <div className="RoundDivfixed">
-            //          <div id="fixedCircle">
-            //             <div> <Link to="/"><img src="images/circle-for-home.png" /></Link></div>
-            //         </div> 
-
-            <div id="fixedPlus" style={{ display: this.state.resize ? "none" : "block" }}>
-                <div onClick={() => location.href = 'AddingAuction-Taramti.html'}><img src="images/add_icon.png" /></div>
+            <div className="FixedButton" style={{ display: this.state.resize ? "none" : "block" }}>
+                <div className="RoundDivfixed">
+                    <div id="fixedPlus">
+                        <div onClick={() => location.href = 'AddingAuction-Taramti.html'}>
+                            <img src="images/add_icon.png" />
+                        </div>
+                    </div>
+                </div>
             </div>
-            //     </div>
-            // </div>
         );
     }
     renderHome() {
