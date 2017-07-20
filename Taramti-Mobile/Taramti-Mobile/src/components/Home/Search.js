@@ -6,7 +6,7 @@ import axios from 'axios';
 import Ddl from '../Generic/Ddl';
 
 //constants 
-import {auctionWS} from '../../constants/general';
+import { auctionWS, assocWS} from '../../constants/general';
 
 import '../../css/modal.css';
 
@@ -17,19 +17,26 @@ class Search extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            open: true,
             categroy: 0,
+            tag: 0,
             gps: 0,
             display: "none",
-            categoriesArr: [{ val: 0, text: "כל הקטגוריות" }]
+            categoriesArr: [{ val: 0, text: "כל הקטגוריות" }],
+            tagsArr: [{ val: 0, text: "כל התגיות" }]
         }
         this.onSelectedCat = this.onSelectedCat.bind(this);
         this.onSelectedGPS = this.onSelectedGPS.bind(this);
+        this.onSelectedTag = this.onSelectedTag.bind(this);
         this.cbChanged = this.cbChanged.bind(this);
         this.searchBTN = this.searchBTN.bind(this);
+        this.close = this.close.bind(this);
     }
 
     componentDidMount() {
         const self = this;
+        
+        // fetch product categories
         axios.post(auctionWS + "GetAllProductsCategories", {}).then(function (response) {
             let res = JSON.parse(response.data.d);
             res.map(function (cat, i) {
@@ -41,10 +48,26 @@ class Search extends Component {
             .catch(function (error) {
                 console.log(error);
             });
+
+        // fetch assoc Tags
+        axios.post(assocWS + "GetAllAssocTags", {}).then(function (response) {
+            let res = JSON.parse(response.data.d);
+            let arr = self.state.tagsArr;
+            res.map(function (tag, i) {
+                arr.push({ val: tag.Code, text: tag.Tag_Name });
+            });
+            self.setState({ tagsArr: arr });
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     onSelectedCat(opt) {
         this.setState({ categroy: opt });
+    }
+    onSelectedTag(opt) {
+        this.setState({ tag: opt });
     }
 
     onSelectedGPS(opt) {
@@ -61,23 +84,24 @@ class Search extends Component {
         }
     }
 
-    //send search params to index.js
+    //send search params to home.js
     searchBTN() {
         let low = this.refs.lowerPrice.value !== "" ? this.refs.lowerPrice.value : -1;
         let high = this.refs.higherPrice.value !== "" ? this.refs.higherPrice.value : -1;
         let catCode = this.state.categroy;
-        let coords = {lat: 0, lng: 0};
+        let tagCode = this.state.tag;
+        let coords = { lat: 0, lng: 0 };
         let radius = 0;
 
         if (!(this.refs.locationCB.checked)) {
-            this.props.startSearch(low, high, catCode,coords,radius); // start search without location    
+            this.props.startSearch(low, high, catCode, tagCode, coords, radius); // start search without location    
         } else {
             const self = this;
             navigator.geolocation.getCurrentPosition(function (pos_result) {
                 console.log(`lat -- ${pos_result.coords.latitude} _____ lat-- ${pos_result.coords.longitude}`)
-                coords = {lat: pos_result.coords.latitude, lng: pos_result.coords.longitude};
-                radius= self.state.gps;
-                self.props.startSearch(low, high, catCode,coords,radius); // start search with location after city arr is filled
+                coords = { lat: pos_result.coords.latitude, lng: pos_result.coords.longitude };
+                radius = self.state.gps;
+                self.props.startSearch(low, high, catCode, tagCode, coords, radius); // start search with location after city arr is filled
 
             })
         }
@@ -86,10 +110,15 @@ class Search extends Component {
 
     }
 
+     close() {
+        this.setState({ open: false });
+        setTimeout(() => this.props.closeModal(), 600)
+    }
+
     render() {
         return (
-            <div className="box">
-                <Swipeable onTap={this.props.closeModal}>
+            <div className={this.state.open ? "searchBox" : "searchBox zoomOut"}>
+                <Swipeable onTap={this.close}>
                     <a className="boxclose"></a>
                 </Swipeable>
                 <div>
@@ -107,6 +136,10 @@ class Search extends Component {
                     {/*category select*/}
                     <h3>קטגוריית מוצר</h3>
                     <Ddl key="2" onChange={this.onSelectedCat} options={this.state.categoriesArr} css="priceSelect" />
+
+                    {/*assoc tag select*/}
+                    <h3>תגית עמותה</h3>
+                    <Ddl key="3" onChange={this.onSelectedTag} options={this.state.tagsArr} css="priceSelect" />
 
 
                     {/*between price area*/}

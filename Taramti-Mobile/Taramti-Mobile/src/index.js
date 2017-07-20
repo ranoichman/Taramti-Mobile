@@ -13,10 +13,13 @@ import axios from 'axios';
 // taramti babait components
 import Home from './components/Home/Home';
 import ParticipateAuction from './components/ParticipateAuction/ParticipateAuction';
+import TapDemo from './components/ParticipateAuction/TapDemo';
 import ActiveAuctions from './components/Profile/ActiveAuctions';
 import MyAuction from './components/Profile/MyAuction';
 import Profile from './components/Profile/Profile';
-import ThemeAuctions from './components/Profile/ThemeAuctions';
+import MyProducts from './components/MyProducts/MyProducts';
+
+// import ThemeAuctions from './components/Profile/ThemeAuctions';
 import Bdika from './components/Generic/Bdika';
 import Menu from './components/Generic/Menu';
 
@@ -89,7 +92,6 @@ class App extends Component {
         // Lifecycle function that is triggered just before a component unmounts
     }
     render() {
-        console.log(`children======== ${this.props.children}`)
         return (
             <div>
                 {this.props.children}
@@ -103,12 +105,13 @@ ReactDOM.render(<HashRouter>
     <App>
         <Route exact path="/" component={Home} />
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/products" component={MyProducts} />
         {/* Parameter routes*/}
         <Route path="/participate" component={ParticipateAuction} />
         <Route path="/myAuction" component={MyAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={Menu}/>
+        <Route path="/bdika" component={TapDemo}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 

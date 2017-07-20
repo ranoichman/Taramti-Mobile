@@ -29,7 +29,6 @@ class MyAuction extends Component {
             infoModalIsOpen: false,
             fAQModalIsOpen: false,
             FAQs: [],
-            tempDonation: "",
             width: null,
 
             // auc data
@@ -44,11 +43,8 @@ class MyAuction extends Component {
                 imgArr: par.props.auc.imgArr
             }
         }
-        // this.timerFinishedAuc = this.timerFinishedAuc.bind(this);
-        this.calcDonation = this.calcDonation.bind(this);
         this.getCurPrice = this.getCurPrice.bind(this);
         this.addQuestion = this.addQuestion.bind(this);
-
         this.infoModalChanged = this.infoModalChanged.bind(this);
         this.FAQModalChanged = this.FAQModalChanged.bind(this);
     }
@@ -57,9 +53,6 @@ class MyAuction extends Component {
         //set correct width
         const width = this.refs.infoDiv.clientWidth;
         this.setState({ width });
-
-        //calculate amount to donation
-        this.calcDonation();
 
         //get current price every 5 sec
         this.loadInterval = setInterval(this.getCurPrice, 5000);
@@ -99,7 +92,6 @@ class MyAuction extends Component {
         this.setState({ infoModalIsOpen: newStatus })
     }
 
-
     //FAQ MODAL
     FAQModalChanged() {
         let newStatus = !this.state.fAQModalIsOpen
@@ -117,7 +109,6 @@ class MyAuction extends Component {
                     let tempObj = self.state.auc;
                     tempObj["price"] = ans;
                     self.setState({ auc: tempObj });
-                    self.calcDonation();
                 }
             })
             .catch(function (error) {
@@ -125,84 +116,7 @@ class MyAuction extends Component {
             });
     }
 
-    //disable input and button
-    // timerFinishedAuc() {
-    //     let tempObj = this.state.auc;
-    //     tempObj["finished"] = true;
-    //     this.setState({ auc: tempObj });
-    //     const self = this;
-    //     axios.post(auctionWS + 'GetAuctionPrice', {
-    //         auctionCode: self.props.params.code
-    //     })
-    //         .then(function (response) {
-    //             let ans = response.this.d;
-    //             if (ans !== "-1") {
-    //                 // self.congratulateSeller();
-    //                 self.openMSGModal();
-    //             }
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error);
-    //         });
-    // }
-
-    //calculate donation amount to insert to circle
-    calcDonation() {
-        let tempPrice = parseInt(this.state.auc.price);
-        let i = this.state.curIndex;
-
-        if (this.refs.newPrice !== undefined) {
-            this.setState({
-                borderColor: "red"
-            });
-
-            let val = parseInt(this.refs.newPrice.value);
-            //console.log(`price: ${tempPrice},  new price: ${val}`)
-            if (val > tempPrice) {
-                tempPrice = val;
-                this.setState({
-                    curIndex: 3,
-                    formerIndex: i,
-                    borderColor: "green"
-                });
-            }
-            else {
-                if (val >= tempPrice * 0.6) {
-                    this.setState({
-                        curIndex: 2,
-                        formerIndex: i
-                    });
-                } else if (val >= tempPrice * 0.15) {
-                    this.setState({
-                        curIndex: 1,
-                        formerIndex: i
-                    });
-                }
-                else {
-                    this.setState({
-                        curIndex: 0,
-                        formerIndex: i
-                    });
-                }
-            }
-        }
-        this.setState({
-            tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
-        });
-
-    }
-
-
     render() {
-
-        // const customStyles = {
-        //     content: {
-        //         webkitAnimation: "zoomInRight 1s both",
-        //         animation: "zoomInRight 1s both"
-
-        //     }
-        // };
-
         return (
             <div>
 

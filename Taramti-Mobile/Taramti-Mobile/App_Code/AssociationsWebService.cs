@@ -97,6 +97,14 @@ public class AssociationsWebService : System.Web.Services.WebService
 
         return j.Serialize(temp.GetFavAssocById());
     }
+
+    [WebMethod(Description = "הבאת כל קטגוריות העמותות")]
+    public string GetAllAssocTags()
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        return j.Serialize(Association_Tag.GetAllAssocTags());
+    }
+
 }
 
 

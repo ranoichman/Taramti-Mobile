@@ -1,5 +1,4 @@
 .menuB{
-    width: 200px;
     max-height: 0px;
     overflow: hidden;
     transition: max-height 1.5s ease;

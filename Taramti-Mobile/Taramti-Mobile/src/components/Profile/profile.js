@@ -3,9 +3,10 @@ import Swipeable from 'react-swipeable';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import Auction from '../Generic/Auction';
+import ThemeAuctions from '../Generic/ThemeAuctions';
+import Menu from '../Generic/Menu';
 import ActiveAuctions from './ActiveAuctions';
-import MyAuction from './MyAuction';
-import ThemeAuctions from './ThemeAuctions';
+import CircleButton from '../Generic/CircleButton';
 
 import '../../css/react-tabs.css';
 import '../../css/transition.css';
@@ -26,7 +27,7 @@ class Profile extends Component {
     tabSwipeLeft() {
         let i = this.state.tabIndex - 1;
         if (i === -1) {
-            this.setState({ tabIndex: 3, animation: "slideInRight" })
+            this.setState({ tabIndex: 2, animation: "slideInRight" })
         }
         else {
             this.setState({ tabIndex: i, animation: "slideInRight" })
@@ -35,7 +36,7 @@ class Profile extends Component {
 
     tabSwipeRight() {
         let i = this.state.tabIndex + 1;
-        if (i === 4) {
+        if (i === 3) {
             this.setState({ tabIndex: 0, animation: "slideInLeft" })
         }
         else { this.setState({ tabIndex: i, animation: "slideInLeft" }) }
@@ -44,34 +45,26 @@ class Profile extends Component {
     render() {
         const list = ["עקפו אותי", "המוצרים שלי", "הבידים שלי"]
         return (
-            <div className="pageReact" style={{minHeight:"640px"}}>
+            <div className="pageReact" style={{ minHeight: window.innerHeight }}>
+                <Menu/>
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                         {/*header*/}
                         <TabList>
                             <Tab>היסטוריית רכישות</Tab>
                             <Tab>עקפו אותי</Tab>
-                            <Tab>המוצרים שלי</Tab>
                             <Tab>הבידים שלי</Tab>
                         </TabList>
 
                         {/*someone beat me to it*/}
                         <TabPanel>
-                            <div className={this.state.tabIndex === 3 ? this.state.animation : ""}>
+                            <div className={this.state.tabIndex === 0 ? this.state.animation : ""}>
                                 <ThemeAuctions theme="history" />
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            <div className={this.state.tabIndex === 0 ? this.state.animation : ""}>
-                                <ThemeAuctions theme="outBID" />
-                            </div>
-                        </TabPanel>
-
-                        {/*offers*/}
-
-                        <TabPanel>
                             <div className={this.state.tabIndex === 1 ? this.state.animation : ""}>
-                                <ThemeAuctions theme="myProducts" />
+                                <ThemeAuctions theme="outBID" />
                             </div>
                         </TabPanel>
 
@@ -85,6 +78,9 @@ class Profile extends Component {
 
                     </Tabs>
                 </Swipeable>
+
+                {/*home page fixed circle*/}
+                <CircleButton home={true} />
             </div>
         );
     }

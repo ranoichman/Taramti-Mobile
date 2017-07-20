@@ -143,7 +143,7 @@ class Auction extends Component {
                         <br />
                         <h5 style={{ float: "right", display: "inline" }}><span style={{ fontWeight: "bold" }}>מיקום: </span>{this.props.auc.city.CityName}</h5>
 
-                        {this.state.sold ? "" : <button ref="bidBTN" className="btn-l btn-10 ui-btn ui-shadow ui-corner-all" onClick={this.buttonClicked} style={{width:"inherit"}}> {buttonText}  </button>}
+                        {this.state.sold ? "" : <button ref="bidBTN" className="btn-l btn-10 ui-btn ui-shadow ui-corner-all" onClick={this.buttonClicked} style={{width:"inherit", padding:".5em 1em"}}> {buttonText}  </button>}
                     </div>
 
                 </div>

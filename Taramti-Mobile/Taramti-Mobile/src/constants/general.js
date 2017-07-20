@@ -1,5 +1,6 @@
 //web services
 export const auctionWS = GENERAL.auctionWebServerAddress;
+export const assocWS = GENERAL.assocWebServerAddress;
 
 
 //user data
