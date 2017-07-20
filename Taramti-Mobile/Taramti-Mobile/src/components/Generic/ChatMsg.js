@@ -29,7 +29,7 @@ class ChatMsg extends Component {
     render() {
 
         return (
-            <div>
+            <div style={{display:"inline-block", marginBottom:"12px"}}>
                 <h2 style={{ textAlign: "right" }}>{this.props.FAQs.length == 0 ? "אין שאלות לתצוגה" : ""}</h2>
                 <Collapse accordion={true} onChange={(activeKey) => this.setState({ activeKey })}>
                     {this.props.FAQs.map(this.generateFAQ)}

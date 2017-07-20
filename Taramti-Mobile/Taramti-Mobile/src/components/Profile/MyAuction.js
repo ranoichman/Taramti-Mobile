@@ -12,6 +12,7 @@ import ChatMsg from '../Generic/ChatMsg';
 import PriceTag from '../Generic/PriceTag';
 import AuctionInfo from '../ParticipateAuction/AuctionInfo';
 import AuctionFAQ from '../ParticipateAuction/AuctionFAQ';
+import CircleButton from '../Generic/CircleButton';
 
 import '../../css/balloon.css';
 
@@ -29,6 +30,7 @@ class MyAuction extends Component {
             infoModalIsOpen: false,
             fAQModalIsOpen: false,
             FAQs: [],
+            tempDonation: "",
             width: null,
 
             // auc data
@@ -44,6 +46,7 @@ class MyAuction extends Component {
             }
         }
         this.getCurPrice = this.getCurPrice.bind(this);
+        this.calcDonation = this.calcDonation.bind(this);
         this.addQuestion = this.addQuestion.bind(this);
         this.infoModalChanged = this.infoModalChanged.bind(this);
         this.FAQModalChanged = this.FAQModalChanged.bind(this);
@@ -56,6 +59,7 @@ class MyAuction extends Component {
 
         //get current price every 5 sec
         this.loadInterval = setInterval(this.getCurPrice, 5000);
+        this.calcDonation();
 
         //get questions from db
         let product = { ItemId: this.state.auc.prodCode }
@@ -109,6 +113,7 @@ class MyAuction extends Component {
                     let tempObj = self.state.auc;
                     tempObj["price"] = ans;
                     self.setState({ auc: tempObj });
+                    self.calcDonation();
                 }
             })
             .catch(function (error) {
@@ -116,33 +121,25 @@ class MyAuction extends Component {
             });
     }
 
+    //calculate donation amount to insert to circle
+    calcDonation() {
+        let tempPrice = parseInt(this.state.auc.price);
+        
+        this.setState({
+            tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
+        });
+
+    }
+
     render() {
         return (
-            <div>
-
-                {/*home page fixed circle*/}
-                <Link to="/">
-                    <div id="fixedCircle">
-                        <div>
-                            <a>
-                                <i className="fa fa-circle-o fa-5x" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div id="fixedHome">
-                        <div>
-                            <a>
-                                <FontAwesome name='home' className="fa-3x" tag="i" />
-                            </a>
-                        </div>
-                    </div>
-                </Link>
+            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px" }}>
 
                 {/*basic info*/}
                 <div className="basicInfo" ref="infoDiv">
                     {/*timer Component*/}
                     <div className="time">
-                        <Timer endDate={this.state.auc.endDate}/>
+                        <Timer endDate={this.state.auc.endDate} />
                     </div>
                     {/*price manipulation*/}
                     <div style={{ position: "absolute", width: "20%", margin: "80px 40%" }}>
@@ -183,7 +180,8 @@ class MyAuction extends Component {
                     <AuctionFAQ closeModal={this.FAQModalChanged} prodCode={this.state.auc.prodCode} chat={false} />
                 </Modal>
 
-
+                {/*home page fixed circle*/}
+                <CircleButton home={true} />
             </div>
         );
     }

@@ -6,9 +6,10 @@ import axios from 'axios';
 import Ddl from '../Generic/Ddl';
 
 //constants 
-import { auctionWS, assocWS} from '../../constants/general';
+import { auctionWS, assocWS } from '../../constants/general';
 
 import '../../css/modal.css';
+import '../../css/transition.css';
 
 //const auctionWS = GENERAL.auctionWebServerAddress;
 //const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
@@ -35,7 +36,7 @@ class Search extends Component {
 
     componentDidMount() {
         const self = this;
-        
+
         // fetch product categories
         axios.post(auctionWS + "GetAllProductsCategories", {}).then(function (response) {
             let res = JSON.parse(response.data.d);
@@ -110,7 +111,7 @@ class Search extends Component {
 
     }
 
-     close() {
+    close() {
         this.setState({ open: false });
         setTimeout(() => this.props.closeModal(), 600)
     }
@@ -126,10 +127,11 @@ class Search extends Component {
                     {/*GPS checkbox*/}
                     <div className="gpsCont">
                         <input type="checkbox" ref="locationCB" onClick={this.cbChanged} />הצג מוצרים בקרבתי
-                            <div style={{ display: this.state.display }}  >
+                        <div style={{ display: this.state.display }}  >
                             <Ddl key="1" onChange={this.onSelectedGPS} options={[{ val: '10000', text: '10 ק"מ' },
                             { val: '20000', text: '20 ק"מ' }, { val: '30000', text: '30 ק"מ' }, { val: '50000', text: '50 ק"מ' }
                             ]} css="gpsSelect" />
+                            <img className="gpsMarker bounceInDown" src="images/icons8-Marker-64.png" />
                         </div>
                     </div>
 
@@ -146,7 +148,7 @@ class Search extends Component {
                     <h3>מחיר בש"ח</h3>
                     <input type="text" ref="lowerPrice" placeholder="מ..." />
                     <input type="text" ref="higherPrice" placeholder="עד..." />
-                    <button className="ui-btn ui-btn-corner-all btn-info" onClick={this.searchBTN}> חפש </button>
+                    <button className="ui-btn ui-btn-corner-all searchBtn" onClick={this.searchBTN}> חפש </button>
 
                     {/*</form>*/}
 

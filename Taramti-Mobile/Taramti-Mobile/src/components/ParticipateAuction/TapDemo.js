@@ -73,6 +73,7 @@ class TapDemo extends Component {
                 <h2>
                     לחץ על הבלון להזנת מחיר
             </h2>
+            <Balloon curIndex={3} formerIndex={0} anim={"0"} price={80} />
                 {func[this.state.mode]}
             </div>
 

@@ -18,12 +18,12 @@
 .searchBox {
     position: fixed;
     top: 110px;
-    left: 40px;
-    right: 40px;
+    left: 30px;
+    right: 30px;
     /*bottom: 30px;*/
     background-color: rgba(255,255,255,0.9);
     color: #7F7F7F;
-    padding: 30px;
+    padding: 25px;
     border-radius: 8%;
     z-index: 101;
     direction:rtl;
@@ -51,7 +51,8 @@ position: fixed;
     background-color: #fff;
     color: #7F7F7F;
     padding: 20px;
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
+    border-radius: 8%;
     z-index: 101;
     direction:rtl;
     min-height: 250px;
@@ -63,17 +64,7 @@ position: fixed;
     z-index: 500;
 }
 
-.btn{
-    background: #3498db;
-    -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-    border-radius: 28px;
-    
-    color: #ffffff;
-    font-size: 20px;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
-}
+
 
 textarea{
     resize: none;
@@ -131,6 +122,7 @@ font-size: 14px;
 }
 
 .gpsCont input[type=checkbox]{
+    outline: 0;
     display: inline;
     width: 5%;
     margin-left: 5px;
@@ -139,6 +131,35 @@ font-size: 14px;
 .gpsCont .gpsSelect{
     width: 30%;
     margin-right: 10px;
+}
+
+.gpsMarker{
+    max-width: 10%;
+    display: inline-block;
+    float: right;
+}
+
+.searchBtn{
+
+     margin: 0 0 0 0;
+    width: 100%;
+    font-size: 1.4em;
+    font-weight: 600;
+    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+
+    /* background: #3498db;
+    -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+    border-radius: 28px;
+    
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none; */
+
+    
 }
 
 .search{
