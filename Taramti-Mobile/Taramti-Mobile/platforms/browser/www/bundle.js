@@ -34535,7 +34535,7 @@
 	            if (this.state.borderColor !== "red") {
 	                var currentAuc = this.state.auc;
 
-	                var val = parseInt(this.refs.newPrice.value);
+	                var val = parseInt(this.state.offered);
 
 	                var buyer = { UserId: _general.buyerID };
 	                var auc = { AuctionID: currentAuc.code, Buyer: buyer, ProdName: currentAuc.prodName };
@@ -34751,11 +34751,7 @@
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onSwipedUp: this.makeBid, onSwipedDown: this.deleteOffer, onTap: this.stopChangeTip },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { style: { minHeight: "250px", width: "50%" } },
-	                        _react2.default.createElement(_Balloon2.default, { curIndex: this.state.curIndex, formerIndex: this.state.formerIndex, anim: this.state.anim, price: this.state.auc.price, calc: this.calcDonation })
-	                    )
+	                    _react2.default.createElement(_Balloon2.default, { curIndex: this.state.curIndex, formerIndex: this.state.formerIndex, anim: this.state.anim, price: this.state.auc.price, calc: this.calcDonation })
 	                ),
 	                _react2.default.createElement(
 	                    'div',

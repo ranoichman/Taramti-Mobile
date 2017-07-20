@@ -245,7 +245,7 @@ class ParticipateAuction extends Component {
         if (this.state.borderColor !== "red") {
             const currentAuc = this.state.auc;
 
-            let val = parseInt(this.refs.newPrice.value);
+            let val = parseInt(this.state.offered);
 
             let buyer = { UserId: buyerID }
             let auc = { AuctionID: currentAuc.code, Buyer: buyer, ProdName: currentAuc.prodName }
@@ -433,9 +433,9 @@ class ParticipateAuction extends Component {
                 </div>
 
                 <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer} onTap={this.stopChangeTip}>
-                    <div style={{minHeight:"250px", width:"50%"}}>
+
                     <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
-                    </div>
+
                 </Swipeable>
 
                 {/*fireworks*/}
