@@ -51,7 +51,8 @@ class Tip extends Component {
     render() {
 
         return (
-            <div ref="modal" className={this.state.open ? "tipBox" : "tipBox zoomOut"} style={{ display: "inline-block" }}>
+            <div className={this.state.open ? "box" : "box zoomOut"}>
+            {/* <div ref="modal" className={this.state.open ? "tipBox" : "tipBox zoomOut"} style={{ display: "inline-block" }}> */}
                 <Swipeable onTap={this.close}>
                     <a className="boxclose" ></a>
                 </Swipeable>

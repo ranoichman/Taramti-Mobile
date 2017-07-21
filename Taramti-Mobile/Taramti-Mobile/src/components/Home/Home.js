@@ -129,7 +129,11 @@ class Home extends Component {
             let res = JSON.parse(response.data.d);
 
             if (res.length == 0) {
-                setTimeout(() => self.setState({ loaded: true }), 300)
+                if (self.showDefault) {
+                    self.getAuctionsByParams(-1, -1, [0], [0], 0, 0, 0);
+                } else {
+                    setTimeout(() => self.setState({ loaded: true }), 300)
+                }
             }
 
             //if no radius selected >>> add auction
