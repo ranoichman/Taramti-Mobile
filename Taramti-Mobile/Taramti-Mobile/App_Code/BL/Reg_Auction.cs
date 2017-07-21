@@ -108,7 +108,6 @@ public class Reg_Auction : Auction
 
         if (catCode.Average() == 0)
         {
-            tagCode = "> 0";
             code = "> 0";
         }
         else
@@ -118,17 +117,37 @@ public class Reg_Auction : Auction
                 if (i != catCode.Length - 1)
                 {
                     code += catCode[i].ToString() + ",";
-                    tagCode += assocTagCode[i].ToString() + ",";
+                    //tagCode += assocTagCode[i].ToString() + ",";
                 }
                 else
                 {
                     code += catCode[i].ToString() + ") ";
+                    //tagCode += assocTagCode[i].ToString() + ") ";
+                }
+            }
+        }
+        if (assocTagCode.Average() == 0)
+        {
+            tagCode = "> 0";
+        }
+        else
+        {
+            for (int i = 0; i < assocTagCode.Length; i++)
+            {
+                if (i != assocTagCode.Length - 1)
+                {
+                    //code += assocTagCode[i].ToString() + ",";
+                    tagCode += assocTagCode[i].ToString() + ",";
+                }
+                else
+                {
+                    //code += assocTagCode[i].ToString() + ") ";
                     tagCode += assocTagCode[i].ToString() + ") ";
                 }
             }
         }
 
-        
+
         //if (catCode == 0)
         //    code = "> 0";
         //else
@@ -597,8 +616,8 @@ public class Reg_Auction : Auction
         List<int> assocs = new List<int>();
 
         //NULL שליפת רשימה ייחודית של כל תגי העמותות בטבלה תוך התעלמות מ 
-        assocs = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Assoc_Cat_Code")).Where(val => val.HasValue).Select(val => val.Value).Distinct().ToList();
-        catcode1 = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Cat_Code")).Where(val => val.HasValue).Select(val => val.Value).Distinct().ToList();
+        assocs = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Assoc_Cat_Code")).Where(val => val.HasValue && val > 0).Select(val => val.Value).Distinct().ToList();
+        catcode1 = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Cat_Code")).Where(val => val.HasValue && val > 0).Select(val => val.Value).Distinct().ToList();
 
         //int[] catcode = new int[quant];
         //int[] assocs = new int[quant];
@@ -633,6 +652,7 @@ public class Reg_Auction : Auction
             assocs = Enumerable.Repeat(0, assocs.Count).ToList<int>();
         }
         var newCat = catcode.Concat(catcode1);
+        assocs = assocs.Count > 0 ? assocs : Enumerable.Repeat(0, 1).ToList();
 
         var v = new {lowprice = low, highprice = high, catCode = newCat,  assoctag = assocs};
 

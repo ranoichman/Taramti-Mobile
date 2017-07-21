@@ -35,6 +35,9 @@ public class Server_Side
 
         foreach (DataRow row in DS.Tables[0].Rows)
         {
+            string sql = @"SELECT        buyer_id, bid_code, auction_code FROM dbo.bid where auction_code = @auc and bid_code=@bid ";
+            SqlParameter parauc = new SqlParameter("@auc",row["auction_code"]);
+            SqlParameter parbid = new SqlParameter("@bid", row["bid_code"]);
             StrSql = @"Insert into dbo.auction(buyer_id,final_price,score) values()";
             db.ExecuteQuery(StrSql);
         }
