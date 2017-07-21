@@ -214,6 +214,7 @@ div .nav-left {
     #image_holder img {
         width: 100%;
         max-height: 150px;
+        border-radius: 15%;
     }
 
     #image_holder div {
@@ -493,7 +494,7 @@ div .page-top-mid1 {
     background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
     display: inline-flex;
     height: 35px;
-   border-radius: 5px;
+    border-radius: 5px;
 }
 
 #LeftBtn {
@@ -514,32 +515,119 @@ div .page-top-mid1 {
     display: inline-flex;
 }
 
-#EditUserBtn{
+#EditUserBtn {
     margin-top: 0 !important;
     margin-left: -5%;
 }
 
-#UserDetailsForm h2{
-    font-size:28px;
+#UserDetailsForm h2 {
+    font-size: 29px;
 }
 
-#UserDetailsForm div{
+#UserDetailsForm div, #AssocInfo div {
     margin-top: 5%;
 }
-#UserDetailsForm h5, #UserDetailsForm h4 {
+
+#UserDetailsForm h5, #UserDetailsForm h4, #AssocInfo h5, #AssocInfo h4 {
     margin-top: 10px;
     display: inline;
 }
 
 .MenuIconLeft {
     max-width: 10%;
-    display:inline;
-    margin-left:2%;
-    margin-bottom:-13px;
+    display: inline;
+    margin-left: 2%;
+    margin-bottom: -13px;
     /*float:right;*/
-
 }
 
 /*.nav-top-list nav-top-list1 li a {
     display: inline;
 }*/
+
+.Form .RoundDivIconBack a img {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.Form .RoundDivIconBack {
+    z-index: 10;
+    background-color: white;
+    opacity: 0.9;
+    position: relative;
+    right: -5%;
+    top: 15px;
+    width: 25%;
+    float: right;
+    border-radius: 60px;
+}
+
+.Form .RoundDivIcon a img {
+    width: 75%;
+    margin: 0 auto;
+}
+
+.Form .RoundDivIcon {
+    position: relative;
+    top: 5px;
+    width: 30%;
+}
+
+#UserDetailsForm div #UserMailDiv {
+    text-align: left;
+    margin-top: 1%;
+    margin-bottom: -2%;
+    /*direction: ltr;*/
+}
+
+/*#loading {
+    position: relative;
+    width: 35%;
+    display: block;
+    margin: auto;
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+}*/
+
+
+.loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: white;
+    opacity: 0.9;
+}
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+#LoadingImg {
+    position: fixed;
+    width: 26%;
+    /*margin: 0 auto;*/
+    left: 37%;
+    top: 37%;
+    -webkit-animation: spin 2s linear infinite;
+    -moz-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}

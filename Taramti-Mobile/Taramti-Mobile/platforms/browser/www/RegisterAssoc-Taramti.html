@@ -30,6 +30,11 @@
 </head>
 
 <body>
+
+    <div class="loader">
+        <img id="LoadingImg" src="img/just_logo.png" />
+    </div>
+
     <!--דף זה מכיל הוספת עמותה -->
 
     <div class="pageBC" data-role="page" id="RegisterAssocPage">
@@ -224,6 +229,11 @@
     </script>
 
     <script>
+        $(window).load(function () {
+            setTimeout(() =>
+                $(".loader").fadeOut("slow"), 500);
+        })
+
         $(document).ready(function () {
             console.log("in");
         })

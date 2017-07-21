@@ -33,8 +33,13 @@
     </script>
 
     <script>
-        $(document).ready(function () {
 
+        $(window).load(function () {
+            setTimeout(() =>
+                $(".loader").fadeOut("slow"), 500);
+        })
+
+        $(document).ready(function () {
             var U = user.userID();
             $.ajax({
                 dataType: "json",
@@ -143,12 +148,13 @@
             localStorage.removeItem("UserID");
             location.href = 'Login-Taramti.html'
         }
-
     </script>
 
 </head>
 <body>
-
+    <div class="loader">
+        <img id="LoadingImg" src="img/just_logo.png" />
+    </div>
     <div class="pageBC" data-role="page" id="UserDetailsPage">
         <!--<img id="BkgroundImg" src="images/LONGLoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150;" class="navigation-1 navigation-5">
@@ -211,8 +217,8 @@
                 </div>
 
                 <div>
-                    <h4>כתובת אימייל: &nbsp;</h4>
-                    <h5 id="UserMail"></h5>
+                    <h4>כתובת אימייל: <br /> </h4>
+                    <div id="UserMailDiv"><h5 id="UserMail"></h5></div>
                 </div>
 
                 <div>
@@ -238,6 +244,7 @@
             </div>
 
         </div>
+
     </div>
 
     <div class="pageBC" data-role="page" id="EditUserDetailsPage">
