@@ -44,20 +44,15 @@
                 <span class="nav-list-it5">
                     <i class="fa fa-bars"></i>
                 </span>
-                <script>
-                    $("span.nav-list-it5").click(function () {
-                        $("ul.nav-top-list1").slideToggle("slow", function () {
-                            // Animation complete.
-                        });
-                    });
-                </script>
+
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
 
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
                 </ul>
@@ -103,13 +98,15 @@
                         <div class="clearfix"> </div>
                     </div>
                 </div>
-                <div class="RoundDivfixed">
-                    <div id="fixedCircle">
+                <div class="FixedButton">
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+                            <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                        </div>
+                        <div id="fixedHome">
+                            <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                        </div>
 
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
-                    </div>
-                    <div id="fixedHome">
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
                     </div>
                 </div>
             </div>
@@ -129,20 +126,15 @@
                 <span class="nav-list-it5">
                     <i class="fa fa-bars"></i>
                 </span>
-                <script>
-                    $("span.nav-list-it5").ontap(function () {
-                        $("ul.nav-top-list1").slideToggle("slow", function () {
-                            // Animation complete.
-                        });
-                    });
-                </script>
+
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
 
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
                 </ul>
@@ -194,13 +186,15 @@
                         <div class="clearfix"> </div>
                     </div>
                 </div>
-                <div class="RoundDivfixed">
-                    <div id="fixedCircle">
+                <div class="FixedButton">
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+                            <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                        </div>
+                        <div id="fixedHome">
+                            <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                        </div>
 
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
-                    </div>
-                    <div id="fixedHome">
-                        <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
                     </div>
                 </div>
             </div>
@@ -238,15 +232,31 @@
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
                 if ($(window).width() + $(window).height() != _originalSize) {
-                    $("#fixedCircle").css("display", "none");
-                    $("#fixedHome").css("display", "none");
+                    $(".FixedButton").css("display", "none");
+                    //$(".RoundDivfixed").css("display", "none");
+                    //$("#fixedCircle").css("display", "none");
+                    //$("#fixedHome").css("display", "none");
                 }
                 else {
-                    $("#fixedCircle").css("display", "block");
-                    $("#fixedHome").css("display", "block");
+                    $(".FixedButton").css("display", "block");
+                    //$(".RoundDivfixed").css("display", "block");
+                    //$("#fixedCircle").css("display", "block");
+                    //$("#fixedHome").css("display", "block");
                 }
             });
+
+
+            $("span.nav-list-it5").on("tap", function () {
+                $("ul.nav-top-list1").slideToggle("slow", function () {
+                    // Animation complete.
+                });
+            });
         });
+        
+        function LogOut() {
+            localStorage.removeItem("UserID");
+            location.href = 'Login-Taramti.html'
+        }
 
         function RegisterAssoc() {
 

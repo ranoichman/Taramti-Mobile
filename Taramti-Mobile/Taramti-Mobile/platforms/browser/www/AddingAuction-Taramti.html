@@ -47,7 +47,7 @@
 
         $(document).ready(function () {
             // אג'קס למילוי כל הקטגוריות
-      
+
             $.ajax({
                 dataType: "json",
                 url: aucwebservice + "GetAllProductsCategories",
@@ -121,17 +121,33 @@
             $('#DefualtTab').addClass('ui-btn-active');
         });
 
+        function LogOut() {
+            localStorage.removeItem("UserID");
+            location.href = 'Login-Taramti.html'
+        }
+
+
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
-                if ($(window).width() + $(window).height() != _originalSize) {
-                    $("#fixedCircle").css("display", "none");
-                    $("#fixedHome").css("display", "none");
+                if ($(window).width() + $(window).height() != _originalSize) { 
+                    $(".FixedButton").css("display", "none");
+                    //$(".RoundDivfixed").css("display", "none");
+                    //$("#fixedCircle").css("display", "none");
+                    //$("#fixedHome").css("display", "none");
                 }
                 else {
-                    $("#fixedCircle").css("display", "block");
-                    $("#fixedHome").css("display", "block");
+                    $(".FixedButton").css("display", "block");
+                    //$(".RoundDivfixed").css("display", "block");
+                    //$("#fixedCircle").css("display", "block");
+                    //$("#fixedHome").css("display", "block");
                 }
+            });
+
+            $("span.nav-list-it5").on("tap", function () {
+                $("ul.nav-top-list1").slideToggle("slow", function () {
+                    // Animation complete.
+                });
             });
         });
 
@@ -157,7 +173,7 @@
             var $img = $("<img>").attr("src", imageURI);
             $imgDiv.append($imgA).append($img);
             $("#image_holder").append($imgDiv);
-            
+
 
             $imgA.on("tap", function () {
                 $(this).parent().remove();
@@ -233,7 +249,7 @@
                 }
             }
             else {
-                    alert("לא ניתן להוסיף מכרז ללא תמונות- יש להוסיף לפחות תמונה אחת")
+                alert("לא ניתן להוסיף מכרז ללא תמונות- יש להוסיף לפחות תמונה אחת")
             }
         }
 
@@ -283,28 +299,28 @@
     </script>
 
     <!--<script>
-function myFunction() {
-    // Declare variables
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("SearchBox");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("ProdLocation");
-    a = ul.getElementsByTagName('option');
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("SearchBox");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("ProdLocation");
+        a = ul.getElementsByTagName('option');
 
-    // Loop through all list items, and hide those who don't match the search query
-    for (i = 0; i < a.length; i++) {
-        //a = li[i].getElementsByTagName("li")[0];
-        if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-            //a[i].style.display = "";
-            a[i].selected = true;
-            //$('#ProdLocation').val(i);
-            $('#ProdLocation').change();
-        } else {
-            a[i].style.display = "none";
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < a.length; i++) {
+            //a = li[i].getElementsByTagName("li")[0];
+            if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                //a[i].style.display = "";
+                a[i].selected = true;
+                //$('#ProdLocation').val(i);
+                $('#ProdLocation').change();
+            } else {
+                a[i].style.display = "none";
+            }
         }
     }
-}
-    </script>-->
+        </script>-->
 </head>
 
 <body>
@@ -323,113 +339,258 @@ function myFunction() {
                 <span class="nav-list-it5">
                     <i class="fa fa-bars"></i>
                 </span>
-                <script>
-                    $("span.nav-list-it5").click(function () {
-                        $("ul.nav-top-list1").slideToggle("slow", function () {
-                            // Animation complete.
-                        });
-                    });
-                </script>
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a></li>
-
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
                 </ul>
             </div>
             <div class="clearfix"> </div>
         </div>
 
-        <div data-role="tabs" id="tabs">
+        <!--<div data-role="tabs" id="tabs">
             <div data-role="navbar">
                 <ul>
                     <li><a href="#AddingMoneyAuctionTab" data-ajax="false">צור מכרז תרומה</a></li>
                     <li><a id="DefualtTab" href="#AddingProductAuctionTab" data-ajax="false">צור מכרז מוצר</a></li>
                 </ul>
+            </div>-->
+        <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
+        <div class="Form" id="AddingProductAuctionForm">
+            <h2>יצירת מכרז</h2>
+            <h4>שם המוצר</h4>
+            <input type="text" id="ProdNum">
+            <h4>תיאור המוצר</h4>
+            <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
+
+            <h4>מיקום</h4>
+            <br />
+            <input type="search" id="SearchBox" />
+            <br />
+            <!--<input type="text" id="ProdLocation" required>-->
+            <!--<div class="scrollable" id="CustomerSelectDiv">-->
+            <select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">
+                <!--<option value="-1"> בחר</option>-->
+            </select>
+            <!-- שימוש בג'יפיאס -->
+            <div style="display: none;">
+                <select id="CustomerSelectHidden"></select>
             </div>
 
-            <div id="AddingProductAuctionTab" class="ui-body-d ui-content">
-                <div class="Form" id="AddingProductAuctionForm">
-                    <h2> יצירת מכרז מוצר</h2>
-                    <h4>שם המוצר</h4>
-                    <input type="text" id="ProdNum">
-                    <h4>תיאור המוצר</h4>
-                    <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
-                    <h4>מיקום</h4> 
-                    <br />
-                    <input type="search" id="SearchBox" />
-                    <br />
-                    <!--<input type="text" id="ProdLocation" required>-->
-                    <!--<div class="scrollable" id="CustomerSelectDiv">-->
-                        <select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">
-                            <!--<option value="-1"> בחר</option>-->
-                        </select> 
-                        <!-- שימוש בג'יפיאס -->
-                        </div>
-                    <div style="display: none;">
-                        <select id="CustomerSelectHidden"></select>
-                    </div>
+            <div class="page-top-mid">
+                <div class="page-top-mid1">
+                    <ul class="page-mid1" id="AddUserProcess">
 
-
-                        <h4>בחר קטגוריה</h4>
-                        <select id="AuctionCategories">
-                            <option value="-1"> בחר</option>
-                        </select>
-
-                        <h4>משך המכרז (בימים)</h4>
-                        <select id="AuctionLast">
-                            <option value="-1"> בחר</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                        </select>
-                        <h4>בחר עמותה</h4>
-                        <select id="AuctionAssoc">
-                            <option value="-1"> בחר</option>
-
-                        </select>
-                        <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
-                        <input type="text" id="AuctionMinPrice" />
-                        <h4>תמונות המוצר</h4>
-                        <!--מצלמה-->
-                        <div>
-                            <a class="ui-shadow ui-btn ui-corner-all ui-btn-block" id="CameraBtn" onclick="OpenCameraORChooseFile(true);"><i class="fa fa-camera w3-large w3-text-black"></i> </a>
-                            <div style="height:0px; overflow:hidden">
-                                <input type="file" id="fileInput" name="fileInput" />
-                            </div>
-                            <button id="UploadFileBtn" type="button" onclick="OpenCameraORChooseFile(false);">בחר תמונה מגלריה</button>
-                        </div>
-
-                        <div id="image_holder">
-                        </div>
-
-                    <div class="RoundDivfixed">
-                        <div id="fixedCircle">
-
-                            <div> <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a></div>
-                        </div>
-                        <div id="fixedHome">
-                            <div> <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a></div>
-
-                        </div>
-                    </div>
+                        <li><a class="next-top1" href="#"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
+                        <li class="Num"><span>1</span></li>
+                        <li class="Num"><a href="#AddingAuctionPage2">2</a></li>
+                        <li class="Num"><a href="#">3</a></li>
+                        <li><a class="pre1" href="#AddingAuctionPage2"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
             </div>
 
-            <div id="AddingMoneyAuctionTab">
-                <h1>דף יצירת מכרז תרומה</h1>
+            <div class="FixedButton">
+                <div class="RoundDivfixed">
+                    <div id="fixedCircle">
+                        <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                    </div>
+                    <div id="fixedHome">
+                        <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                    </div>
+
+                </div>
             </div>
         </div>
-        <!-- להוריד פלייס הולדרים מיותרים -->
     </div>
+
+
+    <div class="pageBC" data-role="page" id="AddingAuctionPage2">
+        <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
+        <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
+
+            <img id="LogoBidIt" src="images/LogoBidIt.png" />
+            <div class="nav-left">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
+            </div>
+            <div class="nav-right">
+                <span class="nav-list-it5">
+                    <i class="fa fa-bars"></i>
+                </span>
+
+                <ul class="nav-top-list nav-top-list1">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
+                    <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        <!--<div data-role="tabs" id="tabs">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#AddingMoneyAuctionTab" data-ajax="false">צור מכרז תרומה</a></li>
+                    <li><a id="DefualtTab" href="#AddingProductAuctionTab" data-ajax="false">צור מכרז מוצר</a></li>
+                </ul>
+            </div>-->
+        <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
+        <div class="Form" id="AddingProductAuctionForm">
+            <h2>יצירת מכרז</h2>
+
+            <h4>בחר קטגוריה</h4>
+            <select id="AuctionCategories">
+                <option value="-1"> בחר</option>
+            </select>
+
+            <h4>משך המכרז (בימים)</h4>
+            <select id="AuctionLast">
+                <option value="-1"> בחר</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+            <h4>בחר עמותה</h4>
+            <select id="AuctionAssoc">
+                <option value="-1"> בחר</option>
+
+            </select>
+            <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
+            <input type="text" id="AuctionMinPrice" />
+
+            <div class="page-top-mid">
+                <div class="page-top-mid1">
+                    <ul class="page-mid1" id="AddUserProcess">
+                        <li><a class="next-top1" href="#AddingAuctionPage"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
+                        <li class="Num"><a href="#AddingAuctionPage">1</a></li>
+                        <li class="Num"><span>2</span></li>
+                        <li class="Num"><a href="#AddingAuctionPage3">3</a></li>
+                        <li><a class="pre1" onclick="ConRegister()" href="#AddingAuctionPage3"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+
+            <div class="FixedButton">
+                <div class="RoundDivfixed">
+                    <div id="fixedCircle">
+                        <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                    </div>
+                    <div id="fixedHome">
+                        <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="pageBC" data-role="page" id="AddingAuctionPage3">
+        <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
+        <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
+
+            <img id="LogoBidIt" src="images/LogoBidIt.png" />
+            <div class="nav-left">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
+            </div>
+            <div class="nav-right">
+                <span class="nav-list-it5">
+                    <i class="fa fa-bars"></i>
+                </span>
+
+                <ul class="nav-top-list nav-top-list1">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
+                    <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        <!--<div data-role="tabs" id="tabs">
+            <div data-role="navbar">
+                <ul>
+                    <li><a href="#AddingMoneyAuctionTab" data-ajax="false">צור מכרז תרומה</a></li>
+                    <li><a id="DefualtTab" href="#AddingProductAuctionTab" data-ajax="false">צור מכרז מוצר</a></li>
+                </ul>
+            </div>-->
+        <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
+        <div class="Form" id="AddingProductAuctionForm">
+            <h2>יצירת מכרז</h2>
+
+            <h4>תמונות המוצר</h4>
+            <!--מצלמה-->
+            <div>
+                <a class="ui-shadow ui-btn ui-corner-all ui-btn-block" id="CameraBtn" onclick="OpenCameraORChooseFile(true);"><i class="fa fa-camera w3-large w3-text-black"></i> </a>
+                <div style="height:0px; overflow:hidden">
+                    <input type="file" id="fileInput" name="fileInput" />
+                </div>
+                <button id="UploadFileBtn" type="button" onclick="OpenCameraORChooseFile(false);">בחר תמונה מגלריה</button>
+            </div>
+
+            <div id="image_holder">
+            </div>
+
+            <div class="button-1">
+                <button type="button" id="AddingProductAuctionbtn" onclick="AddingProductAuction()" class="btn-l btn-10">שגר מכרז</button>
+            </div>
+
+            <div class="page-top-mid">
+                <div class="page-top-mid1">
+                    <ul class="page-mid1" id="AddUserProcess">
+
+                        <li><a class="next-top1" href="#AddingAuctionPage2"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
+                        <li class="Num"><a href="#AddingAuctionPage">1</a></li>
+                        <li class="Num"><a href="#AddingAuctionPage2">2</a></li>
+                        <li class="Num"><span>3</span></li>
+                        <li><a onclick="AddingProductAuction()" class="pre1"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+
+            <div class="FixedButton">
+                <div class="RoundDivfixed">
+                    <div id="fixedCircle">
+                        <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                    </div>
+                    <div id="fixedHome">
+                        <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--<div id="AddingMoneyAuctionTab">
+                    <h1>דף יצירת מכרז תרומה</h1>
+        </div>-->
+        <!--</div>-->
+        <!-- להוריד פלייס הולדרים מיותרים -->
+        <!--</div>-->
+        </div>
 </body>
 
 </html>

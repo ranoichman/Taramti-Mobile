@@ -74,11 +74,11 @@ public class Association_Tag
     /// הפונקציה מחזירה רשימה של קטגוריות העמותות השונות
     /// </summary>
     /// <returns> List<Association_Tag> </returns>
-    public List<Association_Tag> GetAllAuctionsCategories()
+    public static List<Association_Tag> GetAllAssocTags()
     {
         DbService db = new DbService();
         DataSet DS = new DataSet();
-        List<Association_Tag> allCat = new List<Association_Tag>();
+        List<Association_Tag> allTags = new List<Association_Tag>();
         string StrSql = "SELECT * FROM tags order by tag_desc ";
         DS = db.GetDataSetByQuery(StrSql);
 
@@ -89,10 +89,10 @@ public class Association_Tag
                 Association_Tag Item = new Association_Tag();
                 Item.Code = int.Parse(row["tag_code"].ToString());
                 Item.Tag_Name = row["tag_desc"].ToString();
-                allCat.Add(Item);
+                allTags.Add(Item);
             }
         }
-        return allCat;
+        return allTags;
     }
     #endregion
 

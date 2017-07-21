@@ -224,11 +224,6 @@
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 
-
-
-
-
-
   /*
 *******************
 *******************
@@ -400,3 +395,85 @@ modal zoom in LEFT
   opacity: 0;
   }
   } 
+
+  .zoomInDown {
+  -webkit-animation-name: zoomInDown;
+  animation-name: zoomInDown;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  }
+  @-webkit-keyframes zoomInDown {
+  0% {
+  opacity: 0;
+  -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);
+  transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);
+  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+  60% {
+  opacity: 1;
+  -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+  transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+  }
+  @keyframes zoomInDown {
+  0% {
+  opacity: 0;
+  -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);
+  transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);
+  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+  }
+  60% {
+  opacity: 1;
+  -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+  transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);
+  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+  }
+  } 
+
+/*
+*******************
+*******************
+   chat fade in
+*******************
+*******************
+*/
+  
+@keyframes chatFadein{
+    0%{opacity:0}
+    40%{opacity:0.4}
+    80%{opacity:0.8}
+    100%{opacity:1}
+}
+
+@-webkit-keyframes chatFadein{
+    0%{opacity:0}
+    40%{opacity:0.4}
+    80%{opacity:0.8}
+    100%{opacity:1}
+}
+/*
+*******************
+*******************
+   tip fade in
+*******************
+*******************
+*/
+  
+@keyframes tipFadein{
+    0%{opacity:0}
+    20%{opacity:1}
+    100%{opacity:1}
+}
+
+@-webkit-keyframes tipFadein{
+    0%{opacity:0}
+    20%{opacity:1}
+    100%{opacity:1}
+}

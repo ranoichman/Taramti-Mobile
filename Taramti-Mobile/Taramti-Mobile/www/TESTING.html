@@ -252,7 +252,7 @@
             });
 
         }
-        
+
         function updateWatch() {
             let user = { UserId: 300294485 };
             let auc = {
@@ -280,13 +280,15 @@
             });
         }
 
+        var catCode = [0, 0, 0, 0, 0];
+        var assoc = [0, 0, 0, 0, 0];
         function GetAuctionsByParam() {
             $.ajax({
                 dataType: "json",
                 url: generic + "GetAuctionByParam",
                 contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: "0", aucCatCode: "0", lat: "100", lng: "200", radius: "20", user_Id: "302921481" }),
+                type: "POST",            
+                data: JSON.stringify({ lowPrice: "100", highPrice: "10000", catCode: catCode, assocTagCode: assoc, lat: "100", lng: "200", radius: "20", user_Id: "300294485" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
@@ -339,6 +341,21 @@
                 error: function (err) { }
             });
         }
+
+        function SmartElement() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "SmartElement",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: "301926647" }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
     </script>
 
 </head>
@@ -364,9 +381,11 @@
         <input type="button" onclick="GetAllAuctionsCategories()" value="GetAllAuctionsCategories" />
         <input type="button" onclick="outbid()" value="outbid" />
 
+        <input type="button" onclick="SmartElement()" value="SmartElement" />
+
         <input type="button" onclick="addToWatch()" value="LOGGGGG" />
         <input type="button" onclick="updateWatch()" value="update log" />
-
+        
         <!--<input type="button" onclick="LogOut()" value="LogOut" />-->
         <a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">התנתק</a>
 
