@@ -337,9 +337,25 @@ public class WebService : System.Web.Services.WebService
 
     }
 
+    [WebMethod (Description ="The Server Version")]
+    public void ServerVersion()
+    {
+        ServerAuctionFinish();
+        ServerPush();
+    }
 
+    [WebMethod(Description = "The Server Version - Sends Push To Nearly Finished Auctions And Winners In Auctions")]
+    public void ServerPush()
+    {
 
+    }
 
+    [WebMethod(Description = "The Server Version - Closes Auctions And Determins Winners")]
+    public void ServerAuctionFinish()
+    {
+        Server_Side Serv = new Server_Side();
+        Serv.CloseAuctions();
+    }
 
     //[WebMethod]
     //public void saveImage()

@@ -593,10 +593,12 @@ public class Reg_Auction : Auction
         DSInfo = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
         //double avg = (double)DSInfo.Tables[0].Compute("DISTINCT([])","");
         List<int> catcode = new List<int>();
+        List<int> catcode1 = new List<int>();
         List<int> assocs = new List<int>();
 
         //NULL שליפת רשימה ייחודית של כל תגי העמותות בטבלה תוך התעלמות מ 
         assocs = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Assoc_Cat_Code")).Where(val => val.HasValue).Select(val => val.Value).Distinct().ToList();
+        catcode1 = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Cat_Code")).Where(val => val.HasValue).Select(val => val.Value).Distinct().ToList();
 
         //int[] catcode = new int[quant];
         //int[] assocs = new int[quant];
@@ -612,7 +614,7 @@ public class Reg_Auction : Auction
         if (DSViews.Tables[0].Rows.Count > 0)
         {
            
-            catcode = DSViews.Tables[0].AsEnumerable().Select(r => r.Field<int>("product_category_code")).ToList();
+            catcode = DSViews.Tables[0].AsEnumerable().Select(r => r.Field<int>("product_category_code")).Distinct().ToList();
             //for (int i = 0; i < quant; i++)
             //{
             //    catcode[i] = int.Parse(DSViews.Tables[0].Rows[i]["product_category_code"].ToString());
@@ -630,8 +632,9 @@ public class Reg_Auction : Auction
             catcode = Enumerable.Repeat(0, catcode.Count).ToList<int>();
             assocs = Enumerable.Repeat(0, assocs.Count).ToList<int>();
         }
+        var newCat = catcode.Concat(catcode1);
 
-        var v = new {lowprice = low, highprice = high, catCode = catcode,  assoctag = assocs};
+        var v = new {lowprice = low, highprice = high, catCode = newCat,  assoctag = assocs};
 
         return J.Serialize(v);
     }
