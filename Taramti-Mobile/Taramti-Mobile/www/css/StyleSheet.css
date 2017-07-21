@@ -214,6 +214,7 @@ div .nav-left {
     #image_holder img {
         width: 100%;
         max-height: 150px;
+        border-radius: 15%;
     }
 
     #image_holder div {
@@ -550,6 +551,9 @@ div .page-top-mid1 {
 }
 
 .Form .RoundDivIconBack {
+    z-index: 10;
+    background-color: white;
+    opacity: 0.9;
     position: relative;
     right: -5%;
     top: 15px;
