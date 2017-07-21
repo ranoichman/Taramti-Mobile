@@ -536,54 +536,101 @@ public class Reg_Auction : Auction
     public static string SmartElement(string user_id)
     {
         DbService db = new DbService();
-        DataSet DS = new DataSet();
+        DataSet DSViews = new DataSet();
+        DataSet DSInfo = new DataSet();
+        DataSet DSSearch = new DataSet();
         JavaScriptSerializer J = new JavaScriptSerializer();
         string StrSql = "";
         int quant = 5;
-
-        StrSql = @"SELECT   TOP (@quant) dbo.watch_auc_log.enter_time, dbo.watch_auc_log.leave_time, dbo.watch_auc_log.auction_code, dbo.product.product_code, dbo.watch_auc_log.user_id, DATEDIFF(second, dbo.watch_auc_log.enter_time,
-                          dbo.watch_auc_log.leave_time) AS Time, dbo.association.association_code, dbo.bid.bid_code
-                        FROM            dbo.association INNER JOIN
-                         dbo.auction ON dbo.association.association_code = dbo.auction.association_code INNER JOIN
-                         dbo.bid ON dbo.auction.auction_code = dbo.bid.auction_code RIGHT OUTER JOIN
-                         dbo.product ON dbo.auction.product_code = dbo.product.product_code RIGHT OUTER JOIN
-                         dbo.watch_auc_log ON dbo.auction.auction_code = dbo.watch_auc_log.auction_code
-                        GROUP BY dbo.watch_auc_log.enter_time, dbo.watch_auc_log.leave_time, dbo.watch_auc_log.auction_code, dbo.product.product_code, dbo.watch_auc_log.user_id, DATEDIFF(second, dbo.watch_auc_log.enter_time, 
-                         dbo.watch_auc_log.leave_time), dbo.association.association_code, dbo.bid.bid_code, dbo.auction.auction_code, dbo.bid.bid_time
-                        HAVING        (dbo.watch_auc_log.user_id = '@userId') AND (dbo.watch_auc_log.leave_time IS NOT NULL) AND (dbo.auction.auction_code = 38) AND (MAX(dbo.bid.bid_time) <= CONVERT(VARCHAR(10), 
-                         '2017-07-18 18:25:35.297', 110))
-                        ORDER BY Time DESC, dbo.watch_auc_log.enter_time, dbo.bid.bid_time DESC";
-        SqlParameter parId = new SqlParameter("@userId", user_id);
-        SqlParameter parQuant = new SqlParameter("@quant", quant);
-        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId,parQuant);
-
-        int[] catcode = new int[quant];
-        int[] assocs = new int[quant];
-        int[] price = new int[quant];
-        double avg = 0;
         double low = 0;
         double high = 0;
 
-        if (DS.Tables[0].Rows.Count > 0)
+        //VIEW הוחלף ב 
+        //StrSql = @"SELECT   TOP (@quant) dbo.watch_auc_log.enter_time, dbo.watch_auc_log.leave_time, dbo.watch_auc_log.auction_code, dbo.product.product_code, dbo.watch_auc_log.user_id, DATEDIFF(second, dbo.watch_auc_log.enter_time,
+        //                  dbo.watch_auc_log.leave_time) AS Time, dbo.association.association_code, dbo.bid.bid_code
+        //                FROM            dbo.association INNER JOIN
+        //                 dbo.auction ON dbo.association.association_code = dbo.auction.association_code INNER JOIN
+        //                 dbo.bid ON dbo.auction.auction_code = dbo.bid.auction_code RIGHT OUTER JOIN
+        //                 dbo.product ON dbo.auction.product_code = dbo.product.product_code RIGHT OUTER JOIN
+        //                 dbo.watch_auc_log ON dbo.auction.auction_code = dbo.watch_auc_log.auction_code
+        //                GROUP BY dbo.watch_auc_log.enter_time, dbo.watch_auc_log.leave_time, dbo.watch_auc_log.auction_code, dbo.product.product_code, dbo.watch_auc_log.user_id, DATEDIFF(second, dbo.watch_auc_log.enter_time, 
+        //                 dbo.watch_auc_log.leave_time), dbo.association.association_code, dbo.bid.bid_code, dbo.auction.auction_code, dbo.bid.bid_time
+        //                HAVING        (dbo.watch_auc_log.user_id = '@userId') AND (dbo.watch_auc_log.leave_time IS NOT NULL) AND (dbo.auction.auction_code = 38) AND (MAX(dbo.bid.bid_time) <= CONVERT(VARCHAR(10), 
+        //                 '2017-07-18 18:25:35.297', 110))
+        //                ORDER BY Time DESC, dbo.watch_auc_log.enter_time, dbo.bid.bid_time DESC";
+
+        // נראה מיותר בגלל שמביא ממוצע מחירים...
+        //foreach (DataRow row in DSViews.Tables[0].Rows)
+        //{
+        //    // שליפת נתוני מחיר המכרז בזמן הצפייה
+        //    StrSql = @"SELECT        TOP (1) auction_code, bid_code, bid_time
+        //        FROM            dbo.bid
+        //        GROUP BY bid_time, bid_code, auction_code
+        //        HAVING        (MAX(bid_time) <= CONVERT(VARCHAR(10), '2017-07-18 18:25:35.297', 110)) AND (auction_code = 38)
+        //        ORDER BY bid_time DESC";
+        //    //DSPrice = db.GetDataSetByQuery(StrSql, CommandType.Text);
+        //}
+
+
+
+        // שליפת נתונים מטבלת החיפושים
+        StrSql = @"SELECT        AVG(low_price) AS AVGLow, AVG(high_price) AS AVGHigh
+                FROM            dbo.search_log
+                WHERE        (user_id = @userId)";
+        SqlParameter parId = new SqlParameter("@userId", user_id);
+        SqlParameter parQuant = new SqlParameter("@quant", quant);
+        DSSearch = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
+        if (DSSearch.Tables[0].Rows.Count > 0)
         {
-            for (int i = 0; i < quant; i++)
-            {
-                catcode[i] = int.Parse( DS.Tables[0].Rows[i]["product_code"].ToString());
-                assocs[i] = int.Parse( DS.Tables[0].Rows[i]["association_code"].ToString());
-                price[i] = int.Parse(DS.Tables[0].Rows[i]["bid_code"].ToString());
-            }
-            avg = price.Average();
-            low = Math.Round(avg * 0.68, 0);
-            high = Math.Round(avg * 1.32, 0);
+            low = int.Parse(DSSearch.Tables[0].Rows[0]["AVGLow"].ToString()); // מחיר מינימום ממוצע
+            high = int.Parse(DSSearch.Tables[0].Rows[0]["AVGHigh"].ToString()); // מחיר מקסימום ממוצע
+        }
+
+        // שליפת נתונים נוספים מטבלת החיפושים
+        StrSql = @"SELECT        search_time, user_id, user_lat, user_lng, radius, low_price, high_price, cat_code, Assoc_Cat_Code
+                FROM            dbo.search_log
+                WHERE        (user_id = @userId)";
+        DSInfo = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
+        //double avg = (double)DSInfo.Tables[0].Compute("DISTINCT([])","");
+        List<int> catcode = new List<int>();
+        List<int> assocs = new List<int>();
+
+        //NULL שליפת רשימה ייחודית של כל תגי העמותות בטבלה תוך התעלמות מ 
+        assocs = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Assoc_Cat_Code")).Where(val => val.HasValue).Select(val => val.Value).Distinct().ToList();
+
+        //int[] catcode = new int[quant];
+        //int[] assocs = new int[quant];
+        //int[] price = new int[quant];
+        //double avg = 0;
+
+        // שליפת נתונים מטבלת ה- כמה צפיתי בכל מכרז
+        StrSql = @"select top (@quant) * from V_Smart_TopTime
+                where user_id = @userId
+                order by time desc, enter_time desc";
+        DSViews = db.GetDataSetByQuery(StrSql, CommandType.Text, parId, parQuant);
+
+        if (DSViews.Tables[0].Rows.Count > 0)
+        {
+           
+            catcode = DSViews.Tables[0].AsEnumerable().Select(r => r.Field<int>("product_category_code")).ToList();
+            //for (int i = 0; i < quant; i++)
+            //{
+            //    catcode[i] = int.Parse(DSViews.Tables[0].Rows[i]["product_category_code"].ToString());
+            //    assocs[i] = int.Parse(DSViews.Tables[0].Rows[i]["association_code"].ToString());
+            //    //price[i] = int.Parse(DSViews.Tables[0].Rows[i]["bid_code"].ToString());
+            //}
+            //avg = price.Average();
+            //low = Math.Round(avg * 0.68, 0);
+            //high = Math.Round(avg * 1.32, 0);
         }
         else
         {
             low = -1;
             high = -1;
-            catcode = Enumerable.Repeat(0,catcode.Length).ToArray();
-            assocs = Enumerable.Repeat(0, assocs.Length).ToArray();
+            catcode = Enumerable.Repeat(0, catcode.Count).ToList<int>();
+            assocs = Enumerable.Repeat(0, assocs.Count).ToList<int>();
         }
-      
+
         var v = new {lowprice = low, highprice = high, catCode = catcode,  assoctag = assocs};
 
         return J.Serialize(v);
