@@ -9,7 +9,7 @@ class TapDemo extends Component {
         this.state = {
             mode: 0,
         }
-        
+
         this.showVid = this.showVid.bind(this);
         this.renderStart = this.renderStart.bind(this);
         this.renderTap = this.renderTap.bind(this);
@@ -27,7 +27,7 @@ class TapDemo extends Component {
     }
 
 
-    
+
 
     showVid() {
         this.setState({ mode: 0 });
@@ -69,12 +69,14 @@ class TapDemo extends Component {
         const func = [this.renderStart(), this.renderTap(), this.renderInflate()]
 
         return (
-            <div className={this.props.anim}>
+            <div>
                 <h2>
                     לחץ על הבלון להזנת מחיר
             </h2>
-            <Balloon curIndex={3} formerIndex={0} anim={"0"} price={80} />
-                {func[this.state.mode]}
+                {/* <Balloon curIndex={3} formerIndex={0} anim={"0"} price={80} /> */}
+                <div>
+                    {func[this.state.mode]}
+                </div>
             </div>
 
         )

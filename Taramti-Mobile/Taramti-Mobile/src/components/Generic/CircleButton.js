@@ -9,6 +9,7 @@ class CircleButton extends Component {
         }
         this.renderHome = this.renderHome.bind(this);
         this.renderPlus = this.renderPlus.bind(this);
+        this.renderBack = this.renderBack.bind(this);
         this.updateDimensions = this.updateDimensions.bind(this);
     }
 
@@ -39,6 +40,13 @@ class CircleButton extends Component {
             </div>
         );
     }
+    renderBack() {
+        return (
+            <div className="ReactIconBack">
+                <Link to="/products" className="styleLink"><img className="NiceIcon" src="images/backToLogin.png" /></Link>
+            </div>
+        );
+    }
     renderHome() {
         return (
             <div className="FixedButton" style={{ display: this.state.resize ? "none" : "block" }}>
@@ -62,9 +70,17 @@ class CircleButton extends Component {
             )
         }
         else {
-            return (
-                this.renderPlus()
-            )
+            if (this.props.back) {
+                return (
+                    this.renderBack()
+                )
+            } else {
+                return (
+                    this.renderPlus()
+                )
+            }
+
+
         }
     }
 }
