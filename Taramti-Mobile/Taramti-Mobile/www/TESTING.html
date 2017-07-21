@@ -280,15 +280,15 @@
             });
         }
 
-        var catCode = [0, 0, 0, 0, 0];
-        var assoc = [0, 0, 0, 0, 0];
+        var catCode = [0];
+        var assoc = [0];
         function GetAuctionsByParam() {
             $.ajax({
                 dataType: "json",
                 url: generic + "GetAuctionByParam",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",            
-                data: JSON.stringify({ lowPrice: "3", highPrice: "411", catCode: catCode, assocTagCode: assoc, lat: "100", lng: "200", radius: "20", user_Id: "300294485" }),
+                data: JSON.stringify({ lowPrice: "-1", highPrice: "-1", catCode: catCode, assocTagCode: assoc, lat: "0", lng: "0", radius: "0", user_Id: "300294485" }),
                 success: function (data) {
 
                     var isUser = JSON.parse(data.d);
@@ -350,12 +350,12 @@
                 type: "POST",
                 data: JSON.stringify({ user_id: "300294485" }),
                 success: function (data) {
-                    let res = JSON.parse(data.d);
-                    let low = res["lowprice"];
-                    let high = res["highprice"];
-                    let categories = res["catCode"];
-                    let tags = res["assoctag"];
-                    GetAuctionsByParam2(low, high, categories, tags);
+                    //let res = JSON.parse(data.d);
+                    //let low = res["lowprice"];
+                    //let high = res["highprice"];
+                    //let categories = res["catCode"];
+                    //let tags = res["assoctag"];
+                    //GetAuctionsByParam2(low, high, categories, tags);
                 },
                 error: function (err) { }
             });

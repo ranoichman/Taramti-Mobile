@@ -166,7 +166,7 @@ public class Reg_Auction : Auction
         //                 GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
         //                 dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id ";
         string StrSql = @"SELECT   DISTINCT      dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
-                         dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price AS NewPrice, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id
+                         dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price AS price, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id
                          FROM            dbo.auction LEFT OUTER JOIN
                          dbo.product ON dbo.auction.product_code = dbo.product.product_code LEFT OUTER JOIN
                          dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code LEFT OUTER JOIN
