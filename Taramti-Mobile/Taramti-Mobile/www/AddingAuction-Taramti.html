@@ -128,10 +128,10 @@
                 error: function (err) { }
             });
 
-            $("#ProdLocation1").select2();
+            // $("#ProdLocation1").select2();
 
             //$("select2-selection select2-selection--single").css("display", "none");
-           // $(".select2-container--default .select2-selection--single :not('.select')").css("display", "none");
+            // $(".select2-container--default .select2-selection--single :not('.select')").css("display", "none");
         });
 
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
@@ -382,8 +382,24 @@
 
                     <h4>מיקום</h4>
 
-                    <select id="ProdLocation1" class="js-example-basic-single" multiple="multiple" ></select>
+
+                    <!-- <input data-type="search" id="ProdLocation1"> -->
+
+                    <!-- <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#ProdLocation1"> -->
+
+                    <input list="ProdLocation1">
+
+                    <datalist id="ProdLocation1">
+                    </datalist>
+
+
+                    <!-- <select id="ProdLocation1" class="js-example-basic-single" multiple="multiple"></select> -->
                     <!-- שימוש בג'יפיאס -->
+
+
+
+
+
                 </div>
                 <div style="display: none;">
                     <select id="CustomerSelectHidden"></select>
@@ -407,10 +423,23 @@
                     <option value="7">7</option>
                 </select>
                 <h4>בחר עמותה</h4>
+
+
+
+
+
+
                 <select id="AuctionAssoc">
                     <option value="-1"> בחר</option>
 
                 </select>
+
+
+
+
+
+
+
                 <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
                 <input type="text" id="AuctionMinPrice" />
                 <h4>תמונות המוצר</h4>
