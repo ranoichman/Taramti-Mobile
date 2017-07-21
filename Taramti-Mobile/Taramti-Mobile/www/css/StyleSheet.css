@@ -209,6 +209,7 @@ div .nav-left {
     width: 100%;
     display: block;
     overflow: auto;
+    height: 160px;
 }
 
     #image_holder img {
@@ -264,8 +265,8 @@ a.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
 a.closeBox {
     position: relative;
     float: right;
-    top: 25px;
-    right: 1px;
+    top: 26px;
+    right: 3px;
     z-index: 100;
     /*margin-top: -10px;*/
     /*margin-right: -15px;*/
