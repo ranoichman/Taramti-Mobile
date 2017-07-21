@@ -30874,6 +30874,7 @@
 	        _this.SearchModalChanged = _this.SearchModalChanged.bind(_this);
 	        _this.picModalChanged = _this.picModalChanged.bind(_this);
 	        _this.searchTriggered = _this.searchTriggered.bind(_this);
+	        _this.startSearch = _this.startSearch.bind(_this);
 	        _this.getAuctionsByParams = _this.getAuctionsByParams.bind(_this);
 	        _this.addAuction = _this.addAuction.bind(_this);
 	        _this.eachAuction = _this.eachAuction.bind(_this);
@@ -30889,9 +30890,27 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            // Lifecycle function that is triggered just before a component mounts
-	            this.getAuctionsByParams(-1, -1, 0, 0, 0, 0, 0); //initial data will come from 
+	            //initial data will come from 
 
-	            // this.startTO = setTimeout(()=> sst )
+	            this.showDefault = false; // variable to determine whether or not to show default
+
+	            var self = this;
+	            var id = parseInt(_general.buyerID);
+	            _axios2.default.post(_general.auctionWS + 'SmartElement', {
+	                user_id: id
+	            }).then(function (response) {
+	                var res = JSON.parse(response.data.d);
+
+	                var low = res["lowprice"];
+	                var high = res["highprice"];
+	                var categories = res["catCode"];
+	                var tags = res["assoctag"];
+	                self.startSearch(low, high, categories, tags, 0, 0, 0);
+
+	                self.showDefault = true;
+	            }).catch(function (error) {
+	                self.startSearch(-1, -1, [0], [0], 0, 0, 0); //send default values if error
+	            });
 	        }
 	    }, {
 	        key: 'SearchModalChanged',
@@ -30908,9 +30927,28 @@
 	    }, {
 	        key: 'searchTriggered',
 	        value: function searchTriggered(lowPrice, highPrice, catCode, assocTagCode, coords, radius) {
-	            //console.log(`entered search on ----- ${Date.now()}`)
 	            this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
-	            this.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
+	            this.startSearch(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
+	        }
+	    }, {
+	        key: 'startSearch',
+	        value: function startSearch(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
+	            var self = this;
+	            //stop db access after 8s
+	            if (this.startTO == undefined) {
+	                this.startTO = setTimeout(function () {
+	                    self.startTO = undefined;
+	                    if (self.showDefault) {
+	                        setTimeout(function () {
+	                            self.setState({ loaded: true });
+	                            self.showDefault = false;
+	                        }, 2000);
+	                    } else {
+	                        self.setState({ loaded: true });
+	                    }
+	                }, 5000);
+	            }
+	            this.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius);
 	        }
 
 	        //call function to get auctions from serveer
@@ -30921,13 +30959,6 @@
 	            //define "this" for inner functions
 	            var self = this;
 
-	            //stop db access after 8s
-	            if (this.startTO == undefined) {
-	                this.startTO = setTimeout(function () {
-	                    self.setState({ loaded: true });
-	                    self.startTO = undefined;
-	                }, 8000);
-	            }
 	            var id = parseInt(_general.buyerID);
 	            _axios2.default.post(_general.auctionWS + 'GetAuctionByParam', {
 	                lowPrice: lowPrice,
@@ -30945,9 +30976,13 @@
 	                var res = JSON.parse(response.data.d);
 
 	                if (res.length == 0) {
-	                    setTimeout(function () {
-	                        return self.setState({ loaded: true });
-	                    }, 300);
+	                    if (self.showDefault) {
+	                        self.getAuctionsByParams(-1, -1, [0], [0], 0, 0, 0);
+	                    } else {
+	                        setTimeout(function () {
+	                            return self.setState({ loaded: true });
+	                        }, 300);
+	                    }
 	                }
 
 	                //if no radius selected >>> add auction
@@ -30992,6 +31027,10 @@
 	                //access db again untill results arrive or TO expires
 	                if (self.startTO != undefined) {
 	                    self.getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius);
+	                } else {
+	                    if (self.showDefault) {
+	                        self.getAuctionsByParams(-1, -1, [0], [0], 0, 0, 0);
+	                    }
 	                }
 	            });
 	        }
@@ -34201,7 +34240,7 @@
 
 
 	// module
-	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n\r\n  /*\r\n*******************\r\n*******************\r\n      loading\r\n*******************\r\n*******************\r\n*/\r\n\r\n.loading{\r\n  position: relative;\r\n  width: 50%;\r\n  display: block;\r\n  margin: auto;\r\n   -webkit-animation:spin 4s linear infinite;\r\n    -moz-animation:spin 4s linear infinite;\r\n    animation:spin 4s linear infinite;\r\n}\r\n\r\n@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }\r\n@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }\r\n@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n  /*\r\n*******************\r\n*******************\r\nmodal zoom in RIGHT\r\n*******************\r\n*******************\r\n*/\r\n .zoomInRight {\r\n  -webkit-animation: zoomInRight 1s both;\r\n  animation: zoomInRight 1s both;\r\n  \r\n  }\r\n  @-webkit-keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  } \r\n\r\n /*\r\n*******************\r\n*******************\r\nmodal zoom in LEFT\r\n*******************\r\n*******************\r\n*/\r\n\r\n.zoomInLeft {\r\n  -webkit-animation-name: zoomInLeft;\r\n  animation-name: zoomInLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n\r\n /*\r\n*******************\r\n*******************\r\n   modal zoom out\r\n*******************\r\n*******************\r\n*/\r\n  .zoomOut {\r\n  -webkit-animation-name: zoomOut;\r\n  animation-name: zoomOut;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  \r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  }\r\n  @keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  } \r\n\r\n  .zoomInDown {\r\n  -webkit-animation-name: zoomInDown;\r\n  animation-name: zoomInDown;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomInDown {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInDown {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  } \r\n\r\n/*\r\n*******************\r\n*******************\r\n   chat fade in\r\n*******************\r\n*******************\r\n*/\r\n  \r\n@keyframes chatFadein{\r\n    0%{opacity:0}\r\n    40%{opacity:0.4}\r\n    80%{opacity:0.8}\r\n    100%{opacity:1}\r\n}\r\n\r\n@-webkit-keyframes chatFadein{\r\n    0%{opacity:0}\r\n    40%{opacity:0.4}\r\n    80%{opacity:0.8}\r\n    100%{opacity:1}\r\n}\r\n/*\r\n*******************\r\n*******************\r\n   tip fade in\r\n*******************\r\n*******************\r\n*/\r\n  \r\n@keyframes tipFadein{\r\n    0%{opacity:0}\r\n    20%{opacity:1}\r\n    100%{opacity:1}\r\n}\r\n\r\n@-webkit-keyframes tipFadein{\r\n    0%{opacity:0}\r\n    20%{opacity:1}\r\n    100%{opacity:1}\r\n}\r\n", ""]);
+	exports.push([module.id, "/*\r\n*******************\r\n*******************\r\n     priceTag\r\n*******************\r\n*******************\r\n*/\r\n\r\n\r\n.priceTag-appear, .priceTag-enter {\r\n  -webkit-animation-name: tada;\r\n  animation-name: tada;\r\n  -webkit-animation-duration: 0.7s;\r\n  animation-duration: 0.7s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n\r\n  @-webkit-keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  }\r\n\r\n  @keyframes tada {\r\n    0% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n    10%, 20% {\r\n    -webkit-transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(.9, .9, .9) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    30%, 50%, 70%, 90% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);\r\n    }\r\n    40%, 60%, 80% {\r\n    -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);\r\n    }\r\n    100% {\r\n    -webkit-transform: scale3d(1, 1, 1);\r\n    transform: scale3d(1, 1, 1);\r\n    }\r\n  } \r\n\r\n.priceTag-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.priceTag-leave.priceTag-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n\r\n\r\n/*\r\n*******************\r\n*******************\r\n     auctions\r\n*******************\r\n*******************\r\n*/\r\n\r\n.auction-appear, .auction-enter{\r\n  opacity: 0.01;\r\n}\r\n\r\n.auction-appear.auction-appear-active, .auction-enter.auction-enter-active {\r\n  opacity: 1;\r\n  transition: opacity .7s ease-in;\r\n}\r\n\r\n.auction-leave {\r\n  opacity: 1;\r\n}\r\n\r\n.auction-leave.auction-leave-active {\r\n  opacity: 0.01;\r\n  transition: opacity 0.4s ease-in;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   slide effects\r\n*******************\r\n*******************\r\n*/\r\n\r\n.slideInRight {\r\n  -webkit-animation-name: slideInRight;\r\n  animation-name: slideInRight;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInRight {\r\n  0% {\r\n  -webkit-transform: translateX(100%);\r\n  transform: translateX(100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n.slideInLeft {\r\n  -webkit-animation-name: slideInLeft;\r\n  animation-name: slideInLeft;\r\n  -webkit-animation-duration: 0.4s;\r\n  animation-duration: 0.4s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n  @keyframes slideInLeft {\r\n  0% {\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  visibility: visible;\r\n  }\r\n  100% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  }\r\n\r\n\r\n .slideOutLeft {\r\n  -webkit-animation-name: slideOutLeft;\r\n  animation-name: slideOutLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n  @keyframes slideOutLeft {\r\n  0% {\r\n  -webkit-transform: translateX(0);\r\n  transform: translateX(0);\r\n  }\r\n  100% {\r\n  visibility: hidden;\r\n  -webkit-transform: translateX(-100%);\r\n  transform: translateX(-100%);\r\n  }\r\n  }\r\n\r\n  /*\r\n*******************\r\n*******************\r\n      loading\r\n*******************\r\n*******************\r\n*/\r\n\r\n.loading{\r\n  position: relative;\r\n  width: 50%;\r\n  display: block;\r\n  margin: auto;\r\n   -webkit-animation:spin 4s linear infinite;\r\n    -moz-animation:spin 4s linear infinite;\r\n    animation:spin 4s linear infinite;\r\n}\r\n\r\n@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }\r\n@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }\r\n@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }\r\n\r\n\r\n  /*\r\n*******************\r\n*******************\r\n   modal zoom in\r\n*******************\r\n*******************\r\n*/\r\n.zoomIn {\r\n  -webkit-animation-name: zoomIn;\r\n  animation-name: zoomIn;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  }\r\n  @keyframes zoomIn {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  50% {\r\n  opacity: 1;\r\n  }\r\n  } \r\n  /*\r\n*******************\r\n*******************\r\nmodal zoom in RIGHT\r\n*******************\r\n*******************\r\n*/\r\n .zoomInRight {\r\n  -webkit-animation: zoomInRight 1s both;\r\n  animation: zoomInRight 1s both;\r\n  \r\n  }\r\n  @-webkit-keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInRight {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(-10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  } \r\n\r\n /*\r\n*******************\r\n*******************\r\nmodal zoom in LEFT\r\n*******************\r\n*******************\r\n*/\r\n\r\n.zoomInLeft {\r\n  -webkit-animation-name: zoomInLeft;\r\n  animation-name: zoomInLeft;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInLeft {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(-1000px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(10px, 0, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n\r\n /*\r\n*******************\r\n*******************\r\n   modal zoom out\r\n*******************\r\n*******************\r\n*/\r\n  .zoomOut {\r\n  -webkit-animation-name: zoomOut;\r\n  animation-name: zoomOut;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  \r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  }\r\n  @keyframes zoomOut {\r\n  0% {\r\n  opacity: 1;\r\n  }\r\n  50% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.3, .3, .3);\r\n  transform: scale3d(.3, .3, .3);\r\n  }\r\n  100% {\r\n  opacity: 0;\r\n  }\r\n  } \r\n\r\n  .zoomInDown {\r\n  -webkit-animation-name: zoomInDown;\r\n  animation-name: zoomInDown;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes zoomInDown {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  }\r\n  @keyframes zoomInDown {\r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  transform: scale3d(.1, .1, .1) translate3d(0, -1000px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);\r\n  }\r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  transform: scale3d(.475, .475, .475) translate3d(0, 60px, 0);\r\n  -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);\r\n  }\r\n  } \r\n\r\n/*\r\n*******************\r\n*******************\r\n   chat fade in\r\n*******************\r\n*******************\r\n*/\r\n  \r\n@keyframes chatFadein{\r\n    0%{opacity:0}\r\n    40%{opacity:0.4}\r\n    80%{opacity:0.8}\r\n    100%{opacity:1}\r\n}\r\n\r\n@-webkit-keyframes chatFadein{\r\n    0%{opacity:0}\r\n    40%{opacity:0.4}\r\n    80%{opacity:0.8}\r\n    100%{opacity:1}\r\n}\r\n/*\r\n*******************\r\n*******************\r\n   tip fade in\r\n*******************\r\n*******************\r\n*/\r\n  \r\n@keyframes tipFadein{\r\n    0%{opacity:0}\r\n    20%{opacity:1}\r\n    100%{opacity:1}\r\n}\r\n\r\n@-webkit-keyframes tipFadein{\r\n    0%{opacity:0}\r\n    20%{opacity:1}\r\n    100%{opacity:1}\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n   gps bounce\r\n*******************\r\n*******************\r\n*/\r\n   .bounceInDown {\r\n  -webkit-animation-name: bounceInDown;\r\n  animation-name: bounceInDown;\r\n  -webkit-animation-duration: 1s;\r\n  animation-duration: 1s;\r\n  -webkit-animation-fill-mode: both;\r\n  animation-fill-mode: both;\r\n  }\r\n  @-webkit-keyframes bounceInDown {\r\n  0%, 60%, 75%, 90%, 100% {\r\n  -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);\r\n  transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);\r\n  }\r\n  \r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: translate3d(0, -3000px, 0);\r\n  transform: translate3d(0, -3000px, 0);\r\n  }\r\n  \r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: translate3d(0, 25px, 0);\r\n  transform: translate3d(0, 25px, 0);\r\n  }\r\n  \r\n  75% {\r\n  -webkit-transform: translate3d(0, -10px, 0);\r\n  transform: translate3d(0, -10px, 0);\r\n  }\r\n  \r\n  90% {\r\n  -webkit-transform: translate3d(0, 5px, 0);\r\n  transform: translate3d(0, 5px, 0);\r\n  }\r\n  \r\n  100% {\r\n  -webkit-transform: none;\r\n  transform: none;\r\n  }\r\n  }\r\n  \r\n  @keyframes bounceInDown {\r\n  0%, 60%, 75%, 90%, 100% {\r\n  -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);\r\n  transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);\r\n  }\r\n  \r\n  0% {\r\n  opacity: 0;\r\n  -webkit-transform: translate3d(0, -3000px, 0);\r\n  transform: translate3d(0, -3000px, 0);\r\n  }\r\n  \r\n  60% {\r\n  opacity: 1;\r\n  -webkit-transform: translate3d(0, 25px, 0);\r\n  transform: translate3d(0, 25px, 0);\r\n  }\r\n  \r\n  75% {\r\n  -webkit-transform: translate3d(0, -10px, 0);\r\n  transform: translate3d(0, -10px, 0);\r\n  }\r\n  \r\n  90% {\r\n  -webkit-transform: translate3d(0, 5px, 0);\r\n  transform: translate3d(0, 5px, 0);\r\n  }\r\n  \r\n  100% {\r\n  -webkit-transform: none;\r\n  transform: none;\r\n  }\r\n  } \r\n", ""]);
 
 	// exports
 
@@ -34669,7 +34708,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'pageBC', style: { minHeight: window.innerHeight, paddingTop: "10px", paddingRight: "5px" } },
+	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px" } },
 	                _react2.default.createElement(
 	                    _reactModal2.default,
 	                    {
@@ -34954,7 +34993,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 30px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    bottom: 30px;\r\n    /* height: 70%; */\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border: 2px solid blue;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n.btn{\r\n    background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none;\r\n}\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n\r\n", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    bottom: 30px;\r\n    /* height: 70%; */\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n\r\n", ""]);
 
 	// exports
 
@@ -35186,7 +35225,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { style: { display: "inline-block", marginBottom: "12px" } },
 	                _react2.default.createElement(
 	                    'h2',
 	                    { style: { textAlign: "right" } },
@@ -38585,7 +38624,7 @@
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                'span',
+	                'div',
 	                null,
 	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px' } }),
 	                _react2.default.createElement(
@@ -39034,7 +39073,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { ref: 'modal', className: this.state.open ? "tipBox" : "tipBox zoomOut", style: { display: "inline-block" } },
+	                { className: this.state.open ? "box" : "box zoomOut" },
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.close },
@@ -40557,6 +40596,7 @@
 	                    null,
 	                    '\u05DC\u05D7\u05E5 \u05E2\u05DC \u05D4\u05D1\u05DC\u05D5\u05DF \u05DC\u05D4\u05D6\u05E0\u05EA \u05DE\u05D7\u05D9\u05E8'
 	                ),
+	                _react2.default.createElement(_Balloon2.default, { curIndex: 3, formerIndex: 0, anim: "0", price: 80 }),
 	                func[this.state.mode]
 	            );
 	        }
@@ -40867,27 +40907,24 @@
 	    }, {
 	        key: 'renderPlus',
 	        value: function renderPlus() {
-	            return (
-	                // <div>
-	                //     <div className="RoundDivfixed">
-	                //          <div id="fixedCircle">
-	                //             <div> <Link to="/"><img src="images/circle-for-home.png" /></Link></div>
-	                //         </div> 
-
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'FixedButton', style: { display: this.state.resize ? "none" : "block" } },
 	                _react2.default.createElement(
 	                    'div',
-	                    { id: 'fixedPlus', style: { display: this.state.resize ? "none" : "block" } },
+	                    { className: 'RoundDivfixed' },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { onClick: function onClick() {
-	                                return location.href = 'AddingAuction-Taramti.html';
-	                            } },
-	                        _react2.default.createElement('img', { src: 'images/add_icon.png' })
+	                        { id: 'fixedPlus' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { onClick: function onClick() {
+	                                    return location.href = 'AddingAuction-Taramti.html';
+	                                } },
+	                            _react2.default.createElement('img', { src: 'images/add_icon.png' })
+	                        )
 	                    )
 	                )
-	                //     </div>
-	                // </div>
-
 	            );
 	        }
 	    }, {
@@ -41073,6 +41110,8 @@
 
 	__webpack_require__(315);
 
+	__webpack_require__(311);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41180,8 +41219,8 @@
 	        value: function searchBTN() {
 	            var low = this.refs.lowerPrice.value !== "" ? this.refs.lowerPrice.value : -1;
 	            var high = this.refs.higherPrice.value !== "" ? this.refs.higherPrice.value : -1;
-	            var catCode = this.state.categroy;
-	            var tagCode = this.state.tag;
+	            var catCode = [this.state.categroy];
+	            var tagCode = [this.state.tag];
 	            var coords = { lat: 0, lng: 0 };
 	            var radius = 0;
 
@@ -41229,7 +41268,8 @@
 	                        _react2.default.createElement(
 	                            'div',
 	                            { style: { display: this.state.display } },
-	                            _react2.default.createElement(_Ddl2.default, { key: '1', onChange: this.onSelectedGPS, options: [{ val: '10000', text: '10 ק"מ' }, { val: '20000', text: '20 ק"מ' }, { val: '30000', text: '30 ק"מ' }, { val: '50000', text: '50 ק"מ' }], css: 'gpsSelect' })
+	                            _react2.default.createElement(_Ddl2.default, { key: '1', onChange: this.onSelectedGPS, options: [{ val: '10000', text: '10 ק"מ' }, { val: '20000', text: '20 ק"מ' }, { val: '30000', text: '30 ק"מ' }, { val: '50000', text: '50 ק"מ' }], css: 'gpsSelect' }),
+	                            _react2.default.createElement('img', { className: 'gpsMarker bounceInDown', src: 'images/icons8-Marker-64.png' })
 	                        )
 	                    ),
 	                    _react2.default.createElement(
@@ -41253,7 +41293,7 @@
 	                    _react2.default.createElement('input', { type: 'text', ref: 'higherPrice', placeholder: '\u05E2\u05D3...' }),
 	                    _react2.default.createElement(
 	                        'button',
-	                        { className: 'ui-btn ui-btn-corner-all btn-info', onClick: this.searchBTN },
+	                        { className: 'ui-btn ui-btn-corner-all searchBtn', onClick: this.searchBTN },
 	                        ' \u05D7\u05E4\u05E9 '
 	                    )
 	                )
@@ -41377,6 +41417,7 @@
 	            reDirect: false
 	        };
 	        _this.handleClick = _this.handleClick.bind(_this);
+	        _this.logOut = _this.logOut.bind(_this);
 	        return _this;
 	    }
 
@@ -41385,13 +41426,12 @@
 	        value: function handleClick() {
 	            this.setState({ visible: this.state.visible == 'menuB' ? 'menuB visible' : 'menuB' });
 	        }
-
-	        //  $("span.nav-list-it5").click(function () {
-	        //                     $("ul.nav-top-list1").slideToggle("slow", function () {
-	        //                         // Animation complete.
-	        //                     });
-	        //                 });
-
+	    }, {
+	        key: 'logOut',
+	        value: function logOut() {
+	            localStorage.removeItem("UserID");
+	            location.href = 'Login-Taramti.html';
+	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
@@ -41431,6 +41471,7 @@
 	                                { onClick: function onClick() {
 	                                        return _this2.setState({ reDirect: true });
 	                                    } },
+	                                this.props.home ? _react2.default.createElement('img', { className: 'MenuIconLeft', src: 'images/LeftArrow.png' }) : null,
 	                                '\u05D3\u05E3 \u05D4\u05D1\u05D9\u05EA'
 	                            ),
 	                            _react2.default.createElement(
@@ -41512,6 +41553,21 @@
 	                                        return location.href = 'RegisterAssoc-Taramti.html';
 	                                    } },
 	                                '\u05D4\u05D5\u05E1\u05E4\u05EA \u05E2\u05DE\u05D5\u05EA\u05D4'
+	                            ),
+	                            _react2.default.createElement(
+	                                'label',
+	                                null,
+	                                '|'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                { onClick: this.logOut },
+	                                ' \u05D4\u05EA\u05E0\u05EA\u05E7 ',
+	                                _react2.default.createElement('i', { className: 'fa fa-sign-out' })
 	                            )
 	                        )
 	                    )
@@ -41969,6 +42025,10 @@
 
 	var _AuctionFAQ2 = _interopRequireDefault(_AuctionFAQ);
 
+	var _CircleButton = __webpack_require__(445);
+
+	var _CircleButton2 = _interopRequireDefault(_CircleButton);
+
 	__webpack_require__(426);
 
 	var _messages = __webpack_require__(446);
@@ -42002,6 +42062,7 @@
 	            infoModalIsOpen: false,
 	            fAQModalIsOpen: false,
 	            FAQs: [],
+	            tempDonation: "",
 	            width: null,
 
 	            // auc data
@@ -42017,6 +42078,7 @@
 	            }
 	        };
 	        _this.getCurPrice = _this.getCurPrice.bind(_this);
+	        _this.calcDonation = _this.calcDonation.bind(_this);
 	        _this.addQuestion = _this.addQuestion.bind(_this);
 	        _this.infoModalChanged = _this.infoModalChanged.bind(_this);
 	        _this.FAQModalChanged = _this.FAQModalChanged.bind(_this);
@@ -42032,6 +42094,7 @@
 
 	            //get current price every 5 sec
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
+	            this.calcDonation();
 
 	            //get questions from db
 	            var product = { ItemId: this.state.auc.prodCode };
@@ -42092,9 +42155,22 @@
 	                    var tempObj = self.state.auc;
 	                    tempObj["price"] = ans;
 	                    self.setState({ auc: tempObj });
+	                    self.calcDonation();
 	                }
 	            }).catch(function (error) {
 	                console.log(error);
+	            });
+	        }
+
+	        //calculate donation amount to insert to circle
+
+	    }, {
+	        key: 'calcDonation',
+	        value: function calcDonation() {
+	            var tempPrice = parseInt(this.state.auc.price);
+
+	            this.setState({
+	                tempDonation: '\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.state.auc.percentage / 100) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
 	            });
 	        }
 	    }, {
@@ -42102,37 +42178,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: '/' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { id: 'fixedCircle' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                _react2.default.createElement('i', { className: 'fa fa-circle-o fa-5x', 'aria-hidden': 'true' })
-	                            )
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { id: 'fixedHome' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                null,
-	                                _react2.default.createElement(_reactFontawesome2.default, { name: 'home', className: 'fa-3x', tag: 'i' })
-	                            )
-	                        )
-	                    )
-	                ),
+	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px" } },
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'basicInfo', ref: 'infoDiv' },
@@ -42190,7 +42236,8 @@
 	                        contentLabel: 'open FAQ',
 	                        className: 'zoomInLeft' },
 	                    _react2.default.createElement(_AuctionFAQ2.default, { closeModal: this.FAQModalChanged, prodCode: this.state.auc.prodCode, chat: false })
-	                )
+	                ),
+	                _react2.default.createElement(_CircleButton2.default, { home: true })
 	            );
 	        }
 	    }]);
@@ -42689,11 +42736,11 @@
 	
 	const GENERAL = {
 
-	    //genericWebServerAddress: "/WebService.asmx/",
-	    genericWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/webservice.asmx/",
+	    genericWebServerAddress: "/WebService.asmx/",
+	    //genericWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/webservice.asmx/",
 
-	    //assocWebServerAddress: "/../AssociationsWebService.asmx/",
-	    assocWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/AssociationsWebService.asmx/",
+	    assocWebServerAddress: "/../AssociationsWebService.asmx/",
+	    //assocWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/AssociationsWebService.asmx/",
 
 	    //auctionWebServerAddress : "/AuctionWebService.asmx/",
 	    auctionWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/",
@@ -42706,7 +42753,7 @@
 	    },
 
 	    GOOGLE: {
-	        SENDER_ID: "336880743356",
+	        SENDER_ID: "183259485502",
 	    },
 	}
 

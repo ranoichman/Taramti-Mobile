@@ -1,0 +1,480 @@
+﻿/*
+stylllllllllllllllllllllleeeeeeeeeeeeee sheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeet
+
+
+
+*/
+
+
+
+html {
+    direction: rtl;
+}
+
+/*#EditPic {
+    padding-left: 23%;
+}
+
+#EditTable {
+    direction: rtl;
+    padding-left: 17%;
+}
+
+#EditPage {
+    margin-top: 10%;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    margin-top: 40px;
+    display: none;
+}*/
+
+
+#ImHereToStay {
+    margin-right: 45px;
+}
+
+/*#LoginForm, #ForgotPassForm, #RegisterForm, #FirstRegisterForm, #CompleteRegisterForm, #RestorePassForm {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}*/
+
+.LoginForm {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    z-index: 10;
+    margin-top: 40%;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 20PX;
+}
+
+.Form {
+    padding: 0 5% 5% 5%;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    z-index: 10;
+    margin-top: 30%;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 20PX;
+    margin-bottom: 5%;
+}
+
+
+.pageBC {
+    background-image: url('../images/LONGLoginBackground.jpg');
+    background-size: 100%;
+}
+
+.pageReact {
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.2) 100%), url('../images/LONGLoginBackground.jpg');
+    background-size: 100%;
+}
+
+.FirstForm {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    z-index: 10;
+    margin-top: 60%;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 20PX;
+}
+
+    .LoginForm .input-field, .FirstForm .input-field {
+        padding: 0 5% 5% 5%;
+    }
+
+#FirstRegister_input-field {
+    padding: 0 5% 0% 5%;
+}
+
+
+.fa fa-user {
+    margin-top: 3%;
+}
+
+#TaramtiMenuIconDiv {
+    width: 5%;
+    float: right;
+    margin-top: 7.5px;
+    margin-right: 8px;
+}
+
+#TaramtiMenuIcon {
+    /*margin: 0 auto;*/
+    margin-top: 0;
+    display: block;
+    z-index: 12;
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    /*height:85px;*/
+}
+
+#TaramtiLogo {
+    float: left;
+    /*margin-top: -8%;
+    margin-left: -8%;*/
+    width: 40%;
+    height: inherit;
+    z-index: 12;
+}
+
+/*#MenuBarDiv {
+    margin-top: 0;
+    z-index: 15;
+}*/
+
+#MenuBarDiv {
+    width: 100%;
+    margin-top: 0;
+    display: block;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    background-color: white;
+    opacity: 0.9;
+    /*overflow: auto;*/
+    height: 85px;
+}
+
+#LogoBidIt {
+    margin-top: 0;
+    display: block;
+    z-index: 10;
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    width: 40%;
+    /*height:85px;*/
+}
+
+#TaramtiLogoLogin {
+    width: 100%;
+}
+
+div .nav-left {
+    width: 55%;
+    padding: 0 0 0 0;
+}
+
+.nav-right span {
+    margin-top: 50%;
+}
+
+#avatar {
+    /* This image is 687 wide by 1024 tall, similar to your aspect ratio */
+    /*background-image: url('http://i.stack.imgur.com/Dj7eP.jpg');*/
+    background-image: url('../images/ta.jpg');
+    /* make a square container */
+    width: 150px;
+    height: 150px;
+    /* fill the container, preserving aspect ratio, and cropping to fit */
+    background-size: cover;
+    /* center the image vertically and horizontally */
+    background-position: center;
+    /* round the edges to a circle with border radius 1/2 container size */
+    border-radius: 50%;
+}
+
+#UpperLogo {
+    height: 74.05px;
+}
+
+#CameraBtn {
+    height: 44.38px;
+    width: 20%;
+    display: inline;
+    float: left;
+}
+
+#UploadFileBtn {
+    margin-left: 2%;
+    width: 78%;
+    display: inline;
+    float: left;
+}
+
+#image_holder {
+    width: 100%;
+    display: block;
+    overflow: auto;
+}
+
+    #image_holder img {
+        width: 100%;
+        max-height: 150px;
+    }
+
+    #image_holder div {
+        width: 48%;
+        float: left;
+        margin: 1.5px 1% 1.5px 1%;
+    }
+
+
+#AddingProductAuctionbtn {
+    margin-top: 5px;
+    width: 100%;
+}
+
+input[type=text] {
+    text-align: right;
+}
+
+
+h1.ui-collapsible-heading, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-minus, .ui-collapsible-heading-toggle.ui-btn.ui-btn-icon-left.ui-btn-inherit.ui-icon-plus {
+    width: 30px;
+    height: 74PX;
+    padding: 0 0 0 0;
+    border: 0 0 0 0;
+}
+
+div.ui-collapsible.ui-collapsible-inset.ui-corner-all.ui-collapsible-themed-content {
+    position: fixed;
+    top: 0PX;
+    margin: 0 0 0 0;
+    z-index: 100;
+    border-top-width: 0px;
+    width: 60%;
+    border-color: black;
+    border-width: 2px;
+}
+
+.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {
+    display: none;
+}
+
+a.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
+    background-color: #98b8dc;
+    border-color: black;
+}
+
+a.closeBox {
+    position: relative;
+    float: right;
+    top: 25px;
+    right: 1px;
+    z-index: 100;
+    /*margin-top: -10px;*/
+    /*margin-right: -15px;*/
+    cursor: pointer;
+    color: #fff;
+    border: 1px solid #AEAEAE;
+    border-radius: 30px;
+    background: #605F61;
+    font-size: 31px;
+    font-weight: bold;
+    /*display: inline-block;*/
+    line-height: 0px;
+    padding: 11px 3px;
+}
+
+.closeBox:before {
+    content: "×";
+}
+
+#fixedPlus {
+    bottom: -20%;
+    height: 200px;
+    width: 60px;
+    left: 1%;
+    position: fixed;
+}
+
+#fixedCircle {
+    bottom: -17.5%;
+    height: 200px;
+    width: 90px;
+    left: 1%;
+    position: fixed;
+}
+
+
+#fixedHome {
+    bottom: -21%;
+    height: 200px;
+    width: 40px;
+    left: 8%;
+    position: fixed;
+}
+
+.RoundDivfixed {
+    bottom: 1%;
+    height: 70px;
+    width: 70px;
+    left: 4%;
+    position: fixed;
+    z-index: 10;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 60PX;
+}
+
+
+.styleLink {
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+.styleLinkH {
+    text-align: center;
+}
+
+#Loginbtn {
+    margin: 0 0 0 0;
+    width: 100%;
+    font-size: 1.6em;
+    font-weight: 600;
+    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+div.button-1 {
+    width: 100%;
+    margin: 0 0 0 0;
+}
+
+.LoginForm .input-field .button-1 .btn-10, .Form .input-field .button-1 .btn-10 {
+    margin: 0 0 0 0;
+    width: 100%;
+    font-size: 1.4em;
+    font-weight: 600;
+    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+/*.button-1 {
+    width: 100%;    
+    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+}*/
+
+#UserMail, #UserPass {
+}
+
+.input-top-mid i {
+    margin-top: 3%;
+}
+
+#DivLogo {
+    background-color: white;
+    display: block;
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    opacity: 0.9;
+}
+
+#MainLogoImg {
+    width: 70%;
+    margin: 0 auto;
+}
+
+#BkgroundImg {
+    width: 100%;
+    z-index: 0;
+    position: absolute;
+    top: 0;
+}
+
+.NiceIcon {
+    width: 100%;
+}
+
+.RoundDivIcon {
+    float: left;
+    width: 32%;
+    /*margin-right: 9%;*/
+    margin-left: 12%;
+    z-index: 10;
+    margin-top: 8%;
+    background-color: white;
+    opacity: 0.9;
+    border-radius: 40PX;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3%;
+    margin-top: -5%;
+    font-size: 2em;
+    font-weight: 500;
+}
+
+.IconText {
+    text-align: center;
+    /*margin-bottom:-8%;*/
+    margin-top: -13%;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.loginText {
+    text-align: center;
+    margin-bottom: 3%;
+    margin-top: -2%;
+    font-size: 1em;
+    font-weight: 500;
+}
+
+.pre12 {
+    width: 150%;
+}
+
+
+.page-mid1 li a.next-top1, .page-mid1 li a.pre1 {
+    width: 60px;
+    height: 60px;
+    line-height: 2.4em;
+    margin-top: 30%;
+}
+
+.page-mid1 li a, .page-mid1 li span {
+    font-size: 1.2em;
+    width: 45px;
+    height: 45px;
+    line-height: 2.05em;
+}
+
+.page-mid1 li .Num {
+    /*height: 60px;*/
+    margin-top: -40%;
+    /*position:relative;
+    top:100px;*/
+}
+
+.page-mid li.Num, .page-mid1 li.Num, .page-mid2 li.Num {
+    /*margin-top:-50%;*/
+    /*margin-bottom: -50%;*/
+    position: relative;
+    top: -23px;
+}
+
+div .page-top-mid1 {
+    height: 80px;
+    margin: 0 auto;
+    margin-top: -10%;
+}
+
+#AddUserProcess {
+    /*height: 60px*/;
+}
+
+#AddAssocProcess {
+}
+
+#tabs{
+    margin-top: 83px;
+}

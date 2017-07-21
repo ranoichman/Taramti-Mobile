@@ -285,11 +285,11 @@ a.closeBox {
 }
 
 #fixedPlus {
-    bottom: -20%;
+    bottom: 11px;
     height: 200px;
-    width: 60px;
-    left: 1%;
-    position: fixed;
+    width: 90px;
+    left: -10px;
+    position: relative;
 }
 
 #fixedCircle {
