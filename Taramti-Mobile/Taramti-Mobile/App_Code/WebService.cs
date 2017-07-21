@@ -347,7 +347,8 @@ public class WebService : System.Web.Services.WebService
     [WebMethod(Description = "The Server Version - Sends Push To Nearly Finished Auctions And Winners In Auctions")]
     public void ServerPush()
     {
-
+        Server_Side Serv = new Server_Side();
+        Serv.SendPushes();
     }
 
     [WebMethod(Description = "The Server Version - Closes Auctions And Determins Winners")]
