@@ -5,7 +5,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Auction from '../Generic/Auction';
 import ThemeAuctions from '../Generic/ThemeAuctions';
 import Menu from '../Generic/Menu';
-import ActiveAuctions from './ActiveAuctions';
 import CircleButton from '../Generic/CircleButton';
 
 import '../../css/react-tabs.css';
