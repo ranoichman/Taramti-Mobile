@@ -92,23 +92,19 @@
 
 	var _TapDemo2 = _interopRequireDefault(_TapDemo);
 
-	var _ActiveAuctions = __webpack_require__(473);
-
-	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
-
-	var _MyAuction = __webpack_require__(476);
+	var _MyAuction = __webpack_require__(473);
 
 	var _MyAuction2 = _interopRequireDefault(_MyAuction);
 
-	var _Profile = __webpack_require__(477);
+	var _Profile = __webpack_require__(474);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _MyProducts = __webpack_require__(478);
+	var _MyProducts = __webpack_require__(477);
 
 	var _MyProducts2 = _interopRequireDefault(_MyProducts);
 
-	var _Bdika = __webpack_require__(479);
+	var _Bdika = __webpack_require__(478);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
@@ -116,7 +112,7 @@
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _master = __webpack_require__(481);
+	var _master = __webpack_require__(480);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -131,6 +127,8 @@
 
 
 	// taramti babait components
+
+	// import ActiveAuctions from './components/Profile/ActiveAuctions';
 
 
 	// import ThemeAuctions from './components/Profile/ThemeAuctions';
@@ -31460,7 +31458,7 @@
 	                        isOpen: this.state.rePublishModalIsOpen,
 	                        contentLabel: 'open info',
 	                        className: 'zoomIn' },
-	                    _react2.default.createElement(_RePublish2.default, { closeModal: this.rePublishModalChanged })
+	                    _react2.default.createElement(_RePublish2.default, { closeModal: this.rePublishModalChanged, prodCode: this.props.auc.prodCode })
 	                )
 	            );
 	        }
@@ -34322,7 +34320,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	// taramti babait components
-	// import Auction from '../Home/Auction';
 
 
 	//constants 
@@ -34941,7 +34938,7 @@
 	                    'div',
 	                    null,
 	                    this.props.auc.imgArr.map(function (pic, i) {
-	                        return _react2.default.createElement('img', { key: i, src: pic, style: { width: "35%", margin: "5%" } });
+	                        return _react2.default.createElement('img', { key: i, src: pic, style: { width: "35%", margin: "5%", float: "right" } });
 	                    })
 	                )
 	            );
@@ -34993,7 +34990,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\nfieldset{\r\n    display: none;\r\n}", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n.minPriceInput{\r\n    width: 90%;\r\n    margin:0;\r\n}\r\n\r\nfieldset{\r\n    display: none;\r\n}", ""]);
 
 	// exports
 
@@ -38626,7 +38623,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px' } }),
+	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px', paddingTop: "10px", paddingRight: "10px" } }),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.sendText, className: 'icon_circle' },
@@ -40211,13 +40208,8 @@
 
 	// taramti babait components
 
-	// import Search from './Search';
 
-	//import TaramtiMenu from './TaramtiMenu'
-
-
-	//import '../css/jqmCss.css';
-	//import '../../www/css/StyleSheet.css';
+	//constants 
 
 
 	var ThemeAuctions = function (_Component) {
@@ -41056,6 +41048,8 @@
 
 	__webpack_require__(315);
 
+	var _general = __webpack_require__(424);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41063,6 +41057,9 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//constants 
+
 
 	var RePublish = function (_Component) {
 	    _inherits(RePublish, _Component);
@@ -41080,6 +41077,7 @@
 	        };
 	        _this.close = _this.close.bind(_this);
 	        _this.onSelectedDay = _this.onSelectedDay.bind(_this);
+	        _this.closeAlert = _this.closeAlert.bind(_this);
 	        _this.send = _this.send.bind(_this);
 	        return _this;
 	    }
@@ -41100,10 +41098,18 @@
 	            this.setState({ day: opt });
 	        }
 	    }, {
+	        key: 'closeAlert',
+	        value: function closeAlert() {
+	            this.setState({ alert: false });
+	            if (this.finished) {
+	                this.close(); // close entire modal if finished
+	            }
+	        }
+	    }, {
 	        key: 'send',
 	        value: function send() {
+	            this.finished = false;
 	            var price = this.refs.auctionMinPrice.value != "" ? this.refs.auctionMinPrice.value : -1;
-	            console.log('send');
 	            if (this.state.day == -1) {
 	                this.setState({
 	                    alert: true,
@@ -41115,15 +41121,38 @@
 	                    message: "חובה להזין סכום רצוי"
 	                });
 	            } else {
-	                console.log('db call from ran');
+	                var self = this;
+	                _axios2.default.post(_general.auctionWS + 'AddAuctionExisitingProd', {
+	                    prod: this.props.prodCode,
+	                    price: price,
+	                    days: this.state.day,
+	                    user: _general.buyerID
+	                }).then(function (response) {
+	                    var res = response.data.d;
+
+	                    if (res == "True") {
+	                        self.finished = true;
+	                        self.setState({
+	                            alert: true,
+	                            message: "המכרז נוצר בהצלחה"
+	                        });
+	                    } else {
+	                        throw "תקלה";
+	                    }
+	                }).catch(function (error) {
+	                    console.log(error);
+	                    self.setState({
+	                        alert: true,
+	                        message: "קרתה תקלה במהלך יצירת המכרז, נא נסה שוב"
+	                    });
+	                });
 	            }
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this3 = this;
-
 	            var days = [{ val: -1, text: "בחר" }, { val: 1, text: 1 }, { val: 2, text: 2 }, { val: 3, text: 3 }, { val: 4, text: 4 }, { val: 5, text: 5 }, { val: 6, text: 6 }, { val: 7, text: 7 }];
+
 	            return _react2.default.createElement(
 	                'div',
 	                { className: this.state.open ? "box" : "box zoomOut" },
@@ -41146,7 +41175,7 @@
 	                        null,
 	                        '\u05DE\u05D7\u05D9\u05E8 \u05DE\u05D9\u05E0\u05D9\u05DE\u05D5\u05DD \u05E9\u05D0\u05E8\u05E6\u05D4 \u05DC\u05E7\u05D1\u05DC \u05E2\u05DC \u05D4\u05DE\u05D5\u05E6\u05E8'
 	                    ),
-	                    _react2.default.createElement('input', { type: 'number', ref: 'auctionMinPrice' })
+	                    _react2.default.createElement('input', { type: 'number', className: 'minPriceInput', ref: 'auctionMinPrice' })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -41159,13 +41188,11 @@
 	                ),
 	                _react2.default.createElement(_sweetalertReact2.default, {
 	                    show: this.state.alert,
-	                    title: '...\u05D0\u05D5\u05E4\u05E1',
-	                    type: 'error',
+	                    title: this.finished ? "יש!" : "...אופס",
+	                    type: this.finished ? "success" : "error",
 	                    text: this.state.message,
 	                    confirmButtonText: '\u05D0\u05D9\u05E9\u05D5\u05E8',
-	                    onConfirm: function onConfirm() {
-	                        return _this3.setState({ alert: false });
-	                    } })
+	                    onConfirm: this.closeAlert })
 	            );
 	        }
 	    }]);
@@ -45090,347 +45117,6 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactTransitionGroup = __webpack_require__(284);
-
-	var _reactSwipeable = __webpack_require__(228);
-
-	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
-
-	var _reactTabs = __webpack_require__(429);
-
-	var _reactSlick = __webpack_require__(291);
-
-	var _reactSlick2 = _interopRequireDefault(_reactSlick);
-
-	var _Auction = __webpack_require__(285);
-
-	var _Auction2 = _interopRequireDefault(_Auction);
-
-	__webpack_require__(311);
-
-	__webpack_require__(474);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ActiveAuctions = function (_Component) {
-	    _inherits(ActiveAuctions, _Component);
-
-	    function ActiveAuctions(props) {
-	        _classCallCheck(this, ActiveAuctions);
-
-	        var _this = _possibleConstructorReturn(this, (ActiveAuctions.__proto__ || Object.getPrototypeOf(ActiveAuctions)).call(this, props));
-
-	        _this.state = {
-	            imgArr: ["http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/14_pic_2.jpg", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/44_pic_3.jpg", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/51_pic_0.jpg"],
-	            tabIndex: 2,
-	            containerWidth: null
-	        };
-	        _this.handleAdd = _this.handleAdd.bind(_this);
-	        _this.tabSwipeLeft = _this.tabSwipeLeft.bind(_this);
-	        _this.tabSwipeRight = _this.tabSwipeRight.bind(_this);
-	        _this.sliderChange = _this.sliderChange.bind(_this);
-	        _this.getAvailableSpaceWidth = _this.getAvailableSpaceWidth.bind(_this);
-	        _this.onResize = _this.onResize.bind(_this);
-	        return _this;
-	    }
-
-	    /*
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    */
-
-	    _createClass(ActiveAuctions, [{
-	        key: 'getAvailableSpaceWidth',
-	        value: function getAvailableSpaceWidth() {
-	            if (!this.container) {
-	                return 0;
-	            }
-
-	            var cs = window.getComputedStyle(this.container);
-	            var pl = parseInt(cs.paddingLeft, 10);
-	            var pr = parseInt(cs.paddingRight, 10);
-	            var width = this.container.offsetWidth;
-	            return width;
-	        }
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            this.setState({
-	                containerWidth: this.getAvailableSpaceWidth()
-	            });
-
-	            window.addEventListener('resize', this.onResize);
-	        }
-	    }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            window.removeEventListener('resize', this.onResize);
-	        }
-	    }, {
-	        key: 'onResize',
-	        value: function onResize() {
-	            this.setState({
-	                containerWidth: this.getAvailableSpaceWidth()
-	            });
-	        }
-
-	        /*
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        */
-
-	    }, {
-	        key: 'handleAdd',
-	        value: function handleAdd() {
-	            var newItems = this.state.items.concat([prompt('Enter some text')]);
-	            this.setState({ items: newItems });
-	        }
-	    }, {
-	        key: 'handleRemove',
-	        value: function handleRemove(i) {
-	            var newItems = this.state.items.slice();
-	            newItems.splice(i, 1);
-	            this.setState({ items: newItems });
-	        }
-	    }, {
-	        key: 'tabSwipeLeft',
-	        value: function tabSwipeLeft() {
-	            var i = this.state.tabIndex - 1;
-	            if (i === -1) {
-	                this.setState({ tabIndex: 2 });
-	            } else {
-	                this.setState({ tabIndex: i });
-	            }
-	        }
-	    }, {
-	        key: 'tabSwipeRight',
-	        value: function tabSwipeRight() {
-	            var i = this.state.tabIndex + 1;
-	            if (i === 3) {
-	                this.setState({ tabIndex: 0 });
-	            } else {
-	                this.setState({ tabIndex: i });
-	            }
-	        }
-	    }, {
-	        key: 'sliderChange',
-	        value: function sliderChange(e) {
-	            console.log("before -- " + e);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-
-	            var settings = {
-	                // infinite: false,
-	                // arrows: false,
-	                // slidesToShow: 1,
-	                // slidesToScroll:1,
-	                // speed:500
-	                infinite: false,
-	                arrows: false,
-	                beforeChange: this.sliderChange,
-	                slidesToShow: 1
-	            };
-
-	            var styles = {
-	                width: this.state.containerWidth
-	            };
-
-	            var list = ["מישהו עקף אותי", "ההצעות שלי", "הבידים שלי"];
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    _reactSwipeable2.default,
-	                    { onSwipedLeft: this.tabSwipeLeft, onSwipedRight: this.tabSwipeRight },
-	                    _react2.default.createElement(
-	                        _reactTabs.Tabs,
-	                        { selectedIndex: this.state.tabIndex, onSelect: function onSelect(tabIndex) {
-	                                return _this2.setState({ tabIndex: tabIndex });
-	                            } },
-	                        _react2.default.createElement(
-	                            _reactTabs.TabList,
-	                            null,
-	                            _react2.default.createElement(
-	                                _reactTabs.Tab,
-	                                null,
-	                                '\u05DE\u05D9\u05E9\u05D4\u05D5 \u05E2\u05E7\u05E3 \u05D0\u05D5\u05EA\u05D9'
-	                            ),
-	                            _react2.default.createElement(
-	                                _reactTabs.Tab,
-	                                null,
-	                                '\u05D4\u05D4\u05E6\u05E2\u05D5\u05EA \u05E9\u05DC\u05D9'
-	                            ),
-	                            _react2.default.createElement(
-	                                _reactTabs.Tab,
-	                                null,
-	                                '\u05D4\u05D1\u05D9\u05D3\u05D9\u05DD \u05E9\u05DC\u05D9'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(
-	                                'h2',
-	                                null,
-	                                '\u05E2\u05E7\u05E4\u05D5 \u05D0\u05D5\u05EA\u05D9'
-	                            ),
-	                            _react2.default.createElement(_Auction2.default, { key: 0, index: 0
-	                                // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	                                , home: 'true', imgArr: this.state.imgArr, prodName: "דמחמחכמה", prodDesc: " כ יחכ יחכח כיחיחג חיג חי יחגכ חיגכחי יחיג יגכ ג דמהיחהכ",
-	                                price: 500, endDate: "7/7/2017", code: 4,
-	                                percentage: 20, prodCode: 4 })
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(
-	                                'h2',
-	                                null,
-	                                '\u05D4\u05D4\u05E6\u05E2\u05D5\u05EA'
-	                            ),
-	                            _react2.default.createElement(_Auction2.default, { key: 1, index: 1
-	                                // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	                                , home: 'true', imgArr: this.state.imgArr, prodName: "dnjvnhjsbv h fs ", prodDesc: " djs jh kjs jk hj  ah hgdaj jk kjsk kjdjk djk hj hjad jd ahjad hj ",
-	                                price: 500, endDate: "7/7/2017", code: 4,
-	                                percentage: 20, prodCode: 4 })
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(
-	                                'h2',
-	                                null,
-	                                '\u05D1\u05D9\u05D3\u05D9\u05DD'
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return ActiveAuctions;
-	}(_react.Component);
-
-	exports.default = ActiveAuctions;
-
-	// <div>
-	//                 <ul className="react-tabs__tab-list" role="tablist">
-	//                         {list.map((item,i)=> {
-	//                              return <li className={this.state.tabIndex === i ? "react-tabs__tab react-tabs__tab--selected" : "react-tabs__tab"} tabIndex={i} key={i} onClick={() => this.setState({ tabIndex : i })}>
-	//                                  {item}
-	//                                  </li> })
-	//                              }
-	//                     </ul>
-	//                 <Slider {...settings} >
-	//                     {/*someone beat me to it*/}
-	//                     <div className="sliderDiv" style={styles}>
-	//                         <h2>עקפו אותי</h2>
-	//                         <Auction key={0} index={0}
-	//                             // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	//                             home="true" imgArr={this.state.imgArr} prodName={"דמחמחכמה"} prodDesc={" כ יחכ יחכח כיחיחג חיג חי יחגכ חיגכחי יחיג יגכ ג דמהיחהכ"}
-	//                             price={500} endDate={"7/7/2017"} code={38}
-	//                             percentage={20} prodCode={4} />
-	//                     </div>
-
-	//                     {/*offers*/}
-	//                     <div className="sliderDiv" style={styles}>
-	//                         <h2>ההצעות</h2>
-	//                         <Auction key={1} index={1}
-	//                             // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	//                             home="true" imgArr={this.state.imgArr} prodName={"dnjvnhjsbv h fs "} prodDesc={" djs jh kjs jk hj  ah hgdaj jk kjsk kjdjk djk hj hjad jd ahjad hj "}
-	//                             price={500} endDate={"7/7/2017"} code={49}
-	//                             percentage={20} prodCode={4} />
-	//                     </div>
-
-	//                     {/*bids*/}
-	//                     <div className="sliderDiv" style={styles}>
-	//                         <h2>בידים</h2>
-	//                     </div>
-	//                 </Slider>
-	//                 </div>
-
-/***/ }),
-/* 474 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(475);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./react-tabs.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./react-tabs.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 475 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".sliderDiv{\r\n  display: inline-block;\r\n  /*margin-top: 40px;*/\r\n}\r\n\r\n.react-tabs__tab-list {\r\n  /*border-bottom: 1px solid #aaa;*/\r\n  width: 100%;\r\n  background-color: rgba(255,255,255,0.9);\r\n  margin: 0 0 10px;\r\n  padding: 0;\r\n  font: bold 30px;\r\n}\r\n\r\n.react-tabs__tab {\r\n  display: inline-block;\r\n  margin: 0 5%;\r\n  border: 1px solid transparent;\r\n  border-bottom: none;\r\n  bottom: -1px;\r\n  position: relative;\r\n  list-style: none;\r\n  font-size: 14px;\r\n  /* padding: 6px 12px; */\r\n\r\n}\r\n\r\n.react-tabs__tab--selected {\r\n  border-bottom: 4px solid rgba(0,0,0,0.4) ;\r\n  color: black;\r\n\r\n}\r\n\r\n.react-tabs__tab-panel {\r\n  margin-top: 10px;\r\n  display: none;\r\n}\r\n\r\n.react-tabs__tab-panel--selected {\r\n  display: block;\r\n  /*-webkit-animation: slide 0.5s forwards;*/\r\n  animation: slide 1s forwards;\r\n}\r\n\r\n/*@-webkit-keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }*/\r\n\r\n@keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }\r\n\r\n.react-tabs__tab--disabled {\r\n  color: GrayText;\r\n  cursor: default;\r\n  \r\n\r\n  /*auction-leave*/\r\n  /*transform: translate(0%);*/\r\n}\r\n\r\n.react-tabs__tab:focus {\r\n  box-shadow: 0 0 5px hsl(208, 99%, 50%);\r\n  border-color: hsl(208, 99%, 50%);\r\n  outline: none;\r\n}\r\n\r\n.react-tabs__tab:focus:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  height: 5px;\r\n  left: -4px;\r\n  right: -4px;\r\n  bottom: -5px;\r\n  background: #fff;\r\n}\r\n\r\n.tab-animate-left{\r\n  position:relative;\r\n  animation:animateleft 0.4s\r\n  }\r\n  \r\n  @keyframes animateleft{\r\n    from{\r\n      left:-300px;\r\n    opacity:0}\r\n    to{\r\n      left:0;\r\n    opacity:1}\r\n    }\r\n\r\n.tab-animate-right{\r\n  position:relative;\r\n  animation:animateright 0.4s\r\n  }\r\n\r\n  @keyframes animateright{\r\n    from{\r\n    right:-300px;\r\n    opacity:0\r\n    }\r\n  to{\r\n    right:0;\r\n    opacity:1\r\n  }\r\n  }", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 476 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _react2 = _interopRequireDefault(_react);
-
 	var _reactRouterDom = __webpack_require__(188);
 
 	var _reactSwipeable = __webpack_require__(228);
@@ -45697,7 +45383,7 @@
 	exports.default = MyAuction;
 
 /***/ }),
-/* 477 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45730,15 +45416,11 @@
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _ActiveAuctions = __webpack_require__(473);
-
-	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
-
 	var _CircleButton = __webpack_require__(445);
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
-	__webpack_require__(474);
+	__webpack_require__(475);
 
 	__webpack_require__(311);
 
@@ -45865,7 +45547,47 @@
 	exports.default = Profile;
 
 /***/ }),
-/* 478 */
+/* 475 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(476);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./react-tabs.css", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./react-tabs.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".sliderDiv{\r\n  display: inline-block;\r\n  /*margin-top: 40px;*/\r\n}\r\n\r\n.react-tabs__tab-list {\r\n  /*border-bottom: 1px solid #aaa;*/\r\n  width: 100%;\r\n  background-color: rgba(255,255,255,0.9);\r\n  margin: 0 0 10px;\r\n  padding: 0;\r\n  font: bold 30px;\r\n}\r\n\r\n.react-tabs__tab {\r\n  display: inline-block;\r\n  margin: 0 5%;\r\n  border: 1px solid transparent;\r\n  border-bottom: none;\r\n  bottom: -1px;\r\n  position: relative;\r\n  list-style: none;\r\n  font-size: 14px;\r\n  /* padding: 6px 12px; */\r\n\r\n}\r\n\r\n.react-tabs__tab--selected {\r\n  border-bottom: 4px solid rgba(0,0,0,0.4) ;\r\n  color: black;\r\n\r\n}\r\n\r\n.react-tabs__tab-panel {\r\n  margin-top: 10px;\r\n  display: none;\r\n}\r\n\r\n.react-tabs__tab-panel--selected {\r\n  display: block;\r\n  /*-webkit-animation: slide 0.5s forwards;*/\r\n  animation: slide 1s forwards;\r\n}\r\n\r\n/*@-webkit-keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }*/\r\n\r\n@keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }\r\n\r\n.react-tabs__tab--disabled {\r\n  color: GrayText;\r\n  cursor: default;\r\n  \r\n\r\n  /*auction-leave*/\r\n  /*transform: translate(0%);*/\r\n}\r\n\r\n.react-tabs__tab:focus {\r\n  box-shadow: 0 0 5px hsl(208, 99%, 50%);\r\n  border-color: hsl(208, 99%, 50%);\r\n  outline: none;\r\n}\r\n\r\n.react-tabs__tab:focus:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  height: 5px;\r\n  left: -4px;\r\n  right: -4px;\r\n  bottom: -5px;\r\n  background: #fff;\r\n}\r\n\r\n.tab-animate-left{\r\n  position:relative;\r\n  animation:animateleft 0.4s\r\n  }\r\n  \r\n  @keyframes animateleft{\r\n    from{\r\n      left:-300px;\r\n    opacity:0}\r\n    to{\r\n      left:0;\r\n    opacity:1}\r\n    }\r\n\r\n.tab-animate-right{\r\n  position:relative;\r\n  animation:animateright 0.4s\r\n  }\r\n\r\n  @keyframes animateright{\r\n    from{\r\n    right:-300px;\r\n    opacity:0\r\n    }\r\n  to{\r\n    right:0;\r\n    opacity:1\r\n  }\r\n  }", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45928,7 +45650,7 @@
 	exports.default = MyProducts;
 
 /***/ }),
-/* 479 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45947,7 +45669,7 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _Payment = __webpack_require__(480);
+	var _Payment = __webpack_require__(479);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
 
@@ -46088,7 +45810,7 @@
 	exports.default = Bdika;
 
 /***/ }),
-/* 480 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46179,7 +45901,7 @@
 	exports.default = Payment;
 
 /***/ }),
-/* 481 */
+/* 480 */
 /***/ (function(module, exports) {
 
 	
