@@ -24,10 +24,6 @@ class ScrollButton extends Component {
   }
   
   render () {
-      // return <button title='Back to top' className='scroll' 
-      //          onClick={ () => { this.scrollToTop(); }}>
-      //           <span className='arrow-up glyphicon glyphicon-chevron-up'></span>
-      //         </button>;
       return <a onClick={ () => { this.scrollToTop(); }} id="toTop" style={{display:"block"}}> <span id="toTopHover" style={{opacity:1}}> </span></a>
    }
 } 

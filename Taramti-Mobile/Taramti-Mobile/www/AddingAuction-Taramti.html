@@ -88,8 +88,8 @@
                     if (Associations[0] != null) {
                         for (var i = 0; i < Associations.length; i++) {
                             var opt = '';
-                            opt += '<option value="' + Associations[i].Association_Code + '">' + Associations[i].Association_Name + '</option>';
-                            $("#AuctionAssoc").append(opt);
+                            opt += '<option data-value="' + Associations[i].Association_Code + '">' + Associations[i].Association_Name + '</option>';
+                            $("#AuctionAssocList").append(opt);
                         }
                     }
                 },
@@ -197,13 +197,17 @@
         }
 
         function AddingProductAuction() {
+            alert(`city- ${getDLValue("citySelected")}`)
+            alert(`assoc- ${getDLValue("AuctionAssoc")}`)
             if (!Local_i == 0) {
                 var itemName = $("#ProdNum").val();
                 var itemDesc = $("#ProdDesc").val();
-                var city = $("#ProdLocation").val();
+                var city = getDLValue("citySelected");
+                // var city = $("#ProdLocation").val();
                 var cat = $("#AuctionCategories").val();
                 var days = $("#AuctionLast").val();
-                var assoc = $("#AuctionAssoc").val();
+                var assoc = getDLValue("AuctionAssoc")
+                // var assoc = $("#AuctionAssoc").val();
                 var price = $("#AuctionMinPrice").val();
                 var user1 = user.userID();
                 //var user1 = "300948552";
@@ -281,6 +285,34 @@
             alert(CancelMessage);
             //alert('Failed because: ' + message);
         }
+
+        function getDLValue(inputID){
+                    // var $input = $("#citySelected"),
+                     var $input = $(`#${inputID}`),
+                        $options = $('#' + $input.attr('list') + ' option'), //grab all options
+                        $hiddenInput = $('#' + $input.attr('id') + '-hidden'), //grab hidden input
+                        label = $input.val();
+
+                    $hiddenInput.val(label);
+
+                    for (var i = 0; i < $options.length; i++) {
+                        var $option = $options.eq(i);
+
+                        if ($option.text() === label) {
+                            $hiddenInput.val($option.attr('data-value'));
+                            break;
+                        }
+                    }
+                    try { //validate input before sending to db
+                        if ((parseInt($hiddenInput.val()) >= 0 ) && (parseInt($hiddenInput.val()) <= 1200 )) {
+                            return $hiddenInput.val();
+                        } else {
+                            return 0; // value for error
+                        }
+                    } catch (error) {
+                        return 0; // value for error
+                    }
+                };
 
         //window.onload = function () {
         //    var $options = $('#ProdLocation option');
@@ -379,61 +411,14 @@
             <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
             <h4>מיקום</h4>
-            <br />
+            <!-- <br /> -->
             <!-- <input type="search" id="SearchBox" /> -->
-            <br />
-            <input list="citiesList">
+            <!-- <br /> -->
+            <input list="citiesList" id=citySelected class="inputDL">
 
             <datalist id="citiesList">
-                <!-- <option data-value="Internet Explorer"> 6</option>
-                <option data-value="Firefox">hgj</option>
-                <option data-value="Chrome">sdg</option>
-                <option data-value="Opera">56b</option>
-                <option data-value="Safari">5</option> -->
             </datalist>
-
-
-            <!-- <input type="text" id="searchField" placeholder="Categories"/>
-            <ul id="suggestions" data-role="listview" data-inset="true"></ul>
-
-            <script>
-                $("#AddingAuctionPage").bind("pageshow", function (e) {
-
-                    // $.ajax({
-                    //     dataType: "json",
-                    //     url: generic + "GetAllCities",
-                    //     contentType: "application/json; charset=utf-8",
-                    //     type: "POST",
-                    //     data: JSON.stringify({}),
-                    //     success: function (data) {
-
-                    //         var Cities = JSON.parse(data.d);
-
-                    //         if (Cities[0] != null) {
-                    //             for (var i = 0; i < Cities.length; i++) {
-                    //                 var opt = '';
-                    //                 opt += '<option value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
-                    //                 $("#ProdLocation").append(opt);
-                    //             }
-                    //         }
-                    //     },
-                    //     error: function (err) { }
-                    // });
-
-                autocompleteData = $.parseJSON('[{"value":"1.0","label":"Alabama"},{"value":"2.0","label":"Alaska"},{"value":"3.0","label":"American Samoa"},{"value":"4.0","label":"Arizona"},{"value":"5.0","label":"Arkansas"},{"value":"6.0","label":"California"},{"value":"7.0","label":"Colorado"},{"value":"8.0","label":"Connecticut"},{"value":"9.0","label":"Delaware"},{"value":"10.0","label":"District of Columbia"},{"value":"11.0","label":"Florida"},{"value":"12.0","label":"Georgia"},{"value":"13.0","label":"Guam"},{"value":"14.0","label":"Hawaii"},{"value":"15.0","label":"Idaho"},{"value":"16.0","label":"Illinois"},{"value":"17.0","label":"Indiana"},{"value":"18.0","label":"Iowa"},{"value":"19.0","label":"Kansas"},{"value":"20.0","label":"Kentucky"},{"value":"21.0","label":"Louisiana"},{"value":"22.0","label":"Maine"},{"value":"23.0","label":"Maryland"},{"value":"24.0","label":"Massachusetts"},{"value":"25.0","label":"Michigan"},{"value":"26.0","label":"Minnesota"},{"value":"27.0","label":"Mississippi"},{"value":"28.0","label":"Missouri"},{"value":"29.0","label":"Montana"},{"value":"30.0","label":"Nebraska"},{"value":"31.0","label":"Nevada"},{"value":"32.0","label":"New Hampshire"},{"value":"33.0","label":"New Jersey"},{"value":"34.0","label":"New Mexico"},{"value":"35.0","label":"New York"},{"value":"36.0","label":"North Carolina"},{"value":"37.0","label":"North Dakota"},{"value":"38.0","label":"Northern Marianas Islands"},{"value":"39.0","label":"Ohio"},{"value":"40.0","label":"Oklahoma"},{"value":"41.0","label":"Oregon"},{"value":"42.0","label":"Pennsylvania"},{"value":"43.0","label":"Puerto Rico"},{"value":"44.0","label":"Rhode Island"},{"value":"45.0","label":"South Carolina"},{"value":"46.0","label":"South Dakota"},{"value":"47.0","label":"Tennessee"},{"value":"48.0","label":"Texas"},{"value":"49.0","label":"Utah"},{"value":"50.0","label":"Vermont"},{"value":"52.0","label":"Virgin Islands"},{"value":"51.0","label":"Virginia"},{"value":"53.0","label":"Washington"},{"value":"54.0","label":"West Virginia"},{"value":"55.0","label":"Wisconsin"},{"value":"56.0","label":"Wyoming"}]');
-
-                $("#searchField").autocomplete({
-                    target: $('#suggestions'),
-                    source: autocompleteData,
-                    link: 'target.html?term=',
-                    minLength: 1
-                });
-                });
-            </script> -->
-
-
-
-
+            <input type="hidden" name="answer" id="citySelected-hidden">
 
 
             <!-- שימוש בג'יפיאס -->
@@ -526,10 +511,19 @@
                 <option value="7">7</option>
             </select>
             <h4>בחר עמותה</h4>
-            <select id="AuctionAssoc">
+            <!-- <select id="AuctionAssoc">
                 <option value="-1"> בחר</option>
 
-            </select>
+            </select> -->
+
+            <input list="AuctionAssocList" id="AuctionAssoc" class="inputDL"/>
+
+            <datalist id="AuctionAssocList">
+            </datalist>
+            <input type="hidden" name="answer" id="AuctionAssoc-hidden"/>
+
+
+
             <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
             <input type="text" id="AuctionMinPrice" />
 

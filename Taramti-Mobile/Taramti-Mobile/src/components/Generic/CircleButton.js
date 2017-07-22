@@ -63,7 +63,6 @@ class CircleButton extends Component {
     }
 
     render() {
-        // if (this.state.secondsRemaining >= 20870000) {
         if (this.props.home) {
             return (
                 this.renderHome()
