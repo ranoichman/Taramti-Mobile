@@ -264,8 +264,8 @@ a.ui-btn.ui-btn-icon-right.ui-icon-carat-r {
 a.closeBox {
     position: relative;
     float: right;
-    top: 25px;
-    right: 1px;
+    top: 26px;
+    right: 4px;
     z-index: 100;
     /*margin-top: -10px;*/
     /*margin-right: -15px;*/
@@ -483,6 +483,12 @@ div .page-top-mid1 {
 }
 
 #AddAssocProcess {
+    margin: 0 auto;
+    padding-right: 9%;
+}
+
+#AddAssocProcessTop, #AddUserProcessTop {
+    margin: 0 ;
 }
 
 #tabs {
@@ -646,4 +652,12 @@ div .page-top-mid1 {
     -webkit-animation: spin 2s linear infinite;
     -moz-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
+}
+
+#assocFilter a.ui-btn {
+    text-align: right;
+}
+
+#AddingProductAuctionForm div input{    
+    height: 2.7em;
 }

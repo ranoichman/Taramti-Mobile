@@ -14,8 +14,8 @@ import axios from 'axios';
 import Home from './components/Home/Home';
 import ParticipateAuction from './components/ParticipateAuction/ParticipateAuction';
 import TapDemo from './components/ParticipateAuction/TapDemo';
-import ActiveAuctions from './components/Profile/ActiveAuctions';
-import MyAuction from './components/Profile/MyAuction';
+// import ActiveAuctions from './components/Profile/ActiveAuctions';
+import MyAuction from './components/MyProducts/MyAuction';
 import Profile from './components/Profile/Profile';
 import MyProducts from './components/MyProducts/MyProducts';
 

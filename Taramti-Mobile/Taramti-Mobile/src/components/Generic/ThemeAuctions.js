@@ -7,15 +7,11 @@ import axios from 'axios';
 
 // taramti babait components
 import Auction from '../Generic/Auction';
-// import Search from './Search';
 import Loader from '../Generic/Loader';
-//import TaramtiMenu from './TaramtiMenu'
 
-
-//import '../css/jqmCss.css';
-//import '../../www/css/StyleSheet.css';
 import '../../css/transition.css';
 
+//constants 
 import { auctionWS, buyerID } from '../../constants/general';
 
 class ThemeAuctions extends Component {

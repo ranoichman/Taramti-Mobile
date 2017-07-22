@@ -133,7 +133,7 @@ class MyAuction extends Component {
 
     render() {
         return (
-            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px" }}>
+            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" }}>
 
                 {/*basic info*/}
                 <div className="basicInfo" ref="infoDiv">
@@ -142,10 +142,10 @@ class MyAuction extends Component {
                         <Timer endDate={this.state.auc.endDate} />
                     </div>
                     {/*price manipulation*/}
-                    <div style={{ position: "absolute", width: "20%", margin: "80px 40%" }}>
+                    <div style={{ top: "13px", position: "absolute", left: `${this.state.width - 55}px` }}>
                         <PriceTag price={this.state.auc.price} modalIsOpen={this.state.fAQModalIsOpen || this.state.infoModalIsOpen} />
                     </div>
-                    <div className="circle" style={{ top: "5px", position: "absolute", left: `${this.state.width - 105}px` }}>
+                    <div className="circle" style={{ position: "absolute", marginTop: "80px" }}>
                         <h4>
                             {this.state.tempDonation}
                         </h4>

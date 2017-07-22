@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import axios from 'axios';
 
 // taramti babait components
-// import Auction from '../Home/Auction';
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
 import Balloon from './Balloon';
@@ -373,7 +372,7 @@ class ParticipateAuction extends Component {
     render() {
 
         return (
-            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px" }}>
+            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px",paddingLeft: "5px" }}>
 
                 {/*shown messegae*/}
                 <Modal

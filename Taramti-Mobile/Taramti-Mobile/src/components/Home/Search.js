@@ -146,8 +146,8 @@ class Search extends Component {
 
                     {/*between price area*/}
                     <h3>מחיר בש"ח</h3>
-                    <input type="text" ref="lowerPrice" placeholder="מ..." />
-                    <input type="text" ref="higherPrice" placeholder="עד..." />
+                    <input type="number" ref="lowerPrice" placeholder="מ..." />
+                    <input type="number" ref="higherPrice" placeholder="עד..." />
                     <button className="ui-btn ui-btn-corner-all searchBtn" onClick={this.searchBTN}> חפש </button>
 
                     {/*</form>*/}

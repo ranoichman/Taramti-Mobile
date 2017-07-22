@@ -92,31 +92,27 @@
 
 	var _TapDemo2 = _interopRequireDefault(_TapDemo);
 
-	var _ActiveAuctions = __webpack_require__(457);
-
-	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
-
-	var _MyAuction = __webpack_require__(460);
+	var _MyAuction = __webpack_require__(473);
 
 	var _MyAuction2 = _interopRequireDefault(_MyAuction);
 
-	var _Profile = __webpack_require__(461);
+	var _Profile = __webpack_require__(474);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _MyProducts = __webpack_require__(462);
+	var _MyProducts = __webpack_require__(477);
 
 	var _MyProducts2 = _interopRequireDefault(_MyProducts);
 
-	var _Bdika = __webpack_require__(463);
+	var _Bdika = __webpack_require__(478);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
-	var _Menu = __webpack_require__(453);
+	var _Menu = __webpack_require__(469);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _master = __webpack_require__(465);
+	var _master = __webpack_require__(480);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -131,6 +127,8 @@
 
 
 	// taramti babait components
+
+	// import ActiveAuctions from './components/Profile/ActiveAuctions';
 
 
 	// import ThemeAuctions from './components/Profile/ThemeAuctions';
@@ -30825,7 +30823,7 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _Search = __webpack_require__(451);
+	var _Search = __webpack_require__(468);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
@@ -30833,7 +30831,7 @@
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
-	var _Menu = __webpack_require__(453);
+	var _Menu = __webpack_require__(469);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
@@ -30841,7 +30839,7 @@
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
-	var _ScrollButton = __webpack_require__(456);
+	var _ScrollButton = __webpack_require__(472);
 
 	var _ScrollButton2 = _interopRequireDefault(_ScrollButton);
 
@@ -31260,11 +31258,15 @@
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
+	var _RePublish = __webpack_require__(447);
+
+	var _RePublish2 = _interopRequireDefault(_RePublish);
+
 	var _general = __webpack_require__(424);
 
-	__webpack_require__(447);
+	__webpack_require__(464);
 
-	__webpack_require__(449);
+	__webpack_require__(466);
 
 	__webpack_require__(315);
 
@@ -31455,17 +31457,8 @@
 	                    {
 	                        isOpen: this.state.rePublishModalIsOpen,
 	                        contentLabel: 'open info',
-	                        className: 'box' },
-	                    _react2.default.createElement(
-	                        _reactSwipeable2.default,
-	                        { onTap: this.rePublishModalChanged },
-	                        _react2.default.createElement('a', { className: 'boxclose' })
-	                    ),
-	                    _react2.default.createElement(
-	                        'h3',
-	                        null,
-	                        '\u05E4\u05E8\u05E1\u05D5\u05DD \u05DE\u05D7\u05D3\u05E9'
-	                    )
+	                        className: 'zoomIn' },
+	                    _react2.default.createElement(_RePublish2.default, { closeModal: this.rePublishModalChanged, prodCode: this.props.auc.prodCode })
 	                )
 	            );
 	        }
@@ -34327,7 +34320,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	// taramti babait components
-	// import Auction from '../Home/Auction';
 
 
 	//constants 
@@ -34713,7 +34705,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px" } },
+	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" } },
 	                _react2.default.createElement(
 	                    _reactModal2.default,
 	                    {
@@ -34946,7 +34938,7 @@
 	                    'div',
 	                    null,
 	                    this.props.auc.imgArr.map(function (pic, i) {
-	                        return _react2.default.createElement('img', { key: i, src: pic, style: { width: "35%", margin: "5%" } });
+	                        return _react2.default.createElement('img', { key: i, src: pic, style: { width: "35%", margin: "5%", float: "right" } });
 	                    })
 	                )
 	            );
@@ -34998,7 +34990,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n\r\n", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n.minPriceInput{\r\n    width: 90%;\r\n    margin:0;\r\n}\r\n\r\nfieldset{\r\n    display: none;\r\n}", ""]);
 
 	// exports
 
@@ -38631,7 +38623,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px' } }),
+	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px', paddingTop: "10px", paddingRight: "10px" } }),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.sendText, className: 'icon_circle' },
@@ -40216,13 +40208,8 @@
 
 	// taramti babait components
 
-	// import Search from './Search';
 
-	//import TaramtiMenu from './TaramtiMenu'
-
-
-	//import '../css/jqmCss.css';
-	//import '../../www/css/StyleSheet.css';
+	//constants 
 
 
 	var ThemeAuctions = function (_Component) {
@@ -41031,10 +41018,3453 @@
 /* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactSwipeable = __webpack_require__(228);
+
+	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
+
+	var _axios = __webpack_require__(257);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	var _sweetalertReact = __webpack_require__(448);
+
+	var _sweetalertReact2 = _interopRequireDefault(_sweetalertReact);
+
+	var _Ddl = __webpack_require__(463);
+
+	var _Ddl2 = _interopRequireDefault(_Ddl);
+
+	__webpack_require__(315);
+
+	var _general = __webpack_require__(424);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//constants 
+
+
+	var RePublish = function (_Component) {
+	    _inherits(RePublish, _Component);
+
+	    function RePublish(props) {
+	        _classCallCheck(this, RePublish);
+
+	        var _this = _possibleConstructorReturn(this, (RePublish.__proto__ || Object.getPrototypeOf(RePublish)).call(this, props));
+
+	        _this.state = {
+	            open: true,
+	            day: -1,
+	            alert: false,
+	            message: ""
+	        };
+	        _this.close = _this.close.bind(_this);
+	        _this.onSelectedDay = _this.onSelectedDay.bind(_this);
+	        _this.closeAlert = _this.closeAlert.bind(_this);
+	        _this.send = _this.send.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(RePublish, [{
+	        key: 'close',
+	        value: function close() {
+	            var _this2 = this;
+
+	            this.setState({ open: false });
+	            setTimeout(function () {
+	                return _this2.props.closeModal();
+	            }, 600);
+	        }
+	    }, {
+	        key: 'onSelectedDay',
+	        value: function onSelectedDay(opt) {
+	            this.setState({ day: opt });
+	        }
+	    }, {
+	        key: 'closeAlert',
+	        value: function closeAlert() {
+	            this.setState({ alert: false });
+	            if (this.finished) {
+	                this.close(); // close entire modal if finished
+	            }
+	        }
+	    }, {
+	        key: 'send',
+	        value: function send() {
+	            this.finished = false;
+	            var price = this.refs.auctionMinPrice.value != "" ? this.refs.auctionMinPrice.value : -1;
+	            if (this.state.day == -1) {
+	                this.setState({
+	                    alert: true,
+	                    message: "חובה לבחור משך למכרז"
+	                });
+	            } else if (price == -1) {
+	                this.setState({
+	                    alert: true,
+	                    message: "חובה להזין סכום רצוי"
+	                });
+	            } else {
+	                var self = this;
+	                _axios2.default.post(_general.auctionWS + 'AddAuctionExisitingProd', {
+	                    prod: this.props.prodCode,
+	                    price: price,
+	                    days: this.state.day,
+	                    user: _general.buyerID
+	                }).then(function (response) {
+	                    var res = response.data.d;
+
+	                    if (res == "True") {
+	                        self.finished = true;
+	                        self.setState({
+	                            alert: true,
+	                            message: "המכרז נוצר בהצלחה"
+	                        });
+	                    } else {
+	                        throw "תקלה";
+	                    }
+	                }).catch(function (error) {
+	                    console.log(error);
+	                    self.setState({
+	                        alert: true,
+	                        message: "קרתה תקלה במהלך יצירת המכרז, נא נסה שוב"
+	                    });
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var days = [{ val: -1, text: "בחר" }, { val: 1, text: 1 }, { val: 2, text: 2 }, { val: 3, text: 3 }, { val: 4, text: 4 }, { val: 5, text: 5 }, { val: 6, text: 6 }, { val: 7, text: 7 }];
+
+	            return _react2.default.createElement(
+	                'div',
+	                { className: this.state.open ? "box" : "box zoomOut" },
+	                _react2.default.createElement(
+	                    _reactSwipeable2.default,
+	                    { onTap: this.close },
+	                    _react2.default.createElement('a', { className: 'boxclose' })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { style: { padding: "10px" } },
+	                    _react2.default.createElement(
+	                        'h4',
+	                        null,
+	                        '\u05DE\u05E9\u05DA \u05D4\u05DE\u05DB\u05E8\u05D6 (\u05D1\u05D9\u05DE\u05D9\u05DD)'
+	                    ),
+	                    _react2.default.createElement(_Ddl2.default, { key: '1', onChange: this.onSelectedDay, options: days, css: 'gpsSelect' }),
+	                    _react2.default.createElement(
+	                        'h4',
+	                        null,
+	                        '\u05DE\u05D7\u05D9\u05E8 \u05DE\u05D9\u05E0\u05D9\u05DE\u05D5\u05DD \u05E9\u05D0\u05E8\u05E6\u05D4 \u05DC\u05E7\u05D1\u05DC \u05E2\u05DC \u05D4\u05DE\u05D5\u05E6\u05E8'
+	                    ),
+	                    _react2.default.createElement('input', { type: 'number', className: 'minPriceInput', ref: 'auctionMinPrice' })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'button-1' },
+	                    _react2.default.createElement(
+	                        'button',
+	                        { type: 'button', id: 'AddingProductAuctionbtn', onClick: this.send, className: 'btn-l btn-10' },
+	                        '\u05E9\u05D2\u05E8 \u05DE\u05DB\u05E8\u05D6'
+	                    )
+	                ),
+	                _react2.default.createElement(_sweetalertReact2.default, {
+	                    show: this.state.alert,
+	                    title: this.finished ? "יש!" : "...אופס",
+	                    type: this.finished ? "success" : "error",
+	                    text: this.state.message,
+	                    confirmButtonText: '\u05D0\u05D9\u05E9\u05D5\u05E8',
+	                    onConfirm: this.closeAlert })
+	            );
+	        }
+	    }]);
+
+	    return RePublish;
+	}(_react.Component);
+
+	exports.default = RePublish;
+
+/***/ }),
+/* 448 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	if (typeof window === 'undefined') {
+	  module.exports = function () {
+	    return null;
+	  };
+	} else {
+	  module.exports = __webpack_require__(449); // eslint-disable-line global-require
+	}
+
+/***/ }),
+/* 449 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _propTypes = __webpack_require__(190);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _sweetalert = __webpack_require__(450);
+
+	var _sweetalert2 = _interopRequireDefault(_sweetalert);
+
+	var _lodash = __webpack_require__(459);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _mousetrap = __webpack_require__(460);
+
+	var _mousetrap2 = _interopRequireDefault(_mousetrap);
+
+	var _warning = __webpack_require__(193);
+
+	var _warning2 = _interopRequireDefault(_warning);
+
+	var _outsideTargetHandlerFactory = __webpack_require__(461);
+
+	var _outsideTargetHandlerFactory2 = _interopRequireDefault(_outsideTargetHandlerFactory);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ALLOWS_KEYS = ['title', 'text', 'type', 'customClass', 'showCancelButton', 'showConfirmButton', 'confirmButtonText', 'confirmButtonColor', 'cancelButtonText', 'imageUrl', 'imageSize', 'html', 'animation', 'inputType', 'inputValue', 'inputPlaceholder', 'showLoaderOnConfirm'];
+
+	var REMOVED_KEYS = ['timer', 'closeOnConfirm', 'closeOnCancel', 'allowOutsideClick', 'allowEscapeKey'];
+
+	var OVERWRITE_PROPS = {
+	  closeOnConfirm: false,
+	  closeOnCancel: false,
+	  allowOutsideClick: false,
+	  allowEscapeKey: false
+	};
+
+	// reference: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+	var ALLOWS_INPUT_TYPES = ['button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week'];
+
+	function warningRemoved(props) {
+	  REMOVED_KEYS.forEach(function (key) {
+	    (0, _warning2.default)(props[key] === undefined, '%s has been removed from sweetalert-react, pass `show` props and use event hook instead.', '`' + key + '`');
+	  });
+	}
+
+	var SweetAlert = function (_Component) {
+	  _inherits(SweetAlert, _Component);
+
+	  /* eslint-disable react/no-unused-prop-types */
+	  function SweetAlert(props, context) {
+	    _classCallCheck(this, SweetAlert);
+
+	    var _this = _possibleConstructorReturn(this, (SweetAlert.__proto__ || Object.getPrototypeOf(SweetAlert)).call(this, props, context));
+
+	    _this._show = false;
+	    return _this;
+	  }
+	  /* eslint-enable react/no-unused-prop-types */
+
+	  _createClass(SweetAlert, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.setupWithProps(this.props);
+
+	      if (this.props.onOutsideClick) {
+	        this.registerOutsideClickHandler(this.props.onOutsideClick);
+	      }
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(props) {
+	      this.setupWithProps(props);
+
+	      var oldOutsideClickHandler = this.props.onOutsideClick;
+	      var newOutsideClickHandler = props.onOutsideClick;
+
+	      if (oldOutsideClickHandler !== newOutsideClickHandler) {
+	        if (oldOutsideClickHandler && newOutsideClickHandler) {
+	          this.unregisterOutsideClickHandler();
+	          this.registerOutsideClickHandler(newOutsideClickHandler);
+	        } else if (oldOutsideClickHandler && !newOutsideClickHandler) {
+	          this.unregisterOutsideClickHandler();
+	        } else if (!oldOutsideClickHandler && newOutsideClickHandler) {
+	          this.registerOutsideClickHandler(newOutsideClickHandler);
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.unregisterOutsideClickHandler();
+	      this.unbindEscapeKey();
+	    }
+	  }, {
+	    key: 'setupWithProps',
+	    value: function setupWithProps(props) {
+	      var _this2 = this;
+
+	      warningRemoved(props);
+	      var show = props.show,
+	          onConfirm = props.onConfirm,
+	          onCancel = props.onCancel,
+	          onClose = props.onClose,
+	          onEscapeKey = props.onEscapeKey;
+
+	      if (show) {
+	        (0, _sweetalert2.default)(_extends({}, (0, _lodash2.default)(props, ALLOWS_KEYS), OVERWRITE_PROPS), function (isConfirm) {
+	          return _this2.handleClick(isConfirm, onConfirm, onCancel);
+	        });
+	        this._show = true;
+	        if (onEscapeKey) this.bindEscapeKey(onEscapeKey);
+	      } else {
+	        this.handleClose(onClose);
+	      }
+	    }
+	  }, {
+	    key: 'registerOutsideClickHandler',
+	    value: function registerOutsideClickHandler(handler) {
+	      this._outsideClickHandler = (0, _outsideTargetHandlerFactory2.default)(document.getElementsByClassName('sweet-alert')[0], handler);
+	      this.enableOutsideClick();
+	    }
+	  }, {
+	    key: 'unregisterOutsideClickHandler',
+	    value: function unregisterOutsideClickHandler() {
+	      this.disableOutsideClick();
+	      this._outsideClickHandler = null;
+	    }
+	  }, {
+	    key: 'enableOutsideClick',
+	    value: function enableOutsideClick() {
+	      var fn = this._outsideClickHandler;
+	      if (fn) {
+	        document.addEventListener('mousedown', fn);
+	        document.addEventListener('touchstart', fn);
+	      }
+	    }
+	  }, {
+	    key: 'disableOutsideClick',
+	    value: function disableOutsideClick() {
+	      var fn = this._outsideClickHandler;
+	      if (fn) {
+	        document.removeEventListener('mousedown', fn);
+	        document.removeEventListener('touchstart', fn);
+	      }
+	    }
+	  }, {
+	    key: 'bindEscapeKey',
+	    value: function bindEscapeKey(onEscapeKey) {
+	      _mousetrap2.default.bind('esc', onEscapeKey);
+	    }
+	  }, {
+	    key: 'unbindEscapeKey',
+	    value: function unbindEscapeKey() {
+	      _mousetrap2.default.unbind('esc');
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(isConfirm, onConfirm, onCancel) {
+	      if (isConfirm !== false) {
+	        if (onConfirm) onConfirm(isConfirm);
+	      } else {
+	        if (onCancel) onCancel(); // eslint-disable-line no-lonely-if
+	      }
+	    }
+	  }, {
+	    key: 'handleClose',
+	    value: function handleClose(onClose) {
+	      if (this._show) {
+	        _sweetalert2.default.close();
+	        this.unbindEscapeKey();
+	        if (onClose) onClose();
+	        this._show = false;
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return null;
+	    }
+	  }]);
+
+	  return SweetAlert;
+	}(_react.Component);
+
+	SweetAlert.propTypes = {
+	  // sweetalert option
+	  title: _propTypes2.default.string.isRequired,
+	  text: _propTypes2.default.string,
+	  type: _propTypes2.default.oneOf(['warning', 'error', 'success', 'info', 'input']),
+	  customClass: _propTypes2.default.string,
+	  showCancelButton: _propTypes2.default.bool,
+	  showConfirmButton: _propTypes2.default.bool,
+	  confirmButtonText: _propTypes2.default.string,
+	  confirmButtonColor: _propTypes2.default.string,
+	  cancelButtonText: _propTypes2.default.string,
+	  imageUrl: _propTypes2.default.string,
+	  imageSize: function imageSize(props, propName) {
+	    if (!/^[1-9]\d*x[1-9]\d*/.test(props[propName])) {
+	      return new Error('imageSize should have the format like this: "80x80"');
+	    }
+	  },
+
+	  html: _propTypes2.default.bool,
+	  animation: _propTypes2.default.oneOfType([_propTypes2.default.bool, _propTypes2.default.oneOf(['pop', 'slide-from-top', 'slide-from-bottom'])]),
+	  inputType: _propTypes2.default.oneOf(ALLOWS_INPUT_TYPES),
+	  inputPlaceholder: _propTypes2.default.string,
+	  inputValue: _propTypes2.default.string,
+	  showLoaderOnConfirm: _propTypes2.default.bool,
+
+	  // custom option
+	  show: _propTypes2.default.bool,
+	  onConfirm: _propTypes2.default.func,
+	  onCancel: _propTypes2.default.func,
+	  onClose: _propTypes2.default.func,
+	  onEscapeKey: _propTypes2.default.func,
+	  onOutsideClick: _propTypes2.default.func
+	};
+	SweetAlert.defaultProps = {
+	  // sweetalert option
+	  text: null,
+	  type: null,
+	  customClass: null,
+	  showCancelButton: false,
+	  showConfirmButton: true,
+	  confirmButtonText: 'OK',
+	  confirmButtonColor: '#aedef4',
+	  cancelButtonText: 'Cancel',
+	  imageUrl: null,
+	  imageSize: '80x80',
+	  html: false,
+	  animation: true,
+	  inputType: 'text',
+	  inputPlaceholder: null,
+	  inputValue: null,
+	  showLoaderOnConfirm: false,
+
+	  // custom option
+	  show: false
+	};
+	exports.default = SweetAlert;
+
+/***/ }),
+/* 450 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	// SweetAlert
+	// 2014-2015 (c) - Tristan Edwards
+	// github.com/t4t5/sweetalert
+
+	/*
+	 * jQuery-like functions for manipulating the DOM
+	 */
+
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(451);
+
+	/*
+	 * Handy utilities
+	 */
+
+	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(452);
+
+	/*
+	 *  Handle sweetAlert's DOM elements
+	 */
+
+	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(453);
+
+	// Handle button events and keyboard events
+
+	var _handleButton$handleConfirm$handleCancel = __webpack_require__(456);
+
+	var _handleKeyDown = __webpack_require__(457);
+
+	var _handleKeyDown2 = _interopRequireWildcard(_handleKeyDown);
+
+	// Default values
+
+	var _defaultParams = __webpack_require__(454);
+
+	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
+
+	var _setParameters = __webpack_require__(458);
+
+	var _setParameters2 = _interopRequireWildcard(_setParameters);
+
+	/*
+	 * Remember state in cases where opening and handling a modal will fiddle with it.
+	 * (We also use window.previousActiveElement as a global variable)
+	 */
+	var previousWindowKeyDown;
+	var lastFocusedButton;
+
+	/*
+	 * Global sweetAlert function
+	 * (this is what the user calls)
+	 */
+	var sweetAlert, swal;
+
+	exports['default'] = sweetAlert = swal = function () {
+	  var customizations = arguments[0];
+
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.addClass(document.body, 'stop-scrolling');
+	  _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.resetInput();
+
+	  /*
+	   * Use argument if defined or default value from params object otherwise.
+	   * Supports the case where a default value is boolean true and should be
+	   * overridden by a corresponding explicit argument which is boolean false.
+	   */
+	  function argumentOrDefault(key) {
+	    var args = customizations;
+	    return args[key] === undefined ? _defaultParams2['default'][key] : args[key];
+	  }
+
+	  if (customizations === undefined) {
+	    _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('SweetAlert expects at least 1 attribute!');
+	    return false;
+	  }
+
+	  var params = _extend$hexToRgb$isIE8$logStr$colorLuminance.extend({}, _defaultParams2['default']);
+
+	  switch (typeof customizations) {
+
+	    // Ex: swal("Hello", "Just testing", "info");
+	    case 'string':
+	      params.title = customizations;
+	      params.text = arguments[1] || '';
+	      params.type = arguments[2] || '';
+	      break;
+
+	    // Ex: swal({ title:"Hello", text: "Just testing", type: "info" });
+	    case 'object':
+	      if (customizations.title === undefined) {
+	        _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('Missing "title" argument!');
+	        return false;
+	      }
+
+	      params.title = customizations.title;
+
+	      for (var customName in _defaultParams2['default']) {
+	        params[customName] = argumentOrDefault(customName);
+	      }
+
+	      // Show "Confirm" instead of "OK" if cancel button is visible
+	      params.confirmButtonText = params.showCancelButton ? 'Confirm' : _defaultParams2['default'].confirmButtonText;
+	      params.confirmButtonText = argumentOrDefault('confirmButtonText');
+
+	      // Callback function when clicking on "OK"/"Cancel"
+	      params.doneFunction = arguments[1] || null;
+
+	      break;
+
+	    default:
+	      _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('Unexpected type of argument! Expected "string" or "object", got ' + typeof customizations);
+	      return false;
+
+	  }
+
+	  _setParameters2['default'](params);
+	  _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.fixVerticalPosition();
+	  _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.openModal(arguments[1]);
+
+	  // Modal interactions
+	  var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+
+	  /*
+	   * Make sure all modal buttons respond to all events
+	   */
+	  var $buttons = modal.querySelectorAll('button');
+	  var buttonEvents = ['onclick', 'onmouseover', 'onmouseout', 'onmousedown', 'onmouseup', 'onfocus'];
+	  var onButtonEvent = function onButtonEvent(e) {
+	    return _handleButton$handleConfirm$handleCancel.handleButton(e, params, modal);
+	  };
+
+	  for (var btnIndex = 0; btnIndex < $buttons.length; btnIndex++) {
+	    for (var evtIndex = 0; evtIndex < buttonEvents.length; evtIndex++) {
+	      var btnEvt = buttonEvents[evtIndex];
+	      $buttons[btnIndex][btnEvt] = onButtonEvent;
+	    }
+	  }
+
+	  // Clicking outside the modal dismisses it (if allowed by user)
+	  _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getOverlay().onclick = onButtonEvent;
+
+	  previousWindowKeyDown = window.onkeydown;
+
+	  var onKeyEvent = function onKeyEvent(e) {
+	    return _handleKeyDown2['default'](e, params, modal);
+	  };
+	  window.onkeydown = onKeyEvent;
+
+	  window.onfocus = function () {
+	    // When the user has focused away and focused back from the whole window.
+	    setTimeout(function () {
+	      // Put in a timeout to jump out of the event sequence.
+	      // Calling focus() in the event sequence confuses things.
+	      if (lastFocusedButton !== undefined) {
+	        lastFocusedButton.focus();
+	        lastFocusedButton = undefined;
+	      }
+	    }, 0);
+	  };
+
+	  // Show alert with enabled buttons always
+	  swal.enableButtons();
+	};
+
+	/*
+	 * Set default params for each popup
+	 * @param {Object} userParams
+	 */
+	sweetAlert.setDefaults = swal.setDefaults = function (userParams) {
+	  if (!userParams) {
+	    throw new Error('userParams is required');
+	  }
+	  if (typeof userParams !== 'object') {
+	    throw new Error('userParams has to be a object');
+	  }
+
+	  _extend$hexToRgb$isIE8$logStr$colorLuminance.extend(_defaultParams2['default'], userParams);
+	};
+
+	/*
+	 * Animation when closing modal
+	 */
+	sweetAlert.close = swal.close = function () {
+	  var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.fadeOut(_sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getOverlay(), 5);
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.fadeOut(modal, 5);
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass(modal, 'showSweetAlert');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.addClass(modal, 'hideSweetAlert');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass(modal, 'visible');
+
+	  /*
+	   * Reset icon animations
+	   */
+	  var $successIcon = modal.querySelector('.sa-icon.sa-success');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($successIcon, 'animate');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($successIcon.querySelector('.sa-tip'), 'animateSuccessTip');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($successIcon.querySelector('.sa-long'), 'animateSuccessLong');
+
+	  var $errorIcon = modal.querySelector('.sa-icon.sa-error');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($errorIcon, 'animateErrorIcon');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($errorIcon.querySelector('.sa-x-mark'), 'animateXMark');
+
+	  var $warningIcon = modal.querySelector('.sa-icon.sa-warning');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($warningIcon, 'pulseWarning');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($warningIcon.querySelector('.sa-body'), 'pulseWarningIns');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($warningIcon.querySelector('.sa-dot'), 'pulseWarningIns');
+
+	  // Reset custom class (delay so that UI changes aren't visible)
+	  setTimeout(function () {
+	    var customClass = modal.getAttribute('data-custom-class');
+	    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass(modal, customClass);
+	  }, 300);
+
+	  // Make page scrollable again
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass(document.body, 'stop-scrolling');
+
+	  // Reset the page to its previous state
+	  window.onkeydown = previousWindowKeyDown;
+	  if (window.previousActiveElement) {
+	    window.previousActiveElement.focus();
+	  }
+	  lastFocusedButton = undefined;
+	  clearTimeout(modal.timeout);
+
+	  return true;
+	};
+
+	/*
+	 * Validation of the input field is done by user
+	 * If something is wrong => call showInputError with errorMessage
+	 */
+	sweetAlert.showInputError = swal.showInputError = function (errorMessage) {
+	  var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+
+	  var $errorIcon = modal.querySelector('.sa-input-error');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.addClass($errorIcon, 'show');
+
+	  var $errorContainer = modal.querySelector('.sa-error-container');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.addClass($errorContainer, 'show');
+
+	  $errorContainer.querySelector('p').innerHTML = errorMessage;
+
+	  setTimeout(function () {
+	    sweetAlert.enableButtons();
+	  }, 1);
+
+	  modal.querySelector('input').focus();
+	};
+
+	/*
+	 * Reset input error DOM elements
+	 */
+	sweetAlert.resetInputError = swal.resetInputError = function (event) {
+	  // If press enter => ignore
+	  if (event && event.keyCode === 13) {
+	    return false;
+	  }
+
+	  var $modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+
+	  var $errorIcon = $modal.querySelector('.sa-input-error');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($errorIcon, 'show');
+
+	  var $errorContainer = $modal.querySelector('.sa-error-container');
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation.removeClass($errorContainer, 'show');
+	};
+
+	/*
+	 * Disable confirm and cancel buttons
+	 */
+	sweetAlert.disableButtons = swal.disableButtons = function (event) {
+	  var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+	  var $confirmButton = modal.querySelector('button.confirm');
+	  var $cancelButton = modal.querySelector('button.cancel');
+	  $confirmButton.disabled = true;
+	  $cancelButton.disabled = true;
+	};
+
+	/*
+	 * Enable confirm and cancel buttons
+	 */
+	sweetAlert.enableButtons = swal.enableButtons = function (event) {
+	  var modal = _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition.getModal();
+	  var $confirmButton = modal.querySelector('button.confirm');
+	  var $cancelButton = modal.querySelector('button.cancel');
+	  $confirmButton.disabled = false;
+	  $cancelButton.disabled = false;
+	};
+
+	if (typeof window !== 'undefined') {
+	  // The 'handle-click' module requires
+	  // that 'sweetAlert' was set as global.
+	  window.sweetAlert = window.swal = sweetAlert;
+	} else {
+	  _extend$hexToRgb$isIE8$logStr$colorLuminance.logStr('SweetAlert is a frontend module!');
+	}
+	module.exports = exports['default'];
+
+/***/ }),
+/* 451 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	var hasClass = function hasClass(elem, className) {
+	  return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
+	};
+
+	var addClass = function addClass(elem, className) {
+	  if (!hasClass(elem, className)) {
+	    elem.className += ' ' + className;
+	  }
+	};
+
+	var removeClass = function removeClass(elem, className) {
+	  var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, ' ') + ' ';
+	  if (hasClass(elem, className)) {
+	    while (newClass.indexOf(' ' + className + ' ') >= 0) {
+	      newClass = newClass.replace(' ' + className + ' ', ' ');
+	    }
+	    elem.className = newClass.replace(/^\s+|\s+$/g, '');
+	  }
+	};
+
+	var escapeHtml = function escapeHtml(str) {
+	  var div = document.createElement('div');
+	  div.appendChild(document.createTextNode(str));
+	  return div.innerHTML;
+	};
+
+	var _show = function _show(elem) {
+	  elem.style.opacity = '';
+	  elem.style.display = 'block';
+	};
+
+	var show = function show(elems) {
+	  if (elems && !elems.length) {
+	    return _show(elems);
+	  }
+	  for (var i = 0; i < elems.length; ++i) {
+	    _show(elems[i]);
+	  }
+	};
+
+	var _hide = function _hide(elem) {
+	  elem.style.opacity = '';
+	  elem.style.display = 'none';
+	};
+
+	var hide = function hide(elems) {
+	  if (elems && !elems.length) {
+	    return _hide(elems);
+	  }
+	  for (var i = 0; i < elems.length; ++i) {
+	    _hide(elems[i]);
+	  }
+	};
+
+	var isDescendant = function isDescendant(parent, child) {
+	  var node = child.parentNode;
+	  while (node !== null) {
+	    if (node === parent) {
+	      return true;
+	    }
+	    node = node.parentNode;
+	  }
+	  return false;
+	};
+
+	var getTopMargin = function getTopMargin(elem) {
+	  elem.style.left = '-9999px';
+	  elem.style.display = 'block';
+
+	  var height = elem.clientHeight,
+	      padding;
+	  if (typeof getComputedStyle !== 'undefined') {
+	    // IE 8
+	    padding = parseInt(getComputedStyle(elem).getPropertyValue('padding-top'), 10);
+	  } else {
+	    padding = parseInt(elem.currentStyle.padding);
+	  }
+
+	  elem.style.left = '';
+	  elem.style.display = 'none';
+	  return '-' + parseInt((height + padding) / 2) + 'px';
+	};
+
+	var fadeIn = function fadeIn(elem, interval) {
+	  if (+elem.style.opacity < 1) {
+	    interval = interval || 16;
+	    elem.style.opacity = 0;
+	    elem.style.display = 'block';
+	    var last = +new Date();
+	    var tick = (function (_tick) {
+	      function tick() {
+	        return _tick.apply(this, arguments);
+	      }
+
+	      tick.toString = function () {
+	        return _tick.toString();
+	      };
+
+	      return tick;
+	    })(function () {
+	      elem.style.opacity = +elem.style.opacity + (new Date() - last) / 100;
+	      last = +new Date();
+
+	      if (+elem.style.opacity < 1) {
+	        setTimeout(tick, interval);
+	      }
+	    });
+	    tick();
+	  }
+	  elem.style.display = 'block'; //fallback IE8
+	};
+
+	var fadeOut = function fadeOut(elem, interval) {
+	  interval = interval || 16;
+	  elem.style.opacity = 1;
+	  var last = +new Date();
+	  var tick = (function (_tick2) {
+	    function tick() {
+	      return _tick2.apply(this, arguments);
+	    }
+
+	    tick.toString = function () {
+	      return _tick2.toString();
+	    };
+
+	    return tick;
+	  })(function () {
+	    elem.style.opacity = +elem.style.opacity - (new Date() - last) / 100;
+	    last = +new Date();
+
+	    if (+elem.style.opacity > 0) {
+	      setTimeout(tick, interval);
+	    } else {
+	      elem.style.display = 'none';
+	    }
+	  });
+	  tick();
+	};
+
+	var fireClick = function fireClick(node) {
+	  // Taken from http://www.nonobtrusive.com/2011/11/29/programatically-fire-crossbrowser-click-event-with-javascript/
+	  // Then fixed for today's Chrome browser.
+	  if (typeof MouseEvent === 'function') {
+	    // Up-to-date approach
+	    var mevt = new MouseEvent('click', {
+	      view: window,
+	      bubbles: false,
+	      cancelable: true
+	    });
+	    node.dispatchEvent(mevt);
+	  } else if (document.createEvent) {
+	    // Fallback
+	    var evt = document.createEvent('MouseEvents');
+	    evt.initEvent('click', false, false);
+	    node.dispatchEvent(evt);
+	  } else if (document.createEventObject) {
+	    node.fireEvent('onclick');
+	  } else if (typeof node.onclick === 'function') {
+	    node.onclick();
+	  }
+	};
+
+	var stopEventPropagation = function stopEventPropagation(e) {
+	  // In particular, make sure the space bar doesn't scroll the main window.
+	  if (typeof e.stopPropagation === 'function') {
+	    e.stopPropagation();
+	    e.preventDefault();
+	  } else if (window.event && window.event.hasOwnProperty('cancelBubble')) {
+	    window.event.cancelBubble = true;
+	  }
+	};
+
+	exports.hasClass = hasClass;
+	exports.addClass = addClass;
+	exports.removeClass = removeClass;
+	exports.escapeHtml = escapeHtml;
+	exports._show = _show;
+	exports.show = show;
+	exports._hide = _hide;
+	exports.hide = hide;
+	exports.isDescendant = isDescendant;
+	exports.getTopMargin = getTopMargin;
+	exports.fadeIn = fadeIn;
+	exports.fadeOut = fadeOut;
+	exports.fireClick = fireClick;
+	exports.stopEventPropagation = stopEventPropagation;
+
+/***/ }),
+/* 452 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	/*
+	 * Allow user to pass their own params
+	 */
+	var extend = function extend(a, b) {
+	  for (var key in b) {
+	    if (b.hasOwnProperty(key)) {
+	      a[key] = b[key];
+	    }
+	  }
+	  return a;
+	};
+
+	/*
+	 * Convert HEX codes to RGB values (#000000 -> rgb(0,0,0))
+	 */
+	var hexToRgb = function hexToRgb(hex) {
+	  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	  return result ? parseInt(result[1], 16) + ', ' + parseInt(result[2], 16) + ', ' + parseInt(result[3], 16) : null;
+	};
+
+	/*
+	 * Check if the user is using Internet Explorer 8 (for fallbacks)
+	 */
+	var isIE8 = function isIE8() {
+	  return window.attachEvent && !window.addEventListener;
+	};
+
+	/*
+	 * IE compatible logging for developers
+	 */
+	var logStr = function logStr(string) {
+	  if (window.console) {
+	    // IE...
+	    window.console.log('SweetAlert: ' + string);
+	  }
+	};
+
+	/*
+	 * Set hover, active and focus-states for buttons 
+	 * (source: http://www.sitepoint.com/javascript-generate-lighter-darker-color)
+	 */
+	var colorLuminance = function colorLuminance(hex, lum) {
+	  // Validate hex string
+	  hex = String(hex).replace(/[^0-9a-f]/gi, '');
+	  if (hex.length < 6) {
+	    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+	  }
+	  lum = lum || 0;
+
+	  // Convert to decimal and change luminosity
+	  var rgb = '#';
+	  var c;
+	  var i;
+
+	  for (i = 0; i < 3; i++) {
+	    c = parseInt(hex.substr(i * 2, 2), 16);
+	    c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+	    rgb += ('00' + c).substr(c.length);
+	  }
+
+	  return rgb;
+	};
+
+	exports.extend = extend;
+	exports.hexToRgb = hexToRgb;
+	exports.isIE8 = isIE8;
+	exports.logStr = logStr;
+	exports.colorLuminance = colorLuminance;
+
+/***/ }),
+/* 453 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _hexToRgb = __webpack_require__(452);
+
+	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(451);
+
+	var _defaultParams = __webpack_require__(454);
+
+	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
+
+	/*
+	 * Add modal + overlay to DOM
+	 */
+
+	var _injectedHTML = __webpack_require__(455);
+
+	var _injectedHTML2 = _interopRequireWildcard(_injectedHTML);
+
+	var modalClass = '.sweet-alert';
+	var overlayClass = '.sweet-overlay';
+
+	var sweetAlertInitialize = function sweetAlertInitialize() {
+	  var sweetWrap = document.createElement('div');
+	  sweetWrap.innerHTML = _injectedHTML2['default'];
+
+	  // Append elements to body
+	  while (sweetWrap.firstChild) {
+	    document.body.appendChild(sweetWrap.firstChild);
+	  }
+	};
+
+	/*
+	 * Get DOM element of modal
+	 */
+	var getModal = (function (_getModal) {
+	  function getModal() {
+	    return _getModal.apply(this, arguments);
+	  }
+
+	  getModal.toString = function () {
+	    return _getModal.toString();
+	  };
+
+	  return getModal;
+	})(function () {
+	  var $modal = document.querySelector(modalClass);
+
+	  if (!$modal) {
+	    sweetAlertInitialize();
+	    $modal = getModal();
+	  }
+
+	  return $modal;
+	});
+
+	/*
+	 * Get DOM element of input (in modal)
+	 */
+	var getInput = function getInput() {
+	  var $modal = getModal();
+	  if ($modal) {
+	    return $modal.querySelector('input');
+	  }
+	};
+
+	/*
+	 * Get DOM element of overlay
+	 */
+	var getOverlay = function getOverlay() {
+	  return document.querySelector(overlayClass);
+	};
+
+	/*
+	 * Add box-shadow style to button (depending on its chosen bg-color)
+	 */
+	var setFocusStyle = function setFocusStyle($button, bgColor) {
+	  var rgbColor = _hexToRgb.hexToRgb(bgColor);
+	  $button.style.boxShadow = '0 0 2px rgba(' + rgbColor + ', 0.8), inset 0 0 0 1px rgba(0, 0, 0, 0.05)';
+	};
+
+	/*
+	 * Animation when opening modal
+	 */
+	var openModal = function openModal(callback) {
+	  var $modal = getModal();
+	  _removeClass$getTopMargin$fadeIn$show$addClass.fadeIn(getOverlay(), 10);
+	  _removeClass$getTopMargin$fadeIn$show$addClass.show($modal);
+	  _removeClass$getTopMargin$fadeIn$show$addClass.addClass($modal, 'showSweetAlert');
+	  _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($modal, 'hideSweetAlert');
+
+	  window.previousActiveElement = document.activeElement;
+	  var $okButton = $modal.querySelector('button.confirm');
+	  $okButton.focus();
+
+	  setTimeout(function () {
+	    _removeClass$getTopMargin$fadeIn$show$addClass.addClass($modal, 'visible');
+	  }, 500);
+
+	  var timer = $modal.getAttribute('data-timer');
+
+	  if (timer !== 'null' && timer !== '') {
+	    var timerCallback = callback;
+	    $modal.timeout = setTimeout(function () {
+	      var doneFunctionExists = (timerCallback || null) && $modal.getAttribute('data-has-done-function') === 'true';
+	      if (doneFunctionExists) {
+	        timerCallback(null);
+	      } else {
+	        sweetAlert.close();
+	      }
+	    }, timer);
+	  }
+	};
+
+	/*
+	 * Reset the styling of the input
+	 * (for example if errors have been shown)
+	 */
+	var resetInput = function resetInput() {
+	  var $modal = getModal();
+	  var $input = getInput();
+
+	  _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($modal, 'show-input');
+	  $input.value = _defaultParams2['default'].inputValue;
+	  $input.setAttribute('type', _defaultParams2['default'].inputType);
+	  $input.setAttribute('placeholder', _defaultParams2['default'].inputPlaceholder);
+
+	  resetInputError();
+	};
+
+	var resetInputError = function resetInputError(event) {
+	  // If press enter => ignore
+	  if (event && event.keyCode === 13) {
+	    return false;
+	  }
+
+	  var $modal = getModal();
+
+	  var $errorIcon = $modal.querySelector('.sa-input-error');
+	  _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($errorIcon, 'show');
+
+	  var $errorContainer = $modal.querySelector('.sa-error-container');
+	  _removeClass$getTopMargin$fadeIn$show$addClass.removeClass($errorContainer, 'show');
+	};
+
+	/*
+	 * Set "margin-top"-property on modal based on its computed height
+	 */
+	var fixVerticalPosition = function fixVerticalPosition() {
+	  var $modal = getModal();
+	  $modal.style.marginTop = _removeClass$getTopMargin$fadeIn$show$addClass.getTopMargin(getModal());
+	};
+
+	exports.sweetAlertInitialize = sweetAlertInitialize;
+	exports.getModal = getModal;
+	exports.getOverlay = getOverlay;
+	exports.getInput = getInput;
+	exports.setFocusStyle = setFocusStyle;
+	exports.openModal = openModal;
+	exports.resetInput = resetInput;
+	exports.resetInputError = resetInputError;
+	exports.fixVerticalPosition = fixVerticalPosition;
+
+/***/ }),
+/* 454 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	var defaultParams = {
+	  title: '',
+	  text: '',
+	  type: null,
+	  allowOutsideClick: false,
+	  showConfirmButton: true,
+	  showCancelButton: false,
+	  closeOnConfirm: true,
+	  closeOnCancel: true,
+	  confirmButtonText: 'OK',
+	  confirmButtonColor: '#8CD4F5',
+	  cancelButtonText: 'Cancel',
+	  imageUrl: null,
+	  imageSize: null,
+	  timer: null,
+	  customClass: '',
+	  html: false,
+	  animation: true,
+	  allowEscapeKey: true,
+	  inputType: 'text',
+	  inputPlaceholder: '',
+	  inputValue: '',
+	  showLoaderOnConfirm: false
+	};
+
+	exports['default'] = defaultParams;
+	module.exports = exports['default'];
+
+/***/ }),
+/* 455 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var injectedHTML =
+
+	// Dark overlay
+	"<div class=\"sweet-overlay\" tabIndex=\"-1\"></div>" +
+
+	// Modal
+	"<div class=\"sweet-alert\">" +
+
+	// Error icon
+	"<div class=\"sa-icon sa-error\">\n      <span class=\"sa-x-mark\">\n        <span class=\"sa-line sa-left\"></span>\n        <span class=\"sa-line sa-right\"></span>\n      </span>\n    </div>" +
+
+	// Warning icon
+	"<div class=\"sa-icon sa-warning\">\n      <span class=\"sa-body\"></span>\n      <span class=\"sa-dot\"></span>\n    </div>" +
+
+	// Info icon
+	"<div class=\"sa-icon sa-info\"></div>" +
+
+	// Success icon
+	"<div class=\"sa-icon sa-success\">\n      <span class=\"sa-line sa-tip\"></span>\n      <span class=\"sa-line sa-long\"></span>\n\n      <div class=\"sa-placeholder\"></div>\n      <div class=\"sa-fix\"></div>\n    </div>" + "<div class=\"sa-icon sa-custom\"></div>" +
+
+	// Title, text and input
+	"<h2>Title</h2>\n    <p>Text</p>\n    <fieldset>\n      <input type=\"text\" tabIndex=\"3\" />\n      <div class=\"sa-input-error\"></div>\n    </fieldset>" +
+
+	// Input errors
+	"<div class=\"sa-error-container\">\n      <div class=\"icon\">!</div>\n      <p>Not valid!</p>\n    </div>" +
+
+	// Cancel and confirm buttons
+	"<div class=\"sa-button-container\">\n      <button class=\"cancel\" tabIndex=\"2\">Cancel</button>\n      <div class=\"sa-confirm-button-container\">\n        <button class=\"confirm\" tabIndex=\"1\">OK</button>" +
+
+	// Loading animation
+	"<div class=\"la-ball-fall\">\n          <div></div>\n          <div></div>\n          <div></div>\n        </div>\n      </div>\n    </div>" +
+
+	// End of modal
+	"</div>";
+
+	exports["default"] = injectedHTML;
+	module.exports = exports["default"];
+
+/***/ }),
+/* 456 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _colorLuminance = __webpack_require__(452);
+
+	var _getModal = __webpack_require__(453);
+
+	var _hasClass$isDescendant = __webpack_require__(451);
+
+	/*
+	 * User clicked on "Confirm"/"OK" or "Cancel"
+	 */
+	var handleButton = function handleButton(event, params, modal) {
+	  var e = event || window.event;
+	  var target = e.target || e.srcElement;
+
+	  var targetedConfirm = target.className.indexOf('confirm') !== -1;
+	  var targetedOverlay = target.className.indexOf('sweet-overlay') !== -1;
+	  var modalIsVisible = _hasClass$isDescendant.hasClass(modal, 'visible');
+	  var doneFunctionExists = params.doneFunction && modal.getAttribute('data-has-done-function') === 'true';
+
+	  // Since the user can change the background-color of the confirm button programmatically,
+	  // we must calculate what the color should be on hover/active
+	  var normalColor, hoverColor, activeColor;
+	  if (targetedConfirm && params.confirmButtonColor) {
+	    normalColor = params.confirmButtonColor;
+	    hoverColor = _colorLuminance.colorLuminance(normalColor, -0.04);
+	    activeColor = _colorLuminance.colorLuminance(normalColor, -0.14);
+	  }
+
+	  function shouldSetConfirmButtonColor(color) {
+	    if (targetedConfirm && params.confirmButtonColor) {
+	      target.style.backgroundColor = color;
+	    }
+	  }
+
+	  switch (e.type) {
+	    case 'mouseover':
+	      shouldSetConfirmButtonColor(hoverColor);
+	      break;
+
+	    case 'mouseout':
+	      shouldSetConfirmButtonColor(normalColor);
+	      break;
+
+	    case 'mousedown':
+	      shouldSetConfirmButtonColor(activeColor);
+	      break;
+
+	    case 'mouseup':
+	      shouldSetConfirmButtonColor(hoverColor);
+	      break;
+
+	    case 'focus':
+	      var $confirmButton = modal.querySelector('button.confirm');
+	      var $cancelButton = modal.querySelector('button.cancel');
+
+	      if (targetedConfirm) {
+	        $cancelButton.style.boxShadow = 'none';
+	      } else {
+	        $confirmButton.style.boxShadow = 'none';
+	      }
+	      break;
+
+	    case 'click':
+	      var clickedOnModal = modal === target;
+	      var clickedOnModalChild = _hasClass$isDescendant.isDescendant(modal, target);
+
+	      // Ignore click outside if allowOutsideClick is false
+	      if (!clickedOnModal && !clickedOnModalChild && modalIsVisible && !params.allowOutsideClick) {
+	        break;
+	      }
+
+	      if (targetedConfirm && doneFunctionExists && modalIsVisible) {
+	        handleConfirm(modal, params);
+	      } else if (doneFunctionExists && modalIsVisible || targetedOverlay) {
+	        handleCancel(modal, params);
+	      } else if (_hasClass$isDescendant.isDescendant(modal, target) && target.tagName === 'BUTTON') {
+	        sweetAlert.close();
+	      }
+	      break;
+	  }
+	};
+
+	/*
+	 *  User clicked on "Confirm"/"OK"
+	 */
+	var handleConfirm = function handleConfirm(modal, params) {
+	  var callbackValue = true;
+
+	  if (_hasClass$isDescendant.hasClass(modal, 'show-input')) {
+	    callbackValue = modal.querySelector('input').value;
+
+	    if (!callbackValue) {
+	      callbackValue = '';
+	    }
+	  }
+
+	  params.doneFunction(callbackValue);
+
+	  if (params.closeOnConfirm) {
+	    sweetAlert.close();
+	  }
+	  // Disable cancel and confirm button if the parameter is true
+	  if (params.showLoaderOnConfirm) {
+	    sweetAlert.disableButtons();
+	  }
+	};
+
+	/*
+	 *  User clicked on "Cancel"
+	 */
+	var handleCancel = function handleCancel(modal, params) {
+	  // Check if callback function expects a parameter (to track cancel actions)
+	  var functionAsStr = String(params.doneFunction).replace(/\s/g, '');
+	  var functionHandlesCancel = functionAsStr.substring(0, 9) === 'function(' && functionAsStr.substring(9, 10) !== ')';
+
+	  if (functionHandlesCancel) {
+	    params.doneFunction(false);
+	  }
+
+	  if (params.closeOnCancel) {
+	    sweetAlert.close();
+	  }
+	};
+
+	exports['default'] = {
+	  handleButton: handleButton,
+	  handleConfirm: handleConfirm,
+	  handleCancel: handleCancel
+	};
+	module.exports = exports['default'];
+
+/***/ }),
+/* 457 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _stopEventPropagation$fireClick = __webpack_require__(451);
+
+	var _setFocusStyle = __webpack_require__(453);
+
+	var handleKeyDown = function handleKeyDown(event, params, modal) {
+	  var e = event || window.event;
+	  var keyCode = e.keyCode || e.which;
+
+	  var $okButton = modal.querySelector('button.confirm');
+	  var $cancelButton = modal.querySelector('button.cancel');
+	  var $modalButtons = modal.querySelectorAll('button[tabindex]');
+
+	  if ([9, 13, 32, 27].indexOf(keyCode) === -1) {
+	    // Don't do work on keys we don't care about.
+	    return;
+	  }
+
+	  var $targetElement = e.target || e.srcElement;
+
+	  var btnIndex = -1; // Find the button - note, this is a nodelist, not an array.
+	  for (var i = 0; i < $modalButtons.length; i++) {
+	    if ($targetElement === $modalButtons[i]) {
+	      btnIndex = i;
+	      break;
+	    }
+	  }
+
+	  if (keyCode === 9) {
+	    // TAB
+	    if (btnIndex === -1) {
+	      // No button focused. Jump to the confirm button.
+	      $targetElement = $okButton;
+	    } else {
+	      // Cycle to the next button
+	      if (btnIndex === $modalButtons.length - 1) {
+	        $targetElement = $modalButtons[0];
+	      } else {
+	        $targetElement = $modalButtons[btnIndex + 1];
+	      }
+	    }
+
+	    _stopEventPropagation$fireClick.stopEventPropagation(e);
+	    $targetElement.focus();
+
+	    if (params.confirmButtonColor) {
+	      _setFocusStyle.setFocusStyle($targetElement, params.confirmButtonColor);
+	    }
+	  } else {
+	    if (keyCode === 13) {
+	      if ($targetElement.tagName === 'INPUT') {
+	        $targetElement = $okButton;
+	        $okButton.focus();
+	      }
+
+	      if (btnIndex === -1) {
+	        // ENTER/SPACE clicked outside of a button.
+	        $targetElement = $okButton;
+	      } else {
+	        // Do nothing - let the browser handle it.
+	        $targetElement = undefined;
+	      }
+	    } else if (keyCode === 27 && params.allowEscapeKey === true) {
+	      $targetElement = $cancelButton;
+	      _stopEventPropagation$fireClick.fireClick($targetElement, e);
+	    } else {
+	      // Fallback - let the browser handle it.
+	      $targetElement = undefined;
+	    }
+	  }
+	};
+
+	exports['default'] = handleKeyDown;
+	module.exports = exports['default'];
+
+/***/ }),
+/* 458 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	var _isIE8 = __webpack_require__(452);
+
+	var _getModal$getInput$setFocusStyle = __webpack_require__(453);
+
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(451);
+
+	var alertTypes = ['error', 'warning', 'info', 'success', 'input', 'prompt'];
+
+	/*
+	 * Set type, text and actions on modal
+	 */
+	var setParameters = function setParameters(params) {
+	  var modal = _getModal$getInput$setFocusStyle.getModal();
+
+	  var $title = modal.querySelector('h2');
+	  var $text = modal.querySelector('p');
+	  var $cancelBtn = modal.querySelector('button.cancel');
+	  var $confirmBtn = modal.querySelector('button.confirm');
+
+	  /*
+	   * Title
+	   */
+	  $title.innerHTML = params.html ? params.title : _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.escapeHtml(params.title).split('\n').join('<br>');
+
+	  /*
+	   * Text
+	   */
+	  $text.innerHTML = params.html ? params.text : _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.escapeHtml(params.text || '').split('\n').join('<br>');
+	  if (params.text) _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.show($text);
+
+	  /*
+	   * Custom class
+	   */
+	  if (params.customClass) {
+	    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass(modal, params.customClass);
+	    modal.setAttribute('data-custom-class', params.customClass);
+	  } else {
+	    // Find previously set classes and remove them
+	    var customClass = modal.getAttribute('data-custom-class');
+	    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.removeClass(modal, customClass);
+	    modal.setAttribute('data-custom-class', '');
+	  }
+
+	  /*
+	   * Icon
+	   */
+	  _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.hide(modal.querySelectorAll('.sa-icon'));
+
+	  if (params.type && !_isIE8.isIE8()) {
+	    var _ret = (function () {
+
+	      var validType = false;
+
+	      for (var i = 0; i < alertTypes.length; i++) {
+	        if (params.type === alertTypes[i]) {
+	          validType = true;
+	          break;
+	        }
+	      }
+
+	      if (!validType) {
+	        logStr('Unknown alert type: ' + params.type);
+	        return {
+	          v: false
+	        };
+	      }
+
+	      var typesWithIcons = ['success', 'error', 'warning', 'info'];
+	      var $icon = undefined;
+
+	      if (typesWithIcons.indexOf(params.type) !== -1) {
+	        $icon = modal.querySelector('.sa-icon.' + 'sa-' + params.type);
+	        _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.show($icon);
+	      }
+
+	      var $input = _getModal$getInput$setFocusStyle.getInput();
+
+	      // Animate icon
+	      switch (params.type) {
+
+	        case 'success':
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon, 'animate');
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-tip'), 'animateSuccessTip');
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-long'), 'animateSuccessLong');
+	          break;
+
+	        case 'error':
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon, 'animateErrorIcon');
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-x-mark'), 'animateXMark');
+	          break;
+
+	        case 'warning':
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon, 'pulseWarning');
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-body'), 'pulseWarningIns');
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass($icon.querySelector('.sa-dot'), 'pulseWarningIns');
+	          break;
+
+	        case 'input':
+	        case 'prompt':
+	          $input.setAttribute('type', params.inputType);
+	          $input.value = params.inputValue;
+	          $input.setAttribute('placeholder', params.inputPlaceholder);
+	          _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.addClass(modal, 'show-input');
+	          setTimeout(function () {
+	            $input.focus();
+	            $input.addEventListener('keyup', swal.resetInputError);
+	          }, 400);
+	          break;
+	      }
+	    })();
+
+	    if (typeof _ret === 'object') {
+	      return _ret.v;
+	    }
+	  }
+
+	  /*
+	   * Custom image
+	   */
+	  if (params.imageUrl) {
+	    var $customIcon = modal.querySelector('.sa-icon.sa-custom');
+
+	    $customIcon.style.backgroundImage = 'url(' + params.imageUrl + ')';
+	    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.show($customIcon);
+
+	    var _imgWidth = 80;
+	    var _imgHeight = 80;
+
+	    if (params.imageSize) {
+	      var dimensions = params.imageSize.toString().split('x');
+	      var imgWidth = dimensions[0];
+	      var imgHeight = dimensions[1];
+
+	      if (!imgWidth || !imgHeight) {
+	        logStr('Parameter imageSize expects value with format WIDTHxHEIGHT, got ' + params.imageSize);
+	      } else {
+	        _imgWidth = imgWidth;
+	        _imgHeight = imgHeight;
+	      }
+	    }
+
+	    $customIcon.setAttribute('style', $customIcon.getAttribute('style') + 'width:' + _imgWidth + 'px; height:' + _imgHeight + 'px');
+	  }
+
+	  /*
+	   * Show cancel button?
+	   */
+	  modal.setAttribute('data-has-cancel-button', params.showCancelButton);
+	  if (params.showCancelButton) {
+	    $cancelBtn.style.display = 'inline-block';
+	  } else {
+	    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.hide($cancelBtn);
+	  }
+
+	  /*
+	   * Show confirm button?
+	   */
+	  modal.setAttribute('data-has-confirm-button', params.showConfirmButton);
+	  if (params.showConfirmButton) {
+	    $confirmBtn.style.display = 'inline-block';
+	  } else {
+	    _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.hide($confirmBtn);
+	  }
+
+	  /*
+	   * Custom text on cancel/confirm buttons
+	   */
+	  if (params.cancelButtonText) {
+	    $cancelBtn.innerHTML = _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.escapeHtml(params.cancelButtonText);
+	  }
+	  if (params.confirmButtonText) {
+	    $confirmBtn.innerHTML = _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide.escapeHtml(params.confirmButtonText);
+	  }
+
+	  /*
+	   * Custom color on confirm button
+	   */
+	  if (params.confirmButtonColor) {
+	    // Set confirm button to selected background color
+	    $confirmBtn.style.backgroundColor = params.confirmButtonColor;
+
+	    // Set the confirm button color to the loading ring
+	    $confirmBtn.style.borderLeftColor = params.confirmLoadingButtonColor;
+	    $confirmBtn.style.borderRightColor = params.confirmLoadingButtonColor;
+
+	    // Set box-shadow to default focused button
+	    _getModal$getInput$setFocusStyle.setFocusStyle($confirmBtn, params.confirmButtonColor);
+	  }
+
+	  /*
+	   * Allow outside click
+	   */
+	  modal.setAttribute('data-allow-outside-click', params.allowOutsideClick);
+
+	  /*
+	   * Callback function
+	   */
+	  var hasDoneFunction = params.doneFunction ? true : false;
+	  modal.setAttribute('data-has-done-function', hasDoneFunction);
+
+	  /*
+	   * Animation
+	   */
+	  if (!params.animation) {
+	    modal.setAttribute('data-animation', 'none');
+	  } else if (typeof params.animation === 'string') {
+	    modal.setAttribute('data-animation', params.animation); // Custom animation
+	  } else {
+	    modal.setAttribute('data-animation', 'pop');
+	  }
+
+	  /*
+	   * Timer
+	   */
+	  modal.setAttribute('data-timer', params.timer);
+	};
+
+	exports['default'] = setParameters;
+	module.exports = exports['default'];
+
+/***/ }),
+/* 459 */
+/***/ (function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {/**
+	 * lodash (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modularize exports="npm" -o ./`
+	 * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+	 * Released under MIT license <https://lodash.com/license>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 */
+
+	/** Used as references for various `Number` constants. */
+	var INFINITY = 1 / 0,
+	    MAX_SAFE_INTEGER = 9007199254740991;
+
+	/** `Object#toString` result references. */
+	var argsTag = '[object Arguments]',
+	    funcTag = '[object Function]',
+	    genTag = '[object GeneratorFunction]',
+	    symbolTag = '[object Symbol]';
+
+	/** Detect free variable `global` from Node.js. */
+	var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+	/** Detect free variable `self`. */
+	var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+	/** Used as a reference to the global object. */
+	var root = freeGlobal || freeSelf || Function('return this')();
+
+	/**
+	 * A faster alternative to `Function#apply`, this function invokes `func`
+	 * with the `this` binding of `thisArg` and the arguments of `args`.
+	 *
+	 * @private
+	 * @param {Function} func The function to invoke.
+	 * @param {*} thisArg The `this` binding of `func`.
+	 * @param {Array} args The arguments to invoke `func` with.
+	 * @returns {*} Returns the result of `func`.
+	 */
+	function apply(func, thisArg, args) {
+	  switch (args.length) {
+	    case 0: return func.call(thisArg);
+	    case 1: return func.call(thisArg, args[0]);
+	    case 2: return func.call(thisArg, args[0], args[1]);
+	    case 3: return func.call(thisArg, args[0], args[1], args[2]);
+	  }
+	  return func.apply(thisArg, args);
+	}
+
+	/**
+	 * A specialized version of `_.map` for arrays without support for iteratee
+	 * shorthands.
+	 *
+	 * @private
+	 * @param {Array} [array] The array to iterate over.
+	 * @param {Function} iteratee The function invoked per iteration.
+	 * @returns {Array} Returns the new mapped array.
+	 */
+	function arrayMap(array, iteratee) {
+	  var index = -1,
+	      length = array ? array.length : 0,
+	      result = Array(length);
+
+	  while (++index < length) {
+	    result[index] = iteratee(array[index], index, array);
+	  }
+	  return result;
+	}
+
+	/**
+	 * Appends the elements of `values` to `array`.
+	 *
+	 * @private
+	 * @param {Array} array The array to modify.
+	 * @param {Array} values The values to append.
+	 * @returns {Array} Returns `array`.
+	 */
+	function arrayPush(array, values) {
+	  var index = -1,
+	      length = values.length,
+	      offset = array.length;
+
+	  while (++index < length) {
+	    array[offset + index] = values[index];
+	  }
+	  return array;
+	}
+
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+
+	/**
+	 * Used to resolve the
+	 * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+
+	/** Built-in value references. */
+	var Symbol = root.Symbol,
+	    propertyIsEnumerable = objectProto.propertyIsEnumerable,
+	    spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined;
+
+	/* Built-in method references for those with the same name as other `lodash` methods. */
+	var nativeMax = Math.max;
+
+	/**
+	 * The base implementation of `_.flatten` with support for restricting flattening.
+	 *
+	 * @private
+	 * @param {Array} array The array to flatten.
+	 * @param {number} depth The maximum recursion depth.
+	 * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
+	 * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
+	 * @param {Array} [result=[]] The initial result value.
+	 * @returns {Array} Returns the new flattened array.
+	 */
+	function baseFlatten(array, depth, predicate, isStrict, result) {
+	  var index = -1,
+	      length = array.length;
+
+	  predicate || (predicate = isFlattenable);
+	  result || (result = []);
+
+	  while (++index < length) {
+	    var value = array[index];
+	    if (depth > 0 && predicate(value)) {
+	      if (depth > 1) {
+	        // Recursively flatten arrays (susceptible to call stack limits).
+	        baseFlatten(value, depth - 1, predicate, isStrict, result);
+	      } else {
+	        arrayPush(result, value);
+	      }
+	    } else if (!isStrict) {
+	      result[result.length] = value;
+	    }
+	  }
+	  return result;
+	}
+
+	/**
+	 * The base implementation of `_.pick` without support for individual
+	 * property identifiers.
+	 *
+	 * @private
+	 * @param {Object} object The source object.
+	 * @param {string[]} props The property identifiers to pick.
+	 * @returns {Object} Returns the new object.
+	 */
+	function basePick(object, props) {
+	  object = Object(object);
+	  return basePickBy(object, props, function(value, key) {
+	    return key in object;
+	  });
+	}
+
+	/**
+	 * The base implementation of  `_.pickBy` without support for iteratee shorthands.
+	 *
+	 * @private
+	 * @param {Object} object The source object.
+	 * @param {string[]} props The property identifiers to pick from.
+	 * @param {Function} predicate The function invoked per property.
+	 * @returns {Object} Returns the new object.
+	 */
+	function basePickBy(object, props, predicate) {
+	  var index = -1,
+	      length = props.length,
+	      result = {};
+
+	  while (++index < length) {
+	    var key = props[index],
+	        value = object[key];
+
+	    if (predicate(value, key)) {
+	      result[key] = value;
+	    }
+	  }
+	  return result;
+	}
+
+	/**
+	 * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+	 *
+	 * @private
+	 * @param {Function} func The function to apply a rest parameter to.
+	 * @param {number} [start=func.length-1] The start position of the rest parameter.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseRest(func, start) {
+	  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+	  return function() {
+	    var args = arguments,
+	        index = -1,
+	        length = nativeMax(args.length - start, 0),
+	        array = Array(length);
+
+	    while (++index < length) {
+	      array[index] = args[start + index];
+	    }
+	    index = -1;
+	    var otherArgs = Array(start + 1);
+	    while (++index < start) {
+	      otherArgs[index] = args[index];
+	    }
+	    otherArgs[start] = array;
+	    return apply(func, this, otherArgs);
+	  };
+	}
+
+	/**
+	 * Checks if `value` is a flattenable `arguments` object or array.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
+	 */
+	function isFlattenable(value) {
+	  return isArray(value) || isArguments(value) ||
+	    !!(spreadableSymbol && value && value[spreadableSymbol]);
+	}
+
+	/**
+	 * Converts `value` to a string key if it's not a string or symbol.
+	 *
+	 * @private
+	 * @param {*} value The value to inspect.
+	 * @returns {string|symbol} Returns the key.
+	 */
+	function toKey(value) {
+	  if (typeof value == 'string' || isSymbol(value)) {
+	    return value;
+	  }
+	  var result = (value + '');
+	  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+	}
+
+	/**
+	 * Checks if `value` is likely an `arguments` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArguments(function() { return arguments; }());
+	 * // => true
+	 *
+	 * _.isArguments([1, 2, 3]);
+	 * // => false
+	 */
+	function isArguments(value) {
+	  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
+	  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+	    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+	}
+
+	/**
+	 * Checks if `value` is classified as an `Array` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+	 * @example
+	 *
+	 * _.isArray([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArray(document.body.children);
+	 * // => false
+	 *
+	 * _.isArray('abc');
+	 * // => false
+	 *
+	 * _.isArray(_.noop);
+	 * // => false
+	 */
+	var isArray = Array.isArray;
+
+	/**
+	 * Checks if `value` is array-like. A value is considered array-like if it's
+	 * not a function and has a `value.length` that's an integer greater than or
+	 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 * @example
+	 *
+	 * _.isArrayLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLike(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLike('abc');
+	 * // => true
+	 *
+	 * _.isArrayLike(_.noop);
+	 * // => false
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(value.length) && !isFunction(value);
+	}
+
+	/**
+	 * This method is like `_.isArrayLike` except that it also checks if `value`
+	 * is an object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an array-like object,
+	 *  else `false`.
+	 * @example
+	 *
+	 * _.isArrayLikeObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject('abc');
+	 * // => false
+	 *
+	 * _.isArrayLikeObject(_.noop);
+	 * // => false
+	 */
+	function isArrayLikeObject(value) {
+	  return isObjectLike(value) && isArrayLike(value);
+	}
+
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in Safari 8-9 which returns 'object' for typed array and other constructors.
+	  var tag = isObject(value) ? objectToString.call(value) : '';
+	  return tag == funcTag || tag == genTag;
+	}
+
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This method is loosely based on
+	 * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 * @example
+	 *
+	 * _.isLength(3);
+	 * // => true
+	 *
+	 * _.isLength(Number.MIN_VALUE);
+	 * // => false
+	 *
+	 * _.isLength(Infinity);
+	 * // => false
+	 *
+	 * _.isLength('3');
+	 * // => false
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' &&
+	    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+
+	/**
+	 * Checks if `value` is the
+	 * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+	 * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 0.1.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(_.noop);
+	 * // => true
+	 *
+	 * _.isObject(null);
+	 * // => false
+	 */
+	function isObject(value) {
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+
+	/**
+	 * Checks if `value` is classified as a `Symbol` primitive or object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @since 4.0.0
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+	 * @example
+	 *
+	 * _.isSymbol(Symbol.iterator);
+	 * // => true
+	 *
+	 * _.isSymbol('abc');
+	 * // => false
+	 */
+	function isSymbol(value) {
+	  return typeof value == 'symbol' ||
+	    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+	}
+
+	/**
+	 * Creates an object composed of the picked `object` properties.
+	 *
+	 * @static
+	 * @since 0.1.0
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The source object.
+	 * @param {...(string|string[])} [props] The property identifiers to pick.
+	 * @returns {Object} Returns the new object.
+	 * @example
+	 *
+	 * var object = { 'a': 1, 'b': '2', 'c': 3 };
+	 *
+	 * _.pick(object, ['a', 'c']);
+	 * // => { 'a': 1, 'c': 3 }
+	 */
+	var pick = baseRest(function(object, props) {
+	  return object == null ? {} : basePick(object, arrayMap(baseFlatten(props, 1), toKey));
+	});
+
+	module.exports = pick;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ }),
+/* 460 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
+	/**
+	 * Copyright 2012-2017 Craig Campbell
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * Mousetrap is a simple keyboard shortcut library for Javascript with
+	 * no external dependencies
+	 *
+	 * @version 1.6.1
+	 * @url craig.is/killing/mice
+	 */
+	(function(window, document, undefined) {
+
+	    // Check if mousetrap is used inside browser, if not, return
+	    if (!window) {
+	        return;
+	    }
+
+	    /**
+	     * mapping of special keycodes to their corresponding keys
+	     *
+	     * everything in this dictionary cannot use keypress events
+	     * so it has to be here to map to the correct keycodes for
+	     * keyup/keydown events
+	     *
+	     * @type {Object}
+	     */
+	    var _MAP = {
+	        8: 'backspace',
+	        9: 'tab',
+	        13: 'enter',
+	        16: 'shift',
+	        17: 'ctrl',
+	        18: 'alt',
+	        20: 'capslock',
+	        27: 'esc',
+	        32: 'space',
+	        33: 'pageup',
+	        34: 'pagedown',
+	        35: 'end',
+	        36: 'home',
+	        37: 'left',
+	        38: 'up',
+	        39: 'right',
+	        40: 'down',
+	        45: 'ins',
+	        46: 'del',
+	        91: 'meta',
+	        93: 'meta',
+	        224: 'meta'
+	    };
+
+	    /**
+	     * mapping for special characters so they can support
+	     *
+	     * this dictionary is only used incase you want to bind a
+	     * keyup or keydown event to one of these keys
+	     *
+	     * @type {Object}
+	     */
+	    var _KEYCODE_MAP = {
+	        106: '*',
+	        107: '+',
+	        109: '-',
+	        110: '.',
+	        111 : '/',
+	        186: ';',
+	        187: '=',
+	        188: ',',
+	        189: '-',
+	        190: '.',
+	        191: '/',
+	        192: '`',
+	        219: '[',
+	        220: '\\',
+	        221: ']',
+	        222: '\''
+	    };
+
+	    /**
+	     * this is a mapping of keys that require shift on a US keypad
+	     * back to the non shift equivelents
+	     *
+	     * this is so you can use keyup events with these keys
+	     *
+	     * note that this will only work reliably on US keyboards
+	     *
+	     * @type {Object}
+	     */
+	    var _SHIFT_MAP = {
+	        '~': '`',
+	        '!': '1',
+	        '@': '2',
+	        '#': '3',
+	        '$': '4',
+	        '%': '5',
+	        '^': '6',
+	        '&': '7',
+	        '*': '8',
+	        '(': '9',
+	        ')': '0',
+	        '_': '-',
+	        '+': '=',
+	        ':': ';',
+	        '\"': '\'',
+	        '<': ',',
+	        '>': '.',
+	        '?': '/',
+	        '|': '\\'
+	    };
+
+	    /**
+	     * this is a list of special strings you can use to map
+	     * to modifier keys when you specify your keyboard shortcuts
+	     *
+	     * @type {Object}
+	     */
+	    var _SPECIAL_ALIASES = {
+	        'option': 'alt',
+	        'command': 'meta',
+	        'return': 'enter',
+	        'escape': 'esc',
+	        'plus': '+',
+	        'mod': /Mac|iPod|iPhone|iPad/.test(navigator.platform) ? 'meta' : 'ctrl'
+	    };
+
+	    /**
+	     * variable to store the flipped version of _MAP from above
+	     * needed to check if we should use keypress or not when no action
+	     * is specified
+	     *
+	     * @type {Object|undefined}
+	     */
+	    var _REVERSE_MAP;
+
+	    /**
+	     * loop through the f keys, f1 to f19 and add them to the map
+	     * programatically
+	     */
+	    for (var i = 1; i < 20; ++i) {
+	        _MAP[111 + i] = 'f' + i;
+	    }
+
+	    /**
+	     * loop through to map numbers on the numeric keypad
+	     */
+	    for (i = 0; i <= 9; ++i) {
+
+	        // This needs to use a string cause otherwise since 0 is falsey
+	        // mousetrap will never fire for numpad 0 pressed as part of a keydown
+	        // event.
+	        //
+	        // @see https://github.com/ccampbell/mousetrap/pull/258
+	        _MAP[i + 96] = i.toString();
+	    }
+
+	    /**
+	     * cross browser add event method
+	     *
+	     * @param {Element|HTMLDocument} object
+	     * @param {string} type
+	     * @param {Function} callback
+	     * @returns void
+	     */
+	    function _addEvent(object, type, callback) {
+	        if (object.addEventListener) {
+	            object.addEventListener(type, callback, false);
+	            return;
+	        }
+
+	        object.attachEvent('on' + type, callback);
+	    }
+
+	    /**
+	     * takes the event and returns the key character
+	     *
+	     * @param {Event} e
+	     * @return {string}
+	     */
+	    function _characterFromEvent(e) {
+
+	        // for keypress events we should return the character as is
+	        if (e.type == 'keypress') {
+	            var character = String.fromCharCode(e.which);
+
+	            // if the shift key is not pressed then it is safe to assume
+	            // that we want the character to be lowercase.  this means if
+	            // you accidentally have caps lock on then your key bindings
+	            // will continue to work
+	            //
+	            // the only side effect that might not be desired is if you
+	            // bind something like 'A' cause you want to trigger an
+	            // event when capital A is pressed caps lock will no longer
+	            // trigger the event.  shift+a will though.
+	            if (!e.shiftKey) {
+	                character = character.toLowerCase();
+	            }
+
+	            return character;
+	        }
+
+	        // for non keypress events the special maps are needed
+	        if (_MAP[e.which]) {
+	            return _MAP[e.which];
+	        }
+
+	        if (_KEYCODE_MAP[e.which]) {
+	            return _KEYCODE_MAP[e.which];
+	        }
+
+	        // if it is not in the special map
+
+	        // with keydown and keyup events the character seems to always
+	        // come in as an uppercase character whether you are pressing shift
+	        // or not.  we should make sure it is always lowercase for comparisons
+	        return String.fromCharCode(e.which).toLowerCase();
+	    }
+
+	    /**
+	     * checks if two arrays are equal
+	     *
+	     * @param {Array} modifiers1
+	     * @param {Array} modifiers2
+	     * @returns {boolean}
+	     */
+	    function _modifiersMatch(modifiers1, modifiers2) {
+	        return modifiers1.sort().join(',') === modifiers2.sort().join(',');
+	    }
+
+	    /**
+	     * takes a key event and figures out what the modifiers are
+	     *
+	     * @param {Event} e
+	     * @returns {Array}
+	     */
+	    function _eventModifiers(e) {
+	        var modifiers = [];
+
+	        if (e.shiftKey) {
+	            modifiers.push('shift');
+	        }
+
+	        if (e.altKey) {
+	            modifiers.push('alt');
+	        }
+
+	        if (e.ctrlKey) {
+	            modifiers.push('ctrl');
+	        }
+
+	        if (e.metaKey) {
+	            modifiers.push('meta');
+	        }
+
+	        return modifiers;
+	    }
+
+	    /**
+	     * prevents default for this event
+	     *
+	     * @param {Event} e
+	     * @returns void
+	     */
+	    function _preventDefault(e) {
+	        if (e.preventDefault) {
+	            e.preventDefault();
+	            return;
+	        }
+
+	        e.returnValue = false;
+	    }
+
+	    /**
+	     * stops propogation for this event
+	     *
+	     * @param {Event} e
+	     * @returns void
+	     */
+	    function _stopPropagation(e) {
+	        if (e.stopPropagation) {
+	            e.stopPropagation();
+	            return;
+	        }
+
+	        e.cancelBubble = true;
+	    }
+
+	    /**
+	     * determines if the keycode specified is a modifier key or not
+	     *
+	     * @param {string} key
+	     * @returns {boolean}
+	     */
+	    function _isModifier(key) {
+	        return key == 'shift' || key == 'ctrl' || key == 'alt' || key == 'meta';
+	    }
+
+	    /**
+	     * reverses the map lookup so that we can look for specific keys
+	     * to see what can and can't use keypress
+	     *
+	     * @return {Object}
+	     */
+	    function _getReverseMap() {
+	        if (!_REVERSE_MAP) {
+	            _REVERSE_MAP = {};
+	            for (var key in _MAP) {
+
+	                // pull out the numeric keypad from here cause keypress should
+	                // be able to detect the keys from the character
+	                if (key > 95 && key < 112) {
+	                    continue;
+	                }
+
+	                if (_MAP.hasOwnProperty(key)) {
+	                    _REVERSE_MAP[_MAP[key]] = key;
+	                }
+	            }
+	        }
+	        return _REVERSE_MAP;
+	    }
+
+	    /**
+	     * picks the best action based on the key combination
+	     *
+	     * @param {string} key - character for key
+	     * @param {Array} modifiers
+	     * @param {string=} action passed in
+	     */
+	    function _pickBestAction(key, modifiers, action) {
+
+	        // if no action was picked in we should try to pick the one
+	        // that we think would work best for this key
+	        if (!action) {
+	            action = _getReverseMap()[key] ? 'keydown' : 'keypress';
+	        }
+
+	        // modifier keys don't work as expected with keypress,
+	        // switch to keydown
+	        if (action == 'keypress' && modifiers.length) {
+	            action = 'keydown';
+	        }
+
+	        return action;
+	    }
+
+	    /**
+	     * Converts from a string key combination to an array
+	     *
+	     * @param  {string} combination like "command+shift+l"
+	     * @return {Array}
+	     */
+	    function _keysFromString(combination) {
+	        if (combination === '+') {
+	            return ['+'];
+	        }
+
+	        combination = combination.replace(/\+{2}/g, '+plus');
+	        return combination.split('+');
+	    }
+
+	    /**
+	     * Gets info for a specific key combination
+	     *
+	     * @param  {string} combination key combination ("command+s" or "a" or "*")
+	     * @param  {string=} action
+	     * @returns {Object}
+	     */
+	    function _getKeyInfo(combination, action) {
+	        var keys;
+	        var key;
+	        var i;
+	        var modifiers = [];
+
+	        // take the keys from this pattern and figure out what the actual
+	        // pattern is all about
+	        keys = _keysFromString(combination);
+
+	        for (i = 0; i < keys.length; ++i) {
+	            key = keys[i];
+
+	            // normalize key names
+	            if (_SPECIAL_ALIASES[key]) {
+	                key = _SPECIAL_ALIASES[key];
+	            }
+
+	            // if this is not a keypress event then we should
+	            // be smart about using shift keys
+	            // this will only work for US keyboards however
+	            if (action && action != 'keypress' && _SHIFT_MAP[key]) {
+	                key = _SHIFT_MAP[key];
+	                modifiers.push('shift');
+	            }
+
+	            // if this key is a modifier then add it to the list of modifiers
+	            if (_isModifier(key)) {
+	                modifiers.push(key);
+	            }
+	        }
+
+	        // depending on what the key combination is
+	        // we will try to pick the best event for it
+	        action = _pickBestAction(key, modifiers, action);
+
+	        return {
+	            key: key,
+	            modifiers: modifiers,
+	            action: action
+	        };
+	    }
+
+	    function _belongsTo(element, ancestor) {
+	        if (element === null || element === document) {
+	            return false;
+	        }
+
+	        if (element === ancestor) {
+	            return true;
+	        }
+
+	        return _belongsTo(element.parentNode, ancestor);
+	    }
+
+	    function Mousetrap(targetElement) {
+	        var self = this;
+
+	        targetElement = targetElement || document;
+
+	        if (!(self instanceof Mousetrap)) {
+	            return new Mousetrap(targetElement);
+	        }
+
+	        /**
+	         * element to attach key events to
+	         *
+	         * @type {Element}
+	         */
+	        self.target = targetElement;
+
+	        /**
+	         * a list of all the callbacks setup via Mousetrap.bind()
+	         *
+	         * @type {Object}
+	         */
+	        self._callbacks = {};
+
+	        /**
+	         * direct map of string combinations to callbacks used for trigger()
+	         *
+	         * @type {Object}
+	         */
+	        self._directMap = {};
+
+	        /**
+	         * keeps track of what level each sequence is at since multiple
+	         * sequences can start out with the same sequence
+	         *
+	         * @type {Object}
+	         */
+	        var _sequenceLevels = {};
+
+	        /**
+	         * variable to store the setTimeout call
+	         *
+	         * @type {null|number}
+	         */
+	        var _resetTimer;
+
+	        /**
+	         * temporary state where we will ignore the next keyup
+	         *
+	         * @type {boolean|string}
+	         */
+	        var _ignoreNextKeyup = false;
+
+	        /**
+	         * temporary state where we will ignore the next keypress
+	         *
+	         * @type {boolean}
+	         */
+	        var _ignoreNextKeypress = false;
+
+	        /**
+	         * are we currently inside of a sequence?
+	         * type of action ("keyup" or "keydown" or "keypress") or false
+	         *
+	         * @type {boolean|string}
+	         */
+	        var _nextExpectedAction = false;
+
+	        /**
+	         * resets all sequence counters except for the ones passed in
+	         *
+	         * @param {Object} doNotReset
+	         * @returns void
+	         */
+	        function _resetSequences(doNotReset) {
+	            doNotReset = doNotReset || {};
+
+	            var activeSequences = false,
+	                key;
+
+	            for (key in _sequenceLevels) {
+	                if (doNotReset[key]) {
+	                    activeSequences = true;
+	                    continue;
+	                }
+	                _sequenceLevels[key] = 0;
+	            }
+
+	            if (!activeSequences) {
+	                _nextExpectedAction = false;
+	            }
+	        }
+
+	        /**
+	         * finds all callbacks that match based on the keycode, modifiers,
+	         * and action
+	         *
+	         * @param {string} character
+	         * @param {Array} modifiers
+	         * @param {Event|Object} e
+	         * @param {string=} sequenceName - name of the sequence we are looking for
+	         * @param {string=} combination
+	         * @param {number=} level
+	         * @returns {Array}
+	         */
+	        function _getMatches(character, modifiers, e, sequenceName, combination, level) {
+	            var i;
+	            var callback;
+	            var matches = [];
+	            var action = e.type;
+
+	            // if there are no events related to this keycode
+	            if (!self._callbacks[character]) {
+	                return [];
+	            }
+
+	            // if a modifier key is coming up on its own we should allow it
+	            if (action == 'keyup' && _isModifier(character)) {
+	                modifiers = [character];
+	            }
+
+	            // loop through all callbacks for the key that was pressed
+	            // and see if any of them match
+	            for (i = 0; i < self._callbacks[character].length; ++i) {
+	                callback = self._callbacks[character][i];
+
+	                // if a sequence name is not specified, but this is a sequence at
+	                // the wrong level then move onto the next match
+	                if (!sequenceName && callback.seq && _sequenceLevels[callback.seq] != callback.level) {
+	                    continue;
+	                }
+
+	                // if the action we are looking for doesn't match the action we got
+	                // then we should keep going
+	                if (action != callback.action) {
+	                    continue;
+	                }
+
+	                // if this is a keypress event and the meta key and control key
+	                // are not pressed that means that we need to only look at the
+	                // character, otherwise check the modifiers as well
+	                //
+	                // chrome will not fire a keypress if meta or control is down
+	                // safari will fire a keypress if meta or meta+shift is down
+	                // firefox will fire a keypress if meta or control is down
+	                if ((action == 'keypress' && !e.metaKey && !e.ctrlKey) || _modifiersMatch(modifiers, callback.modifiers)) {
+
+	                    // when you bind a combination or sequence a second time it
+	                    // should overwrite the first one.  if a sequenceName or
+	                    // combination is specified in this call it does just that
+	                    //
+	                    // @todo make deleting its own method?
+	                    var deleteCombo = !sequenceName && callback.combo == combination;
+	                    var deleteSequence = sequenceName && callback.seq == sequenceName && callback.level == level;
+	                    if (deleteCombo || deleteSequence) {
+	                        self._callbacks[character].splice(i, 1);
+	                    }
+
+	                    matches.push(callback);
+	                }
+	            }
+
+	            return matches;
+	        }
+
+	        /**
+	         * actually calls the callback function
+	         *
+	         * if your callback function returns false this will use the jquery
+	         * convention - prevent default and stop propogation on the event
+	         *
+	         * @param {Function} callback
+	         * @param {Event} e
+	         * @returns void
+	         */
+	        function _fireCallback(callback, e, combo, sequence) {
+
+	            // if this event should not happen stop here
+	            if (self.stopCallback(e, e.target || e.srcElement, combo, sequence)) {
+	                return;
+	            }
+
+	            if (callback(e, combo) === false) {
+	                _preventDefault(e);
+	                _stopPropagation(e);
+	            }
+	        }
+
+	        /**
+	         * handles a character key event
+	         *
+	         * @param {string} character
+	         * @param {Array} modifiers
+	         * @param {Event} e
+	         * @returns void
+	         */
+	        self._handleKey = function(character, modifiers, e) {
+	            var callbacks = _getMatches(character, modifiers, e);
+	            var i;
+	            var doNotReset = {};
+	            var maxLevel = 0;
+	            var processedSequenceCallback = false;
+
+	            // Calculate the maxLevel for sequences so we can only execute the longest callback sequence
+	            for (i = 0; i < callbacks.length; ++i) {
+	                if (callbacks[i].seq) {
+	                    maxLevel = Math.max(maxLevel, callbacks[i].level);
+	                }
+	            }
+
+	            // loop through matching callbacks for this key event
+	            for (i = 0; i < callbacks.length; ++i) {
+
+	                // fire for all sequence callbacks
+	                // this is because if for example you have multiple sequences
+	                // bound such as "g i" and "g t" they both need to fire the
+	                // callback for matching g cause otherwise you can only ever
+	                // match the first one
+	                if (callbacks[i].seq) {
+
+	                    // only fire callbacks for the maxLevel to prevent
+	                    // subsequences from also firing
+	                    //
+	                    // for example 'a option b' should not cause 'option b' to fire
+	                    // even though 'option b' is part of the other sequence
+	                    //
+	                    // any sequences that do not match here will be discarded
+	                    // below by the _resetSequences call
+	                    if (callbacks[i].level != maxLevel) {
+	                        continue;
+	                    }
+
+	                    processedSequenceCallback = true;
+
+	                    // keep a list of which sequences were matches for later
+	                    doNotReset[callbacks[i].seq] = 1;
+	                    _fireCallback(callbacks[i].callback, e, callbacks[i].combo, callbacks[i].seq);
+	                    continue;
+	                }
+
+	                // if there were no sequence matches but we are still here
+	                // that means this is a regular match so we should fire that
+	                if (!processedSequenceCallback) {
+	                    _fireCallback(callbacks[i].callback, e, callbacks[i].combo);
+	                }
+	            }
+
+	            // if the key you pressed matches the type of sequence without
+	            // being a modifier (ie "keyup" or "keypress") then we should
+	            // reset all sequences that were not matched by this event
+	            //
+	            // this is so, for example, if you have the sequence "h a t" and you
+	            // type "h e a r t" it does not match.  in this case the "e" will
+	            // cause the sequence to reset
+	            //
+	            // modifier keys are ignored because you can have a sequence
+	            // that contains modifiers such as "enter ctrl+space" and in most
+	            // cases the modifier key will be pressed before the next key
+	            //
+	            // also if you have a sequence such as "ctrl+b a" then pressing the
+	            // "b" key will trigger a "keypress" and a "keydown"
+	            //
+	            // the "keydown" is expected when there is a modifier, but the
+	            // "keypress" ends up matching the _nextExpectedAction since it occurs
+	            // after and that causes the sequence to reset
+	            //
+	            // we ignore keypresses in a sequence that directly follow a keydown
+	            // for the same character
+	            var ignoreThisKeypress = e.type == 'keypress' && _ignoreNextKeypress;
+	            if (e.type == _nextExpectedAction && !_isModifier(character) && !ignoreThisKeypress) {
+	                _resetSequences(doNotReset);
+	            }
+
+	            _ignoreNextKeypress = processedSequenceCallback && e.type == 'keydown';
+	        };
+
+	        /**
+	         * handles a keydown event
+	         *
+	         * @param {Event} e
+	         * @returns void
+	         */
+	        function _handleKeyEvent(e) {
+
+	            // normalize e.which for key events
+	            // @see http://stackoverflow.com/questions/4285627/javascript-keycode-vs-charcode-utter-confusion
+	            if (typeof e.which !== 'number') {
+	                e.which = e.keyCode;
+	            }
+
+	            var character = _characterFromEvent(e);
+
+	            // no character found then stop
+	            if (!character) {
+	                return;
+	            }
+
+	            // need to use === for the character check because the character can be 0
+	            if (e.type == 'keyup' && _ignoreNextKeyup === character) {
+	                _ignoreNextKeyup = false;
+	                return;
+	            }
+
+	            self.handleKey(character, _eventModifiers(e), e);
+	        }
+
+	        /**
+	         * called to set a 1 second timeout on the specified sequence
+	         *
+	         * this is so after each key press in the sequence you have 1 second
+	         * to press the next key before you have to start over
+	         *
+	         * @returns void
+	         */
+	        function _resetSequenceTimer() {
+	            clearTimeout(_resetTimer);
+	            _resetTimer = setTimeout(_resetSequences, 1000);
+	        }
+
+	        /**
+	         * binds a key sequence to an event
+	         *
+	         * @param {string} combo - combo specified in bind call
+	         * @param {Array} keys
+	         * @param {Function} callback
+	         * @param {string=} action
+	         * @returns void
+	         */
+	        function _bindSequence(combo, keys, callback, action) {
+
+	            // start off by adding a sequence level record for this combination
+	            // and setting the level to 0
+	            _sequenceLevels[combo] = 0;
+
+	            /**
+	             * callback to increase the sequence level for this sequence and reset
+	             * all other sequences that were active
+	             *
+	             * @param {string} nextAction
+	             * @returns {Function}
+	             */
+	            function _increaseSequence(nextAction) {
+	                return function() {
+	                    _nextExpectedAction = nextAction;
+	                    ++_sequenceLevels[combo];
+	                    _resetSequenceTimer();
+	                };
+	            }
+
+	            /**
+	             * wraps the specified callback inside of another function in order
+	             * to reset all sequence counters as soon as this sequence is done
+	             *
+	             * @param {Event} e
+	             * @returns void
+	             */
+	            function _callbackAndReset(e) {
+	                _fireCallback(callback, e, combo);
+
+	                // we should ignore the next key up if the action is key down
+	                // or keypress.  this is so if you finish a sequence and
+	                // release the key the final key will not trigger a keyup
+	                if (action !== 'keyup') {
+	                    _ignoreNextKeyup = _characterFromEvent(e);
+	                }
+
+	                // weird race condition if a sequence ends with the key
+	                // another sequence begins with
+	                setTimeout(_resetSequences, 10);
+	            }
+
+	            // loop through keys one at a time and bind the appropriate callback
+	            // function.  for any key leading up to the final one it should
+	            // increase the sequence. after the final, it should reset all sequences
+	            //
+	            // if an action is specified in the original bind call then that will
+	            // be used throughout.  otherwise we will pass the action that the
+	            // next key in the sequence should match.  this allows a sequence
+	            // to mix and match keypress and keydown events depending on which
+	            // ones are better suited to the key provided
+	            for (var i = 0; i < keys.length; ++i) {
+	                var isFinal = i + 1 === keys.length;
+	                var wrappedCallback = isFinal ? _callbackAndReset : _increaseSequence(action || _getKeyInfo(keys[i + 1]).action);
+	                _bindSingle(keys[i], wrappedCallback, action, combo, i);
+	            }
+	        }
+
+	        /**
+	         * binds a single keyboard combination
+	         *
+	         * @param {string} combination
+	         * @param {Function} callback
+	         * @param {string=} action
+	         * @param {string=} sequenceName - name of sequence if part of sequence
+	         * @param {number=} level - what part of the sequence the command is
+	         * @returns void
+	         */
+	        function _bindSingle(combination, callback, action, sequenceName, level) {
+
+	            // store a direct mapped reference for use with Mousetrap.trigger
+	            self._directMap[combination + ':' + action] = callback;
+
+	            // make sure multiple spaces in a row become a single space
+	            combination = combination.replace(/\s+/g, ' ');
+
+	            var sequence = combination.split(' ');
+	            var info;
+
+	            // if this pattern is a sequence of keys then run through this method
+	            // to reprocess each pattern one key at a time
+	            if (sequence.length > 1) {
+	                _bindSequence(combination, sequence, callback, action);
+	                return;
+	            }
+
+	            info = _getKeyInfo(combination, action);
+
+	            // make sure to initialize array if this is the first time
+	            // a callback is added for this key
+	            self._callbacks[info.key] = self._callbacks[info.key] || [];
+
+	            // remove an existing match if there is one
+	            _getMatches(info.key, info.modifiers, {type: info.action}, sequenceName, combination, level);
+
+	            // add this call back to the array
+	            // if it is a sequence put it at the beginning
+	            // if not put it at the end
+	            //
+	            // this is important because the way these are processed expects
+	            // the sequence ones to come first
+	            self._callbacks[info.key][sequenceName ? 'unshift' : 'push']({
+	                callback: callback,
+	                modifiers: info.modifiers,
+	                action: info.action,
+	                seq: sequenceName,
+	                level: level,
+	                combo: combination
+	            });
+	        }
+
+	        /**
+	         * binds multiple combinations to the same callback
+	         *
+	         * @param {Array} combinations
+	         * @param {Function} callback
+	         * @param {string|undefined} action
+	         * @returns void
+	         */
+	        self._bindMultiple = function(combinations, callback, action) {
+	            for (var i = 0; i < combinations.length; ++i) {
+	                _bindSingle(combinations[i], callback, action);
+	            }
+	        };
+
+	        // start!
+	        _addEvent(targetElement, 'keypress', _handleKeyEvent);
+	        _addEvent(targetElement, 'keydown', _handleKeyEvent);
+	        _addEvent(targetElement, 'keyup', _handleKeyEvent);
+	    }
+
+	    /**
+	     * binds an event to mousetrap
+	     *
+	     * can be a single key, a combination of keys separated with +,
+	     * an array of keys, or a sequence of keys separated by spaces
+	     *
+	     * be sure to list the modifier keys first to make sure that the
+	     * correct key ends up getting bound (the last key in the pattern)
+	     *
+	     * @param {string|Array} keys
+	     * @param {Function} callback
+	     * @param {string=} action - 'keypress', 'keydown', or 'keyup'
+	     * @returns void
+	     */
+	    Mousetrap.prototype.bind = function(keys, callback, action) {
+	        var self = this;
+	        keys = keys instanceof Array ? keys : [keys];
+	        self._bindMultiple.call(self, keys, callback, action);
+	        return self;
+	    };
+
+	    /**
+	     * unbinds an event to mousetrap
+	     *
+	     * the unbinding sets the callback function of the specified key combo
+	     * to an empty function and deletes the corresponding key in the
+	     * _directMap dict.
+	     *
+	     * TODO: actually remove this from the _callbacks dictionary instead
+	     * of binding an empty function
+	     *
+	     * the keycombo+action has to be exactly the same as
+	     * it was defined in the bind method
+	     *
+	     * @param {string|Array} keys
+	     * @param {string} action
+	     * @returns void
+	     */
+	    Mousetrap.prototype.unbind = function(keys, action) {
+	        var self = this;
+	        return self.bind.call(self, keys, function() {}, action);
+	    };
+
+	    /**
+	     * triggers an event that has already been bound
+	     *
+	     * @param {string} keys
+	     * @param {string=} action
+	     * @returns void
+	     */
+	    Mousetrap.prototype.trigger = function(keys, action) {
+	        var self = this;
+	        if (self._directMap[keys + ':' + action]) {
+	            self._directMap[keys + ':' + action]({}, keys);
+	        }
+	        return self;
+	    };
+
+	    /**
+	     * resets the library back to its initial state.  this is useful
+	     * if you want to clear out the current keyboard shortcuts and bind
+	     * new ones - for example if you switch to another page
+	     *
+	     * @returns void
+	     */
+	    Mousetrap.prototype.reset = function() {
+	        var self = this;
+	        self._callbacks = {};
+	        self._directMap = {};
+	        return self;
+	    };
+
+	    /**
+	     * should we stop this event before firing off callbacks
+	     *
+	     * @param {Event} e
+	     * @param {Element} element
+	     * @return {boolean}
+	     */
+	    Mousetrap.prototype.stopCallback = function(e, element) {
+	        var self = this;
+
+	        // if the element has the class "mousetrap" then no need to stop
+	        if ((' ' + element.className + ' ').indexOf(' mousetrap ') > -1) {
+	            return false;
+	        }
+
+	        if (_belongsTo(element, self.target)) {
+	            return false;
+	        }
+
+	        // stop for input, select, and textarea
+	        return element.tagName == 'INPUT' || element.tagName == 'SELECT' || element.tagName == 'TEXTAREA' || element.isContentEditable;
+	    };
+
+	    /**
+	     * exposes _handleKey publicly so it can be overwritten by extensions
+	     */
+	    Mousetrap.prototype.handleKey = function() {
+	        var self = this;
+	        return self._handleKey.apply(self, arguments);
+	    };
+
+	    /**
+	     * allow custom key mappings
+	     */
+	    Mousetrap.addKeycodes = function(object) {
+	        for (var key in object) {
+	            if (object.hasOwnProperty(key)) {
+	                _MAP[key] = object[key];
+	            }
+	        }
+	        _REVERSE_MAP = null;
+	    };
+
+	    /**
+	     * Init the global mousetrap functions
+	     *
+	     * This method is needed to allow the global mousetrap functions to work
+	     * now that mousetrap is a constructor function.
+	     */
+	    Mousetrap.init = function() {
+	        var documentMousetrap = Mousetrap(document);
+	        for (var method in documentMousetrap) {
+	            if (method.charAt(0) !== '_') {
+	                Mousetrap[method] = (function(method) {
+	                    return function() {
+	                        return documentMousetrap[method].apply(documentMousetrap, arguments);
+	                    };
+	                } (method));
+	            }
+	        }
+	    };
+
+	    Mousetrap.init();
+
+	    // expose mousetrap to the global object
+	    window.Mousetrap = Mousetrap;
+
+	    // expose as a common js module
+	    if (typeof module !== 'undefined' && module.exports) {
+	        module.exports = Mousetrap;
+	    }
+
+	    // expose mousetrap as an AMD module
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	            return Mousetrap;
+	        }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    }
+	}) (typeof window !== 'undefined' ? window : null, typeof  window !== 'undefined' ? document : null);
+
+
+/***/ }),
+/* 461 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = outsideTargetHandlerFactory;
+
+	var _isDOMEquals = __webpack_require__(462);
+
+	var _isDOMEquals2 = _interopRequireDefault(_isDOMEquals);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/**
+	 *
+	 * @param  {HTMLElement}  targetNode
+	 * @param  {HTMLElement}  eventHandler
+	 * @return {Boolean}
+	 */
+	function outsideTargetHandlerFactory(targetNode, eventHandler) {
+	  return function (evt) {
+	    evt.stopPropagation();
+	    var current = evt.target;
+	    var found = false;
+	    while (current.parentNode) {
+	      found = (0, _isDOMEquals2.default)(current, targetNode);
+	      if (found) return;
+	      current = current.parentNode;
+	    }
+	    eventHandler(evt);
+	  };
+	}
+
+/***/ }),
+/* 462 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isDOMEquals;
+	/**
+	 * Determinate whether dom1 and dom2 is the same dom or not.
+	 *
+	 * @param  {HTMLElement}  dom1
+	 * @param  {HTMLElement}  dom2
+	 * @return {Boolean}
+	 */
+	function isDOMEquals(dom1, dom2) {
+	  return dom1 === dom2;
+	}
+
+/***/ }),
+/* 463 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Ddl = function (_Component) {
+	    _inherits(Ddl, _Component);
+
+	    function Ddl(props) {
+	        _classCallCheck(this, Ddl);
+
+	        var _this = _possibleConstructorReturn(this, (Ddl.__proto__ || Object.getPrototypeOf(Ddl)).call(this, props));
+
+	        _this.ddlChanged = _this.ddlChanged.bind(_this);
+
+	        return _this;
+	    }
+
+	    _createClass(Ddl, [{
+	        key: "eachOption",
+	        value: function eachOption(opt, i) {
+	            return _react2.default.createElement(
+	                "option",
+	                { key: i, value: opt.val, label: opt.text },
+	                opt.text
+	            );
+	        }
+	    }, {
+	        key: "ddlChanged",
+	        value: function ddlChanged() {
+	            this.props.onChange(this.refs.ddl.value);
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            return _react2.default.createElement(
+	                "select",
+	                { ref: "ddl", onChange: this.ddlChanged, className: this.props.css, style: this.props.style },
+	                this.props.options.map(this.eachOption)
+	            );
+	        }
+	    }]);
+
+	    return Ddl;
+	}(_react.Component);
+
+	exports.default = Ddl;
+
+/***/ }),
+/* 464 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(448);
+	var content = __webpack_require__(465);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -41054,7 +44484,7 @@
 	}
 
 /***/ }),
-/* 448 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -41068,13 +44498,13 @@
 
 
 /***/ }),
-/* 449 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(450);
+	var content = __webpack_require__(467);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -41094,7 +44524,7 @@
 	}
 
 /***/ }),
-/* 450 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -41102,13 +44532,13 @@
 
 
 	// module
-	exports.push([module.id, ".descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    font-weight: 500;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n\r\n.text-center{\r\n    text-align: center;\r\n    margin-top: 10px;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n    .pic {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.icon_container{\r\n    position: absolute;\r\n    padding: .2em .25em .15em;\r\n    border: solid .2em #eee;\r\n    border-radius: 0.5em;\r\n    display: inline-block;\r\n    width: 70px;\r\n    height: 70px;\r\n    background-color: rgba(255,255,255,0.85)\r\n}\r\n#faqIcon{\r\nposition: absolute;\r\n/* display: inline-block; */\r\nwidth: 60px;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:100px;\r\n    width:100px;\r\n    border-radius:50%;\r\n    background-color:aqua;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding-top:30px;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n.myAuction{\r\n    margin: 100px 7px 0px 7px;\r\n    padding: 5px;\r\n    border: 2px solid black;\r\n    overflow: auto;\r\n    height: 300px;\r\n}\r\n\r\n.stamp{\r\n    /*display: none;*/\r\n    border: solid .2em #c00;\r\n    color: #c00;\r\n    content: '\\5E0\\5DE\\5DB\\5E8';\r\n    font-size: 40px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    opacity: 0;\r\n    position: absolute;\r\n    width: 200px;\r\n    text-align: center;\r\n    padding: 7px 10px;\r\n    margin: 0 auto;\r\n    margin-top: 15%;\r\n    margin-left: 25%;\r\n    text-transform: uppercase;\r\n    transform-origin: 50% 50%;\r\n    transform: rotate(-5deg) scale(5);\r\n    transition: all .7s cubic-bezier(0.6, 0.04, 0.98, 0.335);\r\n}\r\n\r\n.sold.stamp{\r\n    /*display: block;*/\r\n    opacity: .65;\r\n    transform: rotate(-25deg) scale(1);\r\n}", ""]);
+	exports.push([module.id, ".descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    font-weight: 500;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n\r\n.text-center{\r\n    text-align: center;\r\n    margin-top: 10px;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n    .pic {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.icon_container{\r\n    position: absolute;\r\n    padding: .2em .25em .15em;\r\n    border: solid .2em #eee;\r\n    border-radius: 0.5em;\r\n    display: inline-block;\r\n    width: 70px;\r\n    height: 70px;\r\n    background-color: rgba(255,255,255,0.85)\r\n}\r\n#faqIcon{\r\nposition: absolute;\r\n/* display: inline-block; */\r\nwidth: 60px;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:80px;\r\n    width:95%;\r\n    border-radius:11%;\r\n    background-color: rgba(255,255,255,0.85);\r\n    border: 9px double #da4682;\r\n    margin: 25px auto;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding: 0.5em;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n.myAuction{\r\n    margin: 100px 7px 0px 7px;\r\n    padding: 5px;\r\n    border: 2px solid black;\r\n    overflow: auto;\r\n    height: 300px;\r\n}\r\n\r\n.stamp{\r\n    /*display: none;*/\r\n    border: solid .2em #c00;\r\n    color: #c00;\r\n    content: '\\5E0\\5DE\\5DB\\5E8';\r\n    font-size: 40px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    opacity: 0;\r\n    position: absolute;\r\n    width: 200px;\r\n    text-align: center;\r\n    padding: 7px 10px;\r\n    margin: 0 auto;\r\n    margin-top: 15%;\r\n    margin-left: 25%;\r\n    text-transform: uppercase;\r\n    transform-origin: 50% 50%;\r\n    transform: rotate(-5deg) scale(5);\r\n    transition: all .7s cubic-bezier(0.6, 0.04, 0.98, 0.335);\r\n}\r\n\r\n.sold.stamp{\r\n    /*display: block;*/\r\n    opacity: .65;\r\n    transform: rotate(-25deg) scale(1);\r\n}", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 451 */
+/* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41131,7 +44561,7 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _Ddl = __webpack_require__(452);
+	var _Ddl = __webpack_require__(463);
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
@@ -41318,8 +44748,8 @@
 	                        null,
 	                        '\u05DE\u05D7\u05D9\u05E8 \u05D1\u05E9"\u05D7'
 	                    ),
-	                    _react2.default.createElement('input', { type: 'text', ref: 'lowerPrice', placeholder: '\u05DE...' }),
-	                    _react2.default.createElement('input', { type: 'text', ref: 'higherPrice', placeholder: '\u05E2\u05D3...' }),
+	                    _react2.default.createElement('input', { type: 'number', ref: 'lowerPrice', placeholder: '\u05DE...' }),
+	                    _react2.default.createElement('input', { type: 'number', ref: 'higherPrice', placeholder: '\u05E2\u05D3...' }),
 	                    _react2.default.createElement(
 	                        'button',
 	                        { className: 'ui-btn ui-btn-corner-all searchBtn', onClick: this.searchBTN },
@@ -41336,74 +44766,7 @@
 	exports.default = Search;
 
 /***/ }),
-/* 452 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Ddl = function (_Component) {
-	    _inherits(Ddl, _Component);
-
-	    function Ddl(props) {
-	        _classCallCheck(this, Ddl);
-
-	        var _this = _possibleConstructorReturn(this, (Ddl.__proto__ || Object.getPrototypeOf(Ddl)).call(this, props));
-
-	        _this.ddlChanged = _this.ddlChanged.bind(_this);
-
-	        return _this;
-	    }
-
-	    _createClass(Ddl, [{
-	        key: "eachOption",
-	        value: function eachOption(opt, i) {
-	            return _react2.default.createElement(
-	                "option",
-	                { key: i, value: opt.val, label: opt.text },
-	                opt.text
-	            );
-	        }
-	    }, {
-	        key: "ddlChanged",
-	        value: function ddlChanged() {
-	            this.props.onChange(this.refs.ddl.value);
-	        }
-	    }, {
-	        key: "render",
-	        value: function render() {
-	            return _react2.default.createElement(
-	                "select",
-	                { ref: "ddl", onChange: this.ddlChanged, className: this.props.css, style: this.props.style },
-	                this.props.options.map(this.eachOption)
-	            );
-	        }
-	    }]);
-
-	    return Ddl;
-	}(_react.Component);
-
-	exports.default = Ddl;
-
-/***/ }),
-/* 453 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41420,7 +44783,7 @@
 
 	var _reactRouterDom = __webpack_require__(188);
 
-	__webpack_require__(454);
+	__webpack_require__(470);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41531,6 +44894,22 @@
 	                            _react2.default.createElement(
 	                                'a',
 	                                { onClick: function onClick() {
+	                                        return location.href = 'appSettings.html#SearchAssoc';
+	                                    } },
+	                                '\u05E4\u05E8\u05D8\u05D9 \u05E2\u05DE\u05D5\u05EA\u05D5\u05EA'
+	                            ),
+	                            _react2.default.createElement(
+	                                'label',
+	                                null,
+	                                '|'
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'li',
+	                            null,
+	                            _react2.default.createElement(
+	                                'a',
+	                                { onClick: function onClick() {
 	                                        return location.href = 'userDetails.html';
 	                                    } },
 	                                '\u05E4\u05E8\u05D5\u05E4\u05D9\u05DC \u05DE\u05E9\u05EA\u05DE\u05E9'
@@ -41550,22 +44929,6 @@
 	                                        return location.href = 'appSettings.html#Settings.html';
 	                                    } },
 	                                '\u05D4\u05D2\u05D3\u05E8\u05D5\u05EA \u05D0\u05E4\u05DC\u05D9\u05E7\u05E6\u05D9\u05D4'
-	                            ),
-	                            _react2.default.createElement(
-	                                'label',
-	                                null,
-	                                '|'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'li',
-	                            null,
-	                            _react2.default.createElement(
-	                                'a',
-	                                { onClick: function onClick() {
-	                                        return location.href = 'appSettings.html#SearchAssoc';
-	                                    } },
-	                                '\u05E4\u05E8\u05D8\u05D9 \u05E2\u05DE\u05D5\u05EA\u05D5\u05EA'
 	                            ),
 	                            _react2.default.createElement(
 	                                'label',
@@ -41616,13 +44979,13 @@
 	exports.default = Menu;
 
 /***/ }),
-/* 454 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(455);
+	var content = __webpack_require__(471);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -41642,7 +45005,7 @@
 	}
 
 /***/ }),
-/* 455 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -41656,7 +45019,7 @@
 
 
 /***/ }),
-/* 456 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -41739,348 +45102,7 @@
 	exports.default = ScrollButton;
 
 /***/ }),
-/* 457 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactTransitionGroup = __webpack_require__(284);
-
-	var _reactSwipeable = __webpack_require__(228);
-
-	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
-
-	var _reactTabs = __webpack_require__(429);
-
-	var _reactSlick = __webpack_require__(291);
-
-	var _reactSlick2 = _interopRequireDefault(_reactSlick);
-
-	var _Auction = __webpack_require__(285);
-
-	var _Auction2 = _interopRequireDefault(_Auction);
-
-	__webpack_require__(311);
-
-	__webpack_require__(458);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ActiveAuctions = function (_Component) {
-	    _inherits(ActiveAuctions, _Component);
-
-	    function ActiveAuctions(props) {
-	        _classCallCheck(this, ActiveAuctions);
-
-	        var _this = _possibleConstructorReturn(this, (ActiveAuctions.__proto__ || Object.getPrototypeOf(ActiveAuctions)).call(this, props));
-
-	        _this.state = {
-	            imgArr: ["http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/14_pic_2.jpg", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/44_pic_3.jpg", "http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/51_pic_0.jpg"],
-	            tabIndex: 2,
-	            containerWidth: null
-	        };
-	        _this.handleAdd = _this.handleAdd.bind(_this);
-	        _this.tabSwipeLeft = _this.tabSwipeLeft.bind(_this);
-	        _this.tabSwipeRight = _this.tabSwipeRight.bind(_this);
-	        _this.sliderChange = _this.sliderChange.bind(_this);
-	        _this.getAvailableSpaceWidth = _this.getAvailableSpaceWidth.bind(_this);
-	        _this.onResize = _this.onResize.bind(_this);
-	        return _this;
-	    }
-
-	    /*
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    ----------------------------------------
-	    */
-
-	    _createClass(ActiveAuctions, [{
-	        key: 'getAvailableSpaceWidth',
-	        value: function getAvailableSpaceWidth() {
-	            if (!this.container) {
-	                return 0;
-	            }
-
-	            var cs = window.getComputedStyle(this.container);
-	            var pl = parseInt(cs.paddingLeft, 10);
-	            var pr = parseInt(cs.paddingRight, 10);
-	            var width = this.container.offsetWidth;
-	            return width;
-	        }
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            this.setState({
-	                containerWidth: this.getAvailableSpaceWidth()
-	            });
-
-	            window.addEventListener('resize', this.onResize);
-	        }
-	    }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            window.removeEventListener('resize', this.onResize);
-	        }
-	    }, {
-	        key: 'onResize',
-	        value: function onResize() {
-	            this.setState({
-	                containerWidth: this.getAvailableSpaceWidth()
-	            });
-	        }
-
-	        /*
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        ----------------------------------------
-	        */
-
-	    }, {
-	        key: 'handleAdd',
-	        value: function handleAdd() {
-	            var newItems = this.state.items.concat([prompt('Enter some text')]);
-	            this.setState({ items: newItems });
-	        }
-	    }, {
-	        key: 'handleRemove',
-	        value: function handleRemove(i) {
-	            var newItems = this.state.items.slice();
-	            newItems.splice(i, 1);
-	            this.setState({ items: newItems });
-	        }
-	    }, {
-	        key: 'tabSwipeLeft',
-	        value: function tabSwipeLeft() {
-	            var i = this.state.tabIndex - 1;
-	            if (i === -1) {
-	                this.setState({ tabIndex: 2 });
-	            } else {
-	                this.setState({ tabIndex: i });
-	            }
-	        }
-	    }, {
-	        key: 'tabSwipeRight',
-	        value: function tabSwipeRight() {
-	            var i = this.state.tabIndex + 1;
-	            if (i === 3) {
-	                this.setState({ tabIndex: 0 });
-	            } else {
-	                this.setState({ tabIndex: i });
-	            }
-	        }
-	    }, {
-	        key: 'sliderChange',
-	        value: function sliderChange(e) {
-	            console.log("before -- " + e);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-
-	            var settings = {
-	                // infinite: false,
-	                // arrows: false,
-	                // slidesToShow: 1,
-	                // slidesToScroll:1,
-	                // speed:500
-	                infinite: false,
-	                arrows: false,
-	                beforeChange: this.sliderChange,
-	                slidesToShow: 1
-	            };
-
-	            var styles = {
-	                width: this.state.containerWidth
-	            };
-
-	            var list = ["מישהו עקף אותי", "ההצעות שלי", "הבידים שלי"];
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    _reactSwipeable2.default,
-	                    { onSwipedLeft: this.tabSwipeLeft, onSwipedRight: this.tabSwipeRight },
-	                    _react2.default.createElement(
-	                        _reactTabs.Tabs,
-	                        { selectedIndex: this.state.tabIndex, onSelect: function onSelect(tabIndex) {
-	                                return _this2.setState({ tabIndex: tabIndex });
-	                            } },
-	                        _react2.default.createElement(
-	                            _reactTabs.TabList,
-	                            null,
-	                            _react2.default.createElement(
-	                                _reactTabs.Tab,
-	                                null,
-	                                '\u05DE\u05D9\u05E9\u05D4\u05D5 \u05E2\u05E7\u05E3 \u05D0\u05D5\u05EA\u05D9'
-	                            ),
-	                            _react2.default.createElement(
-	                                _reactTabs.Tab,
-	                                null,
-	                                '\u05D4\u05D4\u05E6\u05E2\u05D5\u05EA \u05E9\u05DC\u05D9'
-	                            ),
-	                            _react2.default.createElement(
-	                                _reactTabs.Tab,
-	                                null,
-	                                '\u05D4\u05D1\u05D9\u05D3\u05D9\u05DD \u05E9\u05DC\u05D9'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(
-	                                'h2',
-	                                null,
-	                                '\u05E2\u05E7\u05E4\u05D5 \u05D0\u05D5\u05EA\u05D9'
-	                            ),
-	                            _react2.default.createElement(_Auction2.default, { key: 0, index: 0
-	                                // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	                                , home: 'true', imgArr: this.state.imgArr, prodName: "דמחמחכמה", prodDesc: " כ יחכ יחכח כיחיחג חיג חי יחגכ חיגכחי יחיג יגכ ג דמהיחהכ",
-	                                price: 500, endDate: "7/7/2017", code: 4,
-	                                percentage: 20, prodCode: 4 })
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(
-	                                'h2',
-	                                null,
-	                                '\u05D4\u05D4\u05E6\u05E2\u05D5\u05EA'
-	                            ),
-	                            _react2.default.createElement(_Auction2.default, { key: 1, index: 1
-	                                // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	                                , home: 'true', imgArr: this.state.imgArr, prodName: "dnjvnhjsbv h fs ", prodDesc: " djs jh kjs jk hj  ah hgdaj jk kjsk kjdjk djk hj hjad jd ahjad hj ",
-	                                price: 500, endDate: "7/7/2017", code: 4,
-	                                percentage: 20, prodCode: 4 })
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(
-	                                'h2',
-	                                null,
-	                                '\u05D1\u05D9\u05D3\u05D9\u05DD'
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return ActiveAuctions;
-	}(_react.Component);
-
-	exports.default = ActiveAuctions;
-
-	// <div>
-	//                 <ul className="react-tabs__tab-list" role="tablist">
-	//                         {list.map((item,i)=> {
-	//                              return <li className={this.state.tabIndex === i ? "react-tabs__tab react-tabs__tab--selected" : "react-tabs__tab"} tabIndex={i} key={i} onClick={() => this.setState({ tabIndex : i })}>
-	//                                  {item}
-	//                                  </li> })
-	//                              }
-	//                     </ul>
-	//                 <Slider {...settings} >
-	//                     {/*someone beat me to it*/}
-	//                     <div className="sliderDiv" style={styles}>
-	//                         <h2>עקפו אותי</h2>
-	//                         <Auction key={0} index={0}
-	//                             // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	//                             home="true" imgArr={this.state.imgArr} prodName={"דמחמחכמה"} prodDesc={" כ יחכ יחכח כיחיחג חיג חי יחגכ חיגכחי יחיג יגכ ג דמהיחהכ"}
-	//                             price={500} endDate={"7/7/2017"} code={38}
-	//                             percentage={20} prodCode={4} />
-	//                     </div>
-
-	//                     {/*offers*/}
-	//                     <div className="sliderDiv" style={styles}>
-	//                         <h2>ההצעות</h2>
-	//                         <Auction key={1} index={1}
-	//                             // auctionfinished={this.deleteAuction} offerBid={this.offerBid}
-	//                             home="true" imgArr={this.state.imgArr} prodName={"dnjvnhjsbv h fs "} prodDesc={" djs jh kjs jk hj  ah hgdaj jk kjsk kjdjk djk hj hjad jd ahjad hj "}
-	//                             price={500} endDate={"7/7/2017"} code={49}
-	//                             percentage={20} prodCode={4} />
-	//                     </div>
-
-	//                     {/*bids*/}
-	//                     <div className="sliderDiv" style={styles}>
-	//                         <h2>בידים</h2>
-	//                     </div>
-	//                 </Slider>
-	//                 </div>
-
-/***/ }),
-/* 458 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(459);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./react-tabs.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./react-tabs.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 459 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".sliderDiv{\r\n  display: inline-block;\r\n  /*margin-top: 40px;*/\r\n}\r\n\r\n.react-tabs__tab-list {\r\n  /*border-bottom: 1px solid #aaa;*/\r\n  width: 100%;\r\n  background-color: rgba(255,255,255,0.9);\r\n  margin: 0 0 10px;\r\n  padding: 0;\r\n  font: bold 30px;\r\n}\r\n\r\n.react-tabs__tab {\r\n  display: inline-block;\r\n  margin: 0 5%;\r\n  border: 1px solid transparent;\r\n  border-bottom: none;\r\n  bottom: -1px;\r\n  position: relative;\r\n  list-style: none;\r\n  font-size: 14px;\r\n  /* padding: 6px 12px; */\r\n\r\n}\r\n\r\n.react-tabs__tab--selected {\r\n  border-bottom: 4px solid rgba(0,0,0,0.4) ;\r\n  color: black;\r\n\r\n}\r\n\r\n.react-tabs__tab-panel {\r\n  margin-top: 10px;\r\n  display: none;\r\n}\r\n\r\n.react-tabs__tab-panel--selected {\r\n  display: block;\r\n  /*-webkit-animation: slide 0.5s forwards;*/\r\n  animation: slide 1s forwards;\r\n}\r\n\r\n/*@-webkit-keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }*/\r\n\r\n@keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }\r\n\r\n.react-tabs__tab--disabled {\r\n  color: GrayText;\r\n  cursor: default;\r\n  \r\n\r\n  /*auction-leave*/\r\n  /*transform: translate(0%);*/\r\n}\r\n\r\n.react-tabs__tab:focus {\r\n  box-shadow: 0 0 5px hsl(208, 99%, 50%);\r\n  border-color: hsl(208, 99%, 50%);\r\n  outline: none;\r\n}\r\n\r\n.react-tabs__tab:focus:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  height: 5px;\r\n  left: -4px;\r\n  right: -4px;\r\n  bottom: -5px;\r\n  background: #fff;\r\n}\r\n\r\n.tab-animate-left{\r\n  position:relative;\r\n  animation:animateleft 0.4s\r\n  }\r\n  \r\n  @keyframes animateleft{\r\n    from{\r\n      left:-300px;\r\n    opacity:0}\r\n    to{\r\n      left:0;\r\n    opacity:1}\r\n    }\r\n\r\n.tab-animate-right{\r\n  position:relative;\r\n  animation:animateright 0.4s\r\n  }\r\n\r\n  @keyframes animateright{\r\n    from{\r\n    right:-300px;\r\n    opacity:0\r\n    }\r\n  to{\r\n    right:0;\r\n    opacity:1\r\n  }\r\n  }", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 460 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42290,7 +45312,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px" } },
+	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" } },
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'basicInfo', ref: 'infoDiv' },
@@ -42301,12 +45323,12 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
-	                        { style: { position: "absolute", width: "20%", margin: "80px 40%" } },
+	                        { style: { top: "13px", position: "absolute", left: this.state.width - 55 + 'px' } },
 	                        _react2.default.createElement(_PriceTag2.default, { price: this.state.auc.price, modalIsOpen: this.state.fAQModalIsOpen || this.state.infoModalIsOpen })
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'circle', style: { top: "5px", position: "absolute", left: this.state.width - 105 + 'px' } },
+	                        { className: 'circle', style: { position: "absolute", marginTop: "80px" } },
 	                        _react2.default.createElement(
 	                            'h4',
 	                            null,
@@ -42361,7 +45383,7 @@
 	exports.default = MyAuction;
 
 /***/ }),
-/* 461 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42390,19 +45412,15 @@
 
 	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
 
-	var _Menu = __webpack_require__(453);
+	var _Menu = __webpack_require__(469);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
-
-	var _ActiveAuctions = __webpack_require__(457);
-
-	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
 	var _CircleButton = __webpack_require__(445);
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
-	__webpack_require__(458);
+	__webpack_require__(475);
 
 	__webpack_require__(311);
 
@@ -42529,7 +45547,47 @@
 	exports.default = Profile;
 
 /***/ }),
-/* 462 */
+/* 475 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(476);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js?url=false!./react-tabs.css", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js?url=false!./react-tabs.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".sliderDiv{\r\n  display: inline-block;\r\n  /*margin-top: 40px;*/\r\n}\r\n\r\n.react-tabs__tab-list {\r\n  /*border-bottom: 1px solid #aaa;*/\r\n  width: 100%;\r\n  background-color: rgba(255,255,255,0.9);\r\n  margin: 0 0 10px;\r\n  padding: 0;\r\n  font: bold 30px;\r\n}\r\n\r\n.react-tabs__tab {\r\n  display: inline-block;\r\n  margin: 0 5%;\r\n  border: 1px solid transparent;\r\n  border-bottom: none;\r\n  bottom: -1px;\r\n  position: relative;\r\n  list-style: none;\r\n  font-size: 14px;\r\n  /* padding: 6px 12px; */\r\n\r\n}\r\n\r\n.react-tabs__tab--selected {\r\n  border-bottom: 4px solid rgba(0,0,0,0.4) ;\r\n  color: black;\r\n\r\n}\r\n\r\n.react-tabs__tab-panel {\r\n  margin-top: 10px;\r\n  display: none;\r\n}\r\n\r\n.react-tabs__tab-panel--selected {\r\n  display: block;\r\n  /*-webkit-animation: slide 0.5s forwards;*/\r\n  animation: slide 1s forwards;\r\n}\r\n\r\n/*@-webkit-keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }*/\r\n\r\n@keyframes slide {\r\n    from{\r\n      left:-300px;\r\n    }\r\n    to{\r\n      left:0;\r\n    }\r\n    }\r\n\r\n.react-tabs__tab--disabled {\r\n  color: GrayText;\r\n  cursor: default;\r\n  \r\n\r\n  /*auction-leave*/\r\n  /*transform: translate(0%);*/\r\n}\r\n\r\n.react-tabs__tab:focus {\r\n  box-shadow: 0 0 5px hsl(208, 99%, 50%);\r\n  border-color: hsl(208, 99%, 50%);\r\n  outline: none;\r\n}\r\n\r\n.react-tabs__tab:focus:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  height: 5px;\r\n  left: -4px;\r\n  right: -4px;\r\n  bottom: -5px;\r\n  background: #fff;\r\n}\r\n\r\n.tab-animate-left{\r\n  position:relative;\r\n  animation:animateleft 0.4s\r\n  }\r\n  \r\n  @keyframes animateleft{\r\n    from{\r\n      left:-300px;\r\n    opacity:0}\r\n    to{\r\n      left:0;\r\n    opacity:1}\r\n    }\r\n\r\n.tab-animate-right{\r\n  position:relative;\r\n  animation:animateright 0.4s\r\n  }\r\n\r\n  @keyframes animateright{\r\n    from{\r\n    right:-300px;\r\n    opacity:0\r\n    }\r\n  to{\r\n    right:0;\r\n    opacity:1\r\n  }\r\n  }", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42548,7 +45606,7 @@
 
 	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
 
-	var _Menu = __webpack_require__(453);
+	var _Menu = __webpack_require__(469);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
@@ -42592,7 +45650,7 @@
 	exports.default = MyProducts;
 
 /***/ }),
-/* 463 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42611,7 +45669,7 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _Payment = __webpack_require__(464);
+	var _Payment = __webpack_require__(479);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
 
@@ -42752,7 +45810,7 @@
 	exports.default = Bdika;
 
 /***/ }),
-/* 464 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42843,13 +45901,13 @@
 	exports.default = Payment;
 
 /***/ }),
-/* 465 */
+/* 480 */
 /***/ (function(module, exports) {
 
 	
 	const GENERAL = {
 
-	   // genericWebServerAddress: "/WebService.asmx/",
+	    //genericWebServerAddress: "/WebService.asmx/",
 	    genericWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/webservice.asmx/",
 
 	    //assocWebServerAddress: "/../AssociationsWebService.asmx/",

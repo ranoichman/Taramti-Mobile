@@ -140,15 +140,17 @@ input{
 }
 
 .circle{
-    height:100px;
-    width:100px;
-    border-radius:50%;
-    background-color:aqua;
+    height:80px;
+    width:95%;
+    border-radius:11%;
+    background-color: rgba(255,255,255,0.85);
+    border: 9px double #da4682;
+    margin: 25px auto;
 }
 .circle h4{
     direction:rtl;
     text-align:center;
-    padding-top:30px;
+    padding: 0.5em;
     
 }
 
