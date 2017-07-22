@@ -353,4 +353,6 @@ animation:3s ease-in infinite tipFadein;
     height: 60px;
 }
 
-
+fieldset{
+    display: none;
+}
