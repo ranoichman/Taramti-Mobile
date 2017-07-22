@@ -88,8 +88,8 @@
                     if (Associations[0] != null) {
                         for (var i = 0; i < Associations.length; i++) {
                             var opt = '';
-                            opt += '<option data-value="' + Associations[i].Association_Code + '">' + Associations[i].Association_Name + '</option>';
-                            $("#AuctionAssocList").append(opt);
+                            opt += '<option value="' + Associations[i].Association_Code + '">' + Associations[i].Association_Name + '</option>';
+                            $("#AuctionAssoc").append(opt);
                         }
                     }
                 },
@@ -111,8 +111,8 @@
                     if (Cities[0] != null) {
                         for (var i = 0; i < Cities.length; i++) {
                             var opt = '';
-                            opt += '<option data-value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
-                            $("#citiesList").append(opt);
+                            opt += '<option value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
+                            $("#ProdLocation").append(opt);
                         }
                     }
                 },
@@ -135,17 +135,11 @@
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
-                if ($(window).width() + $(window).height() != _originalSize) {
+                if ($(window).width() + $(window).height() != _originalSize) { 
                     $(".FixedButton").css("display", "none");
-                    //$(".RoundDivfixed").css("display", "none");
-                    //$("#fixedCircle").css("display", "none");
-                    //$("#fixedHome").css("display", "none");
                 }
                 else {
                     $(".FixedButton").css("display", "block");
-                    //$(".RoundDivfixed").css("display", "block");
-                    //$("#fixedCircle").css("display", "block");
-                    //$("#fixedHome").css("display", "block");
                 }
             });
 
@@ -196,43 +190,14 @@
             Server_i++;
         }
 
-        //get value of a datalist
-        function getDLValue(inputID) {
-            var $input = $(`#${inputID}`),
-                $options = $('#' + $input.attr('list') + ' option'), //grab all options
-                $hiddenInput = $('#' + $input.attr('id') + '-hidden'), //grab hidden input
-                label = $input.val();
-
-            $hiddenInput.val(label);
-
-            for (var i = 0; i < $options.length; i++) {
-                var $option = $options.eq(i);
-
-                if ($option.text() === label) {
-                    $hiddenInput.val($option.attr('data-value'));
-                    break;
-                }
-            }
-            try { //validate input before sending to db
-                if ((parseInt($hiddenInput.val()) >= 0) && (parseInt($hiddenInput.val()) <= 1200)) {
-                    return $hiddenInput.val();
-                } else {
-                    return 0; // value for error
-                }
-            } catch (error) {
-                return 0; // value for error
-            }
-        };
         function AddingProductAuction() {
-            console.log(`city- ${getDLValue("citySelected")}`)
-            console.log(`assoc- ${getDLValue("AuctionAssoc")}`)
             if (!Local_i == 0) {
                 var itemName = $("#ProdNum").val();
                 var itemDesc = $("#ProdDesc").val();
-                var city = getDLValue("citySelected");
+                var city = $("#ProdLocation").val();
                 var cat = $("#AuctionCategories").val();
                 var days = $("#AuctionLast").val();
-                var assoc = getDLValue("AuctionAssoc");
+                var assoc = $("#AuctionAssoc").val();
                 var price = $("#AuctionMinPrice").val();
                 var user1 = user.userID();
                 //var user1 = "300948552";
@@ -310,8 +275,51 @@
             alert(CancelMessage);
             //alert('Failed because: ' + message);
         }
+
+        //window.onload = function () {
+        //    var $options = $('#ProdLocation option');
+        //    document.getElementById("SearchBox").onkeyup = function () {
+        //        var $HiddenOptions = $('#CustomerSelectHidden option');
+        //        $HiddenOptions.each(function (index, value) {
+        //            document.getElementById('ProdLocation').appendChild(this);
+        //        });
+        //        var search = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+        //        var element = $options.filter(function () {
+        //            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+        //            return !~text.indexOf(search);
+
+        //        }).appendTo(document.getElementById('CustomerSelectHidden'));
+        //        $('#ProdLocation option').sort(Sort).appendTo('#ProdLocation');
+        //    }
+        //}
+        //function Sort(a, b) {
+        //    return (a.innerHTML > b.innerHTML) ? 1 : -1;
+        //}
     </script>
 
+    <!--<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("SearchBox");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("ProdLocation");
+        a = ul.getElementsByTagName('option');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < a.length; i++) {
+            //a = li[i].getElementsByTagName("li")[0];
+            if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                //a[i].style.display = "";
+                a[i].selected = true;
+                //$('#ProdLocation').val(i);
+                $('#ProdLocation').change();
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+        </script>-->
 </head>
 
 <body>
@@ -365,12 +373,14 @@
             <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
             <h4>מיקום</h4>
-            <input list="citiesList" id=citySelected class="inputDL">
-
-            <datalist id="citiesList">
-            </datalist>
-            <input type="hidden" name="answer" id="citySelected-hidden">
-
+            <br />
+            <input type="search" id="SearchBox" />
+            <br />
+            <!--<input type="text" id="ProdLocation" required>-->
+            <!--<div class="scrollable" id="CustomerSelectDiv">-->
+            <select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">
+                <!--<option value="-1"> בחר</option>-->
+            </select>
             <!-- שימוש בג'יפיאס -->
             <div style="display: none;">
                 <select id="CustomerSelectHidden"></select>
@@ -461,11 +471,10 @@
                 <option value="7">7</option>
             </select>
             <h4>בחר עמותה</h4>
-            <input list="AuctionAssocList" id="AuctionAssoc" class="inputDL" />
-            <datalist id="AuctionAssocList">
-            </datalist>
-            <input type="hidden" name="answer" id="AuctionAssoc-hidden" />
+            <select id="AuctionAssoc">
+                <option value="-1"> בחר</option>
 
+            </select>
             <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
             <input type="text" id="AuctionMinPrice" />
 
@@ -585,7 +594,7 @@
         <!--</div>-->
         <!-- להוריד פלייס הולדרים מיותרים -->
         <!--</div>-->
-    </div>
+        </div>
 </body>
 
 </html>
