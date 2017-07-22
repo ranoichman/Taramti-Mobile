@@ -356,6 +356,25 @@
                 error: function (err) { }
             });
         }
+
+        var prod1 = "6";
+        var price1 = 100;
+        var days1 = 5;
+        var user1 = "302921481";
+        function AddAuctionExisitingProd() {
+            $.ajax({
+                dataType: "json",
+                url: generic + "AddAuctionExisitingProd",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ prod: prod1, price: price1  , days: days1 ,user: user1}),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
     </script>
 
 </head>
@@ -382,6 +401,7 @@
         <input type="button" onclick="outbid()" value="outbid" />
 
         <input type="button" onclick="SmartElement()" value="SmartElement" />
+        <input type="button" onclick="AddAuctionExisitingProd()" value="AddAuctionExisitingProd" />
 
         <input type="button" onclick="addToWatch()" value="LOGGGGG" />
         <input type="button" onclick="updateWatch()" value="update log" />
