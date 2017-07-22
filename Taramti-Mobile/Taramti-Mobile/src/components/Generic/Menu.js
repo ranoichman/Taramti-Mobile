@@ -53,7 +53,6 @@ class Menu extends Component {
                         <li><a onClick={() => location.href = 'appSettings.html#Settings.html'}>הגדרות אפליקציה</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'RegisterAssoc-Taramti.html'}>הוספת עמותה</a><label>|</label></li>
                         <li><a onClick={this.logOut}> התנתק <i className="fa fa-sign-out"></i></a></li>
-                        {/* <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>--> */}
                     </ul>
                 </div>
                 <div className="clearfix"> </div>
