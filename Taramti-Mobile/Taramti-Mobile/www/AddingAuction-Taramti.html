@@ -248,7 +248,7 @@
                 var price = $("#AuctionMinPrice").val();
                 var user1 = user.userID();
 
-                $(".loader").display("block");
+                $(".loader").fadeIn("fast");
 
                     $.ajax({
                         dataType: "json",
@@ -279,9 +279,10 @@
                                                 title: "זהו..",
                                                 text: "המכרז נשמר בהצלחה",
                                                 type: "success",
-                                                confirmButtonText: "אישור"
-                                            })
-                                            location.href = 'app.html';
+                                                confirmButtonText: "אישור",},
+                                                function(){
+                                                    location.href = 'app.html';
+                                                })
                                         }
                                         else {
                                             swal({
@@ -305,8 +306,7 @@
                             }
                         },
                         error: function (err) { }
-                    });
-                
+                    }); 
             }
             else {
                 swal({
