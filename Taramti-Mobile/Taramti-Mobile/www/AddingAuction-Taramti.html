@@ -19,15 +19,13 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="dist/sweetalert/sweetalert.css" rel="stylesheet" charset="utf-8" />
 
-
+    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
     <script src="js/jqm.js"></script>
-
     <script src="js/master.js"></script>
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -108,18 +106,21 @@
                 error: function (err) { }
             });
         });
+
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
         });
+
         function LogOut() {
             localStorage.removeItem("UserID");
             location.href = 'Login-Taramti.html'
         }
+
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
-                if ($(window).width() + $(window).height() != _originalSize) { 
+                if ($(window).width() + $(window).height() != _originalSize) {
                     $(".FixedButton").css("display", "none");
                 }
                 else {
@@ -132,6 +133,7 @@
                 });
             });
         });
+
         function OpenCameraORChooseFile(Flag) {
             var x = Camera.PictureSourceType.PHOTOLIBRARY;
             CancelMessage = "שים לב-אף תמונה לא נבחרה "
@@ -147,6 +149,7 @@
                 sourceType: x
             });
         }
+
         function onCameraSuccess(imageURI) {
             var $imgDiv = $("<div>");
             var $imgA = $("<a>").addClass("closeBox").attr("id", Local_i);
@@ -162,6 +165,7 @@
             LocalPicArr.push(imageURI);
             Local_i++;
         }
+
         function addToServerPicArr(stringServerPath) {
             ServerPicArr.push(stringServerPath);
             Server_i++;
@@ -191,6 +195,46 @@
                 return 0; // value for error
             }
         };
+
+        function ToAddingAuctionPage2() {
+            var itemName = $("#ProdNum").val();
+            var itemDesc = $("#ProdDesc").val();
+            var city = getDLValue("citySelected");
+
+            if (itemName == "" || itemDesc == "" || city == "") {
+                swal({
+                    title: "שים לב",
+                    text: "יש למלא את כל השדות",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                })
+            }
+            else {
+                location.href = "AddingAuction-Taramti.html#AddingAuctionPage2";
+
+            }
+        }
+
+        function ToAddingAuctionPage3() {
+            var cat = $("#AuctionCategories").val();
+            var days = $("#AuctionLast").val();
+            var assoc = getDLValue("AuctionAssoc");
+            var price = $("#AuctionMinPrice").val();
+
+            if (cat == -1 || days == -1 || assoc == 0 || price == "") {
+                swal({
+                    title: "שים לב",
+                    text: "יש למלא את כל השדות",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                })
+            }
+            else {
+                location.href = "AddingAuction-Taramti.html#AddingAuctionPage3";
+
+            }
+        }
+
         function AddingProductAuction() {
             console.log(`city- ${getDLValue("citySelected")}`)
             console.log(`assoc- ${getDLValue("AuctionAssoc")}`)
@@ -203,8 +247,9 @@
                 var assoc = getDLValue("AuctionAssoc");
                 var price = $("#AuctionMinPrice").val();
                 var user1 = user.userID();
-                //var user1 = "300948552";
-                if (city != -1 && cat != -1 && days != -1 && assoc != -1) {
+
+                $(".loader").display("block");
+
                     $.ajax({
                         dataType: "json",
                         url: aucwebservice + "AddingProductAuction",
@@ -226,33 +271,53 @@
                                     type: "POST",
                                     data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
                                     success: function (data) {
+                                        $(".loader").fadeOut("slow");
                                         var isSaved = JSON.parse(data.d)
                                         if (isSaved) {
-                                            alert("המכרז נשמר בהצלחה");
+
+                                            swal({
+                                                title: "זהו..",
+                                                text: "המכרז נשמר בהצלחה",
+                                                type: "success",
+                                                confirmButtonText: "אישור"
+                                            })
                                             location.href = 'app.html';
                                         }
                                         else {
-                                            alert("יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת ");
+                                            swal({
+                                                title: "אופס..",
+                                                text: "יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת",
+                                                type: "error",
+                                                confirmButtonText: "אישור"
+                                            });
                                         }
                                     },
                                     error: function (err) { }
                                 });
                             }
                             else {
-                                alert("יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת ");
+                                swal({
+                                    title: "אופס..",
+                                    text: "יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת",
+                                    type: "error",
+                                    confirmButtonText: "אישור"
+                                });
                             }
                         },
                         error: function (err) { }
                     });
-                }
-                else {
-                    alert("אנא מלא את השדות המבוקשים");
-                }
+                
             }
             else {
-                alert("לא ניתן להוסיף מכרז ללא תמונות- יש להוסיף לפחות תמונה אחת")
+                swal({
+                    title: "שים לב",
+                    text: "לא ניתן להוסיף מכרז ללא תמונות- יש להוסיף לפחות תמונה אחת",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                });
             }
         }
+
         function uploadPhoto(thisImageURI, picNum, productCode) {
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
@@ -262,13 +327,16 @@
             ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
             stringServerPath = String("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
         } // Upload Photo
+
         function win(r) {
             var path = r.response;
         } // win (upload success)
+
         function fail(error) {
             alert("An error has occurred: Code = " + error.code);
             alert(error.body);
         }
+
         function onCameraFail(message) {
             alert(CancelMessage);
             //alert('Failed because: ' + message);
@@ -285,6 +353,7 @@
 
     <!--דף זה מכיל דף הוספת מכרז-->
 
+   <!--הוספת מכרז עמוד 1-->
     <div class="pageBC" data-role="page" id="AddingAuctionPage">
         <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
@@ -324,14 +393,14 @@
 
             <h4>שם המוצר</h4>
             <input type="text" id="ProdNum">
+
             <h4>תיאור המוצר</h4>
             <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
             <h4>מיקום</h4>
             <input list="citiesList" id=citySelected class="inputDL">
 
-            <datalist id="citiesList">
-            </datalist>
+            <datalist id="citiesList"></datalist>
             <input type="hidden" name="answer" id="citySelected-hidden">
 
             <!-- שימוש בג'יפיאס -->
@@ -346,9 +415,9 @@
 
                         <li><a class="next-top1" href="#"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
                         <li class="Num"><span>1</span></li>
-                        <li class="Num"><a href="#AddingAuctionPage2">2</a></li>
+                        <li class="Num"><a onclick="ToAddingAuctionPage2()">2</a></li>
                         <li class="Num"><a href="#">3</a></li>
-                        <li><a class="pre1" href="#AddingAuctionPage2"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                        <li><a class="pre1" onclick="ToAddingAuctionPage2()"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                     </ul>
                 </div>
                 <div class="clearfix"> </div>
@@ -368,7 +437,7 @@
         </div>
     </div>
 
-
+    <!--הוספת מכרז עמוד 2-->
     <div class="pageBC" data-role="page" id="AddingAuctionPage2">
         <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
@@ -404,7 +473,7 @@
                 </ul>
             </div>-->
         <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
-        <div class="Form" id="AddingProductAuctionForm">
+        <div class="Form" id="AddingProductAuctionForm2">
             <h2>יצירת מכרז</h2>
 
             <h4>בחר קטגוריה</h4>
@@ -425,21 +494,20 @@
             </select>
             <h4>בחר עמותה</h4>
             <input list="AuctionAssocList" id="AuctionAssoc" class="inputDL" />
-            <datalist id="AuctionAssocList">
-            </datalist>
+            <datalist id="AuctionAssocList"></datalist>
             <input type="hidden" name="answer" id="AuctionAssoc-hidden" />
 
             <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
             <input type="text" id="AuctionMinPrice" />
 
             <div class="page-top-mid">
-                <div class="page-top-mid1">
+                <div class="page-top-mid1" id="AddUserProcessTop">
                     <ul class="page-mid1" id="AddUserProcess">
                         <li><a class="next-top1" href="#AddingAuctionPage"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
                         <li class="Num"><a href="#AddingAuctionPage">1</a></li>
                         <li class="Num"><span>2</span></li>
-                        <li class="Num"><a href="#AddingAuctionPage3">3</a></li>
-                        <li><a class="pre1" href="#AddingAuctionPage3"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                        <li class="Num"><a onclick="ToAddingAuctionPage3()">3</a></li>
+                        <li><a class="pre1" onclick="ToAddingAuctionPage3()"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                     </ul>
                 </div>
                 <div class="clearfix"> </div>
@@ -459,7 +527,7 @@
         </div>
     </div>
 
-
+    <!--הוספת מכרז עמוד 3-->
     <div class="pageBC" data-role="page" id="AddingAuctionPage3">
         <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
@@ -495,10 +563,6 @@
                 </ul>
             </div>-->
         <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
-
-
-
-
 
         <div class="Form" id="AddingProductAuctionForm">
             <h2>יצירת מכרז</h2>
@@ -553,7 +617,7 @@
         <!--</div>-->
         <!-- להוריד פלייס הולדרים מיותרים -->
         <!--</div>-->
-        </div>
+    </div>
 </body>
 
 </html>

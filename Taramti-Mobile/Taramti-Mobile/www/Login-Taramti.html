@@ -20,12 +20,12 @@
     <link href="css/StyleSheet.css" rel="stylesheet" />
     <link href="dist/sweetalert/sweetalert.css" rel="stylesheet" charset="utf-8" />
 
+    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
     <script src="js/master.js"></script>
-    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
+    
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--//font-Awesome-->
@@ -58,10 +58,10 @@
                 if ((parseInt($hiddenInput.val()) >= 0) && (parseInt($hiddenInput.val()) <= 1200)) {
                     return $hiddenInput.val();
                 } else {
-                    return -1; // value for error
+                    return 0; // value for error
                 }
             } catch (error) {
-                return -1; // value for error
+                return 0; // value for error
             }
         };
 
@@ -622,6 +622,7 @@
                                         type: "success",
                                         confirmButtonText: "אישור"
                                     })
+                                    $('#UserPass').val("");
                                     location.href = "Login-Taramti.html#LoginPage";
                                 }
                                 else {
@@ -830,7 +831,6 @@
                 });
             }
         }
-
 
     </script>
 

@@ -692,9 +692,6 @@ div .page-top-mid1 {
 
 }
 
-/*.inputDL{
-    background-color: transparent;
-    border-color: transparent;
-    color: #333;
-    /*text-shadow: 0 1px 0 #f3f3f3;*/
-}*/
+#AddingProductAuctionForm2{
+    margin-bottom: 60px;
+}
