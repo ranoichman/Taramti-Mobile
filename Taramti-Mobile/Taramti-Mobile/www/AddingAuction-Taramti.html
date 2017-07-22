@@ -1,10 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    
     <title>הוספת מכרז</title>
-
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -46,15 +45,12 @@
         var ServerPicArr = new Array();//שמירת הנתיב של התמונות בשרת
         var Server_i = 0;
         var CancelMessage = "";
-
         $(window).load(function () {
             setTimeout(() =>
                 $(".loader").fadeOut("slow"), 500);
         })
-
         $(document).ready(function () {
             // אג'קס למילוי כל הקטגוריות
-
             $.ajax({
                 dataType: "json",
                 url: aucwebservice + "GetAllProductsCategories",
@@ -62,9 +58,7 @@
                 type: "POST",
                 data: JSON.stringify({}),
                 success: function (data) {
-
                     var categories = JSON.parse(data.d);
-
                     if (categories[0] != null) {
                         for (var i = 0; i < categories.length; i++) {
                             var opt = '';
@@ -75,7 +69,6 @@
                 },
                 error: function (err) { }
             });
-
             // אג'קס למילוי כל העמותות
             $.ajax({
                 dataType: "json",
@@ -84,22 +77,18 @@
                 type: "POST",
                 data: JSON.stringify({}),
                 success: function (data) {
-
                     var Associations = JSON.parse(data.d);
-
                     if (Associations[0] != null) {
                         for (var i = 0; i < Associations.length; i++) {
                             var opt = '';
-                            opt += '<option value="' + Associations[i].Association_Code + '">' + Associations[i].Association_Name + '</option>';
-                            $("#AuctionAssoc").append(opt);
+                            opt += '<option data-value="' + Associations[i].Association_Code + '">' + Associations[i].Association_Name + '</option>';
+                            $("#AuctionAssocList").append(opt);
                         }
                     }
                 },
                 error: function (err) { }
             });
-
             // אג'קס למילוי כל הערים
-
             $.ajax({
                 dataType: "json",
                 url: generic + "GetAllCities",
@@ -107,33 +96,26 @@
                 type: "POST",
                 data: JSON.stringify({}),
                 success: function (data) {
-
                     var Cities = JSON.parse(data.d);
-
                     if (Cities[0] != null) {
                         for (var i = 0; i < Cities.length; i++) {
                             var opt = '';
-                            opt += '<option value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
-                            $("#ProdLocation").append(opt);
+                            opt += '<option data-value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
+                            $("#citiesList").append(opt);
                         }
                     }
                 },
                 error: function (err) { }
             });
         });
-
         $(document).on("pagecreate", "#AddingAuctionPage", function () {
-
             $("#tabs").tabs("option", "active", 1);
             $('#DefualtTab').addClass('ui-btn-active');
         });
-
         function LogOut() {
             localStorage.removeItem("UserID");
             location.href = 'Login-Taramti.html'
         }
-
-
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
@@ -144,14 +126,12 @@
                     $(".FixedButton").css("display", "block");
                 }
             });
-
             $("span.nav-list-it5").on("tap", function () {
                 $("ul.nav-top-list1").slideToggle("slow", function () {
                     // Animation complete.
                 });
             });
         });
-
         function OpenCameraORChooseFile(Flag) {
             var x = Camera.PictureSourceType.PHOTOLIBRARY;
             CancelMessage = "שים לב-אף תמונה לא נבחרה "
@@ -167,43 +147,63 @@
                 sourceType: x
             });
         }
-
         function onCameraSuccess(imageURI) {
             var $imgDiv = $("<div>");
             var $imgA = $("<a>").addClass("closeBox").attr("id", Local_i);
             var $img = $("<img>").attr("src", imageURI);
             $imgDiv.append($imgA).append($img);
             $("#image_holder").append($imgDiv);
-
-
             $imgA.on("tap", function () {
                 $(this).parent().remove();
                 ////מציאת האינדקס של הנתיב במערך ומחיקתו
                 var imgIndex = $(this).attr("id");
                 LocalPicArr.splice(imgIndex, 1);
             });
-
             LocalPicArr.push(imageURI);
             Local_i++;
         }
-
         function addToServerPicArr(stringServerPath) {
             ServerPicArr.push(stringServerPath);
             Server_i++;
         }
 
+        //get value of a datalist
+        function getDLValue(inputID) {
+            var $input = $(`#${inputID}`),
+                $options = $('#' + $input.attr('list') + ' option'), //grab all options
+                $hiddenInput = $('#' + $input.attr('id') + '-hidden'), //grab hidden input
+                label = $input.val();
+            $hiddenInput.val(label);
+            for (var i = 0; i < $options.length; i++) {
+                var $option = $options.eq(i);
+                if ($option.text() === label) {
+                    $hiddenInput.val($option.attr('data-value'));
+                    break;
+                }
+            }
+            try { //validate input before sending to db
+                if ((parseInt($hiddenInput.val()) >= 0) && (parseInt($hiddenInput.val()) <= 1200)) {
+                    return $hiddenInput.val();
+                } else {
+                    return 0; // value for error
+                }
+            } catch (error) {
+                return 0; // value for error
+            }
+        };
         function AddingProductAuction() {
+            console.log(`city- ${getDLValue("citySelected")}`)
+            console.log(`assoc- ${getDLValue("AuctionAssoc")}`)
             if (!Local_i == 0) {
                 var itemName = $("#ProdNum").val();
                 var itemDesc = $("#ProdDesc").val();
-                var city = $("#ProdLocation").val();
+                var city = getDLValue("citySelected");
                 var cat = $("#AuctionCategories").val();
                 var days = $("#AuctionLast").val();
-                var assoc = $("#AuctionAssoc").val();
+                var assoc = getDLValue("AuctionAssoc");
                 var price = $("#AuctionMinPrice").val();
                 var user1 = user.userID();
                 //var user1 = "300948552";
-
                 if (city != -1 && cat != -1 && days != -1 && assoc != -1) {
                     $.ajax({
                         dataType: "json",
@@ -253,7 +253,6 @@
                 alert("לא ניתן להוסיף מכרז ללא תמונות- יש להוסיף לפחות תמונה אחת")
             }
         }
-
         function uploadPhoto(thisImageURI, picNum, productCode) {
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
@@ -263,16 +262,13 @@
             ft.upload(thisImageURI, encodeURI("http://proj.ruppin.ac.il/bgroup51/prod/ReturnValue.ashx"), win, fail, options); // Upload
             stringServerPath = String("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
         } // Upload Photo
-
         function win(r) {
             var path = r.response;
         } // win (upload success)
-
         function fail(error) {
             alert("An error has occurred: Code = " + error.code);
             alert(error.body);
         }
-
         function onCameraFail(message) {
             alert(CancelMessage);
             //alert('Failed because: ' + message);
@@ -304,9 +300,9 @@
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
@@ -332,6 +328,16 @@
             <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
             <h4>מיקום</h4>
+            <input list="citiesList" id=citySelected class="inputDL">
+
+            <datalist id="citiesList">
+            </datalist>
+            <input type="hidden" name="answer" id="citySelected-hidden">
+
+            <!-- שימוש בג'יפיאס -->
+            <div style="display: none;">
+                <select id="CustomerSelectHidden"></select>
+            </div>
 
 
             <div class="page-top-mid">
@@ -379,9 +385,9 @@
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
@@ -418,10 +424,11 @@
                 <option value="7">7</option>
             </select>
             <h4>בחר עמותה</h4>
-            <select id="AuctionAssoc">
-                <option value="-1"> בחר</option>
+            <input list="AuctionAssocList" id="AuctionAssoc" class="inputDL" />
+            <datalist id="AuctionAssocList">
+            </datalist>
+            <input type="hidden" name="answer" id="AuctionAssoc-hidden" />
 
-            </select>
             <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
             <input type="text" id="AuctionMinPrice" />
 
@@ -432,7 +439,7 @@
                         <li class="Num"><a href="#AddingAuctionPage">1</a></li>
                         <li class="Num"><span>2</span></li>
                         <li class="Num"><a href="#AddingAuctionPage3">3</a></li>
-                        <li><a class="pre1" onclick="ConRegister()" href="#AddingAuctionPage3"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                        <li><a class="pre1" href="#AddingAuctionPage3"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                     </ul>
                 </div>
                 <div class="clearfix"> </div>
@@ -469,9 +476,9 @@
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
@@ -488,6 +495,11 @@
                 </ul>
             </div>-->
         <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
+
+
+
+
+
         <div class="Form" id="AddingProductAuctionForm">
             <h2>יצירת מכרז</h2>
 

@@ -657,3 +657,7 @@ div .page-top-mid1 {
 #assocFilter a.ui-btn {
     text-align: right;
 }
+
+#AddingProductAuctionForm div input{    
+    height: 2.7em;
+}
