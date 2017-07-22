@@ -248,7 +248,7 @@
                 var price = $("#AuctionMinPrice").val();
                 var user1 = user.userID();
 
-                $(".loader").display("block");
+                $(".loader").fadeIn("fast");
 
                     $.ajax({
                         dataType: "json",
@@ -305,8 +305,7 @@
                             }
                         },
                         error: function (err) { }
-                    });
-                
+                    }); 
             }
             else {
                 swal({
