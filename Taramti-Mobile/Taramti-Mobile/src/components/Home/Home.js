@@ -175,7 +175,7 @@ class Home extends Component {
 
                 //access db again untill results arrive or TO expires
                 if (self.startTO != undefined) {
-                    self.getAuctionsByParams(lowPrice, highPrice, catCode, lat, lng, radius)
+                    self.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius)
                 }
                 else {
                     if (self.showDefault) {

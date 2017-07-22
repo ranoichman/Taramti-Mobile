@@ -89,8 +89,8 @@ class Search extends Component {
     searchBTN() {
         let low = this.refs.lowerPrice.value !== "" ? this.refs.lowerPrice.value : -1;
         let high = this.refs.higherPrice.value !== "" ? this.refs.higherPrice.value : -1;
-        let catCode = [this.state.categroy];
-        let tagCode = [this.state.tag];
+        let catCode = [parseInt(this.state.categroy)];
+        let tagCode = [parseInt(this.state.tag)];
         let coords = { lat: 0, lng: 0 };
         let radius = 0;
 
@@ -146,8 +146,8 @@ class Search extends Component {
 
                     {/*between price area*/}
                     <h3>מחיר בש"ח</h3>
-                    <input type="number" ref="lowerPrice" placeholder="מ..." />
-                    <input type="number" ref="higherPrice" placeholder="עד..." />
+                    <input type="number" className="priceRange" ref="lowerPrice" placeholder="מ..." />
+                    <input type="number" className="priceRange" ref="higherPrice" placeholder="עד..." />
                     <button className="ui-btn ui-btn-corner-all searchBtn" onClick={this.searchBTN}> חפש </button>
 
                     {/*</form>*/}
