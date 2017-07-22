@@ -30,6 +30,11 @@
 </head>
 
 <body>
+
+    <div class="loader">
+        <img id="LoadingImg" src="img/just_logo.png" />
+    </div>
+
     <!--דף זה מכיל הוספת עמותה -->
 
     <div class="pageBC" data-role="page" id="RegisterAssocPage">
@@ -48,9 +53,9 @@
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
 
@@ -86,7 +91,7 @@
                     </div>
 
                     <div class="page-top-mid">
-                        <div class="page-top-mid1">
+                        <div class="page-top-mid1" id="AddAssocProcessTop">
                             <ul class="page-mid1" id="AddAssocProcess">
 
                                 <li><a class="next-top1" onclick="location.href = 'app.html'"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
@@ -130,9 +135,9 @@
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
 
@@ -175,7 +180,7 @@
                         <div class="clearfix"> </div>
                     </div>
                     <div class="page-top-mid">
-                        <div class="page-top-mid1">
+                        <div class="page-top-mid1" id="AddAssocProcessTop">
                             <ul class="page-mid1" id="AddAssocProcess">
                                 <li><a href="#RegisterAssocPage" class="next-top1"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
                                 <li class="Num"><a href="#RegisterAssocPage">1</a></li>
@@ -224,6 +229,11 @@
     </script>
 
     <script>
+        $(window).load(function () {
+            setTimeout(() =>
+                $(".loader").fadeOut("slow"), 500);
+        })
+
         $(document).ready(function () {
             console.log("in");
         })

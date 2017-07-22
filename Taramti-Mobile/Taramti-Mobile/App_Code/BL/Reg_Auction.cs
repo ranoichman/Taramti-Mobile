@@ -659,7 +659,36 @@ public class Reg_Auction : Auction
         return J.Serialize(v);
     }
 
+    // פונקציית עזר - מביאה את קוד העמותה למוצר מסויים שכבר פורסם בעבר
+    public int GetProdAssoc(int prod)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
 
+        string StrSql = @"SELECT        product_code, association_code
+                        FROM            dbo.auction
+                        WHERE        (product_code = @prod) AND (association_code IS NOT NULL)";
+        SqlParameter parProd = new SqlParameter("@prod", prod);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parProd);
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            return int.Parse(DS.Tables[0].Rows[0]["association_code"].ToString());
+        }
+        return 0;
+    }
+
+    // פונקציה לפרסום מחדש של מכרז על מוצר שכבר קיים במערת - לדוגמא: מכרז שנגמר ללא קונה
+    public bool AddAuctionExisitingProd(int prod, int price, int days, int user)
+    {
+        Reg_Auction auction = new Reg_Auction();
+        UserT U = new UserT(user.ToString());
+        Item I = new Item(prod);
+        I.UpdatePrice(price); // עדכון המחיר למחיר החדש שנבחר
+        auction.End_Date = DateTime.Now.AddDays(days).ToString("yyyy-MM-dd HH:mm:ss.sss");
+        auction.Seller = U;
+        int assoc = GetProdAssoc(prod);
+        return auction.AddNewAuction(prod,assoc);
+    }
 
     public void GetItemDetails()
     {

@@ -48,12 +48,11 @@ class Menu extends Component {
 
                         <li><a onClick={() => this.setState({ reDirect: true })}>{this.props.home? <img className="MenuIconLeft" src="images/LeftArrow.png" /> : null}דף הבית</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'AddingAuction-Taramti.html'}>הוספת מכרז</a><label>|</label></li>
+                        <li><a onClick={() => location.href = 'appSettings.html#SearchAssoc'}>פרטי עמותות</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'userDetails.html'}>פרופיל משתמש</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'appSettings.html#Settings.html'}>הגדרות אפליקציה</a><label>|</label></li>
-                        <li><a onClick={() => location.href = 'appSettings.html#SearchAssoc'}>פרטי עמותות</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'RegisterAssoc-Taramti.html'}>הוספת עמותה</a><label>|</label></li>
                         <li><a onClick={this.logOut}> התנתק <i className="fa fa-sign-out"></i></a></li>
-                        {/* <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>--> */}
                     </ul>
                 </div>
                 <div className="clearfix"> </div>

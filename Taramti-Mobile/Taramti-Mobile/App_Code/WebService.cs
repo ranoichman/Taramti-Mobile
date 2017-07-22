@@ -141,8 +141,17 @@ public class WebService : System.Web.Services.WebService
         UserT temp_user = new UserT();
         temp_user.UserId = id;
         temp_user.Password = newPass;
-        temp_user.UpdatePassword();
-        return "true";
+        if (temp_user.CheckIfExictById())
+        {
+            temp_user.UpdatePassword();
+            return "true";
+        }
+        else
+        {
+            return "false";
+        }
+        
+        
     }
 
     /// <summary>

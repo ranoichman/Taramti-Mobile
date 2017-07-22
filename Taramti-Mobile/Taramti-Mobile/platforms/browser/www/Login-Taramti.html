@@ -18,17 +18,25 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="dist/sweetalert/sweetalert.css" rel="stylesheet" charset="utf-8" />
 
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/master.js"></script>
+    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--//font-Awesome-->
 
 <script>
+
+
+    $(window).load(function () {
+            $(".loader").fadeOut("slow");
+    })
+
     if (localStorage.UserID != null) {
         location.href = "app.html";
     }
@@ -36,6 +44,10 @@
 </head>
 
 <body>
+
+    <div class="loader">
+        <img id="LoadingImg" src="img/just_logo.png" />
+    </div>
 
     <!--דף לוגין-->
     <div data-role="page" id="LoginPage">
@@ -445,7 +457,13 @@
                             }
                         }
                         else {
-                            alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
+                            //alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
+                            swal({
+                                title: "אופס...",
+                                text: "שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. \n אנא נסה שנית", 
+                                type: "error",
+                                confirmButtonText: "אישור"
+                           })
                             location.href = "Login-Taramti.html#LoginPage";
                         }
                     },
@@ -669,7 +687,12 @@
                         location.href = "Login-Taramti.html#LoginPage";
                     }
                     else {
-                        alert("ת.ז או אימייל שגויים, הזן ת.ז ואימייל לצורך איפוס סיסמה");
+                        swal({
+                            title: "אופס...",
+                            text: "ת.ז או אימייל שגויים, הזן ת.ז ואימייל תקינים לצורך איפוס סיסמה",
+                            type: "error",
+                            confirmButtonText: "אישור"
+                        })
                         location.href = "Login-Taramti.html#ForgotPassPage";
                     }
                 },
@@ -702,7 +725,12 @@
                 });
             }
             else {
-                alert("הסיסמאות אינן תואמות!");
+                swal({
+                    title: "אופס...",
+                    text: "הסיסמאות אינן תואמות!",
+                    type: "error",
+                    confirmButtonText: "אישור"
+                })
             }
 
         }

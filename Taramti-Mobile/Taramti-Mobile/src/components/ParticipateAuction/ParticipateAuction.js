@@ -373,7 +373,7 @@ class ParticipateAuction extends Component {
     render() {
 
         return (
-            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px" }}>
+            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px",paddingLeft: "5px" }}>
 
                 {/*shown messegae*/}
                 <Modal
@@ -451,7 +451,7 @@ class ParticipateAuction extends Component {
                 <Modal
                     isOpen={this.state.tipModalIsOpen}
                     contentLabel="open info"
-                    className="zoomIn">
+                    className="tipBox">
                     <Tip closeModal={this.tipModalChanged} height={window.innerHeight} />
 
                 </Modal>

@@ -13,7 +13,7 @@ class SwipeDownDemo extends Component {
         this.showVid = this.showVid.bind(this);
         this.renderStart = this.renderStart.bind(this);
         this.renderSwipe = this.renderSwipe.bind(this);
-        this.renderFly = this.renderFly.bind(this);
+        this.renderBlow = this.renderBlow.bind(this);
     }
 
     componentDidMount() {
@@ -49,23 +49,22 @@ class SwipeDownDemo extends Component {
         );
     }
 
-    renderFly() {
+    renderBlow() {
         return (
             <Balloon curIndex={3} formerIndex={3} anim={"2"} price={50} />
         );
     }
 
     render() {
-        const func = [this.renderStart(), this.renderSwipe(), this.renderFly()]
+        const func = [this.renderStart(), this.renderSwipe(), this.renderBlow()]
 
         return (
-            <div className={this.props.anim}>
+            <div>
                 <h2>החלק את הבלון מטה למחיקת ההצעה</h2>
                 <div className={this.state.mode == 0 ? "arrow_box_down" : "arrow_box_down growDown"} style={{ display: this.state.mode == 2 ? "none" : "block" }} ></div>
                 <img className={this.state.mode == 0 ? "tappingDown" : "tappingDown swipeDown"} style={{ display: this.state.mode == 2 ? "none" : "block" }} src="images/tapping_hand.png" />
                  {func[this.state.mode]} 
             </div>
-
         )
     }
 }

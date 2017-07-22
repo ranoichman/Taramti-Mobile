@@ -11,6 +11,7 @@ import PriceTag from '../Generic/PriceTag';
 import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
 import ParticipateAuction from '../ParticipateAuction/ParticipateAuction';
+import RePublish from '../MyProducts/RePublish';
 //import Tetris from '../Tetris';
 
 
@@ -151,11 +152,9 @@ class Auction extends Component {
                 <Modal
                     isOpen={this.state.rePublishModalIsOpen}
                     contentLabel="open info"
-                    className="box">
-                    <Swipeable onTap={this.rePublishModalChanged}>
-                        <a className="boxclose"></a>
-                    </Swipeable>
-                    <h3>פרסום מחדש</h3>
+                    className="zoomIn">
+                    
+                    <RePublish closeModal={this.rePublishModalChanged}/>
                 </Modal>
 
             </div>
