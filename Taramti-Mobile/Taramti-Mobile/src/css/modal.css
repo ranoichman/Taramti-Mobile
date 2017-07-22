@@ -353,6 +353,11 @@ animation:3s ease-in infinite tipFadein;
     height: 60px;
 }
 
+.minPriceInput{
+    width: 90%;
+    margin:0;
+}
+
 fieldset{
     display: none;
 }
