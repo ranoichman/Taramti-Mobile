@@ -261,56 +261,6 @@
         <img id="LoadingImg" src="img/just_logo.png" />
     </div>
 
-    <!--דף חיפוש עמותות-->
-    <div class="pageBC" data-role="page" id="SearchAssoc">
-        <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
-        <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
-
-            <img id="LogoBidIt" src="images/LogoBidIt.png" />
-            <div class="nav-left">
-                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
-            </div>
-            <div class="nav-right">
-                <span class="nav-list-it5">
-                    <i class="fa fa-bars"></i>
-                </span>
-
-                <ul class="nav-top-list nav-top-list1">
-                    <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
-                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
-                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'"><img class="MenuIconLeft" src="images/LeftArrow.png" />פרטי עמותות</a><label>|</label></li>
-                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
-                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
-                    <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
-                </ul>
-            </div>
-            <div class="clearfix"> </div>
-        </div>
-
-        <div class="Form">
-            <h2> חיפוש ופרטי עמותות </h2>
-            <h5>לפרטי עמותה החלק לשמאל</h5>
-            <input data-type="search" id="filterControlgroup-input">
-
-            <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
-
-                <div class="FixedButton">
-                    <div class="RoundDivfixed">
-                        <div id="fixedCircle">
-                            <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
-                        </div>
-                        <div id="fixedHome">
-                            <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!--דף הגדרות אפליקציה-->
     <div class="pageBC" data-role="page" id="Settings">
 
@@ -329,9 +279,9 @@
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
 
@@ -395,6 +345,57 @@
 
     </div>
 
+
+    <!--דף חיפוש עמותות-->
+    <div class="pageBC" data-role="page" id="SearchAssoc">
+        <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
+        <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
+
+            <img id="LogoBidIt" src="images/LogoBidIt.png" />
+            <div class="nav-left">
+                <img onclick="location.href = 'app.html'" style="z-index:150" id="TaramtiLogo" src="images/LogoCircle.png" />
+            </div>
+            <div class="nav-right">
+                <span class="nav-list-it5">
+                    <i class="fa fa-bars"></i>
+                </span>
+
+                <ul class="nav-top-list nav-top-list1">
+                    <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
+                    <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'"><img class="MenuIconLeft" src="images/LeftArrow.png" />פרטי עמותות</a><label>|</label></li>
+                    <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
+                    <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
+                    <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
+                    <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="Form">
+            <h2> חיפוש ופרטי עמותות </h2>
+            <h5>לפרטי עמותה החלק לשמאל</h5>
+            <input data-type="search" id="filterControlgroup-input">
+
+            <div id="assocFilter" data-role="controlgroup" data-filter="true" data-input="#filterControlgroup-input">
+
+                <div class="FixedButton">
+                    <div class="RoundDivfixed">
+                        <div id="fixedCircle">
+                            <a onclick="location.href = 'app.html'"><img src="images/circle-for-home.png" /></a>
+                        </div>
+                        <div id="fixedHome">
+                            <a onclick="location.href = 'app.html'"><img src="images/Home1600.png" /></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--דף פרטי עמותה -->
     <div class="pageBC" data-role="page" id="AssocInfoPage">
         <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
@@ -411,9 +412,9 @@
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'">הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'"><img class="MenuIconLeft" src="images/LeftArrow.png" />פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'"><img class="MenuIconLeft" src="images/LeftArrow.png" />פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->

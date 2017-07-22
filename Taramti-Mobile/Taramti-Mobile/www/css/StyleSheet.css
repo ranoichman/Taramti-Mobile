@@ -483,6 +483,12 @@ div .page-top-mid1 {
 }
 
 #AddAssocProcess {
+    margin: 0 auto;
+    padding-right: 9%;
+}
+
+#AddAssocProcessTop {
+    margin: 0 ;
 }
 
 #tabs {
@@ -630,4 +636,8 @@ div .page-top-mid1 {
     -webkit-animation: spin 2s linear infinite;
     -moz-animation: spin 2s linear infinite;
     animation: spin 2s linear infinite;
+}
+
+#assocFilter a.ui-btn {
+    text-align: right;
 }
