@@ -451,7 +451,7 @@ class ParticipateAuction extends Component {
                 <Modal
                     isOpen={this.state.tipModalIsOpen}
                     contentLabel="open info"
-                    className="zoomIn">
+                    className="tipBox">
                     <Tip closeModal={this.tipModalChanged} height={window.innerHeight} />
 
                 </Modal>

@@ -11,6 +11,7 @@ import Search from './Search';
 import Loader from '../Generic/Loader';
 import Menu from '../Generic/Menu';
 import CircleButton from '../Generic/CircleButton';
+import ScrollButton from '../Generic/ScrollButton';
 
 
 import '../../css/transition.css';
@@ -301,6 +302,7 @@ class Home extends Component {
                 {/*move to add auction*/}
                 <CircleButton home={false} />
 
+                <ScrollButton scrollStepInPx="30" delayInMs="16.66"/>
             </div>
         );
     }

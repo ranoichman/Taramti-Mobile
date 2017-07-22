@@ -21,7 +21,7 @@ class Tip extends Component {
     }
 
     componentDidMount() {
-        
+
     }
 
 
@@ -51,35 +51,35 @@ class Tip extends Component {
     render() {
 
         return (
-            <div className={this.state.open ? "box" : "box zoomOut"}>
-            {/* <div ref="modal" className={this.state.open ? "tipBox" : "tipBox zoomOut"} style={{ display: "inline-block" }}> */}
+            // <div className={this.state.open ? "box" : "box zoomOut"}>
+            <div ref="modal" className={this.state.open ? "tipBox" : "tipBox zoomOut"} style={{ display: "inline-block" }}>
                 <Swipeable onTap={this.close}>
                     <a className="boxclose" ></a>
                 </Swipeable>
-                 {/* <TapDemo /> 
+                {/* <TapDemo /> 
                  <SwipeUPDemo/>  
                 <SwipeDownDemo /> */}
 
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
-                        
-                        <TabList style={{display:"none"}}>
+
+                        <TabList style={{ display: "none" }}>
                             <Tab></Tab>
                             <Tab></Tab>
                             <Tab></Tab>
                         </TabList>
 
-                        
+
                         <TabPanel>
-                                <TapDemo anim={this.state.tabIndex === 0 ? this.state.animation : ""}/> 
+                            <TapDemo anim={this.state.tabIndex === 0 ? this.state.animation : ""} />
                         </TabPanel>
 
                         <TabPanel>
-                                <SwipeUPDemo anim={this.state.tabIndex === 1 ? this.state.animation : ""}/>  
+                            <SwipeUPDemo anim={this.state.tabIndex === 1 ? this.state.animation : ""} />
                         </TabPanel>
 
                         <TabPanel>
-                                <SwipeDownDemo anim={this.state.tabIndex === 2 ? this.state.animation : ""}/>                            
+                            <SwipeDownDemo anim={this.state.tabIndex === 2 ? this.state.animation : ""} />
                         </TabPanel>
 
 

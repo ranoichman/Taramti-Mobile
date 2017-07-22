@@ -92,23 +92,23 @@
 
 	var _TapDemo2 = _interopRequireDefault(_TapDemo);
 
-	var _ActiveAuctions = __webpack_require__(456);
+	var _ActiveAuctions = __webpack_require__(457);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
-	var _MyAuction = __webpack_require__(459);
+	var _MyAuction = __webpack_require__(460);
 
 	var _MyAuction2 = _interopRequireDefault(_MyAuction);
 
-	var _Profile = __webpack_require__(460);
+	var _Profile = __webpack_require__(461);
 
 	var _Profile2 = _interopRequireDefault(_Profile);
 
-	var _MyProducts = __webpack_require__(461);
+	var _MyProducts = __webpack_require__(462);
 
 	var _MyProducts2 = _interopRequireDefault(_MyProducts);
 
-	var _Bdika = __webpack_require__(462);
+	var _Bdika = __webpack_require__(463);
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
@@ -116,7 +116,7 @@
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _master = __webpack_require__(464);
+	var _master = __webpack_require__(465);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -30841,6 +30841,10 @@
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
+	var _ScrollButton = __webpack_require__(456);
+
+	var _ScrollButton2 = _interopRequireDefault(_ScrollButton);
+
 	__webpack_require__(311);
 
 	var _general = __webpack_require__(424);
@@ -31172,7 +31176,8 @@
 	                        )
 	                    )
 	                ),
-	                _react2.default.createElement(_CircleButton2.default, { home: false })
+	                _react2.default.createElement(_CircleButton2.default, { home: false }),
+	                _react2.default.createElement(_ScrollButton2.default, { scrollStepInPx: '30', delayInMs: '16.66' })
 	            );
 	        }
 	    }]);
@@ -34804,7 +34809,7 @@
 	                    {
 	                        isOpen: this.state.tipModalIsOpen,
 	                        contentLabel: 'open info',
-	                        className: 'zoomIn' },
+	                        className: 'tipBox' },
 	                    _react2.default.createElement(_Tip2.default, { closeModal: this.tipModalChanged, height: window.innerHeight })
 	                )
 	            );
@@ -34993,7 +34998,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    bottom: 30px;\r\n    /* height: 70%; */\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n\r\n", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 110px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n\r\n", ""]);
 
 	// exports
 
@@ -39071,43 +39076,46 @@
 	        value: function render() {
 	            var _this3 = this;
 
-	            return _react2.default.createElement(
-	                'div',
-	                { className: this.state.open ? "box" : "box zoomOut" },
+	            return (
+	                // <div className={this.state.open ? "box" : "box zoomOut"}>
 	                _react2.default.createElement(
-	                    _reactSwipeable2.default,
-	                    { onTap: this.close },
-	                    _react2.default.createElement('a', { className: 'boxclose' })
-	                ),
-	                _react2.default.createElement(
-	                    _reactSwipeable2.default,
-	                    { onSwipedLeft: this.tabSwipeLeft, onSwipedRight: this.tabSwipeRight },
+	                    'div',
+	                    { ref: 'modal', className: this.state.open ? "tipBox" : "tipBox zoomOut", style: { display: "inline-block" } },
 	                    _react2.default.createElement(
-	                        _reactTabs.Tabs,
-	                        { selectedIndex: this.state.tabIndex, onSelect: function onSelect(tabIndex) {
-	                                return _this3.setState({ tabIndex: tabIndex });
-	                            } },
+	                        _reactSwipeable2.default,
+	                        { onTap: this.close },
+	                        _react2.default.createElement('a', { className: 'boxclose' })
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactSwipeable2.default,
+	                        { onSwipedLeft: this.tabSwipeLeft, onSwipedRight: this.tabSwipeRight },
 	                        _react2.default.createElement(
-	                            _reactTabs.TabList,
-	                            { style: { display: "none" } },
-	                            _react2.default.createElement(_reactTabs.Tab, null),
-	                            _react2.default.createElement(_reactTabs.Tab, null),
-	                            _react2.default.createElement(_reactTabs.Tab, null)
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(_TapDemo2.default, { anim: this.state.tabIndex === 0 ? this.state.animation : "" })
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(_SwipeUPDemo2.default, { anim: this.state.tabIndex === 1 ? this.state.animation : "" })
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactTabs.TabPanel,
-	                            null,
-	                            _react2.default.createElement(_SwipeDownDemo2.default, { anim: this.state.tabIndex === 2 ? this.state.animation : "" })
+	                            _reactTabs.Tabs,
+	                            { selectedIndex: this.state.tabIndex, onSelect: function onSelect(tabIndex) {
+	                                    return _this3.setState({ tabIndex: tabIndex });
+	                                } },
+	                            _react2.default.createElement(
+	                                _reactTabs.TabList,
+	                                { style: { display: "none" } },
+	                                _react2.default.createElement(_reactTabs.Tab, null),
+	                                _react2.default.createElement(_reactTabs.Tab, null),
+	                                _react2.default.createElement(_reactTabs.Tab, null)
+	                            ),
+	                            _react2.default.createElement(
+	                                _reactTabs.TabPanel,
+	                                null,
+	                                _react2.default.createElement(_TapDemo2.default, { anim: this.state.tabIndex === 0 ? this.state.animation : "" })
+	                            ),
+	                            _react2.default.createElement(
+	                                _reactTabs.TabPanel,
+	                                null,
+	                                _react2.default.createElement(_SwipeUPDemo2.default, { anim: this.state.tabIndex === 1 ? this.state.animation : "" })
+	                            ),
+	                            _react2.default.createElement(
+	                                _reactTabs.TabPanel,
+	                                null,
+	                                _react2.default.createElement(_SwipeDownDemo2.default, { anim: this.state.tabIndex === 2 ? this.state.animation : "" })
+	                            )
 	                        )
 	                    )
 	                )
@@ -40590,14 +40598,17 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { className: this.props.anim },
+	                null,
 	                _react2.default.createElement(
 	                    'h2',
 	                    null,
 	                    '\u05DC\u05D7\u05E5 \u05E2\u05DC \u05D4\u05D1\u05DC\u05D5\u05DF \u05DC\u05D4\u05D6\u05E0\u05EA \u05DE\u05D7\u05D9\u05E8'
 	                ),
-	                _react2.default.createElement(_Balloon2.default, { curIndex: 3, formerIndex: 0, anim: "0", price: 80 }),
-	                func[this.state.mode]
+	                _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    func[this.state.mode]
+	                )
 	            );
 	        }
 	    }]);
@@ -40708,7 +40719,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { className: this.props.anim },
+	                null,
 	                _react2.default.createElement(
 	                    'h2',
 	                    null,
@@ -40773,7 +40784,7 @@
 	        _this.showVid = _this.showVid.bind(_this);
 	        _this.renderStart = _this.renderStart.bind(_this);
 	        _this.renderSwipe = _this.renderSwipe.bind(_this);
-	        _this.renderFly = _this.renderFly.bind(_this);
+	        _this.renderBlow = _this.renderBlow.bind(_this);
 	        return _this;
 	    }
 
@@ -40816,18 +40827,18 @@
 	            );
 	        }
 	    }, {
-	        key: 'renderFly',
-	        value: function renderFly() {
+	        key: 'renderBlow',
+	        value: function renderBlow() {
 	            return _react2.default.createElement(_Balloon2.default, { curIndex: 3, formerIndex: 3, anim: "2", price: 50 });
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var func = [this.renderStart(), this.renderSwipe(), this.renderFly()];
+	            var func = [this.renderStart(), this.renderSwipe(), this.renderBlow()];
 
 	            return _react2.default.createElement(
 	                'div',
-	                { className: this.props.anim },
+	                null,
 	                _react2.default.createElement(
 	                    'h2',
 	                    null,
@@ -40884,6 +40895,7 @@
 	        };
 	        _this.renderHome = _this.renderHome.bind(_this);
 	        _this.renderPlus = _this.renderPlus.bind(_this);
+	        _this.renderBack = _this.renderBack.bind(_this);
 	        _this.updateDimensions = _this.updateDimensions.bind(_this);
 	        return _this;
 	    }
@@ -40924,6 +40936,19 @@
 	                            _react2.default.createElement('img', { src: 'images/add_icon.png' })
 	                        )
 	                    )
+	                )
+	            );
+	        }
+	    }, {
+	        key: 'renderBack',
+	        value: function renderBack() {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'ReactIconBack' },
+	                _react2.default.createElement(
+	                    _reactRouterDom.Link,
+	                    { to: '/products', className: 'styleLink' },
+	                    _react2.default.createElement('img', { className: 'NiceIcon', src: 'images/backToLogin.png' })
 	                )
 	            );
 	        }
@@ -40974,7 +40999,11 @@
 	            if (this.props.home) {
 	                return this.renderHome();
 	            } else {
-	                return this.renderPlus();
+	                if (this.props.back) {
+	                    return this.renderBack();
+	                } else {
+	                    return this.renderPlus();
+	                }
 	            }
 	        }
 	    }]);
@@ -41630,6 +41659,89 @@
 /* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ScrollButton = function (_Component) {
+	  _inherits(ScrollButton, _Component);
+
+	  function ScrollButton() {
+	    _classCallCheck(this, ScrollButton);
+
+	    var _this = _possibleConstructorReturn(this, (ScrollButton.__proto__ || Object.getPrototypeOf(ScrollButton)).call(this));
+
+	    _this.state = {
+	      intervalId: 0
+	    };
+	    _this.scrollToTop = _this.scrollToTop.bind(_this);
+	    _this.scrollStep = _this.scrollStep.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(ScrollButton, [{
+	    key: "scrollStep",
+	    value: function scrollStep() {
+	      if (window.pageYOffset === 0) {
+	        clearInterval(this.state.intervalId);
+	      }
+	      window.scroll(0, window.pageYOffset - this.props.scrollStepInPx);
+	    }
+	  }, {
+	    key: "scrollToTop",
+	    value: function scrollToTop() {
+	      var intervalId = setInterval(this.scrollStep, this.props.delayInMs);
+	      this.setState({ intervalId: intervalId });
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var _this2 = this;
+
+	      // return <button title='Back to top' className='scroll' 
+	      //          onClick={ () => { this.scrollToTop(); }}>
+	      //           <span className='arrow-up glyphicon glyphicon-chevron-up'></span>
+	      //         </button>;
+	      return _react2.default.createElement(
+	        "a",
+	        { onClick: function onClick() {
+	            _this2.scrollToTop();
+	          }, id: "toTop", style: { display: "block" } },
+	        " ",
+	        _react2.default.createElement(
+	          "span",
+	          { id: "toTopHover", style: { opacity: 1 } },
+	          " "
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ScrollButton;
+	}(_react.Component);
+
+	exports.default = ScrollButton;
+
+/***/ }),
+/* 457 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -41660,7 +41772,7 @@
 
 	__webpack_require__(311);
 
-	__webpack_require__(457);
+	__webpack_require__(458);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41928,13 +42040,13 @@
 	//                 </div>
 
 /***/ }),
-/* 457 */
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(458);
+	var content = __webpack_require__(459);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -41954,7 +42066,7 @@
 	}
 
 /***/ }),
-/* 458 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -41968,7 +42080,7 @@
 
 
 /***/ }),
-/* 459 */
+/* 460 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42221,6 +42333,7 @@
 	                        _react2.default.createElement(_AuctionInfo2.default, { modal: false, auc: this.state.auc })
 	                    )
 	                ),
+	                _react2.default.createElement(_CircleButton2.default, { back: true }),
 	                _react2.default.createElement(
 	                    _reactModal2.default,
 	                    {
@@ -42248,7 +42361,7 @@
 	exports.default = MyAuction;
 
 /***/ }),
-/* 460 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42281,7 +42394,7 @@
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _ActiveAuctions = __webpack_require__(456);
+	var _ActiveAuctions = __webpack_require__(457);
 
 	var _ActiveAuctions2 = _interopRequireDefault(_ActiveAuctions);
 
@@ -42289,7 +42402,7 @@
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
-	__webpack_require__(457);
+	__webpack_require__(458);
 
 	__webpack_require__(311);
 
@@ -42416,7 +42529,7 @@
 	exports.default = Profile;
 
 /***/ }),
-/* 461 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42479,7 +42592,7 @@
 	exports.default = MyProducts;
 
 /***/ }),
-/* 462 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42498,7 +42611,7 @@
 
 	var _reactModal2 = _interopRequireDefault(_reactModal);
 
-	var _Payment = __webpack_require__(463);
+	var _Payment = __webpack_require__(464);
 
 	var _Payment2 = _interopRequireDefault(_Payment);
 
@@ -42639,7 +42752,7 @@
 	exports.default = Bdika;
 
 /***/ }),
-/* 463 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42730,17 +42843,17 @@
 	exports.default = Payment;
 
 /***/ }),
-/* 464 */
+/* 465 */
 /***/ (function(module, exports) {
 
 	
 	const GENERAL = {
 
-	    genericWebServerAddress: "/WebService.asmx/",
-	    //genericWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/webservice.asmx/",
+	   // genericWebServerAddress: "/WebService.asmx/",
+	    genericWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/webservice.asmx/",
 
-	    assocWebServerAddress: "/../AssociationsWebService.asmx/",
-	    //assocWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/AssociationsWebService.asmx/",
+	    //assocWebServerAddress: "/../AssociationsWebService.asmx/",
+	    assocWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/AssociationsWebService.asmx/",
 
 	    //auctionWebServerAddress : "/AuctionWebService.asmx/",
 	    auctionWebServerAddress: "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/",

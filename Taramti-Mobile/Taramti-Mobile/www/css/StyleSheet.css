@@ -567,6 +567,22 @@ div .page-top-mid1 {
     float: right;
     border-radius: 60px;
 }
+.ReactIconBack {
+    z-index: 10;
+    background-color: white;
+    opacity: 0.9;
+    position: relative;
+    top: 15px;
+    width: 25%;
+    float: right;
+    border-radius: 60px;
+}
+
+
+.ReactIconBack a img {
+    width: 75%;
+    margin: 0 auto;
+}
 
 .Form .RoundDivIcon a img {
     width: 75%;

@@ -124,7 +124,7 @@ class MyAuction extends Component {
     //calculate donation amount to insert to circle
     calcDonation() {
         let tempPrice = parseInt(this.state.auc.price);
-        
+
         this.setState({
             tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
         });
@@ -161,8 +161,9 @@ class MyAuction extends Component {
                     <div className="myAuction" style={{ width: "50%", float: "right" }} onClick={this.infoModalChanged}>
                         <AuctionInfo modal={false} auc={this.state.auc} />
                     </div>
-                </div>
 
+                </div>
+                <CircleButton back={true} />
                 {/*info modal*/}
                 <Modal
                     isOpen={this.state.infoModalIsOpen}
