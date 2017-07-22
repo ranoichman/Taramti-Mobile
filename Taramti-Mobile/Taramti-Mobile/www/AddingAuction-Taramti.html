@@ -1,22 +1,4 @@
-﻿Skip to content
-This repository
-Search
-Pull requests
-Issues
-Marketplace
-Gist
- @golanh
- Sign out
- Watch 0
-  Star 0
-  Fork 0 ranoichman/Taramti-Mobile
- Code  Issues 0  Pull requests 0  Projects 0  Wiki Insights 
-Tree: 67be34fa8d Find file Copy pathTaramti-Mobile/Taramti-Mobile/Taramti-Mobile/www/AddingAuction-Taramti.html
-67be34f  an hour ago
-@golanh golanh add datalist to adding auction and update menu
-3 contributors @hillyjack @ranoichman @golanh
-RawBlameHistory      
-591 lines (508 sloc)  26.5 KB
+﻿
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -137,17 +119,11 @@ RawBlameHistory
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
-                if ($(window).width() + $(window).height() != _originalSize) {
+                if ($(window).width() + $(window).height() != _originalSize) { 
                     $(".FixedButton").css("display", "none");
-                    //$(".RoundDivfixed").css("display", "none");
-                    //$("#fixedCircle").css("display", "none");
-                    //$("#fixedHome").css("display", "none");
                 }
                 else {
                     $(".FixedButton").css("display", "block");
-                    //$(".RoundDivfixed").css("display", "block");
-                    //$("#fixedCircle").css("display", "block");
-                    //$("#fixedHome").css("display", "block");
                 }
             });
             $("span.nav-list-it5").on("tap", function () {
@@ -190,7 +166,7 @@ RawBlameHistory
             ServerPicArr.push(stringServerPath);
             Server_i++;
         }
-        
+
         //get value of a datalist
         function getDLValue(inputID) {
             var $input = $(`#${inputID}`),
@@ -324,9 +300,9 @@ RawBlameHistory
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
@@ -365,7 +341,7 @@ RawBlameHistory
 
 
             <div class="page-top-mid">
-                <div class="page-top-mid1">
+                <div class="page-top-mid1" id="AddUserProcessTop">
                     <ul class="page-mid1" id="AddUserProcess">
 
                         <li><a class="next-top1" href="#"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
@@ -409,9 +385,9 @@ RawBlameHistory
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
@@ -463,7 +439,7 @@ RawBlameHistory
                         <li class="Num"><a href="#AddingAuctionPage">1</a></li>
                         <li class="Num"><span>2</span></li>
                         <li class="Num"><a href="#AddingAuctionPage3">3</a></li>
-                        <li><a class="pre1" onclick="ConRegister()" href="#AddingAuctionPage3"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                        <li><a class="pre1" href="#AddingAuctionPage3"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                     </ul>
                 </div>
                 <div class="clearfix"> </div>
@@ -500,9 +476,9 @@ RawBlameHistory
                 <ul class="nav-top-list nav-top-list1">
                     <li><a onclick="location.href = 'app.html'">דף הבית</a><label>|</label></li>
                     <li><a onclick="location.href = 'AddingAuction-Taramti.html'"><img class="MenuIconLeft" src="images/LeftArrow.png" />הוספת מכרז</a><label>|</label></li>
+                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href = 'userDetails.html'">פרופיל משתמש</a><label>|</label></li>
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
-                    <li><a onclick="location.href = 'appSettings.html#SearchAssoc'">פרטי עמותות</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
                     <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
@@ -519,6 +495,11 @@ RawBlameHistory
                 </ul>
             </div>-->
         <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
+
+
+
+
+
         <div class="Form" id="AddingProductAuctionForm">
             <h2>יצירת מכרז</h2>
 
@@ -540,7 +521,7 @@ RawBlameHistory
             </div>
 
             <div class="page-top-mid">
-                <div class="page-top-mid1">
+                <div class="page-top-mid1" id="AddUserProcessTop">
                     <ul class="page-mid1" id="AddUserProcess">
 
                         <li><a class="next-top1" href="#AddingAuctionPage2"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
@@ -572,7 +553,7 @@ RawBlameHistory
         <!--</div>-->
         <!-- להוריד פלייס הולדרים מיותרים -->
         <!--</div>-->
-    </div>
+        </div>
 </body>
 
 </html>

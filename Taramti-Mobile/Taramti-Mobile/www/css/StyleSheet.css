@@ -487,7 +487,7 @@ div .page-top-mid1 {
     padding-right: 9%;
 }
 
-#AddAssocProcessTop {
+#AddAssocProcessTop, #AddUserProcessTop {
     margin: 0 ;
 }
 
@@ -656,4 +656,8 @@ div .page-top-mid1 {
 
 #assocFilter a.ui-btn {
     text-align: right;
+}
+
+#AddingProductAuctionForm div input{    
+    height: 2.7em;
 }
