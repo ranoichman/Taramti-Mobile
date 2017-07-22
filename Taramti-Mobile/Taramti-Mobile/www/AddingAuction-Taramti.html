@@ -4,7 +4,7 @@
 <head>
     
     <title>הוספת מכרז</title>
-    <!-- hillyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy -->
+
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -277,51 +277,8 @@
             alert(CancelMessage);
             //alert('Failed because: ' + message);
         }
-
-        //window.onload = function () {
-        //    var $options = $('#ProdLocation option');
-        //    document.getElementById("SearchBox").onkeyup = function () {
-        //        var $HiddenOptions = $('#CustomerSelectHidden option');
-        //        $HiddenOptions.each(function (index, value) {
-        //            document.getElementById('ProdLocation').appendChild(this);
-        //        });
-        //        var search = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-        //        var element = $options.filter(function () {
-        //            var text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-        //            return !~text.indexOf(search);
-
-        //        }).appendTo(document.getElementById('CustomerSelectHidden'));
-        //        $('#ProdLocation option').sort(Sort).appendTo('#ProdLocation');
-        //    }
-        //}
-        //function Sort(a, b) {
-        //    return (a.innerHTML > b.innerHTML) ? 1 : -1;
-        //}
     </script>
 
-    <!--<script>
-    function myFunction() {
-        // Declare variables
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("SearchBox");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("ProdLocation");
-        a = ul.getElementsByTagName('option');
-
-        // Loop through all list items, and hide those who don't match the search query
-        for (i = 0; i < a.length; i++) {
-            //a = li[i].getElementsByTagName("li")[0];
-            if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                //a[i].style.display = "";
-                a[i].selected = true;
-                //$('#ProdLocation').val(i);
-                $('#ProdLocation').change();
-            } else {
-                a[i].style.display = "none";
-            }
-        }
-    }
-        </script>-->
 </head>
 
 <body>
@@ -375,22 +332,10 @@
             <textarea class="form-control" id="ProdDesc" rows="10"></textarea>
 
             <h4>מיקום</h4>
-            <br />
-            <input type="search" id="SearchBox" />
-            <br />
-            <!--<input type="text" id="ProdLocation" required>-->
-            <!--<div class="scrollable" id="CustomerSelectDiv">-->
-            <select id="ProdLocation" data-icon="arrow-r" data-filter="true" data-input="#SearchBox">
-                <!--<option value="-1"> בחר</option>-->
-            </select>
-            <!-- שימוש בג'יפיאס -->
-            <div style="display: none;">
-                <select id="CustomerSelectHidden"></select>
-            </div>
 
 
             <div class="page-top-mid">
-                <div class="page-top-mid1">
+                <div class="page-top-mid1" id="AddUserProcessTop">
                     <ul class="page-mid1" id="AddUserProcess">
 
                         <li><a class="next-top1" href="#"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
@@ -564,7 +509,7 @@
             </div>
 
             <div class="page-top-mid">
-                <div class="page-top-mid1">
+                <div class="page-top-mid1" id="AddUserProcessTop">
                     <ul class="page-mid1" id="AddUserProcess">
 
                         <li><a class="next-top1" href="#AddingAuctionPage2"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
