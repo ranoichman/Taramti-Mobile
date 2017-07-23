@@ -272,6 +272,7 @@
                                     data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
                                     success: function (data) {
                                         $(".loader").fadeOut("slow");
+
                                         var isSaved = JSON.parse(data.d)
                                         if (isSaved) {
 
@@ -305,7 +306,9 @@
                                 });
                             }
                         },
-                        error: function (err) { }
+                        error: function (err) {
+                            $(".loader").fadeOut("slow");
+                        }
                     }); 
             }
             else {
