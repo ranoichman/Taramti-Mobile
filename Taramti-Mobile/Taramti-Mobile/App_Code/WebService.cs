@@ -374,6 +374,23 @@ public class WebService : System.Web.Services.WebService
         return j.Serialize(S.GetUserPreferences());
     }
 
+    [WebMethod(Description = "עדכון עמותה מועדפת למשתמש")]
+    public string UpdateFavAssoc(string user_id, string assoc, bool action)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT S = new UserT(user_id);
+        return j.Serialize(S.UpdateFavAssoc(assoc,action));
+    }
+
+    [WebMethod(Description = "האם עמותה מועדפת אצל המשתמש?")]
+    public string IsFavAssoc(string user_id, string assoc)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT S = new UserT(user_id);
+        return j.Serialize(S.IsFavAssoc(assoc));
+    }
+
+
     //[WebMethod]
     //public void saveImage()
     //{

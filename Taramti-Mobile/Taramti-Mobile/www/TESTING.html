@@ -410,6 +410,21 @@
             });
         }
 
+        function UpdateFavAssoc() {
+            $.ajax({
+                dataType: "json",
+                url: gen + "UpdateFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: "302921481" , assoc : "103", action : true }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        } 
+
         
     </script>
 
@@ -438,6 +453,7 @@
 
         <input type="button" onclick="SmartElement()" value="SmartElement" />
         <input type="button" onclick="AddAuctionExisitingProd()" value="AddAuctionExisitingProd" />
+        <input type="button" onclick="UpdateFavAssoc()" value="UpdateFavAssoc" />
 
         <input type="button" onclick="addToWatch()" value="LOGGGGG" />
         <input type="button" onclick="updateWatch()" value="update log" />

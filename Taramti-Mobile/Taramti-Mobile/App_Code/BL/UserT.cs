@@ -734,7 +734,51 @@ public class UserT
             return S = new Settings(DS.Tables[0].Rows[0]["user_id"].ToString(), bool.Parse(DS.Tables[0].Rows[0]["push"].ToString()), bool.Parse(DS.Tables[0].Rows[0]["vibe"].ToString()), bool.Parse(DS.Tables[0].Rows[0]["sound"].ToString()));
         }
         return S;
+    }
 
+    // עדכון עמותות מועדפות למשתמש. אם האקטיון הוא 0 אז נמחק ואם 1 אז נזין
+    public bool UpdateFavAssoc(string assoc, bool action)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        string StrSql = "";
+
+        if (action)
+        {
+            StrSql = @"INSERT INTO [dbo].[user_pref_association]
+                            values(@user,@assoc)";
+        }
+        else
+        {
+            StrSql = @"DELETE FROM [dbo].[user_pref_association]
+                       WHERE [user_id] = @user and [association_code] = @assoc ";
+        }
+
+        SqlParameter parId = new SqlParameter("@user", UserId);
+        SqlParameter parAssoc = new SqlParameter("@assoc", assoc);
+        if (db.ExecuteQuery(StrSql, CommandType.Text, parId, parAssoc) == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public bool IsFavAssoc(string assoc)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+
+        string StrSql = @"SELECT * FROM [dbo].[user_pref_association]
+                            WHERE [user_id] = @user AND [association_code] =@assoc";
+        SqlParameter parId = new SqlParameter("@user", UserId);
+        SqlParameter parAssoc = new SqlParameter("@assoc", assoc);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId, parAssoc);
+
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     //REG_Auction נבדק האם להיות פה או ב 

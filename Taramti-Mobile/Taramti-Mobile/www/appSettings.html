@@ -63,6 +63,7 @@
                 else {
                     $(".FixedButton").css("display", "block");
                 }
+
             });
 
 
@@ -226,12 +227,32 @@
                         $("#AssocSite").text(Association.Association_WebSite);
                         $("#AssocYear").text(Association.Association_Year);
 
-                        location.href = "appSettings.html#AssocInfoPage";
+                        //location.href = "appSettings.html#AssocInfoPage";
                     }
                 },
                 error: function (err) { }
             });
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "IsFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+                success: function (data) {
+
+                    var res = JSON.parse(data.d);
+                    if (res == true) {
+                        $("#favStar").removeClass('fa fa-star-o fa-4x');
+                        $("#favStar").addClass('fa fa-star fa-4x');
+                    }
+                    location.href = "appSettings.html#AssocInfoPage";
+                },
+                error: function (err) { }
+            });
         }
+
+   
 
         function SaveSettings() {
             var push = $("#flip-1").val();
@@ -285,6 +306,38 @@
             location.href = 'Login-Taramti.html'
         }
 
+        function UpdateFavAssoc()
+        {
+            var AssocCode1 = $('#AssocCode').text();
+            var userId = user.userID();
+            var action = false;
+
+            if ($("#favStar").hasClass('fa fa-star-o fa-4x')) {
+                $("#favStar").removeClass('fa fa-star-o fa-4x');
+                $("#favStar").addClass('fa fa-star fa-4x');
+                action = true;
+            }
+            else {
+                $("#favStar").removeClass('fa fa-star fa-4x');
+                $("#favStar").addClass('fa fa-star-o fa-4x');
+            }
+           
+
+            // עדכון העמותה בהעדפות המשתמש
+            $.ajax({
+                dataType: "json",
+                url: generic + "UpdateFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: userId, assoc: AssocCode1, action: action }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
         //function ToSettings() {
         //    $("ul.nav-top-list1").slideToggle("slow", function () {
         //        // Animation complete.
@@ -299,7 +352,11 @@
         //    location.href = 'appSettings.html#SearchAssoc'
         //}
 
+
+
+
     </script>
+
 </head>
 
 <body>
@@ -474,8 +531,9 @@
 
         <div class="Form" id="AssocInfo" style="visibility:hidden">
             <div id="SearchAssoc">
-                <h2>פרטי עמותה</h2>
+                <h2>פרטי עמותה</h2>                  
             </div>
+            <i id="favStar" class="fa fa-star-o fa-4x" onclick="UpdateFavAssoc()"></i>
             <div>
                 <h4>שם עמותה: </h4>
                 <h5 id="AssocName"></h5>
@@ -502,7 +560,11 @@
                 <a class="styleLink" onclick="goBack()"><img class="NiceIcon" src="images/backToLogin.png" /></a>
                 <!--<h6 class="IconText">חזור</h6>-->
             </div>
+            <div class="flexbox" style="position:relative">
 
+        
+
+            </div>
             <!--<a onclick="goBack()">חזור</a>-->
         </div>
         <div class="FixedButton">
