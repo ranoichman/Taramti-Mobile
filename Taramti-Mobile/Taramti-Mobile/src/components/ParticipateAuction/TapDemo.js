@@ -26,9 +26,6 @@ class TapDemo extends Component {
         this.loadInterval = false;
     }
 
-
-
-
     showVid() {
         this.setState({ mode: 0 });
         self = this;
@@ -69,7 +66,7 @@ class TapDemo extends Component {
         const func = [this.renderStart(), this.renderTap(), this.renderInflate()]
 
         return (
-            <div>
+            <div className="show1">
                 <h2>
                     לחץ על הבלון להזנת מחיר
             </h2>

@@ -56,9 +56,9 @@ class Tip extends Component {
                 <Swipeable onTap={this.close}>
                     <a className="boxclose" ></a>
                 </Swipeable>
-                {/* <TapDemo /> 
-                 <SwipeUPDemo/>  
-                <SwipeDownDemo /> */}
+                
+                {/* <div className="arrow_box_right growRight" ></div>
+                <img className="tappingUp swipeUp" src="images/tapping_hand.png" /> */}
 
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>

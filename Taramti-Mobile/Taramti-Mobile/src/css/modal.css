@@ -230,6 +230,13 @@ animation:3s ease-in infinite tipFadein;
 -webkit-animation:3s ease-in infinite fadein;
 }
 
+.show1{
+    /* opacity: 0;
+    transition: opacity 4s ease-in-out; */
+    animation:1s ease-in  tipFadein;
+-webkit-animation:1s ease-in  fadein;
+}
+
 /*
 *******************
 *******************
@@ -314,7 +321,7 @@ animation:3s ease-in infinite tipFadein;
 /*
 *******************
 *******************
-     arrow up
+     arrow down
 *******************
 *******************
 */
@@ -355,6 +362,53 @@ animation:3s ease-in infinite tipFadein;
 }
 
 .growDown{
+    height: 60px;
+}
+
+/*
+*******************
+*******************
+     arrow right
+*******************
+*******************
+*/
+
+.arrow_box_right {
+	position: absolute;
+	background: #88b7d5;
+    border: 4px solid #c2e1f5;
+    height: 20px;
+    width: 40px;
+    top: 300px;
+    right: 100px;
+    transition: height 2s ease;
+    z-index: 1;
+}
+.arrow_box_right:after, .arrow_box_right:before {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow_box_right:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-top-color: #88b7d5;
+	border-width: 30px;
+	margin-left: -30px;
+}
+.arrow_box_right:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-top-color: #c2e1f5;
+	border-width: 36px;
+	margin-left: -36px;
+}
+
+.growRight{
     height: 60px;
 }
 

@@ -372,92 +372,92 @@ class ParticipateAuction extends Component {
     render() {
 
         return (
-            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px",paddingLeft: "5px" }}>
+            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" }}>
+                <div className="show1">
+                    {/*shown messegae*/}
+                    <Modal
+                        isOpen={this.state.msg_ModalIsOpen}
 
-                {/*shown messegae*/}
-                <Modal
-                    isOpen={this.state.msg_ModalIsOpen}
+                        contentLabel="open info"
+                        className={this.state.msgClass}>
+                        <Swipeable onTap={this.MSGModalChanged}>
+                            <a className="boxclose"></a>
+                        </Swipeable>
+                        <h3>{this.state.shownMessage}</h3>
+                    </Modal>
 
-                    contentLabel="open info"
-                    className={this.state.msgClass}>
-                    <Swipeable onTap={this.MSGModalChanged}>
-                        <a className="boxclose"></a>
-                    </Swipeable>
-                    <h3>{this.state.shownMessage}</h3>
-                </Modal>
+                    {/*basic info*/}
+                    <div className="basicInfo">
+                        {/*timer Component*/}
+                        <div className="time">
+                            <Timer endDate={this.state.auc.endDate} timerFinished={this.timerFinishedAuc} />
+                        </div>
 
-                {/*basic info*/}
-                <div className="basicInfo">
-                    {/*timer Component*/}
-                    <div className="time">
-                        <Timer endDate={this.state.auc.endDate} timerFinished={this.timerFinishedAuc} />
+                        {/*info modal*/}
+                        <Swipeable onTap={this.infoModalChanged}>
+                            <div className="icon_container" style={{ right: "5px" }}>
+                                <div id="faqIcon">
+                                    <img src="images/attention1600.png" />
+                                </div>
+                            </div>
+                            <Modal
+                                isOpen={this.state.infoModalIsOpen}
+                                contentLabel="open info"
+                                className="zoomInRight">
+                                <AuctionInfo modal={true} closeModal={this.infoModalChanged} auc={this.state.auc} />
+                            </Modal>
+                        </Swipeable>
+
+                        {/*FAQ modal*/}
+                        <Swipeable onTap={this.FAQModalChannged}>
+                            <div className="icon_container" style={{ right: "80px" }}>
+                                <div id="faqIcon">
+                                    <img src="images/question_mark1600.png" />
+                                </div>
+                            </div>
+                            <Modal
+                                isOpen={this.state.fAQModalIsOpen}
+                                contentLabel="open FAQ"
+                                className="zoomInRight">
+                                <AuctionFAQ closeModal={this.FAQModalChannged} prodCode={this.state.auc.prodCode} chat={true} />
+                            </Modal>
+                        </Swipeable>
                     </div>
 
-                    {/*info modal*/}
-                    <Swipeable onTap={this.infoModalChanged}>
-                        <div className="icon_container" style={{ right: "5px" }}>
-                            <div id="faqIcon">
-                                <img src="images/attention1600.png" />
-                            </div>
-                        </div>
-                        <Modal
-                            isOpen={this.state.infoModalIsOpen}
-                            contentLabel="open info"
-                            className="zoomInRight">
-                            <AuctionInfo modal={true} closeModal={this.infoModalChanged} auc={this.state.auc} />
-                        </Modal>
+                    {/*price manipulation*/}
+                    <div className="circle">
+                        <h3>מכרז על {this.state.auc.prodName}</h3>
+                        <h4 style={{ whiteSpace: "pre-line" }}>
+                            {this.state.tempDonation}
+                        </h4>
+                    </div>
+
+                    <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer} onTap={this.stopChangeTip}>
+
+                        <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
+
                     </Swipeable>
 
-                    {/*FAQ modal*/}
-                    <Swipeable onTap={this.FAQModalChannged}>
-                        <div className="icon_container" style={{ right: "80px" }}>
-                            <div id="faqIcon">
-                                <img src="images/question_mark1600.png" />
-                            </div>
-                        </div>
-                        <Modal
-                            isOpen={this.state.fAQModalIsOpen}
-                            contentLabel="open FAQ"
-                            className="zoomInRight">
-                            <AuctionFAQ closeModal={this.FAQModalChannged} prodCode={this.state.auc.prodCode} chat={true} />
-                        </Modal>
-                    </Swipeable>
+                    {/*fireworks*/}
+                    <div className="pyro" style={this.state.anim === "1" ? { display: "block" } : { display: "none" }}>
+                        <div className="before"></div>
+                        <div className="after"></div>
+                    </div>
+
+                    {/*home page fixed circle*/}
+                    <CircleButton home={true} />
+
+                    {/* tip modal */}
+                    <Modal
+                        isOpen={this.state.tipModalIsOpen}
+                        contentLabel="open info"
+                        className="tipBox">
+                        <Tip closeModal={this.tipModalChanged} height={window.innerHeight} />
+
+                    </Modal>
+
+
                 </div>
-
-                {/*price manipulation*/}
-                <div className="circle">
-                    <h3>מכרז על {this.state.auc.prodName}</h3>
-                    <h4 style={{whiteSpace: "pre-line"}}>
-                        {this.state.tempDonation}
-                    </h4>
-                </div>
-
-                <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer} onTap={this.stopChangeTip}>
-
-                    <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
-
-                </Swipeable>
-
-                {/*fireworks*/}
-                <div className="pyro" style={this.state.anim === "1" ? { display: "block" } : { display: "none" }}>
-                    <div className="before"></div>
-                    <div className="after"></div>
-                </div>
-
-                {/*home page fixed circle*/}
-                <CircleButton home={true} />
-
-                {/* tip modal */}
-                <Modal
-                    isOpen={this.state.tipModalIsOpen}
-                    contentLabel="open info"
-                    className="tipBox">
-                    <Tip closeModal={this.tipModalChanged} height={window.innerHeight} />
-
-                </Modal>
-
-
-
 
             </div>
         );

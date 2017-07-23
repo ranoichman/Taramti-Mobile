@@ -31,6 +31,7 @@ class ThemeAuctions extends Component {
         this.eachAuction = this.eachAuction.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
         this.handleLoad = this.handleLoad.bind(this);
+        this.rePublish = this.rePublish.bind(this);
     }
 
     componentDidMount() {
@@ -126,7 +127,13 @@ class ThemeAuctions extends Component {
     //function that returns a render of 1 auction
     eachAuction(item, i) {
         return <Auction key={i} index={i} auctionfinished={this.deleteAuction} offerBid={this.offerBid} handleLoad={this.handleLoad} modalChanged={this.modalOpenedChanged}
-            auc={item} mine={this.props.theme === "myProducts" ? true : false} modalIsOpen={this.state.modalIsOpen} />
+            auc={item} mine={this.props.theme === "myProducts" ? true : false} modalIsOpen={this.state.modalIsOpen} rePublish={this.rePublish} />
+    }
+
+    //force update after seller re-publish product
+    rePublish(){
+        this.setState({auctionsArr:[]});
+        this.getLeadingAuctions();
     }
 
     //remove finished auction from displayed array

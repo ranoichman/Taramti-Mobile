@@ -28,7 +28,7 @@ class RePublish extends Component {
 
     close() {
         this.setState({ open: false });
-        setTimeout(() => this.props.closeModal(), 600)
+        setTimeout(() => this.props.closeModal(this.finished), 600)
     }
 
     onSelectedDay(opt) {
