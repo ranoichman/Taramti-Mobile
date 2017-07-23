@@ -488,7 +488,7 @@ div .page-top-mid1 {
 }
 
 #AddAssocProcessTop, #AddUserProcessTop {
-    margin: 0 ;
+    margin: 0;
 }
 
 #tabs {
@@ -567,6 +567,7 @@ div .page-top-mid1 {
     float: right;
     border-radius: 60px;
 }
+
 .ReactIconBack {
     z-index: 10;
     background-color: white;
@@ -579,10 +580,10 @@ div .page-top-mid1 {
 }
 
 
-.ReactIconBack a img {
-    width: 75%;
-    margin: 0 auto;
-}
+    .ReactIconBack a img {
+        width: 75%;
+        margin: 0 auto;
+    }
 
 .Form .RoundDivIcon a img {
     width: 75%;
@@ -658,6 +659,39 @@ div .page-top-mid1 {
     text-align: right;
 }
 
-#AddingProductAuctionForm div input{    
+#AddingProductAuctionForm div input {
     height: 2.7em;
+}
+
+#UserCity {
+    width: initial;
+    font-size: 1.2em;
+    padding-right: 1em;
+    padding-left: 0;
+    border-color: transparent;
+}
+
+/*#UserCityDiv div .ui-body-a, 
+#UserCityDiv div .ui-page-theme-a .ui-body-inherit, 
+#UserCityDiv div html .ui-bar-a .ui-body-inherit, 
+#UserCityDiv div html .ui-body-a .ui-body-inherit,
+#UserCityDiv div html body .ui-group-theme-a .ui-body-inherit, 
+#UserCityDiv div html .ui-panel-page-container-a {
+    background-color: transparent;
+    border-color: transparent;
+    color: #333;
+    text-shadow: 0 1px 0 #f3f3f3;
+}*/
+
+#UserCityDiv div.ui-input-text.ui-body-inherit.ui-corner-all.ui-shadow-inset {
+    background-color: transparent;
+    border-color: transparent;
+    color: #333;
+    text-shadow: 0 1px 0 #f3f3f3;
+    border-style:none;
+
+}
+
+#AddingProductAuctionForm2{
+    margin-bottom: 60px;
 }

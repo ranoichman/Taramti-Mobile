@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import axios from 'axios';
 
 // taramti babait components
-// import Auction from '../Home/Auction';
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
 import Balloon from './Balloon';

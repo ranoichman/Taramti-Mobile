@@ -53,7 +53,7 @@ class AuctionInfo extends Component {
                 <div>
                     {
                         this.props.auc.imgArr.map(function (pic, i) {
-                            return <img key={i} src={pic} style={{ width: "35%", margin: "5%" }} />
+                            return <img key={i} src={pic} style={{ width: "35%", margin: "5%", float: "right" }} />
                         })
                     }
                 </div>

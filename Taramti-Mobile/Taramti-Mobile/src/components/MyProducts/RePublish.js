@@ -8,6 +8,9 @@ import Ddl from '../Generic/Ddl';
 
 import '../../css/modal.css';
 
+//constants 
+import { auctionWS, buyerID } from '../../constants/general';
+
 class RePublish extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +22,7 @@ class RePublish extends Component {
         }
         this.close = this.close.bind(this);
         this.onSelectedDay = this.onSelectedDay.bind(this);
+        this.closeAlert = this.closeAlert.bind(this);
         this.send = this.send.bind(this);
     }
 
@@ -31,9 +35,16 @@ class RePublish extends Component {
         this.setState({ day: opt });
     }
 
+    closeAlert() {
+        this.setState({ alert: false });
+        if (this.finished) {
+            this.close(); // close entire modal if finished
+        }
+    }
+
     send() {
+        this.finished = false;
         let price = this.refs.auctionMinPrice.value != "" ? this.refs.auctionMinPrice.value : -1;
-        console.log(`send`);
         if (this.state.day == -1) {
             this.setState({
                 alert: true,
@@ -46,8 +57,33 @@ class RePublish extends Component {
                 message: "חובה להזין סכום רצוי"
             });
         }
-        else{
-            console.log(`db call from ran`)
+        else {
+            let self = this;
+            axios.post(auctionWS + 'AddAuctionExisitingProd', {
+                prod: this.props.prodCode,
+                price: price, 
+                days :this.state.day,
+                user: buyerID,
+            }).then(function (response) {
+                let res = response.data.d;
+
+                if (res == "True") {
+                    self.finished = true;
+                    self.setState({
+                        alert: true,
+                        message: "המכרז נוצר בהצלחה"
+                    })
+                } else {
+                    throw "תקלה"
+                }
+            })
+                .catch(function (error) {
+                    console.log(error);
+                    self.setState({
+                        alert: true,
+                        message: "קרתה תקלה במהלך יצירת המכרז, נא נסה שוב"
+                    })
+                });
         }
     }
 
@@ -60,7 +96,8 @@ class RePublish extends Component {
             { val: 4, text: 4 },
             { val: 5, text: 5 },
             { val: 6, text: 6 },
-            { val: 7, text: 7 },]
+            { val: 7, text: 7 }];
+
         return (
             <div className={this.state.open ? "box" : "box zoomOut"}>
                 <Swipeable onTap={this.close}>
@@ -71,7 +108,7 @@ class RePublish extends Component {
                     <Ddl key="1" onChange={this.onSelectedDay} options={days} css="gpsSelect" />
 
                     <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
-                    <input type="number" ref="auctionMinPrice" />
+                    <input type="number" className="minPriceInput" ref="auctionMinPrice" />
                 </div>
 
                 <div className="button-1">
@@ -80,11 +117,11 @@ class RePublish extends Component {
 
                 <SweetAlert
                     show={this.state.alert}
-                    title="...אופס"
-                    type="error"
+                    title={this.finished? "יש!": "...אופס"}
+                    type={this.finished? "success" : "error"}
                     text={this.state.message}
                     confirmButtonText="אישור"
-                    onConfirm={() => this.setState({ alert: false })} />
+                    onConfirm={this.closeAlert} />
 
             </div>
         );

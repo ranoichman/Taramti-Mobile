@@ -154,7 +154,7 @@ class Auction extends Component {
                     contentLabel="open info"
                     className="zoomIn">
                     
-                    <RePublish closeModal={this.rePublishModalChanged}/>
+                    <RePublish closeModal={this.rePublishModalChanged} prodCode={this.props.auc.prodCode}/>
                 </Modal>
 
             </div>
