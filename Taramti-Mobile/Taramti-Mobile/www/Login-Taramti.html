@@ -25,7 +25,7 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
     <script src="js/master.js"></script>
-    
+
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--//font-Awesome-->
@@ -316,6 +316,7 @@
                     <h2 class="header">רישום משתמש</h2>
                     <!--<h2 class="header">רישום משתמש מלא</h2>-->
                     <div class="input-top-top">
+
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-phone"></i>
                             <input type="number" id="UserPhon" value="" placeholder="מספר טלפון">
@@ -343,16 +344,19 @@
                             <input type="text" id="UserStreet" value="" placeholder="רחוב">
                             <div class="clearfix"> </div>
                         </div>
+
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-home"></i>
                             <input type="text" id="UserHomeNum" value="" placeholder="מספר בית">
                             <div class="clearfix"> </div>
                         </div>
+
                         <!--<div class="input-top-mid input-top-mid7">
                             <i class="fa fa-street-view"></i>
                             <input type="text" id="UserHomeNum2" value="" placeholder="מספר דירה">
                             <div class="clearfix"> </div>
                         </div>-->
+
                         <p class="loginText">בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>
                     </div>
                     <div class="clearfix"> </div>
@@ -738,7 +742,7 @@
                 if (id.length != 9) {
                     swal({
                         title: "שים לב",
-                        text: "יש למלא ת.ז תקנית כולל ספרת ביקורת",
+                        text: "יש להזין ת.ז תקנית כולל ספרת ביקורת",
                         type: "warning",
                         confirmButtonText: "אישור"
                     })
@@ -764,7 +768,7 @@
             var street = $("#UserStreet").val();
             var num = $("#UserHomeNum").val();
 
-            if (phone == "" || city == "" || street == "" || num == "") {
+            if (city == "" || street == "" || num == "") {
                 swal({
                     title: "שים לב",
                     text: "יש למלא את כל השדות",
@@ -774,61 +778,71 @@
 
             }
             else {
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "AddUser",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ mail: mail, pass: pass2, first: first, last: last, id: id }),
-                    success: function (data) {
+                if (phone.length != 10) {
+                    swal({
+                        title: "שים לב",
+                        text: "יש להזין מספר טלפון תקין, בעל 10 ספרות. במידה והשתמשת בסימן '-' יש למחוק אותו",
+                        type: "warning",
+                        confirmButtonText: "אישור"
+                    })
+                }
+                else {
+                    $.ajax({
+                        dataType: "json",
+                        url: generic + "AddUser",
+                        contentType: "application/json; charset=utf-8",
+                        type: "POST",
+                        data: JSON.stringify({ mail: mail, pass: pass2, first: first, last: last, id: id }),
+                        success: function (data) {
 
-                        var isUser = JSON.parse(data.d);
+                            var isUser = JSON.parse(data.d);
 
-                        if (isUser == "True") {
-                            $.ajax({
-                                dataType: "json",
-                                url: generic + "AddUserAllInfo",
-                                contentType: "application/json; charset=utf-8",
-                                type: "POST",
-                                data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
-                                success: function (data) {
+                            if (isUser == "True") {
+                                $.ajax({
+                                    dataType: "json",
+                                    url: generic + "AddUserAllInfo",
+                                    contentType: "application/json; charset=utf-8",
+                                    type: "POST",
+                                    data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
+                                    success: function (data) {
 
-                                    var isUser = JSON.parse(data.d);
+                                        var isUser = JSON.parse(data.d);
 
-                                    if (isUser == "True") {
-                                        swal({
-                                            title: "איזה יופי!",
-                                            text: "המשתמש נוצר בהצלחה! כעת ניתן להתחבר למערכת",
-                                            type: "success",
-                                            confirmButtonText: "אישור"
-                                        })
-                                    }
-                                    else {
-                                        swal({
-                                            title: "שים לב",
-                                            text: "אירעה שגיאה בהרשמה \nיתכן שהמשתמש כבר קיים במערכת",
-                                            type: "error",
-                                            confirmButtonText: "אישור"
-                                        })
-                                    }
-                                    location.href = "Login-Taramti.html#LoginPage";
-                                },
-                                error: function (err) { }
-                            });
+                                        if (isUser == "True") {
+                                            swal({
+                                                title: "איזה יופי!",
+                                                text: "המשתמש נוצר בהצלחה! כעת ניתן להתחבר למערכת",
+                                                type: "success",
+                                                confirmButtonText: "אישור"
+                                            })
+                                        }
+                                        else {
+                                            swal({
+                                                title: "שים לב",
+                                                text: "אירעה שגיאה בהרשמה \nיתכן שהמשתמש כבר קיים במערכת",
+                                                type: "error",
+                                                confirmButtonText: "אישור"
+                                            })
+                                        }
+                                        location.href = "Login-Taramti.html#LoginPage";
+                                    },
+                                    error: function (err) { }
+                                });
+                            }
+                            else {
+                                swal({
+                                    title: "שים לב",
+                                    text: "אירעה שגיאה בהרשמה \nיתכן שהמשתמש כבר קיים במערכת",
+                                    type: "error",
+                                    confirmButtonText: "אישור"
+                                })
+                                location.href = "Login-Taramti.html#LoginPage";
+                            }
+                        },
+                        error: function (err) {
                         }
-                        else {
-                            swal({
-                                title: "שים לב",
-                                text: "אירעה שגיאה בהרשמה \nיתכן שהמשתמש כבר קיים במערכת",
-                                type: "error",
-                                confirmButtonText: "אישור"
-                            })
-                            location.href = "Login-Taramti.html#LoginPage";
-                        }
-                    },
-                    error: function (err) {
-                    }
-                });
+                    });
+                }
             }
         }
 
