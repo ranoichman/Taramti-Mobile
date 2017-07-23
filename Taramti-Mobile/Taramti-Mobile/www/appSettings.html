@@ -349,13 +349,13 @@
                 error: function (err) { }
             });
 
-            //$.ajax({
-            //    dataType: "json",
-            //    url: generic + "IsFavAssoc",
-            //    contentType: "application/json; charset=utf-8",
-            //    type: "POST",
-            //    data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
-            //    success: function (data) {
+            $.ajax({
+                dataType: "json",
+                url: generic + "IsFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+                success: function (data) {
 
                     var res = JSON.parse(data.d);
                     if (res == true) {
