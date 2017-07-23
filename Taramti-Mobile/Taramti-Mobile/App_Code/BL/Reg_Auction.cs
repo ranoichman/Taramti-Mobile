@@ -108,7 +108,6 @@ public class Reg_Auction : Auction
 
         if (catCode.Average() == 0)
         {
-            tagCode = "> 0";
             code = "> 0";
         }
         else
@@ -118,17 +117,37 @@ public class Reg_Auction : Auction
                 if (i != catCode.Length - 1)
                 {
                     code += catCode[i].ToString() + ",";
-                    tagCode += assocTagCode[i].ToString() + ",";
+                    //tagCode += assocTagCode[i].ToString() + ",";
                 }
                 else
                 {
                     code += catCode[i].ToString() + ") ";
+                    //tagCode += assocTagCode[i].ToString() + ") ";
+                }
+            }
+        }
+        if (assocTagCode.Average() == 0)
+        {
+            tagCode = "> 0";
+        }
+        else
+        {
+            for (int i = 0; i < assocTagCode.Length; i++)
+            {
+                if (i != assocTagCode.Length - 1)
+                {
+                    //code += assocTagCode[i].ToString() + ",";
+                    tagCode += assocTagCode[i].ToString() + ",";
+                }
+                else
+                {
+                    //code += assocTagCode[i].ToString() + ") ";
                     tagCode += assocTagCode[i].ToString() + ") ";
                 }
             }
         }
 
-        
+
         //if (catCode == 0)
         //    code = "> 0";
         //else
@@ -147,7 +166,7 @@ public class Reg_Auction : Auction
         //                 GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
         //                 dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id ";
         string StrSql = @"SELECT   DISTINCT      dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
-                         dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price AS NewPrice, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id
+                         dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price AS price, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id
                          FROM            dbo.auction LEFT OUTER JOIN
                          dbo.product ON dbo.auction.product_code = dbo.product.product_code LEFT OUTER JOIN
                          dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code LEFT OUTER JOIN
@@ -593,10 +612,12 @@ public class Reg_Auction : Auction
         DSInfo = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
         //double avg = (double)DSInfo.Tables[0].Compute("DISTINCT([])","");
         List<int> catcode = new List<int>();
+        List<int> catcode1 = new List<int>();
         List<int> assocs = new List<int>();
 
         //NULL שליפת רשימה ייחודית של כל תגי העמותות בטבלה תוך התעלמות מ 
-        assocs = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Assoc_Cat_Code")).Where(val => val.HasValue).Select(val => val.Value).Distinct().ToList();
+        assocs = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Assoc_Cat_Code")).Where(val => val.HasValue && val > 0).Select(val => val.Value).Distinct().ToList();
+        catcode1 = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Cat_Code")).Where(val => val.HasValue && val > 0).Select(val => val.Value).Distinct().ToList();
 
         //int[] catcode = new int[quant];
         //int[] assocs = new int[quant];
@@ -612,7 +633,7 @@ public class Reg_Auction : Auction
         if (DSViews.Tables[0].Rows.Count > 0)
         {
            
-            catcode = DSViews.Tables[0].AsEnumerable().Select(r => r.Field<int>("product_category_code")).ToList();
+            catcode = DSViews.Tables[0].AsEnumerable().Select(r => r.Field<int>("product_category_code")).Distinct().ToList();
             //for (int i = 0; i < quant; i++)
             //{
             //    catcode[i] = int.Parse(DSViews.Tables[0].Rows[i]["product_category_code"].ToString());
@@ -630,13 +651,44 @@ public class Reg_Auction : Auction
             catcode = Enumerable.Repeat(0, catcode.Count).ToList<int>();
             assocs = Enumerable.Repeat(0, assocs.Count).ToList<int>();
         }
+        var newCat = catcode.Concat(catcode1);
+        assocs = assocs.Count > 0 ? assocs : Enumerable.Repeat(0, 1).ToList();
 
-        var v = new {lowprice = low, highprice = high, catCode = catcode,  assoctag = assocs};
+        var v = new {lowprice = low, highprice = high, catCode = newCat,  assoctag = assocs};
 
         return J.Serialize(v);
     }
 
+    // פונקציית עזר - מביאה את קוד העמותה למוצר מסויים שכבר פורסם בעבר
+    public int GetProdAssoc(int prod)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
 
+        string StrSql = @"SELECT        product_code, association_code
+                        FROM            dbo.auction
+                        WHERE        (product_code = @prod) AND (association_code IS NOT NULL)";
+        SqlParameter parProd = new SqlParameter("@prod", prod);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parProd);
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            return int.Parse(DS.Tables[0].Rows[0]["association_code"].ToString());
+        }
+        return 0;
+    }
+
+    // פונקציה לפרסום מחדש של מכרז על מוצר שכבר קיים במערת - לדוגמא: מכרז שנגמר ללא קונה
+    public bool AddAuctionExisitingProd(int prod, int price, int days, int user)
+    {
+        Reg_Auction auction = new Reg_Auction();
+        UserT U = new UserT(user.ToString());
+        Item I = new Item(prod);
+        I.UpdatePrice(price); // עדכון המחיר למחיר החדש שנבחר
+        auction.End_Date = DateTime.Now.AddDays(days).ToString("yyyy-MM-dd HH:mm:ss.sss");
+        auction.Seller = U;
+        int assoc = GetProdAssoc(prod);
+        return auction.AddNewAuction(prod,assoc);
+    }
 
     public void GetItemDetails()
     {

@@ -267,6 +267,21 @@ public class Item
         return this;
     }
 
+    public bool UpdatePrice(int newPrice)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+
+        string StrSql = @"Update product set price =@price where product_code=@prod ";
+        SqlParameter parPrice = new SqlParameter("@price", newPrice);
+        SqlParameter parProd = new SqlParameter("@prod", ItemId);
+        if (db.ExecuteQuery(StrSql, CommandType.Text, parPrice, parProd) == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public void ShowItemImgs()
     {
         throw new System.Exception("Not implemented");

@@ -141,8 +141,17 @@ public class WebService : System.Web.Services.WebService
         UserT temp_user = new UserT();
         temp_user.UserId = id;
         temp_user.Password = newPass;
-        temp_user.UpdatePassword();
-        return "true";
+        if (temp_user.CheckIfExistById())
+        {
+            temp_user.UpdatePassword();
+            return "true";
+        }
+        else
+        {
+            return "false";
+        }
+        
+        
     }
 
     /// <summary>
@@ -233,7 +242,7 @@ public class WebService : System.Web.Services.WebService
         JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT(mail,pass);
         temp.UserId = id;
-        if (!temp.CheckIfExictById())
+        if (!temp.CheckIfExistById())
         {
             temp.FirstName = first;
             temp.LastName = last;
@@ -248,21 +257,20 @@ public class WebService : System.Web.Services.WebService
         }
     }
 
-    // לטפל!!! צריך לסגור הפינה אחרי שסוגרים רשימת ערים 
+// הפונקציה מעדכנת את נתוני המשתמש בבסיס הנתונים 
     [WebMethod]
     public string AddUserAllInfo(string id, string phone, int city, string street, string num)
     {
       JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT();
         temp.UserId = id;
-        if (temp.CheckIfExictById())
+        if (temp.CheckIfExistById())
         {
             City C = new City();
             C.CityCode = city;
             temp.City = C;
-            //temp.LastName = last;
-            //temp.Mail = mail;
-
+            temp.Address = street + " " +num;
+            temp.Number = phone;
             temp.UpdateUser();
             return j.Serialize("True");
         }
@@ -337,8 +345,50 @@ public class WebService : System.Web.Services.WebService
 
     }
 
+    [WebMethod (Description ="The Server Version")]
+    public void ServerVersion()
+    {
+        ServerAuctionFinish();
+        ServerPush();
+    }
 
+    [WebMethod(Description = "The Server Version - Sends Push To Nearly Finished Auctions And Winners In Auctions")]
+    public void ServerPush()
+    {
+        Server_Side Serv = new Server_Side();
+        Serv.SendPushes();
+    }
 
+    [WebMethod(Description = "The Server Version - Closes Auctions And Determins Winners")]
+    public void ServerAuctionFinish()
+    {
+        Server_Side Serv = new Server_Side();
+        Serv.CloseAuctions();
+    }
+
+    [WebMethod(Description = "הבאת העדפות המשתמש מבסיס הנתונים")]
+    public string GetUserPreferences(string user_id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT S = new UserT(user_id);
+        return j.Serialize(S.GetUserPreferences());
+    }
+
+    [WebMethod(Description = "עדכון עמותה מועדפת למשתמש")]
+    public string UpdateFavAssoc(string user_id, string assoc, bool action)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT S = new UserT(user_id);
+        return j.Serialize(S.UpdateFavAssoc(assoc,action));
+    }
+
+    [WebMethod(Description = "האם עמותה מועדפת אצל המשתמש?")]
+    public string IsFavAssoc(string user_id, string assoc)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT S = new UserT(user_id);
+        return j.Serialize(S.IsFavAssoc(assoc));
+    }
 
 
     //[WebMethod]
