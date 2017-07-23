@@ -272,6 +272,7 @@
                                     data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
                                     success: function (data) {
                                         $(".loader").fadeOut("slow");
+
                                         var isSaved = JSON.parse(data.d)
                                         if (isSaved) {
 
@@ -305,7 +306,9 @@
                                 });
                             }
                         },
-                        error: function (err) { }
+                        error: function (err) {
+                            $(".loader").fadeOut("slow");
+                        }
                     }); 
             }
             else {
@@ -498,7 +501,7 @@
             <input type="hidden" name="answer" id="AuctionAssoc-hidden" />
 
             <h4>מחיר מינימום שארצה לקבל על המוצר</h4>
-            <input type="text" id="AuctionMinPrice" />
+            <input type="number" id="AuctionMinPrice" />
 
             <div class="page-top-mid">
                 <div class="page-top-mid1" id="AddUserProcessTop">

@@ -88,7 +88,7 @@
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
-	var _TapDemo = __webpack_require__(442);
+	var _TapDemo = __webpack_require__(443);
 
 	var _TapDemo2 = _interopRequireDefault(_TapDemo);
 
@@ -108,9 +108,13 @@
 
 	var _Bdika2 = _interopRequireDefault(_Bdika);
 
-	var _Menu = __webpack_require__(469);
+	var _Menu = __webpack_require__(470);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
+
+	var _Loader = __webpack_require__(440);
+
+	var _Loader2 = _interopRequireDefault(_Loader);
 
 	var _master = __webpack_require__(480);
 
@@ -231,7 +235,7 @@
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/products', component: _MyProducts2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/participate', component: _ParticipateAuction2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/myAuction', component: _MyAuction2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _TapDemo2.default })
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Loader2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -30823,7 +30827,7 @@
 
 	var _Auction2 = _interopRequireDefault(_Auction);
 
-	var _Search = __webpack_require__(468);
+	var _Search = __webpack_require__(469);
 
 	var _Search2 = _interopRequireDefault(_Search);
 
@@ -30831,15 +30835,15 @@
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
-	var _Menu = __webpack_require__(469);
+	var _Menu = __webpack_require__(470);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _CircleButton = __webpack_require__(445);
+	var _CircleButton = __webpack_require__(446);
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
-	var _ScrollButton = __webpack_require__(472);
+	var _ScrollButton = __webpack_require__(442);
 
 	var _ScrollButton2 = _interopRequireDefault(_ScrollButton);
 
@@ -30972,12 +30976,12 @@
 	                radius: radius,
 	                user_Id: id
 	            }).then(function (response) {
-	                //clear TO when success
-	                clearTimeout(self.startTO);
 
 	                var res = JSON.parse(response.data.d);
 
 	                if (res.length == 0) {
+	                    //clear TO when success
+	                    clearTimeout(self.startTO);
 	                    if (self.showDefault) {
 	                        self.getAuctionsByParams(-1, -1, [0], [0], 0, 0, 0);
 	                    } else {
@@ -31008,11 +31012,13 @@
 	                            longOrigem = results[0].geometry.location.lng();
 	                            mygc.geocode({}, function (results, status) {
 	                                locationDestino = new google.maps.LatLng(lat, lng);
-	                                //locationDestino = new google.maps.LatLng(32.313367, 34.945139);
+
 	                                var dist = google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino);
 	                                console.log(k + ' -- dist : ' + dist);
 	                                if (dist <= radius) {
 	                                    self.addAuction(res[k]);
+	                                    //clear TO when success
+	                                    clearTimeout(self.startTO);
 	                                };
 	                            });
 	                        });
@@ -31258,15 +31264,15 @@
 
 	var _ParticipateAuction2 = _interopRequireDefault(_ParticipateAuction);
 
-	var _RePublish = __webpack_require__(447);
+	var _RePublish = __webpack_require__(448);
 
 	var _RePublish2 = _interopRequireDefault(_RePublish);
 
 	var _general = __webpack_require__(424);
 
-	__webpack_require__(464);
+	__webpack_require__(465);
 
-	__webpack_require__(466);
+	__webpack_require__(467);
 
 	__webpack_require__(315);
 
@@ -34301,13 +34307,13 @@
 
 	var _Pic2 = _interopRequireDefault(_Pic);
 
-	var _CircleButton = __webpack_require__(445);
+	var _CircleButton = __webpack_require__(446);
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
 	__webpack_require__(426);
 
-	var _messages = __webpack_require__(446);
+	var _messages = __webpack_require__(447);
 
 	var _general = __webpack_require__(424);
 
@@ -34553,7 +34559,7 @@
 	                    }
 	                }
 	                this.setState({
-	                    tempDonation: '\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.state.auc.percentage / 100) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
+	                    tempDonation: '\u05DE\u05D7\u05D9\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9 ' + tempPrice + ' \u05E9"\u05D7 \n\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.state.auc.percentage / 100) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
 	                });
 	            }
 	            // else{
@@ -34779,8 +34785,14 @@
 	                    'div',
 	                    { className: 'circle' },
 	                    _react2.default.createElement(
-	                        'h4',
+	                        'h3',
 	                        null,
+	                        '\u05DE\u05DB\u05E8\u05D6 \u05E2\u05DC ',
+	                        this.state.auc.prodName
+	                    ),
+	                    _react2.default.createElement(
+	                        'h4',
+	                        { style: { whiteSpace: "pre-line" } },
 	                        this.state.tempDonation
 	                    )
 	                ),
@@ -38623,7 +38635,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px', paddingTop: "10px", paddingRight: "10px" } }),
+	                _react2.default.createElement('textarea', { ref: 'newText', rows: '2', wrap: 'off', cols: '25', style: { width: this.props.width - 60 + 'px', padding: "10px 10px 0" } }),
 	                _react2.default.createElement(
 	                    _reactSwipeable2.default,
 	                    { onTap: this.sendText, className: 'icon_circle' },
@@ -38991,15 +39003,15 @@
 
 	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
 
-	var _TapDemo = __webpack_require__(442);
+	var _TapDemo = __webpack_require__(443);
 
 	var _TapDemo2 = _interopRequireDefault(_TapDemo);
 
-	var _SwipeUPDemo = __webpack_require__(443);
+	var _SwipeUPDemo = __webpack_require__(444);
 
 	var _SwipeUPDemo2 = _interopRequireDefault(_SwipeUPDemo);
 
-	var _SwipeDownDemo = __webpack_require__(444);
+	var _SwipeDownDemo = __webpack_require__(445);
 
 	var _SwipeDownDemo2 = _interopRequireDefault(_SwipeDownDemo);
 
@@ -40194,6 +40206,10 @@
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
+	var _ScrollButton = __webpack_require__(442);
+
+	var _ScrollButton2 = _interopRequireDefault(_ScrollButton);
+
 	__webpack_require__(311);
 
 	var _general = __webpack_require__(424);
@@ -40397,7 +40413,8 @@
 	                            this.state.auctionsArr.map(this.eachAuction)
 	                        )
 	                    )
-	                )
+	                ),
+	                _react2.default.createElement(_ScrollButton2.default, { scrollStepInPx: '30', delayInMs: '16.66' })
 	            );
 	        }
 	    }]);
@@ -40450,20 +40467,37 @@
 	                    this.props.children
 	                );
 	            } else {
-	                return _react2.default.createElement(
-	                    "div",
-	                    { style: { marginTop: "15%" } },
-	                    _react2.default.createElement("img", { src: __webpack_require__(441), className: "loading" }),
-	                    _react2.default.createElement(
-	                        "h3",
-	                        { style: { textAlign: "center" } },
-	                        this.props.loadingText
-	                    ),
+	                return (
+
+	                    // <div style={{marginTop:"15%"}}>
+	                    //     {/*<img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png"} className="loading" />*/}
+	                    //     <img src={require("../../../www/img/just_logo.png")} className="loading" />
+	                    //     <h3 style={{ textAlign:"center"}}>{this.props.loadingText}</h3>
+
+	                    //     <div style={{ display: "none" }}>
+	                    //         {this.props.children}
+	                    //     </div>
+	                    // </div>
 	                    _react2.default.createElement(
 	                        "div",
-	                        { style: { display: "none" } },
-	                        this.props.children
+	                        { className: "loader" },
+	                        _react2.default.createElement("img", { id: "LoadingImg", src: __webpack_require__(441) }),
+	                        _react2.default.createElement(
+	                            "h3",
+	                            { style: { position: "fixed", left: "37%", top: "50%", textAlign: "center" } },
+	                            this.props.loadingText
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { style: { display: "none" } },
+	                            this.props.children
+	                        )
 	                    )
+	                    /*<img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png"} className="loading" />*/
+	                    // <img src={require("../../../www/img/just_logo.png")} className="loading" />
+
+	                    // </div >
+
 	                );
 	            }
 	        }
@@ -40482,6 +40516,89 @@
 
 /***/ }),
 /* 442 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ScrollButton = function (_Component) {
+	  _inherits(ScrollButton, _Component);
+
+	  function ScrollButton() {
+	    _classCallCheck(this, ScrollButton);
+
+	    var _this = _possibleConstructorReturn(this, (ScrollButton.__proto__ || Object.getPrototypeOf(ScrollButton)).call(this));
+
+	    _this.state = {
+	      intervalId: 0
+	    };
+	    _this.scrollToTop = _this.scrollToTop.bind(_this);
+	    _this.scrollStep = _this.scrollStep.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(ScrollButton, [{
+	    key: "scrollStep",
+	    value: function scrollStep() {
+	      if (window.pageYOffset === 0) {
+	        clearInterval(this.state.intervalId);
+	      }
+	      window.scroll(0, window.pageYOffset - this.props.scrollStepInPx);
+	    }
+	  }, {
+	    key: "scrollToTop",
+	    value: function scrollToTop() {
+	      var intervalId = setInterval(this.scrollStep, this.props.delayInMs);
+	      this.setState({ intervalId: intervalId });
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var _this2 = this;
+
+	      // return <button title='Back to top' className='scroll' 
+	      //          onClick={ () => { this.scrollToTop(); }}>
+	      //           <span className='arrow-up glyphicon glyphicon-chevron-up'></span>
+	      //         </button>;
+	      return _react2.default.createElement(
+	        "a",
+	        { onClick: function onClick() {
+	            _this2.scrollToTop();
+	          }, id: "toTop", style: { display: "block" } },
+	        " ",
+	        _react2.default.createElement(
+	          "span",
+	          { id: "toTopHover", style: { opacity: 1 } },
+	          " "
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ScrollButton;
+	}(_react.Component);
+
+	exports.default = ScrollButton;
+
+/***/ }),
+/* 443 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40606,7 +40723,7 @@
 	exports.default = TapDemo;
 
 /***/ }),
-/* 443 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40725,7 +40842,7 @@
 	exports.default = SwipeUPDemo;
 
 /***/ }),
-/* 444 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40844,7 +40961,7 @@
 	exports.default = SwipeDownDemo;
 
 /***/ }),
-/* 445 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41001,7 +41118,7 @@
 	exports.default = CircleButton;
 
 /***/ }),
-/* 446 */
+/* 447 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -41015,7 +41132,7 @@
 	var errorMSG = exports.errorMSG = "משהו לא הלך כשורה, נא נסה שוב";
 
 /***/ }),
-/* 447 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41038,11 +41155,11 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _sweetalertReact = __webpack_require__(448);
+	var _sweetalertReact = __webpack_require__(449);
 
 	var _sweetalertReact2 = _interopRequireDefault(_sweetalertReact);
 
-	var _Ddl = __webpack_require__(463);
+	var _Ddl = __webpack_require__(464);
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
@@ -41203,7 +41320,7 @@
 	exports.default = RePublish;
 
 /***/ }),
-/* 448 */
+/* 449 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41213,11 +41330,11 @@
 	    return null;
 	  };
 	} else {
-	  module.exports = __webpack_require__(449); // eslint-disable-line global-require
+	  module.exports = __webpack_require__(450); // eslint-disable-line global-require
 	}
 
 /***/ }),
-/* 449 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41236,15 +41353,15 @@
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _sweetalert = __webpack_require__(450);
+	var _sweetalert = __webpack_require__(451);
 
 	var _sweetalert2 = _interopRequireDefault(_sweetalert);
 
-	var _lodash = __webpack_require__(459);
+	var _lodash = __webpack_require__(460);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _mousetrap = __webpack_require__(460);
+	var _mousetrap = __webpack_require__(461);
 
 	var _mousetrap2 = _interopRequireDefault(_mousetrap);
 
@@ -41252,7 +41369,7 @@
 
 	var _warning2 = _interopRequireDefault(_warning);
 
-	var _outsideTargetHandlerFactory = __webpack_require__(461);
+	var _outsideTargetHandlerFactory = __webpack_require__(462);
 
 	var _outsideTargetHandlerFactory2 = _interopRequireDefault(_outsideTargetHandlerFactory);
 
@@ -41481,7 +41598,7 @@
 	exports.default = SweetAlert;
 
 /***/ }),
-/* 450 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41499,35 +41616,35 @@
 	 * jQuery-like functions for manipulating the DOM
 	 */
 
-	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(451);
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant$getTopMargin$fadeIn$fadeOut$fireClick$stopEventPropagation = __webpack_require__(452);
 
 	/*
 	 * Handy utilities
 	 */
 
-	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(452);
+	var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(453);
 
 	/*
 	 *  Handle sweetAlert's DOM elements
 	 */
 
-	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(453);
+	var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(454);
 
 	// Handle button events and keyboard events
 
-	var _handleButton$handleConfirm$handleCancel = __webpack_require__(456);
+	var _handleButton$handleConfirm$handleCancel = __webpack_require__(457);
 
-	var _handleKeyDown = __webpack_require__(457);
+	var _handleKeyDown = __webpack_require__(458);
 
 	var _handleKeyDown2 = _interopRequireWildcard(_handleKeyDown);
 
 	// Default values
 
-	var _defaultParams = __webpack_require__(454);
+	var _defaultParams = __webpack_require__(455);
 
 	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 
-	var _setParameters = __webpack_require__(458);
+	var _setParameters = __webpack_require__(459);
 
 	var _setParameters2 = _interopRequireWildcard(_setParameters);
 
@@ -41789,7 +41906,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 451 */
+/* 452 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -41985,7 +42102,7 @@
 	exports.stopEventPropagation = stopEventPropagation;
 
 /***/ }),
-/* 452 */
+/* 453 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -42063,7 +42180,7 @@
 	exports.colorLuminance = colorLuminance;
 
 /***/ }),
-/* 453 */
+/* 454 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42074,11 +42191,11 @@
 	  value: true
 	});
 
-	var _hexToRgb = __webpack_require__(452);
+	var _hexToRgb = __webpack_require__(453);
 
-	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(451);
+	var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(452);
 
-	var _defaultParams = __webpack_require__(454);
+	var _defaultParams = __webpack_require__(455);
 
 	var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 
@@ -42086,7 +42203,7 @@
 	 * Add modal + overlay to DOM
 	 */
 
-	var _injectedHTML = __webpack_require__(455);
+	var _injectedHTML = __webpack_require__(456);
 
 	var _injectedHTML2 = _interopRequireWildcard(_injectedHTML);
 
@@ -42235,7 +42352,7 @@
 	exports.fixVerticalPosition = fixVerticalPosition;
 
 /***/ }),
-/* 454 */
+/* 455 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -42272,7 +42389,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 455 */
+/* 456 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -42319,7 +42436,7 @@
 	module.exports = exports["default"];
 
 /***/ }),
-/* 456 */
+/* 457 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42328,11 +42445,11 @@
 	  value: true
 	});
 
-	var _colorLuminance = __webpack_require__(452);
+	var _colorLuminance = __webpack_require__(453);
 
-	var _getModal = __webpack_require__(453);
+	var _getModal = __webpack_require__(454);
 
-	var _hasClass$isDescendant = __webpack_require__(451);
+	var _hasClass$isDescendant = __webpack_require__(452);
 
 	/*
 	 * User clicked on "Confirm"/"OK" or "Cancel"
@@ -42459,7 +42576,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 457 */
+/* 458 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42468,9 +42585,9 @@
 	  value: true
 	});
 
-	var _stopEventPropagation$fireClick = __webpack_require__(451);
+	var _stopEventPropagation$fireClick = __webpack_require__(452);
 
-	var _setFocusStyle = __webpack_require__(453);
+	var _setFocusStyle = __webpack_require__(454);
 
 	var handleKeyDown = function handleKeyDown(event, params, modal) {
 	  var e = event || window.event;
@@ -42543,7 +42660,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 458 */
+/* 459 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42552,11 +42669,11 @@
 	  value: true
 	});
 
-	var _isIE8 = __webpack_require__(452);
+	var _isIE8 = __webpack_require__(453);
 
-	var _getModal$getInput$setFocusStyle = __webpack_require__(453);
+	var _getModal$getInput$setFocusStyle = __webpack_require__(454);
 
-	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(451);
+	var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(452);
 
 	var alertTypes = ['error', 'warning', 'info', 'success', 'input', 'prompt'];
 
@@ -42773,7 +42890,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 459 */
+/* 460 */
 /***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -43283,7 +43400,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 460 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*global define:false */
@@ -44333,7 +44450,7 @@
 
 
 /***/ }),
-/* 461 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44343,7 +44460,7 @@
 	});
 	exports.default = outsideTargetHandlerFactory;
 
-	var _isDOMEquals = __webpack_require__(462);
+	var _isDOMEquals = __webpack_require__(463);
 
 	var _isDOMEquals2 = _interopRequireDefault(_isDOMEquals);
 
@@ -44370,7 +44487,7 @@
 	}
 
 /***/ }),
-/* 462 */
+/* 463 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -44391,7 +44508,7 @@
 	}
 
 /***/ }),
-/* 463 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -44458,13 +44575,13 @@
 	exports.default = Ddl;
 
 /***/ }),
-/* 464 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(465);
+	var content = __webpack_require__(466);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -44484,7 +44601,7 @@
 	}
 
 /***/ }),
-/* 465 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -44498,13 +44615,13 @@
 
 
 /***/ }),
-/* 466 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(467);
+	var content = __webpack_require__(468);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -44524,7 +44641,7 @@
 	}
 
 /***/ }),
-/* 467 */
+/* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -44532,13 +44649,13 @@
 
 
 	// module
-	exports.push([module.id, ".descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    font-weight: 500;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n\r\n.text-center{\r\n    text-align: center;\r\n    margin-top: 10px;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n    .pic {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.icon_container{\r\n    position: absolute;\r\n    padding: .2em .25em .15em;\r\n    border: solid .2em #eee;\r\n    border-radius: 0.5em;\r\n    display: inline-block;\r\n    width: 70px;\r\n    height: 70px;\r\n    background-color: rgba(255,255,255,0.85)\r\n}\r\n#faqIcon{\r\nposition: absolute;\r\n/* display: inline-block; */\r\nwidth: 60px;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:80px;\r\n    width:95%;\r\n    border-radius:11%;\r\n    background-color: rgba(255,255,255,0.85);\r\n    border: 9px double #da4682;\r\n    margin: 25px auto;\r\n}\r\n.circle h4{\r\n    direction:rtl;\r\n    text-align:center;\r\n    padding: 0.5em;\r\n    \r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n.myAuction{\r\n    margin: 100px 7px 0px 7px;\r\n    padding: 5px;\r\n    border: 2px solid black;\r\n    overflow: auto;\r\n    height: 300px;\r\n}\r\n\r\n.stamp{\r\n    /*display: none;*/\r\n    border: solid .2em #c00;\r\n    color: #c00;\r\n    content: '\\5E0\\5DE\\5DB\\5E8';\r\n    font-size: 40px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    opacity: 0;\r\n    position: absolute;\r\n    width: 200px;\r\n    text-align: center;\r\n    padding: 7px 10px;\r\n    margin: 0 auto;\r\n    margin-top: 15%;\r\n    margin-left: 25%;\r\n    text-transform: uppercase;\r\n    transform-origin: 50% 50%;\r\n    transform: rotate(-5deg) scale(5);\r\n    transition: all .7s cubic-bezier(0.6, 0.04, 0.98, 0.335);\r\n}\r\n\r\n.sold.stamp{\r\n    /*display: block;*/\r\n    opacity: .65;\r\n    transform: rotate(-25deg) scale(1);\r\n}", ""]);
+	exports.push([module.id, ".descPar {\r\n    margin-right: 8px;\r\n    direction: rtl;\r\n    float: right;\r\n    overflow: hidden;\r\n    display: -webkit-box;\r\n    font-weight: 500;\r\n    -webkit-line-clamp: 3;\r\n    -webkit-box-orient: vertical;\r\n    }\r\n\r\n.text-center{\r\n    text-align: center;\r\n    margin-top: 10px;\r\n    }\r\n.row{\r\n    margin-top: 10px;\r\n    border-bottom: 1px solid teal;\r\n    height: 250px;\r\n}\r\n\r\n.imgContainer{\r\n    position: relative;\r\n\tdisplay: inline-block;\r\n    }\r\n\r\n    .pic {\r\n    max-width: 100%;\r\n    margin-top: 10px; \r\n    }\r\n\r\n.priceTag {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    height: 12px;\r\n    position: relative;\r\n    content: \"\";\r\n    margin: 0 13px 0 0;\r\n    padding: 10px 20px 10px 8px;\r\n    border: none;\r\n    border-radius: 4px 1px 1px 4px;\r\n    color: rgba(255,255,255,1);\r\n    text-align: center;\r\n    text-transform: uppercase;\r\n    -o-text-overflow: ellipsis;\r\n    text-overflow: ellipsis;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 5px 0 0 rgb(64, 101, 23) , 5px 5px 0 0 rgb(64, 101, 23);\r\n    transform: rotate(-20deg);\r\n    top:10px;\r\n    right:-10%;\r\n    position: absolute;\r\n    display:block;\r\n}\r\n.priceTag:before {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 1;\r\n    width: 22px;\r\n    height: 22px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 5px;\r\n    right: -12px;\r\n    border: none;\r\n    border-radius: 1px 1px 4px;\r\n    color: #fff;\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: rgb(103, 158, 41);\r\n    box-shadow: 0 6px 0 0 rgb(64, 101, 23);\r\n    text-shadow: none;\r\n    transform: rotateY(1deg) rotateZ(-45deg);\r\n    }\r\n.priceTag:after {\r\n    display: inline-block;\r\n    box-sizing: content-box;\r\n    z-index: 2;\r\n    width: 12px;\r\n    height: 12px;\r\n    position: absolute;\r\n    content: \"\";\r\n    cursor: pointer;\r\n    top: 12px;\r\n    right: 0;\r\n    border: none;\r\n    border-radius: 10px;\r\n    color: rgba(255,255,255,0.9);\r\n    -o-text-overflow: clip;\r\n    text-overflow: clip;\r\n    background: #fcfcfc;\r\n    box-shadow: 5px 5px 0 0 rgb(64, 101, 23) inset;\r\n    text-shadow: none;\r\n    }\r\n      \r\n.priceTag h5 {\r\n    font-family: arial;\r\n    font-size:16px;\r\n    color:#fff;\r\n    margin-top: 0;\r\n    }\r\n\r\n.basicInfo{\r\n    margin-bottom:20px;\r\n    overflow:hidden;\r\n}\r\n\r\n.icon_container{\r\n    position: absolute;\r\n    padding: .2em .25em .15em;\r\n    border: solid .2em #eee;\r\n    border-radius: 0.5em;\r\n    display: inline-block;\r\n    width: 70px;\r\n    height: 70px;\r\n    background-color: rgba(255,255,255,0.85)\r\n}\r\n#faqIcon{\r\nposition: absolute;\r\n/* display: inline-block; */\r\nwidth: 60px;\r\n}\r\n\r\n.time{\r\n    float: left;\r\n    margin-left:10px;\r\n    margin-top:5px;\r\n}\r\n\r\ni{\r\n    float:right;\r\n    margin-left:2px;\r\n}\r\n\r\ninput{\r\n    width:20%;\r\n    margin: 10px 40%;\r\n    border: 2px solid;\r\n}\r\n\r\n.circle{\r\n    height:130px;\r\n    width:95%;\r\n    border-radius:11%;\r\n    background-color: rgba(255,255,255,0.85);\r\n    border: 9px double #da4682;\r\n    margin: 25px auto;\r\n}\r\n.circle h4, .circle h3{\r\n    direction:rtl;\r\n    text-align:center;\r\n    /* padding: 0.5em; */\r\n}\r\n\r\n.icon_circle{\r\nbackground: #008a7c;\r\n  border-radius: 50%;\r\n  color: #fff;\r\n  position: relative;\r\n  width: 48px;\r\n  height: 48px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  float: left;\r\n  margin-top: 10px;\r\n  margin-right: 2px;\r\n}\r\n\r\n.icon_circle i{\r\nfont-size: 24px;\r\n  margin-right: 8px;\r\n  }\r\n\r\nspan.info{\r\n    color: red\r\n}\r\n\r\n.base {\r\n    /*z-index: 1;*/\r\n  background: #286090;\r\n  display: inline-block;\r\n  height: 55px;\r\n  margin-left: 35%;\r\n  margin-top: 20px;\r\n  position: relative;\r\n  width: 100px;\r\n  text-align: center;\r\n}\r\n.base:after {\r\n  border-top: 35px solid #286090;\r\n  border-left: 50px solid transparent;\r\n  border-right: 50px solid transparent;\r\n  content: \"\";\r\n  height: 0;\r\n  left: 0;\r\n  position: absolute;\r\n  top: 55px;\r\n  width: 0;\r\n}\r\n\r\n.base span{\r\n    color: white;\r\n    z-index: 5;\r\n    font-size: 20px;\r\n    margin: auto 0;\r\n}\r\n\r\n.ui-btn-icon-left:after.ui-btn-icon-right:after.ui-btn-icon-top:after.ui-btn-icon-bottom:after.ui-btn-icon-notext:after {\r\n    display: none !important; \r\n    content: none !important;\r\n}\r\n\r\n.myAuction{\r\n    margin: 150px 7px 0px 7px;\r\n    padding: 5px;\r\n    border: 2px solid black;\r\n    overflow: auto;\r\n    height: 300px;\r\n}\r\n\r\n.stamp{\r\n    /*display: none;*/\r\n    border: solid .2em #c00;\r\n    color: #c00;\r\n    content: '\\5E0\\5DE\\5DB\\5E8';\r\n    font-size: 40px;\r\n    font-weight: bold;\r\n    line-height: 1;\r\n    opacity: 0;\r\n    position: absolute;\r\n    width: 200px;\r\n    text-align: center;\r\n    padding: 7px 10px;\r\n    margin: 0 auto;\r\n    margin-top: 15%;\r\n    margin-left: 25%;\r\n    text-transform: uppercase;\r\n    transform-origin: 50% 50%;\r\n    transform: rotate(-5deg) scale(5);\r\n    transition: all .7s cubic-bezier(0.6, 0.04, 0.98, 0.335);\r\n}\r\n\r\n.sold.stamp{\r\n    /*display: block;*/\r\n    opacity: .65;\r\n    transform: rotate(-25deg) scale(1);\r\n}", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 468 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44561,7 +44678,7 @@
 
 	var _axios2 = _interopRequireDefault(_axios);
 
-	var _Ddl = __webpack_require__(463);
+	var _Ddl = __webpack_require__(464);
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
@@ -44600,7 +44717,7 @@
 	            open: true,
 	            categroy: 0,
 	            tag: 0,
-	            gps: 0,
+	            gps: 10000,
 	            display: "none",
 	            categoriesArr: [{ val: 0, text: "כל הקטגוריות" }],
 	            tagsArr: [{ val: 0, text: "כל התגיות" }]
@@ -44766,7 +44883,7 @@
 	exports.default = Search;
 
 /***/ }),
-/* 469 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -44783,7 +44900,7 @@
 
 	var _reactRouterDom = __webpack_require__(188);
 
-	__webpack_require__(470);
+	__webpack_require__(471);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44863,8 +44980,8 @@
 	                                { onClick: function onClick() {
 	                                        return _this2.setState({ reDirect: true });
 	                                    } },
-	                                this.props.home ? _react2.default.createElement('img', { className: 'MenuIconLeft', src: 'images/LeftArrow.png' }) : null,
-	                                '\u05D3\u05E3 \u05D4\u05D1\u05D9\u05EA'
+	                                '\u05D3\u05E3 \u05D4\u05D1\u05D9\u05EA',
+	                                this.props.home ? _react2.default.createElement('img', { className: 'MenuIconLeft', src: 'images/LeftArrow.png' }) : null
 	                            ),
 	                            _react2.default.createElement(
 	                                'label',
@@ -44957,9 +45074,9 @@
 	                            null,
 	                            _react2.default.createElement(
 	                                'a',
-	                                { onClick: this.logOut },
-	                                ' \u05D4\u05EA\u05E0\u05EA\u05E7 ',
-	                                _react2.default.createElement('i', { className: 'fa fa-sign-out' })
+	                                { onClick: this.logOut, style: { display: "inline-flex" } },
+	                                _react2.default.createElement('i', { className: 'fa fa-sign-out', style: { marginRight: "0.5em", marginTop: "3px" } }),
+	                                '\u05D4\u05EA\u05E0\u05EA\u05E7 '
 	                            )
 	                        )
 	                    )
@@ -44979,13 +45096,13 @@
 	exports.default = Menu;
 
 /***/ }),
-/* 470 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(471);
+	var content = __webpack_require__(472);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -45005,7 +45122,7 @@
 	}
 
 /***/ }),
-/* 471 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -45013,93 +45130,10 @@
 
 
 	// module
-	exports.push([module.id, ".menuB{\r\n    max-height: 0px;\r\n    overflow: hidden;\r\n    transition: max-height 1.5s ease;\r\n    background-color: white;\r\n    text-align: center;\r\n    width: 100%;\r\n    margin: 45px 0 0;\r\n    position: absolute;\r\n    left: 0em;\r\n    padding: 0em;\r\n    z-index: 9;\r\n}\r\n\r\n.menuB.visible{\r\n    max-height: 500px;\r\n}\r\nul li a{\r\n    color: #000;\r\n    font-size: 16px;\r\n    margin: 0.5em 0;\r\n    display: block;\r\n    font-weight: 700;\r\n    font-family: \"Segoe UI\", Arial, sans-serif;\r\n}\r\nul li a label{\r\n    display: block;\r\n    margin: 0 0 .4em;\r\n    font-size: 16px;\r\n    font-weight: 400;\r\n    color: #636363;\r\n}\r\n", ""]);
+	exports.push([module.id, ".menuB{\r\n    max-height: 0px;\r\n    overflow: hidden;\r\n    transition: max-height 1.5s ease;\r\n    background-color: white;\r\n    text-align: center;\r\n    width: 100%;\r\n    margin: 45px 0 0;\r\n    position: absolute;\r\n    left: 0em;\r\n    padding: 0em;\r\n    z-index: 9;\r\n}\r\n\r\n.menuB.visible{\r\n    max-height: 500px;\r\n}\r\nul li a{\r\n    color: #000;\r\n    font-size: 1em;\r\n    margin: 0.5em 0;\r\n    display: block;\r\n    font-weight: 700;\r\n    font-family: \"Segoe UI\", Arial, sans-serif;\r\n}\r\nul li a label{\r\n    display: block;\r\n    margin: 0 0 .4em;\r\n    font-size: 16px;\r\n    font-weight: 400;\r\n    color: #636363;\r\n}\r\n", ""]);
 
 	// exports
 
-
-/***/ }),
-/* 472 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ScrollButton = function (_Component) {
-	  _inherits(ScrollButton, _Component);
-
-	  function ScrollButton() {
-	    _classCallCheck(this, ScrollButton);
-
-	    var _this = _possibleConstructorReturn(this, (ScrollButton.__proto__ || Object.getPrototypeOf(ScrollButton)).call(this));
-
-	    _this.state = {
-	      intervalId: 0
-	    };
-	    _this.scrollToTop = _this.scrollToTop.bind(_this);
-	    _this.scrollStep = _this.scrollStep.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(ScrollButton, [{
-	    key: "scrollStep",
-	    value: function scrollStep() {
-	      if (window.pageYOffset === 0) {
-	        clearInterval(this.state.intervalId);
-	      }
-	      window.scroll(0, window.pageYOffset - this.props.scrollStepInPx);
-	    }
-	  }, {
-	    key: "scrollToTop",
-	    value: function scrollToTop() {
-	      var intervalId = setInterval(this.scrollStep, this.props.delayInMs);
-	      this.setState({ intervalId: intervalId });
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      var _this2 = this;
-
-	      // return <button title='Back to top' className='scroll' 
-	      //          onClick={ () => { this.scrollToTop(); }}>
-	      //           <span className='arrow-up glyphicon glyphicon-chevron-up'></span>
-	      //         </button>;
-	      return _react2.default.createElement(
-	        "a",
-	        { onClick: function onClick() {
-	            _this2.scrollToTop();
-	          }, id: "toTop", style: { display: "block" } },
-	        " ",
-	        _react2.default.createElement(
-	          "span",
-	          { id: "toTopHover", style: { opacity: 1 } },
-	          " "
-	        )
-	      );
-	    }
-	  }]);
-
-	  return ScrollButton;
-	}(_react.Component);
-
-	exports.default = ScrollButton;
 
 /***/ }),
 /* 473 */
@@ -45159,13 +45193,13 @@
 
 	var _AuctionFAQ2 = _interopRequireDefault(_AuctionFAQ);
 
-	var _CircleButton = __webpack_require__(445);
+	var _CircleButton = __webpack_require__(446);
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
 	__webpack_require__(426);
 
-	var _messages = __webpack_require__(446);
+	var _messages = __webpack_require__(447);
 
 	var _general = __webpack_require__(424);
 
@@ -45304,7 +45338,7 @@
 	            var tempPrice = parseInt(this.state.auc.price);
 
 	            this.setState({
-	                tempDonation: '\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.state.auc.percentage / 100) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
+	                tempDonation: '\u05DE\u05D7\u05D9\u05E8 \u05E0\u05D5\u05DB\u05D7\u05D9 ' + tempPrice + ' \u05E9"\u05D7 \n\u05DB\u05D1\u05E8 ' + Math.floor(tempPrice * this.state.auc.percentage / 100) + ' \u05E9"\u05D7 \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4'
 	            });
 	        }
 	    }, {
@@ -45330,8 +45364,14 @@
 	                        'div',
 	                        { className: 'circle', style: { position: "absolute", marginTop: "80px" } },
 	                        _react2.default.createElement(
-	                            'h4',
+	                            'h3',
 	                            null,
+	                            '\u05DE\u05DB\u05E8\u05D6 \u05E2\u05DC ',
+	                            this.state.auc.prodName
+	                        ),
+	                        _react2.default.createElement(
+	                            'h4',
+	                            { style: { whiteSpace: "pre-line" } },
 	                            this.state.tempDonation
 	                        )
 	                    )
@@ -45412,11 +45452,11 @@
 
 	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
 
-	var _Menu = __webpack_require__(469);
+	var _Menu = __webpack_require__(470);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _CircleButton = __webpack_require__(445);
+	var _CircleButton = __webpack_require__(446);
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
@@ -45606,11 +45646,11 @@
 
 	var _ThemeAuctions2 = _interopRequireDefault(_ThemeAuctions);
 
-	var _Menu = __webpack_require__(469);
+	var _Menu = __webpack_require__(470);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
 
-	var _CircleButton = __webpack_require__(445);
+	var _CircleButton = __webpack_require__(446);
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 

@@ -52,7 +52,7 @@ class Menu extends Component {
                         <li><a onClick={() => location.href = 'userDetails.html'}>פרופיל משתמש</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'appSettings.html#Settings.html'}>הגדרות אפליקציה</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'RegisterAssoc-Taramti.html'}>הוספת עמותה</a><label>|</label></li>
-                        <li><a onClick={this.logOut}> <i className="fa fa-sign-out"></i>התנתק </a></li>
+                        <li><a onClick={this.logOut} style={{display:"inline-flex"}}><i className="fa fa-sign-out" style={{marginRight:"0.5em", marginTop:"3px"}}></i>התנתק </a></li>
                     </ul>
                 </div>
                 <div className="clearfix"> </div>

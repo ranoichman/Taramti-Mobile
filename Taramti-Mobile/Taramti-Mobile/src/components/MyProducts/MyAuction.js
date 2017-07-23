@@ -126,7 +126,7 @@ class MyAuction extends Component {
         let tempPrice = parseInt(this.state.auc.price);
 
         this.setState({
-            tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
+            tempDonation: `מחיר נוכחי ${tempPrice} ש"ח \nכבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
         });
 
     }
@@ -146,9 +146,10 @@ class MyAuction extends Component {
                         <PriceTag price={this.state.auc.price} modalIsOpen={this.state.fAQModalIsOpen || this.state.infoModalIsOpen} />
                     </div>
                     <div className="circle" style={{ position: "absolute", marginTop: "80px" }}>
-                        <h4>
-                            {this.state.tempDonation}
-                        </h4>
+                        <h3>מכרז על {this.state.auc.prodName}</h3>
+                    <h4 style={{whiteSpace: "pre-line"}}>
+                        {this.state.tempDonation}
+                    </h4>
                     </div>
                 </div>
 
@@ -164,6 +165,7 @@ class MyAuction extends Component {
 
                 </div>
                 <CircleButton back={true} />
+
                 {/*info modal*/}
                 <Modal
                     isOpen={this.state.infoModalIsOpen}
@@ -171,7 +173,6 @@ class MyAuction extends Component {
                     className="zoomInRight">
                     <AuctionInfo modal={true} closeModal={this.infoModalChanged} auc={this.state.auc} />
                 </Modal>
-
 
                 {/*FAQ modal*/}
                 <Modal

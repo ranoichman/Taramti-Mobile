@@ -20,27 +20,54 @@
     <link href="css/StyleSheet.css" rel="stylesheet" />
     <link href="dist/sweetalert/sweetalert.css" rel="stylesheet" charset="utf-8" />
 
+    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
     <script src="js/master.js"></script>
-    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
+    
     <!--font-Awesome-->
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <!--//font-Awesome-->
 
-<script>
+    <script>
 
 
-    $(window).load(function () {
+        $(window).load(function () {
             $(".loader").fadeOut("slow");
-    })
+        })
 
-    if (localStorage.UserID != null) {
-        location.href = "app.html";
-    }
-</script>
+        if (localStorage.UserID != null) {
+            location.href = "app.html";
+        }
+
+        function getDLValue(inputID) {
+            var $input = $(`#${inputID}`),
+                $options = $('#' + $input.attr('list') + ' option'), //grab all options
+                $hiddenInput = $('#' + $input.attr('id') + '-hidden'), //grab hidden input
+                label = $input.val();
+            $hiddenInput.val(label);
+            for (var i = 0; i < $options.length; i++) {
+                var $option = $options.eq(i);
+                if ($option.text() === label) {
+                    $hiddenInput.val($option.attr('data-value'));
+                    break;
+                }
+            }
+            try { //validate input before sending to db
+                if ((parseInt($hiddenInput.val()) >= 0) && (parseInt($hiddenInput.val()) <= 1200)) {
+                    return $hiddenInput.val();
+                } else {
+                    return 0; // value for error
+                }
+            } catch (error) {
+                return 0; // value for error
+            }
+        };
+
+
+
+    </script>
 </head>
 
 <body>
@@ -82,8 +109,6 @@
                 </div>
 
             </div>
-            <!--<h5 class="styleLinkH"><a class="styleLink" href="#ForgotPassPage"> שכחת סיסמה?! לחץ כאן</a></h5>-->
-            <!--<h6 class="styleLinkH"><a class="styleLink" href="#FirstRegisterPage">לא רשום? לחץ כאן! </a></h6>-->
         </div>
         <div class="RoundDivIcon">
             <a class="styleLink" href="#FirstRegisterPage1"><img class="NiceIcon" src="images/add_user_male1600.png" /></a>
@@ -126,7 +151,6 @@
                     <button type="button" id="ForgotBtn" onclick="SendMailPass()" class="btn-l btn-10">שלח לי מייל</button>
                 </div>
             </div>
-            <!--<h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> נזכרתי בסיסמה! אני רוצה להתחבר</a></h5>-->
         </div>
         <div class="surroundDiv">
             <div class="RoundDivIcon">
@@ -137,6 +161,7 @@
             </div>
         </div>
     </div>
+
     <!--דף שחזור סיסמה-->
     <div data-role="page" id="RestorePassPage">
         <img id="BkgroundImg" src="images/LoginBackground.jpg" />
@@ -197,7 +222,7 @@
 
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-key"></i>
-                            <input type="password" id="UserPass" value="" placeholder="הזן סיסמה">
+                            <input type="password" id="UserPass1" value="" placeholder="הזן סיסמה">
                             <div class="clearfix"> </div>
                         </div>
 
@@ -215,25 +240,17 @@
 
                             <li><a class="next-top1" href="#LoginPage"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
                             <li class="Num"><span>1</span></li>
-                            <li class="Num"><a href="#FirstRegisterPage2">2</a></li>
+                            <li class="Num"><a onclick="ToFirstRegisterPage2()">2</a></li>
                             <li class="Num"><a href="#">3</a></li>
-                            <li><a class="pre1" href="#FirstRegisterPage2"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                            <li><a class="pre1" onclick="ToFirstRegisterPage2()"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                         </ul>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
             </div>
-            <!--<h5 class="styleLinkH"><a class="styleLink" href="#LoginPage"> חזור לדף התחברות</a></h5>-->
         </div>
-        <!--<div class="RoundDivIcon">
-            <a class="styleLink" href="#FirstRegisterPage2"><img class="NiceIcon" src="images/forrwardArrowIcon.png" /></a>
-            <h6 class="IconText">המשך</h6>
-        </div>
-        <div class="RoundDivIcon">
-            <a class="styleLink" href="#LoginPage"><img class="NiceIcon" src="images/backToLogin.png" /></a>
-            <h6 class="IconText">חזור</h6>
-        </div>-->
     </div>
+
     <!--דף רישום ראשוני 2 המשך-->
     <div data-role="page" id="FirstRegisterPage2">
         <img id="BkgroundImg" src="images/LoginBackground.jpg" />
@@ -248,7 +265,7 @@
                     <div class="input-top-top">
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-user-plus"></i>
-                            <input type="text" id="UserFirstName" value="" placeholder="שם פרטי">
+                            <input type="text" id="UserFirstName" value="" placeholder="שם פרטי" required>
                             <div class="clearfix"> </div>
                         </div>
 
@@ -260,27 +277,21 @@
 
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-user-plus"></i>
-                            <input type="number" id="Userid" value="" placeholder="תעודת זהות">
+                            <input type="number" id="UserId1" value="" placeholder="תעודת זהות">
                             <div class="clearfix"> </div>
                         </div>
                         <!--<p class="loginText">בלחיצה על הרשם אתה מסכים לתנאים הבאים <a href="#">תנאים מחייבים</a>.</p>-->
                     </div>
                     <div class="clearfix"> </div>
                 </div>
-                <!--<div class="button-1">
-                    <button type="button" id="FirstRegisterBtn" onclick="FirstRegisterUser()" class="btn-l btn-10">הרשם לבינתיים</button>
-                </div>-->
-                <!--<div class="button-1">
-                    <button type="button" id="ConRegisterBtn" onclick="ConRegister()" class="btn-l btn-10">המשך לרישום מלא</button>
-                </div>-->
                 <div class="page-top-mid">
                     <div class="page-top-mid1">
                         <ul class="page-mid1" id="AddUserProcess">
                             <li><a class="next-top1" href="#FirstRegisterPage1"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
                             <li class="Num"><a href="#FirstRegisterPage1">1</a></li>
                             <li class="Num"><span>2</span></li>
-                            <li class="Num"><a onclick="ConRegister()" href="#CompleteRegisterPage">3</a></li>
-                            <li><a class="pre1" onclick="ConRegister()" href="#CompleteRegisterPage"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                            <li class="Num"><a onclick="ToCompleteRegisterPage()">3</a></li>
+                            <li><a class="pre1" onclick="ToCompleteRegisterPage()"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                         </ul>
                     </div>
                     <div class="clearfix"> </div>
@@ -311,16 +322,21 @@
                             <div class="clearfix"> </div>
                         </div>
 
+                        <!--<div class="input-top-mid input-top-mid7">
+                            <i class="fa fa-globe"></i>
+                            <input type="text" id="UserCity" value="" placeholder="עיר מגורים">
+                            <div class="clearfix"> </div>
+                        </div>-->
+
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-globe"></i>
-                            <input type="number" id="UserCity" value="" placeholder="עיר מגורים">
+                            <div id="UserCityDiv"><input placeholder="עיר מגורים" list="citiesList" id=UserCity class="inputDL"></div>
                             <div class="clearfix"> </div>
                         </div>
 
-                        <!--<h4>עיר מגורים: </h4>
-                        <select id="UserCity" onclick="CityList()" data-icon="arrow-r">
-                            <option value="-1"> בחר</option>
-                        </select>-->
+
+                        <datalist id="citiesList"></datalist>
+                        <input type="hidden" name="answer" id="UserCity-hidden">
 
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-building"></i>
@@ -341,9 +357,6 @@
                     </div>
                     <div class="clearfix"> </div>
                 </div>
-                <!--<div class="button-1">
-                    <button type="button" id="CompleteRegisterBtn" onclick="RegisterUser()" class="btn-l btn-10">הרשם</button>
-                </div>-->
                 <div class="page-top-mid">
                     <div class="page-top-mid1">
                         <ul class="page-mid1" id="AddUserProcess">
@@ -352,7 +365,7 @@
                             <li class="Num"><a href="#FirstRegisterPage1">1</a></li>
                             <li class="Num"><a href="#FirstRegisterPage2">2</a></li>
                             <li class="Num"><span>3</span></li>
-                            <li><a class="pre1" href="#LoginPage"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                            <li><a class="pre1" onclick="RegisterUser()"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                         </ul>
                     </div>
                     <div class="clearfix"> </div>
@@ -362,65 +375,18 @@
         </div>
     </div>
 
-    <!--דף רישום משתמש-->
-    <div data-role="page" id="RegisterPage">
-        <img id="BkgroundImg" src="images/LoginBackground.jpg" />
-        <div id="DivLogo">
-            <img id="MainLogoImg" src="images/MainLogo.png" />
-        </div>
-        <div class="LoginForm" id="RegisterForm">
-            <div class="input-field">
-                <div class="input-top">
-                    <div class="input-top-top">
-                        <h2>רישום משתמש</h2>
-                        <h4>שם פרטי: </h4>
-                        <input type="text" id="UserFirstName" />
-                        <h4>שם משפחה: </h4>
-                        <input type="text" id="UserLastName" />
-                        <h4>תעודת זהות: </h4>
-                        <input type="number" id="UserId" />
-                        <h4>מספר טלפון: </h4>
-                        <input type="tel" id="UserPhon" />
-                        <h4>עיר מגורים: </h4>
-                        <input type="text" id="UserCity" />
-                        <h4>רחוב: </h4>
-                        <input type="text" id="UserStreet" />
-                        <h4>מספר: </h4>
-                        <input type="number" id="UserHomeNum" />
-                        <h4>כתובת אימייל: </h4>
-                        <input type="email" id="UserMail" />
-                        <h4>הזן סיסמה: </h4>
-                        <input type="password" id="UserPass" />
-                        <h4>הזן סיסמה לאישור: </h4>
-                        <input type="password" id="UserPass2" />
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="button-1">
-                    <button type="button" id="RegisterBtn" onclick="RegisterUser()" class="btn-l btn-10">הרשם</button>
-                </div>
-                <!--<h5 class="styleLinkH"><a class="styleLink" a href="#LoginPage"> חזור לדף התחברות</a></h5>-->
-            </div>
-        </div>
-        <div class="RoundDivIcon">
-            <a class="styleLink" href="#LoginPage"><img class="NiceIcon" src="images/backToLogin.png" /></a>
-        </div>
-    </div>
-
-
-
     <script>
         const Gen = GENERAL.USER;
         const generic = GENERAL.genericWebServerAddress;
         var SENDER_ID = "336880743356";
-        var user_platform ="";
-        var notification_id ="";
+        var user_platform = "";
+        var notification_id = "";
         var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
+
         $(document).ready(function () {
             $("#Loginbtn").on("tap", function () {
                 var mail = $("#UserMail").val();
                 var pass = $("#UserPass").val();
-                //alert("ready - doc");
 
                 $.ajax({
                     dataType: "json",
@@ -460,19 +426,35 @@
                             //alert("שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. אנא נסה שנית");
                             swal({
                                 title: "אופס...",
-                                text: "שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. \n אנא נסה שנית", 
+                                text: "שם המשתמש או הסיסמא אינם תואמים את נתוני המערכת. \n אנא נסה שנית",
                                 type: "error",
                                 confirmButtonText: "אישור"
-                           })
+                            })
                             location.href = "Login-Taramti.html#LoginPage";
                         }
                     },
                     error: function (err) { }
                 });
-            }
-
-
-            )
+            })
+            // אג'קס למילוי כל הערים
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetAllCities",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
+                    var Cities = JSON.parse(data.d);
+                    if (Cities[0] != null) {
+                        for (var i = 0; i < Cities.length; i++) {
+                            var opt = '';
+                            opt += '<option data-value="' + Cities[i].CityCode + '">' + Cities[i].CityName + '</option>';
+                            $("#citiesList").append(opt);
+                        }
+                    }
+                },
+                error: function (err) { }
+            });
         });
 
         function LogOut() {
@@ -570,104 +552,10 @@
             window.scrollTo(0, document.body.scrollHeight);
         }
 
-        function register() {
-            alert("regID ===" + notification_id)
-            alert("platforma ===" + user_platform)
-            $.ajax({
-                dataType: "json",
-                url: webServerAddress + "SavePushInfo",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                //data: JSON.stringify({ userId: UserId, deviceString: res.registrationId, platform: res.platform }),
-                //data: JSON.stringify({ userId: "302921481", deviceString': notification_id, platform: user_platform }),
-                data: JSON.stringify({ userId: "302921481", deviceString: notification_id, platform: user_platform }),
-                success: function (data) {
 
-                    var isUser = JSON.parse(data.d);
-                },
-                error: function (err) { }
-            });
-        }
     </script>
 
     <script>
-        function ConRegister() {
-
-            //לתקן!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //location.href = "index2.html#CompleteRegisterPage";
-
-            location.href = "Login-Taramti.html#CompleteRegisterPage";
-        };
-
-        /// <summary>וידוא כל השדות</summary>
-        function FirstRegisterUser() {
-
-            var id = $("#Userid").val();
-            var first = $("#UserFirstName").val();
-            var last = $("#UserLastName").val();
-            var mail = $("#Usermail").val();
-            var pass = $("#UserPass").val();
-            var pass2 = $("#UserPass2").val();
-            //alert(id + " " + first + " " + last + " " + mail + " " + pass + " " + pass2 + " ");
-            if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "AddUser",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ mail: mail, pass: pass2, first: first, last: last, id: id }),
-                    success: function (data) {
-
-                        var isUser = JSON.parse(data.d);
-
-                        if (isUser == "True") {
-                            alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
-                        }
-                        else {
-                            alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
-                        }
-                        location.href = "Login-Taramti.html#LoginPage";
-                    },
-                    error: function (err) { }
-                });
-            }
-        }
-
-        /// <summary>ולידטוריםםםם</summary>
-        function RegisterUser() {
-
-            var id = $("#UserId").val();
-            var phone = $("#UserPhon").val();
-            var city = $("#UserCity").val();
-            var street = $("#UserStreet").val();
-            var num = $("#UserHomeNum").val();
-
-            if (city != -1) {
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "AddUserAllInfo",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
-                    success: function (data) {
-
-                        var isUser = JSON.parse(data.d);
-
-                        if (isUser == true) {
-                            alert("המשתמש נוצר בהצלחה! אנא התחבר למערכת");
-                        }
-                        else {
-                            alert("המשתמש כבר קיים במערכת, אנא התחברו מחדש");
-                        }
-                        location.href = "Login-Taramti.html#LoginPage";
-                    },
-                    error: function (err) { }
-                });
-            }
-            else {
-                alert("אנא בחר עיר מגורים");
-            }
-        }
 
         function SendMailPass() {
             var userID = $("#UserId").val();
@@ -683,7 +571,12 @@
 
                     var res = JSON.parse(data.d);
                     if (res) {
-                        alert("סיסמתך אופסה בהצלחה. אנא בדוק את תיבת הדואר שלך לפרטי ההתחברות החדשים");
+                        swal({
+                            title: "סיסמתך אופסה בהצלחה",
+                            text: "אנא בדוק את תיבת הדואר האלקטרוני שלך לפרטי ההתחברות החדשים",
+                            type: "success",
+                            confirmButtonText: "אישור"
+                        })
                         location.href = "Login-Taramti.html#LoginPage";
                     }
                     else {
@@ -704,35 +597,74 @@
         }
 
         function RestorePass() {
-            if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
-                var id = $("#UserIdRestore").val();
-                var pass = $("#UserPassNew").val();
+            var id = $("#UserIdRestore").val();
+            var pass = $("#UserPassNew").val();
 
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "ChangePass",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ id: id, newPass: pass }),
-                    success: function (data) {
+            if (id != "" && pass != "") {
 
-                        var isUser = JSON.parse(data.d);
+                if (id.length == 9) {
 
-                        alert("סיסמתך שונתה בהצלחה");
-                        location.href = "Login-Taramti.html#LoginPage";
-                    },
-                    error: function (err) { }
-                });
+                    if ($("#UserPassNew").val() == $("#UserPassNew2").val()) {
+                        $.ajax({
+                            dataType: "json",
+                            url: generic + "ChangePass",
+                            contentType: "application/json; charset=utf-8",
+                            type: "POST",
+                            data: JSON.stringify({ id: id, newPass: pass }),
+                            success: function (data) {
+
+                                var PassHasChanged = JSON.parse(data.d);
+
+                                if (PassHasChanged == true) {
+                                    swal({
+                                        title: "סיסמתך שונתה בהצלחה",
+                                        text: "כעת ניתן להתחבר",
+                                        type: "success",
+                                        confirmButtonText: "אישור"
+                                    })
+                                    $('#UserPass').val("");
+                                    location.href = "Login-Taramti.html#LoginPage";
+                                }
+                                else {
+                                    swal({
+                                        title: "שים לב",
+                                        text: "תעודת הזהות שהזנת אינה נכונה",
+                                        type: "warning",
+                                        confirmButtonText: "אישור"
+                                    })
+                                }
+                            },
+                            error: function (err) {
+                            }
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "אופס...",
+                            text: "הסיסמאות אינן תואמות!",
+                            type: "error",
+                            confirmButtonText: "אישור"
+                        })
+                    }
+                }
+                else {
+                    swal({
+                        title: "שים לב",
+                        text: "יש למלא ת.ז תקנית כולל ספרת ביקורת",
+                        type: "warning",
+                        confirmButtonText: "אישור"
+                    })
+                }
+
             }
             else {
                 swal({
-                    title: "אופס...",
-                    text: "הסיסמאות אינן תואמות!",
-                    type: "error",
+                    title: "שים לב",
+                    text: "יש למלא את כל השדות",
+                    type: "warning",
                     confirmButtonText: "אישור"
                 })
             }
-
         }
 
         function CityList() {
@@ -757,6 +689,149 @@
                 error: function (err) { }
             });
         }
+
+        function ToFirstRegisterPage2() {
+
+            var mail = $("#Usermail").val();
+            var pass = $("#UserPass1").val();
+            var pass2 = $("#UserPass2").val();
+
+            if (mail == "" || pass == "" || pass2 == "") {
+                swal({
+                    title: "שים לב",
+                    text: "יש למלא את כל השדות",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                })
+            }
+            else {
+                if (pass != pass2) {
+                    swal({
+                        title: "שים לב",
+                        text: "הסיסמאות שהזנת אינן תואמות",
+                        type: "warning",
+                        confirmButtonText: "אישור"
+                    })
+                }
+                else {
+                    location.href = "Login-Taramti.html#FirstRegisterPage2";
+                }
+            }
+
+        }
+
+        function ToCompleteRegisterPage() {
+
+            var id = $("#UserId1").val();
+            var first = $("#UserFirstName").val();
+            var last = $("#UserLastName").val();
+
+            if (id == "" || first == "" || last == "") {
+                swal({
+                    title: "שים לב",
+                    text: "יש למלא את כל השדות",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                })
+            }
+            else {
+                if (id.length != 9) {
+                    swal({
+                        title: "שים לב",
+                        text: "יש למלא ת.ז תקנית כולל ספרת ביקורת",
+                        type: "warning",
+                        confirmButtonText: "אישור"
+                    })
+                }
+                else {
+                    location.href = "Login-Taramti.html#CompleteRegisterPage";
+                }
+            }
+        }
+
+        function RegisterUser() {
+
+            var mail = $("#Usermail").val();
+            var pass = $("#UserPass1").val();
+            var pass2 = $("#UserPass2").val();
+
+            var id = $("#UserId1").val();
+            var first = $("#UserFirstName").val();
+            var last = $("#UserLastName").val();
+
+            var phone = $("#UserPhon").val();
+            var city = getDLValue("UserCity");
+            var street = $("#UserStreet").val();
+            var num = $("#UserHomeNum").val();
+
+            if (phone == "" || city == "" || street == "" || num == "") {
+                swal({
+                    title: "שים לב",
+                    text: "יש למלא את כל השדות",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                })
+
+            }
+            else {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "AddUser",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ mail: mail, pass: pass2, first: first, last: last, id: id }),
+                    success: function (data) {
+
+                        var isUser = JSON.parse(data.d);
+
+                        if (isUser == "True") {
+                            $.ajax({
+                                dataType: "json",
+                                url: generic + "AddUserAllInfo",
+                                contentType: "application/json; charset=utf-8",
+                                type: "POST",
+                                data: JSON.stringify({ id: id, phone: phone, city: city, street: street, num: num }),
+                                success: function (data) {
+
+                                    var isUser = JSON.parse(data.d);
+
+                                    if (isUser == "True") {
+                                        swal({
+                                            title: "איזה יופי!",
+                                            text: "המשתמש נוצר בהצלחה! כעת ניתן להתחבר למערכת",
+                                            type: "success",
+                                            confirmButtonText: "אישור"
+                                        })
+                                    }
+                                    else {
+                                        swal({
+                                            title: "שים לב",
+                                            text: "אירעה שגיאה בהרשמה \nיתכן שהמשתמש כבר קיים במערכת",
+                                            type: "error",
+                                            confirmButtonText: "אישור"
+                                        })
+                                    }
+                                    location.href = "Login-Taramti.html#LoginPage";
+                                },
+                                error: function (err) { }
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "שים לב",
+                                text: "אירעה שגיאה בהרשמה \nיתכן שהמשתמש כבר קיים במערכת",
+                                type: "error",
+                                confirmButtonText: "אישור"
+                            })
+                            location.href = "Login-Taramti.html#LoginPage";
+                        }
+                    },
+                    error: function (err) {
+                    }
+                });
+            }
+        }
+
     </script>
 
 </body>
