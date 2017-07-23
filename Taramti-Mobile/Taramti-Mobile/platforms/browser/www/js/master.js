@@ -18,7 +18,7 @@ const GENERAL = {
     },
 
     GOOGLE: {
-        SENDER_ID: "183259485502",
+        SENDER_ID: "336880743356",
     },
 }
 

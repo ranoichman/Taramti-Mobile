@@ -18,7 +18,9 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="dist/sweetalert/sweetalert.css" rel="stylesheet" charset="utf-8" />
 
+    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
@@ -175,7 +177,7 @@
                         <div class="button-1">
                             <button type="button" id="RegisterAssocbtn" onclick="location.href = 'RegisterAssoc-Taramti.html#ImSureDialog'" data-transition="flip" class="btn-l btn-10">רשום עמותה</button>
                         </div>
-                        
+
 
                         <div class="clearfix"> </div>
                     </div>
@@ -262,7 +264,7 @@
                 });
             });
         });
-        
+
         function LogOut() {
             localStorage.removeItem("UserID");
             location.href = 'Login-Taramti.html'
@@ -300,8 +302,16 @@
                                 var amu = JSON.parse(data.d);
 
                                 if (amu == "True") {
-                                    alert("העמותה נרשמה בהצלחה");
+
+                                    swal({
+                                        title: "זהו..",
+                                        text: "העמותה נרשמה בהצלחה",
+                                        type: "success",
+                                        confirmButtonText: "אישור",
+                                    },
+                                    function () {
                                     location.href = "app.html";
+                                    })
                                 }
                             },
                             error: function (err) { }
@@ -316,8 +326,17 @@
                             data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
                             success: function (data) {
 
-                                alert("העמותה הועברה לאישור מנהלי המערכת. ניצור עמכם קשר תוך 2 ימי עסקים להשלמת תהליך הרישום");
-                                location.href = "app.html";
+                                alert("");
+
+                                swal({
+                                    title: "שים לב",
+                                    text: "העמותה הועברה לאישור מנהלי המערכת. ניצור עמכם קשר תוך 2 ימי עסקים להשלמת תהליך הרישום",
+                                    type: "warning",
+                                    confirmButtonText: "אישור"
+                                },
+                                    function () {
+                                        location.href = "app.html";
+                                    });
                             },
                             error: function (err) { }
                         });// Ajax AddNewTempAssoc

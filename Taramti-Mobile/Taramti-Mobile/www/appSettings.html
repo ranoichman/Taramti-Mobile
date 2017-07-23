@@ -65,7 +65,7 @@
                     url: generic + "IsFavAssoc",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
-                    data: JSON.stringify({ user_id: "302921481", assoc: ass }),
+                    data: JSON.stringify({ user_id: user.userID(), assoc: ass }),
                     success: function (data) {
 
                         var res = JSON.parse(data.d);
@@ -74,7 +74,8 @@
                             $("#favStar").addClass('fa fa-star fa-4x');
                         }
                         else {
-
+                            $("#favStar").removeClass('fa fa-star fa-4x');
+                            $("#favStar").addClass('fa fa-star-o fa-4x');
                         }
                         //location.href = "appSettings.html#AssocInfoPage";
                     },
@@ -84,6 +85,63 @@
 
             if ($(this).attr("id") == "Settings")
             {
+                //get favorite assoc for user from server
+                $.ajax({
+                    dataType: "json",
+                    url: assoc + "GetFavAssocById",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: user.userID() }),
+                    success: function (data) {
+
+                        var AssocArray = JSON.parse(data.d);
+
+                        if (AssocArray[0] != null) {
+                            for (let i = 0; i < AssocArray.length; i++) {
+                                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
+                                $("#FavAssocGroup").append($a);
+
+                                // move to assoc details page
+                                $a.on("swipeleft", function () {
+                                    lastPage = "Settings";
+                                    MoveToAssocDetails(AssocArray[i].Association_Code);
+                                });
+                            }
+                        }
+                    },
+                    error: function (err) { }
+                });
+            }
+        });
+
+        $(document).on("pagechange", "div[data-role=page]", function (event) {
+            var ass = $('#AssocCode').val();
+
+            if ($(this).attr("id") == "AssocInfoPage") {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "IsFavAssoc",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ user_id: user.userID(), assoc: ass }),
+                    success: function (data) {
+
+                        var res = JSON.parse(data.d);
+                        if (res == true) {
+                            $("#favStar").removeClass('fa fa-star-o fa-4x');
+                            $("#favStar").addClass('fa fa-star fa-4x');
+                        }
+                        else {
+                            $("#favStar").removeClass('fa fa-star fa-4x');
+                            $("#favStar").addClass('fa fa-star-o fa-4x');
+                        }
+                        //location.href = "appSettings.html#AssocInfoPage";
+                    },
+                    error: function (err) { }
+        });
+            }
+
+            if ($(this).attr("id") == "Settings") {
                 //get favorite assoc for user from server
                 $.ajax({
                     dataType: "json",
@@ -135,7 +193,7 @@
         });
 
         $(document).ready(function () {
-            // שליפת נתונים מבסיס הנתונים
+            // שליפת נתונים מבסיס הנתונים 
 
             $.ajax({
                 dataType: "json",
@@ -173,7 +231,8 @@
                                 $('#soundOpt').selectmenu("refresh", true);
                             }
                         }
-                        if (res["Vibe"] == true) {
+
+                        else if (res["Vibe"] == true) {
                             sound.val('1');
                             $('#soundOpt option[value="1"]').prop('selected', true); // רטט בלבד
                             $('#soundOpt').selectmenu("refresh", true);
@@ -289,112 +348,113 @@
                 error: function (err) { }
             });
 
-            //    $.ajax({
-            //        dataType: "json",
-            //        url: generic + "IsFavAssoc",
-            //        contentType: "application/json; charset=utf-8",
-            //        type: "POST",
-            //        data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
-            //        success: function (data) {
-            //            var res = JSON.parse(data.d);
-            //            if (res == true) {
-            //                $("#favStar").removeClass('fa fa-star-o fa-3x');
-            //                $("#favStar").addClass('fa fa-star fa-3x');
-            //            }
-            //            location.href = "appSettings.html#AssocInfoPage";
-            //        },
-            //        error: function (err) { }
-            //    });
-            }
+            $.ajax({
+                dataType: "json",
+                url: generic + "IsFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+                success: function (data) {
 
-
-
-            function SaveSettings() {
-                var push = $("#flip-1").val();
-                var sound = false;
-                var vibe = false;
-
-                if ($("#soundOpt").val() == 1) {
-                    vibe = true;
-                }
-                else if ($("#soundOpt").val() == 2) {
-                    sound = true;
-                }
-                else if ($("#soundOpt").val() == 3) {
-                    vibe = true;
-                    sound = true;
-                }
-
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "SaveSettings",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ user: userId, push: push, sound: sound, vibe: vibe }),
-                    success: function (data) {
-                        swal({
-                            title: "איזה יופי..",
-                            text: "העדפותיך האישיות התעדכנו במערכת בהצלחה",
-                            type: "success",
-                            confirmButtonText: "אישור"
-                        })
-                    },
-                    error: function (err) { }
-                });
-            }
-
-            $(document).on('change', 'select', function () {
-                var opt = $(this).find('option:selected')[0];
-                // if the chosen value is Vibe or full sound then VIBRATE
-                if (opt.value == 1 || opt.value == 3) {
-                    vibrate();
-                }
-
+                    var res = JSON.parse(data.d);
+                    if (res == true) {
+                        $("#favStar").removeClass('fa fa-star-o fa-3x');
+                        $("#favStar").addClass('fa fa-star fa-3x');
+                    }
+                    location.href = "appSettings.html#AssocInfoPage";
+                },
+                error: function (err) { }
             });
+        }
 
-            function vibrate() {
-                navigator.vibrate(1000);
-                console.log("hiii");
+   
+
+        function SaveSettings() {
+            var push = $("#flip-1").val();
+            var sound = false;
+            var vibe = false;
+
+            if ($("#soundOpt").val() == 1) {
+                vibe = true;
+            }
+            else if ($("#soundOpt").val() == 2) {
+                sound = true;
+            }
+            else if ($("#soundOpt").val() == 3) {
+                vibe = true;
+                sound = true;
             }
 
-            function goBack() {
-                location.href = `appSettings.html#${lastPage}`;
+            $.ajax({
+                dataType: "json",
+                url: generic + "SaveSettings",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user: userId, push: push, sound: sound, vibe: vibe }),
+                success: function (data) {
+                    swal({
+                        title: "איזה יופי..",
+                        text: "העדפותיך האישיות התעדכנו במערכת בהצלחה",
+                        type: "success",
+                        confirmButtonText: "אישור"
+                    })
+                },
+                error: function (err) { }
+            });
+        }
+
+        $(document).on('change', 'select', function () {
+            var opt = $(this).find('option:selected')[0];
+            // if the chosen value is Vibe or full sound then VIBRATE
+            if (opt.value == 1 || opt.value == 3) {
+                vibrate();
             }
 
-            function LogOut() {
-                localStorage.removeItem("UserID");
-                location.href = 'Login-Taramti.html'
+        });
+
+        function vibrate() {
+            navigator.vibrate(1000);
+            console.log("hiii");
+        }
+
+        function goBack() {
+            location.href = `appSettings.html#${lastPage}`;
+        }
+
+        function LogOut() {
+            localStorage.removeItem("UserID");
+            location.href = 'Login-Taramti.html'
+        }
+
+        function UpdateFavAssoc() {
+            var AssocCode1 = $('#AssocCode').text();
+            var userId = user.userID();
+            var action = false;
+
+            if ($("#favStar").hasClass('fa fa-star-o fa-3x')) {
+                $("#favStar").removeClass('fa fa-star-o fa-3x');
+                $("#favStar").addClass('fa fa-star fa-3x');
+                action = true;
             }
-
-            function UpdateFavAssoc() {
-                var AssocCode1 = $('#AssocCode').text();
-                var userId = user.userID();
-                var action = false;
-
-                if ($("#favStar").hasClass('fa fa-star-o fa-3x')) {
-                    $("#favStar").removeClass('fa fa-star-o fa-3x');
-                    $("#favStar").addClass('fa fa-star fa-3x');
-                    action = true;
-                }
-                else {
-                    $("#favStar").removeClass('fa fa-star fa-3x');
-                    $("#favStar").addClass('fa fa-star-o fa-3x');
-                }
-                // עדכון העמותה בהעדפות המשתמש
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "UpdateFavAssoc",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ user_id: userId, assoc: AssocCode1, action: action }),
-                    success: function (data) {
-
-                        var isUser = JSON.parse(data.d);
-                    },
-                    error: function (err) { }
-                });
+            else {
+                $("#favStar").removeClass('fa fa-star fa-3x');
+                $("#favStar").addClass('fa fa-star-o fa-3x');
             }
-        
+            // עדכון העמותה בהעדפות המשתמש
+            $.ajax({
+                dataType: "json",
+                url: generic + "UpdateFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: userId, assoc: AssocCode1, action: action }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
     </script>
 
 </head>
@@ -578,7 +638,7 @@
             </div>
 
             <div id="SearchAssoc">
-                <h2>פרטי עמותה</h2>
+                <h2>פרטי עמותה</h2>                  
             </div>
 
             <div>
@@ -609,7 +669,7 @@
             </div>
             <div class="flexbox" style="position:relative">
 
-
+        
 
             </div>
             <!--<a onclick="goBack()">חזור</a>-->

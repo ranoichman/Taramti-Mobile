@@ -20,7 +20,7 @@ class Bdika extends Component {
             float: false,
             width: null,
             height: null,
-            loading:false
+            loading: false
         }
         this.changeModalOpen = this.changeModalOpen.bind(this);
         this.infalteB = this.infalteB.bind(this);
@@ -30,7 +30,7 @@ class Bdika extends Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-        setTimeout(()=> this.setState({loading:true}),500)
+        setTimeout(() => this.setState({ loading: true }), 500)
     }
 
     updateWindowDimensions() {
@@ -116,10 +116,15 @@ class Bdika extends Component {
                     <Payment closeModal={this.changeModalOpen} auc={auc} />
 
                 </Modal>
-               
-               <div className={this.state.loading?"sold": "stamp"}></div>
-               {/*<div className="sold stamp"></div>*/}
 
+                <div className={this.state.loading ? "sold" : "stamp"}></div>
+                {/*<div className="sold stamp"></div>*/}
+
+
+
+
+                <div className="arrow_box_right growRight" ></div>
+                <img className="tappingRight swipeRight" src="images/tapping_hand.png" />
             </div>
         );
     }

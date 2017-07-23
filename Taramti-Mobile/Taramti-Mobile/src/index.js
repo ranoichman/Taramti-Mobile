@@ -112,7 +112,7 @@ ReactDOM.render(<HashRouter>
         <Route path="/myAuction" component={MyAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={Loader}/>
+        <Route path="/bdika" component={Bdika}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 

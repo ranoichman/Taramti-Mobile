@@ -356,7 +356,7 @@ div.button-1 {
     margin: 0 0 0 0;
 }
 
-.LoginForm .input-field .button-1 .btn-10, .Form .input-field .button-1 .btn-10, #AddingProductAuctionbtn {
+.LoginForm .input-field .button-1 .btn-10, .Form .input-field .button-1 .btn-10, #AddingProductAuctionbtn, #Acceptbtn   {
     margin: 0 0 0 0;
     width: 100%;
     font-size: 1.4em;
@@ -521,7 +521,7 @@ div .page-top-mid1 {
     display: inline-flex;
 }
 
-#EditUserBtn {
+#EditUserBtn{
     margin-top: 0 !important;
     margin-left: -5%;
 }
@@ -537,6 +537,10 @@ div .page-top-mid1 {
 #UserDetailsForm h5, #UserDetailsForm h4, #AssocInfo h5, #AssocInfo h4 {
     margin-top: 10px;
     display: inline;
+}
+
+#UserDetailsForm h4, #AssocInfo h4{
+    font-weight:600;
 }
 
 .MenuIconLeft {
@@ -562,10 +566,14 @@ div .page-top-mid1 {
     opacity: 0.9;
     position: relative;
     right: -5%;
-    top: 15px;
+    top: 20px;
     width: 25%;
     float: right;
     border-radius: 60px;
+}
+   
+#DivIconBack{
+    margin-top: 10% !important;
 }
 
 .ReactIconBack {
@@ -600,19 +608,7 @@ div .page-top-mid1 {
     text-align: left;
     margin-top: 1%;
     margin-bottom: -2%;
-    /*direction: ltr;*/
 }
-
-/*#loading {
-    position: relative;
-    width: 35%;
-    display: block;
-    margin: auto;
-    -webkit-animation: spin 4s linear infinite;
-    -moz-animation: spin 4s linear infinite;
-    animation: spin 4s linear infinite;
-}*/
-
 
 .loader {
     position: fixed;
@@ -671,17 +667,6 @@ div .page-top-mid1 {
     border-color: transparent;
 }
 
-/*#UserCityDiv div .ui-body-a, 
-#UserCityDiv div .ui-page-theme-a .ui-body-inherit, 
-#UserCityDiv div html .ui-bar-a .ui-body-inherit, 
-#UserCityDiv div html .ui-body-a .ui-body-inherit,
-#UserCityDiv div html body .ui-group-theme-a .ui-body-inherit, 
-#UserCityDiv div html .ui-panel-page-container-a {
-    background-color: transparent;
-    border-color: transparent;
-    color: #333;
-    text-shadow: 0 1px 0 #f3f3f3;
-}*/
 
 #UserCityDiv div.ui-input-text.ui-body-inherit.ui-corner-all.ui-shadow-inset {
     background-color: transparent;
@@ -694,4 +679,24 @@ div .page-top-mid1 {
 
 #AddingProductAuctionForm2{
     margin-bottom: 60px;
+}
+
+span.ui-slider-label.ui-slider-label-a.ui-btn-active{
+    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+}
+
+i#favStar.fa.fa-star.fa-3x {
+       background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);
+       border-radius:20px;
+}
+
+#favStarDiv{
+    position: relative;
+    top: 0;
+    left:0;
+    display:inline-block;
+    float: left;
+
+    margin-top: 2% !important;
+    margin-left: -3% !important;
 }
