@@ -56,6 +56,63 @@
                 $(".loader").fadeOut("slow"), 500);
         })
 
+        $(document).on("pagecreate", "div[data-role=page]", function (event) {
+            var ass = $('#AssocCode').val();
+
+            if ($(this).attr("id") == "AssocInfoPage") {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "IsFavAssoc",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ user_id: "302921481", assoc: ass }),
+                    success: function (data) {
+
+                        var res = JSON.parse(data.d);
+                        if (res == true) {
+                            $("#favStar").removeClass('fa fa-star-o fa-4x');
+                            $("#favStar").addClass('fa fa-star fa-4x');
+                        }
+                        else {
+
+                        }
+                        //location.href = "appSettings.html#AssocInfoPage";
+                    },
+                    error: function (err) { }
+                });
+            }
+
+            if ($(this).attr("id") == "Settings")
+            {
+                //get favorite assoc for user from server
+                $.ajax({
+                    dataType: "json",
+                    url: assoc + "GetFavAssocById",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: user.userID() }),
+                    success: function (data) {
+
+                        var AssocArray = JSON.parse(data.d);
+
+                        if (AssocArray[0] != null) {
+                            for (let i = 0; i < AssocArray.length; i++) {
+                                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
+                                $("#FavAssocGroup").append($a);
+
+                                // move to assoc details page
+                                $a.on("swipeleft", function () {
+                                    lastPage = "Settings";
+                                    MoveToAssocDetails(AssocArray[i].Association_Code);
+                                });
+                            }
+                        }
+                    },
+                    error: function (err) { }
+                });
+            }
+        });
+
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
@@ -78,7 +135,7 @@
         });
 
         $(document).ready(function () {
-            // שליפת נתונים מבסיס הנתונים
+            // שליפת נתונים מבסיס הנתונים 
 
             $.ajax({
                 dataType: "json",
@@ -131,32 +188,32 @@
                 error: function (err) { }
             }); // AJAX הבאת נתונים
 
-            //get favorite assoc for user from server
-            $.ajax({
-                dataType: "json",
-                url: assoc + "GetFavAssocById",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ id: userId }),
-                success: function (data) {
+            ////get favorite assoc for user from server
+            //$.ajax({
+            //    dataType: "json",
+            //    url: assoc + "GetFavAssocById",
+            //    contentType: "application/json; charset=utf-8",
+            //    type: "POST",
+            //    data: JSON.stringify({ id: userId }),
+            //    success: function (data) {
 
-                    var AssocArray = JSON.parse(data.d);
+            //        var AssocArray = JSON.parse(data.d);
 
-                    if (AssocArray[0] != null) {
-                        for (let i = 0; i < AssocArray.length; i++) {
-                            var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
-                            $("#FavAssocGroup").append($a);
+            //        if (AssocArray[0] != null) {
+            //            for (let i = 0; i < AssocArray.length; i++) {
+            //                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
+            //                $("#FavAssocGroup").append($a);
 
-                            // move to assoc details page
-                            $a.on("swipeleft", function () {
-                                lastPage = "Settings";
-                                MoveToAssocDetails(AssocArray[i].Association_Code);
-                            });
-                        }
-                    }
-                },
-                error: function (err) { }
-            });
+            //                // move to assoc details page
+            //                $a.on("swipeleft", function () {
+            //                    lastPage = "Settings";
+            //                    MoveToAssocDetails(AssocArray[i].Association_Code);
+            //                });
+            //            }
+            //        }
+            //    },
+            //    error: function (err) { }
+            //});
         });
 
         //get all assoc name and tags
@@ -227,19 +284,19 @@
                         $("#AssocSite").text(Association.Association_WebSite);
                         $("#AssocYear").text(Association.Association_Year);
 
-                        //location.href = "appSettings.html#AssocInfoPage";
+                        location.href = "appSettings.html#AssocInfoPage";
                     }
                 },
                 error: function (err) { }
             });
 
-            $.ajax({
-                dataType: "json",
-                url: generic + "IsFavAssoc",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
-                success: function (data) {
+            //$.ajax({
+            //    dataType: "json",
+            //    url: generic + "IsFavAssoc",
+            //    contentType: "application/json; charset=utf-8",
+            //    type: "POST",
+            //    data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+            //    success: function (data) {
 
                     var res = JSON.parse(data.d);
                     if (res == true) {
@@ -252,7 +309,7 @@
             });
         }
 
-
+   
 
         function SaveSettings() {
             var push = $("#flip-1").val();
@@ -325,7 +382,7 @@
                 $("#favStar").removeClass('fa fa-star fa-3x');
                 $("#favStar").addClass('fa fa-star-o fa-3x');
             }
-
+           
 
             // עדכון העמותה בהעדפות המשתמש
             $.ajax({
@@ -542,7 +599,7 @@
             </div>
 
             <div id="SearchAssoc">
-                <h2>פרטי עמותה</h2>
+                <h2>פרטי עמותה</h2>                  
             </div>
 
             <div>
@@ -573,7 +630,7 @@
             </div>
             <div class="flexbox" style="position:relative">
 
-
+        
 
             </div>
             <!--<a onclick="goBack()">חזור</a>-->

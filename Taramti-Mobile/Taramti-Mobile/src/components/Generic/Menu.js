@@ -46,7 +46,7 @@ class Menu extends Component {
 
                     <ul className={`${this.state.visible}`}>
 
-                        <li><a onClick={() => this.setState({ reDirect: true })}>דף הבית{this.props.home ? <img className="MenuIconLeft" src="images/LeftArrow.png" /> : null}</a><label>|</label></li>
+                        <li><a onClick={() => this.setState({ reDirect: true })}>דף הבית{this.props.home ? <img className="MenuIconLeft" style={{marginBottom:"2.5px"}} src="images/LeftArrow.png" /> : null}</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'AddingAuction-Taramti.html'}>הוספת מכרז</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'appSettings.html#SearchAssoc'}>פרטי עמותות</a><label>|</label></li>
                         <li><a onClick={() => location.href = 'userDetails.html'}>פרופיל משתמש</a><label>|</label></li>
