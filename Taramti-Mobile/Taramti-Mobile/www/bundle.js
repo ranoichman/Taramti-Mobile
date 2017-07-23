@@ -34713,108 +34713,112 @@
 	                'div',
 	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" } },
 	                _react2.default.createElement(
-	                    _reactModal2.default,
-	                    {
-	                        isOpen: this.state.msg_ModalIsOpen,
-
-	                        contentLabel: 'open info',
-	                        className: this.state.msgClass },
-	                    _react2.default.createElement(
-	                        _reactSwipeable2.default,
-	                        { onTap: this.MSGModalChanged },
-	                        _react2.default.createElement('a', { className: 'boxclose' })
-	                    ),
-	                    _react2.default.createElement(
-	                        'h3',
-	                        null,
-	                        this.state.shownMessage
-	                    )
-	                ),
-	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'basicInfo' },
+	                    { className: 'show1' },
+	                    _react2.default.createElement(
+	                        _reactModal2.default,
+	                        {
+	                            isOpen: this.state.msg_ModalIsOpen,
+
+	                            contentLabel: 'open info',
+	                            className: this.state.msgClass },
+	                        _react2.default.createElement(
+	                            _reactSwipeable2.default,
+	                            { onTap: this.MSGModalChanged },
+	                            _react2.default.createElement('a', { className: 'boxclose' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'h3',
+	                            null,
+	                            this.state.shownMessage
+	                        )
+	                    ),
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'time' },
-	                        _react2.default.createElement(_Timer2.default, { endDate: this.state.auc.endDate, timerFinished: this.timerFinishedAuc })
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactSwipeable2.default,
-	                        { onTap: this.infoModalChanged },
+	                        { className: 'basicInfo' },
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'icon_container', style: { right: "5px" } },
+	                            { className: 'time' },
+	                            _react2.default.createElement(_Timer2.default, { endDate: this.state.auc.endDate, timerFinished: this.timerFinishedAuc })
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactSwipeable2.default,
+	                            { onTap: this.infoModalChanged },
 	                            _react2.default.createElement(
 	                                'div',
-	                                { id: 'faqIcon' },
-	                                _react2.default.createElement('img', { src: 'images/attention1600.png' })
+	                                { className: 'icon_container', style: { right: "5px" } },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { id: 'faqIcon' },
+	                                    _react2.default.createElement('img', { src: 'images/attention1600.png' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                _reactModal2.default,
+	                                {
+	                                    isOpen: this.state.infoModalIsOpen,
+	                                    contentLabel: 'open info',
+	                                    className: 'zoomInRight' },
+	                                _react2.default.createElement(_AuctionInfo2.default, { modal: true, closeModal: this.infoModalChanged, auc: this.state.auc })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
-	                            _reactModal2.default,
-	                            {
-	                                isOpen: this.state.infoModalIsOpen,
-	                                contentLabel: 'open info',
-	                                className: 'zoomInRight' },
-	                            _react2.default.createElement(_AuctionInfo2.default, { modal: true, closeModal: this.infoModalChanged, auc: this.state.auc })
+	                            _reactSwipeable2.default,
+	                            { onTap: this.FAQModalChannged },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'icon_container', style: { right: "80px" } },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { id: 'faqIcon' },
+	                                    _react2.default.createElement('img', { src: 'images/question_mark1600.png' })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                _reactModal2.default,
+	                                {
+	                                    isOpen: this.state.fAQModalIsOpen,
+	                                    contentLabel: 'open FAQ',
+	                                    className: 'zoomInRight' },
+	                                _react2.default.createElement(_AuctionFAQ2.default, { closeModal: this.FAQModalChannged, prodCode: this.state.auc.prodCode, chat: true })
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'circle' },
+	                        _react2.default.createElement(
+	                            'h3',
+	                            null,
+	                            '\u05DE\u05DB\u05E8\u05D6 \u05E2\u05DC ',
+	                            this.state.auc.prodName
+	                        ),
+	                        _react2.default.createElement(
+	                            'h4',
+	                            { style: { whiteSpace: "pre-line" } },
+	                            this.state.tempDonation
 	                        )
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactSwipeable2.default,
-	                        { onTap: this.FAQModalChannged },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'icon_container', style: { right: "80px" } },
-	                            _react2.default.createElement(
-	                                'div',
-	                                { id: 'faqIcon' },
-	                                _react2.default.createElement('img', { src: 'images/question_mark1600.png' })
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            _reactModal2.default,
-	                            {
-	                                isOpen: this.state.fAQModalIsOpen,
-	                                contentLabel: 'open FAQ',
-	                                className: 'zoomInRight' },
-	                            _react2.default.createElement(_AuctionFAQ2.default, { closeModal: this.FAQModalChannged, prodCode: this.state.auc.prodCode, chat: true })
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'circle' },
-	                    _react2.default.createElement(
-	                        'h3',
-	                        null,
-	                        '\u05DE\u05DB\u05E8\u05D6 \u05E2\u05DC ',
-	                        this.state.auc.prodName
+	                        { onSwipedUp: this.makeBid, onSwipedDown: this.deleteOffer, onTap: this.stopChangeTip },
+	                        _react2.default.createElement(_Balloon2.default, { curIndex: this.state.curIndex, formerIndex: this.state.formerIndex, anim: this.state.anim, price: this.state.auc.price, calc: this.calcDonation })
 	                    ),
 	                    _react2.default.createElement(
-	                        'h4',
-	                        { style: { whiteSpace: "pre-line" } },
-	                        this.state.tempDonation
+	                        'div',
+	                        { className: 'pyro', style: this.state.anim === "1" ? { display: "block" } : { display: "none" } },
+	                        _react2.default.createElement('div', { className: 'before' }),
+	                        _react2.default.createElement('div', { className: 'after' })
+	                    ),
+	                    _react2.default.createElement(_CircleButton2.default, { home: true }),
+	                    _react2.default.createElement(
+	                        _reactModal2.default,
+	                        {
+	                            isOpen: this.state.tipModalIsOpen,
+	                            contentLabel: 'open info',
+	                            className: 'tipBox' },
+	                        _react2.default.createElement(_Tip2.default, { closeModal: this.tipModalChanged, height: window.innerHeight })
 	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactSwipeable2.default,
-	                    { onSwipedUp: this.makeBid, onSwipedDown: this.deleteOffer, onTap: this.stopChangeTip },
-	                    _react2.default.createElement(_Balloon2.default, { curIndex: this.state.curIndex, formerIndex: this.state.formerIndex, anim: this.state.anim, price: this.state.auc.price, calc: this.calcDonation })
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'pyro', style: this.state.anim === "1" ? { display: "block" } : { display: "none" } },
-	                    _react2.default.createElement('div', { className: 'before' }),
-	                    _react2.default.createElement('div', { className: 'after' })
-	                ),
-	                _react2.default.createElement(_CircleButton2.default, { home: true }),
-	                _react2.default.createElement(
-	                    _reactModal2.default,
-	                    {
-	                        isOpen: this.state.tipModalIsOpen,
-	                        contentLabel: 'open info',
-	                        className: 'tipBox' },
-	                    _react2.default.createElement(_Tip2.default, { closeModal: this.tipModalChanged, height: window.innerHeight })
 	                )
 	            );
 	        }
@@ -35002,7 +35006,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 87px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.priceRange{\r\n    margin: 10%;\r\n    margin-top: 0; \r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n.minPriceInput{\r\n    width: 90%;\r\n    margin:0;\r\n}\r\n\r\nfieldset{\r\n    display: none;\r\n}", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 87px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.priceRange{\r\n    margin: 10%;\r\n    margin-top: 0; \r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n.show1{\r\n    /* opacity: 0;\r\n    transition: opacity 4s ease-in-out; */\r\n    animation:1s ease-in  tipFadein;\r\n-webkit-animation:1s ease-in  fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow down\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow right\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_right {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_right:after, .arrow_box_right:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_right:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_right:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growRight{\r\n    height: 60px;\r\n}\r\n\r\n.minPriceInput{\r\n    width: 90%;\r\n    margin:0;\r\n}\r\n\r\nfieldset{\r\n    display: none;\r\n}", ""]);
 
 	// exports
 
@@ -40249,6 +40253,7 @@
 	        _this.eachAuction = _this.eachAuction.bind(_this);
 	        _this.deleteAuction = _this.deleteAuction.bind(_this);
 	        _this.handleLoad = _this.handleLoad.bind(_this);
+	        _this.rePublish = _this.rePublish.bind(_this);
 	        return _this;
 	    }
 
@@ -40356,7 +40361,16 @@
 	        key: 'eachAuction',
 	        value: function eachAuction(item, i) {
 	            return _react2.default.createElement(_Auction2.default, { key: i, index: i, auctionfinished: this.deleteAuction, offerBid: this.offerBid, handleLoad: this.handleLoad, modalChanged: this.modalOpenedChanged,
-	                auc: item, mine: this.props.theme === "myProducts" ? true : false, modalIsOpen: this.state.modalIsOpen });
+	                auc: item, mine: this.props.theme === "myProducts" ? true : false, modalIsOpen: this.state.modalIsOpen, rePublish: this.rePublish });
+	        }
+
+	        //force update after seller re-publish product
+
+	    }, {
+	        key: 'rePublish',
+	        value: function rePublish() {
+	            this.setState({ auctionsArr: [] });
+	            this.getLeadingAuctions();
 	        }
 
 	        //remove finished auction from displayed array
@@ -40702,7 +40716,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'show1' },
 	                _react2.default.createElement(
 	                    'h2',
 	                    null,
@@ -40823,7 +40837,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'show1' },
 	                _react2.default.createElement(
 	                    'h2',
 	                    null,
@@ -40942,7 +40956,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'show1' },
 	                _react2.default.createElement(
 	                    'h2',
 	                    null,
@@ -41206,7 +41220,7 @@
 
 	            this.setState({ open: false });
 	            setTimeout(function () {
-	                return _this2.props.closeModal();
+	                return _this2.props.closeModal(_this2.finished);
 	            }, 600);
 	        }
 	    }, {
