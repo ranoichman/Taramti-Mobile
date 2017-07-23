@@ -141,7 +141,7 @@ public class WebService : System.Web.Services.WebService
         UserT temp_user = new UserT();
         temp_user.UserId = id;
         temp_user.Password = newPass;
-        if (temp_user.CheckIfExictById())
+        if (temp_user.CheckIfExistById())
         {
             temp_user.UpdatePassword();
             return "true";
@@ -242,7 +242,7 @@ public class WebService : System.Web.Services.WebService
         JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT(mail,pass);
         temp.UserId = id;
-        if (!temp.CheckIfExictById())
+        if (!temp.CheckIfExistById())
         {
             temp.FirstName = first;
             temp.LastName = last;
@@ -264,13 +264,13 @@ public class WebService : System.Web.Services.WebService
       JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT();
         temp.UserId = id;
-        if (temp.CheckIfExictById())
+        if (temp.CheckIfExistById())
         {
             City C = new City();
             C.CityCode = city;
             temp.City = C;
-            //temp.LastName = last;
-            //temp.Mail = mail;
+            temp.Address = street + num;
+            temp.Number = phone;
 
             temp.UpdateUser();
             return j.Serialize("True");

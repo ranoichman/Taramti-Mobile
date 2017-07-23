@@ -67,7 +67,7 @@ public class AdminWebService : System.Web.Services.WebService
         temp_user.LastName = lastName;
         temp_user.Mail = mail;
         temp_user.UserId = id;
-        if (!temp_user.CheckIfExictById())
+        if (!temp_user.CheckIfExistById())
         {
             temp_user.InsertUser();
             temp_user.AddMursheManager();

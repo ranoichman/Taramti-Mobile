@@ -324,7 +324,7 @@ public class UserT
 
     }
 
-    public bool CheckIfExictById()
+    public bool CheckIfExistById()
     {
         string sqlSelect = @"SELECT count([user_id])
                             FROM [dbo].[users]
