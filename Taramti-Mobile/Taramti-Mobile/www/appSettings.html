@@ -54,6 +54,33 @@
                 $(".loader").fadeOut("slow"), 500);
         })
 
+        $(document).on("pagecreate", "div[data-role=page]", function (event) {
+
+            if ($(this).attr("id") == "AssocInfoPage") {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "IsFavAssoc",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+                    success: function (data) {
+
+                        var res = JSON.parse(data.d);
+                        if (res == true) {
+                            $("#favStar").removeClass('fa fa-star-o fa-4x');
+                            $("#favStar").addClass('fa fa-star fa-4x');
+                        }
+                        else {
+                            $("#favStar").removeClass('fa fa-star fa-4x');
+                            $("#favStar").addClass('fa fa-star-o fa-4x');
+                        }
+                        //location.href = "appSettings.html#AssocInfoPage";
+                    },
+                    error: function (err) { }
+                });
+            }
+        });
+
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
@@ -227,29 +254,29 @@
                         $("#AssocSite").text(Association.Association_WebSite);
                         $("#AssocYear").text(Association.Association_Year);
 
-                        //location.href = "appSettings.html#AssocInfoPage";
+                        location.href = "appSettings.html#AssocInfoPage";
                     }
                 },
                 error: function (err) { }
             });
 
-            $.ajax({
-                dataType: "json",
-                url: generic + "IsFavAssoc",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
-                success: function (data) {
+            //$.ajax({
+            //    dataType: "json",
+            //    url: generic + "IsFavAssoc",
+            //    contentType: "application/json; charset=utf-8",
+            //    type: "POST",
+            //    data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+            //    success: function (data) {
 
-                    var res = JSON.parse(data.d);
-                    if (res == true) {
-                        $("#favStar").removeClass('fa fa-star-o fa-4x');
-                        $("#favStar").addClass('fa fa-star fa-4x');
-                    }
-                    location.href = "appSettings.html#AssocInfoPage";
-                },
-                error: function (err) { }
-            });
+            //        var res = JSON.parse(data.d);
+            //        if (res == true) {
+            //            $("#favStar").removeClass('fa fa-star-o fa-4x');
+            //            $("#favStar").addClass('fa fa-star fa-4x');
+            //        }
+            //        location.href = "appSettings.html#AssocInfoPage";
+            //    },
+            //    error: function (err) { }
+            //});
         }
 
    
