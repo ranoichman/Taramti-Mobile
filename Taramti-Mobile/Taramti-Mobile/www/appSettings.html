@@ -53,7 +53,7 @@
             setTimeout(() =>
                 $(".loader").fadeOut("slow"), 500);
         })
-
+        
         $(document).on("pagecreate", "div[data-role=page]", function (event) {
             var ass = $('#AssocCode').val();
 
@@ -63,7 +63,7 @@
                     url: generic + "IsFavAssoc",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
-                    data: JSON.stringify({ user_id: "302921481", assoc: ass }),
+                    data: JSON.stringify({ user_id: user.userID(), assoc: ass }),
                     success: function (data) {
 
                         var res = JSON.parse(data.d);
@@ -72,7 +72,8 @@
                             $("#favStar").addClass('fa fa-star fa-4x');
                         }
                         else {
-
+                            $("#favStar").removeClass('fa fa-star fa-4x');
+                            $("#favStar").addClass('fa fa-star-o fa-4x');
                         }
                         //location.href = "appSettings.html#AssocInfoPage";
                     },
@@ -82,6 +83,63 @@
 
             if ($(this).attr("id") == "Settings")
             {
+                //get favorite assoc for user from server
+                $.ajax({
+                    dataType: "json",
+                    url: assoc + "GetFavAssocById",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: user.userID() }),
+                    success: function (data) {
+
+                        var AssocArray = JSON.parse(data.d);
+
+                        if (AssocArray[0] != null) {
+                            for (let i = 0; i < AssocArray.length; i++) {
+                                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
+                                $("#FavAssocGroup").append($a);
+
+                                // move to assoc details page
+                                $a.on("swipeleft", function () {
+                                    lastPage = "Settings";
+                                    MoveToAssocDetails(AssocArray[i].Association_Code);
+                                });
+                            }
+                        }
+                    },
+                    error: function (err) { }
+                });
+            }
+        });
+
+        $(document).on("pagechange", "div[data-role=page]", function (event) {
+            var ass = $('#AssocCode').val();
+
+            if ($(this).attr("id") == "AssocInfoPage") {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "IsFavAssoc",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ user_id: user.userID(), assoc: ass }),
+                    success: function (data) {
+
+                        var res = JSON.parse(data.d);
+                        if (res == true) {
+                            $("#favStar").removeClass('fa fa-star-o fa-4x');
+                            $("#favStar").addClass('fa fa-star fa-4x');
+                        }
+                        else {
+                            $("#favStar").removeClass('fa fa-star fa-4x');
+                            $("#favStar").addClass('fa fa-star-o fa-4x');
+                        }
+                        //location.href = "appSettings.html#AssocInfoPage";
+                    },
+                    error: function (err) { }
+                });
+            }
+
+            if ($(this).attr("id") == "Settings") {
                 //get favorite assoc for user from server
                 $.ajax({
                     dataType: "json",
@@ -173,7 +231,8 @@
                                 $('#soundOpt').selectmenu("refresh", true);
                             }
                         }
-                        if (res["Vibe"] == true) {
+
+                        else if (res["Vibe"] == true) {
                             sound.val('1');
                             $('#soundOpt option[value="1"]').prop('selected', true); // רטט בלבד
                             $('#soundOpt').selectmenu("refresh", true);
