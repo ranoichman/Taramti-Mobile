@@ -18,7 +18,9 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="dist/sweetalert/sweetalert.css" rel="stylesheet" charset="utf-8" />
 
+    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
@@ -53,6 +55,121 @@
             setTimeout(() =>
                 $(".loader").fadeOut("slow"), 500);
         })
+        
+        $(document).on("pagecreate", "div[data-role=page]", function (event) {
+            var ass = $('#AssocCode').val();
+
+            if ($(this).attr("id") == "AssocInfoPage") {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "IsFavAssoc",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ user_id: user.userID(), assoc: ass }),
+                    success: function (data) {
+
+                        var res = JSON.parse(data.d);
+                        if (res == true) {
+                            $("#favStar").removeClass('fa fa-star-o fa-4x');
+                            $("#favStar").addClass('fa fa-star fa-4x');
+                        }
+                        else {
+                            $("#favStar").removeClass('fa fa-star fa-4x');
+                            $("#favStar").addClass('fa fa-star-o fa-4x');
+                        }
+                        //location.href = "appSettings.html#AssocInfoPage";
+                    },
+                    error: function (err) { }
+                });
+            }
+
+            if ($(this).attr("id") == "Settings")
+            {
+                //get favorite assoc for user from server
+                $.ajax({
+                    dataType: "json",
+                    url: assoc + "GetFavAssocById",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: user.userID() }),
+                    success: function (data) {
+
+                        var AssocArray = JSON.parse(data.d);
+
+                        if (AssocArray[0] != null) {
+                            for (let i = 0; i < AssocArray.length; i++) {
+                                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
+                                $("#FavAssocGroup").append($a);
+
+                                // move to assoc details page
+                                $a.on("swipeleft", function () {
+                                    lastPage = "Settings";
+                                    MoveToAssocDetails(AssocArray[i].Association_Code);
+                                });
+                            }
+                        }
+                    },
+                    error: function (err) { }
+                });
+            }
+        });
+
+        $(document).on("pagechange", "div[data-role=page]", function (event) {
+            var ass = $('#AssocCode').val();
+
+            if ($(this).attr("id") == "AssocInfoPage") {
+                $.ajax({
+                    dataType: "json",
+                    url: generic + "IsFavAssoc",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ user_id: user.userID(), assoc: ass }),
+                    success: function (data) {
+
+                        var res = JSON.parse(data.d);
+                        if (res == true) {
+                            $("#favStar").removeClass('fa fa-star-o fa-4x');
+                            $("#favStar").addClass('fa fa-star fa-4x');
+                        }
+                        else {
+                            $("#favStar").removeClass('fa fa-star fa-4x');
+                            $("#favStar").addClass('fa fa-star-o fa-4x');
+                        }
+                        //location.href = "appSettings.html#AssocInfoPage";
+                    },
+                    error: function (err) { }
+                });
+            }
+
+            if ($(this).attr("id") == "Settings") {
+                //get favorite assoc for user from server
+                $.ajax({
+                    dataType: "json",
+                    url: assoc + "GetFavAssocById",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: user.userID() }),
+                    success: function (data) {
+
+                        var AssocArray = JSON.parse(data.d);
+
+                        if (AssocArray[0] != null) {
+                            for (let i = 0; i < AssocArray.length; i++) {
+                                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
+                                $("#FavAssocGroup").append($a);
+
+                                // move to assoc details page
+                                $a.on("swipeleft", function () {
+                                    lastPage = "Settings";
+                                    MoveToAssocDetails(AssocArray[i].Association_Code);
+                                });
+                            }
+                        }
+                    },
+                    error: function (err) { }
+                });
+            }
+        });
 
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
@@ -63,6 +180,7 @@
                 else {
                     $(".FixedButton").css("display", "block");
                 }
+
             });
 
 
@@ -75,33 +193,86 @@
         });
 
         $(document).ready(function () {
+            // שליפת נתונים מבסיס הנתונים 
 
-            //get favorite assoc for user from server
             $.ajax({
                 dataType: "json",
-                url: assoc + "GetFavAssocById",
+                url: generic + "GetUserPreferences",
                 contentType: "application/json; charset=utf-8",
                 type: "POST",
-                data: JSON.stringify({ id: userId }),
+                data: JSON.stringify({ user_id: user.userID() }),
                 success: function (data) {
 
-                    var AssocArray = JSON.parse(data.d);
+                    var res = JSON.parse(data.d);
 
-                    if (AssocArray[0] != null) {
-                        for (let i = 0; i < AssocArray.length; i++) {
-                            var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
-                            $("#FavAssocGroup").append($a);
+                    if (res != "") {
+                        // האם פוש מאופשר?
+                        if (res["Push"] == true) {
+                            var fts = $('#flip-1');
+                            fts.val('true');
+                            fts.slider('refresh');
+                        }
+                        else {
+                            var flip = $('#flip-1');
+                            flip.val('false');
+                            flip.slider('refresh');
+                        }
+                        var sound = $('#soundOpt');
+                        // בדיקת שאר המשתנים
+                        if (res["Sound"] == true) {
+                            if (res["Vibe"] == true) {
+                                sound.val('3');
+                                $('#soundOpt option[value="3"]').prop('selected', true); // שמע + רטט
+                                $('#soundOpt').selectmenu("refresh", true);
+                            }
+                            else {
+                                sound.val('2');
+                                $('#soundOpt option[value="2"]').prop('selected', true); // שמע בלבד
+                                $('#soundOpt').selectmenu("refresh", true);
+                            }
+                        }
 
-                            // move to assoc details page
-                            $a.on("swipeleft", function () {
-                                lastPage = "Settings";
-                                MoveToAssocDetails(AssocArray[i].Association_Code);
-                            });
+                        else if (res["Vibe"] == true) {
+                            sound.val('1');
+                            $('#soundOpt option[value="1"]').prop('selected', true); // רטט בלבד
+                            $('#soundOpt').selectmenu("refresh", true);
+                        }
+                        else {
+                            sound.val('0');
+                            $('#soundOpt option[value="0"]').prop('selected', true); // ללא
+                            $('#soundOpt').selectmenu("refresh", true);
                         }
                     }
                 },
                 error: function (err) { }
-            });
+            }); // AJAX הבאת נתונים
+
+            ////get favorite assoc for user from server
+            //$.ajax({
+            //    dataType: "json",
+            //    url: assoc + "GetFavAssocById",
+            //    contentType: "application/json; charset=utf-8",
+            //    type: "POST",
+            //    data: JSON.stringify({ id: userId }),
+            //    success: function (data) {
+
+            //        var AssocArray = JSON.parse(data.d);
+
+            //        if (AssocArray[0] != null) {
+            //            for (let i = 0; i < AssocArray.length; i++) {
+            //                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
+            //                $("#FavAssocGroup").append($a);
+
+            //                // move to assoc details page
+            //                $a.on("swipeleft", function () {
+            //                    lastPage = "Settings";
+            //                    MoveToAssocDetails(AssocArray[i].Association_Code);
+            //                });
+            //            }
+            //        }
+            //    },
+            //    error: function (err) { }
+            //});
         });
 
         //get all assoc name and tags
@@ -169,22 +340,35 @@
                         $("#AssocName").text(Association.Association_Name);
                         $("#AssocCode").text(Association.Association_Code);
                         $("#AssocDesc").text(Association.Association_Desc);
-                        //$("#AssocAccount").text(Association.Association_Account);
                         $("#AssocSite").text(Association.Association_WebSite);
                         $("#AssocYear").text(Association.Association_Year);
-
-                        //$("#AssocName").attr('readonly', true);
-                        //$("#AssocCode").attr('readonly', true);
-                        //$("#AssocAccount").attr('readonly', true);
-                        //$("#AssocSite").attr('readonly', true);
-                        //$("#AssocYear").attr('readonly', true);
 
                         location.href = "appSettings.html#AssocInfoPage";
                     }
                 },
                 error: function (err) { }
             });
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "IsFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+                success: function (data) {
+
+                    var res = JSON.parse(data.d);
+                    if (res == true) {
+                        $("#favStar").removeClass('fa fa-star-o fa-3x');
+                        $("#favStar").addClass('fa fa-star fa-3x');
+                    }
+                    location.href = "appSettings.html#AssocInfoPage";
+                },
+                error: function (err) { }
+            });
         }
+
+   
 
         function SaveSettings() {
             var push = $("#flip-1").val();
@@ -209,7 +393,12 @@
                 type: "POST",
                 data: JSON.stringify({ user: userId, push: push, sound: sound, vibe: vibe }),
                 success: function (data) {
-                    alert("העדפותיך האישיות התעדכנו במערכת בהצלחה");
+                    swal({
+                        title: "איזה יופי..",
+                        text: "העדפותיך האישיות התעדכנו במערכת בהצלחה",
+                        type: "success",
+                        confirmButtonText: "אישור"
+                    })
                 },
                 error: function (err) { }
             });
@@ -238,6 +427,37 @@
             location.href = 'Login-Taramti.html'
         }
 
+        function UpdateFavAssoc() {
+            var AssocCode1 = $('#AssocCode').text();
+            var userId = user.userID();
+            var action = false;
+
+            if ($("#favStar").hasClass('fa fa-star-o fa-3x')) {
+                $("#favStar").removeClass('fa fa-star-o fa-3x');
+                $("#favStar").addClass('fa fa-star fa-3x');
+                action = true;
+            }
+            else {
+                $("#favStar").removeClass('fa fa-star fa-3x');
+                $("#favStar").addClass('fa fa-star-o fa-3x');
+            }
+           
+
+            // עדכון העמותה בהעדפות המשתמש
+            $.ajax({
+                dataType: "json",
+                url: generic + "UpdateFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: userId, assoc: AssocCode1, action: action }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
         //function ToSettings() {
         //    $("ul.nav-top-list1").slideToggle("slow", function () {
         //        // Animation complete.
@@ -252,7 +472,11 @@
         //    location.href = 'appSettings.html#SearchAssoc'
         //}
 
+
+
+
     </script>
+
 </head>
 
 <body>
@@ -327,7 +551,9 @@
 
                 <br /><br />
 
-                <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
+                <div class="button-1">
+                    <button type="button" id="Acceptbtn" onclick="SaveSettings()" class="btn-l btn-10">אישור</button>
+                </div>
 
                 <div class="FixedButton">
                     <div class="RoundDivfixed">
@@ -426,9 +652,15 @@
 
 
         <div class="Form" id="AssocInfo" style="visibility:hidden">
-            <div id="SearchAssoc">
-                <h2>פרטי עמותה</h2>
+
+            <div id="favStarDiv">
+                <i id="favStar" class="fa fa-star-o fa-3x" onclick="UpdateFavAssoc()"></i>
             </div>
+
+            <div id="SearchAssoc">
+                <h2>פרטי עמותה</h2>                  
+            </div>
+
             <div>
                 <h4>שם עמותה: </h4>
                 <h5 id="AssocName"></h5>
@@ -451,11 +683,15 @@
                 <h5 id="AssocYear"></h5>
             </div>
 
-            <div class="RoundDivIconBack">
+            <div id="DivIconBack" class="RoundDivIconBack">
                 <a class="styleLink" onclick="goBack()"><img class="NiceIcon" src="images/backToLogin.png" /></a>
                 <!--<h6 class="IconText">חזור</h6>-->
             </div>
+            <div class="flexbox" style="position:relative">
 
+        
+
+            </div>
             <!--<a onclick="goBack()">חזור</a>-->
         </div>
         <div class="FixedButton">

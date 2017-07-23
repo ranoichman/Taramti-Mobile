@@ -235,7 +235,7 @@
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/products', component: _MyProducts2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/participate', component: _ParticipateAuction2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/myAuction', component: _MyAuction2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Loader2.default })
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Bdika2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -35006,7 +35006,7 @@
 
 
 	// module
-	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 87px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.priceRange{\r\n    margin: 10%;\r\n    margin-top: 0; \r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n.show1{\r\n    /* opacity: 0;\r\n    transition: opacity 4s ease-in-out; */\r\n    animation:1s ease-in  tipFadein;\r\n-webkit-animation:1s ease-in  fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow down\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow right\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_right {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_right:after, .arrow_box_right:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_right:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_right:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growRight{\r\n    height: 60px;\r\n}\r\n\r\n.minPriceInput{\r\n    width: 90%;\r\n    margin:0;\r\n}\r\n\r\nfieldset{\r\n    display: none;\r\n}", ""]);
+	exports.push([module.id, "\r\n.modal{\r\n    direction:rtl;\r\n}\r\n\r\n.box {\r\n    position: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.searchBox {\r\n    position: fixed;\r\n    top: 87px;\r\n    left: 30px;\r\n    right: 30px;\r\n    /*bottom: 30px;*/\r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 25px;\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n\r\n.priceRange{\r\n    margin: 10%;\r\n    margin-top: 0; \r\n}\r\n\r\n.tipBox{\r\nposition: fixed;\r\n    top: 80px;\r\n    left: 40px;\r\n    right: 40px;\r\n    /* bottom: 30px; */\r\n     height: 70%; \r\n    background-color: rgba(255,255,255,0.9);\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    border-radius: 8%;  \r\n    z-index: 101;\r\n    direction:rtl;\r\n}\r\n.FAQbox{\r\n    position: absolute;\r\n    top: 20px;\r\n    left: 20px;\r\n    right: 20px;\r\n    background-color: #fff;\r\n    color: #7F7F7F;\r\n    padding: 20px;\r\n    /* border: 2px solid blue; */\r\n    border-radius: 8%;\r\n    z-index: 101;\r\n    direction:rtl;\r\n    min-height: 250px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.picBox{\r\n    /*background-color: transparent;*/\r\n    z-index: 500;\r\n}\r\n\r\n\r\n\r\ntextarea{\r\n    resize: none;\r\n}\r\n\r\n.success{\r\n    border: 3px dashed green;\r\n    border-radius: 5px;\r\n    color: green;\r\n}\r\n    \r\n.failure{\r\n    border: 4px solid red;\r\n    border-radius: 5px;\r\n    color: red;\r\n}\r\n.notEnough{\r\n    border-radius: 10px;\r\n}\r\n\r\na.boxclose {\r\n    float: right;\r\n    margin-top: -10px;\r\n    margin-right: -15px;\r\n    cursor: pointer;\r\n    color: #fff;\r\n    border: 1px solid #AEAEAE;\r\n    border-radius: 30px;\r\n    background: #605F61;\r\n    font-size: 31px;\r\n    font-weight: bold;\r\n    display: inline-block;\r\n    line-height: 0px;\r\n    padding: 11px 3px;\r\n    z-index: 105;\r\n}\r\n\r\n.boxclose:before {\r\n    content: \"\\D7\";\r\n}\r\n\r\ninput[type=text]{\r\n    display: inline;\r\n    width: 45%;\r\n    margin: 2px 5px;\r\n}\r\n\r\n.priceSelect{\r\nwidth: 100%;\r\n}\r\n\r\n.gpsCont{\r\nmargin-top: 20px;\r\nfont-size: 14px;\r\n}\r\n\r\n.gpsCont input[type=checkbox]{\r\n    outline: 0;\r\n    display: inline;\r\n    width: 5%;\r\n    margin-left: 5px;\r\n}\r\n\r\n.gpsCont .gpsSelect{\r\n    width: 30%;\r\n    margin-right: 10px;\r\n}\r\n\r\n.gpsMarker{\r\n    max-width: 10%;\r\n    display: inline-block;\r\n    float: right;\r\n}\r\n\r\n.searchBtn{\r\n\r\n     margin: 0 0 0 0;\r\n    width: 100%;\r\n    font-size: 1.4em;\r\n    font-weight: 600;\r\n    background: linear-gradient(to bottom, rgb(115, 48, 119) 0%,#bb4ea7 0%,#fa8a47 100%,#f8c948 100%,#fcf791 100%);\r\n    padding-top: 0.3em;\r\n    padding-bottom: 0.3em;\r\n\r\n    /* background: #3498db;\r\n    -webkit-border-radius: 28;\r\n  -moz-border-radius: 28;\r\n    border-radius: 28px;\r\n    \r\n    color: #ffffff;\r\n    font-size: 20px;\r\n    padding: 10px 20px 10px 20px;\r\n    text-decoration: none; */\r\n\r\n    \r\n}\r\n\r\n.search{\r\n    float: left;\r\n    z-index: 300;\r\n    position: absolute;\r\n    top: 22px;\r\n    left: 5px;\r\n    width: 40px;\r\n    background: transparent;\r\n}\r\n\r\n.slick-track{\r\n  height: 0;\r\n}\r\n\r\ndiv.explain{\r\nposition: absolute;\r\ndisplay:inline-block;\r\nbottom: 100px;\r\nright: 5%;\r\nmax-width:200px;\r\nmin-height:1.5em;\r\nmax-height: 7em;\r\npadding: 20px;\r\ntext-align: center;\r\nbackground: rgba(255,255,255,0.9);\r\nborder: #7F7F7F solid 4px;\r\n-webkit-border-radius: 20px;\r\n-moz-border-radius: 20px;\r\nborder-radius: 20px;\r\n/* animation:1s ease-in chatFadein;\r\n-webkit-animation:1s ease-in chatFadein; */\r\n}\r\n\r\ndiv.explain:before {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -19.5px;\r\nleft: calc(20% - 3px) ;\r\nborder-style: solid;\r\nborder-width: 18px 18px 0;\r\nborder-color: #7F7F7F transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n\r\ndiv.explain:after {\r\ncontent: \"\";\r\nposition: absolute;\r\nbottom: -15px;\r\nleft: 20%;\r\nborder-style: solid;\r\nborder-width: 15px 15px 0;\r\nborder-color: rgba(255,255,255,0.9) transparent;\r\ndisplay: block;\r\nwidth: 0;\r\n}\r\n \r\n .display{\r\n     font-weight: 700;\r\nanimation:3s ease-in infinite tipFadein;\r\n-webkit-animation:3s ease-in infinite fadein;\r\n}\r\n\r\n.show1{\r\n    /* opacity: 0;\r\n    transition: opacity 4s ease-in-out; */\r\n    animation:1s ease-in  tipFadein;\r\n-webkit-animation:1s ease-in  fadein;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n    hand gestures\r\n*******************\r\n*******************\r\n*/\r\n\r\n.tappingUp{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    bottom: 0;\r\n    transition: bottom 2s ease;\r\n}\r\n\r\n.tappingUp.swipeUp{\r\n    bottom: 80px;\r\n}\r\n\r\n.tappingDown{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 40%;\r\n    z-index: 2;\r\n    top: 260px;\r\n    transition: top 2s ease;\r\n}\r\n\r\n.tappingDown.swipeDown{\r\n    top: 340px;\r\n}\r\n\r\n.tappingRight{\r\n    position: absolute;\r\n    width: 100px;\r\n    left: 80px;\r\n    z-index: 2;\r\n    top: 35%;\r\n    opacity: 0.4;\r\n    transition: left 2s ease;\r\n}\r\n\r\n.tappingRight.swipeRight{\r\n    left: 170px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow up\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_up {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    bottom: 90px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_up:after, .arrow_box_up:before {\r\n\tbottom: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_up:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-bottom-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_up:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-bottom-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growUP{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow down\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_down {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 20px;\r\n    width: 40px;\r\n    top: 300px;\r\n    right: 100px;\r\n    transition: height 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_down:after, .arrow_box_down:before {\r\n\ttop: 100%;\r\n\tleft: 50%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_down:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-top-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\tmargin-left: -30px;\r\n}\r\n.arrow_box_down:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-top-color: #c2e1f5;\r\n\tborder-width: 36px;\r\n\tmargin-left: -36px;\r\n}\r\n\r\n.growDown{\r\n    height: 60px;\r\n}\r\n\r\n/*\r\n*******************\r\n*******************\r\n     arrow right\r\n*******************\r\n*******************\r\n*/\r\n\r\n.arrow_box_right {\r\n\tposition: absolute;\r\n\tbackground: #88b7d5;\r\n    border: 4px solid #c2e1f5;\r\n    height: 40px;\r\n    width: 40px;\r\n    top: 38%;\r\n     left: 100px; \r\n     opacity: 0.4;\r\n    transition: width 2s ease;\r\n    z-index: 1;\r\n}\r\n.arrow_box_right:after, .arrow_box_right:before {\r\n\ttop: -47%;\r\n\tleft: 100%;\r\n\tborder: solid transparent;\r\n\tcontent: \" \";\r\n\theight: 0;\r\n\twidth: 0;\r\n\tposition: absolute;\r\n\tpointer-events: none;\r\n}\r\n\r\n.arrow_box_right:after {\r\n\tborder-color: rgba(136, 183, 213, 0);\r\n\tborder-left-color: #88b7d5;\r\n\tborder-width: 30px;\r\n\t/* margin-left: -30px; */\r\n}\r\n.arrow_box_right:before {\r\n\tborder-color: rgba(194, 225, 245, 0);\r\n\tborder-left-color: #c2e1f5;\r\n    border-width: 36px;\r\n    top:-66%\r\n\t/* margin-left: -36px; */\r\n}\r\n\r\n.growRight{\r\n     width: 120px; \r\n}\r\n\r\n.minPriceInput{\r\n    width: 90%;\r\n    margin:0;\r\n}\r\n\r\nfieldset{\r\n    display: none;\r\n}", ""]);
 
 	// exports
 
@@ -39037,9 +39037,11 @@
 
 	        _this.state = {
 	            open: true,
+	            swipe: null, // to determine wheter or not to animate swipe right demo
 	            tabIndex: 0,
 	            animation: ""
 	        };
+	        _this.showSwipeRight = _this.showSwipeRight.bind(_this);
 	        _this.close = _this.close.bind(_this);
 	        _this.tabSwipeLeft = _this.tabSwipeLeft.bind(_this);
 	        _this.tabSwipeRight = _this.tabSwipeRight.bind(_this);
@@ -39048,7 +39050,39 @@
 
 	    _createClass(Tip, [{
 	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
+	        value: function componentDidMount() {
+	            this.showSwipeRight();
+	            this.loadInterval = setInterval(this.showSwipeRight, 6000);
+	            var self = this;
+	            setTimeout(function () {
+	                self.setState({ swipe: null });
+	                self.loadInterval && clearInterval(self.loadInterval);
+	                self.loadInterval = false;
+	            }, 12000);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            this.loadInterval && clearInterval(this.loadInterval);
+	            this.loadInterval = false;
+	        }
+	    }, {
+	        key: 'showSwipeRight',
+	        value: function showSwipeRight() {
+	            var self = this;
+	            if (self.state.tabIndex != 0) {
+	                self.setState({ swipe: null });
+	                self.loadInterval && clearInterval(self.loadInterval);
+	                self.loadInterval = false;
+	            }
+	            self.setState({ swipe: false });
+	            setTimeout(function () {
+	                self.setState({ swipe: true });
+	                setTimeout(function () {
+	                    return self.setState({ swipe: null });
+	                }, 2200);
+	            }, 1500);
+	        }
 	    }, {
 	        key: 'close',
 	        value: function close() {
@@ -39084,46 +39118,49 @@
 	        value: function render() {
 	            var _this3 = this;
 
-	            return (
-	                // <div className={this.state.open ? "box" : "box zoomOut"}>
+	            return _react2.default.createElement(
+	                'div',
+	                { ref: 'modal', className: this.state.open ? "tipBox" : "tipBox zoomOut", style: { display: "inline-block" } },
 	                _react2.default.createElement(
-	                    'div',
-	                    { ref: 'modal', className: this.state.open ? "tipBox" : "tipBox zoomOut", style: { display: "inline-block" } },
+	                    _reactSwipeable2.default,
+	                    { onTap: this.close },
+	                    _react2.default.createElement('a', { className: 'boxclose' })
+	                ),
+	                _react2.default.createElement(
+	                    _reactSwipeable2.default,
+	                    { onSwipedLeft: this.tabSwipeLeft, onSwipedRight: this.tabSwipeRight },
 	                    _react2.default.createElement(
-	                        _reactSwipeable2.default,
-	                        { onTap: this.close },
-	                        _react2.default.createElement('a', { className: 'boxclose' })
+	                        'div',
+	                        { style: { opacity: this.state.swipe == null ? 0 : 1 } },
+	                        _react2.default.createElement('div', { className: this.state.swipe ? "arrow_box_right growRight" : "arrow_box_right" }),
+	                        _react2.default.createElement('img', { className: this.state.swipe ? "tappingRight swipeRight" : "tappingRight", src: 'images/tapping_hand.png' })
 	                    ),
 	                    _react2.default.createElement(
-	                        _reactSwipeable2.default,
-	                        { onSwipedLeft: this.tabSwipeLeft, onSwipedRight: this.tabSwipeRight },
+	                        _reactTabs.Tabs,
+	                        { selectedIndex: this.state.tabIndex, onSelect: function onSelect(tabIndex) {
+	                                return _this3.setState({ tabIndex: tabIndex });
+	                            } },
 	                        _react2.default.createElement(
-	                            _reactTabs.Tabs,
-	                            { selectedIndex: this.state.tabIndex, onSelect: function onSelect(tabIndex) {
-	                                    return _this3.setState({ tabIndex: tabIndex });
-	                                } },
-	                            _react2.default.createElement(
-	                                _reactTabs.TabList,
-	                                { style: { display: "none" } },
-	                                _react2.default.createElement(_reactTabs.Tab, null),
-	                                _react2.default.createElement(_reactTabs.Tab, null),
-	                                _react2.default.createElement(_reactTabs.Tab, null)
-	                            ),
-	                            _react2.default.createElement(
-	                                _reactTabs.TabPanel,
-	                                null,
-	                                _react2.default.createElement(_TapDemo2.default, { anim: this.state.tabIndex === 0 ? this.state.animation : "" })
-	                            ),
-	                            _react2.default.createElement(
-	                                _reactTabs.TabPanel,
-	                                null,
-	                                _react2.default.createElement(_SwipeUPDemo2.default, { anim: this.state.tabIndex === 1 ? this.state.animation : "" })
-	                            ),
-	                            _react2.default.createElement(
-	                                _reactTabs.TabPanel,
-	                                null,
-	                                _react2.default.createElement(_SwipeDownDemo2.default, { anim: this.state.tabIndex === 2 ? this.state.animation : "" })
-	                            )
+	                            _reactTabs.TabList,
+	                            { style: { display: "none" } },
+	                            _react2.default.createElement(_reactTabs.Tab, null),
+	                            _react2.default.createElement(_reactTabs.Tab, null),
+	                            _react2.default.createElement(_reactTabs.Tab, null)
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactTabs.TabPanel,
+	                            null,
+	                            _react2.default.createElement(_TapDemo2.default, { anim: this.state.tabIndex === 0 ? this.state.animation : "" })
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactTabs.TabPanel,
+	                            null,
+	                            _react2.default.createElement(_SwipeUPDemo2.default, { anim: this.state.tabIndex === 1 ? this.state.animation : "" })
+	                        ),
+	                        _react2.default.createElement(
+	                            _reactTabs.TabPanel,
+	                            null,
+	                            _react2.default.createElement(_SwipeDownDemo2.default, { anim: this.state.tabIndex === 2 ? this.state.animation : "" })
 	                        )
 	                    )
 	                )
@@ -44995,7 +45032,7 @@
 	                                        return _this2.setState({ reDirect: true });
 	                                    } },
 	                                '\u05D3\u05E3 \u05D4\u05D1\u05D9\u05EA',
-	                                this.props.home ? _react2.default.createElement('img', { className: 'MenuIconLeft', src: 'images/LeftArrow.png' }) : null
+	                                this.props.home ? _react2.default.createElement('img', { className: 'MenuIconLeft', style: { marginBottom: "2.5px" }, src: 'images/LeftArrow.png' }) : null
 	                            ),
 	                            _react2.default.createElement(
 	                                'label',
@@ -45144,7 +45181,7 @@
 
 
 	// module
-	exports.push([module.id, ".menuB{\r\n    max-height: 0px;\r\n    overflow: hidden;\r\n    transition: max-height 1.5s ease;\r\n    background-color: white;\r\n    text-align: center;\r\n    width: 100%;\r\n    margin: 45px 0 0;\r\n    position: absolute;\r\n    left: 0em;\r\n    padding: 0em;\r\n    z-index: 9;\r\n}\r\n\r\n.menuB.visible{\r\n    max-height: 500px;\r\n}\r\nul li a{\r\n    color: #000;\r\n    font-size: 1em;\r\n    margin: 0.5em 0;\r\n    display: block;\r\n    font-weight: 700;\r\n    font-family: \"Segoe UI\", Arial, sans-serif;\r\n}\r\nul li a label{\r\n    display: block;\r\n    margin: 0 0 .4em;\r\n    font-size: 16px;\r\n    font-weight: 400;\r\n    color: #636363;\r\n}\r\n", ""]);
+	exports.push([module.id, ".menuB{\r\n    max-height: 0px;\r\n    overflow: hidden;\r\n    transition: max-height 1.5s ease;\r\n    background-color: white;\r\n    text-align: center;\r\n    width: 100%;\r\n    margin: 45px 0 0;\r\n    position: absolute;\r\n    left: 0em;\r\n    padding: 0em;\r\n    z-index: 9;\r\n}\r\n\r\n.menuB.visible{\r\n    max-height: 500px;\r\n}\r\nul li a{\r\n    color: #000;\r\n    font-size: 16px;\r\n    margin: 0.5em 0;\r\n    display: block;\r\n    font-weight: 700;\r\n    font-family: \"Segoe UI\", Arial, sans-serif;\r\n}\r\nul li a label{\r\n    display: block;\r\n    margin: 0 0 .4em;\r\n    font-size: 16px;\r\n    font-weight: 400;\r\n    color: #636363;\r\n}\r\n", ""]);
 
 	// exports
 
@@ -45853,7 +45890,9 @@
 	                        className: 'FAQbox' },
 	                    _react2.default.createElement(_Payment2.default, { closeModal: this.changeModalOpen, auc: auc })
 	                ),
-	                _react2.default.createElement('div', { className: this.state.loading ? "sold" : "stamp" })
+	                _react2.default.createElement('div', { className: this.state.loading ? "sold" : "stamp" }),
+	                _react2.default.createElement('div', { className: 'arrow_box_right growRight' }),
+	                _react2.default.createElement('img', { className: 'tappingRight swipeRight', src: 'images/tapping_hand.png' })
 	            );
 	        }
 	    }]);
@@ -45978,7 +46017,7 @@
 	    },
 
 	    GOOGLE: {
-	        SENDER_ID: "183259485502",
+	        SENDER_ID: "336880743356",
 	    },
 	}
 

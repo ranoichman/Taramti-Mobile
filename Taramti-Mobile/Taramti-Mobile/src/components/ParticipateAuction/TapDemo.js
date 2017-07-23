@@ -35,9 +35,6 @@ class TapDemo extends Component {
                 self.setState({ mode: 0 })
                 setTimeout(() => self.setState({ mode: 2 }), 1000)
             }, 500)
-
-
-
         }, 1500);
     }
 

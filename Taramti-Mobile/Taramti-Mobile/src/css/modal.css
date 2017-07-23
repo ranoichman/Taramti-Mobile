@@ -271,6 +271,20 @@ animation:3s ease-in infinite tipFadein;
     top: 340px;
 }
 
+.tappingRight{
+    position: absolute;
+    width: 100px;
+    left: 80px;
+    z-index: 2;
+    top: 35%;
+    opacity: 0.4;
+    transition: left 2s ease;
+}
+
+.tappingRight.swipeRight{
+    left: 170px;
+}
+
 /*
 *******************
 *******************
@@ -377,16 +391,17 @@ animation:3s ease-in infinite tipFadein;
 	position: absolute;
 	background: #88b7d5;
     border: 4px solid #c2e1f5;
-    height: 20px;
+    height: 40px;
     width: 40px;
-    top: 300px;
-    right: 100px;
-    transition: height 2s ease;
+    top: 38%;
+     left: 100px; 
+     opacity: 0.4;
+    transition: width 2s ease;
     z-index: 1;
 }
 .arrow_box_right:after, .arrow_box_right:before {
-	top: 100%;
-	left: 50%;
+	top: -47%;
+	left: 100%;
 	border: solid transparent;
 	content: " ";
 	height: 0;
@@ -397,19 +412,20 @@ animation:3s ease-in infinite tipFadein;
 
 .arrow_box_right:after {
 	border-color: rgba(136, 183, 213, 0);
-	border-top-color: #88b7d5;
+	border-left-color: #88b7d5;
 	border-width: 30px;
-	margin-left: -30px;
+	/* margin-left: -30px; */
 }
 .arrow_box_right:before {
 	border-color: rgba(194, 225, 245, 0);
-	border-top-color: #c2e1f5;
-	border-width: 36px;
-	margin-left: -36px;
+	border-left-color: #c2e1f5;
+    border-width: 36px;
+    top:-66%
+	/* margin-left: -36px; */
 }
 
 .growRight{
-    height: 60px;
+     width: 120px; 
 }
 
 .minPriceInput{
