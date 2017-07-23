@@ -63,6 +63,7 @@
                 else {
                     $(".FixedButton").css("display", "block");
                 }
+
             });
 
 
@@ -75,6 +76,60 @@
         });
 
         $(document).ready(function () {
+            // שליפת נתונים מבסיס הנתונים 
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetUserPreferences",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: user.userID() }),
+                success: function (data) {
+
+                    var res = JSON.parse(data.d);
+
+                    if (res != "") {
+                        // האם פוש מאופשר?
+                        if (res["Push"] == true) {
+                            var fts = $('#flip-1');
+                            fts.val('true');
+                            fts.slider('refresh');
+                        }
+                        else {
+                            var flip = $('#flip-1');
+                            flip.val('false');
+                            flip.slider('refresh');
+                        }
+                        var sound = $('#soundOpt');
+                        // בדיקת שאר המשתנים
+                        if (res["Sound"] == true) 
+                        {
+                            if(res["Vibe"] == true)
+                            {
+                                sound.val('3');
+                                $('#soundOpt option[value="3"]').prop('selected', true); // שמע + רטט
+                                $('#soundOpt').selectmenu("refresh", true);
+                            }
+                            else {
+                                sound.val('2');
+                                $('#soundOpt option[value="2"]').prop('selected', true); // שמע בלבד
+                                $('#soundOpt').selectmenu("refresh", true);
+                            }
+                        }
+                        if (res["Vibe"] == true) {
+                            sound.val('1');
+                            $('#soundOpt option[value="1"]').prop('selected', true); // רטט בלבד
+                            $('#soundOpt').selectmenu("refresh", true);
+                        }
+                        else {
+                            sound.val('0');
+                            $('#soundOpt option[value="0"]').prop('selected', true); // ללא
+                            $('#soundOpt').selectmenu("refresh", true);
+                        }
+                    }
+                },
+                error: function (err) { }
+            }); // AJAX הבאת נתונים
 
             //get favorite assoc for user from server
             $.ajax({
@@ -169,22 +224,35 @@
                         $("#AssocName").text(Association.Association_Name);
                         $("#AssocCode").text(Association.Association_Code);
                         $("#AssocDesc").text(Association.Association_Desc);
-                        //$("#AssocAccount").text(Association.Association_Account);
                         $("#AssocSite").text(Association.Association_WebSite);
                         $("#AssocYear").text(Association.Association_Year);
 
-                        //$("#AssocName").attr('readonly', true);
-                        //$("#AssocCode").attr('readonly', true);
-                        //$("#AssocAccount").attr('readonly', true);
-                        //$("#AssocSite").attr('readonly', true);
-                        //$("#AssocYear").attr('readonly', true);
-
-                        location.href = "appSettings.html#AssocInfoPage";
+                        //location.href = "appSettings.html#AssocInfoPage";
                     }
                 },
                 error: function (err) { }
             });
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "IsFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+                success: function (data) {
+
+                    var res = JSON.parse(data.d);
+                    if (res == true) {
+                        $("#favStar").removeClass('fa fa-star-o fa-4x');
+                        $("#favStar").addClass('fa fa-star fa-4x');
+                    }
+                    location.href = "appSettings.html#AssocInfoPage";
+                },
+                error: function (err) { }
+            });
         }
+
+   
 
         function SaveSettings() {
             var push = $("#flip-1").val();
@@ -238,6 +306,38 @@
             location.href = 'Login-Taramti.html'
         }
 
+        function UpdateFavAssoc()
+        {
+            var AssocCode1 = $('#AssocCode').text();
+            var userId = user.userID();
+            var action = false;
+
+            if ($("#favStar").hasClass('fa fa-star-o fa-4x')) {
+                $("#favStar").removeClass('fa fa-star-o fa-4x');
+                $("#favStar").addClass('fa fa-star fa-4x');
+                action = true;
+            }
+            else {
+                $("#favStar").removeClass('fa fa-star fa-4x');
+                $("#favStar").addClass('fa fa-star-o fa-4x');
+            }
+           
+
+            // עדכון העמותה בהעדפות המשתמש
+            $.ajax({
+                dataType: "json",
+                url: generic + "UpdateFavAssoc",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: userId, assoc: AssocCode1, action: action }),
+                success: function (data) {
+
+                    var isUser = JSON.parse(data.d);
+                },
+                error: function (err) { }
+            });
+        }
+
         //function ToSettings() {
         //    $("ul.nav-top-list1").slideToggle("slow", function () {
         //        // Animation complete.
@@ -252,7 +352,11 @@
         //    location.href = 'appSettings.html#SearchAssoc'
         //}
 
+
+
+
     </script>
+
 </head>
 
 <body>
@@ -427,8 +531,9 @@
 
         <div class="Form" id="AssocInfo" style="visibility:hidden">
             <div id="SearchAssoc">
-                <h2>פרטי עמותה</h2>
+                <h2>פרטי עמותה</h2>                  
             </div>
+            <i id="favStar" class="fa fa-star-o fa-4x" onclick="UpdateFavAssoc()"></i>
             <div>
                 <h4>שם עמותה: </h4>
                 <h5 id="AssocName"></h5>
@@ -455,7 +560,11 @@
                 <a class="styleLink" onclick="goBack()"><img class="NiceIcon" src="images/backToLogin.png" /></a>
                 <!--<h6 class="IconText">חזור</h6>-->
             </div>
+            <div class="flexbox" style="position:relative">
 
+        
+
+            </div>
             <!--<a onclick="goBack()">חזור</a>-->
         </div>
         <div class="FixedButton">

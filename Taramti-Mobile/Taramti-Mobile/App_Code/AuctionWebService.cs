@@ -234,6 +234,14 @@ public class AuctionWebService : System.Web.Services.WebService
         return Reg_Auction.SmartElement(user_id);
     }
 
+    [WebMethod (Description ="Create new auction with existing product")]
+    public string AddAuctionExisitingProd(int prod, int price, int days, int user)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        Reg_Auction R = new Reg_Auction();
+        return R.AddAuctionExisitingProd(prod,price,days,user).ToString();
+    }
+
     //[WebMethod]
     //public void testsearch()
     //{

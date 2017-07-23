@@ -1,0 +1,219 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
+* {
+  box-sizing: border-box;
+}
+
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+html, body {
+  font-size: 16px;
+}
+
+@media (min-width: 737px) {
+  html, body {
+    font-size: 18px;
+  }
+}
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #32373c;
+  padding: 0;
+  margin: 0;
+}
+
+section.break {
+  margin: 3.05176rem 1.5625rem;
+  padding: 0;
+  border-top: 2px solid #eee;
+}
+section.break.block-headings {
+  text-align: center;
+}
+section.break.block-headings .title {
+  text-align: left;
+}
+section.break.block-headings p {
+  margin-bottom: 4rem;
+}
+
+header.main-header {
+  margin: 3.05176rem 1.5625rem;
+}
+
+h1.title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  color: #0073aa;
+  margin-bottom: 2.44141rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.5;
+  margin: 2rem 0 1rem;
+}
+
+h1 {
+  font-size: 3.8147rem;
+  font-weight: 300;
+}
+
+h2 {
+  font-size: 2.44141rem;
+  font-weight: 300;
+}
+
+h3 {
+  font-size: 1.5625rem;
+  font-weight: 400;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+h5 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.01rem;
+  font-weight: 600;
+}
+
+h6 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+p {
+  margin: 1em 0;
+  max-width: 35.52714rem;
+}
+p.subheading {
+  font-size: 1.25rem;
+  font-weight: 300;
+  text-align: center;
+  color: #82878C;
+  margin: -.4rem auto 2rem;
+}
+p.intro {
+  font-size: 1.25rem;
+}
+p.aside {
+  font-size: 0.8rem;
+}
+p.note {
+  font-size: 0.64rem;
+  letter-spacing: 0.01rem;
+  max-width: 18.18989rem;
+}
+
+a {
+  color: #0073aa;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 630px) {
+  aside p {
+    font-size: 0.8rem;
+    letter-spacing: 0.005rem;
+    max-width: 28.42171rem;
+  }
+}
+blockquote {
+  border-left: 2px solid #eee;
+  padding-left: 1rem;
+  color: #82878C;
+  font-style: italic;
+}
+blockquote cite {
+  font-size: 0.8rem;
+}
+
+html, body {
+  height: 100%;
+}
+
+.flexbox {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.fav-btn {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes favme-anime {
+  0% {
+    opacity: 1;
+    font-size: 1rem;
+    -webkit-text-stroke-color: transparent;
+  }
+  25% {
+    opacity: .6;
+    color: #FFF;
+    font-size: 0.8rem;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #DC3232;
+  }
+  75% {
+    opacity: .6;
+    color: #FFF;
+    font-size: 1.42875rem;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #DC3232;
+  }
+  100% {
+    opacity: 1;
+    font-size: 1.25rem;
+    -webkit-text-stroke-color: transparent;
+  }
+}
+@keyframes favme-hover {
+  from {
+    font-size: 1.42875rem;
+  }
+  80% {
+    font-size: 1.25rem;
+  }
+}
+.favme {
+  display: block;
+  font-size: 1.25rem;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+  box-shadow: none;
+  transition: all .2s ease;
+  color: #CBCDCE;
+  margin: 0;
+}
+.favme.active {
+  color: #DC3232;
+}
+.favme:hover {
+  animation: favme-hover .3s infinite alternate;
+}
+.favme.is_animating {
+  animation: favme-anime .3s;
+}

@@ -14,7 +14,6 @@ public class DbService
     SqlTransaction tran;
     SqlCommand cmd;
     SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ruppinConnectionString"].ConnectionString);
-    
     SqlDataAdapter adp;
     public bool transactional = false;
 
@@ -27,6 +26,7 @@ public class DbService
 
     public DataSet GetDataSetByQuery(string sqlQuery, CommandType cmdType = CommandType.Text, params SqlParameter[] parametersArray)
     {
+
         cmd = new SqlCommand(sqlQuery, con);
         cmd.CommandType = cmdType;
         DataSet ds = new DataSet();

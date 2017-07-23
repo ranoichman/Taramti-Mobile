@@ -324,7 +324,7 @@ public class UserT
 
     }
 
-    public bool CheckIfExictById()
+    public bool CheckIfExistById()
     {
         string sqlSelect = @"SELECT count([user_id])
                             FROM [dbo].[users]
@@ -566,20 +566,21 @@ public class UserT
 
     public bool UpdateUser()
     {
-        string sqlInsert = @"insert into [dbo].[users]
-                           ([user_id],[first_name],[last_name],[email],[password],[city])
-                            VALUES 
-                            (@id, @fName, @lname, @mail, @pass, @city) 
-                            Where [user_id] ='" + UserId + "' ";
+        //string sqlInsert = @"insert into [dbo].[users]
+        //                   ([user_id],[first_name],[last_name],[email],[password],[city])
+        //                    VALUES 
+        //                    (@id, @fName, @lname, @mail, @pass, @city) 
+        //                    Where [user_id] ='" + UserId + "' ";
+        string StrSql = @"Update [dbo].[users] 
+                          set [city_code] = @city,[address] = @street,[phone] = @phone
+                          where [user_id] =@user";
 
         DbService db = new DbService();
-        SqlParameter parId = new SqlParameter("@id", UserId);
-        SqlParameter parFName = new SqlParameter("@fName", FirstName);
-        SqlParameter parLName = new SqlParameter("@lName", LastName);
-        SqlParameter parMail = new SqlParameter("@mail", Mail);
-        SqlParameter parPassword = new SqlParameter("@pass", Password);
-        SqlParameter parCity = new SqlParameter("@city", City);
-        if (db.ExecuteQuery(sqlInsert, CommandType.Text, parId, parFName, parLName, parMail, parPassword, parCity) == 0)
+        SqlParameter parId = new SqlParameter("@user", UserId);
+        SqlParameter parStreet = new SqlParameter("@street", Address);
+        SqlParameter parPhone = new SqlParameter("@phone", Number);
+        SqlParameter parCity = new SqlParameter("@city", City.CityCode);
+        if (db.ExecuteQuery(StrSql, CommandType.Text, parId, parStreet, parPhone, parCity) == 0)
         {
             return false;
         }
@@ -716,6 +717,70 @@ public class UserT
         return true;
     }
 
+    public Settings GetUserPreferences()
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        Settings S = new Settings();
+
+         string StrSql = @"SELECT * FROM [dbo].[user_settings]
+                             WHERE ([user_id] = (@id))";
+        
+        SqlParameter parId = new SqlParameter("@id", UserId);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
+
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            return S = new Settings(DS.Tables[0].Rows[0]["user_id"].ToString(), bool.Parse(DS.Tables[0].Rows[0]["push"].ToString()), bool.Parse(DS.Tables[0].Rows[0]["vibe"].ToString()), bool.Parse(DS.Tables[0].Rows[0]["sound"].ToString()));
+        }
+        return S;
+    }
+
+    // עדכון עמותות מועדפות למשתמש. אם האקטיון הוא 0 אז נמחק ואם 1 אז נזין
+    public bool UpdateFavAssoc(string assoc, bool action)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        string StrSql = "";
+
+        if (action)
+        {
+            StrSql = @"INSERT INTO [dbo].[user_pref_association]
+                            values(@user,@assoc)";
+        }
+        else
+        {
+            StrSql = @"DELETE FROM [dbo].[user_pref_association]
+                       WHERE [user_id] = @user and [association_code] = @assoc ";
+        }
+
+        SqlParameter parId = new SqlParameter("@user", UserId);
+        SqlParameter parAssoc = new SqlParameter("@assoc", assoc);
+        if (db.ExecuteQuery(StrSql, CommandType.Text, parId, parAssoc) == 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public bool IsFavAssoc(string assoc)
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+
+        string StrSql = @"SELECT * FROM [dbo].[user_pref_association]
+                            WHERE [user_id] = @user AND [association_code] =@assoc";
+        SqlParameter parId = new SqlParameter("@user", UserId);
+        SqlParameter parAssoc = new SqlParameter("@assoc", assoc);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId, parAssoc);
+
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
     //REG_Auction נבדק האם להיות פה או ב 
     //public List<Reg_Auction> GetOutBiddedAuctions()
     //{
@@ -749,7 +814,7 @@ public class UserT
     //    SqlParameter parId = new SqlParameter("@userId", UserId);
     //    DS = db.GetDataSetByQuery(StrSql,CommandType.Text, parId);
     //    Reg_Auction R = new Reg_Auction();
-        
+
     //    //foreach (DataRow row in DS.Tables[0].Rows)
     //    //{
     //    //    Reg_Auction R = new Reg_Auction();
