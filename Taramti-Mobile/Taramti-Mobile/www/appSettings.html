@@ -18,7 +18,9 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="dist/sweetalert/sweetalert.css" rel="stylesheet" charset="utf-8" />
 
+    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
@@ -76,7 +78,7 @@
         });
 
         $(document).ready(function () {
-            // שליפת נתונים מבסיס הנתונים 
+            // שליפת נתונים מבסיס הנתונים
 
             $.ajax({
                 dataType: "json",
@@ -102,10 +104,8 @@
                         }
                         var sound = $('#soundOpt');
                         // בדיקת שאר המשתנים
-                        if (res["Sound"] == true) 
-                        {
-                            if(res["Vibe"] == true)
-                            {
+                        if (res["Sound"] == true) {
+                            if (res["Vibe"] == true) {
                                 sound.val('3');
                                 $('#soundOpt option[value="3"]').prop('selected', true); // שמע + רטט
                                 $('#soundOpt').selectmenu("refresh", true);
@@ -243,8 +243,8 @@
 
                     var res = JSON.parse(data.d);
                     if (res == true) {
-                        $("#favStar").removeClass('fa fa-star-o fa-4x');
-                        $("#favStar").addClass('fa fa-star fa-4x');
+                        $("#favStar").removeClass('fa fa-star-o fa-3x');
+                        $("#favStar").addClass('fa fa-star fa-3x');
                     }
                     location.href = "appSettings.html#AssocInfoPage";
                 },
@@ -252,7 +252,7 @@
             });
         }
 
-   
+
 
         function SaveSettings() {
             var push = $("#flip-1").val();
@@ -277,7 +277,12 @@
                 type: "POST",
                 data: JSON.stringify({ user: userId, push: push, sound: sound, vibe: vibe }),
                 success: function (data) {
-                    alert("העדפותיך האישיות התעדכנו במערכת בהצלחה");
+                    swal({
+                        title: "איזה יופי..",
+                        text: "העדפותיך האישיות התעדכנו במערכת בהצלחה",
+                        type: "success",
+                        confirmButtonText: "אישור"
+                    })
                 },
                 error: function (err) { }
             });
@@ -306,22 +311,21 @@
             location.href = 'Login-Taramti.html'
         }
 
-        function UpdateFavAssoc()
-        {
+        function UpdateFavAssoc() {
             var AssocCode1 = $('#AssocCode').text();
             var userId = user.userID();
             var action = false;
 
-            if ($("#favStar").hasClass('fa fa-star-o fa-4x')) {
-                $("#favStar").removeClass('fa fa-star-o fa-4x');
-                $("#favStar").addClass('fa fa-star fa-4x');
+            if ($("#favStar").hasClass('fa fa-star-o fa-3x')) {
+                $("#favStar").removeClass('fa fa-star-o fa-3x');
+                $("#favStar").addClass('fa fa-star fa-3x');
                 action = true;
             }
             else {
-                $("#favStar").removeClass('fa fa-star fa-4x');
-                $("#favStar").addClass('fa fa-star-o fa-4x');
+                $("#favStar").removeClass('fa fa-star fa-3x');
+                $("#favStar").addClass('fa fa-star-o fa-3x');
             }
-           
+
 
             // עדכון העמותה בהעדפות המשתמש
             $.ajax({
@@ -431,7 +435,9 @@
 
                 <br /><br />
 
-                <input type="button" id="Acceptbtn" onclick="SaveSettings()" value="אישור" />
+                <div class="button-1">
+                    <button type="button" id="Acceptbtn" onclick="SaveSettings()" class="btn-l btn-10">אישור</button>
+                </div>
 
                 <div class="FixedButton">
                     <div class="RoundDivfixed">
@@ -530,10 +536,15 @@
 
 
         <div class="Form" id="AssocInfo" style="visibility:hidden">
-            <div id="SearchAssoc">
-                <h2>פרטי עמותה</h2>                  
+
+            <div id="favStarDiv">
+                <i id="favStar" class="fa fa-star-o fa-3x" onclick="UpdateFavAssoc()"></i>
             </div>
-            <i id="favStar" class="fa fa-star-o fa-4x" onclick="UpdateFavAssoc()"></i>
+
+            <div id="SearchAssoc">
+                <h2>פרטי עמותה</h2>
+            </div>
+
             <div>
                 <h4>שם עמותה: </h4>
                 <h5 id="AssocName"></h5>
@@ -556,13 +567,13 @@
                 <h5 id="AssocYear"></h5>
             </div>
 
-            <div class="RoundDivIconBack">
+            <div id="DivIconBack" class="RoundDivIconBack">
                 <a class="styleLink" onclick="goBack()"><img class="NiceIcon" src="images/backToLogin.png" /></a>
                 <!--<h6 class="IconText">חזור</h6>-->
             </div>
             <div class="flexbox" style="position:relative">
 
-        
+
 
             </div>
             <!--<a onclick="goBack()">חזור</a>-->

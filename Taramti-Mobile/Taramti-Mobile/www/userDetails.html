@@ -17,7 +17,9 @@
     <link href="css/w3.css" rel="stylesheet" />
     <link href="css/jqmCss.css" rel="stylesheet" />
     <link href="css/StyleSheet.css" rel="stylesheet" />
+    <link href="dist/sweetalert/sweetalert.css" rel="stylesheet" charset="utf-8" />
 
+    <script src="dist/sweetalert/sweetalert-dev.js" charset="utf-8"> </script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jqm.js"></script>
@@ -126,7 +128,12 @@
 
                     var UserId = JSON.parse(data.d);
                     if (UserId == true) {
-                        alert("הנתונים נשמרו בהצלחה. הינך מועבר חזרה לדף הבית");
+                        swal({
+                            title: "איזה יופי..",
+                            text: "הנתונים נשמרו בהצלחה. הינך מועבר חזרה לדף הבית",
+                            type: "success",
+                            confirmButtonText: "אישור"
+                        })
                         location.href = "app.html";
                     }
 
