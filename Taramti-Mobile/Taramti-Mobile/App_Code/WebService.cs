@@ -257,7 +257,7 @@ public class WebService : System.Web.Services.WebService
         }
     }
 
-    // לטפל!!! צריך לסגור הפינה אחרי שסוגרים רשימת ערים 
+// הפונקציה מעדכנת את נתוני המשתמש בבסיס הנתונים 
     [WebMethod]
     public string AddUserAllInfo(string id, string phone, int city, string street, string num)
     {
@@ -269,9 +269,8 @@ public class WebService : System.Web.Services.WebService
             City C = new City();
             C.CityCode = city;
             temp.City = C;
-            temp.Address = street + num;
+            temp.Address = street + " " +num;
             temp.Number = phone;
-
             temp.UpdateUser();
             return j.Serialize("True");
         }
