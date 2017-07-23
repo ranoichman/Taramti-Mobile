@@ -75,6 +75,60 @@
         });
 
         $(document).ready(function () {
+            // שליפת נתונים מבסיס הנתונים 
+
+            $.ajax({
+                dataType: "json",
+                url: generic + "GetUserPreferences",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({ user_id: user.userID() }),
+                success: function (data) {
+
+                    var res = JSON.parse(data.d);
+
+                    if (res != "") {
+                        // האם פוש מאופשר?
+                        if (res["Push"] == true) {
+                            var fts = $('#flip-1');
+                            fts.val('true');
+                            fts.slider('refresh');
+                        }
+                        else {
+                            var flip = $('#flip-1');
+                            flip.val('false');
+                            flip.slider('refresh');
+                        }
+                        var sound = $('#soundOpt');
+                        // בדיקת שאר המשתנים
+                        if (res["Sound"] == true) 
+                        {
+                            if(res["Vibe"] == true)
+                            {
+                                sound.val('3');
+                                $('#soundOpt option[value="3"]').prop('selected', true); // שמע + רטט
+                                $('#soundOpt').selectmenu("refresh", true);
+                            }
+                            else {
+                                sound.val('2');
+                                $('#soundOpt option[value="2"]').prop('selected', true); // שמע בלבד
+                                $('#soundOpt').selectmenu("refresh", true);
+                            }
+                        }
+                        if (res["Vibe"] == true) {
+                            sound.val('1');
+                            $('#soundOpt option[value="1"]').prop('selected', true); // רטט בלבד
+                            $('#soundOpt').selectmenu("refresh", true);
+                        }
+                        else {
+                            sound.val('0');
+                            $('#soundOpt option[value="0"]').prop('selected', true); // ללא
+                            $('#soundOpt').selectmenu("refresh", true);
+                        }
+                    }
+                },
+                error: function (err) { }
+            }); // AJAX הבאת נתונים
 
             //get favorite assoc for user from server
             $.ajax({
@@ -169,15 +223,8 @@
                         $("#AssocName").text(Association.Association_Name);
                         $("#AssocCode").text(Association.Association_Code);
                         $("#AssocDesc").text(Association.Association_Desc);
-                        //$("#AssocAccount").text(Association.Association_Account);
                         $("#AssocSite").text(Association.Association_WebSite);
                         $("#AssocYear").text(Association.Association_Year);
-
-                        //$("#AssocName").attr('readonly', true);
-                        //$("#AssocCode").attr('readonly', true);
-                        //$("#AssocAccount").attr('readonly', true);
-                        //$("#AssocSite").attr('readonly', true);
-                        //$("#AssocYear").attr('readonly', true);
 
                         location.href = "appSettings.html#AssocInfoPage";
                     }

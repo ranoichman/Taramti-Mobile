@@ -717,6 +717,26 @@ public class UserT
         return true;
     }
 
+    public Settings GetUserPreferences()
+    {
+        DbService db = new DbService();
+        DataSet DS = new DataSet();
+        Settings S = new Settings();
+
+         string StrSql = @"SELECT * FROM [dbo].[user_settings]
+                             WHERE ([user_id] = (@id))";
+        
+        SqlParameter parId = new SqlParameter("@id", UserId);
+        DS = db.GetDataSetByQuery(StrSql, CommandType.Text, parId);
+
+        if (DS.Tables[0].Rows.Count > 0)
+        {
+            return S = new Settings(DS.Tables[0].Rows[0]["user_id"].ToString(), bool.Parse(DS.Tables[0].Rows[0]["push"].ToString()), bool.Parse(DS.Tables[0].Rows[0]["vibe"].ToString()), bool.Parse(DS.Tables[0].Rows[0]["sound"].ToString()));
+        }
+        return S;
+
+    }
+
     //REG_Auction נבדק האם להיות פה או ב 
     //public List<Reg_Auction> GetOutBiddedAuctions()
     //{
@@ -750,7 +770,7 @@ public class UserT
     //    SqlParameter parId = new SqlParameter("@userId", UserId);
     //    DS = db.GetDataSetByQuery(StrSql,CommandType.Text, parId);
     //    Reg_Auction R = new Reg_Auction();
-        
+
     //    //foreach (DataRow row in DS.Tables[0].Rows)
     //    //{
     //    //    Reg_Auction R = new Reg_Auction();

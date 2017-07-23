@@ -366,6 +366,14 @@ public class WebService : System.Web.Services.WebService
         Serv.CloseAuctions();
     }
 
+    [WebMethod(Description = "הבאת העדפות המשתמש מבסיס הנתונים")]
+    public string GetUserPreferences(string user_id)
+    {
+        JavaScriptSerializer j = new JavaScriptSerializer();
+        UserT S = new UserT(user_id);
+        return j.Serialize(S.GetUserPreferences());
+    }
+
     //[WebMethod]
     //public void saveImage()
     //{
