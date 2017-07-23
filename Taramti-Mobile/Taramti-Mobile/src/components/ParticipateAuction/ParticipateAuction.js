@@ -229,7 +229,7 @@ class ParticipateAuction extends Component {
                 }
             }
             this.setState({
-                tempDonation: `כבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
+                tempDonation: `מחיר נוכחי ${tempPrice} ש"ח \nכבר ${Math.floor(tempPrice * this.state.auc.percentage / 100)} ש"ח לתרומה`
             });
         }
         // else{
@@ -426,7 +426,8 @@ class ParticipateAuction extends Component {
 
                 {/*price manipulation*/}
                 <div className="circle">
-                    <h4>
+                    <h3>מכרז על {this.state.auc.prodName}</h3>
+                    <h4 style={{whiteSpace: "pre-line"}}>
                         {this.state.tempDonation}
                     </h4>
                 </div>

@@ -8,6 +8,7 @@ import axios from 'axios';
 // taramti babait components
 import Auction from '../Generic/Auction';
 import Loader from '../Generic/Loader';
+import ScrollButton from '../Generic/ScrollButton';
 
 import '../../css/transition.css';
 
@@ -165,7 +166,7 @@ class ThemeAuctions extends Component {
                         </CSSTransitionGroup>
                     </div>
                 </Loader>
-                {/*</CSSTransitionGroup>*/}
+                <ScrollButton scrollStepInPx="30" delayInMs="16.66" />
             </div>
         );
     }

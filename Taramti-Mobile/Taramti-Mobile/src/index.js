@@ -22,6 +22,7 @@ import MyProducts from './components/MyProducts/MyProducts';
 // import ThemeAuctions from './components/Profile/ThemeAuctions';
 import Bdika from './components/Generic/Bdika';
 import Menu from './components/Generic/Menu';
+import Loader from './components/Generic/Loader';
 
 
 
@@ -111,7 +112,7 @@ ReactDOM.render(<HashRouter>
         <Route path="/myAuction" component={MyAuction} />
 
         {/*testing route*/}
-        <Route path="/bdika" component={TapDemo}/>
+        <Route path="/bdika" component={Loader}/>
     </App>
 </HashRouter>, document.getElementById('app'));
 

@@ -21,7 +21,7 @@ class Search extends Component {
             open: true,
             categroy: 0,
             tag: 0,
-            gps: 0,
+            gps: 10000,
             display: "none",
             categoriesArr: [{ val: 0, text: "כל הקטגוריות" }],
             tagsArr: [{ val: 0, text: "כל התגיות" }]

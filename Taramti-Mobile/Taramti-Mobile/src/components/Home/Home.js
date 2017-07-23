@@ -124,12 +124,13 @@ class Home extends Component {
             radius: radius,
             user_Id: id
         }).then(function (response) {
-            //clear TO when success
-            clearTimeout(self.startTO);
+
 
             let res = JSON.parse(response.data.d);
 
             if (res.length == 0) {
+                //clear TO when success
+                clearTimeout(self.startTO);
                 if (self.showDefault) {
                     self.getAuctionsByParams(-1, -1, [0], [0], 0, 0, 0);
                 } else {
@@ -158,11 +159,13 @@ class Home extends Component {
                         longOrigem = results[0].geometry.location.lng();
                         mygc.geocode({}, function (results, status) {
                             locationDestino = new google.maps.LatLng(lat, lng);
-                            //locationDestino = new google.maps.LatLng(32.313367, 34.945139);
+
                             let dist = google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino)
                             console.log(`${k} -- dist : ${dist}`)
                             if (dist <= radius) {
                                 self.addAuction(res[k])
+                                //clear TO when success
+                                clearTimeout(self.startTO);
                             };
                         });
                     });
@@ -302,7 +305,7 @@ class Home extends Component {
                 {/*move to add auction*/}
                 <CircleButton home={false} />
 
-                <ScrollButton scrollStepInPx="30" delayInMs="16.66"/>
+                <ScrollButton scrollStepInPx="30" delayInMs="16.66" />
             </div>
         );
     }

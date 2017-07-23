@@ -140,18 +140,17 @@ input{
 }
 
 .circle{
-    height:80px;
+    height:130px;
     width:95%;
     border-radius:11%;
     background-color: rgba(255,255,255,0.85);
     border: 9px double #da4682;
     margin: 25px auto;
 }
-.circle h4{
+.circle h4, .circle h3{
     direction:rtl;
     text-align:center;
-    padding: 0.5em;
-    
+    /* padding: 0.5em; */
 }
 
 .icon_circle{
@@ -214,7 +213,7 @@ span.info{
 }
 
 .myAuction{
-    margin: 100px 7px 0px 7px;
+    margin: 150px 7px 0px 7px;
     padding: 5px;
     border: 2px solid black;
     overflow: auto;
