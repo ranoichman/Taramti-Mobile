@@ -55,6 +55,7 @@
         })
 
         $(document).on("pagecreate", "div[data-role=page]", function (event) {
+            var ass = $('#AssocCode').val();
 
             if ($(this).attr("id") == "AssocInfoPage") {
                 $.ajax({
@@ -62,7 +63,7 @@
                     url: generic + "IsFavAssoc",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
-                    data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
+                    data: JSON.stringify({ user_id: "302921481", assoc: ass }),
                     success: function (data) {
 
                         var res = JSON.parse(data.d);
@@ -71,8 +72,7 @@
                             $("#favStar").addClass('fa fa-star fa-4x');
                         }
                         else {
-                            $("#favStar").removeClass('fa fa-star fa-4x');
-                            $("#favStar").addClass('fa fa-star-o fa-4x');
+
                         }
                         //location.href = "appSettings.html#AssocInfoPage";
                     },
