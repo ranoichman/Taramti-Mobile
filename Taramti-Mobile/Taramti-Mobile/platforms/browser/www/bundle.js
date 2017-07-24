@@ -31378,8 +31378,6 @@
 	    }, {
 	        key: 'buttonClicked',
 	        value: function buttonClicked() {
-	            //let aucData = Object.assign({},)
-	            // aucData.price = this.state.price;
 	            if (this.state.finished) {
 	                this.rePublishModalChanged();
 	            } else {
@@ -39037,7 +39035,7 @@
 
 	        _this.state = {
 	            open: true,
-	            swipe: null, // to determine wheter or not to animate swipe right demo
+	            swipe: false, // to determine wheter or not to animate swipe right demo
 	            tabIndex: 0,
 	            animation: ""
 	        };
@@ -39070,11 +39068,6 @@
 	        key: 'showSwipeRight',
 	        value: function showSwipeRight() {
 	            var self = this;
-	            if (self.state.tabIndex != 0) {
-	                self.setState({ swipe: null });
-	                self.loadInterval && clearInterval(self.loadInterval);
-	                self.loadInterval = false;
-	            }
 	            self.setState({ swipe: false });
 	            setTimeout(function () {
 	                self.setState({ swipe: true });
@@ -39097,6 +39090,11 @@
 	        key: 'tabSwipeLeft',
 	        value: function tabSwipeLeft() {
 	            var i = this.state.tabIndex - 1;
+	            if (i == -1 && this.state.swipe != null) {
+	                this.loadInterval && clearInterval(this.loadInterval);
+	                this.loadInterval = false;
+	                this.setState({ swipe: null });
+	            } //clear swipe demo
 	            if (i === -1) {
 	                this.setState({ tabIndex: 2, animation: "slideInRight" });
 	            } else {
@@ -39107,6 +39105,11 @@
 	        key: 'tabSwipeRight',
 	        value: function tabSwipeRight() {
 	            var i = this.state.tabIndex + 1;
+	            if (i == 1 && this.state.swipe != null) {
+	                this.loadInterval && clearInterval(this.loadInterval);
+	                this.loadInterval = false;
+	                this.setState({ swipe: null });
+	            } //clear swipe demo
 	            if (i === 3) {
 	                this.setState({ tabIndex: 0, animation: "slideInLeft" });
 	            } else {
@@ -39132,8 +39135,8 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { style: { opacity: this.state.swipe == null ? 0 : 1 } },
-	                        _react2.default.createElement('div', { className: this.state.swipe ? "arrow_box_right growRight" : "arrow_box_right" }),
-	                        _react2.default.createElement('img', { className: this.state.swipe ? "tappingRight swipeRight" : "tappingRight", src: 'images/tapping_hand.png' })
+	                        _react2.default.createElement('div', { className: this.state.swipe == false ? "arrow_box_right" : "arrow_box_right growRight" }),
+	                        _react2.default.createElement('img', { className: this.state.swipe == false ? "tappingRight" : "tappingRight  swipeRight", src: 'images/tapping_hand.png' })
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactTabs.Tabs,
@@ -45397,7 +45400,7 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" } },
+	                { className: 'pageBC', style: { minHeight: window.innerHeight + 25 + 'px', width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" } },
 	                _react2.default.createElement(
 	                    'div',
 	                    { className: 'basicInfo', ref: 'infoDiv' },
