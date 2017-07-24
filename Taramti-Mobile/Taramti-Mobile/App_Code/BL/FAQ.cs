@@ -103,6 +103,7 @@ public class FAQ
         Answer = ans;
     }
 
+    // הוספת שאלה חדשה 
     public int AddQuestion()
     {
         string strSql = @"INSERT INTO [dbo].[product_FAQ]
@@ -115,6 +116,7 @@ public class FAQ
         return db.ExecuteQuery(strSql, CommandType.Text, parCode, parQuestion, parQuestioner);   
     }
 
+    // הוספת תשובה לשאלה קודמת
     public int AddAnswer()
     {
         string strSql = @"UPDATE [dbo].[product_FAQ]

@@ -57,10 +57,8 @@ public class AuctionWebService : System.Web.Services.WebService
     [WebMethod(Description = "הצעת ביד")]
     public bool OfferBid(Reg_Auction auc, int bid)
     {
-        //Reg_Auction auction = new Reg_Auction();
         bool SendPush = false;
         string PrevBuyerID = "";
-        //auction.AuctionID = int.Parse(auc.Buyer.UserId);
         int lastBid = auc.GetLatestBid();
         // אם אין בידים קודמים - לא נשלח פוש לאף אחד
         if (lastBid != -1)
@@ -78,7 +76,6 @@ public class AuctionWebService : System.Web.Services.WebService
             // אם יש בידים קודמים, נשלח הודעת פוש למשתמש שנעקף
             if (SendPush)
             {
-                //Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה " + auction.ProdName + " הצע הצעה חדשה עכשיו!");
                 new Task(() => { Push.SendPush(PrevBuyerID, "נעקפת!", "אל תפספס את ה" + auc.ProdName + " הצע הצעה חדשה עכשיו!"); }).Start();   
             }
 
@@ -92,7 +89,7 @@ public class AuctionWebService : System.Web.Services.WebService
 
     }
 
-    [WebMethod]
+    [WebMethod (Description = "הוספת מכרז מוצר")]
     public string AddingProductAuction(string itemName, string itemDesc, string city, string cat, string days, string assoc, string price, string user)
     {
         DbService db = new DbService();
@@ -106,12 +103,14 @@ public class AuctionWebService : System.Web.Services.WebService
         UserT Seller = new UserT(user, true);
         int ProductCode = 0;
 
+        // מילוי פרטי המוצר
         NewItem.ItemName = itemName;
         NewItem.ItemDesc = itemDesc;
         NewItem.Location = c;
         NewItem.Item_Categories = IC;
         NewItem.Price = price;
-
+        
+        // מילוי פרטי המכרז
         Auction.End_Date = DateTime.Now.AddDays(double.Parse(days)).ToString();
         Auction.Vol_asc = Vol;
         Auction.Price = int.Parse(price);
@@ -121,7 +120,7 @@ public class AuctionWebService : System.Web.Services.WebService
 
         string StrSql = "select max(product_code) from product ";
         DS = db.GetDataSetByQuery(StrSql);
-
+        // הבאת קוד המכרז
         if (DS.Tables.Count > 0)
         {
             ProductCode = int.Parse(DS.Tables[0].Rows[0][0].ToString());
@@ -133,7 +132,7 @@ public class AuctionWebService : System.Web.Services.WebService
 
     }
 
-    [WebMethod]
+    [WebMethod (Description = "הוספת תמונה למוצר")]
     public string AddingProductPictures(string[] Arr, int itemId)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -241,11 +240,4 @@ public class AuctionWebService : System.Web.Services.WebService
         Reg_Auction R = new Reg_Auction();
         return R.AddAuctionExisitingProd(prod,price,days,user).ToString();
     }
-
-    //[WebMethod]
-    //public void testsearch()
-    //{
-    //    JavaScriptSerializer j = new JavaScriptSerializer();
-    //    Reg_Auction.AddNewSearch(302921481, 32.2262262, 36.3562, 10, 100, 500, 4);
-    //}
 }

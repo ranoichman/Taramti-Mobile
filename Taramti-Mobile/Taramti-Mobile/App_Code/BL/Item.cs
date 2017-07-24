@@ -175,7 +175,7 @@ public class Item
 
     //methods
     #region
-
+        // הבאת כלל השאלות 
     public void GetAllQuestions()
     {
         DbService db = new DbService();
@@ -200,6 +200,7 @@ public class Item
         }
     }
  
+    // הוספת קישור לטבלת תמונות מוצרים
     public bool AddPictures()
     {
         for (int i = 0; i < Pictures.Length; i++)
@@ -223,6 +224,7 @@ public class Item
         return true;
     }
 
+    // הוספת מוצר חדש למערכת
     public bool AddItem(int seller)
     {
         string sqlInsert = @"INSERT INTO [dbo].[product]
@@ -250,7 +252,7 @@ public class Item
         return true;
     }
 
-    // פונקציה להבאת נתוני פריט.  לא נוסתה!!
+    // פונקציה להבאת נתוני פריט. !!
     public Item GetItemDetails()
     {
         DbService db = new DbService();
@@ -267,6 +269,7 @@ public class Item
         return this;
     }
 
+    // עדכון מחיר המוצר בטבלה
     public bool UpdatePrice(int newPrice)
     {
         DbService db = new DbService();

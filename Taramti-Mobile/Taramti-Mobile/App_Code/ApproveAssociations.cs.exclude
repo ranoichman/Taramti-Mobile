@@ -30,8 +30,6 @@ public class ApproveAssociations : System.Web.Services.WebService
     [WebMethod(Description = "Validates the association")]
     public string Validate(Voluntary_association Assoc)
     {
-        
-
         return "";
     }
 

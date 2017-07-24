@@ -57,8 +57,10 @@ public class City
 
     //methods
     #region
+        // הצגת מכרזים על פי סינון של עיר
     public void ShowAuctionByCity() { }
 
+    // הבאת שם העיר על פי קוד העיר
     private void getCityName()
     {
         if (CityCode == -1)
@@ -80,6 +82,7 @@ public class City
         }
     }
 
+    // הבאת כלל הערים במערכת
     public List<City> GetAllCities()
     {
         DbService dbs = new DbService();
