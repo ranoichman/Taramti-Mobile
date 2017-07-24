@@ -133,7 +133,7 @@ class MyAuction extends Component {
 
     render() {
         return (
-            <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" }}>
+            <div className="pageBC" style={{ minHeight: `${window.innerHeight + 25}px`, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" }}>
 
                 {/*basic info*/}
                 <div className="basicInfo" ref="infoDiv">

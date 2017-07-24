@@ -91,8 +91,6 @@ class Auction extends Component {
     }
 
     buttonClicked() {
-        //let aucData = Object.assign({},)
-        // aucData.price = this.state.price;
         if (this.state.finished) {
             this.rePublishModalChanged();
         } else {

@@ -12,7 +12,7 @@ class Tip extends Component {
         super(props)
         this.state = {
             open: true,
-            swipe: null, // to determine wheter or not to animate swipe right demo
+            swipe: false, // to determine wheter or not to animate swipe right demo
             tabIndex: 0,
             animation: ""
         }
@@ -40,11 +40,6 @@ class Tip extends Component {
 
     showSwipeRight() {
         let self = this;
-        if (self.state.tabIndex != 0) {
-            self.setState({ swipe: null });
-            self.loadInterval && clearInterval(self.loadInterval);
-            self.loadInterval = false;
-        }
         self.setState({ swipe: false });
         setTimeout(function () {
             self.setState({ swipe: true })
@@ -60,6 +55,12 @@ class Tip extends Component {
 
     tabSwipeLeft() {
         let i = this.state.tabIndex - 1;
+        if (i == -1 && this.state.swipe != null) {
+            this.loadInterval && clearInterval(this.loadInterval);
+            this.loadInterval = false;
+            this.setState({ swipe: null });
+            
+        } //clear swipe demo
         if (i === -1) {
             this.setState({ tabIndex: 2, animation: "slideInRight" })
         }
@@ -70,6 +71,11 @@ class Tip extends Component {
 
     tabSwipeRight() {
         let i = this.state.tabIndex + 1;
+        if (i == 1 && this.state.swipe != null) {
+            this.loadInterval && clearInterval(this.loadInterval);
+            this.loadInterval = false;
+            this.setState({ swipe: null });
+        } //clear swipe demo
         if (i === 3) {
             this.setState({ tabIndex: 0, animation: "slideInLeft" })
         }
@@ -87,8 +93,8 @@ class Tip extends Component {
 
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <div style={{ opacity: this.state.swipe == null ? 0 : 1 }}>
-                        <div className={this.state.swipe ? "arrow_box_right growRight" : "arrow_box_right"}></div>
-                        <img className={this.state.swipe ? "tappingRight swipeRight" : "tappingRight"} src="images/tapping_hand.png" />
+                        <div className={this.state.swipe == false ? "arrow_box_right" : "arrow_box_right growRight"}></div>
+                        <img className={this.state.swipe == false ? "tappingRight" : "tappingRight  swipeRight"} src="images/tapping_hand.png" />
                     </div>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
 
