@@ -467,6 +467,7 @@
             });
         });
 
+        //התנתקות
         function LogOut() {
             localStorage.removeItem("UserID");
             location.href = 'Login-Taramti.html'
@@ -563,7 +564,7 @@
     </script>
 
     <script>
-
+        //שליחת מייל לאיפוס סיסמה
         function SendMailPass() {
             var userID = $("#UserId").val();
             var userMail = $("#UserMailForgot").val();
@@ -603,6 +604,7 @@
 
         }
 
+        //שינוי סיסמה
         function RestorePass() {
             var id = $("#UserIdRestore").val();
             var pass = $("#UserPassNew").val();
@@ -674,6 +676,7 @@
             }
         }
 
+        //רשימת ערים
         function CityList() {
             $.ajax({
                 dataType: "json",
@@ -697,6 +700,7 @@
             });
         }
 
+        //מעבר לעמוד ה-2 בהרשמה, בדיקת שדות
         function ToFirstRegisterPage2() {
 
             var mail = $("#Usermail").val();
@@ -727,6 +731,7 @@
 
         }
 
+        //מעבר לעמוד ה-3 בהרשמה, בדיקת שדות
         function ToCompleteRegisterPage() {
 
             var id = $("#UserId1").val();
@@ -756,6 +761,7 @@
             }
         }
 
+        //בדיקת שדות וסיום הרשמה
         function RegisterUser() {
 
             var mail = $("#Usermail").val();
