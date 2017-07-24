@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
 import Swipeable from 'react-swipeable';
@@ -5,7 +6,7 @@ import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-// taramti babait components
+// BID IT components
 import Auction from '../Generic/Auction';
 import Search from './Search';
 import Loader from '../Generic/Loader';
@@ -13,10 +14,11 @@ import Menu from '../Generic/Menu';
 import CircleButton from '../Generic/CircleButton';
 import ScrollButton from '../Generic/ScrollButton';
 
-
-import '../../css/transition.css';
-
+//constants 
 import { auctionWS, buyerID } from '../../constants/general';
+
+//style
+import '../../css/transition.css';
 
 class Home extends Component {
     constructor(props) {
@@ -35,13 +37,9 @@ class Home extends Component {
         this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
         this.addAuction = this.addAuction.bind(this);
         this.eachAuction = this.eachAuction.bind(this);
-        this.offerBid = this.offerBid.bind(this);
         this.deleteAuction = this.deleteAuction.bind(this);
-        this.moveToAddAuction = this.moveToAddAuction.bind(this);
-        this.getDistance = this.getDistance.bind(this);
         this.handleLoad = this.handleLoad.bind(this);
     }
-
 
     componentDidMount() {
         // Lifecycle function that is triggered just before a component mounts
@@ -80,11 +78,13 @@ class Home extends Component {
 
     }
 
+    //callback function from search component
     searchTriggered(lowPrice, highPrice, catCode, assocTagCode, coords, radius) {
         this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
         this.startSearch(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
     }
 
+    //get paramaters from caller, handle interval and sends to getAuctionsByParams
     startSearch(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
         const self = this;
         //stop db access after 8s
@@ -106,12 +106,10 @@ class Home extends Component {
         this.getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius);
     }
 
-
     //call function to get auctions from serveer
     getAuctionsByParams(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
         //define "this" for inner functions
         const self = this;
-
 
         const id = parseInt(buyerID);
         axios.post(auctionWS + 'GetAuctionByParam', {
@@ -190,29 +188,6 @@ class Home extends Component {
             });
     }
 
-    getDistance(item, lat, lng) {
-        let mygc = new google.maps.Geocoder();
-        let locationOrigem;
-        let locationDestino;
-        let latOrigem = 0;
-        let longOrigem = 0;
-        let latDestino = 0;
-        let longDestino = 0;
-
-        mygc.geocode({ 'address': city }, function (results, status) {
-            locationOrigem = results[0].geometry.location;
-            latOrigem = results[0].geometry.location.lat();
-            longOrigem = results[0].geometry.location.lng();
-            mygc.geocode({}, function (results, status) {
-                locationDestino = new google.maps.LatLng(lat, lng);
-                // alert(latDestino + " " + longDestino);
-                console.log(locationOrigem);
-                console.log(locationDestino);
-                return (google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino));
-            });
-        });
-    }
-
     //add auction from server to array
     addAuction(item) {
         let arr = this.state.auctionsArr;
@@ -247,15 +222,7 @@ class Home extends Component {
         this.setState({ auctionsArr: arr });
         this.state.auctionsArr.map(function (item, i) { console.log(i + "____" + item.endDate + ":::::::" + item.price) })
     }
-
-    offerBid(i) {
-        this.props.offerBid(i, this.state.auctionsArr);
-    }
-
-    moveToAddAuction() {
-        location.href = 'AddingAuction-Taramti.html'
-    }
-
+    //control loader component
     handleLoad() {
         let couner = this.state.loadingCounter;
         couner++;

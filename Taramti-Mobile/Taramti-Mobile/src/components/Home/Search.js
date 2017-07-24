@@ -1,18 +1,17 @@
+//npm components
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import axios from 'axios';
 
-// taramti babait components
+// BID IT components
 import Ddl from '../Generic/Ddl';
 
 //constants 
 import { auctionWS, assocWS } from '../../constants/general';
 
+//style
 import '../../css/modal.css';
 import '../../css/transition.css';
-
-//const auctionWS = GENERAL.auctionWebServerAddress;
-//const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
 
 class Search extends Component {
     constructor(props) {
@@ -67,6 +66,7 @@ class Search extends Component {
     onSelectedCat(opt) {
         this.setState({ categroy: opt });
     }
+
     onSelectedTag(opt) {
         this.setState({ tag: opt });
     }
@@ -111,6 +111,7 @@ class Search extends Component {
 
     }
 
+    //handle modal close
     close() {
         this.setState({ open: false });
         setTimeout(() => this.props.closeModal(), 600)

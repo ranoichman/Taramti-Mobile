@@ -1,8 +1,9 @@
-﻿import React, { Component } from 'react';
+﻿//npm components
+import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 
+//style
 import '../../css/modal.css';
-
 
 class AuctionInfo extends Component {
     constructor(props) {
@@ -15,11 +16,13 @@ class AuctionInfo extends Component {
         this.close = this.close.bind(this);
     }
 
+    //handle modak close
     close() {
         this.setState({ open: false });
-        setTimeout(() => this.props.closeModal(), 600)
+        setTimeout(() => this.props.closeModal(), 600) //update parent component
     }
 
+    //return display for modal
     renderModal() {
         return (
             <div className={this.state.open ? "box" : "box zoomOut"}>
@@ -37,13 +40,13 @@ class AuctionInfo extends Component {
                             this.props.auc.imgArr.map(function (pic, i) {
                                 return <img key={i} src={pic} style={{ width: "40%", margin: "10px" }} />
                             })
-
                         }
                     </div>
                 </div>
             </div>)
     }
 
+    //return small info display 
     renderInfo() {
         return (
             <div>

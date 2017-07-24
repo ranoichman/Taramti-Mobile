@@ -1,7 +1,6 @@
+//npm components
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
-
-
 
 class Payment extends Component {
 

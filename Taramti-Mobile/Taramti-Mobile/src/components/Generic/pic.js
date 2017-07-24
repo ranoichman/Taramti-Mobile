@@ -1,4 +1,4 @@
-//import $ from 'jquery';
+//npm components
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransitionGroup } from 'react-transition-group'
@@ -6,6 +6,7 @@ import Swipeable from 'react-swipeable';
 import Modal from 'react-modal';
 import Slider from 'react-slick';
 
+//style
 import '../../css/transition.css';
 
 class Pic extends Component {
@@ -21,7 +22,6 @@ class Pic extends Component {
         this.changeCarouselModalOpen = this.changeCarouselModalOpen.bind(this);
     }
 
-
     imgSwipeLeft() {
         var i = this.state.index - 1;
         if (i === -1) {
@@ -29,6 +29,7 @@ class Pic extends Component {
         }
         else { this.setState({ index: i }) }
     }
+
     imgSwipeRight() {
         var i = this.state.index + 1;
         if (i === this.props.imagesArr.length) {
@@ -37,11 +38,11 @@ class Pic extends Component {
         else { this.setState({ index: i }) }
     }
 
-
+    //modal was changed
     changeCarouselModalOpen() {
         let newstatus = !this.state.carouselModalIsOpen
         this.setState({ carouselModalIsOpen: newstatus });
-        this.props.picModalChanged();
+        this.props.picModalChanged(); // notify parent
     }
 
     render() {

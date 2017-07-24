@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { CSSTransitionGroup } from 'react-transition-group'
@@ -6,21 +7,18 @@ import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-// taramti babait components
+// BID IT components
 import PriceTag from '../Generic/PriceTag';
 import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
 import ParticipateAuction from '../ParticipateAuction/ParticipateAuction';
 import RePublish from '../MyProducts/RePublish';
-//import Tetris from '../Tetris';
-
 
 //constants 
 import { auctionWS, buyerID } from '../../constants/general';
 
 //style
 import '../../css/bootstrap.css';
-//import '../../css/jqmCss.css';
 import '../../css/auction.css';
 import '../../css/modal.css';
 import '../../css/transition.css';
@@ -60,6 +58,7 @@ class Auction extends Component {
         this.loadInterval = false;
     }
 
+    //updates price from db
     getCurPrice() {
         const self = this;
         axios.post(auctionWS + 'GetAuctionPrice', {
@@ -76,10 +75,15 @@ class Auction extends Component {
             });
     }
 
-    rePublishModalChanged() {
+    //re-publish modal is changed 
+    rePublishModalChanged(finished) {
         let newStatus = !this.state.rePublishModalIsOpen;
         this.setState({ rePublishModalIsOpen: newStatus })
-        this.props.modalChanged();
+        this.props.modalChanged(); // update parent
+        if (finished) {
+            this.props.rePublish();
+        }
+        
     }
 
     timerFinishedHome() {
@@ -87,18 +91,16 @@ class Auction extends Component {
         if (this.props.auctionfinished !== 'undefined') {
             this.props.auctionfinished(this.props.index);
         }
-
     }
 
+    //handle button clicked 
     buttonClicked() {
         if (this.state.finished) {
-            this.rePublishModalChanged();
+            this.rePublishModalChanged(); //open re-publish modal
         } else {
             localStorage.setItem("aucData", JSON.stringify({ props: this.props, price: this.state.price }));
-            this.setState({ reDirect: true });
+            this.setState({ reDirect: true }); //send to different page
         }
-
-
     }
 
     render() {
@@ -121,7 +123,7 @@ class Auction extends Component {
         }
 
         return (
-            <div className="row">
+            <div className="row" style={{width:window.innerWidth}}>
                 {/*sold stamp*/}
                 {this.props.auc.buyer != null ?
                     <div className={this.state.sold ? "sold stamp" : "stamp"} style={{ zIndex: !this.state.sold ? -5 : (this.props.modalIsOpen ? 0 : 1) }}>

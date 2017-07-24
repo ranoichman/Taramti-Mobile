@@ -1,15 +1,17 @@
+//npm components
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import axios from 'axios';
 import SweetAlert from 'sweetalert-react';
 
-
+// BID IT components
 import Ddl from '../Generic/Ddl';
-
-import '../../css/modal.css';
 
 //constants 
 import { auctionWS, buyerID } from '../../constants/general';
+
+//style
+import '../../css/modal.css';
 
 class RePublish extends Component {
     constructor(props) {
@@ -26,9 +28,10 @@ class RePublish extends Component {
         this.send = this.send.bind(this);
     }
 
+    //handle close modal
     close() {
         this.setState({ open: false });
-        setTimeout(() => this.props.closeModal(this.finished), 600)
+        setTimeout(() => this.props.closeModal(this.finished), 600) //update parent
     }
 
     onSelectedDay(opt) {
@@ -42,22 +45,24 @@ class RePublish extends Component {
         }
     }
 
+    //send button clicked
     send() {
         this.finished = false;
         let price = this.refs.auctionMinPrice.value != "" ? this.refs.auctionMinPrice.value : -1;
-        if (this.state.day == -1) {
+        
+        if (this.state.day == -1) { //check if number of days is valid
             this.setState({
                 alert: true,
                 message: "חובה לבחור משך למכרז"
-            });
+            }); //alert error
         }
-        else if (price == -1) {
+        else if (price == -1) { //check if price is valid
             this.setState({
                 alert: true,
                 message: "חובה להזין סכום רצוי"
-            });
+            }); //alert error
         }
-        else {
+        else { //re-publish product to db
             let self = this;
             axios.post(auctionWS + 'AddAuctionExisitingProd', {
                 prod: this.props.prodCode,
@@ -72,7 +77,7 @@ class RePublish extends Component {
                     self.setState({
                         alert: true,
                         message: "המכרז נוצר בהצלחה"
-                    })
+                    }) //alert success
                 } else {
                     throw "תקלה"
                 }
@@ -82,7 +87,7 @@ class RePublish extends Component {
                     self.setState({
                         alert: true,
                         message: "קרתה תקלה במהלך יצירת המכרז, נא נסה שוב"
-                    })
+                    }) //alert error
                 });
         }
     }
@@ -117,7 +122,7 @@ class RePublish extends Component {
 
                 <SweetAlert
                     show={this.state.alert}
-                    title={this.finished? "יש!": "...אופס"}
+                    title={this.finished? "!יש": "...אופס"}
                     type={this.finished? "success" : "error"}
                     text={this.state.message}
                     confirmButtonText="אישור"

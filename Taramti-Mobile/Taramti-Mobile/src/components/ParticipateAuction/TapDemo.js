@@ -1,6 +1,8 @@
+//npm components
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 
+// BID IT components
 import Balloon from './Balloon';
 
 class TapDemo extends Component {
@@ -9,7 +11,6 @@ class TapDemo extends Component {
         this.state = {
             mode: 0,
         }
-
         this.showVid = this.showVid.bind(this);
         this.renderStart = this.renderStart.bind(this);
         this.renderTap = this.renderTap.bind(this);
@@ -26,6 +27,7 @@ class TapDemo extends Component {
         this.loadInterval = false;
     }
 
+    //control mode changes over time
     showVid() {
         this.setState({ mode: 0 });
         self = this;

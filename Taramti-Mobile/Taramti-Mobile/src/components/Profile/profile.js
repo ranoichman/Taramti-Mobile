@@ -1,12 +1,15 @@
+//npm components
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+// BID IT components
 import Auction from '../Generic/Auction';
 import ThemeAuctions from '../Generic/ThemeAuctions';
 import Menu from '../Generic/Menu';
 import CircleButton from '../Generic/CircleButton';
 
+//style
 import '../../css/react-tabs.css';
 import '../../css/transition.css';
 
@@ -45,7 +48,7 @@ class Profile extends Component {
         const list = ["עקפו אותי", "המוצרים שלי", "הבידים שלי"]
         return (
             <div className="pageReact" style={{ minHeight: window.innerHeight }}>
-                <Menu/>
+                <Menu />
                 <Swipeable onSwipedLeft={this.tabSwipeLeft} onSwipedRight={this.tabSwipeRight}>
                     <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                         {/*header*/}
@@ -55,12 +58,14 @@ class Profile extends Component {
                             <Tab>הבידים שלי</Tab>
                         </TabList>
 
-                        {/*someone beat me to it*/}
+                        {/* purchase history */}
                         <TabPanel>
                             <div className={this.state.tabIndex === 0 ? this.state.animation : ""}>
                                 <ThemeAuctions theme="history" />
                             </div>
                         </TabPanel>
+                        
+                        {/*someone beat me to it*/}
                         <TabPanel>
                             <div className={this.state.tabIndex === 1 ? this.state.animation : ""}>
                                 <ThemeAuctions theme="outBID" />
@@ -73,8 +78,6 @@ class Profile extends Component {
                                 <ThemeAuctions theme="current" />
                             </div>
                         </TabPanel>
-
-
                     </Tabs>
                 </Swipeable>
 

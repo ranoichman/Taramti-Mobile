@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -21,12 +22,13 @@ class CircleButton extends Component {
         window.removeEventListener("resize", this.updateDimensions);
     }
 
+    //determine whether or not to display the button 
     updateDimensions() {
         let newStatus = !this.state.resize;
         this.setState({ resize: newStatus });
     }
 
-
+    //render button to add auction
     renderPlus() {
         return (
             <div className="FixedButton" style={{ display: this.state.resize ? "none" : "block" }}>
@@ -40,6 +42,7 @@ class CircleButton extends Component {
             </div>
         );
     }
+    //render back button 
     renderBack() {
         return (
             <div className="ReactIconBack">
@@ -47,6 +50,7 @@ class CircleButton extends Component {
             </div>
         );
     }
+    //render button to home page
     renderHome() {
         return (
             <div className="FixedButton" style={{ display: this.state.resize ? "none" : "block" }}>
@@ -63,7 +67,7 @@ class CircleButton extends Component {
     }
 
     render() {
-        // if (this.state.secondsRemaining >= 20870000) {
+
         if (this.props.home) {
             return (
                 this.renderHome()

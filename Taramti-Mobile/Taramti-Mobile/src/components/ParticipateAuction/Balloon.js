@@ -1,5 +1,7 @@
+//npm components
 import React, { Component } from 'react';
 
+//style
 import '../../css/balloon.css';
 
 class Balloon extends Component {
@@ -20,13 +22,11 @@ class Balloon extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
         {/*animating price upadate*/ }
         if ((nextProps.anim == "2" && this.props.anim != "2")) {
             this.refs.newPrice.value = "";
             this.calcDonation();
         }
-
     }
 
     updateWindowDimensions() {
@@ -38,10 +38,11 @@ class Balloon extends Component {
         if (this.props.calc != undefined) {
             this.props.calc(val);
         }
-
     }
+
     render() {
 
+        //array with all balloon dimension
         const balloonDim = [
             {
                 width: `${0.17 * this.state.width}px`, //17%
@@ -65,6 +66,7 @@ class Balloon extends Component {
             }
         ]
 
+        //keyframes for inflating
         let keyframes =
             `@keyframes inflate {
             0% {${balloonDim[this.props.formerIndex]}} 

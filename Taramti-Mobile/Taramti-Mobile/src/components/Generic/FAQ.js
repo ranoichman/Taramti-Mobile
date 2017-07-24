@@ -1,14 +1,16 @@
+//npm components
 import React, { Component } from 'react';
 import Collapse, { Panel } from 'rc-collapse';
 import axios from 'axios';
 
+// BID IT components
 import TextInput from './TextInput';
+
+//constants 
+import { auctionWS, buyerID } from '../../constants/general';
 
 //style
 import '../../css/message.css';
-
-
-import { auctionWS, buyerID } from '../../constants/general';
 
 class FAQ extends Component {
     constructor(props) {

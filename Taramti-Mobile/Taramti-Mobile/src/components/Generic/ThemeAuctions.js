@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
 import Swipeable from 'react-swipeable';
@@ -5,15 +6,16 @@ import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-// taramti babait components
+// BID IT components
 import Auction from '../Generic/Auction';
 import Loader from '../Generic/Loader';
 import ScrollButton from '../Generic/ScrollButton';
 
-import '../../css/transition.css';
-
 //constants 
 import { auctionWS, buyerID } from '../../constants/general';
+
+//style
+import '../../css/transition.css';
 
 class ThemeAuctions extends Component {
     constructor(props) {
@@ -44,7 +46,7 @@ class ThemeAuctions extends Component {
         this.setState({ modalIsOpen: newStatus });
     }
 
-    //call function to get auctions from serveer
+    //call function to get auctions from server
     getLeadingAuctions() {
         //define "this" for inner functions
         const self = this;
@@ -78,7 +80,6 @@ class ThemeAuctions extends Component {
             }, 7000)
         }
         const id = buyerID;
-        // const id = parseInt(buyerID);
         axios.post(auctionWS + funcName, {
             user_Id: id
         }).then(function (response) {
@@ -88,7 +89,7 @@ class ThemeAuctions extends Component {
             let res = JSON.parse(response.data.d);
 
             if (res.length == 0) {
-                setTimeout(() => self.setState({ loaded: true }), 300)
+                setTimeout(() => self.setState({ loaded: true }), 150)
             }
 
             res.map(self.addAuction);
@@ -131,8 +132,8 @@ class ThemeAuctions extends Component {
     }
 
     //force update after seller re-publish product
-    rePublish(){
-        this.setState({auctionsArr:[]});
+    rePublish() {
+        this.setState({ auctionsArr: [] });
         this.getLeadingAuctions();
     }
 
@@ -145,6 +146,7 @@ class ThemeAuctions extends Component {
         // this.state.auctionsArr.map(function (item, i) { console.log(i + "____" + item.endDate + ":::::::" + item.price) })
     }
 
+    //control loader component
     handleLoad() {
         let couner = this.state.loadingCounter;
         couner++;

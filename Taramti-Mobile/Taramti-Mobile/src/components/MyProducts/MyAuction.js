@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
@@ -5,7 +6,7 @@ import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-// taramti babait components
+// BID IT components
 import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
 import ChatMsg from '../Generic/ChatMsg';
@@ -14,11 +15,12 @@ import AuctionInfo from '../ParticipateAuction/AuctionInfo';
 import AuctionFAQ from '../ParticipateAuction/AuctionFAQ';
 import CircleButton from '../Generic/CircleButton';
 
-import '../../css/balloon.css';
-
 //constants 
 import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from '../../constants/messages';
 import { auctionWS, buyerID } from '../../constants/general';
+
+//style
+import '../../css/balloon.css';
 
 class MyAuction extends Component {
 
@@ -82,6 +84,7 @@ class MyAuction extends Component {
         this.loadInterval = false;
     }
 
+    //function gets a faq and adds un-answered functions to array
     addQuestion(faq) {
         if (faq.Answer == "") {
             let tempFAQS = this.state.FAQs;
@@ -102,6 +105,7 @@ class MyAuction extends Component {
         this.setState({ fAQModalIsOpen: newStatus })
     }
 
+    //updates price from db
     getCurPrice() {
         const self = this;
         axios.post(auctionWS + 'GetAuctionPrice', {

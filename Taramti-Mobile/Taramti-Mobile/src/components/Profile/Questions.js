@@ -1,6 +1,8 @@
+//npm components
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 
+// BID IT components
 import ChatMsg from '../Generic/ChatMsg';
 
 class Questions extends Component {

@@ -1,13 +1,18 @@
-﻿import React, { Component } from 'react';
+﻿//npm components
+import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import axios from 'axios';
 
+// BID IT components
 import ChatMsg from '../Generic/ChatMsg';
 import TextInput from '../Generic/TextInput';
 
+//constants 
+import { auctionWS, buyerID } from '../../constants/general';
+
+//style
 import '../../css/modal.css';
 
-import { auctionWS, buyerID } from '../../constants/general';
 class AuctionFAQ extends Component {
     constructor(props) {
         super(props)
@@ -39,6 +44,7 @@ class AuctionFAQ extends Component {
             });
     }
 
+    //function to send new question
     addQuestion(val) {
         console.log(`addQuestion---- ${val}`)
         let questioner = { UserId: buyerID };
@@ -71,13 +77,10 @@ class AuctionFAQ extends Component {
 
     }
 
+    //handle close modal
     close() {
         this.setState({ open: false });
-        setTimeout(() => this.props.closeModal(), 600)
-    }
-
-    renderQuestionInput() {
-        return ("")
+        setTimeout(() => this.props.closeModal(), 600) //update parent component
     }
 
     render() {

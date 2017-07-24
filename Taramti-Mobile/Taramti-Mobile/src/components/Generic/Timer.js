@@ -1,5 +1,7 @@
+//npm components
 import React, { Component } from 'react';
 
+//style
 import '../../css/timer.css';
 
 class Timer extends Component {
@@ -14,6 +16,16 @@ class Timer extends Component {
         this.renderBlink = this.renderBlink.bind(this);
         this.renderReg = this.renderReg.bind(this);
     }
+    componentDidMount() {
+        this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
+        this.loadInterval = setInterval(this.tick, 1000);
+    }
+
+    componentWillUnmount() {
+        this.loadInterval && clearInterval(this.loadInterval);
+        this.loadInterval = false;
+    }
+
     //countdown timer - interval function
     tick() {
         if (this.state.secondsRemaining !== 'undefined') {
@@ -25,7 +37,7 @@ class Timer extends Component {
                 if (this.props.timerFinished != 'undefined') {
                     this.props.timerFinished();
                 }
-                
+
             }
         }
     }
@@ -42,34 +54,14 @@ class Timer extends Component {
         return `${hours}:${minutes}:${seconds}`
     }
 
-    componentDidMount() {
-        // console.log(`end---${this.props.endDate}`)
-         this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
-        this.loadInterval = setInterval(this.tick, 1000);
-    }
-
-    componentWillUnmount() {
-        this.loadInterval && clearInterval(this.loadInterval);
-        this.loadInterval = false;
-    }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (this.props.endDate != nextProps.endDate) {
-    //         this.loadInterval && clearInterval(this.loadInterval);
-    //         this.loadInterval = false;
-    //         this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
-    //         this.loadInterval = setInterval(this.tick, 1000);
-    //     }
-    // }
-
-
+    //function for displaying regular rect
     renderReg() {
         return (
             <div className="rect regBorder">
                 <h3 className="text-center">{this.state.elapsed}</h3>
             </div>)
     }
-
+    //function for displaying red rect
     renderBlink() {
         return (
             <div className="rect blinkBorder">
@@ -78,10 +70,9 @@ class Timer extends Component {
     }
 
     render() {
-        // if (this.state.secondsRemaining >= 20870000) {
         if (this.state.secondsRemaining >= 120) {
             return (
-                this.renderReg()
+                this.renderReg() //show red rect if less than 2 min remaining
             )
         }
         else {

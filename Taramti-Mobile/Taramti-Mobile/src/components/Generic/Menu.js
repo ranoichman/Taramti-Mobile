@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
@@ -15,11 +16,12 @@ class Menu extends Component {
         this.logOut = this.logOut.bind(this);
     }
 
-
+    //toggle scroll of menu
     handleClick() {
         this.setState({ visible: this.state.visible == 'menuB' ? 'menuB visible' : 'menuB' });
     }
 
+    //log out function
     logOut() {
         localStorage.removeItem("UserID");
         location.href = 'Login-Taramti.html'
@@ -30,7 +32,6 @@ class Menu extends Component {
         if (this.state.reDirect && !this.props.home) {
             return <Redirect push to="/" />
         }
-
         return (
             <div id="MenuBarDiv" style={{ zIndex: 150, position: "relative" }} className="navigation-1 navigation-5">
 

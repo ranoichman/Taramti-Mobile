@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Swipeable from 'react-swipeable';
@@ -5,7 +6,7 @@ import FontAwesome from 'react-fontawesome';
 import Modal from 'react-modal';
 import axios from 'axios';
 
-// taramti babait components
+// BID IT components
 import AuctionInfo from './AuctionInfo';
 import AuctionFAQ from './AuctionFAQ';
 import Balloon from './Balloon';
@@ -14,15 +15,14 @@ import Timer from '../Generic/Timer';
 import Pic from '../Generic/Pic';
 import CircleButton from '../Generic/CircleButton';
 
-import '../../css/balloon.css';
-
 //constants 
 import { successMSG, failedMSG, notEnoughtMSG, errorMSG } from '../../constants/messages';
 import { auctionWS, buyerID } from '../../constants/general';
 
+//style
+import '../../css/balloon.css';
+
 class ParticipateAuction extends Component {
-
-
     constructor(props) {
         super(props);
         const par = JSON.parse(localStorage.getItem("aucData"));
@@ -35,7 +35,6 @@ class ParticipateAuction extends Component {
             msgClass: "box notEnough",
             shownMessage: "",
             tempDonation: "",
-            tip: 0,
             offered: 0,
             curIndex: 0,
             formerIndex: 0,
@@ -54,9 +53,6 @@ class ParticipateAuction extends Component {
                 imgArr: par.props.auc.imgArr
             }
         }
-        // this.openMSGModal = this.openMSGModal.bind(this);
-        // this.closeMSGModal = this.closeMSGModal.bind(this);
-
         this.infoModalChanged = this.infoModalChanged.bind(this);
         this.FAQModalChannged = this.FAQModalChannged.bind(this);
         this.MSGModalChanged = this.MSGModalChanged.bind(this);
@@ -69,17 +65,14 @@ class ParticipateAuction extends Component {
         this.addToWatch = this.addToWatch.bind(this);
         this.updateWatch = this.updateWatch.bind(this);
         this.deleteOffer = this.deleteOffer.bind(this);
-        this.changeTip = this.changeTip.bind(this);
-        this.stopChangeTip = this.stopChangeTip.bind(this);
+        
     }
 
     componentDidMount() {
         this.addToWatch()
         this.calcDonation(-5);
         this.loadInterval = setInterval(this.getCurPrice, 5000);
-        this.tipInterval = setInterval(this.changeTip, 3150);
         setTimeout(this.tipModalChanged, 700);
-        setTimeout(this.stopChangeTip, 100000);
     }
 
     componentWillUnmount() {
@@ -88,11 +81,9 @@ class ParticipateAuction extends Component {
         //clear interval!!!
         this.loadInterval && clearInterval(this.loadInterval);
         this.loadInterval = false;
-
-        this.tipInterval && clearInterval(this.tipInterval);
-        this.tipInterval = false;
     }
 
+    //updates price from db
     getCurPrice() {
         const self = this;
         axios.post(auctionWS + 'GetAuctionPrice', {
@@ -143,7 +134,7 @@ class ParticipateAuction extends Component {
     }
     /*
        ***************
-          MSG MODAL
+          TIP MODAL
        ***************
     */
     tipModalChanged() {
@@ -181,10 +172,12 @@ class ParticipateAuction extends Component {
         `});
     }
 
-    //calculate donation amount to insert to circle
-    // newP: -1 if comes from getCurPrice()
-    //       -5 if input is empty
-    //        else offered price from balloon input
+    /*
+    calculate donation amount to insert to circle
+     newP: -1 if comes from getCurPrice()
+           -5 if balloon input is empty
+            else offered price from balloon input
+    */
     calcDonation(newP) {
         let tempPrice = parseInt(this.state.auc.price);
         let i = this.state.curIndex;
@@ -299,6 +292,7 @@ class ParticipateAuction extends Component {
 
     }
 
+    //add entrance details to watch_log table
     addToWatch() {
         let user = { UserId: buyerID };
         let auc = {
@@ -323,6 +317,7 @@ class ParticipateAuction extends Component {
             });
     }
 
+    //update exit details to watch_log table
     updateWatch() {
         let user = { UserId: buyerID };
         let auc = {
@@ -347,30 +342,13 @@ class ParticipateAuction extends Component {
             });
     }
 
+    //delete offer - notify balloon component
     deleteOffer() {
         this.setState({ anim: "2" });
         setTimeout(() => this.setState({ anim: "0" }), 1500)
     }
 
-    changeTip() {
-        let rnd = Math.floor(Math.random() * 3)
-        if (rnd != this.state.tip) {
-            this.setState({ tip: rnd });
-        } else {
-            this.changeTip();
-        }
-    }
-
-    stopChangeTip() {
-        this.tipInterval && clearInterval(this.tipInterval);
-        this.tipInterval = false;
-        this.setState({
-            tip: -1
-        });
-    }
-
     render() {
-
         return (
             <div className="pageBC" style={{ minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" }}>
                 <div className="show1">
@@ -432,7 +410,7 @@ class ParticipateAuction extends Component {
                         </h4>
                     </div>
 
-                    <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer} onTap={this.stopChangeTip}>
+                    <Swipeable onSwipedUp={this.makeBid} onSwipedDown={this.deleteOffer}>
 
                         <Balloon curIndex={this.state.curIndex} formerIndex={this.state.formerIndex} anim={this.state.anim} price={this.state.auc.price} calc={this.calcDonation} />
 

@@ -1,7 +1,9 @@
+//npm components
 import React, { Component } from 'react';
 import Swipeable from 'react-swipeable';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+// BID IT components
 import ThemeAuctions from '../Generic/ThemeAuctions';
 import TapDemo from './TapDemo';
 import SwipeUPDemo from './SwipeUPDemo';
@@ -47,7 +49,7 @@ class Tip extends Component {
         }, 1500)
     }
 
-
+    //handle modal close
     close() {
         this.setState({ open: false });
         setTimeout(() => this.props.closeModal(), 600)
@@ -83,9 +85,7 @@ class Tip extends Component {
     }
 
     render() {
-
         return (
-
             <div ref="modal" className={this.state.open ? "tipBox" : "tipBox zoomOut"} style={{ display: "inline-block" }}>
                 <Swipeable onTap={this.close}>
                     <a className="boxclose" ></a>

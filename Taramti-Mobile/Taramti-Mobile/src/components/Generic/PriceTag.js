@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 
@@ -11,7 +12,6 @@ class PriceTag extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
         {/*animating price upadate*/ }
         if (parseInt(this.state.price) < parseInt(nextProps.price)) {
             this.setState({

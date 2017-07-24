@@ -1,6 +1,8 @@
+//npm components
 import React, { Component } from 'react';
 import Collapse, { Panel } from 'rc-collapse';
 
+// BID IT components
 import TextInput from './TextInput';
 import FAQ from './FAQ';
 
@@ -19,7 +21,6 @@ class ChatMsg extends Component {
     //function that returns a render of 1 FAQ
     generateFAQ(item, i) {
         return (
-
             <Panel disabled={this.props.disabled} className={!this.props.chat && item.Answer == "" ? (!this.props.disabled? "newQuestion" : "question") : "question"} header={item.Question} key={i}>
                 <FAQ faq={item} key={i} index={i} display={this.state.activeKey == i ? true : false} chat={this.props.chat} />
             </Panel>
@@ -27,7 +28,6 @@ class ChatMsg extends Component {
     }
 
     render() {
-
         return (
             <div style={{display:"inline-block", marginBottom:"12px"}}>
                 <h2 style={{ textAlign: "right" }}>{this.props.FAQs.length == 0 ? "אין שאלות לתצוגה" : ""}</h2>

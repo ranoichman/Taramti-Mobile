@@ -1,3 +1,4 @@
+//npm components
 import React, { Component } from 'react';
 
 class Ddl extends Component {
@@ -15,7 +16,6 @@ class Ddl extends Component {
 
     ddlChanged() {
         this.props.onChange(this.refs.ddl.value);
-
     }
 
     render() {
