@@ -353,12 +353,12 @@
 
                                 var res = JSON.parse(data.d);
                                 if (res == true) {
-                                    $("#favStar").removeClass('fa fa-star-o fa-3x');
-                                    $("#favStar").addClass('fa fa-star fa-3x');
+                                    $("#favStar1").removeClass('fa-star-o fa fa-3x');
+                                    $("#favStar1").addClass('fa-star fa fa-3x');
                                 }
                                 else {
-                                    $("#favStar").removeClass('fa fa-star fa-3x');
-                                    $("#favStar").addClass('fa fa-star-o fa-3x');
+                                    $("#favStar1").removeClass('fa-star fa fa-3x');
+                                    $("#favStar1").addClass('fa-star-o fa fa-3x');
                                 }
                                 location.href = "appSettings.html#AssocInfoPage";
                             },
@@ -438,14 +438,14 @@
             var userId = user.userID();
             var action = false;
 
-            if ($("#favStar").hasClass('fa fa-star-o fa-3x')) {
-                $("#favStar").removeClass('fa fa-star-o fa-3x');
-                $("#favStar").addClass('fa fa-star fa-3x');
+            if ($("#favStar1").hasClass('fa-star-o fa fa-3x')) {
+                $("#favStar1").removeClass('fa-star-o fa fa-3x');
+                $("#favStar1").addClass('fa-star fa fa-3x');
                 action = true;
             }
             else {
-                $("#favStar").removeClass('fa fa-star fa-3x');
-                $("#favStar").addClass('fa fa-star-o fa-3x');
+                $("#favStar1").removeClass('fa-star fa fa-3x');
+                $("#favStar1").addClass('fa-star-o fa fa-3x');
             }
             // עדכון העמותה בהעדפות המשתמש
             $.ajax({
@@ -640,8 +640,8 @@
 
         <div class="Form" id="AssocInfo" style="visibility:hidden">
 
-            <div id="favStarDiv">
-                <i id="favStar" class="fa fa-star-o fa-3x" onclick="UpdateFavAssoc()"></i>
+            <div id="favStarDiv1">
+                <i id="favStar" class="fa-star-o fa fa-3x" onclick="UpdateFavAssoc()"></i>
             </div>
 
             <div id="SearchAssoc">
@@ -674,6 +674,7 @@
                 <a class="styleLink" onclick="goBack()"><img class="NiceIcon" src="images/backToLogin.png" /></a>
                 <!--<h6 class="IconText">חזור</h6>-->
             </div>
+            <i id="favStar1" class="fa-star-o fa fa-3x" onclick="UpdateFavAssoc()"></i>
             <div class="flexbox" style="position:relative">
 
         
