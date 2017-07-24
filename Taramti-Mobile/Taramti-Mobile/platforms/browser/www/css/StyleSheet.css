@@ -356,7 +356,7 @@ div.button-1 {
     margin: 0 0 0 0;
 }
 
-.LoginForm .input-field .button-1 .btn-10, .Form .input-field .button-1 .btn-10, #AddingProductAuctionbtn, #Acceptbtn   {
+.LoginForm .input-field .button-1 .btn-10, .Form .input-field .button-1 .btn-10, #AddingProductAuctionbtn, #Acceptbtn, #UpdateUserbtn {
     margin: 0 0 0 0;
     width: 100%;
     font-size: 1.4em;
@@ -572,6 +572,11 @@ div .page-top-mid1 {
     border-radius: 60px;
 }
    
+#DivIconBackUserI{
+     margin-top: 3% !important;
+     margin-bottom:3%;
+}
+
 #DivIconBack{
     margin-top: 10% !important;
 }
@@ -660,7 +665,7 @@ div .page-top-mid1 {
 }
 
 #UserCity {
-    width: initial;
+    width: 80%;
     font-size: 1.2em;
     padding-right: 1em;
     padding-left: 0;

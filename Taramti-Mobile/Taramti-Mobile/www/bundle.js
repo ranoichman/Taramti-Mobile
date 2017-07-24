@@ -104,10 +104,6 @@
 
 	var _MyProducts2 = _interopRequireDefault(_MyProducts);
 
-	var _Bdika = __webpack_require__(478);
-
-	var _Bdika2 = _interopRequireDefault(_Bdika);
-
 	var _Menu = __webpack_require__(470);
 
 	var _Menu2 = _interopRequireDefault(_Menu);
@@ -116,7 +112,7 @@
 
 	var _Loader2 = _interopRequireDefault(_Loader);
 
-	var _master = __webpack_require__(480);
+	var _master = __webpack_require__(478);
 
 	var _master2 = _interopRequireDefault(_master);
 
@@ -126,16 +122,13 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	//import { Router, Route, hashHistory } from 'react-router'
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //style
 
 
-	// taramti babait components
-
-	// import ActiveAuctions from './components/Profile/ActiveAuctions';
+	//npm components
 
 
-	// import ThemeAuctions from './components/Profile/ThemeAuctions';
+	// BID IT components
 
 
 	//const auctionWS = GENERAL.auctionWebServerAddress;
@@ -147,56 +140,7 @@
 	    function App(props) {
 	        _classCallCheck(this, App);
 
-	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-	        _this.state = {
-	            auctionsArr: [
-	                // {
-	                //     code: 15,
-	                //     price: 535,
-	                //     endDate: "5/12/2017",
-	                //     imgArr: [
-	                //         "img/image.png",
-	                //         "img/ASP.JPG",
-	                //         "img/Logo.JPG"
-	                //     ],
-	                //     percentage: 0.15,
-	                //     prodName: "ספה שהיא נפתחת",
-	                //     prodDesc: "קצת מלל וכל מיני דברים שבא לי לכתוב וכן הנה עוד קצת דברים ותכף יהיו כאן גם תמונות וזה בסך הכל תיאור של מוצר גניהנכי חי כג הכ חיה יגכ הכגכ יחה גכ חיהד חכ החיגכ יח דגחב ד ח בגי דגח בגד בדב  "
-	                // },
-	                // {
-	                //     code: 5,
-	                //     price: 1234,
-	                //     endDate: "5/11/2017",
-	                //     imgArr: [
-	                //         "img/Logo.JPG",
-	                //         "img/image.png",
-	                //         "img/ASP.JPG"
-	                //     ],
-	                //     percentage: 0.45,
-	                //     prodName: "מחשב נייד",
-	                //     prodDesc: "בוא נכתוב כאן משהו שאפשר יהיה לראות שהכל עובד כמו שצריך. האם זה הצליח???"
-	                // },
-	                // {
-	                //     code: 14,
-	                //     price: 15,
-	                //     endDate: "5/14/2017",
-	                //     imgArr: [
-	                //         "img/ASP.JPG",
-	                //         "img/Logo.JPG",
-	                //         "img/image.png"
-	                //     ],
-	                //     percentage: 0.2,
-	                //     prodName: "שעון יד",
-	                //     prodDesc: "הנה כמה דברים שיש לי לומר  "
-	                // }
-	            ]
-	            // this.offerBid = this.offerBid.bind(this);
-	            // this.getAuctionsByParams = this.getAuctionsByParams.bind(this);
-	            // this.addAuction = this.addAuction.bind(this);
-	            // this.renderHome = this.renderHome.bind(this);
-	            // this.renderAucPage = this.renderAucPage.bind(this);
-	        };return _this;
+	        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	    }
 
 	    _createClass(App, [{
@@ -234,8 +178,7 @@
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/profile', component: _Profile2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/products', component: _MyProducts2.default }),
 	        _react2.default.createElement(_reactRouterDom.Route, { path: '/participate', component: _ParticipateAuction2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: '/myAuction', component: _MyAuction2.default }),
-	        _react2.default.createElement(_reactRouterDom.Route, { path: '/bdika', component: _Bdika2.default })
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/myAuction', component: _MyAuction2.default })
 	    )
 	), document.getElementById('app'));
 
@@ -30847,9 +30790,9 @@
 
 	var _ScrollButton2 = _interopRequireDefault(_ScrollButton);
 
-	__webpack_require__(311);
+	var _general = __webpack_require__(422);
 
-	var _general = __webpack_require__(424);
+	__webpack_require__(311);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30857,9 +30800,16 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
 
-	// taramti babait components
+
+	// BID IT components
+
+
+	//constants 
+
+
+	//style
 
 
 	var Home = function (_Component) {
@@ -30884,10 +30834,7 @@
 	        _this.getAuctionsByParams = _this.getAuctionsByParams.bind(_this);
 	        _this.addAuction = _this.addAuction.bind(_this);
 	        _this.eachAuction = _this.eachAuction.bind(_this);
-	        _this.offerBid = _this.offerBid.bind(_this);
 	        _this.deleteAuction = _this.deleteAuction.bind(_this);
-	        _this.moveToAddAuction = _this.moveToAddAuction.bind(_this);
-	        _this.getDistance = _this.getDistance.bind(_this);
 	        _this.handleLoad = _this.handleLoad.bind(_this);
 	        return _this;
 	    }
@@ -30930,12 +30877,18 @@
 	            var newStatus = !this.state.modalIsOpen;
 	            this.setState({ modalIsOpen: newStatus });
 	        }
+
+	        //callback function from search component
+
 	    }, {
 	        key: 'searchTriggered',
 	        value: function searchTriggered(lowPrice, highPrice, catCode, assocTagCode, coords, radius) {
 	            this.setState({ auctionsArr: [], loaded: false, loadingCounter: 0, searchModalIsOpen: false });
 	            this.startSearch(lowPrice, highPrice, catCode, assocTagCode, coords.lat, coords.lng, radius);
 	        }
+
+	        //get paramaters from caller, handle interval and sends to getAuctionsByParams
+
 	    }, {
 	        key: 'startSearch',
 	        value: function startSearch(lowPrice, highPrice, catCode, assocTagCode, lat, lng, radius) {
@@ -31042,30 +30995,6 @@
 	                }
 	            });
 	        }
-	    }, {
-	        key: 'getDistance',
-	        value: function getDistance(item, lat, lng) {
-	            var mygc = new google.maps.Geocoder();
-	            var locationOrigem = void 0;
-	            var locationDestino = void 0;
-	            var latOrigem = 0;
-	            var longOrigem = 0;
-	            var latDestino = 0;
-	            var longDestino = 0;
-
-	            mygc.geocode({ 'address': city }, function (results, status) {
-	                locationOrigem = results[0].geometry.location;
-	                latOrigem = results[0].geometry.location.lat();
-	                longOrigem = results[0].geometry.location.lng();
-	                mygc.geocode({}, function (results, status) {
-	                    locationDestino = new google.maps.LatLng(lat, lng);
-	                    // alert(latDestino + " " + longDestino);
-	                    console.log(locationOrigem);
-	                    console.log(locationDestino);
-	                    return google.maps.geometry.spherical.computeDistanceBetween(locationOrigem, locationDestino);
-	                });
-	            });
-	        }
 
 	        //add auction from server to array
 
@@ -31111,16 +31040,8 @@
 	                console.log(i + "____" + item.endDate + ":::::::" + item.price);
 	            });
 	        }
-	    }, {
-	        key: 'offerBid',
-	        value: function offerBid(i) {
-	            this.props.offerBid(i, this.state.auctionsArr);
-	        }
-	    }, {
-	        key: 'moveToAddAuction',
-	        value: function moveToAddAuction() {
-	            location.href = 'AddingAuction-Taramti.html';
-	        }
+	        //control loader component
+
 	    }, {
 	        key: 'handleLoad',
 	        value: function handleLoad() {
@@ -31268,7 +31189,7 @@
 
 	var _RePublish2 = _interopRequireDefault(_RePublish);
 
-	var _general = __webpack_require__(424);
+	var _general = __webpack_require__(422);
 
 	__webpack_require__(465);
 
@@ -31284,19 +31205,16 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
 
-	// taramti babait components
 
-	//import Tetris from '../Tetris';
+	// BID IT components
 
 
 	//constants 
 
 
 	//style
-
-	//import '../../css/jqmCss.css';
 
 
 	var Auction = function (_Component) {
@@ -31345,6 +31263,9 @@
 	            this.loadInterval && clearInterval(this.loadInterval);
 	            this.loadInterval = false;
 	        }
+
+	        //updates price from db
+
 	    }, {
 	        key: 'getCurPrice',
 	        value: function getCurPrice() {
@@ -31360,12 +31281,18 @@
 	                console.log(error);
 	            });
 	        }
+
+	        //re-publish modal is changed 
+
 	    }, {
 	        key: 'rePublishModalChanged',
-	        value: function rePublishModalChanged() {
+	        value: function rePublishModalChanged(finished) {
 	            var newStatus = !this.state.rePublishModalIsOpen;
 	            this.setState({ rePublishModalIsOpen: newStatus });
-	            this.props.modalChanged();
+	            this.props.modalChanged(); // update parent
+	            if (finished) {
+	                this.props.rePublish();
+	            }
 	        }
 	    }, {
 	        key: 'timerFinishedHome',
@@ -31375,14 +31302,17 @@
 	                this.props.auctionfinished(this.props.index);
 	            }
 	        }
+
+	        //handle button clicked 
+
 	    }, {
 	        key: 'buttonClicked',
 	        value: function buttonClicked() {
 	            if (this.state.finished) {
-	                this.rePublishModalChanged();
+	                this.rePublishModalChanged(); //open re-publish modal
 	            } else {
 	                localStorage.setItem("aucData", JSON.stringify({ props: this.props, price: this.state.price }));
-	                this.setState({ reDirect: true });
+	                this.setState({ reDirect: true }); //send to different page
 	            }
 	        }
 	    }, {
@@ -31407,7 +31337,7 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'row' },
+	                { className: 'row', style: { width: window.innerWidth } },
 	                this.props.auc.buyer != null ? _react2.default.createElement(
 	                    'div',
 	                    { className: this.state.sold ? "sold stamp" : "stamp", style: { zIndex: !this.state.sold ? -5 : this.props.modalIsOpen ? 0 : 1 } },
@@ -31497,7 +31427,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
 
 	var PriceTag = function (_Component) {
 	    _inherits(PriceTag, _Component);
@@ -31584,7 +31515,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	//style
+
 
 	var Timer = function (_Component) {
 	    _inherits(Timer, _Component);
@@ -31604,10 +31539,23 @@
 	        _this.renderReg = _this.renderReg.bind(_this);
 	        return _this;
 	    }
-	    //countdown timer - interval function
-
 
 	    _createClass(Timer, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
+	            this.loadInterval = setInterval(this.tick, 1000);
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	            this.loadInterval && clearInterval(this.loadInterval);
+	            this.loadInterval = false;
+	        }
+
+	        //countdown timer - interval function
+
+	    }, {
 	        key: 'tick',
 	        value: function tick() {
 	            if (this.state.secondsRemaining !== 'undefined') {
@@ -31637,29 +31585,8 @@
 
 	            return hours + ':' + minutes + ':' + seconds;
 	        }
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            // console.log(`end---${this.props.endDate}`)
-	            this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
-	            this.loadInterval = setInterval(this.tick, 1000);
-	        }
-	    }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            this.loadInterval && clearInterval(this.loadInterval);
-	            this.loadInterval = false;
-	        }
 
-	        // componentWillReceiveProps(nextProps) {
-	        //     if (this.props.endDate != nextProps.endDate) {
-	        //         this.loadInterval && clearInterval(this.loadInterval);
-	        //         this.loadInterval = false;
-	        //         this.setState({ secondsRemaining: Date.parse(this.props.endDate) - Date.now() });
-	        //         this.loadInterval = setInterval(this.tick, 1000);
-	        //     }
-	        // }
-
+	        //function for displaying regular rect
 
 	    }, {
 	        key: 'renderReg',
@@ -31674,6 +31601,8 @@
 	                )
 	            );
 	        }
+	        //function for displaying red rect
+
 	    }, {
 	        key: 'renderBlink',
 	        value: function renderBlink() {
@@ -31690,9 +31619,9 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            // if (this.state.secondsRemaining >= 20870000) {
 	            if (this.state.secondsRemaining >= 120) {
-	                return this.renderReg();
+	                return this.renderReg() //show red rect if less than 2 min remaining
+	                ;
 	            } else {
 	                return this.renderBlink();
 	            }
@@ -31788,7 +31717,10 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //import $ from 'jquery';
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	//style
 
 
 	var Pic = function (_Component) {
@@ -31830,12 +31762,15 @@
 	                this.setState({ index: i });
 	            }
 	        }
+
+	        //modal was changed
+
 	    }, {
 	        key: 'changeCarouselModalOpen',
 	        value: function changeCarouselModalOpen() {
 	            var newstatus = !this.state.carouselModalIsOpen;
 	            this.setState({ carouselModalIsOpen: newstatus });
-	            this.props.picModalChanged();
+	            this.props.picModalChanged(); // notify parent
 	        }
 	    }, {
 	        key: 'render',
@@ -34309,11 +34244,11 @@
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
-	__webpack_require__(426);
-
 	var _messages = __webpack_require__(447);
 
-	var _general = __webpack_require__(424);
+	var _general = __webpack_require__(422);
+
+	__webpack_require__(426);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34321,12 +34256,16 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
 
-	// taramti babait components
+
+	// BID IT components
 
 
 	//constants 
+
+
+	//style
 
 
 	var ParticipateAuction = function (_Component) {
@@ -34347,7 +34286,6 @@
 	            msgClass: "box notEnough",
 	            shownMessage: "",
 	            tempDonation: "",
-	            tip: 0,
 	            offered: 0,
 	            curIndex: 0,
 	            formerIndex: 0,
@@ -34365,10 +34303,8 @@
 	                finished: false,
 	                imgArr: par.props.auc.imgArr
 	            }
-	            // this.openMSGModal = this.openMSGModal.bind(this);
-	            // this.closeMSGModal = this.closeMSGModal.bind(this);
-
-	        };_this.infoModalChanged = _this.infoModalChanged.bind(_this);
+	        };
+	        _this.infoModalChanged = _this.infoModalChanged.bind(_this);
 	        _this.FAQModalChannged = _this.FAQModalChannged.bind(_this);
 	        _this.MSGModalChanged = _this.MSGModalChanged.bind(_this);
 	        _this.tipModalChanged = _this.tipModalChanged.bind(_this);
@@ -34380,8 +34316,7 @@
 	        _this.addToWatch = _this.addToWatch.bind(_this);
 	        _this.updateWatch = _this.updateWatch.bind(_this);
 	        _this.deleteOffer = _this.deleteOffer.bind(_this);
-	        _this.changeTip = _this.changeTip.bind(_this);
-	        _this.stopChangeTip = _this.stopChangeTip.bind(_this);
+
 	        return _this;
 	    }
 
@@ -34391,9 +34326,7 @@
 	            this.addToWatch();
 	            this.calcDonation(-5);
 	            this.loadInterval = setInterval(this.getCurPrice, 5000);
-	            this.tipInterval = setInterval(this.changeTip, 3150);
 	            setTimeout(this.tipModalChanged, 700);
-	            setTimeout(this.stopChangeTip, 100000);
 	        }
 	    }, {
 	        key: 'componentWillUnmount',
@@ -34403,10 +34336,10 @@
 	            //clear interval!!!
 	            this.loadInterval && clearInterval(this.loadInterval);
 	            this.loadInterval = false;
-
-	            this.tipInterval && clearInterval(this.tipInterval);
-	            this.tipInterval = false;
 	        }
+
+	        //updates price from db
+
 	    }, {
 	        key: 'getCurPrice',
 	        value: function getCurPrice() {
@@ -34466,7 +34399,7 @@
 	        }
 	        /*
 	           ***************
-	              MSG MODAL
+	              TIP MODAL
 	           ***************
 	        */
 
@@ -34508,10 +34441,12 @@
 	                shownMessage: '\u05DE\u05D6\u05DC \u05D8\u05D5\u05D1!\n        \u05D4\u05DE\u05DB\u05E8\u05D6 \u05E2\u05DC ' + this.state.auc.prodName + ' \u05D4\u05E1\u05EA\u05D9\u05D9\u05DD \u05D1\u05D4\u05E6\u05DC\u05D7\u05D4 \u05D1\u05E1\u05DB\u05D5\u05DD \u05E9\u05DC ' + this.state.auc.price + ' \u05E9"\u05D7 \u05DE\u05EA\u05D5\u05DB\u05DD ' + this.state.auc.price * this.state.auc.percentage / 100 + ' \u05E9"\u05D7 \u05D4\u05D5\u05DC\u05DB\u05D9\u05DD \u05DC\u05EA\u05E8\u05D5\u05DE\u05D4 \u05D5' + this.state.auc.price * (100 - this.state.auc.percentage) / 100 + ' \u05E9"\u05D7 \u05D0\u05DC\u05D9\u05DA! \n        \u05DB\u05E2\u05EA, \u05DB\u05DC \u05DE\u05D4 \u05E9\u05E0\u05D5\u05EA\u05E8 \u05D4\u05D5\u05D0 \u05DC\u05D7\u05DB\u05D5\u05EA \u05E9\u05D4\u05E7\u05D5\u05E0\u05D4 \u05D9\u05D1\u05E6\u05E2 \u05D0\u05EA \u05D4\u05EA\u05E9\u05DC\u05D5\u05DD \u05D5\u05DC\u05D0\u05D7\u05E8 \u05DE\u05DB\u05DF \u05E4\u05E8\u05D8\u05D9\u05DB\u05DD \u05D9\u05D5\u05E2\u05D1\u05E8\u05D5.\n        ' });
 	        }
 
-	        //calculate donation amount to insert to circle
-	        // newP: -1 if comes from getCurPrice()
-	        //       -5 if input is empty
-	        //        else offered price from balloon input
+	        /*
+	        calculate donation amount to insert to circle
+	         newP: -1 if comes from getCurPrice()
+	               -5 if balloon input is empty
+	                else offered price from balloon input
+	        */
 
 	    }, {
 	        key: 'calcDonation',
@@ -34628,6 +34563,9 @@
 	            }
 	            //console.log(`make bid price: ${val}`)
 	        }
+
+	        //add entrance details to watch_log table
+
 	    }, {
 	        key: 'addToWatch',
 	        value: function addToWatch() {
@@ -34651,6 +34589,9 @@
 	                //add to local storage
 	            });
 	        }
+
+	        //update exit details to watch_log table
+
 	    }, {
 	        key: 'updateWatch',
 	        value: function updateWatch() {
@@ -34674,6 +34615,9 @@
 	                //add to local storage
 	            });
 	        }
+
+	        //delete offer - notify balloon component
+
 	    }, {
 	        key: 'deleteOffer',
 	        value: function deleteOffer() {
@@ -34685,28 +34629,8 @@
 	            }, 1500);
 	        }
 	    }, {
-	        key: 'changeTip',
-	        value: function changeTip() {
-	            var rnd = Math.floor(Math.random() * 3);
-	            if (rnd != this.state.tip) {
-	                this.setState({ tip: rnd });
-	            } else {
-	                this.changeTip();
-	            }
-	        }
-	    }, {
-	        key: 'stopChangeTip',
-	        value: function stopChangeTip() {
-	            this.tipInterval && clearInterval(this.tipInterval);
-	            this.tipInterval = false;
-	            this.setState({
-	                tip: -1
-	            });
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
-
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'pageBC', style: { minHeight: window.innerHeight, width: window.innerWidth, paddingTop: "10px", paddingRight: "5px", paddingLeft: "5px" } },
@@ -34799,7 +34723,7 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        _reactSwipeable2.default,
-	                        { onSwipedUp: this.makeBid, onSwipedDown: this.deleteOffer, onTap: this.stopChangeTip },
+	                        { onSwipedUp: this.makeBid, onSwipedDown: this.deleteOffer },
 	                        _react2.default.createElement(_Balloon2.default, { curIndex: this.state.curIndex, formerIndex: this.state.formerIndex, anim: this.state.anim, price: this.state.auc.price, calc: this.calcDonation })
 	                    ),
 	                    _react2.default.createElement(
@@ -34855,7 +34779,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	//style
+
 
 	var AuctionInfo = function (_Component) {
 	    _inherits(AuctionInfo, _Component);
@@ -34874,6 +34802,9 @@
 	        return _this;
 	    }
 
+	    //handle modak close
+
+
 	    _createClass(AuctionInfo, [{
 	        key: 'close',
 	        value: function close() {
@@ -34882,8 +34813,11 @@
 	            this.setState({ open: false });
 	            setTimeout(function () {
 	                return _this2.props.closeModal();
-	            }, 600);
+	            }, 600); //update parent component
 	        }
+
+	        //return display for modal
+
 	    }, {
 	        key: 'renderModal',
 	        value: function renderModal() {
@@ -34937,6 +34871,9 @@
 	                )
 	            );
 	        }
+
+	        //return small info display 
+
 	    }, {
 	        key: 'renderInfo',
 	        value: function renderInfo() {
@@ -35041,9 +34978,9 @@
 
 	var _TextInput2 = _interopRequireDefault(_TextInput);
 
-	__webpack_require__(315);
+	var _general = __webpack_require__(422);
 
-	var _general = __webpack_require__(424);
+	__webpack_require__(315);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35051,7 +34988,17 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
+
+	//constants 
+
+
+	//style
+
 
 	var AuctionFAQ = function (_Component) {
 	    _inherits(AuctionFAQ, _Component);
@@ -35090,6 +35037,9 @@
 	                console.log(error);
 	            });
 	        }
+
+	        //function to send new question
+
 	    }, {
 	        key: 'addQuestion',
 	        value: function addQuestion(val) {
@@ -35120,6 +35070,9 @@
 	                console.log(error);
 	            });
 	        }
+
+	        //handle close modal
+
 	    }, {
 	        key: 'close',
 	        value: function close() {
@@ -35128,12 +35081,7 @@
 	            this.setState({ open: false });
 	            setTimeout(function () {
 	                return _this2.props.closeModal();
-	            }, 600);
-	        }
-	    }, {
-	        key: 'renderQuestionInput',
-	        value: function renderQuestionInput() {
-	            return "";
+	            }, 600); //update parent component
 	        }
 	    }, {
 	        key: 'render',
@@ -35189,7 +35137,7 @@
 
 	var _FAQ2 = _interopRequireDefault(_FAQ);
 
-	__webpack_require__(422);
+	__webpack_require__(423);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35197,7 +35145,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
 
 	//style
 
@@ -38610,7 +38562,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
 
 	var TextInput = function (_Component) {
 	    _inherits(TextInput, _Component);
@@ -38680,9 +38633,9 @@
 
 	var _TextInput2 = _interopRequireDefault(_TextInput);
 
-	__webpack_require__(422);
+	var _general = __webpack_require__(422);
 
-	var _general = __webpack_require__(424);
+	__webpack_require__(423);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -38690,7 +38643,14 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
+
+	//constants 
+
 
 	//style
 
@@ -38762,12 +38722,28 @@
 
 /***/ }),
 /* 422 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	//web services
+	var auctionWS = exports.auctionWS = GENERAL.auctionWebServerAddress;
+	var assocWS = exports.assocWS = GENERAL.assocWebServerAddress;
+
+	//user data
+	var buyerID = exports.buyerID = GENERAL.USER.userID();
+
+/***/ }),
+/* 423 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(423);
+	var content = __webpack_require__(424);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -38787,7 +38763,7 @@
 	}
 
 /***/ }),
-/* 423 */
+/* 424 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -38799,22 +38775,6 @@
 
 	// exports
 
-
-/***/ }),
-/* 424 */
-/***/ (function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	//web services
-	var auctionWS = exports.auctionWS = GENERAL.auctionWebServerAddress;
-	var assocWS = exports.assocWS = GENERAL.assocWebServerAddress;
-
-	//user data
-	var buyerID = exports.buyerID = GENERAL.USER.userID();
 
 /***/ }),
 /* 425 */
@@ -38840,7 +38800,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	//style
+
 
 	var Balloon = function (_Component) {
 	    _inherits(Balloon, _Component);
@@ -38869,7 +38833,6 @@
 	    }, {
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
-
 	            {/*animating price upadate*/}
 	            if (nextProps.anim == "2" && this.props.anim != "2") {
 	                this.refs.newPrice.value = "";
@@ -38893,6 +38856,7 @@
 	        key: 'render',
 	        value: function render() {
 
+	            //array with all balloon dimension
 	            var balloonDim = [{
 	                width: 0.17 * this.state.width + 'px', //17%
 	                height: 0.11 * this.state.height + 'px', //11%
@@ -38911,6 +38875,7 @@
 	                left: "35%"
 	            }];
 
+	            //keyframes for inflating
 	            var keyframes = '@keyframes inflate {\n            0% {' + balloonDim[this.props.formerIndex] + '} \n            100% {' + balloonDim[this.props.curIndex] + '}\n        }';
 
 	            var style = {
@@ -39023,7 +38988,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
 
 	var Tip = function (_Component) {
 	    _inherits(Tip, _Component);
@@ -39076,6 +39045,9 @@
 	                }, 2200);
 	            }, 1500);
 	        }
+
+	        //handle modal close
+
 	    }, {
 	        key: 'close',
 	        value: function close() {
@@ -40254,9 +40226,9 @@
 
 	var _ScrollButton2 = _interopRequireDefault(_ScrollButton);
 
-	__webpack_require__(311);
+	var _general = __webpack_require__(422);
 
-	var _general = __webpack_require__(424);
+	__webpack_require__(311);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40264,12 +40236,16 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
 
-	// taramti babait components
+
+	// BID IT components
 
 
 	//constants 
+
+
+	//style
 
 
 	var ThemeAuctions = function (_Component) {
@@ -40310,7 +40286,7 @@
 	            this.setState({ modalIsOpen: newStatus });
 	        }
 
-	        //call function to get auctions from serveer
+	        //call function to get auctions from server
 
 	    }, {
 	        key: 'getLeadingAuctions',
@@ -40347,7 +40323,6 @@
 	                }, 7000);
 	            }
 	            var id = _general.buyerID;
-	            // const id = parseInt(buyerID);
 	            _axios2.default.post(_general.auctionWS + funcName, {
 	                user_Id: id
 	            }).then(function (response) {
@@ -40359,7 +40334,7 @@
 	                if (res.length == 0) {
 	                    setTimeout(function () {
 	                        return self.setState({ loaded: true });
-	                    }, 300);
+	                    }, 150);
 	                }
 
 	                res.map(self.addAuction);
@@ -40417,13 +40392,16 @@
 
 	    }, {
 	        key: 'deleteAuction',
-	        value: function deleteAuction(i) {
+	        value: function deleteAuction(i) {}
 
-	            // var arr = this.state.auctionsArr;
-	            // arr.splice(i, 1);
-	            // this.setState({ auctionsArr: arr });
-	            // this.state.auctionsArr.map(function (item, i) { console.log(i + "____" + item.endDate + ":::::::" + item.price) })
-	        }
+	        // var arr = this.state.auctionsArr;
+	        // arr.splice(i, 1);
+	        // this.setState({ auctionsArr: arr });
+	        // this.state.auctionsArr.map(function (item, i) { console.log(i + "____" + item.endDate + ":::::::" + item.price) })
+
+
+	        //control loader component
+
 	    }, {
 	        key: 'handleLoad',
 	        value: function handleLoad() {
@@ -40500,7 +40478,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
 
 	var Loader = function (_Component) {
 	    _inherits(Loader, _Component);
@@ -40521,37 +40500,20 @@
 	                    this.props.children
 	                );
 	            } else {
-	                return (
-
-	                    // <div style={{marginTop:"15%"}}>
-	                    //     {/*<img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png"} className="loading" />*/}
-	                    //     <img src={require("../../../www/img/just_logo.png")} className="loading" />
-	                    //     <h3 style={{ textAlign:"center"}}>{this.props.loadingText}</h3>
-
-	                    //     <div style={{ display: "none" }}>
-	                    //         {this.props.children}
-	                    //     </div>
-	                    // </div>
+	                return _react2.default.createElement(
+	                    "div",
+	                    { className: "loader" },
+	                    _react2.default.createElement("img", { id: "LoadingImg", src: __webpack_require__(441) }),
+	                    _react2.default.createElement(
+	                        "h3",
+	                        { style: { position: "fixed", left: "37%", top: "50%", textAlign: "center" } },
+	                        this.props.loadingText
+	                    ),
 	                    _react2.default.createElement(
 	                        "div",
-	                        { className: "loader" },
-	                        _react2.default.createElement("img", { id: "LoadingImg", src: __webpack_require__(441) }),
-	                        _react2.default.createElement(
-	                            "h3",
-	                            { style: { position: "fixed", left: "37%", top: "50%", textAlign: "center" } },
-	                            this.props.loadingText
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { style: { display: "none" } },
-	                            this.props.children
-	                        )
+	                        { style: { display: "none" } },
+	                        this.props.children
 	                    )
-	                    /*<img src={"http://proj.ruppin.ac.il/bgroup51/prod/Uploads/logos/just_logo.png"} className="loading" />*/
-	                    // <img src={require("../../../www/img/just_logo.png")} className="loading" />
-
-	                    // </div >
-
 	                );
 	            }
 	        }
@@ -40590,7 +40552,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
 
 	var ScrollButton = function (_Component) {
 	  _inherits(ScrollButton, _Component);
@@ -40681,7 +40644,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
 
 	var TapDemo = function (_Component) {
 	    _inherits(TapDemo, _Component);
@@ -40694,7 +40661,6 @@
 	        _this.state = {
 	            mode: 0
 	        };
-
 	        _this.showVid = _this.showVid.bind(_this);
 	        _this.renderStart = _this.renderStart.bind(_this);
 	        _this.renderTap = _this.renderTap.bind(_this);
@@ -40714,6 +40680,9 @@
 	            this.loadInterval && clearInterval(this.loadInterval);
 	            this.loadInterval = false;
 	        }
+
+	        //control mode changes over time
+
 	    }, {
 	        key: 'showVid',
 	        value: function showVid() {
@@ -40806,7 +40775,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
 
 	var SwipeUPDemo = function (_Component) {
 	    _inherits(SwipeUPDemo, _Component);
@@ -40819,7 +40792,6 @@
 	        _this.state = {
 	            mode: 0
 	        };
-
 	        _this.showVid = _this.showVid.bind(_this);
 	        _this.renderStart = _this.renderStart.bind(_this);
 	        _this.renderSwipe = _this.renderSwipe.bind(_this);
@@ -40839,6 +40811,9 @@
 	            this.loadInterval && clearInterval(this.loadInterval);
 	            this.loadInterval = false;
 	        }
+
+	        //control mode changes over time
+
 	    }, {
 	        key: 'showVid',
 	        value: function showVid() {
@@ -40925,7 +40900,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
 
 	var SwipeDownDemo = function (_Component) {
 	    _inherits(SwipeDownDemo, _Component);
@@ -40938,7 +40917,6 @@
 	        _this.state = {
 	            mode: 0
 	        };
-
 	        _this.showVid = _this.showVid.bind(_this);
 	        _this.renderStart = _this.renderStart.bind(_this);
 	        _this.renderSwipe = _this.renderSwipe.bind(_this);
@@ -40958,6 +40936,9 @@
 	            this.loadInterval && clearInterval(this.loadInterval);
 	            this.loadInterval = false;
 	        }
+
+	        //control mode changes over time
+
 	    }, {
 	        key: 'showVid',
 	        value: function showVid() {
@@ -41038,7 +41019,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
 
 	var CircleButton = function (_Component) {
 	    _inherits(CircleButton, _Component);
@@ -41068,12 +41050,18 @@
 	        value: function componentWillUnmount() {
 	            window.removeEventListener("resize", this.updateDimensions);
 	        }
+
+	        //determine whether or not to display the button 
+
 	    }, {
 	        key: 'updateDimensions',
 	        value: function updateDimensions() {
 	            var newStatus = !this.state.resize;
 	            this.setState({ resize: newStatus });
 	        }
+
+	        //render button to add auction
+
 	    }, {
 	        key: 'renderPlus',
 	        value: function renderPlus() {
@@ -41097,6 +41085,8 @@
 	                )
 	            );
 	        }
+	        //render back button 
+
 	    }, {
 	        key: 'renderBack',
 	        value: function renderBack() {
@@ -41110,6 +41100,8 @@
 	                )
 	            );
 	        }
+	        //render button to home page
+
 	    }, {
 	        key: 'renderHome',
 	        value: function renderHome() {
@@ -41153,7 +41145,7 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            // if (this.state.secondsRemaining >= 20870000) {
+
 	            if (this.props.home) {
 	                return this.renderHome();
 	            } else {
@@ -41217,9 +41209,9 @@
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
-	__webpack_require__(315);
+	var _general = __webpack_require__(422);
 
-	var _general = __webpack_require__(424);
+	__webpack_require__(315);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -41227,9 +41219,16 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
 
 	//constants 
+
+
+	//style
 
 
 	var RePublish = function (_Component) {
@@ -41253,6 +41252,9 @@
 	        return _this;
 	    }
 
+	    //handle close modal
+
+
 	    _createClass(RePublish, [{
 	        key: 'close',
 	        value: function close() {
@@ -41261,7 +41263,7 @@
 	            this.setState({ open: false });
 	            setTimeout(function () {
 	                return _this2.props.closeModal(_this2.finished);
-	            }, 600);
+	            }, 600); //update parent
 	        }
 	    }, {
 	        key: 'onSelectedDay',
@@ -41276,22 +41278,29 @@
 	                this.close(); // close entire modal if finished
 	            }
 	        }
+
+	        //send button clicked
+
 	    }, {
 	        key: 'send',
 	        value: function send() {
 	            this.finished = false;
 	            var price = this.refs.auctionMinPrice.value != "" ? this.refs.auctionMinPrice.value : -1;
+
 	            if (this.state.day == -1) {
+	                //check if number of days is valid
 	                this.setState({
 	                    alert: true,
 	                    message: "חובה לבחור משך למכרז"
-	                });
+	                }); //alert error
 	            } else if (price == -1) {
+	                //check if price is valid
 	                this.setState({
 	                    alert: true,
 	                    message: "חובה להזין סכום רצוי"
-	                });
+	                }); //alert error
 	            } else {
+	                //re-publish product to db
 	                var self = this;
 	                _axios2.default.post(_general.auctionWS + 'AddAuctionExisitingProd', {
 	                    prod: this.props.prodCode,
@@ -41306,7 +41315,7 @@
 	                        self.setState({
 	                            alert: true,
 	                            message: "המכרז נוצר בהצלחה"
-	                        });
+	                        }); //alert success
 	                    } else {
 	                        throw "תקלה";
 	                    }
@@ -41315,7 +41324,7 @@
 	                    self.setState({
 	                        alert: true,
 	                        message: "קרתה תקלה במהלך יצירת המכרז, נא נסה שוב"
-	                    });
+	                    }); //alert error
 	                });
 	            }
 	        }
@@ -41359,7 +41368,7 @@
 	                ),
 	                _react2.default.createElement(_sweetalertReact2.default, {
 	                    show: this.state.alert,
-	                    title: this.finished ? "יש!" : "...אופס",
+	                    title: this.finished ? "!יש" : "...אופס",
 	                    type: this.finished ? "success" : "error",
 	                    text: this.state.message,
 	                    confirmButtonText: '\u05D0\u05D9\u05E9\u05D5\u05E8',
@@ -44583,7 +44592,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
 
 	var Ddl = function (_Component) {
 	    _inherits(Ddl, _Component);
@@ -44736,7 +44746,7 @@
 
 	var _Ddl2 = _interopRequireDefault(_Ddl);
 
-	var _general = __webpack_require__(424);
+	var _general = __webpack_require__(422);
 
 	__webpack_require__(315);
 
@@ -44748,16 +44758,17 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
 
-	// taramti babait components
+
+	// BID IT components
 
 
 	//constants 
 
 
-	//const auctionWS = GENERAL.auctionWebServerAddress;
-	//const auctionWS = "http://proj.ruppin.ac.il/bgroup51/test2/AuctionWebService.asmx/";
+	//style
+
 
 	var Search = function (_Component) {
 	    _inherits(Search, _Component);
@@ -44866,6 +44877,9 @@
 	                });
 	            }
 	        }
+
+	        //handle modal close
+
 	    }, {
 	        key: 'close',
 	        value: function close() {
@@ -44962,7 +44976,8 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
 
 	//style
 
@@ -44984,11 +44999,17 @@
 	        return _this;
 	    }
 
+	    //toggle scroll of menu
+
+
 	    _createClass(Menu, [{
 	        key: 'handleClick',
 	        value: function handleClick() {
 	            this.setState({ visible: this.state.visible == 'menuB' ? 'menuB visible' : 'menuB' });
 	        }
+
+	        //log out function
+
 	    }, {
 	        key: 'logOut',
 	        value: function logOut() {
@@ -45003,7 +45024,6 @@
 	            if (this.state.reDirect && !this.props.home) {
 	                return _react2.default.createElement(_reactRouterDom.Redirect, { push: true, to: '/' });
 	            }
-
 	            return _react2.default.createElement(
 	                'div',
 	                { id: 'MenuBarDiv', style: { zIndex: 150, position: "relative" }, className: 'navigation-1 navigation-5' },
@@ -45251,11 +45271,11 @@
 
 	var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
-	__webpack_require__(426);
-
 	var _messages = __webpack_require__(447);
 
-	var _general = __webpack_require__(424);
+	var _general = __webpack_require__(422);
+
+	__webpack_require__(426);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45263,12 +45283,16 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
 
-	// taramti babait components
+
+	// BID IT components
 
 
 	//constants 
+
+
+	//style
 
 
 	var MyAuction = function (_Component) {
@@ -45338,6 +45362,9 @@
 	            this.loadInterval && clearInterval(this.loadInterval);
 	            this.loadInterval = false;
 	        }
+
+	        //function gets a faq and adds un-answered functions to array
+
 	    }, {
 	        key: 'addQuestion',
 	        value: function addQuestion(faq) {
@@ -45365,6 +45392,9 @@
 	            var newStatus = !this.state.fAQModalIsOpen;
 	            this.setState({ fAQModalIsOpen: newStatus });
 	        }
+
+	        //updates price from db
+
 	    }, {
 	        key: 'getCurPrice',
 	        value: function getCurPrice() {
@@ -45524,7 +45554,14 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
+
+	//style
+
 
 	var Profile = function (_Component) {
 	    _inherits(Profile, _Component);
@@ -45714,7 +45751,11 @@
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //npm components
+
+
+	// BID IT components
+
 
 	var MyProducts = function (_Component) {
 	    _inherits(MyProducts, _Component);
@@ -45745,259 +45786,6 @@
 
 /***/ }),
 /* 478 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactModal = __webpack_require__(231);
-
-	var _reactModal2 = _interopRequireDefault(_reactModal);
-
-	var _Payment = __webpack_require__(479);
-
-	var _Payment2 = _interopRequireDefault(_Payment);
-
-	var _Home = __webpack_require__(283);
-
-	var _Home2 = _interopRequireDefault(_Home);
-
-	__webpack_require__(426);
-
-	__webpack_require__(311);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Bdika = function (_Component) {
-	    _inherits(Bdika, _Component);
-
-	    function Bdika(props) {
-	        _classCallCheck(this, Bdika);
-
-	        var _this = _possibleConstructorReturn(this, (Bdika.__proto__ || Object.getPrototypeOf(Bdika)).call(this, props));
-
-	        _this.state = {
-	            PaymentModalIsOpen: false,
-	            curIndex: 0,
-	            formerIndex: 0,
-	            float: false,
-	            width: null,
-	            height: null,
-	            loading: false
-	        };
-	        _this.changeModalOpen = _this.changeModalOpen.bind(_this);
-	        _this.infalteB = _this.infalteB.bind(_this);
-	        _this.updateWindowDimensions = _this.updateWindowDimensions.bind(_this);
-	        return _this;
-	    }
-
-	    _createClass(Bdika, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            var _this2 = this;
-
-	            this.updateWindowDimensions();
-	            window.addEventListener('resize', this.updateWindowDimensions);
-	            setTimeout(function () {
-	                return _this2.setState({ loading: true });
-	            }, 500);
-	        }
-	    }, {
-	        key: 'updateWindowDimensions',
-	        value: function updateWindowDimensions() {
-	            this.setState({ width: window.innerWidth, height: window.innerHeight });
-	        }
-	    }, {
-	        key: 'changeModalOpen',
-	        value: function changeModalOpen() {
-	            var newStatus = !this.state.PaymentModalIsOpen;
-	            this.setState({
-	                PaymentModalIsOpen: newStatus
-	            });
-	        }
-	    }, {
-	        key: 'infalteB',
-	        value: function infalteB() {
-	            var i = this.state.curIndex;
-	            this.setState({ formerIndex: i, curIndex: i === 2 ? 0 : ++i });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var auc = {
-	                price: 100,
-	                percentage: 15,
-	                prodName: "שם מגניב למוצר"
-
-	            };
-
-	            var balloonDim = [{
-	                width: "17%",
-	                height: "11%"
-	            }, {
-	                width: "30%",
-	                height: "20%"
-	            }, {
-	                width: "47%",
-	                height: "33%"
-	            }];
-
-	            var keyframes = '@keyframes inflate {\n            0% {' + balloonDim[this.state.curIndex] + '} \n            100% {' + balloonDim[this.state.formerIndex] + '}\n        }';
-
-	            var style = {
-	                width: balloonDim[this.state.curIndex]["width"],
-	                height: balloonDim[this.state.curIndex]["height"],
-	                animation: "inflate 1s"
-	            };
-
-	            var float = {
-	                //  width: balloonDim[this.state.curIndex]["width"],
-	                //  height: balloonDim[this.state.curIndex]["height"],
-	                // animation: "releaseB 4s"
-
-	                animation: "inflateLarge 1.5s"
-
-	                // WebkitTransform: `translate(0,-${this.state.height-130}px) scale(1.5, 1)`,
-	                // opacity: 0,
-	                // WebkitTransition: "4s cubic-bezier(.65, 2, .03, .32)"
-	            };
-
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: this.changeModalOpen },
-	                    '\u05E4\u05EA\u05D7'
-	                ),
-	                _react2.default.createElement(
-	                    _reactModal2.default,
-	                    {
-	                        isOpen: this.state.PaymentModalIsOpen,
-	                        contentLabel: 'open FAQ',
-	                        className: 'FAQbox' },
-	                    _react2.default.createElement(_Payment2.default, { closeModal: this.changeModalOpen, auc: auc })
-	                ),
-	                _react2.default.createElement('div', { className: this.state.loading ? "sold" : "stamp" }),
-	                _react2.default.createElement('div', { className: 'arrow_box_right growRight' }),
-	                _react2.default.createElement('img', { className: 'tappingRight swipeRight', src: 'images/tapping_hand.png' })
-	            );
-	        }
-	    }]);
-
-	    return Bdika;
-	}(_react.Component);
-
-	exports.default = Bdika;
-
-/***/ }),
-/* 479 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(5);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactSwipeable = __webpack_require__(228);
-
-	var _reactSwipeable2 = _interopRequireDefault(_reactSwipeable);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Payment = function (_Component) {
-	    _inherits(Payment, _Component);
-
-	    function Payment(props) {
-	        _classCallCheck(this, Payment);
-
-	        var _this = _possibleConstructorReturn(this, (Payment.__proto__ || Object.getPrototypeOf(Payment)).call(this, props));
-
-	        _this.makePayment = _this.makePayment.bind(_this);
-	        return _this;
-	    }
-
-	    _createClass(Payment, [{
-	        key: 'makePayment',
-	        value: function makePayment() {
-	            console.log('tashlum?????');
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    _reactSwipeable2.default,
-	                    { onTap: this.props.closeModal },
-	                    _react2.default.createElement('a', { className: 'boxclose' })
-	                ),
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    '\u05DE\u05D6\u05DC \u05D8\u05D5\u05D1!'
-	                ),
-	                _react2.default.createElement(
-	                    'p',
-	                    { style: { fontSize: "22px" } },
-	                    '\u05DC\u05D0\u05D7\u05E8 \u05DE\u05D0\u05D1\u05E7 \u05E2\u05D9\u05E7\u05E9 \u05D6\u05DB\u05D9\u05EA \u05D1\u05D6\u05DB\u05D5\u05EA \u05DC\u05E8\u05DB\u05D5\u05E9 \u05D0\u05EA ',
-	                    _react2.default.createElement(
-	                        'span',
-	                        { className: 'info' },
-	                        this.props.auc.prodName
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'p',
-	                    { style: { fontSize: "22px" } },
-	                    '\u05DB\u05E2\u05EA \u05DB\u05DC \u05E9\u05E0\u05D5\u05EA\u05E8 \u05D4\u05D5\u05D0 \u05DC\u05D4\u05E2\u05D1\u05D9\u05E8 \u05D0\u05EA \u05D4\u05EA\u05E9\u05DC\u05D5\u05DD \u05DC\u05DE\u05D5\u05DB\u05E8 \u05D5\u05DC\u05D0\u05D7\u05E8 \u05DE\u05DB\u05DF \u05E0\u05D9\u05EA\u05DF \u05D9\u05D4\u05D9\u05D4 \u05DC\u05D4\u05D7\u05DC\u05D9\u05E3 \u05E4\u05E8\u05D8\u05D9\u05DD'
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    { onClick: this.makePayment },
-	                    '\u05E4\u05D9\u05D9\u05E4\u05D0\u05DC!!!!!'
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Payment;
-	}(_react.Component);
-
-	exports.default = Payment;
-
-/***/ }),
-/* 480 */
 /***/ (function(module, exports) {
 
 	

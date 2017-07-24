@@ -51,104 +51,25 @@
         var userId = user.userID();
         var lastPage = "";
 
+
+        //טעינה
         $(window).load(function () {
             setTimeout(() =>
                 $(".loader").fadeOut("slow"), 500);
         })
-        
-        $(document).on("pagecreate", "div[data-role=page]", function (event) {
-            var ass = $('#AssocCode').val();
 
-            if ($(this).attr("id") == "AssocInfoPage") {
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "IsFavAssoc",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ user_id: user.userID(), assoc: ass }),
-                    success: function (data) {
-
-                        var res = JSON.parse(data.d);
-                        if (res == true) {
-                            $("#favStar").removeClass('fa fa-star-o fa-4x');
-                            $("#favStar").addClass('fa fa-star fa-4x');
-                        }
-                        else {
-                            $("#favStar").removeClass('fa fa-star fa-4x');
-                            $("#favStar").addClass('fa fa-star-o fa-4x');
-                        }
-                        //location.href = "appSettings.html#AssocInfoPage";
-                    },
-                    error: function (err) { }
-                });
-            }
-
-            if ($(this).attr("id") == "Settings")
-            {
-                //get favorite assoc for user from server
-                $.ajax({
-                    dataType: "json",
-                    url: assoc + "GetFavAssocById",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ id: user.userID() }),
-                    success: function (data) {
-
-                        var AssocArray = JSON.parse(data.d);
-
-                        if (AssocArray[0] != null) {
-                            for (let i = 0; i < AssocArray.length; i++) {
-                                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
-                                $("#FavAssocGroup").append($a);
-
-                                // move to assoc details page
-                                $a.on("swipeleft", function () {
-                                    lastPage = "Settings";
-                                    MoveToAssocDetails(AssocArray[i].Association_Code);
-                                });
-                            }
-                        }
-                    },
-                    error: function (err) { }
-                });
-            }
-        });
-
-        $(document).on("pagechange", "div[data-role=page]", function (event) {
-            var ass = $('#AssocCode').val();
-
-            if ($(this).attr("id") == "AssocInfoPage") {
-                $.ajax({
-                    dataType: "json",
-                    url: generic + "IsFavAssoc",
-                    contentType: "application/json; charset=utf-8",
-                    type: "POST",
-                    data: JSON.stringify({ user_id: user.userID(), assoc: ass }),
-                    success: function (data) {
-
-                        var res = JSON.parse(data.d);
-                        if (res == true) {
-                            $("#favStar").removeClass('fa fa-star-o fa-4x');
-                            $("#favStar").addClass('fa fa-star fa-4x');
-                        }
-                        else {
-                            $("#favStar").removeClass('fa fa-star fa-4x');
-                            $("#favStar").addClass('fa fa-star-o fa-4x');
-                        }
-                        //location.href = "appSettings.html#AssocInfoPage";
-                    },
-                    error: function (err) { }
-                });
-            }
+        //מילוי רשימת עמותות מועדפות בהגדרות משתמש
+        $(document).on("pagebeforeshow", "div[data-role=page]", function (event) {
 
             if ($(this).attr("id") == "Settings") {
+                $("#FavAssocGroup").empty();
                 //get favorite assoc for user from server
                 $.ajax({
                     dataType: "json",
                     url: assoc + "GetFavAssocById",
                     contentType: "application/json; charset=utf-8",
                     type: "POST",
-                    data: JSON.stringify({ id: user.userID() }),
+                    data: JSON.stringify({ id: userId }),
                     success: function (data) {
 
                         var AssocArray = JSON.parse(data.d);
@@ -169,31 +90,10 @@
                     error: function (err) { }
                 });
             }
-        });
+        })
 
         $(document).ready(function () {
-            var _originalSize = $(window).width() + $(window).height()
-            $(window).resize(function () {
-                if ($(window).width() + $(window).height() != _originalSize) {
-                    $(".FixedButton").css("display", "none");
-                }
-                else {
-                    $(".FixedButton").css("display", "block");
-                }
-
-            });
-
-
-            $("span.nav-list-it5").on("tap", function () {
-                $("ul.nav-top-list1").slideToggle("slow", function () {
-                    // Animation complete.
-                });
-            });
-
-        });
-
-        $(document).ready(function () {
-            // שליפת נתונים מבסיס הנתונים 
+            // שליפת נתונים מבסיס הנתונים
 
             $.ajax({
                 dataType: "json",
@@ -247,78 +147,70 @@
                 error: function (err) { }
             }); // AJAX הבאת נתונים
 
-            ////get favorite assoc for user from server
-            //$.ajax({
-            //    dataType: "json",
-            //    url: assoc + "GetFavAssocById",
-            //    contentType: "application/json; charset=utf-8",
-            //    type: "POST",
-            //    data: JSON.stringify({ id: userId }),
-            //    success: function (data) {
+            //העלמת כפתור פיקס כשמקלדת נפתחת
+            var _originalSize = $(window).width() + $(window).height()
+            $(window).resize(function () {
+                if ($(window).width() + $(window).height() != _originalSize) {
+                    $(".FixedButton").css("display", "none");
+                }
+                else {
+                    $(".FixedButton").css("display", "block");
+                }
 
-            //        var AssocArray = JSON.parse(data.d);
+            });
 
-            //        if (AssocArray[0] != null) {
-            //            for (let i = 0; i < AssocArray.length; i++) {
-            //                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
-            //                $("#FavAssocGroup").append($a);
+            //גלילת תפריט
+            $("span.nav-list-it5").on("tap", function () {
+                $("ul.nav-top-list1").slideToggle("slow", function () {
+                    // Animation complete.
+                });
+            });
 
-            //                // move to assoc details page
-            //                $a.on("swipeleft", function () {
-            //                    lastPage = "Settings";
-            //                    MoveToAssocDetails(AssocArray[i].Association_Code);
-            //                });
-            //            }
-            //        }
-            //    },
-            //    error: function (err) { }
-            //});
+            //get all assoc name and tags
+            $.ajax({
+                dataType: "json",
+                url: assoc + "GetAllAmotaDetails",
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({}),
+                success: function (data) {
+
+                    var arrAssoc = new Array();
+                    var j = 0;
+                    var usersSet = new Set();
+                    var assocRes = JSON.parse(data.d);
+
+
+                    assocRes.map(function (assoc, i) {
+                        var tags = ""; //string for tag list
+
+                        //מילוי רשימת תגיות
+                        for (let tag of assoc.Association_Tags) {
+                            tags += tag.Tag_Name + ", ";
+                        }
+                        tags = tags.slice(0, -2);
+
+                        let $name = $("<span>").text(assoc.Association_Name).attr({ "class": "assocName", "data-code": assoc.Association_Code });
+                        let $tag = $("<span>").text(tags).addClass("assocTag");
+
+                        let $a = $("<a>").append($name, $tag).addClass("ui-btn ui-shadow ui-corner-all");
+
+                        $a.on("swipeleft", function () {
+                            lastPage = "SearchAssoc";
+                            MoveToAssocDetails($(this).children("span").attr("data-code"));
+                        })
+
+
+                        $("#assocFilter").append($a);
+                    })//end map func
+
+
+                },
+                error: function (err) { }
+            }); // end ajax call
         });
 
-        //get all assoc name and tags
-        $.ajax({
-            dataType: "json",
-            url: assoc + "GetAllAmotaDetails",
-            contentType: "application/json; charset=utf-8",
-            type: "POST",
-            data: JSON.stringify({}),
-            success: function (data) {
-
-                var arrAssoc = new Array();
-                var j = 0;
-                var usersSet = new Set();
-                var assocRes = JSON.parse(data.d);
-
-
-                assocRes.map(function (assoc, i) {
-                    var tags = ""; //string for tag list
-
-                    //מילוי רשימת תגיות
-                    for (let tag of assoc.Association_Tags) {
-                        tags += tag.Tag_Name + ", ";
-                    }
-                    tags = tags.slice(0, -2);
-
-                    let $name = $("<span>").text(assoc.Association_Name).attr({ "class": "assocName", "data-code": assoc.Association_Code });
-                    let $tag = $("<span>").text(tags).addClass("assocTag");
-
-                    let $a = $("<a>").append($name, $tag).addClass("ui-btn ui-shadow ui-corner-all");
-
-                    $a.on("swipeleft", function () {
-                        lastPage = "SearchAssoc";
-                        MoveToAssocDetails($(this).children("span").attr("data-code"));
-                    })
-
-
-                    $("#assocFilter").append($a);
-                })//end map func
-
-
-            },
-            error: function (err) { }
-        }); // end ajax call
-
-
+        //הבאת נתונים לפי קוד עמותה
         function MoveToAssocDetails(assocId) {
 
             associationCode = assocId;
@@ -336,40 +228,45 @@
 
                     if (Association != "") {
                         $("#AssocInfo").removeAttr("style", "visibility:hidden");
-
                         $("#AssocName").text(Association.Association_Name);
                         $("#AssocCode").text(Association.Association_Code);
                         $("#AssocDesc").text(Association.Association_Desc);
                         $("#AssocSite").text(Association.Association_WebSite);
                         $("#AssocYear").text(Association.Association_Year);
 
-                        location.href = "appSettings.html#AssocInfoPage";
+                        ///// AJAX To Get Fav Assoc Stat
+                        $.ajax({
+                            dataType: "json",
+                            url: generic + "IsFavAssoc",
+                            contentType: "application/json; charset=utf-8",
+                            type: "POST",
+                            data: JSON.stringify({ user_id: user.userID(), assoc: associationCode }),
+                            success: function (data) {
+
+                                var res = JSON.parse(data.d);
+                                if (res == true) {
+                                    $("#favStar").removeClass('fa-star-o fa fa-3x');
+                                    $("#favStar").addClass('fa-star fa fa-3x');
+                                }
+                                else {
+                                    $("#favStar").removeClass('fa-star fa fa-3x');
+                                    $("#favStar").addClass('fa-star-o fa fa-3x');
+                                }
+                                location.href = "appSettings.html#AssocInfoPage";
+                            },
+                            error: function (err) { }
+                        });
+
+                        //location.href = "appSettings.html#AssocInfoPage";
                     }
                 },
                 error: function (err) { }
             });
 
-            $.ajax({
-                dataType: "json",
-                url: generic + "IsFavAssoc",
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({ user_id: "302921481", assoc: associationCode }),
-                success: function (data) {
 
-                    var res = JSON.parse(data.d);
-                    if (res == true) {
-                        $("#favStar").removeClass('fa fa-star-o fa-3x');
-                        $("#favStar").addClass('fa fa-star fa-3x');
-                    }
-                    location.href = "appSettings.html#AssocInfoPage";
-                },
-                error: function (err) { }
-            });
         }
 
-   
-
+        //שמירת הגדרות
         function SaveSettings() {
             var push = $("#flip-1").val();
             var sound = false;
@@ -404,6 +301,7 @@
             });
         }
 
+        //תפיסת שינוי בהגדרה
         $(document).on('change', 'select', function () {
             var opt = $(this).find('option:selected')[0];
             // if the chosen value is Vibe or full sound then VIBRATE
@@ -413,36 +311,37 @@
 
         });
 
+        //הפעלת רטט
         function vibrate() {
             navigator.vibrate(1000);
-            console.log("hiii");
         }
 
+        //חזור
         function goBack() {
             location.href = `appSettings.html#${lastPage}`;
         }
 
+        //התנתקות
         function LogOut() {
             localStorage.removeItem("UserID");
             location.href = 'Login-Taramti.html'
         }
 
+        //עדכון עמותות מועדפות
         function UpdateFavAssoc() {
             var AssocCode1 = $('#AssocCode').text();
             var userId = user.userID();
             var action = false;
 
-            if ($("#favStar").hasClass('fa fa-star-o fa-3x')) {
-                $("#favStar").removeClass('fa fa-star-o fa-3x');
-                $("#favStar").addClass('fa fa-star fa-3x');
+            if ($("#favStar").hasClass('fa-star-o fa fa-3x')) {
+                $("#favStar").removeClass('fa-star-o fa fa-3x');
+                $("#favStar").addClass('fa-star fa fa-3x');
                 action = true;
             }
             else {
-                $("#favStar").removeClass('fa fa-star fa-3x');
-                $("#favStar").addClass('fa fa-star-o fa-3x');
+                $("#favStar").removeClass('fa-star fa fa-3x');
+                $("#favStar").addClass('fa-star-o fa fa-3x');
             }
-           
-
             // עדכון העמותה בהעדפות המשתמש
             $.ajax({
                 dataType: "json",
@@ -457,23 +356,6 @@
                 error: function (err) { }
             });
         }
-
-        //function ToSettings() {
-        //    $("ul.nav-top-list1").slideToggle("slow", function () {
-        //        // Animation complete.
-        //    });
-        //    location.href = 'appSettings.html#Settings'
-        //}
-
-        //function ToSearchAssoc() {
-        //    $("ul.nav-top-list1").slideToggle("slow", function () {
-        //        // Animation complete.
-        //    });
-        //    location.href = 'appSettings.html#SearchAssoc'
-        //}
-
-
-
 
     </script>
 
@@ -571,7 +453,6 @@
 
     </div>
 
-
     <!--דף חיפוש עמותות-->
     <div class="pageBC" data-role="page" id="SearchAssoc">
         <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
@@ -654,11 +535,11 @@
         <div class="Form" id="AssocInfo" style="visibility:hidden">
 
             <div id="favStarDiv">
-                <i id="favStar" class="fa fa-star-o fa-3x" onclick="UpdateFavAssoc()"></i>
+                <i id="favStar" class="fa-star-o fa fa-3x" onclick="UpdateFavAssoc()"></i>
             </div>
 
             <div id="SearchAssoc">
-                <h2>פרטי עמותה</h2>                  
+                <h2>פרטי עמותה</h2>
             </div>
 
             <div>
@@ -687,9 +568,10 @@
                 <a class="styleLink" onclick="goBack()"><img class="NiceIcon" src="images/backToLogin.png" /></a>
                 <!--<h6 class="IconText">חזור</h6>-->
             </div>
+            <!--<i id="favStar" class="fa-star-o fa fa-3x" onclick="UpdateFavAssoc()"></i>-->
             <div class="flexbox" style="position:relative">
 
-        
+
 
             </div>
             <!--<a onclick="goBack()">חזור</a>-->
