@@ -70,6 +70,7 @@
                 },
                 error: function (err) { }
             });
+
             // אג'קס למילוי כל העמותות
             $.ajax({
                 dataType: "json",
@@ -110,7 +111,7 @@
                 error: function (err) { }
             });
 
-            //
+            //העלמת כפתור פיקס כשמקלדת נפתחת
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
                 if ($(window).width() + $(window).height() != _originalSize) {
