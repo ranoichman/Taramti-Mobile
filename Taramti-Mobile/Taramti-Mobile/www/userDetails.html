@@ -68,12 +68,22 @@
                         $("#UserMailInp").val(UserId.Mail);
                         $("#UserScoreInp").val(UserId.Rank.RankDesc);
                         $("#UserNumInp").val(UserId.Number);
+
+                        $("#UserScoreInp").attr('disabled', 'disabled');
+                        $("#UserIdInp").attr('disabled', 'disabled');
+                        $("#UserMailInp").attr('disabled', 'disabled');
+
                     }
                 },
                 error: function (err) { }
             });
 
+            //חסימת ערכים לעריכה והוספת כפתור
+            function EditUser() {
+            }
 
+
+            //גלילת תפריט
             $("span.nav-list-it5").on("tap", function () {
                 $("ul.nav-top-list1").slideToggle("slow", function () {
                     // Animation complete.
@@ -82,6 +92,7 @@
 
         });
 
+        //העלמת כפתור פיקס כשמקלדת נפתחת
         $(document).ready(function () {
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
@@ -94,23 +105,7 @@
             });
         });
 
-
-        function EditUser() {
-
-            //// חסום עריכת חלק מהשדות
-            $("#UserScoreInp").attr('disabled', 'disabled');
-            $("#UserIdInp").attr('disabled', 'disabled');
-            $("#UserMailInp").attr('disabled', 'disabled');
-
-            //// הסרת כפתור העריכה
-            //$("#EditUserBtn").remove();
-
-            // var ok = $('<input type="button" id="okbtn" value="אוקיי" onclick="SubmitChanges()">');
-            var ook = $('<a href="#ImSureDialog1" id="UpdateUserbtn" class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="position:initial" data-transition="flip"> שמירת נתונים </a>');
-            ook.appendTo("#EditUserDetailsForm");
-
-        }
-
+        //שמור שינויים
         function SubmitChanges() {
             var U = user.userID();
             var first = $("#UserFirstNameInp").val();
@@ -141,15 +136,17 @@
             });
         }
 
-
+        //מעבר לעמוד המכרזים שהשתתפתי
         function ToProfile() {
             location.href = "app.html#profile";
         };
 
+        //מעבר לעמוד המוצרים שלי
         function ToProducts() {
             location.href = "app.html#products";
         };
 
+        //התנתקות
         function LogOut() {
             localStorage.removeItem("UserID");
             location.href = 'Login-Taramti.html'
@@ -191,51 +188,51 @@
         <div class="Form" id="UserDetailsForm">
 
             <div id="EditUserBtn" class="RoundDivIcon">
-                <a onclick="EditUser()" class="styleLink" href="#EditUserDetailsPage"><img class="NiceIcon" src="images/Edit_user_male1600.png" /></a>
+                <a class="styleLink" href="#EditUserDetailsPage"><img class="NiceIcon" src="images/Edit_user_male1600.png" /></a>
                 <h6 class="IconText">עריכה</h6>
             </div>
 
             <h2>דף פרטי משתמש   </h2>
 
-                <div id="avatar" style="margin:0 auto"></div>
+            <div id="avatar" style="margin:0 auto"></div>
 
-                <div class="divBtn" id="LeftBtn"><a onclick="ToProfile()">מכרזים שהשתתפתי</a></div>
-                <div class="divBtn" id="RightBtn"><a onclick="ToProducts()">מכרזים שלי</a></div>
+            <div class="divBtn" id="LeftBtn"><a onclick="ToProfile()">מכרזים שהשתתפתי</a></div>
+            <div class="divBtn" id="RightBtn"><a onclick="ToProducts()">מכרזים שלי</a></div>
 
-                <div>
-                    <h4>שם פרטי: &nbsp;</h4>
-                    <h5 id="UserFirstName"></h5>
-                </div>
+            <div>
+                <h4>שם פרטי: &nbsp;</h4>
+                <h5 id="UserFirstName"></h5>
+            </div>
 
-                <div>
-                    <h4>שם משפחה: &nbsp;</h4>
-                    <h5 id="UserLastName"></h5>
-                </div>
+            <div>
+                <h4>שם משפחה: &nbsp;</h4>
+                <h5 id="UserLastName"></h5>
+            </div>
 
-                <div>
-                    <h4>תעודת זהות: &nbsp;</h4>
-                    <h5 id="UserId"></h5>
-                </div>
+            <div>
+                <h4>תעודת זהות: &nbsp;</h4>
+                <h5 id="UserId"></h5>
+            </div>
 
-                <div>
-                    <h4>כתובת: &nbsp;</h4>
-                    <h5 id="UserAddress"></h5>
-                </div>
+            <div>
+                <h4>כתובת: &nbsp;</h4>
+                <h5 id="UserAddress"></h5>
+            </div>
 
-                <div>
-                    <h4>כתובת אימייל: <br /> </h4>
-                    <div id="UserMailDiv"><h5 id="UserMail"></h5></div>
-                </div>
+            <div>
+                <h4>כתובת אימייל: <br /> </h4>
+                <div id="UserMailDiv"><h5 id="UserMail"></h5></div>
+            </div>
 
-                <div>
-                    <h4>טלפון: &nbsp;</h4>
-                    <h5 id="UserNum"></h5>
-                </div>
+            <div>
+                <h4>טלפון: &nbsp;</h4>
+                <h5 id="UserNum"></h5>
+            </div>
 
-                <div>
-                    <h4>ניקוד: &nbsp;</h4>
-                    <h5 id="UserScore"></h5>
-                </div>
+            <div>
+                <h4>ניקוד: &nbsp;</h4>
+                <h5 id="UserScore"></h5>
+            </div>
 
             <div class="FixedButton">
                 <div class="RoundDivfixed">
@@ -253,6 +250,7 @@
 
     </div>
 
+    <!--דף עריכת נתונים-->
     <div class="pageBC" data-role="page" id="EditUserDetailsPage">
         <!--<img id="BkgroundImg" src="images/LONGLoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150;" class="navigation-1 navigation-5">
@@ -301,6 +299,13 @@
             <h4>ניקוד: </h4>
             <input type="text" id="UserScoreInp" />
 
+            <div class="button-1">
+                <button type="button" id="UpdateUserbtn" onclick="AreYouSure()" class="btn-l btn-10" >שמירת נתונים</button>
+            </div>
+
+            <!--var ook = $('<a href="#ImSureDialog1" id="UpdateUserbtn" class="ui-btn ui-input-btn ui-corner-all ui-shadow" style="position:initial" data-transition="flip"> שמירת נתונים </a>');
+            ook.appendTo("#EditUserDetailsForm");-->
+
 
             <div class="FixedButton">
                 <div class="RoundDivfixed">
@@ -314,10 +319,17 @@
                 </div>
             </div>
 
+            <div id="DivIconBackUserI" class="RoundDivIconBack">
+                <a class="styleLink" onclick="goBack()"><img class="NiceIcon" src="images/backToLogin.png" /></a>
+                <!--<h6 class="IconText">חזור</h6>-->
+            </div>
+
         </div>
+
+
     </div>
 
-    <div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog1">
+    <!--<div data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog1">
         <div data-role="header">
             <h2>תרמתי בבית</h2>
         </div>
@@ -332,7 +344,38 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
+    <script>
 
+        //חזור
+        function goBack() {
+            location.href = `userDetails.html#UserDetailsPage`;
+        }
+
+        //הפעלת הודעות- האם אתה בטוח
+        function AreYouSure() {
+
+            swal({
+                title: "שים לב",
+                text: "האם את/ה בטוח/ה שאת/ה רוצה לעדכן את הנתונים במערכת?",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "#DD6B55",
+                cancelButtonText: "לא, אוודא נתונים",
+                confirmButtonText: "כן, בטוח/ה",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                    SubmitChanges();
+                } else {
+                    swal("שליחת הנתונים בוטלה", "עכשיו ניתן לוודא שוב את הנתונים :)", "error");
+                }
+            });
+        }
+
+    </script>
 </body>
+
 </html>
