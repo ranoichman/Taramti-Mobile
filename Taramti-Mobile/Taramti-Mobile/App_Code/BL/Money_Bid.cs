@@ -61,7 +61,7 @@ public class Money_Bid : Bid
     {
         return Amount;
     }
-
+    // הבאת פרטי הביד המוצע. 
     public Money_Bid GetBidDetails(int aucId)
     {
         DbService db = new DbService();

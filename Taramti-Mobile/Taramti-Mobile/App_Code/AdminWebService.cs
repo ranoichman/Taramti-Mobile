@@ -36,14 +36,6 @@ public class AdminWebService : System.Web.Services.WebService
         return j.Serialize(Voluntary_association.GetAllAssociations());
     }
 
-    //// לשים מספר דינמי בדוק הנשלח 
-    //[WebMethod]
-    //public string GetAssociationByCode(string code)
-    //{
-    //    JavaScriptSerializer j = new JavaScriptSerializer();
-    //    return j.Serialize(Voluntary_association.GetAssociationByCode(code));
-    //}
-
     [WebMethod (Description ="הבאת כל המשתמשים")]
     public string GetAllUsers()
     {
@@ -76,7 +68,6 @@ public class AdminWebService : System.Web.Services.WebService
         else
         {
             //בודקת אם קיים באדמין או לא
-
             if (temp_user.CheckUserInAdmin())
             {
                 return "המשתמש כבר הוגדר בעבר כמנהל מערכת";
