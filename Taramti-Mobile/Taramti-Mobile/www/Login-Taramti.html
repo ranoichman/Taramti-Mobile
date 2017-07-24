@@ -37,10 +37,12 @@
             $(".loader").fadeOut("slow");
         })
 
+        //בדיקה בלוקל סטורג'
         if (localStorage.UserID != null) {
             location.href = "app.html";
         }
 
+        //קבלת ערך מדאטה ליסט
         function getDLValue(inputID) {
             var $input = $(`#${inputID}`),
                 $options = $('#' + $input.attr('list') + ' option'), //grab all options
@@ -64,8 +66,6 @@
                 return 0; // value for error
             }
         };
-
-
 
     </script>
 </head>
@@ -387,13 +387,14 @@
         var notification_id = "";
         var webServerAddress = "http://proj.ruppin.ac.il/bgroup51/test2/WebService.asmx/";
 
+        //התחברות ואג'קס למילוי כל הערים
         $(document).ready(function () {
             $("#Loginbtn").on("tap", function () {
                 var mail = $("#UserMail").val();
                 var pass = $("#UserPass").val();
 
                 $(".loader").fadeIn("fast");
-
+                //התחברות
                 $.ajax({
                     dataType: "json",
                     url: generic + "ValidateUser",
@@ -446,6 +447,7 @@
                     }
                 });
             })
+
             // אג'קס למילוי כל הערים
             $.ajax({
                 dataType: "json",
@@ -524,6 +526,7 @@
             });
         }
 
+        //האם זה אייפון או אנדרואיד
         function IsIphone() {
             var userAgent = navigator.userAgent;
 
@@ -536,34 +539,6 @@
             }
         }
 
-        function sendMsg() {
-            if ($("#msg").val() == "") {
-                return;
-            }
-
-            $.ajax({
-
-                type: "POST",
-                url: webServerAddress + "NotificationCenter.asmx/SendMessage",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({ user_name: localStorage.user_name, msg: $("#msg").val() }),
-                dataType: "json",
-                success: function (data) {
-                },
-                error: function () {
-                }
-
-            })
-
-            addMessageToChat(localStorage.user_name, $("#msg").val());
-            $("#msg").val('');
-            window.scrollTo(0, document.body.scrollHeight);
-        }
-
-
-    </script>
-
-    <script>
         //שליחת מייל לאיפוס סיסמה
         function SendMailPass() {
             var userID = $("#UserId").val();
