@@ -55,7 +55,7 @@
             setTimeout(() =>
                 $(".loader").fadeOut("slow"), 500);
         })
-        
+
         $(document).on("pagecreate", "div[data-role=page]", function (event) {
             var ass = $('#AssocCode').val();
 
@@ -70,12 +70,12 @@
 
                         var res = JSON.parse(data.d);
                         if (res == true) {
-                            $("#favStar").removeClass('fa fa-star-o fa-4x');
-                            $("#favStar").addClass('fa fa-star fa-4x');
+                            $("#favStar").removeClass('fa fa-star-o fa-3x');
+                            $("#favStar").addClass('fa fa-star fa-3x');
                         }
                         else {
-                            $("#favStar").removeClass('fa fa-star fa-4x');
-                            $("#favStar").addClass('fa fa-star-o fa-4x');
+                            $("#favStar").removeClass('fa fa-star fa-3x');
+                            $("#favStar").addClass('fa fa-star-o fa-3x');
                         }
                         //location.href = "appSettings.html#AssocInfoPage";
                     },
@@ -128,17 +128,17 @@
 
                         var res = JSON.parse(data.d);
                         if (res == true) {
-                            $("#favStar").removeClass('fa fa-star-o fa-4x');
-                            $("#favStar").addClass('fa fa-star fa-4x');
+                            $("#favStar").removeClass('fa fa-star-o fa-3x');
+                            $("#favStar").addClass('fa fa-star fa-3x');
                         }
                         else {
-                            $("#favStar").removeClass('fa fa-star fa-4x');
-                            $("#favStar").addClass('fa fa-star-o fa-4x');
+                            $("#favStar").removeClass('fa fa-star fa-3x');
+                            $("#favStar").addClass('fa fa-star-o fa-3x');
                         }
                         //location.href = "appSettings.html#AssocInfoPage";
                     },
                     error: function (err) { }
-                });
+        });
             }
 
             if ($(this).attr("id") == "Settings") {
@@ -273,7 +273,6 @@
             //    },
             //    error: function (err) { }
             //});
-        });
 
         //get all assoc name and tags
         $.ajax({
@@ -317,7 +316,7 @@
             },
             error: function (err) { }
         }); // end ajax call
-
+        });
 
         function MoveToAssocDetails(assocId) {
 
@@ -441,8 +440,6 @@
                 $("#favStar").removeClass('fa fa-star fa-3x');
                 $("#favStar").addClass('fa fa-star-o fa-3x');
             }
-           
-
             // עדכון העמותה בהעדפות המשתמש
             $.ajax({
                 dataType: "json",
@@ -457,23 +454,6 @@
                 error: function (err) { }
             });
         }
-
-        //function ToSettings() {
-        //    $("ul.nav-top-list1").slideToggle("slow", function () {
-        //        // Animation complete.
-        //    });
-        //    location.href = 'appSettings.html#Settings'
-        //}
-
-        //function ToSearchAssoc() {
-        //    $("ul.nav-top-list1").slideToggle("slow", function () {
-        //        // Animation complete.
-        //    });
-        //    location.href = 'appSettings.html#SearchAssoc'
-        //}
-
-
-
 
     </script>
 
