@@ -36,11 +36,14 @@
 
     <script>
 
+        //טעימה
         $(window).load(function () {
             setTimeout(() =>
                 $(".loader").fadeOut("slow"), 500);
         })
 
+
+        //שליפת נתוני פרופיל ממסד הנתונים
         $(document).ready(function () {
             var U = user.userID();
             $.ajax({
@@ -77,11 +80,6 @@
                 },
                 error: function (err) { }
             });
-
-            //חסימת ערכים לעריכה והוספת כפתור
-            function EditUser() {
-            }
-
 
             //גלילת תפריט
             $("span.nav-list-it5").on("tap", function () {
