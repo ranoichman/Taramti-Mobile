@@ -56,6 +56,39 @@
                 $(".loader").fadeOut("slow"), 500);
         })
 
+        $(document).on("pagechange", "div[data-role=page]", function (event) {
+
+            if ($(this).attr("id") == "Settings") {
+                //get favorite assoc for user from server
+                $.ajax({
+                    dataType: "json",
+                    url: assoc + "GetFavAssocById",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ id: userId }),
+                    success: function (data) {
+
+                        var AssocArray = JSON.parse(data.d);
+
+                        if (AssocArray[0] != null) {
+                            for (let i = 0; i < AssocArray.length; i++) {
+                                var $a = $("<a>").attr({ "class": "ui-btn ui-corner-all ui-icon-arrow-l ui-btn-icon-left", "id": "assoc" + i, "data-name": "assoc" + i }).text(AssocArray[i].Association_Name);
+                                $("#FavAssocGroup").append($a);
+
+                                // move to assoc details page
+                                $a.on("swipeleft", function () {
+                                    lastPage = "Settings";
+                                    MoveToAssocDetails(AssocArray[i].Association_Code);
+                                });
+                            }
+                        }
+                    },
+                    error: function (err) { }
+                });
+            }
+        })
+
+
         //$(document).on("pagecreate", "div[data-role=page]", function (event) {
         //    var ass = $('#AssocCode').val();
 
