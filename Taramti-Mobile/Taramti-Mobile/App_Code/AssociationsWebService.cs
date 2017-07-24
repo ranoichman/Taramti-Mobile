@@ -93,8 +93,6 @@ public class AssociationsWebService : System.Web.Services.WebService
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
         UserT temp = new UserT(id, true);
-        
-
         return j.Serialize(temp.GetFavAssocById());
     }
 

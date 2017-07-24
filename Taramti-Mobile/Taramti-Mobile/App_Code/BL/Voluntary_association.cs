@@ -226,25 +226,6 @@ public class Voluntary_association
 
     }
 
-
-    //public static List<string> GetAssociationByCode(string code)
-    //{
-    //    DbService db = new DbService();
-    //    DataSet DS = new DataSet();
-    //    List<string> Lists = new List<string>();
-    //    string sql = "select * from association  " +
-    //                 "where association_code='" + code + "' ";
-    //    DS = db.GetDataSetByQuery(sql);
-    //    foreach (DataRow row in DS.Tables[0].Rows)
-    //    {
-    //        Lists.Add(row[0].ToString());
-    //    }
-
-    //    return Lists;
-    //}
-
-    // הפיכה לסטטי כדי להיקרא מאג'קס
-
     /// <summary>
     /// הבאת כל פרטי העמותות
     /// </summary>
@@ -293,7 +274,7 @@ public class Voluntary_association
         //מילוי פרטים
         foreach (DataRow row in DS.Tables[0].Rows)
         {
-
+            // מילוי פרטי העמותה המוחזרת
             Association_Code = row[0].ToString();
             Association_Name = row[1].ToString();
             Association_Desc = row[2].ToString();
@@ -407,7 +388,6 @@ public class Voluntary_association
                         "association_desc = @desc, " +
                         "account = @acc, " +
                         "website = @web, " +
-                        //"image = @image, " +
                         "year = @year " +
                         "where association_code ='" + Association_Code + "' ";
 
@@ -415,11 +395,9 @@ public class Voluntary_association
         SqlParameter pardesc = new SqlParameter("@desc", Association_Desc);
         SqlParameter paraccount = new SqlParameter("@acc", Association_Account);
         SqlParameter parweb = new SqlParameter("@web", Association_WebSite);
-        //SqlParameter parimg = new SqlParameter("@image", "");
         SqlParameter paryear = new SqlParameter("@year", Association_Year);
 
         db.ExecuteQuery(StrSql, CommandType.Text, parname, pardesc, paraccount, parweb, paryear);
-
     }
 
     // הוספת עמותה
@@ -440,13 +418,13 @@ public class Voluntary_association
         SqlParameter pardesc = new SqlParameter("@desc", Association_Desc);
         SqlParameter paraccount = new SqlParameter("@acc", Association_Account);
         SqlParameter parweb = new SqlParameter("@web", Association_WebSite);
-        //SqlParameter parimg = new SqlParameter("@img", "");
         SqlParameter paryear = new SqlParameter("@year", Association_Year);
 
         db.ExecuteQuery(StrSql, CommandType.Text,parcode, parname, pardesc, paraccount, parweb, paryear);
 
     }
     // הוספת עמותה זמנית
+    // נשתמש כדי להזין לטבלה זמנית כדי לקבל אישור של מנהלי המערכת
     public void AddTempAssoc()
     {
         DbService db = new DbService();

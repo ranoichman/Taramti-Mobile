@@ -81,7 +81,7 @@ public class Reg_Auction : Auction
     {
         return 0;
     }
-
+    //  מתודה להחזרת  מכרזים על פי פרמטרים. הפונקציה גם מזינה חיפושים.
     public static List<Reg_Auction> GetAuctionsByParam(int lowPrice, int highPrice, int[] catCode, int[] assocTagCode, double lat, double lng, int radius, int user_Id)
     {
         DbService db = new DbService();
@@ -103,9 +103,6 @@ public class Reg_Auction : Auction
             high = 1000000;
         else
             high = highPrice;
-
-        ///////////////////////////////////
-
         if (catCode.Average() == 0)
         {
             code = "> 0";
@@ -117,12 +114,10 @@ public class Reg_Auction : Auction
                 if (i != catCode.Length - 1)
                 {
                     code += catCode[i].ToString() + ",";
-                    //tagCode += assocTagCode[i].ToString() + ",";
                 }
                 else
                 {
                     code += catCode[i].ToString() + ") ";
-                    //tagCode += assocTagCode[i].ToString() + ") ";
                 }
             }
         }
@@ -136,35 +131,14 @@ public class Reg_Auction : Auction
             {
                 if (i != assocTagCode.Length - 1)
                 {
-                    //code += assocTagCode[i].ToString() + ",";
                     tagCode += assocTagCode[i].ToString() + ",";
                 }
                 else
                 {
-                    //code += assocTagCode[i].ToString() + ") ";
                     tagCode += assocTagCode[i].ToString() + ") ";
                 }
             }
         }
-
-
-        //if (catCode == 0)
-        //    code = "> 0";
-        //else
-        //    code = "=" + catCode;
-        //if (assocTagCode == 0)
-        //    tagCode = "> 0";
-        //else
-        //    tagCode = "=" + assocTagCode;
-
-        //string StrSql = @"SELECT        dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
-        //                 dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price as NewPrice, dbo.product.product_code as product_code, dbo.product.city_code, dbo.auction.buyer_id
-        //                 FROM            dbo.auction INNER JOIN
-        //                 dbo.product ON dbo.auction.product_code = dbo.product.product_code INNER JOIN
-        //                 dbo.product_category ON dbo.product.product_category_code = dbo.product_category.category_code LEFT OUTTER JOIN
-        //                 dbo.tag_of_association ON dbo.auction.association_code = dbo.tag_of_association.association_code
-        //                 GROUP BY dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, dbo.product.product_category_code, 
-        //                 dbo.auction.auction_code, dbo.product.price, dbo.product.product_code, dbo.product.product_Name, dbo.product.city_code, dbo.auction.seller_id, dbo.auction.buyer_id ";
         string StrSql = @"SELECT   DISTINCT      dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
                          dbo.product.product_Name, dbo.product.product_category_code, dbo.product.price AS price, dbo.product.product_code, dbo.product.city_code, dbo.auction.buyer_id
                          FROM            dbo.auction LEFT OUTER JOIN
@@ -179,7 +153,6 @@ public class Reg_Auction : Auction
 
         DS = db.GetDataSetByQuery(StrSql);
 
-
         if (!(lat == 0 & lng == 0 & radius == 0 & lowPrice == -1 & highPrice == -1 & catCode.Average() == 0))
         {
             AddNewSearch(user_Id, lat, lng, radius, lowPrice, highPrice, catCode[0], assocTagCode[0]);
@@ -189,6 +162,7 @@ public class Reg_Auction : Auction
         return GetRelevantAuctions(DS, high);
     }
 
+    // פונקציה המבצעת סינון נוסף ומחזירה למשתמש את רשימת המכרזים המותאמת לו
     private static List<Reg_Auction> GetRelevantAuctions(DataSet DS, int high)
     {
         DbService db = new DbService();
@@ -264,7 +238,7 @@ public class Reg_Auction : Auction
         }
         return relevantAuctions;
     }
-
+    // הוספת חיפוש חדש לטבלת הלוג
     public static void AddNewSearch(int id, double lat, double lng, int radius, int lowPrice, int highPrice, int catCode, int assocTagCode)
     {
         DbService db = new DbService();
@@ -287,7 +261,7 @@ public class Reg_Auction : Auction
 
         }
     }
-
+    // הבאת ביד אחרון למוצר
     public int GetLatestBid()
     {
         DbService db = new DbService();
@@ -308,7 +282,7 @@ public class Reg_Auction : Auction
             return -1;
         }
     }
-
+    // החזרת רשימת כל קודי הקטגוריות
     public List<Item_Category> GetAllProductsCategories()
     {
         DbService db = new DbService();
@@ -330,7 +304,7 @@ public class Reg_Auction : Auction
         return allCat;
     }
 
-
+    // פונקציה המציעה הצעה למכרז מסויים
     public bool OfferBid(int bid, int buyer)
     {
         DbService db = new DbService();
@@ -350,7 +324,7 @@ public class Reg_Auction : Auction
         return true;
 
     }
-
+    // הוספת חיפוש חדש 
     public bool AddNewAuction(int prod, int assoc)
     {
         DbService db = new DbService();
@@ -373,7 +347,7 @@ public class Reg_Auction : Auction
         return true;
 
     }
-
+    // החזרת נתונים למכרז על פי קוד מכרז
     public void GetDataByCode()
     {
         string strSql = @"SELECT dbo.auction.auction_code, dbo.product_category.category_code, dbo.product_category.category_name, dbo.auction.end_date, dbo.auction.donation_percentage, dbo.product.product_description, 
@@ -407,9 +381,6 @@ public class Reg_Auction : Auction
             }
             Location = row["city_code"] != null ? new City(int.Parse(row["city_code"].ToString())) : new City(-1);
             Seller.Rank = UserT.GetUserRank(Seller.UserId);
-
-
-
             //getting all product pics
             string picSql = @"SELECT dbo.product_pictures.path
                          FROM dbo.product_pictures INNER JOIN
@@ -431,7 +402,7 @@ public class Reg_Auction : Auction
             Images = pics.Count > 0 ? pics.ToArray() : null;
         }
     }
-
+    // הפונקציה תחזיר את המכרזים בהם נעקפתי ואינני מוביל
     public static List<Reg_Auction> GetOutBiddedAuctions(string user_Id)
     {
         DbService db = new DbService();
@@ -551,7 +522,7 @@ public class Reg_Auction : Auction
             return new List<Reg_Auction>();
         }
     }
-
+    // האלמנט החכם במערכת
     public static string SmartElement(string user_id)
     {
         DbService db = new DbService();
@@ -563,34 +534,6 @@ public class Reg_Auction : Auction
         int quant = 5;
         double low = 0;
         double high = 0;
-
-        //VIEW הוחלף ב 
-        //StrSql = @"SELECT   TOP (@quant) dbo.watch_auc_log.enter_time, dbo.watch_auc_log.leave_time, dbo.watch_auc_log.auction_code, dbo.product.product_code, dbo.watch_auc_log.user_id, DATEDIFF(second, dbo.watch_auc_log.enter_time,
-        //                  dbo.watch_auc_log.leave_time) AS Time, dbo.association.association_code, dbo.bid.bid_code
-        //                FROM            dbo.association INNER JOIN
-        //                 dbo.auction ON dbo.association.association_code = dbo.auction.association_code INNER JOIN
-        //                 dbo.bid ON dbo.auction.auction_code = dbo.bid.auction_code RIGHT OUTER JOIN
-        //                 dbo.product ON dbo.auction.product_code = dbo.product.product_code RIGHT OUTER JOIN
-        //                 dbo.watch_auc_log ON dbo.auction.auction_code = dbo.watch_auc_log.auction_code
-        //                GROUP BY dbo.watch_auc_log.enter_time, dbo.watch_auc_log.leave_time, dbo.watch_auc_log.auction_code, dbo.product.product_code, dbo.watch_auc_log.user_id, DATEDIFF(second, dbo.watch_auc_log.enter_time, 
-        //                 dbo.watch_auc_log.leave_time), dbo.association.association_code, dbo.bid.bid_code, dbo.auction.auction_code, dbo.bid.bid_time
-        //                HAVING        (dbo.watch_auc_log.user_id = '@userId') AND (dbo.watch_auc_log.leave_time IS NOT NULL) AND (dbo.auction.auction_code = 38) AND (MAX(dbo.bid.bid_time) <= CONVERT(VARCHAR(10), 
-        //                 '2017-07-18 18:25:35.297', 110))
-        //                ORDER BY Time DESC, dbo.watch_auc_log.enter_time, dbo.bid.bid_time DESC";
-
-        // נראה מיותר בגלל שמביא ממוצע מחירים...
-        //foreach (DataRow row in DSViews.Tables[0].Rows)
-        //{
-        //    // שליפת נתוני מחיר המכרז בזמן הצפייה
-        //    StrSql = @"SELECT        TOP (1) auction_code, bid_code, bid_time
-        //        FROM            dbo.bid
-        //        GROUP BY bid_time, bid_code, auction_code
-        //        HAVING        (MAX(bid_time) <= CONVERT(VARCHAR(10), '2017-07-18 18:25:35.297', 110)) AND (auction_code = 38)
-        //        ORDER BY bid_time DESC";
-        //    //DSPrice = db.GetDataSetByQuery(StrSql, CommandType.Text);
-        //}
-
-
 
         // שליפת נתונים מטבלת החיפושים
         StrSql = @"SELECT        AVG(low_price) AS AVGLow, AVG(high_price) AS AVGHigh
@@ -619,11 +562,6 @@ public class Reg_Auction : Auction
         assocs = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Assoc_Cat_Code")).Where(val => val.HasValue && val > 0).Select(val => val.Value).Distinct().ToList();
         catcode1 = DSInfo.Tables[0].AsEnumerable().Select(r => r.Field<int?>("Cat_Code")).Where(val => val.HasValue && val > 0).Select(val => val.Value).Distinct().ToList();
 
-        //int[] catcode = new int[quant];
-        //int[] assocs = new int[quant];
-        //int[] price = new int[quant];
-        //double avg = 0;
-
         // שליפת נתונים מטבלת ה- כמה צפיתי בכל מכרז
         StrSql = @"select top (@quant) * from V_Smart_TopTime
                 where user_id = @userId
@@ -632,17 +570,7 @@ public class Reg_Auction : Auction
 
         if (DSViews.Tables[0].Rows.Count > 0)
         {
-           
             catcode = DSViews.Tables[0].AsEnumerable().Select(r => r.Field<int>("product_category_code")).Distinct().ToList();
-            //for (int i = 0; i < quant; i++)
-            //{
-            //    catcode[i] = int.Parse(DSViews.Tables[0].Rows[i]["product_category_code"].ToString());
-            //    assocs[i] = int.Parse(DSViews.Tables[0].Rows[i]["association_code"].ToString());
-            //    //price[i] = int.Parse(DSViews.Tables[0].Rows[i]["bid_code"].ToString());
-            //}
-            //avg = price.Average();
-            //low = Math.Round(avg * 0.68, 0);
-            //high = Math.Round(avg * 1.32, 0);
         }
         else
         {

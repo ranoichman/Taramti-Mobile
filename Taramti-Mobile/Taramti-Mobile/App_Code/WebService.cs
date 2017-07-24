@@ -31,42 +31,7 @@ public class WebService : System.Web.Services.WebService
     }
 
 
-    // מתודה להחזרת פרטי עמותה ספציפים ע"פ קוד עמותה
-    //[WebMethod]
-    //public Voluntary_association GetAssociationInfo(string code)
-    //{
-    //    // Voluntary_association V = new Voluntary_association();
-    //    DataTable DT = new DataTable();
-    //    List<string> L = Voluntary_association.GetAssociationByCode(code);
-
-    //    if (DT.Rows.Count > 0)
-    //    {
-    //        return new Voluntary_association(DT.Rows[0][0].ToString(), DT.Rows[0][1].ToString(), DT.Rows[0][2].ToString());
-    //    }
-    //    else
-    //    {
-    //        return new Voluntary_association();
-    //    }
-    //}
-
-    // מתודה להחזרת כלל העמותות
-    //[WebMethod]
-    //public List<Voluntary_association> GetAllAssociations()
-    //{
-    //    // Voluntary_association V = new Voluntary_association();
-    //    DataTable DT = new DataTable();
-    //    List<Voluntary_association> L = Voluntary_association.GetAllAssociations();
-    //    if (DT.Rows.Count > 0)
-    //    {
-    //        //return  new Voluntary_association(DT.Rows[0][0].ToString(), DT.Rows[0][1].ToString(), DT.Rows[0][2].ToString());
-    //        return L;
-    //    }
-    //    else
-    //    {
-    //        return L;
-    //    }
-    //}
-
+   
     [WebMethod(Description = "בדיקה אם פרטי המשתמש נכונים ואיפוס סיסמה")]
     public string CheckValidUser(string id, string mail)
     {
@@ -81,7 +46,7 @@ public class WebService : System.Web.Services.WebService
         return "false";
     }
 
-    [WebMethod(Description = "")]
+    [WebMethod(Description = "בדיקה האם ת.ז ומייל מופיעים בנתוני המשתמש ")]
     public string CheckInDatabase(string id, string mail)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -92,7 +57,6 @@ public class WebService : System.Web.Services.WebService
         {
             temp_user.GetUserName();
             return j.Serialize(temp_user);
-            //return temp_user.FirstName + " " + temp_user.LastName;
         }
         return "false";
     }
@@ -135,7 +99,7 @@ public class WebService : System.Web.Services.WebService
         return false;
     }
 
-    [WebMethod]
+    [WebMethod (Description = "עדכון סיסמאת המשתמש")]
     public string ChangePass(string id, string newPass)
     {
         UserT temp_user = new UserT();
@@ -157,6 +121,7 @@ public class WebService : System.Web.Services.WebService
     /// <summary>
     /// נקודתית!!!!!!!!!!!!!!
     /// בפונקציה זו נדרוס את כתובת היוזר בערך ההרשאה של היוזר!!!
+    /// הבאת פרטי המשתמש מקוקיז
     /// </summary>
     /// <returns></returns>
     //(Description ="WebService to return the logged in user ID and info ")
@@ -180,7 +145,6 @@ public class WebService : System.Web.Services.WebService
         }
         else
         {
-
             temp_user.Address = auth.ToString();
         }
 
@@ -202,9 +166,7 @@ public class WebService : System.Web.Services.WebService
 
     }
 
-
-
-    [WebMethod]
+    [WebMethod (Description = "ביצוע ולידציה - בדיקה האם היוזר קיים ע'פ מייל וסיסמא")]
     public string ValidateUser(string mail, string pass)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -222,21 +184,9 @@ public class WebService : System.Web.Services.WebService
         return j.Serialize(UserId);
     }
 
-    //[WebMethod(Description = "בדיקה אם פרטי המשתמש נכונים ואיפוס סיסמה")]
-    //public string CheckValidUser(string id, string mail)
-    //{
-    //    UserT temp_user = new UserT();
-    //    temp_user.Mail = mail;
-    //    temp_user.UserId = id;
-    //    if (temp_user.CheckForResetPass())
-    //    {
-    //        temp_user.SendMail();//שליחת מייל
-    //        return "true";
-    //    }
-    //    return "false";
-    //}
+ 
 
-    [WebMethod]
+    [WebMethod (Description = "הכנסת משתמש חדש")]
     public string AddUser (string mail, string pass, string first, string last, string id)
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -289,7 +239,7 @@ public class WebService : System.Web.Services.WebService
         return j.Serialize(U.GetUserDetails());
     }
 
-    [WebMethod]
+    [WebMethod (Description = "הבאת כל הערים מבסיס הנתונים")]
     public string GetAllCities()
     {
         JavaScriptSerializer j = new JavaScriptSerializer();
@@ -389,44 +339,5 @@ public class WebService : System.Web.Services.WebService
         UserT S = new UserT(user_id);
         return j.Serialize(S.IsFavAssoc(assoc));
     }
-
-
-    //[WebMethod]
-    //public void saveImage()
-    //{
-    //    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["igroup77_prod"].ConnectionString);
-    //    SqlCommand cmd = new SqlCommand(@"insert into pictures(img_description, img_data)
-    //                                    values(@description, @img)", con);
-
-
-    //    string file_name = "";
-
-    //    HttpPostedFile file = HttpContext.Current.Request.Files["recFile"];
-    //    System.Collections.Specialized.NameValueCollection param = HttpContext.Current.Request.Params;
-    //    file_name = param["fileName"];      //file name
-
-    //    Stream s = file.InputStream;
-    //    BinaryReader br = new BinaryReader(s);
-    //    byte[] b = br.ReadBytes((int)s.Length); //data
-
-
-    //    cmd.Parameters.AddWithValue("@img", b);
-    //    cmd.Parameters.AddWithValue("@description", file_name);
-
-
-    //    try
-    //    {
-    //        con.Open();
-    //        cmd.ExecuteNonQuery();
-    //    }
-    //    catch
-    //    {
-
-    //    }
-    //    finally
-    //    {
-    //        con.Close();
-    //    }
-    //}
 
 }

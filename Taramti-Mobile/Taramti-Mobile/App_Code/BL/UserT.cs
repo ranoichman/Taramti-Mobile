@@ -236,7 +236,7 @@ public class UserT
 
     }
 
-
+    // החזרת תז של המשתמש
     public int GetuserID()
     {
         string sqlSelect = @"SELECT [user_id]
@@ -323,7 +323,7 @@ public class UserT
         }
 
     }
-
+    // בדיקה האם משתמש קיים על פי תז
     public bool CheckIfExistById()
     {
         string sqlSelect = @"SELECT count([user_id])
@@ -474,9 +474,7 @@ public class UserT
         {
             throw ex;
         }
-
     }
-
     /// <summary>
     /// שינוי סטטוס המשתמש בין פעיל ולא פעיל
     /// </summary>
@@ -506,6 +504,7 @@ public class UserT
         DataTable DT = db.GetDataSetByQuery(StrSql,CommandType.Text,parUserID).Tables[0];
         foreach (DataRow row in DT.Rows)
         {
+            // מילוי פרטים
             Voluntary_association assoc = new Voluntary_association();
             assoc.Association_Code = row[0].ToString();
             assoc.Association_Name = row[1].ToString();
@@ -533,6 +532,7 @@ public class UserT
         return res;
     }
 
+    // מתודה המחזירה את רשימת העמותות המועדפות ליוזר
     public List<Voluntary_association> GetFavAssocById()
     {
         DbService db = new DbService();
@@ -564,13 +564,9 @@ public class UserT
 
     public void Subscribe() { }
 
+    // עדכון פרטי המשתמש במערכת
     public bool UpdateUser()
     {
-        //string sqlInsert = @"insert into [dbo].[users]
-        //                   ([user_id],[first_name],[last_name],[email],[password],[city])
-        //                    VALUES 
-        //                    (@id, @fName, @lname, @mail, @pass, @city) 
-        //                    Where [user_id] ='" + UserId + "' ";
         string StrSql = @"Update [dbo].[users] 
                           set [city_code] = @city,[address] = @street,[phone] = @phone
                           where [user_id] =@user";
@@ -604,7 +600,7 @@ public class UserT
         }
         return true;
     }
-
+    // החזרת אובייקט משתמש עם כל פרטי המשתמש
     public UserT GetUserDetails()
     {
         DbService db = new DbService();
@@ -625,7 +621,7 @@ public class UserT
         }
         return this;
     }
-
+    // החזרת דירוג המשתמש על פי תז
     internal static Rank GetUserRank(string userId)
     {
         DbService db = new DbService();
@@ -656,7 +652,7 @@ public class UserT
     public void GetUserProducts() { }
 
     public void SendPushToUsers() { }
-
+    // הכנסת משתמש חדש למערכת
     public bool InsertUser()
     {
         string sqlInsert = @"insert into [dbo].[users]
@@ -676,7 +672,7 @@ public class UserT
         }
         return true;
     }
-
+    // בדיקה האם המשתמש הוא אדמין במערכת
     public bool CheckUserInAdmin()
     {
         string sqlSelect = @"SELECT count([user_id])
@@ -701,7 +697,7 @@ public class UserT
         }
 
     }
-
+    // הוספת מורשה מטעם מנהלי העמותות
     public bool AddMursheManager()
     {
         string sqlInsert = @"insert into [dbo].[admin]
@@ -716,7 +712,7 @@ public class UserT
         }
         return true;
     }
-
+    // החזרת העדפות המשתמש (פוש,צליל ועוד) 
     public Settings GetUserPreferences()
     {
         DbService db = new DbService();
@@ -762,7 +758,7 @@ public class UserT
         }
         return true;
     }
-
+    // בדיקה האם העמותה היא עמותה מועדפת למשתמש
     public bool IsFavAssoc(string assoc)
     {
         DbService db = new DbService();
@@ -780,53 +776,6 @@ public class UserT
         }
         return false;
     }
-
-    //REG_Auction נבדק האם להיות פה או ב 
-    //public List<Reg_Auction> GetOutBiddedAuctions()
-    //{
-    //    DbService db = new DbService();
-    //    DataSet DS = new DataSet();
-
-    //    List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
-    //    string StrSql = "SELECT        dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
-    //                    "FROM dbo.bid INNER JOIN " +
-    //                    "dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code " +
-    //                    "WHERE(dbo.bid.buyer_id = N'" + UserId + "') " +
-    //                    "GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.auction.end_date " +
-    //                    "HAVING(dbo.auction.end_date > CONVERT(DATETIME, '" + DateTime.Now.ToString("yyyy-MM-dd 00:00:00") + "', 102)) ";
-    //    DS = db.GetDataSetByQuery(StrSql);
-    //    return relevantAuctions;
-    //}
-
-    //public static List<Reg_Auction> CurrentlyLeading()
-    //{
-    //    DbService db = new DbService();
-    //    DataSet DS = new DataSet();
-    //    string StrSql = "";
-    //    List<Reg_Auction> relevantAuctions = new List<Reg_Auction>();
-
-    //    StrSql = @"SELECT   dbo.auction.auction_code, MAX(dbo.bid.price) AS price, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
-    //                        FROM            dbo.bid LEFT OUTER JOIN
-    //                        dbo.auction ON dbo.bid.auction_code = dbo.auction.auction_code LEFT OUTER JOIN
-    //                        dbo.product ON dbo.bid.product_code = dbo.product.product_code AND dbo.auction.product_code = dbo.product.product_code
-    //                        GROUP BY dbo.auction.auction_code, dbo.bid.buyer_id, dbo.product.product_description, dbo.auction.product_code
-    //                        HAVING        (dbo.bid.buyer_id = @userId) ";
-    //    SqlParameter parId = new SqlParameter("@userId", UserId);
-    //    DS = db.GetDataSetByQuery(StrSql,CommandType.Text, parId);
-    //    Reg_Auction R = new Reg_Auction();
-
-    //    //foreach (DataRow row in DS.Tables[0].Rows)
-    //    //{
-    //    //    Reg_Auction R = new Reg_Auction();
-    //    //    R.AuctionID = int.Parse(row["auction_code"].ToString());
-    //    //    R.Price = int.Parse(row["price"].ToString());
-    //    //    relevantAuctions.Add(R);
-    //    //}
-
-    //    //return relevantAuctions;
-    //}
-
-
     #endregion
 
 }

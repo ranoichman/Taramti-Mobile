@@ -85,7 +85,6 @@ public class Server_Side
                     GROUP BY buyer_id, bid_code, auction_code
                     HAVING       (auction_code = @auc)
                     ORDER BY bid_code DESC";
-            //SqlParameter parbuy = new SqlParameter("@buy", row["buyer_id"]);
             SqlParameter parauc = new SqlParameter("@auc", row["auction_code"]);
             Results = dbs.GetDataSetByQuery(StrSql, CommandType.Text, parauc);
             if (Results.Tables[0].Rows.Count > 1) // נבדוק גדול מ - 1 ולא מ - 0 כי אנחנו צריכים לפחות 2 שורות כדי לא לשלוח פוש ליחיד שכן נתן הצעה
@@ -100,11 +99,7 @@ public class Server_Side
                 // עדכון הטבלה שלא נשלח למכרז הזה עוד פושים
                 StrSql = @"update dbo.auction set [sent_push] = 1 where auction_code = @auc";
                 dbs.ExecuteQuery(StrSql, CommandType.Text, parauc);
-
             }
-            
-
         }
-
     }
 }

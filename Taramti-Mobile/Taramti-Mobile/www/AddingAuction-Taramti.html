@@ -43,10 +43,13 @@
         var ServerPicArr = new Array();//שמירת הנתיב של התמונות בשרת
         var Server_i = 0;
         var CancelMessage = "";
+
+        //טעינה
         $(window).load(function () {
             setTimeout(() =>
                 $(".loader").fadeOut("slow"), 500);
         })
+
         $(document).ready(function () {
             // אג'קס למילוי כל הקטגוריות
             $.ajax({
@@ -67,6 +70,7 @@
                 },
                 error: function (err) { }
             });
+
             // אג'קס למילוי כל העמותות
             $.ajax({
                 dataType: "json",
@@ -86,6 +90,7 @@
                 },
                 error: function (err) { }
             });
+
             // אג'קס למילוי כל הערים
             $.ajax({
                 dataType: "json",
@@ -105,19 +110,8 @@
                 },
                 error: function (err) { }
             });
-        });
 
-        $(document).on("pagecreate", "#AddingAuctionPage", function () {
-            $("#tabs").tabs("option", "active", 1);
-            $('#DefualtTab').addClass('ui-btn-active');
-        });
-
-        function LogOut() {
-            localStorage.removeItem("UserID");
-            location.href = 'Login-Taramti.html'
-        }
-
-        $(document).ready(function () {
+            //העלמת כפתור פיקס כשמקלדת נפתחת
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
                 if ($(window).width() + $(window).height() != _originalSize) {
@@ -127,6 +121,8 @@
                     $(".FixedButton").css("display", "block");
                 }
             });
+
+            //גלילת תפריט
             $("span.nav-list-it5").on("tap", function () {
                 $("ul.nav-top-list1").slideToggle("slow", function () {
                     // Animation complete.
@@ -134,6 +130,20 @@
             });
         });
 
+
+        //כאשר יתווסף מכרז עמותה- יופרדו לטאבים
+        //$(document).on("pagecreate", "#AddingAuctionPage", function () {
+        //    $("#tabs").tabs("option", "active", 1);
+        //    $('#DefualtTab').addClass('ui-btn-active');
+        //});
+
+        //התנתקות
+        function LogOut() {
+            localStorage.removeItem("UserID");
+            location.href = 'Login-Taramti.html'
+        }
+
+        //פתיחת מצלמה או גלריה
         function OpenCameraORChooseFile(Flag) {
             var x = Camera.PictureSourceType.PHOTOLIBRARY;
             CancelMessage = "שים לב-אף תמונה לא נבחרה "
@@ -150,6 +160,7 @@
             });
         }
 
+        //שמירת תמונה
         function onCameraSuccess(imageURI) {
             var $imgDiv = $("<div>");
             var $imgA = $("<a>").addClass("closeBox").attr("id", Local_i);
@@ -166,6 +177,7 @@
             Local_i++;
         }
 
+        //הוספת תמונות למערך
         function addToServerPicArr(stringServerPath) {
             ServerPicArr.push(stringServerPath);
             Server_i++;
@@ -196,6 +208,7 @@
             }
         };
 
+        //בדיקת שדות של עמ 1 ומעבר לעמוד 2 של יצירת מכרז
         function ToAddingAuctionPage2() {
             var itemName = $("#ProdNum").val();
             var itemDesc = $("#ProdDesc").val();
@@ -215,6 +228,7 @@
             }
         }
 
+        //בדיקת שדות של עמ 2 ומעבר לעמוד 3 של יצירת מכרז
         function ToAddingAuctionPage3() {
             var cat = $("#AuctionCategories").val();
             var days = $("#AuctionLast").val();
@@ -235,6 +249,7 @@
             }
         }
 
+        //יצירת מכרז
         function AddingProductAuction() {
             console.log(`city- ${getDLValue("citySelected")}`)
             console.log(`assoc- ${getDLValue("AuctionAssoc")}`)
@@ -250,66 +265,67 @@
 
                 $(".loader").fadeIn("fast");
 
-                    $.ajax({
-                        dataType: "json",
-                        url: aucwebservice + "AddingProductAuction",
-                        contentType: "application/json; charset=utf-8",
-                        type: "POST",
-                        data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user1 }),
-                        success: function (data) {
-                            var productCode = JSON.parse(data.d)
-                            if (productCode != "") {
-                                for (var picNum in LocalPicArr) {
-                                    var thisImageURI = LocalPicArr[picNum]
-                                    uploadPhoto(thisImageURI, picNum, productCode)
-                                    addToServerPicArr(stringServerPath);
-                                }
-                                $.ajax({
-                                    dataType: "json",
-                                    url: aucwebservice + "AddingProductPictures",
-                                    contentType: "application/json; charset=utf-8",
-                                    type: "POST",
-                                    data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
-                                    success: function (data) {
-                                        $(".loader").fadeOut("slow");
-
-                                        var isSaved = JSON.parse(data.d)
-                                        if (isSaved) {
-
-                                            swal({
-                                                title: "זהו..",
-                                                text: "המכרז נשמר בהצלחה",
-                                                type: "success",
-                                                confirmButtonText: "אישור",},
-                                                function(){
-                                                    location.href = 'app.html';
-                                                })
-                                        }
-                                        else {
-                                            swal({
-                                                title: "אופס..",
-                                                text: "יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת",
-                                                type: "error",
-                                                confirmButtonText: "אישור"
-                                            });
-                                        }
-                                    },
-                                    error: function (err) { }
-                                });
+                $.ajax({
+                    dataType: "json",
+                    url: aucwebservice + "AddingProductAuction",
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({ itemName: itemName, itemDesc: itemDesc, city: city, cat: cat, days: days, assoc: assoc, price: price, user: user1 }),
+                    success: function (data) {
+                        var productCode = JSON.parse(data.d)
+                        if (productCode != "") {
+                            for (var picNum in LocalPicArr) {
+                                var thisImageURI = LocalPicArr[picNum]
+                                uploadPhoto(thisImageURI, picNum, productCode)
+                                addToServerPicArr(stringServerPath);
                             }
-                            else {
-                                swal({
-                                    title: "אופס..",
-                                    text: "יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת",
-                                    type: "error",
-                                    confirmButtonText: "אישור"
-                                });
-                            }
-                        },
-                        error: function (err) {
-                            $(".loader").fadeOut("slow");
+                            $.ajax({
+                                dataType: "json",
+                                url: aucwebservice + "AddingProductPictures",
+                                contentType: "application/json; charset=utf-8",
+                                type: "POST",
+                                data: JSON.stringify({ Arr: ServerPicArr, itemId: productCode }),
+                                success: function (data) {
+                                    $(".loader").fadeOut("slow");
+
+                                    var isSaved = JSON.parse(data.d)
+                                    if (isSaved) {
+
+                                        swal({
+                                            title: "זהו..",
+                                            text: "המכרז נשמר בהצלחה",
+                                            type: "success",
+                                            confirmButtonText: "אישור",
+                                        },
+                                            function () {
+                                                location.href = 'app.html';
+                                            })
+                                    }
+                                    else {
+                                        swal({
+                                            title: "אופס..",
+                                            text: "יתכן וקרתה בעיה במהלך שמירת תמונות המכרז, הבעיה הועברה למנהלי המערכת",
+                                            type: "error",
+                                            confirmButtonText: "אישור"
+                                        });
+                                    }
+                                },
+                                error: function (err) { }
+                            });
                         }
-                    }); 
+                        else {
+                            swal({
+                                title: "אופס..",
+                                text: "יתכן וקרתה בעיה במהלך שמירת המכרז, הבעיה הועברה למנהלי המערכת",
+                                type: "error",
+                                confirmButtonText: "אישור"
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        $(".loader").fadeOut("slow");
+                    }
+                });
             }
             else {
                 swal({
@@ -321,6 +337,7 @@
             }
         }
 
+        //העלאת תמונות
         function uploadPhoto(thisImageURI, picNum, productCode) {
             var options = new FileUploadOptions(); // PhoneGap object to allow server upload
             options.fileKey = "file";
@@ -331,15 +348,18 @@
             stringServerPath = String("http://proj.ruppin.ac.il/bgroup51/prod/Uploads/Items/" + options.fileName + ".jpg");
         } // Upload Photo
 
+        //העלאת תמונות- הצלחה
         function win(r) {
             var path = r.response;
         } // win (upload success)
 
+        //העלאת תמונות- כישלון
         function fail(error) {
             alert("An error has occurred: Code = " + error.code);
             alert(error.body);
         }
 
+        //במקרה של כישלון פתיחת המצלמה
         function onCameraFail(message) {
             alert(CancelMessage);
             //alert('Failed because: ' + message);
@@ -355,8 +375,7 @@
     </div>
 
     <!--דף זה מכיל דף הוספת מכרז-->
-
-   <!--הוספת מכרז עמוד 1-->
+    <!--הוספת מכרז עמוד 1-->
     <div class="pageBC" data-role="page" id="AddingAuctionPage">
         <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
@@ -383,6 +402,7 @@
             <div class="clearfix"> </div>
         </div>
 
+        //כאשר יתווסף מכרז עמותה- יופרדו לטאבים
         <!--<div data-role="tabs" id="tabs">
             <div data-role="navbar">
                 <ul>
@@ -391,6 +411,7 @@
                 </ul>
             </div>-->
         <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
+
         <div class="Form" id="AddingProductAuctionForm">
             <h2>יצירת מכרז</h2>
 
@@ -438,6 +459,12 @@
                 </div>
             </div>
         </div>
+        //כאשר יתווסף מכרז עמותה- יופרדו לטאבים
+        <!--<div id="AddingMoneyAuctionTab">
+                <h1>דף יצירת מכרז תרומה</h1>
+    </div>-->
+        <!--</div>-->
+        <!--</div>-->
     </div>
 
     <!--הוספת מכרז עמוד 2-->
@@ -552,20 +579,10 @@
                     <li><a onclick="location.href = 'appSettings.html#Settings'">הגדרות אפליקציה</a><label>|</label></li>
                     <li><a onclick="location.href='RegisterAssoc-Taramti.html'">הוספת עמותה</a><label>|</label></li>
                     <li><a onclick="LogOut()"> התנתק <i class="fa fa-sign-out"></i></a></li>
-                    <!--<li><a class="active" href="#"><i class="fa fa-home"></i>Home</a><label>|</label></li>-->
                 </ul>
             </div>
             <div class="clearfix"> </div>
         </div>
-
-        <!--<div data-role="tabs" id="tabs">
-            <div data-role="navbar">
-                <ul>
-                    <li><a href="#AddingMoneyAuctionTab" data-ajax="false">צור מכרז תרומה</a></li>
-                    <li><a id="DefualtTab" href="#AddingProductAuctionTab" data-ajax="false">צור מכרז מוצר</a></li>
-                </ul>
-            </div>-->
-        <!--<div id="AddingProductAuctionTab" class="ui-body-d ui-content">-->
 
         <div class="Form" id="AddingProductAuctionForm">
             <h2>יצירת מכרז</h2>
@@ -613,13 +630,6 @@
                 </div>
             </div>
         </div>
-
-        <!--<div id="AddingMoneyAuctionTab">
-                    <h1>דף יצירת מכרז תרומה</h1>
-        </div>-->
-        <!--</div>-->
-        <!-- להוריד פלייס הולדרים מיותרים -->
-        <!--</div>-->
     </div>
 </body>
 

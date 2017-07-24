@@ -37,7 +37,7 @@
         <img id="LoadingImg" src="img/just_logo.png" />
     </div>
 
-    <!--דף זה מכיל הוספת עמותה -->
+    <!--דף זה מכיל הוספת עמותה-דף 1 -->
 
     <div class="pageBC" data-role="page" id="RegisterAssocPage">
         <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
@@ -75,7 +75,7 @@
 
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-sort-numeric-asc"></i>
-                            <input type="text" id="AssocNum" value="" placeholder="מספר עמותה">
+                            <input type="number" id="AssocNum" value="" placeholder="מספר עמותה">
                             <div class="clearfix"> </div>
                         </div>
                         <!--כאן תהיה ולידציה של מספר חברה - בעצם עם הווב סרוויס-->
@@ -98,8 +98,8 @@
 
                                 <li><a class="next-top1" onclick="location.href = 'app.html'"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
                                 <li class="Num"><span>1</span></li>
-                                <li class="Num"><a href="#RegisterAssocPage2">2</a></li>
-                                <li><a class="pre1" href="#RegisterAssocPage2"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
+                                <li class="Num"><a onclick="ToRegisterAssocPage2()">2</a></li>
+                                <li><a class="pre1" onclick="ToRegisterAssocPage2()"><i><img class="pre12" src="images/forrwardArrowIcon.png" /></i></a></li>
                             </ul>
                         </div>
                         <div class="clearfix"> </div>
@@ -120,7 +120,7 @@
         </div>
     </div>
 
-
+    <!--דף זה מכיל הוספת עמותה-דף 2 -->
     <div class="pageBC" data-role="page" id="RegisterAssocPage2">
         <!--<img id="BkgroundImg" src="images/LoginBackground.jpg" />-->
         <div id="MenuBarDiv" style="z-index:150" class="navigation-1 navigation-5">
@@ -157,7 +157,7 @@
 
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-credit-card"></i>
-                            <input type="email" id="AssocAccount" value="" placeholder="חשבון עמותה">
+                            <input type="email" id="AssocAccount" value="" placeholder=" חשבון עמותה- PayPal">
                             <div class="clearfix"> </div>
                         </div>
                         <div class="input-top-mid input-top-mid7">
@@ -167,7 +167,7 @@
                         </div>
                         <div class="input-top-mid input-top-mid7">
                             <i class="fa fa-calendar"></i>
-                            <input type="email" id="AssocYear" value="" placeholder="שנת היווסדות">
+                            <input type="number" id="AssocYear" value="" placeholder="שנת היווסדות">
                             <div class="clearfix"> </div>
                         </div>
 
@@ -175,7 +175,7 @@
 
                         <!--<a href="#ImSureDialog" id="RegisterAssocbtn" class="ui-shadow ui-btn ui-corner-all ui-btn-block" data-transition="flip">רשום עמותה</a>-->
                         <div class="button-1">
-                            <button type="button" id="RegisterAssocbtn" onclick="location.href = 'RegisterAssoc-Taramti.html#ImSureDialog'" data-transition="flip" class="btn-l btn-10">רשום עמותה</button>
+                            <button type="button" id="RegisterAssocbtn" onclick="AreYouSure()" class="btn-l btn-10">רשום עמותה</button>
                         </div>
 
 
@@ -187,7 +187,7 @@
                                 <li><a href="#RegisterAssocPage" class="next-top1"><img class="pre12" src="images/BackArrowIcon.png" /></a></li>
                                 <li class="Num"><a href="#RegisterAssocPage">1</a></li>
                                 <li class="Num"><span>2</span></li>
-                                <li><a class="pre1" href="#ImSureDialog" data-transition="flip"><img class=" pre12" src="images/forrwardArrowIcon.png" /></a></li>
+                                <li><a class="pre1" onclick="AreYouSure()"><img class=" pre12" src="images/forrwardArrowIcon.png" /></a></li>
                             </ul>
                         </div>
                         <div class="clearfix"> </div>
@@ -208,56 +208,32 @@
         </div>
     </div>
 
-    <div class="pageBC" data-role="page" data-dialog="true" data-close-btn="none" id="ImSureDialog">
-        <div data-role="header">
-            <h2>תרמתי בבית</h2>
-        </div>
-        <div class="ui-content" role="main">
-            <h4>פרטי העמותה שהזנת נשלחים אל רשם העמותות לבדיקה, האם את/ה בטוח/ה שהפרטים שהזנת נכונים?</h4>
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <a href="#RegisterAssocPage2" id="cancel-button" class="ui-btn ui-btn-b ui-shadow ui-corner-all">לא</a>
-                </div>
-                <div class="ui-block-b">
-                    <a href="#RegisterAssocPage" onclick="RegisterAssoc()" id="exit-button" class="ui-btn ui-shadow ui-corner-all">כן</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <script>
         const assoc = GENERAL.assocWebServerAddress;
     </script>
 
     <script>
+        //טעינה
         $(window).load(function () {
             setTimeout(() =>
                 $(".loader").fadeOut("slow"), 500);
         })
 
         $(document).ready(function () {
-            console.log("in");
-        })
 
-        $(document).ready(function () {
+            //העלמת כפתור פיקס כשמקלדת נפתחת
             var _originalSize = $(window).width() + $(window).height()
             $(window).resize(function () {
                 if ($(window).width() + $(window).height() != _originalSize) {
                     $(".FixedButton").css("display", "none");
-                    //$(".RoundDivfixed").css("display", "none");
-                    //$("#fixedCircle").css("display", "none");
-                    //$("#fixedHome").css("display", "none");
                 }
                 else {
                     $(".FixedButton").css("display", "block");
-                    //$(".RoundDivfixed").css("display", "block");
-                    //$("#fixedCircle").css("display", "block");
-                    //$("#fixedHome").css("display", "block");
                 }
             });
 
-
+            //גלילת תפריט
             $("span.nav-list-it5").on("tap", function () {
                 $("ul.nav-top-list1").slideToggle("slow", function () {
                     // Animation complete.
@@ -265,19 +241,101 @@
             });
         });
 
+        //התנתקות
         function LogOut() {
             localStorage.removeItem("UserID");
             location.href = 'Login-Taramti.html'
         }
 
+        //מעבר לעמוד ה-2 בהרשמה, בדיקת שדות
+        function ToRegisterAssocPage2() {
+            var Code = $("#AssocNum").val();
+            var Name = $("#AssocName").val();
+            var Desc = $("#AssocDesc").val();
+
+            if (Name == "" || Desc == "") {
+                swal({
+                    title: "שים לב",
+                    text: "יש למלא את כל השדות",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                })
+
+            }
+            else {
+                if (Code == "") {
+                    swal({
+                        title: "שים לב",
+                        text: "יש להזין קוד עמותה תקין. על הקוד להכיל ספרות בלבד",
+                        type: "warning",
+                        confirmButtonText: "אישור"
+                    })
+                }
+                else {
+                    location.href = "RegisterAssoc-Taramti.html#RegisterAssocPage2";
+                }
+            }
+        }
+
+        //בדיקת שדות לעמוד ה-2 והפעלת הודעות- האם אתה בטוח?
+        function AreYouSure() {
+
+            var Account = $("#AssocAccount").val();
+            var Web = $("#AssocWebsite").val();
+            var Year = $("#AssocYear").val();
+
+            if (Account == "" || Web == "") {
+                swal({
+                    title: "שים לב",
+                    text: "יש למלא את כל השדות",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                })
+            }
+            else {
+                if (Year == "") {
+                    swal({
+                        title: "שים לב",
+                        text: "יש להזין את שנת ההיווסדות בספרות בלבד",
+                        type: "warning",
+                        confirmButtonText: "אישור"
+                    })
+                }
+                else {
+
+                    swal({
+                        title: "שים לב",
+                        text: "פרטי העמותה שהזנת נשלחים אל רשם העמותות לבדיקה, האם את/ה בטוח/ה שהפרטים שהזנת נכונים?",
+                        type: "warning",
+                        showCancelButton: true,
+                        cancelButtonText: "#DD6B55",
+                        cancelButtonText: "לא, אוודא נתונים",
+                        confirmButtonText: "כן, בטוח/ה",  
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            RegisterAssoc();
+                        } else {
+                            swal("שליחת הנתונים בוטלה", "עכשיו ניתן לוודא שוב את הנתונים :)", "error");
+                        }
+                    });
+                }
+            }
+
+        }
+
+        //הוספת עמותה
         function RegisterAssoc() {
 
-            var Code = ($("#AssocNum").val() != "") ? $("#AssocNum").val() : null;
-            var Name = $("#AssocName").val() != "" ? $("#AssocName").val() : null;
-            var Desc = $("#AssocDesc").val() != "" ? $("#AssocDesc").val() : null;
-            var Account = $("#AssocAccount").val() != "" ? $("#AssocAccount").val() : null;
-            var Web = $("#AssocWebsite").val() != "" ? $("#AssocWebsite").val() : null;
-            var Year = $("#AssocYear").val() != "" ? $("#AssocYear").val() : null;
+            var Code = $("#AssocNum").val() != "" ? $("#AssocNum").val() : null;
+            var Name = $("#AssocName").val();
+            var Desc = $("#AssocDesc").val();
+            var Account = $("#AssocAccount").val();
+            var Web = $("#AssocWebsite").val();
+            var Year = $("#AssocYear").val();
+            $(".loader").fadeIn("fast");
 
             $.ajax({
                 dataType: "json",
@@ -286,11 +344,9 @@
                 type: "POST",
                 data: JSON.stringify({ code: Code }),
                 success: function (data) {
-
                     var amuta = data.d;
 
                     if (amuta == true) {
-
                         $.ajax({
                             dataType: "json",
                             url: assoc + "AddNewAssoc",
@@ -302,7 +358,7 @@
                                 var amu = JSON.parse(data.d);
 
                                 if (amu == "True") {
-
+                                    $(".loader").fadeOut("slow");
                                     swal({
                                         title: "זהו..",
                                         text: "העמותה נרשמה בהצלחה",
@@ -310,11 +366,22 @@
                                         confirmButtonText: "אישור",
                                     },
                                     function () {
-                                    location.href = "app.html";
+                                        location.href = "app.html";
+                                    })
+                                }
+                                else {
+                                    $(".loader").fadeOut("slow");
+                                    swal({
+                                        title: "שים לב",
+                                        text: "ככל הנראה אירעה שגיאה בשרת בעת רישום העמותה, יש לנסות מאוחר יותר",
+                                        type: "error",
+                                        confirmButtonText: "אישור"
                                     })
                                 }
                             },
-                            error: function (err) { }
+                            error: function (err) {
+                                $(".loader").fadeOut("slow");
+                            }
                         });// Ajax AddNewAssoc
                     }
                     else {
@@ -325,22 +392,39 @@
                             type: "POST",
                             data: JSON.stringify({ code: Code, name: Name, desc: Desc, account: Account, web: Web, year: Year }),
                             success: function (data) {
+                                var amu = JSON.parse(data.d);
 
-                                swal({
-                                    title: "שים לב",
-                                    text: "העמותה הועברה לאישור מנהלי המערכת. ניצור עמכם קשר תוך 2 ימי עסקים להשלמת תהליך הרישום",
-                                    type: "warning",
-                                    confirmButtonText: "אישור"
-                                },
-                                    function () {
-                                        location.href = "app.html";
-                                    });
+                                if (amu == "True") {
+                                    $(".loader").fadeOut("slow");
+                                    swal({
+                                        title: "שים לב",
+                                        text: "העמותה הועברה לאישור מנהלי המערכת. ניצור עמכם קשר תוך 2 ימי עסקים להשלמת תהליך הרישום",
+                                        type: "warning",
+                                        confirmButtonText: "אישור"
+                                    },
+                                        function () {
+                                            location.href = "app.html";
+                                        });
+                                }
+                                else {
+                                    $(".loader").fadeOut("slow");
+                                    swal({
+                                        title: "שים לב",
+                                        text: "ככל הנראה אירעה שגיאה בשרת בעת רישום העמותה, יש לנסות מאוחר יותר",
+                                        type: "error",
+                                        confirmButtonText: "אישור"
+                                    })
+                                }
                             },
-                            error: function (err) { }
+                            error: function (err) {
+                                $(".loader").fadeOut("slow");
+                            }
                         });// Ajax AddNewTempAssoc
                     }
                 },
-                error: function (err) { }
+                error: function (err) {
+                    $(".loader").fadeOut("slow");
+                }
             });// Ajax ValidateAssoc
 
         }
